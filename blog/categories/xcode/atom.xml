@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: xcode | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/xcode/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/xcode/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[XcodeからCommand Line Tools for Xcodeに切り替えたらHDD使用容量が7GB減った]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/02/20/command-line-tools-for-xcode/"/>
+    <link href="http://blog.glidenote.com/blog/2012/02/20/command-line-tools-for-xcode/"/>
     <updated>2012-02-20T00:29:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/02/20/command-line-tools-for-xcode</id>
+    <id>http://blog.glidenote.com/blog/2012/02/20/command-line-tools-for-xcode</id>
     <content type="html"><![CDATA[<p>homebrewしか使わないのに、Xcodeに8GBくらいHDDの容量を消費されてて
 MacBook AirとかにはXcodeを入れていなかったんですが、
 先日SDKなどを抜いた<code>Command Line Tools for Xcode</code>という200MB程度の

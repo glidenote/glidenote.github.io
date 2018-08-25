@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: ut-vpn | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/ut-vpn/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/ut-vpn/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[UT-VPNを導入(クライアント側設定編)]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/05/install-ut-vpn-client/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/05/install-ut-vpn-client/"/>
     <updated>2012-04-05T22:48:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/05/install-ut-vpn-client</id>
+    <id>http://blog.glidenote.com/blog/2012/04/05/install-ut-vpn-client</id>
     <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6/">前回のサーバ編</a>に続いて、今回はクライアント側の設定</p>
 
 <h2 id="ut-vpn">クライアント側にもUT-VPNを導入</h2>
@@ -213,9 +213,9 @@ exit 0</code></pre></noscript></div>
   
   <entry>
     <title type="html"><![CDATA[さくらVPS 2G(CentOS6)にUT-VPNを導入(サーバ側設定編)]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6/"/>
+    <link href="http://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6/"/>
     <updated>2012-03-29T17:43:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6</id>
+    <id>http://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6</id>
     <content type="html"><![CDATA[<p>さくらVPSを2Gにプラン移行して、<a href="http://utvpn.tsukuba.ac.jp/ja/">UT-VPN</a>も
 移行したんですが、再セットアップが結構面倒だったのでメモ。</p>
 

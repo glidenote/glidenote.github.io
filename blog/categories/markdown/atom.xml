@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: markdown | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/markdown/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/markdown/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[vim-quickrunとMarkedでmarkdown編集が快適になった]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/01/10/vim-quickrun-marked/"/>
+    <link href="http://blog.glidenote.com/blog/2013/01/10/vim-quickrun-marked/"/>
     <updated>2013-01-10T23:44:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/01/10/vim-quickrun-marked</id>
+    <id>http://blog.glidenote.com/blog/2013/01/10/vim-quickrun-marked</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2013/01/marked.png" align="right" /></p>
 
 <ul>
@@ -61,7 +61,7 @@ let g:quickrun_config.markdown = {
 新規bufferが開いてしまって、Markedにフォーカスが移らないので設定します。</del></p>
 
 <blockquote class="twitter-tweet" lang="ja"><p>出力が必要ないなら 'outputter': 'null' にすれば良いかな。 / "vim-quickrunとMarkedでmarkdown編集が快適になった - Glide Note - グライドノート" <a href="http://t.co/lTlQ5qtG" title="http://bit.ly/XTEsXg">bit.ly/XTEsXg</a></p>&mdash; thincaさん (@thinca) <a href="https://twitter.com/thinca/status/289554218459742208" data-datetime="2013-01-11T02:07:59+00:00">1月 11, 2013</a></blockquote>
-<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async="" src="http://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <p>出力が無い場合は<code>'outputter' : 'null'</code>が良いと<a href="https://twitter.com/thinca">@thinca</a>さんから教えて頂きました</p>
 
@@ -76,9 +76,9 @@ let g:quickrun_config.markdown = {
   
   <entry>
     <title type="html"><![CDATA[2012年のプレゼンはgithub pages+markdown2impressで決まり!!]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/04/presentation-2012/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/04/presentation-2012/"/>
     <updated>2012-04-04T20:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/04/presentation-2012</id>
+    <id>http://blog.glidenote.com/blog/2012/04/04/presentation-2012</id>
     <content type="html"><![CDATA[<p>今度<a href="http://atnd.org/events/26373">MySQL Casual Talks Vol.3 : ATND</a>でLTをさせて頂くので
 そろそろ資料作りをしないとなーと思っていて、プレゼン作成で良い方法があったのでメモ。</p>
 

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: iphone | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/iphone/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/iphone/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,17 +15,17 @@
   
   <entry>
     <title type="html"><![CDATA[モバイルバッテリーを大容量から小容量に切り替えたら生活が快適になった話]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/05/12/eneloop-mobile-booster/"/>
+    <link href="http://blog.glidenote.com/blog/2012/05/12/eneloop-mobile-booster/"/>
     <updated>2012-05-12T22:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/05/12/eneloop-mobile-booster</id>
+    <id>http://blog.glidenote.com/blog/2012/05/12/eneloop-mobile-booster</id>
     <content type="html"><![CDATA[<p>
-<a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L54D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V5400mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMNSE?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMNSE"><img src="https://images-fe.ssl-images-amazon.com/images/I/4183wp7N5bL._SL160_.jpg" align="right" /></a>
-<a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L27D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V2700mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMOMY?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMOMY"><img src="https://images-fe.ssl-images-amazon.com/images/I/41oqWuqmL5L._SL160_.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L54D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V5400mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMNSE?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMNSE"><img src="https://images-fe.ssl-images-amazon.com/images/I/4183wp7N5bL._SL160_.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L27D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V2700mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMOMY?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMOMY"><img src="https://images-fe.ssl-images-amazon.com/images/I/41oqWuqmL5L._SL160_.jpg" align="right" /></a>
 </p>
 
 <ul>
-<li><a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L27D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V2700mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMOMY?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMOMY">SANYO USB出力付きリチウムイオンバッテリー (高容量リチウムイオン3.7V2700mAh電池使用) KBC-L27D</a></li>
-<li><a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L54D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V5400mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMNSE?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMNSE">SANYO USB出力付きリチウムイオンバッテリー (高容量リチウムイオン3.7V5400mAh電池使用) KBC-L54D</a></li>
+<li><a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L27D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V2700mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMOMY?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMOMY">SANYO USB出力付きリチウムイオンバッテリー (高容量リチウムイオン3.7V2700mAh電池使用) KBC-L27D</a></li>
+<li><a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L54D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V5400mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMNSE?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMNSE">SANYO USB出力付きリチウムイオンバッテリー (高容量リチウムイオン3.7V5400mAh電池使用) KBC-L54D</a></li>
 </ul>
 
 <p>最近iPhoneとSony Ericsson mini用に使っているモバイルバッテリーを電池容量の小さいものに
@@ -71,13 +71,13 @@
 購入前に両方の値段をチェックすることをお勧めします。</p>
 
 <p>
-<a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-400mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL201-K/dp/B0051R4EYU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EYU"><img src="https://images-fe.ssl-images-amazon.com/images/I/21otpm0VfNL._SL160_.jpg" align="right" /></a>
-<a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-700mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL101/dp/B0051R4EJU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EJU"><img src="https://images-fe.ssl-images-amazon.com/images/I/31P4Z3LsIaL._SL160_.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-400mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL201-K/dp/B0051R4EYU?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EYU"><img src="https://images-fe.ssl-images-amazon.com/images/I/21otpm0VfNL._SL160_.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-700mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL101/dp/B0051R4EJU?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EJU"><img src="https://images-fe.ssl-images-amazon.com/images/I/31P4Z3LsIaL._SL160_.jpg" align="right" /></a>
 </p>
 
 <ul>
-<li><a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-700mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL101/dp/B0051R4EJU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EJU">パナソニック モバイルバッテリー 2,700mAh 無接点充電(Qi) 対応 USBモバイル電源 QE-PL101</a></li>
-<li><a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-400mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL201-K/dp/B0051R4EYU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EYU">パナソニック モバイルバッテリー 5,400mAh 無接点充電(Qi) 対応 USBモバイル電源 ブラック QE-PL201-K</a></li>
+<li><a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-700mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL101/dp/B0051R4EJU?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EJU">パナソニック モバイルバッテリー 2,700mAh 無接点充電(Qi) 対応 USBモバイル電源 QE-PL101</a></li>
+<li><a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-400mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL201-K/dp/B0051R4EYU?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EYU">パナソニック モバイルバッテリー 5,400mAh 無接点充電(Qi) 対応 USBモバイル電源 ブラック QE-PL201-K</a></li>
 </ul>
 
 <p><br clear="all" /></p>
@@ -88,9 +88,9 @@
   
   <entry>
     <title type="html"><![CDATA[ホームボタンビーンズでiPhone4のボタンの効きが良くなった]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/11/30/iphone-home-bottun/"/>
+    <link href="http://blog.glidenote.com/blog/2011/11/30/iphone-home-bottun/"/>
     <updated>2011-11-30T00:41:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/11/30/iphone-home-bottun</id>
+    <id>http://blog.glidenote.com/blog/2011/11/30/iphone-home-bottun</id>
     <content type="html"><![CDATA[<p><a href="http://hb.afl.rakuten.co.jp/hgc/0ed4c892.839c81ab.0ed4c893.8cc2fe39/?pc=http%3a%2f%2fitem.rakuten.co.jp%2fspecdirect%2fsp239%2f%3fscid%3daf_ich_link_txt&amp;m=http%3a%2f%2fm.rakuten.co.jp%2fspecdirect%2fi%2f10000146%2f" target="_blank">ホームボタンビーンズ</a></p>
 
 <p>これを貼ったらiPhone4のホームボタンの効きが良くなりました。私の貼り方が悪いのか、透明なのと周辺からほこりが入りやすい構造で汚れが目立って若干アレな感じですが、とりあえず快適です。</p>

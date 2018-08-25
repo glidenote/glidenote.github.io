@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: curry | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/curry/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/curry/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ゆるふわなかんじで Sensu の話題をするためのIRCチャンネルをつくってみた]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/05/22/sensu-casual-freenode/"/>
+    <link href="http://blog.glidenote.com/blog/2014/05/22/sensu-casual-freenode/"/>
     <updated>2014-05-22T10:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/05/22/sensu-casual-freenode</id>
+    <id>http://blog.glidenote.com/blog/2014/05/22/sensu-casual-freenode</id>
     <content type="html"><![CDATA[<p><a href="http://sensuapp.org/">Sensu</a>について、ゆるふわなトークが出来るIRCチャンネルを作ってみた。</p>
 
 <p><code>#sensu-casual@freenode</code></p>

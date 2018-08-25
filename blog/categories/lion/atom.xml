@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: lion | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/lion/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/lion/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Lionでautofsを使って、ファイルサーバを自動マウント]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/03/13/lion-autofs-nfs/"/>
+    <link href="http://blog.glidenote.com/blog/2012/03/13/lion-autofs-nfs/"/>
     <updated>2012-03-13T19:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/03/13/lion-autofs-nfs</id>
+    <id>http://blog.glidenote.com/blog/2012/03/13/lion-autofs-nfs</id>
     <content type="html"><![CDATA[<p>社内ファイルサーバの共有ディレクトリをautofsを使って自動NFSマウントするようにしたので作業メモ.</p>
 
 <p>作業環境 Lion(10.7.3)</p>

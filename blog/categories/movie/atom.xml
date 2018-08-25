@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: movie | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/movie/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/movie/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[THE DARK KNIGHT RISES]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/07/26/the-dark-knight-rises/"/>
+    <link href="http://blog.glidenote.com/blog/2012/07/26/the-dark-knight-rises/"/>
     <updated>2012-07-26T23:40:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/07/26/the-dark-knight-rises</id>
+    <id>http://blog.glidenote.com/blog/2012/07/26/the-dark-knight-rises</id>
     <content type="html"><![CDATA[<p><img src="http://farm9.staticflickr.com/8008/7649960534_e80c019529_b.jpg" alt="" /></p>
 
 <p><img src="http://farm8.staticflickr.com/7254/7649959960_9a9ea40e09_b.jpg" alt="" /></p>

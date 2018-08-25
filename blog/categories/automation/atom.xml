@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: automation | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/automation/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/automation/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[エンジニアのための時間管理術、自動化に関するまとめ]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/03/23/automation/"/>
+    <link href="http://blog.glidenote.com/blog/2012/03/23/automation/"/>
     <updated>2012-03-23T00:08:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/03/23/automation</id>
+    <id>http://blog.glidenote.com/blog/2012/03/23/automation</id>
     <content type="html"><![CDATA[<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4873113075/glidenote-22/ref=nosim/" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51jWtxU0sAL._SL160_.jpg" alt="エンジニアのための時間管理術" align="right" /></a></p>
 
 <p>2006年の発売当時に紙書籍で購入し、最近PDFで買い直してKindleに突っ込んでいた

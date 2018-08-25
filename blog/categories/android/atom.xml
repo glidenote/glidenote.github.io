@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: android | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/android/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/android/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,17 +15,17 @@
   
   <entry>
     <title type="html"><![CDATA[モバイルバッテリーを大容量から小容量に切り替えたら生活が快適になった話]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/05/12/eneloop-mobile-booster/"/>
+    <link href="http://blog.glidenote.com/blog/2012/05/12/eneloop-mobile-booster/"/>
     <updated>2012-05-12T22:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/05/12/eneloop-mobile-booster</id>
+    <id>http://blog.glidenote.com/blog/2012/05/12/eneloop-mobile-booster</id>
     <content type="html"><![CDATA[<p>
-<a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L54D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V5400mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMNSE?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMNSE"><img src="https://images-fe.ssl-images-amazon.com/images/I/4183wp7N5bL._SL160_.jpg" align="right" /></a>
-<a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L27D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V2700mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMOMY?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMOMY"><img src="https://images-fe.ssl-images-amazon.com/images/I/41oqWuqmL5L._SL160_.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L54D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V5400mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMNSE?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMNSE"><img src="https://images-fe.ssl-images-amazon.com/images/I/4183wp7N5bL._SL160_.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L27D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V2700mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMOMY?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMOMY"><img src="https://images-fe.ssl-images-amazon.com/images/I/41oqWuqmL5L._SL160_.jpg" align="right" /></a>
 </p>
 
 <ul>
-<li><a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L27D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V2700mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMOMY?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMOMY">SANYO USB出力付きリチウムイオンバッテリー (高容量リチウムイオン3.7V2700mAh電池使用) KBC-L27D</a></li>
-<li><a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L54D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V5400mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMNSE?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMNSE">SANYO USB出力付きリチウムイオンバッテリー (高容量リチウムイオン3.7V5400mAh電池使用) KBC-L54D</a></li>
+<li><a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L27D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V2700mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMOMY?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMOMY">SANYO USB出力付きリチウムイオンバッテリー (高容量リチウムイオン3.7V2700mAh電池使用) KBC-L27D</a></li>
+<li><a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L54D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V5400mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMNSE?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMNSE">SANYO USB出力付きリチウムイオンバッテリー (高容量リチウムイオン3.7V5400mAh電池使用) KBC-L54D</a></li>
 </ul>
 
 <p>最近iPhoneとSony Ericsson mini用に使っているモバイルバッテリーを電池容量の小さいものに
@@ -71,13 +71,13 @@
 購入前に両方の値段をチェックすることをお勧めします。</p>
 
 <p>
-<a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-400mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL201-K/dp/B0051R4EYU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EYU"><img src="https://images-fe.ssl-images-amazon.com/images/I/21otpm0VfNL._SL160_.jpg" align="right" /></a>
-<a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-700mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL101/dp/B0051R4EJU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EJU"><img src="https://images-fe.ssl-images-amazon.com/images/I/31P4Z3LsIaL._SL160_.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-400mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL201-K/dp/B0051R4EYU?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EYU"><img src="https://images-fe.ssl-images-amazon.com/images/I/21otpm0VfNL._SL160_.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-700mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL101/dp/B0051R4EJU?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EJU"><img src="https://images-fe.ssl-images-amazon.com/images/I/31P4Z3LsIaL._SL160_.jpg" align="right" /></a>
 </p>
 
 <ul>
-<li><a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-700mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL101/dp/B0051R4EJU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EJU">パナソニック モバイルバッテリー 2,700mAh 無接点充電(Qi) 対応 USBモバイル電源 QE-PL101</a></li>
-<li><a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-400mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL201-K/dp/B0051R4EYU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EYU">パナソニック モバイルバッテリー 5,400mAh 無接点充電(Qi) 対応 USBモバイル電源 ブラック QE-PL201-K</a></li>
+<li><a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-700mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL101/dp/B0051R4EJU?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EJU">パナソニック モバイルバッテリー 2,700mAh 無接点充電(Qi) 対応 USBモバイル電源 QE-PL101</a></li>
+<li><a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-400mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL201-K/dp/B0051R4EYU?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EYU">パナソニック モバイルバッテリー 5,400mAh 無接点充電(Qi) 対応 USBモバイル電源 ブラック QE-PL201-K</a></li>
 </ul>
 
 <p><br clear="all" /></p>
@@ -88,9 +88,9 @@
   
   <entry>
     <title type="html"><![CDATA[Sony Ericsson mini(S51SE)をRootedのまま4.0.2.A.0.61へアップデート]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/12/29/s51se-4.0.2.a.0.61-rooted/"/>
+    <link href="http://blog.glidenote.com/blog/2011/12/29/s51se-4.0.2.a.0.61-rooted/"/>
     <updated>2011-12-29T23:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/12/29/s51se-4.0.2.a.0.61-rooted</id>
+    <id>http://blog.glidenote.com/blog/2011/12/29/s51se-4.0.2.a.0.61-rooted</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2011/12/s51se_rooted.png" width="240" height="320" align="right" />
 以前、<a href="https://blog.glidenote.com/blog/2011/11/15/ericsson-mini-rooted/">Sony Ericsson mini(S51SE)のroot権限を取得 - Glide Note - グライドノート</a>で
 Sony Ericsson mini（S51SE）のroot権限を取得していたのですが、4.0.2.A.0.61にアップデートしたらroot権限が無くなってしまい、
@@ -125,9 +125,9 @@ Sony Ericsson mini（S51SE）のroot権限を取得していたのですが、4.
   
   <entry>
     <title type="html"><![CDATA[disable camera shutter sound on S51SE]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/11/18/disable-camera-shutter-sound-on-s51se/"/>
+    <link href="http://blog.glidenote.com/blog/2011/11/18/disable-camera-shutter-sound-on-s51se/"/>
     <updated>2011-11-18T01:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/11/18/disable-camera-shutter-sound-on-s51se</id>
+    <id>http://blog.glidenote.com/blog/2011/11/18/disable-camera-shutter-sound-on-s51se</id>
     <content type="html"><![CDATA[<p>/system/build.propを下記のように修正
 <div><script src='https://gist.github.com/1366282.js'></script>
 <noscript><pre><code>@@ -20,7 +20,7 @@
@@ -151,9 +151,9 @@ Sony Ericsson mini（S51SE）のroot権限を取得していたのですが、4.
   
   <entry>
     <title type="html"><![CDATA[Sony Ericsson mini(S51SE)の輝度自動調整を無効にした]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/11/15/disable-lcd-backlight/"/>
+    <link href="http://blog.glidenote.com/blog/2011/11/15/disable-lcd-backlight/"/>
     <updated>2011-11-15T09:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/11/15/disable-lcd-backlight</id>
+    <id>http://blog.glidenote.com/blog/2011/11/15/disable-lcd-backlight</id>
     <content type="html"><![CDATA[<p><img src="http://farm7.static.flickr.com/6053/6339838737_a41e4b810e_z.jpg" alt="" /><br />
 Sony Ericsson miniの輝度調整センサーが過敏すぎて、ちょっとした影ですぐ画面が明るくなったり、
 暗くなったりと画面がチラついてウザかったので無効にしました。
@@ -263,9 +263,9 @@ bq275xx_fwloader</code></pre></noscript></div>
   
   <entry>
     <title type="html"><![CDATA[Sony Ericsson mini(S51SE)のroot権限を取得]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/11/15/ericsson-mini-rooted/"/>
+    <link href="http://blog.glidenote.com/blog/2011/11/15/ericsson-mini-rooted/"/>
     <updated>2011-11-15T00:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/11/15/ericsson-mini-rooted</id>
+    <id>http://blog.glidenote.com/blog/2011/11/15/ericsson-mini-rooted</id>
     <content type="html"><![CDATA[<p>Sony Ericsson miniのroot権限を取得した際の作業メモ。root権限取得にはリスクを伴うので、自己責任で作業。</p>
 
 <h2 id="root">root権限取得作業の前に</h2>

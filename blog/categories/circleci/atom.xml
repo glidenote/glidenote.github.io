@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: circleci | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/circleci/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/circleci/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Alpine LinuxなDockerイメージにServerspecを実行する環境を作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/08/18/docker-alpine-serverspec-with-circleci/"/>
+    <link href="http://blog.glidenote.com/blog/2016/08/18/docker-alpine-serverspec-with-circleci/"/>
     <updated>2016-08-18T14:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/08/18/docker-alpine-serverspec-with-circleci</id>
+    <id>http://blog.glidenote.com/blog/2016/08/18/docker-alpine-serverspec-with-circleci</id>
     <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
 
 <ul>
@@ -285,9 +285,9 @@ bundle exec rake spec
   
   <entry>
     <title type="html"><![CDATA[CircleCIのProjectページの移動が簡単になるAlfred Workflowを作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow/"/>
+    <link href="http://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow/"/>
     <updated>2016-03-03T19:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow</id>
+    <id>http://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow</id>
     <content type="html"><![CDATA[<p>実は<a href="http://qiita.com/advent-calendar/2015/circleci">CircleCI Advent Calendar 2015 - Qiita</a>にエントリするために、
 結構前にAlfred Workflowを作っていたんですが、当時多忙でブログに書くのを忘れていました <img alt="sweat" src="/images/emoji/unicode/1f613.png" class="emoji" /></p>
 

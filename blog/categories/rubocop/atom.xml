@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: rubocop | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/rubocop/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/rubocop/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[rubocop+syntasticでRubyのコーディングルールへの準拠チェックを自動化する]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/05/28/vim-rubocop/"/>
+    <link href="http://blog.glidenote.com/blog/2014/05/28/vim-rubocop/"/>
     <updated>2014-05-28T10:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/05/28/vim-rubocop</id>
+    <id>http://blog.glidenote.com/blog/2014/05/28/vim-rubocop</id>
     <content type="html"><![CDATA[<p>sensuのプラグイン書いてて、<a href="https://github.com/sensu/sensu-community-plugins#rubocop-linting">sensu/sensu-community-plugins</a>を見ていたら
 <a href="https://github.com/bbatsov/rubocop">rubocop</a>でlintかけろ的な事が書いて、導入して使ってみたら便利だったのでメモ。</p>
 

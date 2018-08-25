@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: memolist | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/memolist/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/memolist/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Octopressの記事管理用プラグイン、Octoeditor.vimを作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/02/octoeditor.vim/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/02/octoeditor.vim/"/>
     <updated>2012-04-02T00:49:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/02/octoeditor.vim</id>
+    <id>http://blog.glidenote.com/blog/2012/04/02/octoeditor.vim</id>
     <content type="html"><![CDATA[<p><a href="https://github.com/glidenote/memolist.vim">memolist.vim</a>が非常に使いやすくなり、
 もともと利用していた<a href="https://blog.glidenote.com/blog/2011/12/23/modify-jekyll.vim-for-octopress/">カスタムしたjekyll.vim</a>よりも
 使いやすいのでmemolist.vimの機能を実装した<a href="http://octopress.org/">Octopress</a>の記事管理用
@@ -205,9 +205,9 @@ nmap ,of :exe &quot;CtrlP&quot; g:octopress_path . &quot;/source/_posts/&quot;&l
   
   <entry>
     <title type="html"><![CDATA[memolist.vimの機能追加と仕様変更のお知らせ(Ver 0.0.5)]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/03/31/update-memolist.vim/"/>
+    <link href="http://blog.glidenote.com/blog/2012/03/31/update-memolist.vim/"/>
     <updated>2012-03-31T01:36:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/03/31/update-memolist.vim</id>
+    <id>http://blog.glidenote.com/blog/2012/03/31/update-memolist.vim</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="https://github.com/glidenote/memolist.vim">glidenote/memolist.vim</a></li>
 </ul>
@@ -230,7 +230,7 @@ nmap ,of :exe &quot;CtrlP&quot; g:octopress_path . &quot;/source/_posts/&quot;&l
 <p>当初機能の有効/無効はtrue/falseでしていたんですが、下記のように</p>
 
 <blockquote class="twitter-tweet tw-align-center" data-in-reply-to="185414251169591296" lang="ja"><p>@<a href="https://twitter.com/heavenshell">heavenshell</a> @<a href="https://twitter.com/glidenote">glidenote</a> 0/1が良いです。</p>&mdash; mattnさん (@mattn_jp) <a href="https://twitter.com/mattn_jp/status/185417286994243585" data-datetime="2012-03-29T17:25:00+00:00">3月 29, 2012</a></blockquote>
-<script src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script src="http://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <p>とのことなので、今後のメンテナンスのためVim Scriptの作法に従いブール値が0/1に仕様を変更しました。
 そのため<code>.vimrc</code>にtrue/falseを指定するオプションを記載している場合は修正が必要になります。</p>
@@ -249,9 +249,9 @@ let g:memolist_vimfiler = 1
   
   <entry>
     <title type="html"><![CDATA[FuzzyFinderでmemolist.vimが進化した！]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/03/26/memolist-fuzyfinder/"/>
+    <link href="http://blog.glidenote.com/blog/2012/03/26/memolist-fuzyfinder/"/>
     <updated>2012-03-26T14:43:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/03/26/memolist-fuzyfinder</id>
+    <id>http://blog.glidenote.com/blog/2012/03/26/memolist-fuzyfinder</id>
     <content type="html"><![CDATA[<p>同僚の<a href="https://twitter.com/#!/lamanotrama">@lamanotrama</a>さんから
 <a href="https://github.com/vim-scripts/FuzzyFinder">FuzzyFinder</a>を利用すると
 <a href="https://github.com/glidenote/memolist.vim">memolist.vim</a>がさらに便利になると
@@ -278,9 +278,9 @@ nmap mf  :FufFile &lt;C-r&gt;=expand(g:memolist_path.&quot;/&quot;)&lt;CR&gt;&lt
   
   <entry>
     <title type="html"><![CDATA[シンプルなメモ管理用プラグインmemolist.vimを作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/03/26/memolist.vim/"/>
+    <link href="http://blog.glidenote.com/blog/2012/03/26/memolist.vim/"/>
     <updated>2012-03-26T09:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/03/26/memolist.vim</id>
+    <id>http://blog.glidenote.com/blog/2012/03/26/memolist.vim</id>
     <content type="html"><![CDATA[<p><a href="http://octopress.org/">Octopress</a>の記事を書くときに<a href="https://blog.glidenote.com/blog/2011/12/23/modify-jekyll.vim-for-octopress/">カスタムしたjekyll.vim</a>を
 利用していて、「新規作成」と「記事の管理」が非常に便利なので、
 同じようなことが出来るメモ用プラグインを作ってみました。</p>

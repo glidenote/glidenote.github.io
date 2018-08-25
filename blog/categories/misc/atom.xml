@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: misc | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/misc/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/misc/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[最近導入した開発に役立つ便利なステータスバー通知系アプリ3選]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/03/29/notification-apps/"/>
+    <link href="http://blog.glidenote.com/blog/2016/03/29/notification-apps/"/>
     <updated>2016-03-29T12:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/03/29/notification-apps</id>
+    <id>http://blog.glidenote.com/blog/2016/03/29/notification-apps</id>
     <content type="html"><![CDATA[<p>最近追加したステータスバーの通知系アプリで便利なやつを共有。</p>
 
 <h2 id="github-notifications">GitHub Notifications</h2>
@@ -65,9 +65,9 @@ Sensuがアラートを検知した場合、Pagerduty経由で、Slack、メー�
   
   <entry>
     <title type="html"><![CDATA[Roost Laptop Standで肩こりが解消した]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/02/05/roost/"/>
+    <link href="http://blog.glidenote.com/blog/2016/02/05/roost/"/>
     <updated>2016-02-05T19:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/02/05/roost</id>
+    <id>http://blog.glidenote.com/blog/2016/02/05/roost</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2016/02/roost0.jpg" alt="" /></p>
 
 <ul>
@@ -77,7 +77,7 @@ Sensuがアラートを検知した場合、Pagerduty経由で、Slack、メー�
 <p>Kickstarterで注文していた新しいRoost Laptop Standが昨年末に届いて、最近は下のような形で作業している。</p>
 
 <blockquote class="instagram-media" data-instgrm-captioned="" data-instgrm-version="6" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:8px;"> <div style=" background:#F8F8F8; line-height:0; margin-top:40px; padding:50.0% 0; text-align:center; width:100%;"> <div style=" background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAGFBMVEUiIiI9PT0eHh4gIB4hIBkcHBwcHBwcHBydr+JQAAAACHRSTlMABA4YHyQsM5jtaMwAAADfSURBVDjL7ZVBEgMhCAQBAf//42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB/lQPb79drWOyJVa/DAvg9B/rLB4cC+Nqgdz/TvBbBnr6GBReqn/nRmDgaQEej7WhonozjF+Y2I/fZou/qAAAAAElFTkSuQmCC); display:block; height:44px; margin:0 auto -44px; position:relative; top:-22px; width:44px;"></div></div> <p style=" margin:8px 0 0 0; padding:0 4px;"> <a href="https://www.instagram.com/p/_1IWh2Cw47/" style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none; word-wrap:break-word;" target="_blank">2016年に向けた作業環境が整った</a></p> <p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;">A photo posted by Akira Maeda (@glidenote) on <time style=" font-family:Arial,sans-serif; font-size:14px; line-height:17px;" datetime="2015-12-28T09:17:35+00:00">Dec 28, 2015 at 1:17am PST</time></p></div></blockquote>
-<script async="" defer="" src="https://blog.glidenote.com//platform.instagram.com/en_US/embeds.js"></script>
+<script async="" defer="" src="http://blog.glidenote.com//platform.instagram.com/en_US/embeds.js"></script>
 
 <p><br />
 1ヶ月半くらい、この状態で過ごしてみての感想は、</p>
@@ -107,9 +107,9 @@ Sensuがアラートを検知した場合、Pagerduty経由で、Slack、メー�
   
   <entry>
     <title type="html"><![CDATA[ChatOps + NightmareでメトリクスグラフとBIレポートをSlackに投げるようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2015/10/01/nightmare-screenshots/"/>
+    <link href="http://blog.glidenote.com/blog/2015/10/01/nightmare-screenshots/"/>
     <updated>2015-10-01T20:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2015/10/01/nightmare-screenshots</id>
+    <id>http://blog.glidenote.com/blog/2015/10/01/nightmare-screenshots</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2015/09/nightmare_0.png" alt="" /></p>
 
 <ul>
@@ -244,18 +244,18 @@ dependencies:
 
 <p>私が悪戦苦闘しているのを横目に、技術顧問が寿司情報を収集するのにサラッと使いこなしていた有益プレゼン死霊</p>
 
-<script async="" class="speakerdeck-embed" data-id="23356e934da04f499b8fe0f7c1f87299" data-ratio="1.33333333333333" src="https://blog.glidenote.com//speakerdeck.com/assets/embed.js"></script>
+<script async="" class="speakerdeck-embed" data-id="23356e934da04f499b8fe0f7c1f87299" data-ratio="1.33333333333333" src="http://blog.glidenote.com//speakerdeck.com/assets/embed.js"></script>
 
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[サーバ/インフラ徹底攻略を読んでインフラエンジニアの高齢化問題について考える]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/10/31/infrastructure-engineer-grows-old/"/>
+    <link href="http://blog.glidenote.com/blog/2014/10/31/infrastructure-engineer-grows-old/"/>
     <updated>2014-10-31T18:35:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/10/31/infrastructure-engineer-grows-old</id>
-    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/%E3%82%B5%E3%83%BC%E3%83%90-%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-WEB-PRESS-plus/dp/4774167681?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774167681"><img src="https://images-fe.ssl-images-amazon.com/images/I/61FyzLfkvnL.jpg" align="right" /></a>
-<a href="https://www.amazon.co.jp/%E3%82%B5%E3%83%BC%E3%83%90-%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-WEB-PRESS-plus/dp/4774167681?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774167681">サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)</a></p>
+    <id>http://blog.glidenote.com/blog/2014/10/31/infrastructure-engineer-grows-old</id>
+    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/%E3%82%B5%E3%83%BC%E3%83%90-%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-WEB-PRESS-plus/dp/4774167681?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774167681"><img src="https://images-fe.ssl-images-amazon.com/images/I/61FyzLfkvnL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E3%82%B5%E3%83%BC%E3%83%90-%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-WEB-PRESS-plus/dp/4774167681?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774167681">サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)</a></p>
 
 <p>本書の「テスト駆動インフラ&amp;CI最前線」を執筆された<a href="https://twitter.com/gosukenator">mizzyさん</a>からご恵贈頂きました。ありがとうございます。</p>
 
@@ -399,9 +399,9 @@ Linuxコンテナでインフラを瞬時に構築する……伊藤 直也
   
   <entry>
     <title type="html"><![CDATA[KAIZEN platform Inc.に入社した]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/08/01/join-to-kaizen-platform-inc/"/>
+    <link href="http://blog.glidenote.com/blog/2014/08/01/join-to-kaizen-platform-inc/"/>
     <updated>2014-08-01T17:15:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/08/01/join-to-kaizen-platform-inc</id>
+    <id>http://blog.glidenote.com/blog/2014/08/01/join-to-kaizen-platform-inc</id>
     <content type="html"><![CDATA[<p>いわゆる転職エントリーなので、興味無い人はそっと閉じて頂ければ幸いです。</p>
 
 <p>私事ですが、6年弱勤め、シニアエンジニアとしてサービスのインフラ系業務を担当していたGMOペパボ株式会社(旧株式会社paperboy&amp;co.)を7月末に退職して、

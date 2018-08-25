@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: s3 | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/s3/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/s3/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[S3 Event NotificasionsをAmazon SQSで受け取る]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions/"/>
+    <link href="http://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions/"/>
     <updated>2014-11-21T11:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions</id>
+    <id>http://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions</id>
     <content type="html"><![CDATA[<p>最近やっている仕事で先日発表された<a href="http://aws.typepad.com/aws_japan/2014/11/s3-event-notification.html">S3 Event Notifications</a>が利用出来そうな感じがしたのでちょっと調査。
 S3にファイルがアップされたらAmazon SQSで通知を受け取るようにしてみた。</p>
 

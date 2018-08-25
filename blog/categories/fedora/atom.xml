@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: fedora | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/fedora/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/fedora/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ssh接続したリモートサーバの出力を手元Macのクリップボードに送る]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/02/22/remote-pbcopy/"/>
+    <link href="http://blog.glidenote.com/blog/2014/02/22/remote-pbcopy/"/>
     <updated>2014-02-22T21:27:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/02/22/remote-pbcopy</id>
+    <id>http://blog.glidenote.com/blog/2014/02/22/remote-pbcopy</id>
     <content type="html"><![CDATA[<p>今までsshしたリモートサーバ上でコマンド実行したときの結果出力とかは、
 tmuxのコピーモードとかを駆使して、Macのクリップボードに送ってたんですが
 もっと手軽に出来る方法があったのでGitHubにまとめてみた。</p>
@@ -226,9 +226,9 @@ echo "hello" | nc -c 127.0.0.1 2224
   
   <entry>
     <title type="html"><![CDATA[Fedora16 systemctlコマンドのメモ]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/02/06/systemctl-zsh-completion/"/>
+    <link href="http://blog.glidenote.com/blog/2012/02/06/systemctl-zsh-completion/"/>
     <updated>2012-02-06T00:33:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/02/06/systemctl-zsh-completion</id>
+    <id>http://blog.glidenote.com/blog/2012/02/06/systemctl-zsh-completion</id>
     <content type="html"><![CDATA[<p>自宅サーバはFedora 16で構築してるんですが、systemctlコマンドが全く頭に入ってこないので自分用にメモ。
 2回ググったらブログに書く。</p>
 
@@ -336,9 +336,9 @@ unset-environment                    -- Unset one or more environment variables
   
   <entry>
     <title type="html"><![CDATA[/etc/hosts.deny, missing newline or line too long]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/12/27/hosts-deny-error/"/>
+    <link href="http://blog.glidenote.com/blog/2011/12/27/hosts-deny-error/"/>
     <updated>2011-12-27T20:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/12/27/hosts-deny-error</id>
+    <id>http://blog.glidenote.com/blog/2011/12/27/hosts-deny-error</id>
     <content type="html"><![CDATA[<p>普段iptablesとTCP Wrapperrでアクセス制限をかけているんですが、hosts.denyの設定見直しをしていて、
 /var/log/secureに下記のようなログが吐かれて動作していないサーバがあったのでメモ</p>
 
@@ -376,9 +376,9 @@ ALL : ALL</p>
   
   <entry>
     <title type="html"><![CDATA[自宅サーバをFedora 15からFedora 16 アップグレード]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/12/12/upgrade-fedora-15-to-16/"/>
+    <link href="http://blog.glidenote.com/blog/2011/12/12/upgrade-fedora-15-to-16/"/>
     <updated>2011-12-12T12:36:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/12/12/upgrade-fedora-15-to-16</id>
+    <id>http://blog.glidenote.com/blog/2011/12/12/upgrade-fedora-15-to-16</id>
     <content type="html"><![CDATA[<p><img src="http://www.glidenote.com/wp-content/uploads/2011/12/f16release.png" align="right" />
 自宅のサーバをFedora15から16にアップグレードしたので、作業メモ。<br />
 手順は公式ページに載ってるそのまま<br />
@@ -414,9 +414,9 @@ Fedora release 16 (Verne)
   
   <entry>
     <title type="html"><![CDATA[tmuxをyumのアップデート対象から外した]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/12/03/yum-exclude/"/>
+    <link href="http://blog.glidenote.com/blog/2011/12/03/yum-exclude/"/>
     <updated>2011-12-03T13:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/12/03/yum-exclude</id>
+    <id>http://blog.glidenote.com/blog/2011/12/03/yum-exclude</id>
     <content type="html"><![CDATA[<p><a href="http://tmux.sourceforge.net/">tmux</a>を1.5にしたら、マウスでのテキスト選択と、puttyとかMacのターミナルの右クリックでペーストができなくなっていたので1.4に戻した。
 yum updateした際に、またいつの間にか1.5にアップデートしていたら嫌だったので、/etc/yum.confに</p>
 

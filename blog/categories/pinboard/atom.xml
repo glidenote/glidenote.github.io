@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: pinboard | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/pinboard/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/pinboard/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ターミナルからPinboardのお気に入りを検索できるpblというツールを作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/10/04/pbl/"/>
+    <link href="http://blog.glidenote.com/blog/2012/10/04/pbl/"/>
     <updated>2012-10-04T23:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/10/04/pbl</id>
+    <id>http://blog.glidenote.com/blog/2012/10/04/pbl</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="https://rubygems.org/gems/pbl">pbl</a></li>
 </ul>
@@ -69,9 +69,9 @@ pbl fluentd
   
   <entry>
     <title type="html"><![CDATA[pinboard-fuとはてブのChrome拡張でブックマーク生活が捗る]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/06/07/pinboard-fu/"/>
+    <link href="http://blog.glidenote.com/blog/2012/06/07/pinboard-fu/"/>
     <updated>2012-06-07T23:30:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/06/07/pinboard-fu</id>
+    <id>http://blog.glidenote.com/blog/2012/06/07/pinboard-fu</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2012/01/pinboard.png" width="200" height="150" align="right" /></p>
 
 <ul>
@@ -103,9 +103,9 @@ pinboardを<a href="https://chrome.google.com/webstore/detail/dnlfpnhinnjdgmjfpc
   
   <entry>
     <title type="html"><![CDATA[ソーシャルブックマークのデータをPinboardに集約して一元管理]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/01/29/pinboard/"/>
+    <link href="http://blog.glidenote.com/blog/2012/01/29/pinboard/"/>
     <updated>2012-01-29T02:07:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/01/29/pinboard</id>
+    <id>http://blog.glidenote.com/blog/2012/01/29/pinboard</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2012/01/pinboard.png" width="200" height="150" align="right" /></p>
 
 <ul>

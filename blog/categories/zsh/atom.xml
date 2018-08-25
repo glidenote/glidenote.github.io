@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: zsh | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/zsh/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/zsh/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[peco/percolでCUIなスニペットツールを作ってみる]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/06/26/snippets-peco-percol/"/>
+    <link href="http://blog.glidenote.com/blog/2014/06/26/snippets-peco-percol/"/>
     <updated>2014-06-26T13:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/06/26/snippets-peco-percol</id>
+    <id>http://blog.glidenote.com/blog/2014/06/26/snippets-peco-percol</id>
     <content type="html"><![CDATA[<p>以前に<a href="http://oscardelben.com/sheet/">Sheet</a>というスニペットツールを利用すると大変便利と書いた。</p>
 
 <ul>
@@ -128,9 +128,9 @@ bindkey ‘^x^s’ peco-snippets
   
   <entry>
     <title type="html"><![CDATA[rubocop+syntasticでRubyのコーディングルールへの準拠チェックを自動化する]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/05/28/vim-rubocop/"/>
+    <link href="http://blog.glidenote.com/blog/2014/05/28/vim-rubocop/"/>
     <updated>2014-05-28T10:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/05/28/vim-rubocop</id>
+    <id>http://blog.glidenote.com/blog/2014/05/28/vim-rubocop</id>
     <content type="html"><![CDATA[<p>sensuのプラグイン書いてて、<a href="https://github.com/sensu/sensu-community-plugins#rubocop-linting">sensu/sensu-community-plugins</a>を見ていたら
 <a href="https://github.com/bbatsov/rubocop">rubocop</a>でlintかけろ的な事が書いて、導入して使ってみたら便利だったのでメモ。</p>
 
@@ -232,9 +232,9 @@ let g:syntastic_ruby_checkers = ['rubocop']
   
   <entry>
     <title type="html"><![CDATA[zsh-bdで親ディレクトリへの移動を便利にする]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/05/15/zsh-bd/"/>
+    <link href="http://blog.glidenote.com/blog/2014/05/15/zsh-bd/"/>
     <updated>2014-05-15T13:20:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/05/15/zsh-bd</id>
+    <id>http://blog.glidenote.com/blog/2014/05/15/zsh-bd</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="https://github.com/Tarrasch/zsh-bd">Tarrasch/zsh-bd</a></li>
 </ul>
@@ -276,9 +276,9 @@ bd [tab]
   
   <entry>
     <title type="html"><![CDATA[gistコマンドが便利だったのでzsh補完関数を書いた]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/09/20/gist-and-gist-zsh-completion/"/>
+    <link href="http://blog.glidenote.com/blog/2013/09/20/gist-and-gist-zsh-completion/"/>
     <updated>2013-09-20T20:05:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/09/20/gist-and-gist-zsh-completion</id>
+    <id>http://blog.glidenote.com/blog/2013/09/20/gist-and-gist-zsh-completion</id>
     <content type="html"><![CDATA[<p><a href="https://gist.github.com/">Gist</a>使ってますか！</p>
 
 <p>普段はmattnさんの<a href="https://github.com/mattn/gist-vim">gist-vim</a>経由でGistにpostしているんですが、
@@ -398,9 +398,9 @@ zsh-completionsを利用していれば、gistコマンドが下記のように�
   
   <entry>
     <title type="html"><![CDATA[ackを捨てて、より高速なag(The Silver Searcher)に切り替えた]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/02/28/the-silver-searcher-better-than-ack/"/>
+    <link href="http://blog.glidenote.com/blog/2013/02/28/the-silver-searcher-better-than-ack/"/>
     <updated>2013-02-28T23:30:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/02/28/the-silver-searcher-better-than-ack</id>
+    <id>http://blog.glidenote.com/blog/2013/02/28/the-silver-searcher-better-than-ack</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="http://geoff.greer.fm/2011/12/27/the-silver-searcher-better-than-ack/">Geoff’s site: The Silver Searcher: Better than Ack</a></li>
   <li><a href="https://github.com/ggreer/the_silver_searcher">ggreer/the_silver_searcher · GitHub</a></li>

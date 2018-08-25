@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: lvm | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/lvm/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/lvm/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[LVM領域の拡張方法のメモ]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/11/30/extend-lvm-volume/"/>
+    <link href="http://blog.glidenote.com/blog/2011/11/30/extend-lvm-volume/"/>
     <updated>2011-11-30T14:48:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/11/30/extend-lvm-volume</id>
+    <id>http://blog.glidenote.com/blog/2011/11/30/extend-lvm-volume</id>
     <content type="html"><![CDATA[<p>LVMが個人的にあまり好きじゃいせいか、LVM領域の拡張方法をいつも忘れてググっているのでメモ</p>
 
 <h2 id="section">ディスク構成と容量の確認</h2>

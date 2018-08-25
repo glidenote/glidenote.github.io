@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: bash | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/bash/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/bash/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Bash版oh-my-zsh、Bash framework「bash-it」を試してみた]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/24/bash-it/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/24/bash-it/"/>
     <updated>2012-04-24T18:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/24/bash-it</id>
+    <id>http://blog.glidenote.com/blog/2012/04/24/bash-it</id>
     <content type="html"><![CDATA[<p>久しく利用していないBashですが、Bash版<a href="https://github.com/robbyrussell/oh-my-zsh">oh-my-zsh</a>といえる
 <a href="https://github.com/revans/bash-it">bash-it</a>という面白そうなツールがあったので試してみました。</p>
 

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: wordpress | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/wordpress/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/wordpress/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ブログをWordpressからOctopressに完全に切り替えた]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/12/19/wordpress-to-octopress/"/>
+    <link href="http://blog.glidenote.com/blog/2011/12/19/wordpress-to-octopress/"/>
     <updated>2011-12-19T23:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/12/19/wordpress-to-octopress</id>
+    <id>http://blog.glidenote.com/blog/2011/12/19/wordpress-to-octopress</id>
     <content type="html"><![CDATA[<p><a href="http://octopress.org/"><img src="http://www.glidenote.com/wp-content/uploads/2011/11/octopress.png" /></a>
 <br clear="all" /></p>
 

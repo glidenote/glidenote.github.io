@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: bigquery | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/bigquery/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/bigquery/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[CloudFrontのログをfluent-plugin-bigqueryを利用してBigQueryに入れるようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery/"/>
+    <link href="http://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery/"/>
     <updated>2014-11-21T14:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery</id>
+    <id>http://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery</id>
     <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
 
 <ul>

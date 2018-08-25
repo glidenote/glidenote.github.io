@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: vnc | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/vnc/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/vnc/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[パケットリピータstoneでVNC接続を中継する]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/01/08/vnc-with-stone/"/>
+    <link href="http://blog.glidenote.com/blog/2012/01/08/vnc-with-stone/"/>
     <updated>2012-01-08T12:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/01/08/vnc-with-stone</id>
+    <id>http://blog.glidenote.com/blog/2012/01/08/vnc-with-stone</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="http://www.gcd.org/sengoku/stone/Welcome.ja.html">Simple Repeater `stone’</a></li>
 </ul>

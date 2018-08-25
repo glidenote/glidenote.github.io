@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: github | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/github/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/github/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Terraform + GitHub + CircleCI + Atlasを利用してAWSの操作を自動化した]]></title>
-    <link href="https://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws/"/>
+    <link href="http://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws/"/>
     <updated>2015-02-18T19:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws</id>
+    <id>http://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws</id>
     <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
 
 <ul>
@@ -162,9 +162,9 @@ resource "aws_eip" "dev001_foobar_net_eip" {
   
   <entry>
     <title type="html"><![CDATA[ChatOpsでOSのセキュリティアップデートを自動化出来るようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/09/12/chatops-security-update/"/>
+    <link href="http://blog.glidenote.com/blog/2014/09/12/chatops-security-update/"/>
     <updated>2014-09-12T20:03:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/09/12/chatops-security-update</id>
+    <id>http://blog.glidenote.com/blog/2014/09/12/chatops-security-update</id>
     <content type="html"><![CDATA[<p>先日<a href="https://twitter.com/naoya_ito">@naoya_ito</a>さんが<a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">自身のブログ(インフラの継続的デリバリー)</a>で<a href="http://kaizenplatform.in/">KAIZEN platform Inc.</a>のインフラについて書いていたやつの続編的な内容。</p>
 
 <h2 id="tldr">TL;DR</h2>
@@ -255,9 +255,9 @@ Chefの適用、セキュリティスキャンなどChatOpsの範囲が広がっ
   
   <entry>
     <title type="html"><![CDATA[コミットメッセージを書くときにGitHubのユーザー名が補完されるようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/07/22/gitcommit-dictionary/"/>
+    <link href="http://blog.glidenote.com/blog/2013/07/22/gitcommit-dictionary/"/>
     <updated>2013-07-22T00:56:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/07/22/gitcommit-dictionary</id>
+    <id>http://blog.glidenote.com/blog/2013/07/22/gitcommit-dictionary</id>
     <content type="html"><![CDATA[<p>gitでcommit messageを書くときに、関連する人にmentionを送ることが結構あるんですが、
 GitHubとGitHub Enterpriseのユーザ名の覚えが曖昧で、毎回ブラウザでポチポチやって調べていて、
 効率が恐ろしく悪かったので、同僚やmention送るユーザ名は辞書作って補完することにした。</p>
@@ -304,15 +304,15 @@ autocmd FileType gitcommit :set dictionary=~/.vim/dictionary/github_user.dict
   
   <entry>
     <title type="html"><![CDATA[GitHubのissueやpull reqにcommentが付いたらIRC hoooks経由で通知されるように設定した]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/07/18/github-irc-hooks-event-type/"/>
+    <link href="http://blog.glidenote.com/blog/2013/07/18/github-irc-hooks-event-type/"/>
     <updated>2013-07-18T20:39:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/07/18/github-irc-hooks-event-type</id>
+    <id>http://blog.glidenote.com/blog/2013/07/18/github-irc-hooks-event-type</id>
     <content type="html"><![CDATA[<p>もともと<a href="https://twitter.com/gosukenator">mizzy</a>さんが作ったプログラムで
 GitHubの業務用Repository上のイベントはIRCに通知されるようになっていたんですが、
 <a href="http://twitter.com/tnmt">@tnmt</a>からGitHubのhooksだけで出来るようになったとの情報をゲットしたので早速設定してみた。</p>
 
 <blockquote class="twitter-tweet"><p>github の irc hook に幾つかの event type が追加されました - <a href="https://twitter.com/soh335">@soh335</a> memo <a href="http://t.co/40g46OxvkC">http://t.co/40g46OxvkC</a> <a href="https://twitter.com/glidenote">@glidenote</a> 先生がアップを始めました</p>&mdash; TSUNEMATSU Shinya (@tnmt) <a href="https://twitter.com/tnmt/statuses/354796424686354432">July 10, 2013</a></blockquote>
-<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async="" src="http://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <p><a href="http://soh335.hatenablog.com/entry/2013/05/21/113049">@soh335さんのブログ</a>
 を見ると、下記のような形で、hooksの設定確認や設定変更が出来る模様。</p>
@@ -395,9 +395,9 @@ curl -u "glidenote" -in https://hostname/api/v3/repos/:owner/:repos/hooks
   
   <entry>
     <title type="html"><![CDATA[open-browser-github.vim を  GitHub Enterpriseで使う]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/07/18/open-browser-github.vim-for-github-enterprise/"/>
+    <link href="http://blog.glidenote.com/blog/2013/07/18/open-browser-github.vim-for-github-enterprise/"/>
     <updated>2013-07-18T01:12:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/07/18/open-browser-github.vim-for-github-enterprise</id>
+    <id>http://blog.glidenote.com/blog/2013/07/18/open-browser-github.vim-for-github-enterprise</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="https://github.com/tyru/open-browser-github.vim">tyru/open-browser-github.vim</a></li>
 </ul>

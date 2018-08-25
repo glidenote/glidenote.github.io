@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: chrome | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/chrome/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/chrome/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[pinboard-fuとはてブのChrome拡張でブックマーク生活が捗る]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/06/07/pinboard-fu/"/>
+    <link href="http://blog.glidenote.com/blog/2012/06/07/pinboard-fu/"/>
     <updated>2012-06-07T23:30:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/06/07/pinboard-fu</id>
+    <id>http://blog.glidenote.com/blog/2012/06/07/pinboard-fu</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2012/01/pinboard.png" width="200" height="150" align="right" /></p>
 
 <ul>
@@ -49,9 +49,9 @@ pinboardを<a href="https://chrome.google.com/webstore/detail/dnlfpnhinnjdgmjfpc
   
   <entry>
     <title type="html"><![CDATA[Chromeの検索エンジンにUNIXのman検索を追加した]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/05/30/manage-chrome-search-engine/"/>
+    <link href="http://blog.glidenote.com/blog/2012/05/30/manage-chrome-search-engine/"/>
     <updated>2012-05-30T23:02:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/05/30/manage-chrome-search-engine</id>
+    <id>http://blog.glidenote.com/blog/2012/05/30/manage-chrome-search-engine</id>
     <content type="html"><![CDATA[<p><a href="http://kentaro.hatenablog.com/entry/2012/05/29/230254">社内のRuby開発環境勉強会</a>で、Rubyのドキュメント検索のために、
 Chromeの検索エンジンに<a href="http://rurema.clear-code.com/">るりまサーチ</a>を
 追加すると良いと<a href="https://twitter.com/#!/kyanny">刺身さん</a>教えて貰い、

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: terraform | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/terraform/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/terraform/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Terraform + GitHub + CircleCI + Atlasを利用してAWSの操作を自動化した]]></title>
-    <link href="https://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws/"/>
+    <link href="http://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws/"/>
     <updated>2015-02-18T19:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws</id>
+    <id>http://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws</id>
     <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
 
 <ul>

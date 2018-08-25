@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: hubot | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/hubot/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/hubot/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Githubで利用されているボットシステムHUBOTを動かしてみた]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/01/24/install-hubot/"/>
+    <link href="http://blog.glidenote.com/blog/2012/01/24/install-hubot/"/>
     <updated>2012-01-24T23:58:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/01/24/install-hubot</id>
+    <id>http://blog.glidenote.com/blog/2012/01/24/install-hubot</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2012/01/hubot.png" alt="" /></p>
 
 <ul>

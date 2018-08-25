@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: alfred | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/alfred/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/alfred/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Mackerelのページを瞬時に開くAlfred Workflowを作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/03/29/alfred-mackerel-page-workflow/"/>
+    <link href="http://blog.glidenote.com/blog/2016/03/29/alfred-mackerel-page-workflow/"/>
     <updated>2016-03-29T13:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/03/29/alfred-mackerel-page-workflow</id>
+    <id>http://blog.glidenote.com/blog/2016/03/29/alfred-mackerel-page-workflow</id>
     <content type="html"><![CDATA[<p><a href="https://mackerel.io/">Mackerel</a>を利用していて、</p>
 
 <ul>
@@ -47,9 +47,9 @@
   
   <entry>
     <title type="html"><![CDATA[CircleCIのProjectページの移動が簡単になるAlfred Workflowを作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow/"/>
+    <link href="http://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow/"/>
     <updated>2016-03-03T19:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow</id>
+    <id>http://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow</id>
     <content type="html"><![CDATA[<p>実は<a href="http://qiita.com/advent-calendar/2015/circleci">CircleCI Advent Calendar 2015 - Qiita</a>にエントリするために、
 結構前にAlfred Workflowを作っていたんですが、当時多忙でブログに書くのを忘れていました <img alt="sweat" src="/images/emoji/unicode/1f613.png" class="emoji" /></p>
 
@@ -81,9 +81,9 @@
   
   <entry>
     <title type="html"><![CDATA[開発環境の情報共有会でDash,SourceTree,Alfredの話をした]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/03/30/tech-tool-knowledge/"/>
+    <link href="http://blog.glidenote.com/blog/2014/03/30/tech-tool-knowledge/"/>
     <updated>2014-03-30T22:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/03/30/tech-tool-knowledge</id>
+    <id>http://blog.glidenote.com/blog/2014/03/30/tech-tool-knowledge</id>
     <content type="html"><![CDATA[<p>社内で開発環境についての情報を共有する会を開催した。
 参加者全員が発表のスタイルで、ただ聞いてるだけの人がいないようにしたら
 いろいろな情報を共有出来て大変参考になった。</p>

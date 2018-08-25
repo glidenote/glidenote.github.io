@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: tech | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/tech/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/tech/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[CDNをAkamaiに切り替えた]]></title>
-    <link href="https://blog.glidenote.com/blog/2015/08/17/move-to-akamai/"/>
+    <link href="http://blog.glidenote.com/blog/2015/08/17/move-to-akamai/"/>
     <updated>2015-08-17T19:10:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2015/08/17/move-to-akamai</id>
+    <id>http://blog.glidenote.com/blog/2015/08/17/move-to-akamai</id>
     <content type="html"><![CDATA[<p>2ヶ月くらい前にCDNをAkamaiに切り替えたので、知見を公開。 (<strong>追記 2015年8月18日 私個人の認識不足で用語の使い方に問題があったので一部修正しました</strong> <code>s/SLA 100%/高可用性構成/g</code>)</p>
 
 <h2 id="tldr">TL;DR</h2>
@@ -137,9 +137,9 @@ CDNの可用性はインフラエンジニア的にかなり頭の痛い問題�
   
   <entry>
     <title type="html"><![CDATA[Slackのチャンネル移動をキーボードで簡単に出来るようKarabinerのprivate.xmlを書いた]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack/"/>
+    <link href="http://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack/"/>
     <updated>2014-08-06T18:32:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack</id>
+    <id>http://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2014/08/slack-logo.png" alt="" /></p>
 
 <p>仕事で<a href="https://slack.com/">Slack</a>を使っているんですが、
@@ -188,9 +188,9 @@ CDNの可用性はインフラエンジニア的にかなり頭の痛い問題�
   
   <entry>
     <title type="html"><![CDATA[開発環境の情報共有会でDash,SourceTree,Alfredの話をした]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/03/30/tech-tool-knowledge/"/>
+    <link href="http://blog.glidenote.com/blog/2014/03/30/tech-tool-knowledge/"/>
     <updated>2014-03-30T22:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/03/30/tech-tool-knowledge</id>
+    <id>http://blog.glidenote.com/blog/2014/03/30/tech-tool-knowledge</id>
     <content type="html"><![CDATA[<p>社内で開発環境についての情報を共有する会を開催した。
 参加者全員が発表のスタイルで、ただ聞いてるだけの人がいないようにしたら
 いろいろな情報を共有出来て大変参考になった。</p>
@@ -327,9 +327,9 @@ Alfredと併用していたんですが、Workflowが大変便利なので、昨
   
   <entry>
     <title type="html"><![CDATA[エンジニアのための時間管理術、自動化に関するまとめ]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/03/23/automation/"/>
+    <link href="http://blog.glidenote.com/blog/2012/03/23/automation/"/>
     <updated>2012-03-23T00:08:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/03/23/automation</id>
+    <id>http://blog.glidenote.com/blog/2012/03/23/automation</id>
     <content type="html"><![CDATA[<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4873113075/glidenote-22/ref=nosim/" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51jWtxU0sAL._SL160_.jpg" alt="エンジニアのための時間管理術" align="right" /></a></p>
 
 <p>2006年の発売当時に紙書籍で購入し、最近PDFで買い直してKindleに突っ込んでいた

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: route53 | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/route53/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/route53/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Roadworkerとdirenvを使ってRoute53のDNSレコードを管理する & Roadworker用にVimプラグインとZsh補完関数も作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv/"/>
+    <link href="http://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv/"/>
     <updated>2014-07-09T22:30:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv</id>
+    <id>http://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv</id>
     <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
 
 <ul>

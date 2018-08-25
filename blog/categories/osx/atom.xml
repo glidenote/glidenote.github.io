@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: osx | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/osx/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/osx/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[zshのプラグインマネージャーantigenでoh-my-zshの良いとこ取りをする]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/10/25/antigen/"/>
+    <link href="http://blog.glidenote.com/blog/2012/10/25/antigen/"/>
     <updated>2012-10-25T22:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/10/25/antigen</id>
+    <id>http://blog.glidenote.com/blog/2012/10/25/antigen</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="https://github.com/zsh-users/antigen">zsh-users/antigen</a></li>
 </ul>
@@ -135,9 +135,9 @@ themeを使った方が便利そうな気が最近してる。</p>
   
   <entry>
     <title type="html"><![CDATA[zsh使いなら効率改善のため知っておきたいAUTOJUMP]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/02/29/autojump-zsh/"/>
+    <link href="http://blog.glidenote.com/blog/2012/02/29/autojump-zsh/"/>
     <updated>2012-02-29T10:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/02/29/autojump-zsh</id>
+    <id>http://blog.glidenote.com/blog/2012/02/29/autojump-zsh</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="https://github.com/joelthelion/autojump">joelthelion/autojump - GitHub</a></li>
 </ul>
@@ -258,9 +258,9 @@ jumpstat
   
   <entry>
     <title type="html"><![CDATA[XcodeからCommand Line Tools for Xcodeに切り替えたらHDD使用容量が7GB減った]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/02/20/command-line-tools-for-xcode/"/>
+    <link href="http://blog.glidenote.com/blog/2012/02/20/command-line-tools-for-xcode/"/>
     <updated>2012-02-20T00:29:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/02/20/command-line-tools-for-xcode</id>
+    <id>http://blog.glidenote.com/blog/2012/02/20/command-line-tools-for-xcode</id>
     <content type="html"><![CDATA[<p>homebrewしか使わないのに、Xcodeに8GBくらいHDDの容量を消費されてて
 MacBook AirとかにはXcodeを入れていなかったんですが、
 先日SDKなどを抜いた<code>Command Line Tools for Xcode</code>という200MB程度の
@@ -344,9 +344,9 @@ Filesystem      Size   Used  Avail Capacity  Mounted on
   
   <entry>
     <title type="html"><![CDATA[Filesystem Hierarchy Standard]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/02/01/filesystem-hierarchy-standard/"/>
+    <link href="http://blog.glidenote.com/blog/2012/02/01/filesystem-hierarchy-standard/"/>
     <updated>2012-02-01T22:10:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/02/01/filesystem-hierarchy-standard</id>
+    <id>http://blog.glidenote.com/blog/2012/02/01/filesystem-hierarchy-standard</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="http://ja.wikipedia.org/wiki/Filesystem_Hierarchy_Standard">Filesystem Hierarchy Standard</a></li>
   <li><a href="http://www.itmedia.co.jp/help/howto/linux/0007master/14/">エンタープライズ： - 第14回：FHSによるディレクトリの規格化</a></li>
@@ -358,9 +358,9 @@ Filesystem      Size   Used  Avail Capacity  Mounted on
   
   <entry>
     <title type="html"><![CDATA[Rudixを利用して、Xcodeの無いMacにUnix系ソフトウェアを導入する]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/12/29/rudix-on-mac/"/>
+    <link href="http://blog.glidenote.com/blog/2011/12/29/rudix-on-mac/"/>
     <updated>2011-12-29T11:34:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/12/29/rudix-on-mac</id>
+    <id>http://blog.glidenote.com/blog/2011/12/29/rudix-on-mac</id>
     <content type="html"><![CDATA[<p><a href="http://rudix.org/"><img src="https://blog.glidenote.com/images/2011/12/rudix.jpg" width="315" height="216" align="right" /></a>
 <a href="http://rudix.org/">Rudix: The hassle-free way to get Unix programs on Mac OS X</a>  </p>
 

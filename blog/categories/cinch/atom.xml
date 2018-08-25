@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: cinch | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/cinch/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/cinch/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[NagiosのアラートをIRC BOT経由で制御する]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/06/10/control-nagios-alert-with-irc-bot/"/>
+    <link href="http://blog.glidenote.com/blog/2013/06/10/control-nagios-alert-with-irc-bot/"/>
     <updated>2013-06-10T21:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/06/10/control-nagios-alert-with-irc-bot</id>
+    <id>http://blog.glidenote.com/blog/2013/06/10/control-nagios-alert-with-irc-bot</id>
     <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2013/05/20/working-with-irc-bot/">IRC BOTを作って仕事をさせるようにした</a>の続き。
 <a href="https://twitter.com/mikeda">@mikeda</a>さんと<a href="https://twitter.com/hirose31">@hirose31</a>さんのやりとりを見ていて、
 Nagiosアラートをコマンドラインから停止出来ることを知った!!</p>

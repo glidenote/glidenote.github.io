@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: octopress | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/octopress/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Octopressをアップデートした]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/02/14/octopress-update/"/>
+    <link href="http://blog.glidenote.com/blog/2014/02/14/octopress-update/"/>
     <updated>2014-02-14T23:40:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/02/14/octopress-update</id>
+    <id>http://blog.glidenote.com/blog/2014/02/14/octopress-update</id>
     <content type="html"><![CDATA[<p>2011年から使っているOctopressですが、導入時から全然アップデートしてなくて、<a href="https://github.com/jekyll/jekyll">jekyll</a>が古いままだったので、</p>
 
 <ul>
@@ -104,9 +104,9 @@ let g:octopress_bundle_exec = 1
   
   <entry>
     <title type="html"><![CDATA[Octopressのgist tag pluginが修正されていた]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/12/19/octopress-gist-tag-plugin-fixed/"/>
+    <link href="http://blog.glidenote.com/blog/2012/12/19/octopress-gist-tag-plugin-fixed/"/>
     <updated>2012-12-19T23:03:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/12/19/octopress-gist-tag-plugin-fixed</id>
+    <id>http://blog.glidenote.com/blog/2012/12/19/octopress-gist-tag-plugin-fixed</id>
     <content type="html"><![CDATA[<p><a href="https://github.com/blog/1276-welcome-to-a-new-gist">先日のgistリニューアル</a>以降、
 Octopressに貼ったgist表示の不具合の修正が出ていた。</p>
 
@@ -118,7 +118,7 @@ Octopressに貼ったgist表示の不具合の修正が出ていた。</p>
 不具合に全く気づいておりませんでした!!</p>
 
 <blockquote class="twitter-tweet"><p>@<a href="https://twitter.com/glidenote">glidenote</a> <a href="http://t.co/MNZHleGn" title="http://bit.ly/Xk3Y2a">bit.ly/Xk3Y2a</a> 前にお世話になったエントリ見ようとしたらGistの部分が消えちゃってますね。Gistの仕様変更にOctpressが追い付いてないんでしょうか…</p>&mdash; Hiroyuki Morita (@chiastolite) <a href="https://twitter.com/chiastolite/status/279465595106390016" data-datetime="2012-12-14T05:59:24+00:00">December 14, 2012</a></blockquote>
-<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async="" src="http://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <p>Octopressを利用している人は要修正ですね。</p>
 
@@ -130,9 +130,9 @@ CloudFlareのコンパネからキャッシュをpurgeして不具合も直っ�
   
   <entry>
     <title type="html"><![CDATA[OctopressのRake Previewにthinを利用してプレビューを高速化する]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/10/31/thin-octopress/"/>
+    <link href="http://blog.glidenote.com/blog/2012/10/31/thin-octopress/"/>
     <updated>2012-10-31T22:41:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/10/31/thin-octopress</id>
+    <id>http://blog.glidenote.com/blog/2012/10/31/thin-octopress</id>
     <content type="html"><![CDATA[<p><img src="http://www.oreilly.co.jp/books/images/picture_large978-4-87311-559-7.jpeg" height="172" width="200" align="right" /></p>
 
 <p>社内で<a href="http://www.oreilly.co.jp/books/9784873115597/">入門Sinatra</a>の読書会が開催されていて
@@ -214,9 +214,9 @@ rake preview
   
   <entry>
     <title type="html"><![CDATA[社内LTとvimrc読書会]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/10/30/lt-and-reading-vimrc/"/>
+    <link href="http://blog.glidenote.com/blog/2012/10/30/lt-and-reading-vimrc/"/>
     <updated>2012-10-30T22:22:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/10/30/lt-and-reading-vimrc</id>
+    <id>http://blog.glidenote.com/blog/2012/10/30/lt-and-reading-vimrc</id>
     <content type="html"><![CDATA[<p>先週はビックリするくらい忙しかったせいか金曜の朝からずっと
 体調を崩して、ベッドから出られず週末のイベントがいろいろと参加出来なかった。</p>
 
@@ -229,7 +229,7 @@ rake preview
 参加出来なかったので社内LTは資料だけ公開。せっかくなので外部にも公開
 (いろいろとおかしいところがあるかもしれない）</p>
 
-<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="talk_frame_508a076aa820520002010206" src="https://blog.glidenote.com//speakerdeck.com/embed/508a076aa820520002010206" width="700" height="588"></iframe>
+<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="talk_frame_508a076aa820520002010206" src="http://blog.glidenote.com//speakerdeck.com/embed/508a076aa820520002010206" width="700" height="588"></iframe>
 
 <p>Octopressの不便な点は一切記載せず、良いところだけを見せて布教をしたかったんですが、願い叶わず。</p>
 
@@ -250,9 +250,9 @@ rake preview
   
   <entry>
     <title type="html"><![CDATA[Octopressは_postsの下にディレクトリ切っても記事が生成される]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/06/10/octopress-post-directory/"/>
+    <link href="http://blog.glidenote.com/blog/2012/06/10/octopress-post-directory/"/>
     <updated>2012-06-10T03:26:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/06/10/octopress-post-directory</id>
+    <id>http://blog.glidenote.com/blog/2012/06/10/octopress-post-directory</id>
     <content type="html"><![CDATA[<p>Octopressでブログの記事を書いていると、<code>octopress/source/_posts</code>の下に
 私のブログだと下記のような感じで</p>
 

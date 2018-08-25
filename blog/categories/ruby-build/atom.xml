@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: ruby-build | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/ruby-build/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/ruby-build/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[install rbenv and ruby-build on SL 6.1]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/12/21/install-rbenv-and-ruby-build/"/>
+    <link href="http://blog.glidenote.com/blog/2011/12/21/install-rbenv-and-ruby-build/"/>
     <updated>2011-12-21T15:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/12/21/install-rbenv-and-ruby-build</id>
+    <id>http://blog.glidenote.com/blog/2011/12/21/install-rbenv-and-ruby-build</id>
     <content type="html"><![CDATA[<p>Octopressをいろいろ弄っていて、Ruby環境が必要なので<a href="https://github.com/sstephenson/rbenv">rbenv</a> + <a href="https://github.com/sstephenson/ruby-build">ruby-build</a>を導入。</p>
 
 <p>rbenv + ruby-buildの導入方法についてググるとMacは

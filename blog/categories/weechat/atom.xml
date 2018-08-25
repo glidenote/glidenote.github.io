@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: weechat | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/weechat/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/weechat/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Weegetを利用して、WeeChatのPlugin管理を楽にする]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/02/11/weechat-plugins/"/>
+    <link href="http://blog.glidenote.com/blog/2012/02/11/weechat-plugins/"/>
     <updated>2012-02-11T13:27:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/02/11/weechat-plugins</id>
+    <id>http://blog.glidenote.com/blog/2012/02/11/weechat-plugins</id>
     <content type="html"><![CDATA[<p><img src="http://www.weechat.org/media/images/screenshots/medium/weechat_2009-08-03_kron4eg.png" alt="" /></p>
 
 <p>最近IRCクライアントで<a href="http://limechat.net/">LimeChat</a>を捨てて、<a href="http://www.weechat.org/">WeeChat</a>を使い始めた人が

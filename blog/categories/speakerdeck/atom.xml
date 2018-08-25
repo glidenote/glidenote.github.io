@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: speakerdeck | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/speakerdeck/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/speakerdeck/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Speaker Deckを貼れないサイトにEmbedlyを利用して貼る方法]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/21/speaker-deck/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/21/speaker-deck/"/>
     <updated>2012-04-21T06:30:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/21/speaker-deck</id>
+    <id>http://blog.glidenote.com/blog/2012/04/21/speaker-deck</id>
     <content type="html"><![CDATA[<p>プレゼンの資料を公開するのに今回<a href="http://speakerdeck.com/">Speaker Deck</a>を
 使ってみたのですが、自分のブログに資料を貼ろうとしても上手く表示されず。 
 ちょっと工夫が必要だったのでメモ。</p>
@@ -33,7 +33,7 @@
 <p>Speaker Deck自体で表示されるのは下記のようなscript</p>
 
 <p><code>
-&lt;script async class="speakerdeck-embed" data-id="4f9008a649bc250022016265" data-ratio="1.299492385786802" src="https://blog.glidenote.com//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;
+&lt;script async class="speakerdeck-embed" data-id="4f9008a649bc250022016265" data-ratio="1.299492385786802" src="http://blog.glidenote.com//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;
 </code></p>
 
 <p>上を貼ってもそのまま表示されてプレゼン資料は表示されず。</p>
@@ -59,7 +59,7 @@ CMSが結構あるらしく上手く貼るために別途プラグインが用�
 <p>Embedlyで表示されるiframeを利用した形式</p>
 
 <p><code>
-&lt;iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="presentation_frame_4f9008a649bc250022016265" src="https://blog.glidenote.com//speakerdeck.com/embed/4f9008a649bc250022016265" width="700" height="601"&gt;&lt;/iframe&gt;  
+&lt;iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="presentation_frame_4f9008a649bc250022016265" src="http://blog.glidenote.com//speakerdeck.com/embed/4f9008a649bc250022016265" width="700" height="601"&gt;&lt;/iframe&gt;  
 </code></p>
 
 <p>上を貼るとちゃんと表示されるようになりました。<br />

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: chatops | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/chatops/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/chatops/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ChatOpsでOSのセキュリティアップデートを自動化出来るようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/09/12/chatops-security-update/"/>
+    <link href="http://blog.glidenote.com/blog/2014/09/12/chatops-security-update/"/>
     <updated>2014-09-12T20:03:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/09/12/chatops-security-update</id>
+    <id>http://blog.glidenote.com/blog/2014/09/12/chatops-security-update</id>
     <content type="html"><![CDATA[<p>先日<a href="https://twitter.com/naoya_ito">@naoya_ito</a>さんが<a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">自身のブログ(インフラの継続的デリバリー)</a>で<a href="http://kaizenplatform.in/">KAIZEN platform Inc.</a>のインフラについて書いていたやつの続編的な内容。</p>
 
 <h2 id="tldr">TL;DR</h2>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: gist | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/gist/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/gist/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[gistコマンドが便利だったのでzsh補完関数を書いた]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/09/20/gist-and-gist-zsh-completion/"/>
+    <link href="http://blog.glidenote.com/blog/2013/09/20/gist-and-gist-zsh-completion/"/>
     <updated>2013-09-20T20:05:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/09/20/gist-and-gist-zsh-completion</id>
+    <id>http://blog.glidenote.com/blog/2013/09/20/gist-and-gist-zsh-completion</id>
     <content type="html"><![CDATA[<p><a href="https://gist.github.com/">Gist</a>使ってますか！</p>
 
 <p>普段はmattnさんの<a href="https://github.com/mattn/gist-vim">gist-vim</a>経由でGistにpostしているんですが、
@@ -137,9 +137,9 @@ zsh-completionsを利用していれば、gistコマンドが下記のように�
   
   <entry>
     <title type="html"><![CDATA[Octopressのgist tag pluginが修正されていた]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/12/19/octopress-gist-tag-plugin-fixed/"/>
+    <link href="http://blog.glidenote.com/blog/2012/12/19/octopress-gist-tag-plugin-fixed/"/>
     <updated>2012-12-19T23:03:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/12/19/octopress-gist-tag-plugin-fixed</id>
+    <id>http://blog.glidenote.com/blog/2012/12/19/octopress-gist-tag-plugin-fixed</id>
     <content type="html"><![CDATA[<p><a href="https://github.com/blog/1276-welcome-to-a-new-gist">先日のgistリニューアル</a>以降、
 Octopressに貼ったgist表示の不具合の修正が出ていた。</p>
 
@@ -151,7 +151,7 @@ Octopressに貼ったgist表示の不具合の修正が出ていた。</p>
 不具合に全く気づいておりませんでした!!</p>
 
 <blockquote class="twitter-tweet"><p>@<a href="https://twitter.com/glidenote">glidenote</a> <a href="http://t.co/MNZHleGn" title="http://bit.ly/Xk3Y2a">bit.ly/Xk3Y2a</a> 前にお世話になったエントリ見ようとしたらGistの部分が消えちゃってますね。Gistの仕様変更にOctpressが追い付いてないんでしょうか…</p>&mdash; Hiroyuki Morita (@chiastolite) <a href="https://twitter.com/chiastolite/status/279465595106390016" data-datetime="2012-12-14T05:59:24+00:00">December 14, 2012</a></blockquote>
-<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async="" src="http://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <p>Octopressを利用している人は要修正ですね。</p>
 
@@ -163,9 +163,9 @@ CloudFlareのコンパネからキャッシュをpurgeして不具合も直っ�
   
   <entry>
     <title type="html"><![CDATA[OAuth2認証に対応して新しくなったGist.vimを導入した]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/01/new-gist.vim/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/01/new-gist.vim/"/>
     <updated>2012-04-01T01:23:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/01/new-gist.vim</id>
+    <id>http://blog.glidenote.com/blog/2012/04/01/new-gist.vim</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="http://mattn.kaoriya.net/software/vim/20120331221136.htm">Big Sky :: githubの動作変更で動かなくなっていたGist.vimを修正してリリースした。</a></li>
 </ul>
@@ -249,9 +249,9 @@ chmod 600 ~/.gist-vim
   
   <entry>
     <title type="html"><![CDATA[GistクローンのHesoを導入して試してみた]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/11/16/install-heso/"/>
+    <link href="http://blog.glidenote.com/blog/2011/11/16/install-heso/"/>
     <updated>2011-11-16T23:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/11/16/install-heso</id>
+    <id>http://blog.glidenote.com/blog/2011/11/16/install-heso</id>
     <content type="html"><![CDATA[<p>Gistクローンが社内にあったら便利だなーと思って、探していたら</p>
 
 <ul>
@@ -389,9 +389,9 @@ stderr_logfile=/var/log/%(program_name)s.log</code></pre></noscript></div>
   
   <entry>
     <title type="html"><![CDATA[Gist.vimを導入してGistを便利に活用する]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/11/16/install-gist-vim/"/>
+    <link href="http://blog.glidenote.com/blog/2011/11/16/install-gist-vim/"/>
     <updated>2011-11-16T01:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/11/16/install-gist-vim</id>
+    <id>http://blog.glidenote.com/blog/2011/11/16/install-gist-vim</id>
     <content type="html"><![CDATA[<p><a href="http://octopress.org/">Octopress</a>を利用するようになって、今更ながら<a href="https://gist.github.com/">Gist</a>がめちゃくちゃ便利なことに気づきました。<br />
 今までWordPressを利用していてSyntax highlight系のプラグインを使っては、チマチマコードを載せていたんですが、
 Gistに書いてそれを貼れば、filetypeによって勝手に色分けされるし、<a href="https://github.com/mattn/gist-vim">Gist.vim</a>を使えば、

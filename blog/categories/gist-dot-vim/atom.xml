@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: gist.vim | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/gist-dot-vim/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/gist-dot-vim/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[OAuth2認証に対応して新しくなったGist.vimを導入した]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/01/new-gist.vim/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/01/new-gist.vim/"/>
     <updated>2012-04-01T01:23:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/01/new-gist.vim</id>
+    <id>http://blog.glidenote.com/blog/2012/04/01/new-gist.vim</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="http://mattn.kaoriya.net/software/vim/20120331221136.htm">Big Sky :: githubの動作変更で動かなくなっていたGist.vimを修正してリリースした。</a></li>
 </ul>

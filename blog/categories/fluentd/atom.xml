@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: fluentd | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/fluentd/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/fluentd/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[CloudFrontのログをfluent-plugin-bigqueryを利用してBigQueryに入れるようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery/"/>
+    <link href="http://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery/"/>
     <updated>2014-11-21T14:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery</id>
+    <id>http://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery</id>
     <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
 
 <ul>
@@ -129,9 +129,9 @@
   
   <entry>
     <title type="html"><![CDATA[TAI64N形式のタイムスタンプをparseするFluentdのプラグインfluent-plugin-tai64n_parserを作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/02/13/fluent-plugin-tai64n_parser/"/>
+    <link href="http://blog.glidenote.com/blog/2014/02/13/fluent-plugin-tai64n_parser/"/>
     <updated>2014-02-13T20:16:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/02/13/fluent-plugin-tai64n_parser</id>
+    <id>http://blog.glidenote.com/blog/2014/02/13/fluent-plugin-tai64n_parser</id>
     <content type="html"><![CDATA[<p><strong>追記 2014年2月19日</strong>
 本記事の初投稿後に修正がかなり入っているので、最新の利用方法については<a href="https://github.com/glidenote/fluent-plugin-tai64n_parser">glidenote/fluent-plugin-tai64n_parser</a>を参照ください。</p>
 
@@ -238,9 +238,9 @@ TAI64N形式のタイムスタンプをparseする<code>fluent-plugin-tai64n_par
   
   <entry>
     <title type="html"><![CDATA[td-agentでqueue size exceeds limit]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/01/28/td-agent-queue-size-exceeds-limit/"/>
+    <link href="http://blog.glidenote.com/blog/2014/01/28/td-agent-queue-size-exceeds-limit/"/>
     <updated>2014-01-28T19:58:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/01/28/td-agent-queue-size-exceeds-limit</id>
+    <id>http://blog.glidenote.com/blog/2014/01/28/td-agent-queue-size-exceeds-limit</id>
     <content type="html"><![CDATA[<p>昨年構築してからずっと安定稼働していたfluend(td-agent)が年明けくらいから下記のエラーが出て連日停止してしまって、
 ちょっとハマったのでメモしておく。(ハッキリとした原因は掴めてないですが)</p>
 
@@ -312,9 +312,9 @@ logrotate内で実行している<code>kill -USR1</code>を実行してみると
   
   <entry>
     <title type="html"><![CDATA[FluentdからMongoDBにデータを文字列(string)から数値(integer)に変換して入れる]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/04/08/fluentd-mongodb-integer/"/>
+    <link href="http://blog.glidenote.com/blog/2013/04/08/fluentd-mongodb-integer/"/>
     <updated>2013-04-08T23:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/04/08/fluentd-mongodb-integer</id>
+    <id>http://blog.glidenote.com/blog/2013/04/08/fluentd-mongodb-integer</id>
     <content type="html"><![CDATA[<p>最近ようやく仕事でガッツリFluentdとMongoDBを触るようになってちょっとハマったことが
 あったので誰かの役に立つかも知れないので書いておく。</p>
 
@@ -461,9 +461,9 @@ db.accesslog.aggregate(
   
   <entry>
     <title type="html"><![CDATA[fluentdのformat(正規表現)の作り方について試行錯誤中 #fluentd]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/07/15/fluentd-regex-debug/"/>
+    <link href="http://blog.glidenote.com/blog/2012/07/15/fluentd-regex-debug/"/>
     <updated>2012-07-15T23:59:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/07/15/fluentd-regex-debug</id>
+    <id>http://blog.glidenote.com/blog/2012/07/15/fluentd-regex-debug</id>
     <content type="html"><![CDATA[<p><a href="http://fluentd.org/">Fluentd</a>を触るようになって、いろんなログをfluentdに
 渡すように試行錯誤している最中。</p>
 

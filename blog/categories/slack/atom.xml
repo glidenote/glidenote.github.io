@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: slack | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/slack/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/slack/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Slackのチャンネル移動をキーボードで簡単に出来るようKarabinerのprivate.xmlを書いた]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack/"/>
+    <link href="http://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack/"/>
     <updated>2014-08-06T18:32:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack</id>
+    <id>http://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2014/08/slack-logo.png" alt="" /></p>
 
 <p>仕事で<a href="https://slack.com/">Slack</a>を使っているんですが、

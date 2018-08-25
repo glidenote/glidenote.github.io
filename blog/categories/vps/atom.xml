@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: vps | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/vps/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/vps/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[1時間1円でSSDなVPS(Digital Ocean)にシンガポール リージョンが来ていた]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/02/12/digital-ocean-singapore-region/"/>
+    <link href="http://blog.glidenote.com/blog/2014/02/12/digital-ocean-singapore-region/"/>
     <updated>2014-02-12T20:31:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/02/12/digital-ocean-singapore-region</id>
+    <id>http://blog.glidenote.com/blog/2014/02/12/digital-ocean-singapore-region</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2014/02/digitalocean-logo.png" alt="" /></p>
 
 <ul>
@@ -61,9 +61,9 @@ rtt min/avg/max/mdev = 73.738/75.623/78.060/1.290 ms
   
   <entry>
     <title type="html"><![CDATA[VagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/"/>
+    <link href="http://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/"/>
     <updated>2013-12-05T20:56:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant</id>
+    <id>http://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2013/12/vagrant-digital-ocean.png" alt="" /></p>
 
 <p>今年の初めくらいから個人的な技術検証にはSSDで動作が速く、1時間1円で料金が安いのと
@@ -249,9 +249,9 @@ vagrant destroy
   
   <entry>
     <title type="html"><![CDATA[さくらVPS 2G+Subsonic+Nginxで自分用ストリーミングサーバを構築]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/03/subsonic-nginx/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/03/subsonic-nginx/"/>
     <updated>2012-04-03T01:18:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/03/subsonic-nginx</id>
+    <id>http://blog.glidenote.com/blog/2012/04/03/subsonic-nginx</id>
     <content type="html"><![CDATA[<p>先日契約したさくらVPS 2Gのディスク容量がかなりあるので、自分用のストリーミングサーバを
 <a href="http://www.subsonic.org/pages/index.jsp">subsonic</a>と<a href="http://wiki.nginx.org/Main">nginx</a>で立ててみました。 
 subsonic単体でも良いんですが、同僚の天才<a href="https://twitter.com/#!/hiboma">@hiboma</a>が
@@ -398,9 +398,9 @@ sudo service nginx start
   
   <entry>
     <title type="html"><![CDATA[DynamicDNSを利用し、iptablesとhosts.allowのルールに自宅IPを自動で追加する]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/12/28/dyndns-iptables-hosts.allow/"/>
+    <link href="http://blog.glidenote.com/blog/2011/12/28/dyndns-iptables-hosts.allow/"/>
     <updated>2011-12-28T20:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/12/28/dyndns-iptables-hosts.allow</id>
+    <id>http://blog.glidenote.com/blog/2011/12/28/dyndns-iptables-hosts.allow</id>
     <content type="html"><![CDATA[<p>最近急に自宅のIPがころころ変わるようになって、さくらのVPSでhosts.allowとiptablesで接続元のIP制限をかけてると
 ssh接続出来なくなるので自動でルールが変更になるように対応。環境はCentOS 5.7です</p>
 

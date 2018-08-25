@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: wiki | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/wiki/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/wiki/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Trac WikiをVim上で編集する]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/11/22/edit-trac-wiki-with-vim/"/>
+    <link href="http://blog.glidenote.com/blog/2011/11/22/edit-trac-wiki-with-vim/"/>
     <updated>2011-11-22T11:30:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/11/22/edit-trac-wiki-with-vim</id>
+    <id>http://blog.glidenote.com/blog/2011/11/22/edit-trac-wiki-with-vim</id>
     <content type="html"><![CDATA[<p>社内で利用しているTracをVim上から編集出来たら楽だなーと思ってプラグインを探していたら、
 <a href="http://www.vim.org/scripts/script.php?script_id=2147">VimTrac</a>という、そこそこ良いものがありました。</p>
 

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: cdn | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/cdn/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/cdn/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[CDNをAkamaiに切り替えた]]></title>
-    <link href="https://blog.glidenote.com/blog/2015/08/17/move-to-akamai/"/>
+    <link href="http://blog.glidenote.com/blog/2015/08/17/move-to-akamai/"/>
     <updated>2015-08-17T19:10:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2015/08/17/move-to-akamai</id>
+    <id>http://blog.glidenote.com/blog/2015/08/17/move-to-akamai</id>
     <content type="html"><![CDATA[<p>2ヶ月くらい前にCDNをAkamaiに切り替えたので、知見を公開。 (<strong>追記 2015年8月18日 私個人の認識不足で用語の使い方に問題があったので一部修正しました</strong> <code>s/SLA 100%/高可用性構成/g</code>)</p>
 
 <h2 id="tldr">TL;DR</h2>

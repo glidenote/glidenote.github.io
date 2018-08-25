@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Glide Note]]></title>
-  <link href="https://blog.glidenote.com/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,12 +15,12 @@
   
   <entry>
     <title type="html"><![CDATA[「Docker/Kubernetes 実践コンテナ開発入門」がProduction環境でDockerを運用している人間にも良書だった]]></title>
-    <link href="https://blog.glidenote.com/blog/2018/08/24/docker-kubernetes-book/"/>
+    <link href="http://blog.glidenote.com/blog/2018/08/24/docker-kubernetes-book/"/>
     <updated>2018-08-24T20:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2018/08/24/docker-kubernetes-book</id>
+    <id>http://blog.glidenote.com/blog/2018/08/24/docker-kubernetes-book</id>
     <content type="html"><![CDATA[<ul>
-  <li><a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339">Docker/Kubernetes 実践コンテナ開発入門</a>
-<a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339"><img src="https://images-fe.ssl-images-amazon.com/images/I/51d69eJQMyL.jpg" align="right" /></a></li>
+  <li><a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339">Docker/Kubernetes 実践コンテナ開発入門</a>
+<a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339"><img src="https://images-fe.ssl-images-amazon.com/images/I/51d69eJQMyL.jpg" align="right" /></a></li>
 </ul>
 
 <p>技術評論社様、著者の山田さんからご恵贈いただきましてありがとうございます。</p>
@@ -126,7 +126,7 @@
 
 <ul>
   <li><a href="https://docs.docker.com/">公式ドキュメント</a></li>
-  <li><a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339">Docker/Kubernetes 実践コンテナ開発入門</a></li>
+  <li><a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339">Docker/Kubernetes 実践コンテナ開発入門</a></li>
 </ul>
 
 <p>を読めば、Docker/Kubernetesに関しては十分なのではないかと思う。</p>
@@ -145,9 +145,9 @@
   
   <entry>
     <title type="html"><![CDATA[GoReplayを導入して、Production環境へのリクエストを複製し、Staging環境に転送する仕組みを作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/12/16/goreplay/"/>
+    <link href="http://blog.glidenote.com/blog/2016/12/16/goreplay/"/>
     <updated>2016-12-16T15:25:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/12/16/goreplay</id>
+    <id>http://blog.glidenote.com/blog/2016/12/16/goreplay</id>
     <content type="html"><![CDATA[<p>結構前に作っていたんですが、いろいろと忙しくてブログに書くタイミングを失していたので年末のタイミングで紹介。</p>
 
 <h2 id="tldr">TL;DR</h2>
@@ -292,9 +292,9 @@
   
   <entry>
     <title type="html"><![CDATA[AWS Application Load Balancer + Amazon ECS でDockerのホットデプロイ環境を構築した]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/09/02/alb-ecs-docker-hot-deploy/"/>
+    <link href="http://blog.glidenote.com/blog/2016/09/02/alb-ecs-docker-hot-deploy/"/>
     <updated>2016-09-02T09:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/09/02/alb-ecs-docker-hot-deploy</id>
+    <id>http://blog.glidenote.com/blog/2016/09/02/alb-ecs-docker-hot-deploy</id>
     <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
 
 <ul>
@@ -396,9 +396,9 @@
   
   <entry>
     <title type="html"><![CDATA[Alpine LinuxなDockerイメージにServerspecを実行する環境を作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/08/18/docker-alpine-serverspec-with-circleci/"/>
+    <link href="http://blog.glidenote.com/blog/2016/08/18/docker-alpine-serverspec-with-circleci/"/>
     <updated>2016-08-18T14:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/08/18/docker-alpine-serverspec-with-circleci</id>
+    <id>http://blog.glidenote.com/blog/2016/08/18/docker-alpine-serverspec-with-circleci</id>
     <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
 
 <ul>
@@ -763,9 +763,9 @@ Alpine Linuxについては<a href="https://twitter.com/stormcat24">@stormcat24<
   
   <entry>
     <title type="html"><![CDATA[Mackerelのページを瞬時に開くAlfred Workflowを作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/03/29/alfred-mackerel-page-workflow/"/>
+    <link href="http://blog.glidenote.com/blog/2016/03/29/alfred-mackerel-page-workflow/"/>
     <updated>2016-03-29T13:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/03/29/alfred-mackerel-page-workflow</id>
+    <id>http://blog.glidenote.com/blog/2016/03/29/alfred-mackerel-page-workflow</id>
     <content type="html"><![CDATA[<p><a href="https://mackerel.io/">Mackerel</a>を利用していて、</p>
 
 <ul>
@@ -781,7 +781,7 @@ Alpine Linuxについては<a href="https://twitter.com/stormcat24">@stormcat24<
 </ul>
 
 <p>導入方法や使い方は<a href="https://github.com/glidenote/alfred-mackerel-page-workflow">README</a>を参照ください。
-動作は下記のような感じになります。(サービスとダッシュボードを開く動作はキャプチャに秘匿情報が含まれているので割愛してます <img alt="bow" src="https://blog.glidenote.com/images/emoji/unicode/1f647.png" class="emoji" /> )</p>
+動作は下記のような感じになります。(サービスとダッシュボードを開く動作はキャプチャに秘匿情報が含まれているので割愛してます <img alt="bow" src="http://blog.glidenote.com/images/emoji/unicode/1f647.png" class="emoji" /> )</p>
 
 <p><img src="https://github.com/glidenote/alfred-mackerel-page-workflow/raw/master/images/alfred-mackerel-page-workflow-animation.gif" alt="" /></p>
 
@@ -795,9 +795,9 @@ Alpine Linuxについては<a href="https://twitter.com/stormcat24">@stormcat24<
   
   <entry>
     <title type="html"><![CDATA[最近導入した開発に役立つ便利なステータスバー通知系アプリ3選]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/03/29/notification-apps/"/>
+    <link href="http://blog.glidenote.com/blog/2016/03/29/notification-apps/"/>
     <updated>2016-03-29T12:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/03/29/notification-apps</id>
+    <id>http://blog.glidenote.com/blog/2016/03/29/notification-apps</id>
     <content type="html"><![CDATA[<p>最近追加したステータスバーの通知系アプリで便利なやつを共有。</p>
 
 <h2 id="github-notifications">GitHub Notifications</h2>
@@ -845,11 +845,11 @@ Sensuがアラートを検知した場合、Pagerduty経由で、Slack、メー�
   
   <entry>
     <title type="html"><![CDATA[CircleCIのProjectページの移動が簡単になるAlfred Workflowを作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow/"/>
+    <link href="http://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow/"/>
     <updated>2016-03-03T19:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow</id>
+    <id>http://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow</id>
     <content type="html"><![CDATA[<p>実は<a href="http://qiita.com/advent-calendar/2015/circleci">CircleCI Advent Calendar 2015 - Qiita</a>にエントリするために、
-結構前にAlfred Workflowを作っていたんですが、当時多忙でブログに書くのを忘れていました <img alt="sweat" src="https://blog.glidenote.com/images/emoji/unicode/1f613.png" class="emoji" /></p>
+結構前にAlfred Workflowを作っていたんですが、当時多忙でブログに書くのを忘れていました <img alt="sweat" src="http://blog.glidenote.com/images/emoji/unicode/1f613.png" class="emoji" /></p>
 
 <ul>
   <li><a href="https://github.com/glidenote/alfred-circleci-projects-workflow">glidenote/alfred-circleci-projects-workflow</a></li>
@@ -879,11 +879,11 @@ Sensuがアラートを検知した場合、Pagerduty経由で、Slack、メー�
   
   <entry>
     <title type="html"><![CDATA[「サーバ/インフラエンジニア養成読本 DevOps編」にて[CircleCIによる継続的インテグレーション入門]を執筆しました]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/02/25/infrastructure-engineer-books-devops/"/>
+    <link href="http://blog.glidenote.com/blog/2016/02/25/infrastructure-engineer-books-devops/"/>
     <updated>2016-02-25T19:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/02/25/infrastructure-engineer-books-devops</id>
-    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E9%A4%8A%E6%88%90%E8%AA%AD%E6%9C%AC-DevOps%E7%B7%A8-Infrastructure-%E3%82%92%E5%AE%9F%E8%B7%B5%E3%81%99%E3%82%8B%E3%83%8E%E3%82%A6%E3%83%8F%E3%82%A6%E3%81%8C%E6%BA%80%E8%BC%89-Software/dp/4774179930?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179930"><img src="https://images-fe.ssl-images-amazon.com/images/I/61P3yaTE0qL.jpg" align="right" /></a>
-<a href="https://www.amazon.co.jp/%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E9%A4%8A%E6%88%90%E8%AA%AD%E6%9C%AC-DevOps%E7%B7%A8-Infrastructure-%E3%82%92%E5%AE%9F%E8%B7%B5%E3%81%99%E3%82%8B%E3%83%8E%E3%82%A6%E3%83%8F%E3%82%A6%E3%81%8C%E6%BA%80%E8%BC%89-Software/dp/4774179930?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179930">サーバ/インフラエンジニア養成読本 DevOps編 [Infrastructure as Code を実践するノウハウが満載! ] (Software Design plus)</a></p>
+    <id>http://blog.glidenote.com/blog/2016/02/25/infrastructure-engineer-books-devops</id>
+    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E9%A4%8A%E6%88%90%E8%AA%AD%E6%9C%AC-DevOps%E7%B7%A8-Infrastructure-%E3%82%92%E5%AE%9F%E8%B7%B5%E3%81%99%E3%82%8B%E3%83%8E%E3%82%A6%E3%83%8F%E3%82%A6%E3%81%8C%E6%BA%80%E8%BC%89-Software/dp/4774179930?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179930"><img src="https://images-fe.ssl-images-amazon.com/images/I/61P3yaTE0qL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E9%A4%8A%E6%88%90%E8%AA%AD%E6%9C%AC-DevOps%E7%B7%A8-Infrastructure-%E3%82%92%E5%AE%9F%E8%B7%B5%E3%81%99%E3%82%8B%E3%83%8E%E3%82%A6%E3%83%8F%E3%82%A6%E3%81%8C%E6%BA%80%E8%BC%89-Software/dp/4774179930?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179930">サーバ/インフラエンジニア養成読本 DevOps編 [Infrastructure as Code を実践するノウハウが満載! ] (Software Design plus)</a></p>
 
 <p>2016/02/26 に出版される「サーバ/インフラエンジニア養成読本 DevOps編」というムック本にて、特集「CircleCIによる継続的インテグレーション入門」を執筆しました。</p>
 
@@ -909,7 +909,7 @@ Sensuがアラートを検知した場合、Pagerduty経由で、Slack、メー�
   <li><a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">インフラの継続的デリバリー - naoyaのはてなダイアリー</a></li>
 </ul>
 
-<script async="" class="speakerdeck-embed" data-id="23408aff918a4b0f8483ebf168d5f818" data-ratio="1.33333333333333" src="https://blog.glidenote.com//speakerdeck.com/assets/embed.js"></script>
+<script async="" class="speakerdeck-embed" data-id="23408aff918a4b0f8483ebf168d5f818" data-ratio="1.33333333333333" src="http://blog.glidenote.com//speakerdeck.com/assets/embed.js"></script>
 
 <h2 id="section">既存環境に組み込みやすいように</h2>
 
@@ -1044,7 +1044,7 @@ Sensuがアラートを検知した場合、Pagerduty経由で、Slack、メー�
 <p>余談ですが今回の執筆にあたり、CircleCIにいろいろと問い合わせをしていたところステッカーとTシャツが送られてきて、CircleCIにも感謝です! / Thanks CircleCI !!</p>
 
 <blockquote class="instagram-media" data-instgrm-version="6" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:8px;"> <div style=" background:#F8F8F8; line-height:0; margin-top:40px; padding:50.0% 0; text-align:center; width:100%;"> <div style=" background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAGFBMVEUiIiI9PT0eHh4gIB4hIBkcHBwcHBwcHBydr+JQAAAACHRSTlMABA4YHyQsM5jtaMwAAADfSURBVDjL7ZVBEgMhCAQBAf//42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB/lQPb79drWOyJVa/DAvg9B/rLB4cC+Nqgdz/TvBbBnr6GBReqn/nRmDgaQEej7WhonozjF+Y2I/fZou/qAAAAAElFTkSuQmCC); display:block; height:44px; margin:0 auto -44px; position:relative; top:-22px; width:44px;"></div></div><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/BAzU3cyCw8N/" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A photo posted by Akira Maeda (@glidenote)</a> on <time style=" font-family:Arial,sans-serif; font-size:14px; line-height:17px;" datetime="2016-01-21T12:59:51+00:00">Jan 21, 2016 at 4:59am PST</time></p></div></blockquote>
-<script async="" defer="" src="https://blog.glidenote.com//platform.instagram.com/en_US/embeds.js"></script>
+<script async="" defer="" src="http://blog.glidenote.com//platform.instagram.com/en_US/embeds.js"></script>
 
 <p><br /></p>
 
@@ -1060,11 +1060,11 @@ Sensuがアラートを検知した場合、Pagerduty経由で、Slack、メー�
   
   <entry>
     <title type="html"><![CDATA[Webサービス開発徹底攻略 Vol.2 を読んだ]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/02/16/web-service-development-vol2/"/>
+    <link href="http://blog.glidenote.com/blog/2016/02/16/web-service-development-vol2/"/>
     <updated>2016-02-16T11:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/02/16/web-service-development-vol2</id>
-    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/Web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E9%96%8B%E7%99%BA%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-Vol-2-WEB-PRESS-plus/dp/4774179523?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179523"><img src="https://images-fe.ssl-images-amazon.com/images/I/51F56YOP6dL.jpg" align="right" /></a>
-<a href="https://www.amazon.co.jp/Web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E9%96%8B%E7%99%BA%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-Vol-2-WEB-PRESS-plus/dp/4774179523?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179523">Webサービス開発徹底攻略 Vol.2 (WEB+DB PRESS plus)</a></p>
+    <id>http://blog.glidenote.com/blog/2016/02/16/web-service-development-vol2</id>
+    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/Web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E9%96%8B%E7%99%BA%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-Vol-2-WEB-PRESS-plus/dp/4774179523?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179523"><img src="https://images-fe.ssl-images-amazon.com/images/I/51F56YOP6dL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/Web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E9%96%8B%E7%99%BA%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-Vol-2-WEB-PRESS-plus/dp/4774179523?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179523">Webサービス開発徹底攻略 Vol.2 (WEB+DB PRESS plus)</a></p>
 
 <p>技術評論社様、特別企画「継続的Webサービス改善」執筆陣のGMOペパボのみなさんからご恵贈いただきましてありがとうございます。</p>
 
@@ -1173,9 +1173,9 @@ Sensuがアラートを検知した場合、Pagerduty経由で、Slack、メー�
   
   <entry>
     <title type="html"><![CDATA[Roost Laptop Standで肩こりが解消した]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/02/05/roost/"/>
+    <link href="http://blog.glidenote.com/blog/2016/02/05/roost/"/>
     <updated>2016-02-05T19:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/02/05/roost</id>
+    <id>http://blog.glidenote.com/blog/2016/02/05/roost</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2016/02/roost0.jpg" alt="" /></p>
 
 <ul>
@@ -1185,7 +1185,7 @@ Sensuがアラートを検知した場合、Pagerduty経由で、Slack、メー�
 <p>Kickstarterで注文していた新しいRoost Laptop Standが昨年末に届いて、最近は下のような形で作業している。</p>
 
 <blockquote class="instagram-media" data-instgrm-captioned="" data-instgrm-version="6" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:8px;"> <div style=" background:#F8F8F8; line-height:0; margin-top:40px; padding:50.0% 0; text-align:center; width:100%;"> <div style=" background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAGFBMVEUiIiI9PT0eHh4gIB4hIBkcHBwcHBwcHBydr+JQAAAACHRSTlMABA4YHyQsM5jtaMwAAADfSURBVDjL7ZVBEgMhCAQBAf//42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB/lQPb79drWOyJVa/DAvg9B/rLB4cC+Nqgdz/TvBbBnr6GBReqn/nRmDgaQEej7WhonozjF+Y2I/fZou/qAAAAAElFTkSuQmCC); display:block; height:44px; margin:0 auto -44px; position:relative; top:-22px; width:44px;"></div></div> <p style=" margin:8px 0 0 0; padding:0 4px;"> <a href="https://www.instagram.com/p/_1IWh2Cw47/" style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none; word-wrap:break-word;" target="_blank">2016年に向けた作業環境が整った</a></p> <p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;">A photo posted by Akira Maeda (@glidenote) on <time style=" font-family:Arial,sans-serif; font-size:14px; line-height:17px;" datetime="2015-12-28T09:17:35+00:00">Dec 28, 2015 at 1:17am PST</time></p></div></blockquote>
-<script async="" defer="" src="https://blog.glidenote.com//platform.instagram.com/en_US/embeds.js"></script>
+<script async="" defer="" src="http://blog.glidenote.com//platform.instagram.com/en_US/embeds.js"></script>
 
 <p><br />
 1ヶ月半くらい、この状態で過ごしてみての感想は、</p>
@@ -1215,9 +1215,9 @@ Sensuがアラートを検知した場合、Pagerduty経由で、Slack、メー�
   
   <entry>
     <title type="html"><![CDATA[Let’s Encryptで証明書を作ってみた]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/02/04/lets-encrypt/"/>
+    <link href="http://blog.glidenote.com/blog/2016/02/04/lets-encrypt/"/>
     <updated>2016-02-04T18:18:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/02/04/lets-encrypt</id>
+    <id>http://blog.glidenote.com/blog/2016/02/04/lets-encrypt</id>
     <content type="html"><![CDATA[<p>社内向けのリバースプロキシを構築中に、まだ証明書を用意していないドメインで、Let’s Encryptを試す機会があったのでメモ。</p>
 
 <p>去年アメリカに行ったタイミングから完全にブログ書く習慣がなくなってしまったので、リハビリも兼ねて。</p>
@@ -1470,9 +1470,9 @@ Sensuがアラートを検知した場合、Pagerduty経由で、Slack、メー�
   
   <entry>
     <title type="html"><![CDATA[ChatOps + NightmareでメトリクスグラフとBIレポートをSlackに投げるようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2015/10/01/nightmare-screenshots/"/>
+    <link href="http://blog.glidenote.com/blog/2015/10/01/nightmare-screenshots/"/>
     <updated>2015-10-01T20:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2015/10/01/nightmare-screenshots</id>
+    <id>http://blog.glidenote.com/blog/2015/10/01/nightmare-screenshots</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2015/09/nightmare_0.png" alt="" /></p>
 
 <ul>
@@ -1675,16 +1675,16 @@ Sensuがアラートを検知した場合、Pagerduty経由で、Slack、メー�
 
 <p>私が悪戦苦闘しているのを横目に、技術顧問が寿司情報を収集するのにサラッと使いこなしていた有益プレゼン死霊</p>
 
-<script async="" class="speakerdeck-embed" data-id="23356e934da04f499b8fe0f7c1f87299" data-ratio="1.33333333333333" src="https://blog.glidenote.com//speakerdeck.com/assets/embed.js"></script>
+<script async="" class="speakerdeck-embed" data-id="23356e934da04f499b8fe0f7c1f87299" data-ratio="1.33333333333333" src="http://blog.glidenote.com//speakerdeck.com/assets/embed.js"></script>
 
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[CDNをAkamaiに切り替えた]]></title>
-    <link href="https://blog.glidenote.com/blog/2015/08/17/move-to-akamai/"/>
+    <link href="http://blog.glidenote.com/blog/2015/08/17/move-to-akamai/"/>
     <updated>2015-08-17T19:10:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2015/08/17/move-to-akamai</id>
+    <id>http://blog.glidenote.com/blog/2015/08/17/move-to-akamai</id>
     <content type="html"><![CDATA[<p>2ヶ月くらい前にCDNをAkamaiに切り替えたので、知見を公開。 (<strong>追記 2015年8月18日 私個人の認識不足で用語の使い方に問題があったので一部修正しました</strong> <code>s/SLA 100%/高可用性構成/g</code>)</p>
 
 <h2 id="tldr">TL;DR</h2>
@@ -1804,11 +1804,11 @@ CDNの可用性はインフラエンジニア的にかなり頭の痛い問題�
   
   <entry>
     <title type="html"><![CDATA[「Amazon Web Services パターン別構築・運用ガイド」が良かった]]></title>
-    <link href="https://blog.glidenote.com/blog/2015/05/21/amazon-web-services-books/"/>
+    <link href="http://blog.glidenote.com/blog/2015/05/21/amazon-web-services-books/"/>
     <updated>2015-05-21T20:16:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2015/05/21/amazon-web-services-books</id>
-    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/Amazon-Web-Services-%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E5%88%A5%E6%A7%8B%E7%AF%89%E3%83%BB%E9%81%8B%E7%94%A8%E3%82%AC%E3%82%A4%E3%83%89-%E4%B8%80%E7%95%AA%E5%A4%A7%E5%88%87%E3%81%AA%E7%9F%A5%E8%AD%98%E3%81%A8%E6%8A%80%E8%A1%93%E3%81%8C%E8%BA%AB%E3%81%AB%E3%81%A4%E3%81%8F/dp/4797382570?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4797382570"><img src="https://images-fe.ssl-images-amazon.com/images/I/61Kzd4gqkYL.jpg" align="right" /></a>
-<a href="https://www.amazon.co.jp/Amazon-Web-Services-%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E5%88%A5%E6%A7%8B%E7%AF%89%E3%83%BB%E9%81%8B%E7%94%A8%E3%82%AC%E3%82%A4%E3%83%89-%E4%B8%80%E7%95%AA%E5%A4%A7%E5%88%87%E3%81%AA%E7%9F%A5%E8%AD%98%E3%81%A8%E6%8A%80%E8%A1%93%E3%81%8C%E8%BA%AB%E3%81%AB%E3%81%A4%E3%81%8F/dp/4797382570?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4797382570">Amazon Web Services パターン別構築・運用ガイド 一番大切な知識と技術が身につく</a></p>
+    <id>http://blog.glidenote.com/blog/2015/05/21/amazon-web-services-books</id>
+    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/Amazon-Web-Services-%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E5%88%A5%E6%A7%8B%E7%AF%89%E3%83%BB%E9%81%8B%E7%94%A8%E3%82%AC%E3%82%A4%E3%83%89-%E4%B8%80%E7%95%AA%E5%A4%A7%E5%88%87%E3%81%AA%E7%9F%A5%E8%AD%98%E3%81%A8%E6%8A%80%E8%A1%93%E3%81%8C%E8%BA%AB%E3%81%AB%E3%81%A4%E3%81%8F/dp/4797382570?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4797382570"><img src="https://images-fe.ssl-images-amazon.com/images/I/61Kzd4gqkYL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/Amazon-Web-Services-%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E5%88%A5%E6%A7%8B%E7%AF%89%E3%83%BB%E9%81%8B%E7%94%A8%E3%82%AC%E3%82%A4%E3%83%89-%E4%B8%80%E7%95%AA%E5%A4%A7%E5%88%87%E3%81%AA%E7%9F%A5%E8%AD%98%E3%81%A8%E6%8A%80%E8%A1%93%E3%81%8C%E8%BA%AB%E3%81%AB%E3%81%A4%E3%81%8F/dp/4797382570?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4797382570">Amazon Web Services パターン別構築・運用ガイド 一番大切な知識と技術が身につく</a></p>
 
 <p>発売日に買っていたんですが、多忙で感想を書くのを忘れていた。。</p>
 
@@ -2114,9 +2114,9 @@ Kindle版を購入したんですが、ページが画像として処理され�
   
   <entry>
     <title type="html"><![CDATA[Terraform + GitHub + CircleCI + Atlasを利用してAWSの操作を自動化した]]></title>
-    <link href="https://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws/"/>
+    <link href="http://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws/"/>
     <updated>2015-02-18T19:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws</id>
+    <id>http://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws</id>
     <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
 
 <ul>
@@ -2284,11 +2284,11 @@ CI実行時に生成している。</p>
   
   <entry>
     <title type="html"><![CDATA[Serverspec本を読んで、先鋭化されつつあるWeb系インフラエンジニアを知る]]></title>
-    <link href="https://blog.glidenote.com/blog/2015/01/22/serverspec-book/"/>
+    <link href="http://blog.glidenote.com/blog/2015/01/22/serverspec-book/"/>
     <updated>2015-01-22T17:46:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2015/01/22/serverspec-book</id>
-    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/Serverspec-%E5%AE%AE%E4%B8%8B-%E5%89%9B%E8%BC%94/dp/4873117097?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4873117097"><img src="https://images-fe.ssl-images-amazon.com/images/I/51P6qVOPALL.jpg" align="right" /></a>
-<a href="https://www.amazon.co.jp/Serverspec-%E5%AE%AE%E4%B8%8B-%E5%89%9B%E8%BC%94/dp/4873117097?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4873117097">Serverspec</a></p>
+    <id>http://blog.glidenote.com/blog/2015/01/22/serverspec-book</id>
+    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/Serverspec-%E5%AE%AE%E4%B8%8B-%E5%89%9B%E8%BC%94/dp/4873117097?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4873117097"><img src="https://images-fe.ssl-images-amazon.com/images/I/51P6qVOPALL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/Serverspec-%E5%AE%AE%E4%B8%8B-%E5%89%9B%E8%BC%94/dp/4873117097?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4873117097">Serverspec</a></p>
 
 <p>Serverspecを執筆された<a href="https://twitter.com/gosukenator">mizzyさん</a>からご恵贈頂きました。ありがとうございます。</p>
 
@@ -2391,9 +2391,9 @@ Serverspecは導入され、インフラエンジニアのyoshiakisudo、<a href
   
   <entry>
     <title type="html"><![CDATA[監視アーキテクチャ(Sensu,Pingdom,Mackerel,StatusPage.io,PagerDuty)についてまとめてみる(2014年12月版)]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014/"/>
+    <link href="http://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014/"/>
     <updated>2014-12-03T19:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014</id>
+    <id>http://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014</id>
     <content type="html"><![CDATA[<p><a href="http://qiita.com/advent-calendar/2014/sensu">Sensu Advent Calendar</a>に便乗して、<a href="https://kaizenplatform.com/">Kaizen Platform, Inc.</a>の2014年12月現在の監視アーキテクチャの話をちょっとしてみようと思う。</p>
 
 <p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent00.png" alt="" /></p>
@@ -2502,7 +2502,7 @@ Serverspecは導入され、インフラエンジニアのyoshiakisudo、<a href
 
 <p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent07.png" alt="" /></p>
 
-<script async="" class="speakerdeck-embed" data-id="617b55a011990132168932d3f2247bb6" data-ratio="1.33333333333333" src="https://blog.glidenote.com//speakerdeck.com/assets/embed.js"></script>
+<script async="" class="speakerdeck-embed" data-id="617b55a011990132168932d3f2247bb6" data-ratio="1.33333333333333" src="http://blog.glidenote.com//speakerdeck.com/assets/embed.js"></script>
 
 <p>来年にはガラッと変わっているかもしれないけど、各コンポーネントがAPIで疎結合化されているのでアーキテクチャの変更も容易。</p>
 
@@ -2512,9 +2512,9 @@ Serverspecは導入され、インフラエンジニアのyoshiakisudo、<a href
   
   <entry>
     <title type="html"><![CDATA[ncコマンドでファイル転送するときにpvコマンドで進捗を表示する]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv/"/>
+    <link href="http://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv/"/>
     <updated>2014-12-02T10:50:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv</id>
+    <id>http://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv</id>
     <content type="html"><![CDATA[<p>ファイルを送受信するときに暗号化する必要が無い場合は
 高速なので<code>nc</code>コマンドを多用しているんですが、進捗表示の方法を毎回忘れてググっているので自分用にメモ。</p>
 
@@ -2550,9 +2550,9 @@ Serverspecは導入され、インフラエンジニアのyoshiakisudo、<a href
   
   <entry>
     <title type="html"><![CDATA[CloudFrontのログをfluent-plugin-bigqueryを利用してBigQueryに入れるようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery/"/>
+    <link href="http://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery/"/>
     <updated>2014-11-21T14:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery</id>
+    <id>http://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery</id>
     <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
 
 <ul>
@@ -2696,9 +2696,9 @@ Serverspecは導入され、インフラエンジニアのyoshiakisudo、<a href
   
   <entry>
     <title type="html"><![CDATA[S3 Event NotificasionsをAmazon SQSで受け取る]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions/"/>
+    <link href="http://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions/"/>
     <updated>2014-11-21T11:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions</id>
+    <id>http://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions</id>
     <content type="html"><![CDATA[<p>最近やっている仕事で先日発表された<a href="http://aws.typepad.com/aws_japan/2014/11/s3-event-notification.html">S3 Event Notifications</a>が利用出来そうな感じがしたのでちょっと調査。
 S3にファイルがアップされたらAmazon SQSで通知を受け取るようにしてみた。</p>
 

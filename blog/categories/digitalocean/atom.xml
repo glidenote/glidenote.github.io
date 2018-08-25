@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: digitalocean | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/digitalocean/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/digitalocean/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[1時間1円でSSDなVPS(Digital Ocean)にシンガポール リージョンが来ていた]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/02/12/digital-ocean-singapore-region/"/>
+    <link href="http://blog.glidenote.com/blog/2014/02/12/digital-ocean-singapore-region/"/>
     <updated>2014-02-12T20:31:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/02/12/digital-ocean-singapore-region</id>
+    <id>http://blog.glidenote.com/blog/2014/02/12/digital-ocean-singapore-region</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2014/02/digitalocean-logo.png" alt="" /></p>
 
 <ul>
@@ -61,9 +61,9 @@ rtt min/avg/max/mdev = 73.738/75.623/78.060/1.290 ms
   
   <entry>
     <title type="html"><![CDATA[MacからVagrantコマンド一発でSSDなVPS(DigitalOcean)上にCentOS6.5+Docker環境を構築する]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/12/20/vagrant-docker-digitalocean/"/>
+    <link href="http://blog.glidenote.com/blog/2013/12/20/vagrant-docker-digitalocean/"/>
     <updated>2013-12-20T13:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/12/20/vagrant-docker-digitalocean</id>
+    <id>http://blog.glidenote.com/blog/2013/12/20/vagrant-docker-digitalocean</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2013/12/vagrant-docker-digital-ocean.png" alt="" /></p>
 
 <p>前回の<a href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/">VagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する - Glide Note - グライドノート</a><a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/"><img src="http://b.hatena.ne.jp/entry/image/https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/" /></a>の続き。</p>
@@ -205,9 +205,9 @@ vagrant destroy
   
   <entry>
     <title type="html"><![CDATA[VagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/"/>
+    <link href="http://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/"/>
     <updated>2013-12-05T20:56:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant</id>
+    <id>http://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2013/12/vagrant-digital-ocean.png" alt="" /></p>
 
 <p>今年の初めくらいから個人的な技術検証にはSSDで動作が速く、1時間1円で料金が安いのと

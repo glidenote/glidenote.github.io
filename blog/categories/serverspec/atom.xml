@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Serverspec | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/serverspec/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/serverspec/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[vim-quickrunでServerspecをカーソル行単位でテストして編集効率を10倍にする]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/06/19/quickrun-serverspec/"/>
+    <link href="http://blog.glidenote.com/blog/2014/06/19/quickrun-serverspec/"/>
     <updated>2014-06-19T18:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/06/19/quickrun-serverspec</id>
+    <id>http://blog.glidenote.com/blog/2014/06/19/quickrun-serverspec</id>
     <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2014/06/17/serverspec-snippets/">Serverspecが超高速で書けるserverspec-snippetsを作った</a>の続き。</p>
 
 <p>超高速で<a href="http://serverspec.org/">Serverspec</a>が書けるようになったので、

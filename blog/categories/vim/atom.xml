@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: vim | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/vim/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/vim/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Roadworkerとdirenvを使ってRoute53のDNSレコードを管理する & Roadworker用にVimプラグインとZsh補完関数も作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv/"/>
+    <link href="http://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv/"/>
     <updated>2014-07-09T22:30:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv</id>
+    <id>http://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv</id>
     <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
 
 <ul>
@@ -182,9 +182,9 @@ direnvの方が他のツールと組み合わせやすくて便利な気がす�
   
   <entry>
     <title type="html"><![CDATA[vim-quickrunでServerspecをカーソル行単位でテストして編集効率を10倍にする]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/06/19/quickrun-serverspec/"/>
+    <link href="http://blog.glidenote.com/blog/2014/06/19/quickrun-serverspec/"/>
     <updated>2014-06-19T18:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/06/19/quickrun-serverspec</id>
+    <id>http://blog.glidenote.com/blog/2014/06/19/quickrun-serverspec</id>
     <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2014/06/17/serverspec-snippets/">Serverspecが超高速で書けるserverspec-snippetsを作った</a>の続き。</p>
 
 <p>超高速で<a href="http://serverspec.org/">Serverspec</a>が書けるようになったので、
@@ -219,9 +219,9 @@ Serverspecを書きながらカーソル行だけテストを回せるように�
   
   <entry>
     <title type="html"><![CDATA[Serverspecが超高速で書けるserverspec-snippetsを作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/06/17/serverspec-snippets/"/>
+    <link href="http://blog.glidenote.com/blog/2014/06/17/serverspec-snippets/"/>
     <updated>2014-06-17T20:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/06/17/serverspec-snippets</id>
+    <id>http://blog.glidenote.com/blog/2014/06/17/serverspec-snippets</id>
     <content type="html"><![CDATA[<p><a href="http://serverspec.org/">Serverspec</a>書いてますか！</p>
 
 <p>Serverspecが超高速で書けるようにsnippetsを作成しました。(本当は私がResource Typesを全く覚えられないので作成しただけなんですが)</p>
@@ -256,9 +256,9 @@ filetypeを<code>ruby.serverspec</code>へと自動指定は出来るんです�
   
   <entry>
     <title type="html"><![CDATA[bundle openでVimfilerやCtrlP.vimやFuzzyFinderを起動する]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/05/29/bundle-open-with-vimfiler/"/>
+    <link href="http://blog.glidenote.com/blog/2014/05/29/bundle-open-with-vimfiler/"/>
     <updated>2014-05-29T13:30:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/05/29/bundle-open-with-vimfiler</id>
+    <id>http://blog.glidenote.com/blog/2014/05/29/bundle-open-with-vimfiler</id>
     <content type="html"><![CDATA[<p>今朝社内IRCで<a href="https://twitter.com/hsbt">@hsbt</a>さんと<a href="https://twitter.com/udzura">@udzuraさん</a>が
 <a href="https://gist.github.com/kakutani/43b9f42197ab002fcdf8">IdobataのGemfile</a>の話をしていて、</p>
 
@@ -318,9 +318,9 @@ bundle open gemname
   
   <entry>
     <title type="html"><![CDATA[rubocop+syntasticでRubyのコーディングルールへの準拠チェックを自動化する]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/05/28/vim-rubocop/"/>
+    <link href="http://blog.glidenote.com/blog/2014/05/28/vim-rubocop/"/>
     <updated>2014-05-28T10:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/05/28/vim-rubocop</id>
+    <id>http://blog.glidenote.com/blog/2014/05/28/vim-rubocop</id>
     <content type="html"><![CDATA[<p>sensuのプラグイン書いてて、<a href="https://github.com/sensu/sensu-community-plugins#rubocop-linting">sensu/sensu-community-plugins</a>を見ていたら
 <a href="https://github.com/bbatsov/rubocop">rubocop</a>でlintかけろ的な事が書いて、導入して使ってみたら便利だったのでメモ。</p>
 

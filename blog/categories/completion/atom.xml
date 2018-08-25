@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: completion | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/completion/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/completion/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[githubのhubコマンドを補完するzsh補完関数を作ってみた]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/02/25/hub-zsh-completion/"/>
+    <link href="http://blog.glidenote.com/blog/2012/02/25/hub-zsh-completion/"/>
     <updated>2012-02-25T03:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/02/25/hub-zsh-completion</id>
+    <id>http://blog.glidenote.com/blog/2012/02/25/hub-zsh-completion</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="https://github.com/defunkt/hub">defunkt/hub - GitHub</a></li>
 </ul>
@@ -136,9 +136,9 @@ pull-request        -- opens a pull request on GitHub for the project that the '
   
   <entry>
     <title type="html"><![CDATA[Rudixのzsh補完関数を作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/02/23/rudix-zsh-completion/"/>
+    <link href="http://blog.glidenote.com/blog/2012/02/23/rudix-zsh-completion/"/>
     <updated>2012-02-23T02:25:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/02/23/rudix-zsh-completion</id>
+    <id>http://blog.glidenote.com/blog/2012/02/23/rudix-zsh-completion</id>
     <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2011/12/29/rudix-on-mac/">以前紹介したMacのパッケージ管理ソフト Rudix</a>のzsh補完関数を作ってみました。<br />
 zsh補完関数は初めて書いたんですが、ウェブに情報が少なくて、
 <a href="https://github.com/mizzy/maglica/blob/master/misc/zsh/functions/_maglica">mizzyさんの書いた補完関数</a>

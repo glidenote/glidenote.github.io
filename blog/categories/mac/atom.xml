@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: mac | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/mac/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/mac/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ncコマンドでファイル転送するときにpvコマンドで進捗を表示する]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv/"/>
+    <link href="http://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv/"/>
     <updated>2014-12-02T10:50:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv</id>
+    <id>http://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv</id>
     <content type="html"><![CDATA[<p>ファイルを送受信するときに暗号化する必要が無い場合は
 高速なので<code>nc</code>コマンドを多用しているんですが、進捗表示の方法を毎回忘れてググっているので自分用にメモ。</p>
 
@@ -53,9 +53,9 @@ nc foobar.com 3000 | pv &gt; hogemoge.zip
   
   <entry>
     <title type="html"><![CDATA[Homebrewで入れたgit,zshを優先的に利用する]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/04/20/change-command-path-priority/"/>
+    <link href="http://blog.glidenote.com/blog/2014/04/20/change-command-path-priority/"/>
     <updated>2014-04-20T10:27:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/04/20/change-command-path-priority</id>
+    <id>http://blog.glidenote.com/blog/2014/04/20/change-command-path-priority</id>
     <content type="html"><![CDATA[<p>ちょっと前に会社のMacを入れ替えて、Homebrewで最新の<code>git</code>や<code>zsh</code>などを導入したのに
 最初から入っているシステムの<code>git</code>、<code>zsh</code>が優先的に利用されていることに気づいて、
 この設定、数年おきにしていて、いつも忘れるのでメモ。(2回ググったらブログに書く)</p>
@@ -97,9 +97,9 @@ git version 1.9.2
   
   <entry>
     <title type="html"><![CDATA[ssh接続したリモートサーバの出力を手元Macのクリップボードに送る]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/02/22/remote-pbcopy/"/>
+    <link href="http://blog.glidenote.com/blog/2014/02/22/remote-pbcopy/"/>
     <updated>2014-02-22T21:27:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/02/22/remote-pbcopy</id>
+    <id>http://blog.glidenote.com/blog/2014/02/22/remote-pbcopy</id>
     <content type="html"><![CDATA[<p>今までsshしたリモートサーバ上でコマンド実行したときの結果出力とかは、
 tmuxのコピーモードとかを駆使して、Macのクリップボードに送ってたんですが
 もっと手軽に出来る方法があったのでGitHubにまとめてみた。</p>
@@ -308,9 +308,9 @@ echo "hello" | nc -c 127.0.0.1 2224
   
   <entry>
     <title type="html"><![CDATA[新卒研修でtmuxの話をした]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/07/17/learngin-tmux/"/>
+    <link href="http://blog.glidenote.com/blog/2013/07/17/learngin-tmux/"/>
     <updated>2013-07-17T16:12:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/07/17/learngin-tmux</id>
+    <id>http://blog.glidenote.com/blog/2013/07/17/learngin-tmux</id>
     <content type="html"><![CDATA[<p>新卒研修をした。 
 インフラ関連の話は、他のインフラメンバーが散々していたと思うので、
 趣向を変えて私はターミナルマルチプレクサの話(といいつつtmuxだけ)の話を。</p>
@@ -326,9 +326,9 @@ echo "hello" | nc -c 127.0.0.1 2224
   
   <entry>
     <title type="html"><![CDATA[TotalTerminalとiTerm2のカラースキーマをSolarizedにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/04/22/terminal-solarized/"/>
+    <link href="http://blog.glidenote.com/blog/2013/04/22/terminal-solarized/"/>
     <updated>2013-04-22T20:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/04/22/terminal-solarized</id>
+    <id>http://blog.glidenote.com/blog/2013/04/22/terminal-solarized</id>
     <content type="html"><![CDATA[<p><a href="http://totalterminal.binaryage.com/">TotalTerminal</a>というかTerminal.app上でコピペをすると改行が無くなる問題が結構発生して
 いろいろ調べて見たんですが、原因の特定も解決方法も分からなかったので、<a href="http://www.iterm2.com/#/section/home">iTerm2</a>に切り替え中。</p>
 

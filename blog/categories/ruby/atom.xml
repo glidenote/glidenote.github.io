@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: ruby | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/ruby/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[bundle openでVimfilerやCtrlP.vimやFuzzyFinderを起動する]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/05/29/bundle-open-with-vimfiler/"/>
+    <link href="http://blog.glidenote.com/blog/2014/05/29/bundle-open-with-vimfiler/"/>
     <updated>2014-05-29T13:30:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/05/29/bundle-open-with-vimfiler</id>
+    <id>http://blog.glidenote.com/blog/2014/05/29/bundle-open-with-vimfiler</id>
     <content type="html"><![CDATA[<p>今朝社内IRCで<a href="https://twitter.com/hsbt">@hsbt</a>さんと<a href="https://twitter.com/udzura">@udzuraさん</a>が
 <a href="https://gist.github.com/kakutani/43b9f42197ab002fcdf8">IdobataのGemfile</a>の話をしていて、</p>
 
@@ -77,9 +77,9 @@ bundle open gemname
   
   <entry>
     <title type="html"><![CDATA[rubocop+syntasticでRubyのコーディングルールへの準拠チェックを自動化する]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/05/28/vim-rubocop/"/>
+    <link href="http://blog.glidenote.com/blog/2014/05/28/vim-rubocop/"/>
     <updated>2014-05-28T10:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/05/28/vim-rubocop</id>
+    <id>http://blog.glidenote.com/blog/2014/05/28/vim-rubocop</id>
     <content type="html"><![CDATA[<p>sensuのプラグイン書いてて、<a href="https://github.com/sensu/sensu-community-plugins#rubocop-linting">sensu/sensu-community-plugins</a>を見ていたら
 <a href="https://github.com/bbatsov/rubocop">rubocop</a>でlintかけろ的な事が書いて、導入して使ってみたら便利だったのでメモ。</p>
 
@@ -181,9 +181,9 @@ let g:syntastic_ruby_checkers = ['rubocop']
   
   <entry>
     <title type="html"><![CDATA[dotenvを利用して環境ごとでVagrantfileの設定値を変更してみる]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/02/26/vagrant-dotenv/"/>
+    <link href="http://blog.glidenote.com/blog/2014/02/26/vagrant-dotenv/"/>
     <updated>2014-02-26T14:40:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/02/26/vagrant-dotenv</id>
+    <id>http://blog.glidenote.com/blog/2014/02/26/vagrant-dotenv</id>
     <content type="html"><![CDATA[<p><a href="https://twitter.com/deeeet">tcnksm</a>さんのブログを見てて</p>
 
 <ul>
@@ -193,7 +193,7 @@ let g:syntastic_ruby_checkers = ['rubocop']
 <p>おー、便利そうと眺めていたら<a href="http://rubygems.org/gems/dotenv">dotenv</a>で実現出来るとのやりとりを目撃。</p>
 
 <blockquote class="twitter-tweet" lang="ja"><p><a href="https://twitter.com/gongoZ">@gongoZ</a> 初めまして！作ったやつです！Dotenv知りませんでした，Dotenvで事足りますね！恥ずかしい感じです！ありがとうござます！</p>&mdash; tcnksm (@deeeet) <a href="https://twitter.com/deeeet/statuses/438463133875576832">2014, 2月 25</a></blockquote>
-<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async="" src="http://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <p>私も<a href="http://rubygems.org/gems/dotenv">dotenv</a>を知らなかったので、Vagrant+dotenvがどんな感じで使えるのかやってみた。</p>
 
@@ -272,9 +272,9 @@ vagrant up --provider=digital_ocean
   
   <entry>
     <title type="html"><![CDATA[`gem install`で入れた`hub`が遅い話]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/07/29/gem-install-hub-is-slow/"/>
+    <link href="http://blog.glidenote.com/blog/2013/07/29/gem-install-hub-is-slow/"/>
     <updated>2013-07-29T20:41:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/07/29/gem-install-hub-is-slow</id>
+    <id>http://blog.glidenote.com/blog/2013/07/29/gem-install-hub-is-slow</id>
     <content type="html"><![CDATA[<p>ちゃんとマニュアル読んでれば「何を今さら」という感じなんですが、
 hubコマンドについて、ちょっと調べ物をして、<a href="https://github.com/github/hub#rubygems">README</a>読んでたら</p>
 
@@ -374,9 +374,9 @@ time /usr/local/bin/hub –version &gt; /dev/null
   
   <entry>
     <title type="html"><![CDATA[rbenvの管理にpuppet-rbenvを使うようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/07/10/puppet-rbenv/"/>
+    <link href="http://blog.glidenote.com/blog/2013/07/10/puppet-rbenv/"/>
     <updated>2013-07-10T21:50:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/07/10/puppet-rbenv</id>
+    <id>http://blog.glidenote.com/blog/2013/07/10/puppet-rbenv</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="https://github.com/alup/puppet-rbenv">alup/puppet-rbenv</a></li>
 </ul>

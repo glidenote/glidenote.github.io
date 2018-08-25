@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: vagrant | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/vagrant/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/vagrant/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ソフトウェアの自前ビルド環境をVagrantで管理する]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/06/09/vagrant-build-nginx/"/>
+    <link href="http://blog.glidenote.com/blog/2014/06/09/vagrant-build-nginx/"/>
     <updated>2014-06-09T22:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/06/09/vagrant-build-nginx</id>
+    <id>http://blog.glidenote.com/blog/2014/06/09/vagrant-build-nginx</id>
     <content type="html"><![CDATA[<p>ここ1年くらい自分が担当しているサービスで使ってるNginxとか自前ビルドが必要なソフトは
 RPMを作らずビルドサーバでビルドしたバイナリをpuppetで管理して、
 プロダクション環境にはpuppetやらデプロイツールなりで、バイナリ差し替え配布している。
@@ -146,9 +146,9 @@ Vagrant使うと大変便利という話。</p>
   
   <entry>
     <title type="html"><![CDATA[dotenvを利用して環境ごとでVagrantfileの設定値を変更してみる]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/02/26/vagrant-dotenv/"/>
+    <link href="http://blog.glidenote.com/blog/2014/02/26/vagrant-dotenv/"/>
     <updated>2014-02-26T14:40:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/02/26/vagrant-dotenv</id>
+    <id>http://blog.glidenote.com/blog/2014/02/26/vagrant-dotenv</id>
     <content type="html"><![CDATA[<p><a href="https://twitter.com/deeeet">tcnksm</a>さんのブログを見てて</p>
 
 <ul>
@@ -158,7 +158,7 @@ Vagrant使うと大変便利という話。</p>
 <p>おー、便利そうと眺めていたら<a href="http://rubygems.org/gems/dotenv">dotenv</a>で実現出来るとのやりとりを目撃。</p>
 
 <blockquote class="twitter-tweet" lang="ja"><p><a href="https://twitter.com/gongoZ">@gongoZ</a> 初めまして！作ったやつです！Dotenv知りませんでした，Dotenvで事足りますね！恥ずかしい感じです！ありがとうござます！</p>&mdash; tcnksm (@deeeet) <a href="https://twitter.com/deeeet/statuses/438463133875576832">2014, 2月 25</a></blockquote>
-<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async="" src="http://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <p>私も<a href="http://rubygems.org/gems/dotenv">dotenv</a>を知らなかったので、Vagrant+dotenvがどんな感じで使えるのかやってみた。</p>
 
@@ -237,9 +237,9 @@ vagrant up --provider=digital_ocean
   
   <entry>
     <title type="html"><![CDATA[MacからVagrantコマンド一発でSSDなVPS(DigitalOcean)上にCentOS6.5+Docker環境を構築する]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/12/20/vagrant-docker-digitalocean/"/>
+    <link href="http://blog.glidenote.com/blog/2013/12/20/vagrant-docker-digitalocean/"/>
     <updated>2013-12-20T13:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/12/20/vagrant-docker-digitalocean</id>
+    <id>http://blog.glidenote.com/blog/2013/12/20/vagrant-docker-digitalocean</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2013/12/vagrant-docker-digital-ocean.png" alt="" /></p>
 
 <p>前回の<a href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/">VagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する - Glide Note - グライドノート</a><a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/"><img src="http://b.hatena.ne.jp/entry/image/https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/" /></a>の続き。</p>
@@ -381,9 +381,9 @@ vagrant destroy
   
   <entry>
     <title type="html"><![CDATA[VagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/"/>
+    <link href="http://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/"/>
     <updated>2013-12-05T20:56:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant</id>
+    <id>http://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2013/12/vagrant-digital-ocean.png" alt="" /></p>
 
 <p>今年の初めくらいから個人的な技術検証にはSSDで動作が速く、1時間1円で料金が安いのと

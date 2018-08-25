@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: goreplay | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/goreplay/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/goreplay/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[GoReplayを導入して、Production環境へのリクエストを複製し、Staging環境に転送する仕組みを作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/12/16/goreplay/"/>
+    <link href="http://blog.glidenote.com/blog/2016/12/16/goreplay/"/>
     <updated>2016-12-16T15:25:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/12/16/goreplay</id>
+    <id>http://blog.glidenote.com/blog/2016/12/16/goreplay</id>
     <content type="html"><![CDATA[<p>結構前に作っていたんですが、いろいろと忙しくてブログに書くタイミングを失していたので年末のタイミングで紹介。</p>
 
 <h2 id="tldr">TL;DR</h2>

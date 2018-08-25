@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: growthforecast | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/growthforecast/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/growthforecast/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[GrowthForecast導入&Supervisorで起動を管理]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor/"/>
+    <link href="http://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor/"/>
     <updated>2012-07-05T00:37:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor</id>
+    <id>http://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor</id>
     <content type="html"><![CDATA[<p>社内に<a href="http://kazeburo.github.com/GrowthForecast/">GrowthForecast</a>ブームが
 来ているので、乗り遅れないように導入。</p>
 

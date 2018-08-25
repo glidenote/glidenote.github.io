@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: mongodb | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/mongodb/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/mongodb/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[FluentdからMongoDBにデータを文字列(string)から数値(integer)に変換して入れる]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/04/08/fluentd-mongodb-integer/"/>
+    <link href="http://blog.glidenote.com/blog/2013/04/08/fluentd-mongodb-integer/"/>
     <updated>2013-04-08T23:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/04/08/fluentd-mongodb-integer</id>
+    <id>http://blog.glidenote.com/blog/2013/04/08/fluentd-mongodb-integer</id>
     <content type="html"><![CDATA[<p>最近ようやく仕事でガッツリFluentdとMongoDBを触るようになってちょっとハマったことが
 あったので誰かの役に立つかも知れないので書いておく。</p>
 
@@ -164,11 +164,11 @@ db.accesslog.aggregate(
   
   <entry>
     <title type="html"><![CDATA[Subsonic+Nginxのアクセスログをfluentdを利用してMongoDBに入れてみた]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/05/21/fluentd-nginx-mongodb/"/>
+    <link href="http://blog.glidenote.com/blog/2012/05/21/fluentd-nginx-mongodb/"/>
     <updated>2012-05-21T00:41:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/05/21/fluentd-nginx-mongodb</id>
+    <id>http://blog.glidenote.com/blog/2012/05/21/fluentd-nginx-mongodb</id>
     <content type="html"><![CDATA[<p>                                                                                                                                                                      
-  <a href="https://www.amazon.co.jp/Software-Design-%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2-%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3-2012%E5%B9%B4/dp/B007Y725LE?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B007Y725LE"><img src="https://images-fe.ssl-images-amazon.com/images/I/51i4hIKlScL._SL160_.jpg" align="right" /></a>
+  <a href="https://www.amazon.co.jp/Software-Design-%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2-%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3-2012%E5%B9%B4/dp/B007Y725LE?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B007Y725LE"><img src="https://images-fe.ssl-images-amazon.com/images/I/51i4hIKlScL._SL160_.jpg" align="right" /></a>
 </p>
 
 <p><a href="http://atnd.org/events/27808">Fluentd Casual Talks</a>に参加し、fluentdの使いどころが理解できて、
@@ -396,7 +396,7 @@ system.indexes
 2012年5月20日現在は下記のSoftware Designが一番充実しているので<strong>必読</strong>です。</p>
 
 <ul>
-  <li><a href="https://www.amazon.co.jp/Software-Design-%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2-%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3-2012%E5%B9%B4/dp/B007Y725LE?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B007Y725LE">Software Design (ソフトウェア デザイン) 2012年 06月号 [雑誌]</a></li>
+  <li><a href="https://www.amazon.co.jp/Software-Design-%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2-%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3-2012%E5%B9%B4/dp/B007Y725LE?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B007Y725LE">Software Design (ソフトウェア デザイン) 2012年 06月号 [雑誌]</a></li>
 </ul>
 ]]></content>
   </entry>

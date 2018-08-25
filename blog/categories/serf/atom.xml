@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: serf | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/serf/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <title><![CDATA[Category: Serf | Glide Note]]></title>
+  <link href="http://blog.glidenote.com/blog/categories/serf/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -14,238 +14,119 @@
 
   
   <entry>
-    <title type="html"><![CDATA[serf-muninを導入してmunin-nodeの監視追加、削除を自動化した]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/11/06/serf-munin/"/>
-    <updated>2013-11-06T20:12:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/11/06/serf-munin</id>
-    <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2013/10/30/serf-haproxy/">前回の続き</a>で<a href="http://www.serfdom.io/">Serf</a>を触ってる。前回のエントリを見て、<a href="https://twitter.com/zembutsu">@zembutsuさん</a>が作ってくれた<a href="https://github.com/zembutsu/serf-munin">serf-munin</a>が素晴らしかったので、弊社仕様に若干修正して導入した。</p>
-
-<ul>
-  <li><a href="http://pocketstudio.jp/log3/2013/11/01/serf-munin-eventhander-auto-monitorin/">serf-muninでmunin-nodeの監視自動追加/削除 | Pocketstudio.jp log3</a></li>
+    <title type="html"><![CDATA[Serf+HAProxyで作るAutomatic Load Balancer]]></title>
+    <link href="http://blog.glidenote.com/blog/2013/10/30/serf-haproxy/"/>
+    <updated>2013-10-30T23:16:00+09:00</updated>
+    <id>http://blog.glidenote.com/blog/2013/10/30/serf-haproxy</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://github.com/hashicorp/serf">hashicorp/serf</a></li>
+  <li><a href="http://www.serfdom.io/">Serf</a></li>
 </ul>
 
-<p>Serf-muninが自動生成、削除するファイルは<code>/etc/munin/conf.d/</code>配下で、
-既存のmunin環境(<code>/etc/munin/munin.conf</code>とか)を壊すことがないと思うので、すぐに試すことが出来ると思う。</p>
+<p><a href="http://www.serfdom.io/">Serf</a>使ってますか！サーフ！</p>
 
-<p>導入環境は</p>
+<p>諸事情というか大人の事情で急遽自前でロードバランサを用意しないといけなくて、それをissueに書いてたら、
+あんちぽさんが<a href="https://github.com/hashicorp/serf/tree/master/demo/web-load-balancer">Serf+HAProxy</a>使ったらいいのでは、
+とIRCで助言をくれて、同日の<a href="http://mizzy.org/blog/2013/10/29/1/">mizzyさんのブログ</a>でもSerfに言及していたので、
+ちょっとSerfの概要を知るためと、<code>Serf+HAProxy</code>が実際ロードバランサとしてどんな感じに使えるのか検証してみた。</p>
+
+<blockquote class="twitter-tweet"><p>I told <a href="https://twitter.com/glidenote">@glidenote</a> about a combination of Serf and HAProxy this morning, and he has already implemented the arch. and done investigation...</p>&mdash; kentaro (@kentaro) <a href="https://twitter.com/kentaro/statuses/395150350899884032">October 29, 2013</a></blockquote>
+<script async="" src="http://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Serfは新しいプロダクトだし、公式でSerf+HAProxyをDemoと言って紹介してるけど、ドキュメントが少なくて、
+どうすれば動くのか、どういう仕組みなのか理解に苦労したので先に概要をちょっとまとめてみる。</p>
+
+<h2 id="serf--haproxy">Serf + HAProxyの概要</h2>
 
 <ul>
-  <li>CentOS 6.4</li>
-  <li>Serf 0.2.0</li>
-  <li>munin-2.0.17</li>
+  <li>Serfは全てのサーバで動かす必要がある。</li>
+  <li>クラスタという概念があって、各サーバ(ノード)で動いているSerfがクラスタにjoin/leaveすることが出来る。</li>
+  <li>クラスタに参加している、ノード同士が相互通信をしていて、クラスタへのjoin/leaveするノードを検知している</li>
+  <li>ノードがクラスタにjoin/leaveするとイベントが発生して、事前に設定したスクリプトを走らせることが出来る。
+ 今回の例だとロードバランサ側で<code>/etc/haproxy/haproxy.cfg</code>の修正スクリプトが走って、バランシング先のWEBサーバを自動で追加、除外してくれる。</li>
 </ul>
 
-<p>で、Serfの起動コマンドや生成されるmuninのconfの関係上、Serf 0.2.0とmunin 2.0以上は必須条件になります。</p>
+<p><strong>2013年10月31日 19:00 修正</strong><br />
+HAProxyの再起動と書いてましたが、正しくは<code>/etc/init.d/haproxy reload</code>なので、設定再読込でした。</p>
 
-<h2 id="serf-munin">serf-muninの仕組みの説明</h2>
+<h3 id="web-server1join">1.ロードバランサのクラスタにweb server1がjoin</h3>
 
-<h3 id="web-server1muninserf-join">1. web server1がmuninサーバと同じクラスタにserf joinしてくる</h3>
+<p><img src="https://blog.glidenote.com/images/2013/10/serfhaproxy0.png" alt="" /></p>
 
-<p><img src="https://blog.glidenote.com/images/2013/11/serfmunin0.png" alt="" /></p>
+<h3 id="web-server1joinmember-join">2.Web server1がクラスタにjoinしてきたので、member-joinイベントが発生</h3>
 
-<h3 id="web-server1joinmember-join">2. Web server1がクラスタにjoinしてきたので、member-joinイベントが発生</h3>
-<p><img src="https://blog.glidenote.com/images/2013/11/serfmunin1.png" alt="" /></p>
-
-<ol>
-  <li>muninサーバで<code>member-join</code>イベントで指定しているスクリプトが実行される</li>
-  <li>muninサーバの<code>/etc/munin/conf.d/web001.foobar.conf</code>という設定ファイルが追加され、ポーリング対象のサーバが追加される。</li>
-  <li>Web Serve1がmuninのグラフに追加される</li>
-</ol>
-
-<h3 id="db-server1joinmember-join">3. DB server1がクラスタにjoinしてきたので、member-joinイベントが発生</h3>
-<p><img src="https://blog.glidenote.com/images/2013/11/serfmunin2.png" alt="" /></p>
+<p><img src="https://blog.glidenote.com/images/2013/10/serfhaproxy1.png" alt="" /></p>
 
 <ol>
-  <li>muninサーバで<code>member-join</code>イベントで指定しているスクリプトが実行される</li>
-  <li>muninサーバの<code>/etc/munin/conf.d/db001.foobar.conf</code>という設定ファイルが追加され、ポーリング対象のサーバが追加される。</li>
-  <li>DB Serve1がmuninのグラフに追加される</li>
+  <li>ロードバランサで<code>member-join</code>イベントで指定しているスクリプトが実行される</li>
+  <li>ロードバランサの<code>/etc/haproxy/haproxy.cfg</code>の書き換え、HAProxyの設定再読込がかかり、Web Server1がバランシング先に追加される。</li>
+  <li>Web Serve1にアクセスが流れるようになる</li>
 </ol>
 
-<h3 id="web-server1member-leave">4. Web server1が突然の死。member-leaveイベントが発生</h3>
-<p><img src="https://blog.glidenote.com/images/2013/11/serfmunin3.png" alt="" /></p>
+<h3 id="web-server2joinmember-join">3.Web server2がクラスタにjoinしてきたので、member-joinイベントが発生</h3>
+
+<p><img src="https://blog.glidenote.com/images/2013/10/serfhaproxy2.png" alt="" /></p>
 
 <ol>
-  <li>muninサーバで<code>member-leave</code>イベントで指定しているスクリプトが実行される</li>
-  <li>muninサーバの<code>/etc/munin/conf.d/web001.foobar.conf</code>という設定ファイルが削除され、ポーリング対象のサーバから削除される。</li>
-  <li>Web Server1がmuninのグラフから削除される</li>
+  <li>ロードバランサで<code>member-join</code>イベントで指定しているスクリプトが実行される</li>
+  <li>ロードバランサの<code>/etc/haproxy/haproxy.cfg</code>の書き換え、HAProxyの設定再読込がかかり、Web Server2がバランシング先に追加される。</li>
+  <li>Web Serve1とWeb Server2にアクセスが流れるようになる</li>
 </ol>
 
-<p>もしWeb Server1が復活したら、勝手にクラスタに参加してくるので、再度ポーリング先に自動追加される。</p>
+<h3 id="web-server1member-leave">4.Web server1が突然の死。member-leaveイベントが発生</h3>
 
-<h2 id="section">実際の設定</h2>
-
-<h3 id="munin">muninサーバ側の設定</h3>
-
-<p><code>SERF_ROLE</code>はmuninのconf内でgroupに利用するために設定してます。
-muninサーバには<code>manage</code>というroleを設定してます。</p>
-
-<p>作業の流れは</p>
+<p><img src="https://blog.glidenote.com/images/2013/10/serfhaproxy3.png" alt="" /></p>
 
 <ol>
-  <li>Serfをダウンロードして、<code>/usr/local/bin/serf</code>に設置</li>
-  <li>自動生成されるconf用ディレクトリ<code>/etc/munin/conf.d</code>を作成</li>
-  <li>serf join/leaveイベント発生時に実行されるスクリプト<code>serf-munin.sh</code>を作成し、設置</li>
-  <li>Serfの起動スクリプトを作成</li>
-  <li>Serfの起動</li>
+  <li>ロードバランサで<code>member-leave</code>イベントで指定しているスクリプトが実行される</li>
+  <li>ロードバランサの<code>/etc/haproxy/haproxy.cfg</code>の書き換え、HAProxyの設定再読込がかかり、Web Server1がバランシング先から除外</li>
+  <li>Web Server2だけアクセスが流れるようになる</li>
 </ol>
 
-<p>``` sh
-export SERF_ROLE=manage
-sudo yum install -y unzip</p>
+<p>もしWeb Server1が復活したら、勝手にクラスタに参加してくるので、再度バランシング先に自動追加される。</p>
 
-<p>cd /tmp/
-until wget -O serf.zip https://dl.bintray.com/mitchellh/serf/0.2.0_linux_amd64.zip; do
-  sleep 1
-done
-unzip serf.zip
-sudo mv serf /usr/local/bin/serf
-rm serf.zip</p>
-
-<p>sudo mkdir -p /etc/munin/conf.d/</p>
-
-<h1 id="create-serf-muninsh">create serf-munin.sh</h1>
-<p>cat «‘EOF’ &gt;/tmp/serf-munin.sh
-#!/bin/sh</p>
-
-<p>while read line
-do
-  echo ${line}
-    HOSTNAME=<code>echo ${line} | cut -d ' ' -f 1</code>
-    ADDRESS=<code>echo ${line} | cut -d ' ' -f 2</code>
-    GROUP=<code>echo ${line} | cut -d ' ' -f 3</code></p>
-
-<pre><code>case ${SERF_EVENT} in
-"member-join")
-  cat &lt;&lt; __EOF__ &gt; "/etc/munin/conf.d/${HOSTNAME}.conf" [${GROUP};${HOSTNAME}]
-address ${ADDRESS}
-use_node_name yes __EOF__ ;;
-"member-leave" | "member-failed")
-  rm -f /etc/munin/conf.d/${HOSTNAME}.conf;;
-\?)
-  echo "other";;
-esac
-break done 
-</code></pre>
-
-<p>exit 0
-EOF</p>
-
-<p>sudo mv /tmp/serf-munin.sh /usr/local/bin/serf-munin.sh
-sudo chmod 755 /usr/local/bin/serf-munin.sh</p>
-
-<h1 id="configure-the-agent">Configure the agent</h1>
-<p>cat «EOF &gt;/tmp/agent.conf
-description “Serf agent”</p>
-
-<p>start on runlevel [2345]
-stop on runlevel [!2345]</p>
-
-<p>exec /usr/local/bin/serf agent <br />
-  -event-handler=”/usr/local/bin/serf-munin.sh” <br />
-  -role=${SERF_ROLE} »/var/log/serf.log 2&gt;&amp;1
-EOF
-sudo mv /tmp/agent.conf /etc/init/serf.conf</p>
-
-<h1 id="start-the-agent">Start the agent!</h1>
-<p>sudo start serf
-```</p>
-
-<p>この状態で既に<code>/etc/munin/conf.d/${HOSTNAME}.conf</code>というファイルが出来上がって、</p>
-
-<p><code>
-[manage;manage001.foobar.com]
-    address 127.0.0.1
-    use_node_name yes
-</code></p>
-
-<p>というような内容になっている。</p>
-
-<h3 id="munin-node">munin-node側の設定</h3>
-
-<p><code>MUNIN_SERVER</code>にmuninサーバのIPもしくはfqdnを設定。<code>MUNIN_SERVER</code>で指定したサーバに
-<code>serf join</code>しに行きます。
-<code>SERF_ROLE</code>はmuninのconf内でgroupに利用するために設定してます。
-例では<code>web</code>というroleを設定しており、実環境でも<code>web</code>、<code>db</code>、<code>backup</code>などとroleを設定してます。</p>
-
-<p>作業の流れは</p>
-
-<ol>
-  <li>Serfをダウンロードして、<code>/usr/local/bin/serf</code>に設置</li>
-  <li>Serfの起動スクリプトを作成</li>
-  <li>Serfの起動</li>
-</ol>
-
-<p>``` sh
-export MUNIN_SERVER=192.168.100.100
-export SERF_ROLE=web</p>
-
-<p>sudo yum install -y unzip</p>
-
-<h1 id="download-and-install-serf">Download and install Serf</h1>
-<p>cd /tmp
-until wget -O serf.zip https://dl.bintray.com/mitchellh/serf/0.2.0_linux_amd64.zip; do
-  sleep 1
-done
-unzip serf.zip
-sudo mv serf /usr/local/bin/serf
-rm serf.zip</p>
-
-<h1 id="configure-the-agent-1">Configure the agent</h1>
-<p>cat «EOF &gt;/tmp/agent.conf
-description “Serf agent”</p>
-
-<p>start on runlevel [2345]
-stop on runlevel [!2345]</p>
-
-<p>exec /usr/local/bin/serf agent <br />
-  -join=${MUNIN_SERVER} <br />
-  -role=${SERF_ROLE} »/var/log/serf.log 2&gt;&amp;1
-EOF
-sudo mv /tmp/agent.conf /etc/init/serf.conf</p>
-
-<h1 id="start-the-agent-1">Start the agent!</h1>
-<p>sudo start serf
-```</p>
-
-<p>この状態で既に<code>/etc/munin/conf.d/${HOSTNAME}.conf</code>というファイルが出来上がって、</p>
-
-<p><code>
-[web;web001.foobar.com]
-    address 172.18.100.109
-    use_node_name yes
-</code></p>
-
-<p>というような内容になっていて、</p>
-
-<p><code>sh
-sudo stop serf
-</code></p>
-
-<p>でSerfと止めると、confが削除されるのが分かる。</p>
-
-<p>Serf 0.2.0になって、<code>serf agent join="IP"</code>みたいなことが出来るようになっていて起動スクリプトもシンプルになった。
-やってることは非常に単純でSerfの設置、スクリプト設置だけなのでpuppet化も非常に楽。</p>
-
-<p>Serf 0.2.0の変更点は@zembutsuさんのブログが非常に参考になります。素晴らしいエントリ!!</p>
+<h2 id="serfhaproxy">Serf+HAProxyのまとめ</h2>
 
 <ul>
-  <li><a href="http://pocketstudio.jp/log3/2013/11/02/serf-version-0-2-0/">【Serf】v0.2.0 へのバージョンアップと、変わった所を確認してみた | Pocketstudio.jp log3</a></li>
+  <li>Webサーバの増減に伴って設定ファイル書き換え、commit、push、deployして、HAProxyのreloadとかする必要ない。</li>
+  <li>Webサーバの増減をロードバランサが自動で検知してバランシング先に追加、除外を自動でしてくれる。</li>
+  <li>Puppet(Chef)でSerf+HAProxyの設定をしておけば、インスタンス起動してPuppet(Chef)流せば勝手にサービスに投入される</li>
 </ul>
 
-<p>担当しているサービス用にインストール用のwrapperスクリプトを公開しているので、参考にどうぞ。</p>
+<p>公式だと<code>apt-get</code>でCentOSで動かなかったり、apache勝手に入れてきたり、クラスタに参加出来なかったり
+動くようになるまでなかなかつらかったので、CentOSでとりあえず動くものをGitHubに公開しておきましたので参考にどうぞ。
+ローカルLAN用のeth1が無いと使えなかったり、私も触って1日なので、よく分かってない部分が多くて改良の余地が大いにありますが。
+<a href="http://rubygems.org/gems/facter">facter</a>を組み合わせれば、自分自身の情報を他のノードに伝える事が簡単にできると思う。</p>
+
+<p><code>http://LP_IP:9999/</code>にアクセスするとHAProxyの状態が確認出来て、自動でバランシング先が変化するのが確認出来る。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/10/serfhaproxy5.png" alt="" /></p>
 
 <ul>
-  <li><a href="https://github.com/glidenote/serf-munin-setup">glidenote/serf-munin-setup</a></li>
+  <li><a href="https://github.com/glidenote/serf-web-load-balancer">glidenote/serf-web-load-balancer</a></li>
 </ul>
 
-<p>Serf 0.2.0から暗号化も可能になったので、これでサーバ起動して、Puppet流せば、
-新規サーバのmuninグラフが勝手に出来上がる仕組みが出来上がった。</p>
-
-<h2 id="section-1">参考</h2>
+<p>あんちぽさんも<code>/etc/hosts</code>を自動で書き換えるものを作っていたので、勉強になります。</p>
 
 <ul>
-  <li><a href="http://pocketstudio.jp/log3/2013/11/01/serf-munin-eventhander-auto-monitorin/">serf-muninでmunin-nodeの監視自動追加/削除 | Pocketstudio.jp log3</a></li>
-  <li><a href="http://pocketstudio.jp/log3/2013/11/02/serf-version-0-2-0/">【Serf】v0.2.0 へのバージョンアップと、変わった所を確認してみた | Pocketstudio.jp log3</a></li>
+  <li><a href="https://github.com/kentaro/serf-hosts">kentaro/serf-hosts</a></li>
+</ul>
+
+<p>想定される使いどころとして、すぐ思い浮かぶのがnagiosとかmuninとかサーバ増えるたびに設定ファイル修正が必要なので、Serf使いどころだと思う。
+サーバの増減とかに伴って、ファイル修正が必要な部分はSerf使えば解決するはず。</p>
+
+<p>Serfはドキュメントも読み切れてないので引き続きいろいろと検証を続けてる。</p>
+
+<p>Nagiosから脱却すべく最近使い始めた<a href="http://sensuapp.org/">Sensu</a>も、サーバの増減を自動で検知して勝手に監視が始まるので、
+従来の<code>サーバ増やした（減らした)</code> =&gt; <code>設定ファイル修正commit、push、deploy</code> みたいな作業は今後無くなっていくんだろうな-。</p>
+
+<p>Nagiosに代わるであろう監視ソフト<a href="http://sensuapp.org/">Sensu</a>についても、頑張って検証しているので機会があればブログに書こうと思う。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.kentarok.org/entry/2013/10/30/020120">Automatic <code>/etc/hosts</code> management with Serf - delirious thoughts</a></li>
+  <li><a href="https://github.com/kentaro/serf-hosts">kentaro/serf-hosts</a></li>
 </ul>
 ]]></content>
   </entry>

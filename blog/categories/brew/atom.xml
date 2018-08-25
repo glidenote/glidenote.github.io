@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: brew | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/brew/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/brew/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Homebrewで入れたgit,zshを優先的に利用する]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/04/20/change-command-path-priority/"/>
+    <link href="http://blog.glidenote.com/blog/2014/04/20/change-command-path-priority/"/>
     <updated>2014-04-20T10:27:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/04/20/change-command-path-priority</id>
+    <id>http://blog.glidenote.com/blog/2014/04/20/change-command-path-priority</id>
     <content type="html"><![CDATA[<p>ちょっと前に会社のMacを入れ替えて、Homebrewで最新の<code>git</code>や<code>zsh</code>などを導入したのに
 最初から入っているシステムの<code>git</code>、<code>zsh</code>が優先的に利用されていることに気づいて、
 この設定、数年おきにしていて、いつも忘れるのでメモ。(2回ググったらブログに書く)</p>

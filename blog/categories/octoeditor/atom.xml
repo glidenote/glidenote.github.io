@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: octoeditor | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/octoeditor/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/octoeditor/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Octopressの記事管理用プラグイン、Octoeditor.vimを作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/02/octoeditor.vim/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/02/octoeditor.vim/"/>
     <updated>2012-04-02T00:49:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/02/octoeditor.vim</id>
+    <id>http://blog.glidenote.com/blog/2012/04/02/octoeditor.vim</id>
     <content type="html"><![CDATA[<p><a href="https://github.com/glidenote/memolist.vim">memolist.vim</a>が非常に使いやすくなり、
 もともと利用していた<a href="https://blog.glidenote.com/blog/2011/12/23/modify-jekyll.vim-for-octopress/">カスタムしたjekyll.vim</a>よりも
 使いやすいのでmemolist.vimの機能を実装した<a href="http://octopress.org/">Octopress</a>の記事管理用

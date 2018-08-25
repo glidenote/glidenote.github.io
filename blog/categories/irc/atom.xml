@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: irc | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/irc/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/irc/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[重要なメールが届いたらIRCにメールの件名を通知するようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/01/29/post-to-irc-important-mail-subject/"/>
+    <link href="http://blog.glidenote.com/blog/2014/01/29/post-to-irc-important-mail-subject/"/>
     <updated>2014-01-29T22:57:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/01/29/post-to-irc-important-mail-subject</id>
+    <id>http://blog.glidenote.com/blog/2014/01/29/post-to-irc-important-mail-subject</id>
     <content type="html"><![CDATA[<p>自分がTO,CC,BCCに入ってたり、本文に自分の名前が入ってるメールはちゃんとメーラで振り分けしてチェックしているんですが、
 自分が参加しているML宛てに重要なメールが届いたときにを見逃してしまう事が多い。</p>
 
@@ -58,15 +58,15 @@ IRC_POST_SUBJECT=<code>echo $SUBJECT | nkf -w</code></p>
   
   <entry>
     <title type="html"><![CDATA[GitHubのissueやpull reqにcommentが付いたらIRC hoooks経由で通知されるように設定した]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/07/18/github-irc-hooks-event-type/"/>
+    <link href="http://blog.glidenote.com/blog/2013/07/18/github-irc-hooks-event-type/"/>
     <updated>2013-07-18T20:39:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/07/18/github-irc-hooks-event-type</id>
+    <id>http://blog.glidenote.com/blog/2013/07/18/github-irc-hooks-event-type</id>
     <content type="html"><![CDATA[<p>もともと<a href="https://twitter.com/gosukenator">mizzy</a>さんが作ったプログラムで
 GitHubの業務用Repository上のイベントはIRCに通知されるようになっていたんですが、
 <a href="http://twitter.com/tnmt">@tnmt</a>からGitHubのhooksだけで出来るようになったとの情報をゲットしたので早速設定してみた。</p>
 
 <blockquote class="twitter-tweet"><p>github の irc hook に幾つかの event type が追加されました - <a href="https://twitter.com/soh335">@soh335</a> memo <a href="http://t.co/40g46OxvkC">http://t.co/40g46OxvkC</a> <a href="https://twitter.com/glidenote">@glidenote</a> 先生がアップを始めました</p>&mdash; TSUNEMATSU Shinya (@tnmt) <a href="https://twitter.com/tnmt/statuses/354796424686354432">July 10, 2013</a></blockquote>
-<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async="" src="http://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <p><a href="http://soh335.hatenablog.com/entry/2013/05/21/113049">@soh335さんのブログ</a>
 を見ると、下記のような形で、hooksの設定確認や設定変更が出来る模様。</p>
@@ -149,9 +149,9 @@ curl -u "glidenote" -in https://hostname/api/v3/repos/:owner/:repos/hooks
   
   <entry>
     <title type="html"><![CDATA[NagiosのアラートをIRC BOT経由で制御する]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/06/10/control-nagios-alert-with-irc-bot/"/>
+    <link href="http://blog.glidenote.com/blog/2013/06/10/control-nagios-alert-with-irc-bot/"/>
     <updated>2013-06-10T21:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/06/10/control-nagios-alert-with-irc-bot</id>
+    <id>http://blog.glidenote.com/blog/2013/06/10/control-nagios-alert-with-irc-bot</id>
     <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2013/05/20/working-with-irc-bot/">IRC BOTを作って仕事をさせるようにした</a>の続き。
 <a href="https://twitter.com/mikeda">@mikeda</a>さんと<a href="https://twitter.com/hirose31">@hirose31</a>さんのやりとりを見ていて、
 Nagiosアラートをコマンドラインから停止出来ることを知った!!</p>
@@ -216,9 +216,9 @@ Nagiosアラートをコマンドラインから停止出来ることを知っ�
   
   <entry>
     <title type="html"><![CDATA[IRC BOTを作って仕事をさせるようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/05/20/working-with-irc-bot/"/>
+    <link href="http://blog.glidenote.com/blog/2013/05/20/working-with-irc-bot/"/>
     <updated>2013-05-20T20:02:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/05/20/working-with-irc-bot</id>
+    <id>http://blog.glidenote.com/blog/2013/05/20/working-with-irc-bot</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="https://github.com/cinchrb/cinch">cinchrb/cinch · GitHub</a></li>
 </ul>
@@ -279,9 +279,9 @@ IRCからデプロイしたりやビルドを走らせたり、いろいろな�
   
   <entry>
     <title type="html"><![CDATA[Weegetを利用して、WeeChatのPlugin管理を楽にする]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/02/11/weechat-plugins/"/>
+    <link href="http://blog.glidenote.com/blog/2012/02/11/weechat-plugins/"/>
     <updated>2012-02-11T13:27:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/02/11/weechat-plugins</id>
+    <id>http://blog.glidenote.com/blog/2012/02/11/weechat-plugins</id>
     <content type="html"><![CDATA[<p><img src="http://www.weechat.org/media/images/screenshots/medium/weechat_2009-08-03_kron4eg.png" alt="" /></p>
 
 <p>最近IRCクライアントで<a href="http://limechat.net/">LimeChat</a>を捨てて、<a href="http://www.weechat.org/">WeeChat</a>を使い始めた人が

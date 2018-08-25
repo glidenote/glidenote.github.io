@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: cobbler | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/cobbler/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/cobbler/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Cobbler System addのメモ]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/03/16/cobbler-system-add/"/>
+    <link href="http://blog.glidenote.com/blog/2012/03/16/cobbler-system-add/"/>
     <updated>2012-03-16T12:59:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/03/16/cobbler-system-add</id>
+    <id>http://blog.glidenote.com/blog/2012/03/16/cobbler-system-add</id>
     <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2012/03/15/cobbler-install/">前回</a>の続き</p>
 
 <p><code>cobbler system add</code>コマンドをいつも忘れるのでメモ。</p>
@@ -77,9 +77,9 @@ cobbler system report --name=hogemoge001.com
   
   <entry>
     <title type="html"><![CDATA[CobblerでScientific Linux 6.1を導入]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/02/03/cobbler-scientific-linux-6.1/"/>
+    <link href="http://blog.glidenote.com/blog/2012/02/03/cobbler-scientific-linux-6.1/"/>
     <updated>2012-02-03T22:57:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/02/03/cobbler-scientific-linux-6.1</id>
+    <id>http://blog.glidenote.com/blog/2012/02/03/cobbler-scientific-linux-6.1</id>
     <content type="html"><![CDATA[<p>CobblerでScientific Linux 6.1を導入出来るようにしたのでメモ。
 同僚の<a href="https://twitter.com/#!/tnmt">@tnmt</a>の書いた情報を6.1用に書き換えて流用ですが。いつも有益な情報ありがとう！</p>
 

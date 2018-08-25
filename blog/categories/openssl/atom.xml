@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: openssl | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/openssl/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/openssl/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[opensslコマンドで証明書情報を確認する]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/12/22/show-certs-with-openssl/"/>
+    <link href="http://blog.glidenote.com/blog/2011/12/22/show-certs-with-openssl/"/>
     <updated>2011-12-22T14:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/12/22/show-certs-with-openssl</id>
+    <id>http://blog.glidenote.com/blog/2011/12/22/show-certs-with-openssl</id>
     <content type="html"><![CDATA[<p>SSL証明書の更新作業をした際などに利用する、opensslコマンドで証明書情報を確認する方法をいつも忘れて、
 自分で書いた社内wikiを見直しているのでいつでも参照出来るようにメモ</p>
 

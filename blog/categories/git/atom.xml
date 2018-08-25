@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: git | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/git/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/git/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Homebrewで入れたgit,zshを優先的に利用する]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/04/20/change-command-path-priority/"/>
+    <link href="http://blog.glidenote.com/blog/2014/04/20/change-command-path-priority/"/>
     <updated>2014-04-20T10:27:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/04/20/change-command-path-priority</id>
+    <id>http://blog.glidenote.com/blog/2014/04/20/change-command-path-priority</id>
     <content type="html"><![CDATA[<p>ちょっと前に会社のMacを入れ替えて、Homebrewで最新の<code>git</code>や<code>zsh</code>などを導入したのに
 最初から入っているシステムの<code>git</code>、<code>zsh</code>が優先的に利用されていることに気づいて、
 この設定、数年おきにしていて、いつも忘れるのでメモ。(2回ググったらブログに書く)</p>
@@ -59,9 +59,9 @@ git version 1.9.2
   
   <entry>
     <title type="html"><![CDATA[gitでcommitメッセージにテンプレートを使う]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/12/04/git-commit-message-template/"/>
+    <link href="http://blog.glidenote.com/blog/2013/12/04/git-commit-message-template/"/>
     <updated>2013-12-04T19:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/12/04/git-commit-message-template</id>
+    <id>http://blog.glidenote.com/blog/2013/12/04/git-commit-message-template</id>
     <content type="html"><![CDATA[<p>GitHub(GH:E)でプロジェクトをまたぐことが多くて、
 commitメッセージとissueをリンクさせるのに毎回</p>
 
@@ -105,9 +105,9 @@ git config commit.template $HOME/.gitmessage_ops.txt
   
   <entry>
     <title type="html"><![CDATA[コミットメッセージを書くときにGitHubのユーザー名が補完されるようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/07/22/gitcommit-dictionary/"/>
+    <link href="http://blog.glidenote.com/blog/2013/07/22/gitcommit-dictionary/"/>
     <updated>2013-07-22T00:56:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/07/22/gitcommit-dictionary</id>
+    <id>http://blog.glidenote.com/blog/2013/07/22/gitcommit-dictionary</id>
     <content type="html"><![CDATA[<p>gitでcommit messageを書くときに、関連する人にmentionを送ることが結構あるんですが、
 GitHubとGitHub Enterpriseのユーザ名の覚えが曖昧で、毎回ブラウザでポチポチやって調べていて、
 効率が恐ろしく悪かったので、同僚やmention送るユーザ名は辞書作って補完することにした。</p>
@@ -154,9 +154,9 @@ autocmd FileType gitcommit :set dictionary=~/.vim/dictionary/github_user.dict
   
   <entry>
     <title type="html"><![CDATA[open-browser-github.vim を  GitHub Enterpriseで使う]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/07/18/open-browser-github.vim-for-github-enterprise/"/>
+    <link href="http://blog.glidenote.com/blog/2013/07/18/open-browser-github.vim-for-github-enterprise/"/>
     <updated>2013-07-18T01:12:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/07/18/open-browser-github.vim-for-github-enterprise</id>
+    <id>http://blog.glidenote.com/blog/2013/07/18/open-browser-github.vim-for-github-enterprise</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="https://github.com/tyru/open-browser-github.vim">tyru/open-browser-github.vim</a></li>
 </ul>
@@ -184,9 +184,9 @@ git config --local hub.host ghe.tokyo.pb
   
   <entry>
     <title type="html"><![CDATA[PuppetのSyntaxをvim(syntastic)とgit hooks(pre-commit)の2重でチェックするようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/03/16/puppet-syntax-check/"/>
+    <link href="http://blog.glidenote.com/blog/2013/03/16/puppet-syntax-check/"/>
     <updated>2013-03-16T21:48:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/03/16/puppet-syntax-check</id>
+    <id>http://blog.glidenote.com/blog/2013/03/16/puppet-syntax-check</id>
     <content type="html"><![CDATA[<p>puppetのmanifestを書いていて、我ながらtypo、構文ミスとかヘボいミスが多すぎるので、
 vimとgit hooks(pre-commit)とで2重でsyntax checkをするようにした。</p>
 

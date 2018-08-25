@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: nginx | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/nginx/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/nginx/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ThumperでSubsonicを聴き続けるためにSubsonicに寄付をした]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/02/20/subsonic-donate/"/>
+    <link href="http://blog.glidenote.com/blog/2013/02/20/subsonic-donate/"/>
     <updated>2013-02-20T23:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/02/20/subsonic-donate</id>
+    <id>http://blog.glidenote.com/blog/2013/02/20/subsonic-donate</id>
     <content type="html"><![CDATA[<p>先日から<a href="http://www.thumperapp.com/">Thumper</a>というMacのアプリを利用して
 <a href="http://www.subsonic.org/pages/index.jsp">Subsonic</a>を聞いていたんですが、
 急に曲が再生出来なくなったので、調べたところアプリなどからSubsonicを利用している場合、
@@ -50,10 +50,10 @@ wget http://www.summerfondue.com/downloads/sfs166
 <p>みたいな感じで取ってきて、Subsonic経由で聴いてます。
 (ファイル一斉に落とすと先方サーバの負荷になるからsleepとか入れましょう)</p>
 
-<p><a href="https://www.amazon.co.jp/SHURE-Special-%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%82%B9%E3%83%AB%E3%83%BC%E3%82%BB%E3%83%B3%E3%83%88%E3%83%96%E3%83%AB%E3%83%BC-SE215SPE-%E3%80%90%E5%9B%BD%E5%86%85%E6%AD%A3%E8%A6%8F%E5%93%81%E3%80%91/dp/B00A16BT4E?psc=1&amp;SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00A16BT4E"><img src="https://images-fe.ssl-images-amazon.com/images/I/417ivt-VRcL.jpg" align="right" /></a></p>
+<p><a href="https://www.amazon.co.jp/SHURE-Special-%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%82%B9%E3%83%AB%E3%83%BC%E3%82%BB%E3%83%B3%E3%83%88%E3%83%96%E3%83%AB%E3%83%BC-SE215SPE-%E3%80%90%E5%9B%BD%E5%86%85%E6%AD%A3%E8%A6%8F%E5%93%81%E3%80%91/dp/B00A16BT4E?psc=1&amp;SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00A16BT4E"><img src="https://images-fe.ssl-images-amazon.com/images/I/417ivt-VRcL.jpg" align="right" /></a></p>
 
 <ul>
-  <li><a href="https://www.amazon.co.jp/SHURE-Special-%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%82%B9%E3%83%AB%E3%83%BC%E3%82%BB%E3%83%B3%E3%83%88%E3%83%96%E3%83%AB%E3%83%BC-SE215SPE-%E3%80%90%E5%9B%BD%E5%86%85%E6%AD%A3%E8%A6%8F%E5%93%81%E3%80%91/dp/B00A16BT4E?psc=1&amp;SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00A16BT4E">SHURE イヤホン SEシリーズ SE215 カナル型 高遮音性 Special Edition トランススルーセントブルー SE215SPE-A 【国内正規品】</a></li>
+  <li><a href="https://www.amazon.co.jp/SHURE-Special-%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%82%B9%E3%83%AB%E3%83%BC%E3%82%BB%E3%83%B3%E3%83%88%E3%83%96%E3%83%AB%E3%83%BC-SE215SPE-%E3%80%90%E5%9B%BD%E5%86%85%E6%AD%A3%E8%A6%8F%E5%93%81%E3%80%91/dp/B00A16BT4E?psc=1&amp;SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00A16BT4E">SHURE イヤホン SEシリーズ SE215 カナル型 高遮音性 Special Edition トランススルーセントブルー SE215SPE-A 【国内正規品】</a></li>
 </ul>
 
 <p>最近Shureのイヤホン SE215SPEを買ったんですが、
@@ -76,11 +76,11 @@ SubsonicがiTunesのバックアップも兼ねており重要性が増してき
   
   <entry>
     <title type="html"><![CDATA[Subsonic+Nginxのアクセスログをfluentdを利用してMongoDBに入れてみた]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/05/21/fluentd-nginx-mongodb/"/>
+    <link href="http://blog.glidenote.com/blog/2012/05/21/fluentd-nginx-mongodb/"/>
     <updated>2012-05-21T00:41:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/05/21/fluentd-nginx-mongodb</id>
+    <id>http://blog.glidenote.com/blog/2012/05/21/fluentd-nginx-mongodb</id>
     <content type="html"><![CDATA[<p>                                                                                                                                                                      
-  <a href="https://www.amazon.co.jp/Software-Design-%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2-%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3-2012%E5%B9%B4/dp/B007Y725LE?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B007Y725LE"><img src="https://images-fe.ssl-images-amazon.com/images/I/51i4hIKlScL._SL160_.jpg" align="right" /></a>
+  <a href="https://www.amazon.co.jp/Software-Design-%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2-%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3-2012%E5%B9%B4/dp/B007Y725LE?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B007Y725LE"><img src="https://images-fe.ssl-images-amazon.com/images/I/51i4hIKlScL._SL160_.jpg" align="right" /></a>
 </p>
 
 <p><a href="http://atnd.org/events/27808">Fluentd Casual Talks</a>に参加し、fluentdの使いどころが理解できて、
@@ -308,16 +308,16 @@ system.indexes
 2012年5月20日現在は下記のSoftware Designが一番充実しているので<strong>必読</strong>です。</p>
 
 <ul>
-  <li><a href="https://www.amazon.co.jp/Software-Design-%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2-%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3-2012%E5%B9%B4/dp/B007Y725LE?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B007Y725LE">Software Design (ソフトウェア デザイン) 2012年 06月号 [雑誌]</a></li>
+  <li><a href="https://www.amazon.co.jp/Software-Design-%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2-%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3-2012%E5%B9%B4/dp/B007Y725LE?SubscriptionId=AKIAJ3ZFWGWYBKYGVTTA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B007Y725LE">Software Design (ソフトウェア デザイン) 2012年 06月号 [雑誌]</a></li>
 </ul>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[nginx.vimを入れてみた]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/08/nginx.vim/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/08/nginx.vim/"/>
     <updated>2012-04-08T04:33:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/08/nginx.vim</id>
+    <id>http://blog.glidenote.com/blog/2012/04/08/nginx.vim</id>
     <content type="html"><![CDATA[<p>nginxのconfを書いていて、syntax highlightがきかないので導入してみた。</p>
 
 <ul>
@@ -345,9 +345,9 @@ au BufRead,BufNewFile /etc/nginx/* set ft=nginx</code></pre></noscript></div>
   
   <entry>
     <title type="html"><![CDATA[さくらVPS 2G+Subsonic+Nginxで自分用ストリーミングサーバを構築]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/03/subsonic-nginx/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/03/subsonic-nginx/"/>
     <updated>2012-04-03T01:18:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/03/subsonic-nginx</id>
+    <id>http://blog.glidenote.com/blog/2012/04/03/subsonic-nginx</id>
     <content type="html"><![CDATA[<p>先日契約したさくらVPS 2Gのディスク容量がかなりあるので、自分用のストリーミングサーバを
 <a href="http://www.subsonic.org/pages/index.jsp">subsonic</a>と<a href="http://wiki.nginx.org/Main">nginx</a>で立ててみました。 
 subsonic単体でも良いんですが、同僚の天才<a href="https://twitter.com/#!/hiboma">@hiboma</a>が
@@ -494,9 +494,9 @@ sudo service nginx start
   
   <entry>
     <title type="html"><![CDATA[Shellでヒアドキュメント利用時に変数展開を抑制する]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/01/05/here-document-tips/"/>
+    <link href="http://blog.glidenote.com/blog/2012/01/05/here-document-tips/"/>
     <updated>2012-01-05T21:43:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/01/05/here-document-tips</id>
+    <id>http://blog.glidenote.com/blog/2012/01/05/here-document-tips</id>
     <content type="html"><![CDATA[<p>zshやbashでヒアドキュメントを利用するときに、いつも忘れてやらかすのでメモ</p>
 
 <h2 id="section">変数展開してしまう例</h2>

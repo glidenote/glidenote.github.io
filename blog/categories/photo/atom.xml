@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: photo | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/photo/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/photo/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[2011 Photo taken by Sony Alpha NEX-5]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/12/26/photo-2011/"/>
+    <link href="http://blog.glidenote.com/blog/2011/12/26/photo-2011/"/>
     <updated>2011-12-26T00:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/12/26/photo-2011</id>
+    <id>http://blog.glidenote.com/blog/2011/12/26/photo-2011</id>
     <content type="html"><![CDATA[<h2 id="nara">Nara</h2>
 
 <p><img src="http://farm7.staticflickr.com/6161/6258271128_b4b54a19f2_b.jpg" width="1024" height="681" alt="DSC01131" /></p>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: supervisor | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/supervisor/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/supervisor/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[GrowthForecast導入&Supervisorで起動を管理]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor/"/>
+    <link href="http://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor/"/>
     <updated>2012-07-05T00:37:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor</id>
+    <id>http://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor</id>
     <content type="html"><![CDATA[<p>社内に<a href="http://kazeburo.github.com/GrowthForecast/">GrowthForecast</a>ブームが
 来ているので、乗り遅れないように導入。</p>
 
@@ -243,9 +243,9 @@ GrowthForecastがSupervisord経由で管理出来るように。</p>
   
   <entry>
     <title type="html"><![CDATA[ログファイル監視スクリプトlogmonをsupervisordで管理]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/12/02/logmon-with-supervisord/"/>
+    <link href="http://blog.glidenote.com/blog/2011/12/02/logmon-with-supervisord/"/>
     <updated>2011-12-02T18:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/12/02/logmon-with-supervisord</id>
+    <id>http://blog.glidenote.com/blog/2011/12/02/logmon-with-supervisord</id>
     <content type="html"><![CDATA[<p>ログファイル監視スクリプト<a href="http://www-06.ibm.com/jp/domino01/mkt/cnpages7.nsf/page/default-00057580">logmon</a>の重要度がかなり増してきたので、supervisordで起動、停止を管理するように変更。</p>
 
 <p>supervisordの導入は<a href="http://glidenote.github.com/blog/2011/11/25/install-supervisor/">過去のエントリー</a>を参考にしてください</p>
@@ -360,9 +360,9 @@ sudo chkconfig logmon off
   
   <entry>
     <title type="html"><![CDATA[スーパーサーバーSupervisorの導入手順メモ]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/11/25/install-supervisor/"/>
+    <link href="http://blog.glidenote.com/blog/2011/11/25/install-supervisor/"/>
     <updated>2011-11-25T18:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/11/25/install-supervisor</id>
+    <id>http://blog.glidenote.com/blog/2011/11/25/install-supervisor</id>
     <content type="html"><![CDATA[<p>スーパーサーバー<a href="http://supervisord.org/">Supervisor</a>の導入方法をいつも忘れるのでメモ。ほとんど<a href="http://twitter.com/#!/hiboma">@hiboma</a>が
 社内Wikiにまとめてた内容のパクリですが、自宅サーバ構築とかで外から見ようと思っても見えないので。いつもありがとう、<a href="http://twitter.com/#!/hiboma">ひろやん</a>!!</p>
 

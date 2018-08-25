@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: centos | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/centos/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/centos/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ssh接続したリモートサーバの出力を手元Macのクリップボードに送る]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/02/22/remote-pbcopy/"/>
+    <link href="http://blog.glidenote.com/blog/2014/02/22/remote-pbcopy/"/>
     <updated>2014-02-22T21:27:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/02/22/remote-pbcopy</id>
+    <id>http://blog.glidenote.com/blog/2014/02/22/remote-pbcopy</id>
     <content type="html"><![CDATA[<p>今までsshしたリモートサーバ上でコマンド実行したときの結果出力とかは、
 tmuxのコピーモードとかを駆使して、Macのクリップボードに送ってたんですが
 もっと手軽に出来る方法があったのでGitHubにまとめてみた。</p>
@@ -226,9 +226,9 @@ echo "hello" | nc -c 127.0.0.1 2224
   
   <entry>
     <title type="html"><![CDATA[CentOS 6.5にupgradeしたらyumが動かなくなったので直した]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/12/04/yum-not-working/"/>
+    <link href="http://blog.glidenote.com/blog/2013/12/04/yum-not-working/"/>
     <updated>2013-12-04T17:41:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/12/04/yum-not-working</id>
+    <id>http://blog.glidenote.com/blog/2013/12/04/yum-not-working</id>
     <content type="html"><![CDATA[<p>CentOS 6.4から6.5にupgradeかけたあとから
 yum実行したら、下記のエラーが出て動かなくなった。</p>
 
@@ -268,9 +268,9 @@ sudo rpm -Uvh --oldpackage *.rpm
   
   <entry>
     <title type="html"><![CDATA[Moshのrpm作成を簡略化した]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/05/15/mosh-rpm/"/>
+    <link href="http://blog.glidenote.com/blog/2012/05/15/mosh-rpm/"/>
     <updated>2012-05-15T09:36:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/05/15/mosh-rpm</id>
+    <id>http://blog.glidenote.com/blog/2012/05/15/mosh-rpm</id>
     <content type="html"><![CDATA[<p><a href="http://mosh.mit.edu/">Mosh</a>が便利で、かなり活用しているんですが、
 開発速度が速く、バージョンアップのたびにRPM作成をしていくのが結構だるいので
 多少楽になるように対応。</p>
@@ -296,9 +296,9 @@ sudo rpm -Uvh --oldpackage *.rpm
   
   <entry>
     <title type="html"><![CDATA[Cobbler System addのメモ]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/03/16/cobbler-system-add/"/>
+    <link href="http://blog.glidenote.com/blog/2012/03/16/cobbler-system-add/"/>
     <updated>2012-03-16T12:59:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/03/16/cobbler-system-add</id>
+    <id>http://blog.glidenote.com/blog/2012/03/16/cobbler-system-add</id>
     <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2012/03/15/cobbler-install/">前回</a>の続き</p>
 
 <p><code>cobbler system add</code>コマンドをいつも忘れるのでメモ。</p>
@@ -358,9 +358,9 @@ cobbler system report --name=hogemoge001.com
   
   <entry>
     <title type="html"><![CDATA[Cobblerサーバの構築メモ]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/03/15/cobbler-install/"/>
+    <link href="http://blog.glidenote.com/blog/2012/03/15/cobbler-install/"/>
     <updated>2012-03-15T23:14:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/03/15/cobbler-install</id>
+    <id>http://blog.glidenote.com/blog/2012/03/15/cobbler-install</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="http://cobbler.github.com/">Cobbler - Linux install and update server</a></li>
 </ul>

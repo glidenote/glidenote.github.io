@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: linux | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/linux/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[GoReplayを導入して、Production環境へのリクエストを複製し、Staging環境に転送する仕組みを作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/12/16/goreplay/"/>
+    <link href="http://blog.glidenote.com/blog/2016/12/16/goreplay/"/>
     <updated>2016-12-16T15:25:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/12/16/goreplay</id>
+    <id>http://blog.glidenote.com/blog/2016/12/16/goreplay</id>
     <content type="html"><![CDATA[<p>結構前に作っていたんですが、いろいろと忙しくてブログに書くタイミングを失していたので年末のタイミングで紹介。</p>
 
 <h2 id="tldr">TL;DR</h2>
@@ -162,9 +162,9 @@ ab -n 10000 -c 100 http://hogemoge.example.com/hello
   
   <entry>
     <title type="html"><![CDATA[Let’s Encryptで証明書を作ってみた]]></title>
-    <link href="https://blog.glidenote.com/blog/2016/02/04/lets-encrypt/"/>
+    <link href="http://blog.glidenote.com/blog/2016/02/04/lets-encrypt/"/>
     <updated>2016-02-04T18:18:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2016/02/04/lets-encrypt</id>
+    <id>http://blog.glidenote.com/blog/2016/02/04/lets-encrypt</id>
     <content type="html"><![CDATA[<p>社内向けのリバースプロキシを構築中に、まだ証明書を用意していないドメインで、Let’s Encryptを試す機会があったのでメモ。</p>
 
 <p>去年アメリカに行ったタイミングから完全にブログ書く習慣がなくなってしまったので、リハビリも兼ねて。</p>
@@ -341,9 +341,9 @@ service nginx start # or whatever your webserver is
   
   <entry>
     <title type="html"><![CDATA[ncコマンドでファイル転送するときにpvコマンドで進捗を表示する]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv/"/>
+    <link href="http://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv/"/>
     <updated>2014-12-02T10:50:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv</id>
+    <id>http://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv</id>
     <content type="html"><![CDATA[<p>ファイルを送受信するときに暗号化する必要が無い場合は
 高速なので<code>nc</code>コマンドを多用しているんですが、進捗表示の方法を毎回忘れてググっているので自分用にメモ。</p>
 
@@ -379,9 +379,9 @@ nc foobar.com 3000 | pv &gt; hogemoge.zip
   
   <entry>
     <title type="html"><![CDATA[ssh接続したリモートサーバの出力を手元Macのクリップボードに送る]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/02/22/remote-pbcopy/"/>
+    <link href="http://blog.glidenote.com/blog/2014/02/22/remote-pbcopy/"/>
     <updated>2014-02-22T21:27:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/02/22/remote-pbcopy</id>
+    <id>http://blog.glidenote.com/blog/2014/02/22/remote-pbcopy</id>
     <content type="html"><![CDATA[<p>今までsshしたリモートサーバ上でコマンド実行したときの結果出力とかは、
 tmuxのコピーモードとかを駆使して、Macのクリップボードに送ってたんですが
 もっと手軽に出来る方法があったのでGitHubにまとめてみた。</p>
@@ -590,9 +590,9 @@ echo "hello" | nc -c 127.0.0.1 2224
   
   <entry>
     <title type="html"><![CDATA[重要なメールが届いたらIRCにメールの件名を通知するようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/01/29/post-to-irc-important-mail-subject/"/>
+    <link href="http://blog.glidenote.com/blog/2014/01/29/post-to-irc-important-mail-subject/"/>
     <updated>2014-01-29T22:57:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/01/29/post-to-irc-important-mail-subject</id>
+    <id>http://blog.glidenote.com/blog/2014/01/29/post-to-irc-important-mail-subject</id>
     <content type="html"><![CDATA[<p>自分がTO,CC,BCCに入ってたり、本文に自分の名前が入ってるメールはちゃんとメーラで振り分けしてチェックしているんですが、
 自分が参加しているML宛てに重要なメールが届いたときにを見逃してしまう事が多い。</p>
 

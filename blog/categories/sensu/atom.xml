@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: sensu | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/sensu/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/sensu/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[監視アーキテクチャ(Sensu,Pingdom,Mackerel,StatusPage.io,PagerDuty)についてまとめてみる(2014年12月版)]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014/"/>
+    <link href="http://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014/"/>
     <updated>2014-12-03T19:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014</id>
+    <id>http://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014</id>
     <content type="html"><![CDATA[<p><a href="http://qiita.com/advent-calendar/2014/sensu">Sensu Advent Calendar</a>に便乗して、<a href="https://kaizenplatform.com/">Kaizen Platform, Inc.</a>の2014年12月現在の監視アーキテクチャの話をちょっとしてみようと思う。</p>
 
 <p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent00.png" alt="" /></p>
@@ -126,7 +126,7 @@
 
 <p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent07.png" alt="" /></p>
 
-<script async="" class="speakerdeck-embed" data-id="617b55a011990132168932d3f2247bb6" data-ratio="1.33333333333333" src="https://blog.glidenote.com//speakerdeck.com/assets/embed.js"></script>
+<script async="" class="speakerdeck-embed" data-id="617b55a011990132168932d3f2247bb6" data-ratio="1.33333333333333" src="http://blog.glidenote.com//speakerdeck.com/assets/embed.js"></script>
 
 <p>来年にはガラッと変わっているかもしれないけど、各コンポーネントがAPIで疎結合化されているのでアーキテクチャの変更も容易。</p>
 
@@ -136,9 +136,9 @@
   
   <entry>
     <title type="html"><![CDATA[ゆるふわなかんじで Sensu の話題をするためのIRCチャンネルをつくってみた]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/05/22/sensu-casual-freenode/"/>
+    <link href="http://blog.glidenote.com/blog/2014/05/22/sensu-casual-freenode/"/>
     <updated>2014-05-22T10:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/05/22/sensu-casual-freenode</id>
+    <id>http://blog.glidenote.com/blog/2014/05/22/sensu-casual-freenode</id>
     <content type="html"><![CDATA[<p><a href="http://sensuapp.org/">Sensu</a>について、ゆるふわなトークが出来るIRCチャンネルを作ってみた。</p>
 
 <p><code>#sensu-casual@freenode</code></p>
@@ -178,9 +178,9 @@ BotBot.meのBotさんが即死して帰ってこないので、ログが追え�
   
   <entry>
     <title type="html"><![CDATA[sensu-puppetがよく理解出来るかもしれないsensu-puppet-sampleを作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/05/19/sensu-puppet-sample/"/>
+    <link href="http://blog.glidenote.com/blog/2014/05/19/sensu-puppet-sample/"/>
     <updated>2014-05-19T22:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/05/19/sensu-puppet-sample</id>
+    <id>http://blog.glidenote.com/blog/2014/05/19/sensu-puppet-sample</id>
     <content type="html"><![CDATA[<p><img src="https://raw.github.com/sensu/sensu/master/sensu-logo.png" alt="" /></p>
 
 <p>前に<a href="https://blog.glidenote.com/blog/2013/11/26/sensu/">監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた - Glide Note - グライドノート</a> を書いて、
@@ -261,12 +261,12 @@ Sensuが普及してきたら、特集してくれるようになので、流行
   
   <entry>
     <title type="html"><![CDATA[監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/11/26/sensu/"/>
+    <link href="http://blog.glidenote.com/blog/2013/11/26/sensu/"/>
     <updated>2013-11-26T19:37:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/11/26/sensu</id>
+    <id>http://blog.glidenote.com/blog/2013/11/26/sensu</id>
     <content type="html"><![CDATA[<p><img src="https://raw.github.com/sensu/sensu/master/sensu-logo.png" alt="" /></p>
 
-<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async="" src="http://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <p>新規サービス用の監視をNagiosから<a href="http://sensuapp.org/">sensu</a>に切り替えて2ヶ月経ったので、
 導入時の調査で社内で公開してたissueと、投入して2ヶ月間運用した記録を公開しておこうと思う。</p>
@@ -277,7 +277,7 @@ Sensuが普及してきたら、特集してくれるようになので、流行
 <blockquote class="twitter-tweet" lang="ja"><p><a href="https://twitter.com/ma0e">@ma0e</a> We started using it. <a href="https://twitter.com/glidenote">@glidenote</a> will report the detail soon, I think.</p>&mdash; kentaro (@kentaro) <a href="https://twitter.com/kentaro/statuses/395693993603772417">2013, 10月 30</a></blockquote>
 
 <blockquote class="twitter-tweet" lang="ja"><p><a href="https://twitter.com/kentaro">@kentaro</a> <a href="https://twitter.com/glidenote">@glidenote</a> that would be nice</p>&mdash; Mitsutoshi Aoe/maoe (@ma0e) <a href="https://twitter.com/ma0e/statuses/395694852538499072">2013, 10月 30</a></blockquote>
-<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async="" src="http://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <p>導入環境はCentOS 6.4で、利用しているsensuのバージョンは<code>0.12.1-1</code>になり、基本的にはNagiosとの比較になります。
 またPuppetを使っているので、導入には<a href="https://github.com/sensu/sensu-puppet">sensu-puppet</a>を使ってます。</p>

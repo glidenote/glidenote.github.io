@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: lt | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/lt/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/lt/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[社内LTとvimrc読書会]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/10/30/lt-and-reading-vimrc/"/>
+    <link href="http://blog.glidenote.com/blog/2012/10/30/lt-and-reading-vimrc/"/>
     <updated>2012-10-30T22:22:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/10/30/lt-and-reading-vimrc</id>
+    <id>http://blog.glidenote.com/blog/2012/10/30/lt-and-reading-vimrc</id>
     <content type="html"><![CDATA[<p>先週はビックリするくらい忙しかったせいか金曜の朝からずっと
 体調を崩して、ベッドから出られず週末のイベントがいろいろと参加出来なかった。</p>
 
@@ -30,7 +30,7 @@
 参加出来なかったので社内LTは資料だけ公開。せっかくなので外部にも公開
 (いろいろとおかしいところがあるかもしれない）</p>
 
-<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="talk_frame_508a076aa820520002010206" src="https://blog.glidenote.com//speakerdeck.com/embed/508a076aa820520002010206" width="700" height="588"></iframe>
+<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="talk_frame_508a076aa820520002010206" src="http://blog.glidenote.com//speakerdeck.com/embed/508a076aa820520002010206" width="700" height="588"></iframe>
 
 <p>Octopressの不便な点は一切記載せず、良いところだけを見せて布教をしたかったんですが、願い叶わず。</p>
 

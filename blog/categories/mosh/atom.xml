@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: mosh | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/mosh/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/mosh/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Moshのrpm作成を簡略化した]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/05/15/mosh-rpm/"/>
+    <link href="http://blog.glidenote.com/blog/2012/05/15/mosh-rpm/"/>
     <updated>2012-05-15T09:36:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/05/15/mosh-rpm</id>
+    <id>http://blog.glidenote.com/blog/2012/05/15/mosh-rpm</id>
     <content type="html"><![CDATA[<p><a href="http://mosh.mit.edu/">Mosh</a>が便利で、かなり活用しているんですが、
 開発速度が速く、バージョンアップのたびにRPM作成をしていくのが結構だるいので
 多少楽になるように対応。</p>
@@ -43,9 +43,9 @@
   
   <entry>
     <title type="html"><![CDATA[zsh+MoshでHostnameを補完出来るようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/14/mosh-hostname-completion/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/14/mosh-hostname-completion/"/>
     <updated>2012-04-14T09:58:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/14/mosh-hostname-completion</id>
+    <id>http://blog.glidenote.com/blog/2012/04/14/mosh-hostname-completion</id>
     <content type="html"><![CDATA[<p><a href="http://mosh.mit.edu/">Mosh</a>を利用していてHostnameが補完されずに不便だったので、
 下記を<code>.zshrc</code>に書いて、sshと同じように<code>mosh [tab]</code>でhostnameを補完するようにしました。
 ほぼssh補完関数そのままですが。</p>
@@ -115,9 +115,9 @@ compdef mosh=ssh
   
   <entry>
     <title type="html"><![CDATA[tmux上でmosh接続したときに新しいウィンドウを生成する]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/11/mosh-with-tmux/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/11/mosh-with-tmux/"/>
     <updated>2012-04-11T23:12:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/11/mosh-with-tmux</id>
+    <id>http://blog.glidenote.com/blog/2012/04/11/mosh-with-tmux</id>
     <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2012/04/11/mosh-on-sakura-vps/">前回の記事</a>で
 <a href="http://mosh.mit.edu/">Mosh</a>を導入してあまりに快適なので、zsh+tmux+moshの環境を整え中。</p>
 
@@ -146,9 +146,9 @@ hostnameの入ったウィンドウが生成されるようになりました。
   
   <entry>
     <title type="html"><![CDATA[さくらVPSにSSH代替品のMoshを入れてみた]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/11/mosh-on-sakura-vps/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/11/mosh-on-sakura-vps/"/>
     <updated>2012-04-11T11:42:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/11/mosh-on-sakura-vps</id>
+    <id>http://blog.glidenote.com/blog/2012/04/11/mosh-on-sakura-vps</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="http://mosh.mit.edu/">Mosh: the mobile shell</a></li>
 </ul>

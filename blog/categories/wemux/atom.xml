@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: wemux | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/wemux/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/wemux/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[新卒OJTにwemux(multi-user terminal multiplexing)を使って画面共有することにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/08/26/ojt-with-wemux/"/>
+    <link href="http://blog.glidenote.com/blog/2013/08/26/ojt-with-wemux/"/>
     <updated>2013-08-26T20:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/08/26/ojt-with-wemux</id>
+    <id>http://blog.glidenote.com/blog/2013/08/26/ojt-with-wemux</id>
     <content type="html"><![CDATA[<p><img src="http://i.imgur.com/iOjcz.png" alt="" /></p>
 
 <ul>

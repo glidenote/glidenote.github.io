@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: rubygems | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/rubygems/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/rubygems/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[コマンドライン上からBitbucketのPrivate Repositoryを作成するgemを作ってみた]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/06/05/pori/"/>
+    <link href="http://blog.glidenote.com/blog/2012/06/05/pori/"/>
     <updated>2012-06-05T23:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/06/05/pori</id>
+    <id>http://blog.glidenote.com/blog/2012/06/05/pori</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="https://rubygems.org/gems/pori">pori | RubyGems.org | your community gem host</a></li>
 </ul>

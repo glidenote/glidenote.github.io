@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: markdwon | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/markdwon/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/markdwon/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[markdown2impressを導入してみた]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/03/19/markdown2impress/"/>
+    <link href="http://blog.glidenote.com/blog/2012/03/19/markdown2impress/"/>
     <updated>2012-03-19T16:31:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/03/19/markdown2impress</id>
+    <id>http://blog.glidenote.com/blog/2012/03/19/markdown2impress</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="http://blog.clouder.jp/archives/001146.html">プレゼンをmarkdownで書いたらええやん - Clouder::Blogger</a></li>
 </ul>

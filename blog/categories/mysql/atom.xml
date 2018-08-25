@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: mysql | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/mysql/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/mysql/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,14 +15,14 @@
   
   <entry>
     <title type="html"><![CDATA[MySQL Casual Talks Vol.3でLTをさせて頂きました]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/20/mysql-casucal-vol3/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/20/mysql-casucal-vol3/"/>
     <updated>2012-04-20T08:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/20/mysql-casucal-vol3</id>
+    <id>http://blog.glidenote.com/blog/2012/04/20/mysql-casucal-vol3</id>
     <content type="html"><![CDATA[<p><a href="http://atnd.org/events/26373">MySQL Casual Talks Vol.3</a>でLTをさせて頂きました。<br />
 登壇の機会を与えてくれた主催の<a href="https://twitter.com/#!/myfinder">@myfinder</a>さん、
 会場を提供していただいた日本オラクルさん、運営に携わった方々ありがとうございました！</p>
 
-<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="presentation_frame_4f9008a649bc250022016265" src="https://blog.glidenote.com//speakerdeck.com/embed/4f9008a649bc250022016265" width="700" height="601"></iframe>
+<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="presentation_frame_4f9008a649bc250022016265" src="http://blog.glidenote.com//speakerdeck.com/embed/4f9008a649bc250022016265" width="700" height="601"></iframe>
 
 <p><br clear="all" /></p>
 
@@ -49,9 +49,9 @@
   
   <entry>
     <title type="html"><![CDATA[logmonとMaatkitでMySQLレプリケーションエラーから自動復旧]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/12/01/watch-mysql-replication-error/"/>
+    <link href="http://blog.glidenote.com/blog/2011/12/01/watch-mysql-replication-error/"/>
     <updated>2011-12-01T16:23:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/12/01/watch-mysql-replication-error</id>
+    <id>http://blog.glidenote.com/blog/2011/12/01/watch-mysql-replication-error</id>
     <content type="html"><![CDATA[<p>昨日からMySQLのレプリケーションで特定のエラーが発生して止まってしまう現象が多発したので、logmonとMaatkitのmk-slave-restartで自動復旧するようにして対応。<br />
 エラー原因の根本解決じゃないですが、エラー検知して対応するまでレプリケーションが止まったままとか、
 深夜にレプリケーションが止まって叩き起こされるよりかは遙かにマシ。</p>

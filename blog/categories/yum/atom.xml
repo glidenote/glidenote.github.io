@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: yum | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/yum/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/yum/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[CentOS 6.5にupgradeしたらyumが動かなくなったので直した]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/12/04/yum-not-working/"/>
+    <link href="http://blog.glidenote.com/blog/2013/12/04/yum-not-working/"/>
     <updated>2013-12-04T17:41:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/12/04/yum-not-working</id>
+    <id>http://blog.glidenote.com/blog/2013/12/04/yum-not-working</id>
     <content type="html"><![CDATA[<p>CentOS 6.4から6.5にupgradeかけたあとから
 yum実行したら、下記のエラーが出て動かなくなった。</p>
 

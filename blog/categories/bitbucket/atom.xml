@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: bitbucket | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/bitbucket/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/bitbucket/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[コマンドライン上からBitbucketのPrivate Repositoryを作成するgemを作ってみた]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/06/05/pori/"/>
+    <link href="http://blog.glidenote.com/blog/2012/06/05/pori/"/>
     <updated>2012-06-05T23:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/06/05/pori</id>
+    <id>http://blog.glidenote.com/blog/2012/06/05/pori</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="https://rubygems.org/gems/pori">pori | RubyGems.org | your community gem host</a></li>
 </ul>
@@ -69,9 +69,9 @@ Pushしているので、自分が使うために作ったgemです。</p>
   
   <entry>
     <title type="html"><![CDATA[git + etckeeper + BitbucketのPrivate Repositoryで/etcを管理]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/23/etckeeper-bitbucket/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/23/etckeeper-bitbucket/"/>
     <updated>2012-04-23T14:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/23/etckeeper-bitbucket</id>
+    <id>http://blog.glidenote.com/blog/2012/04/23/etckeeper-bitbucket</id>
     <content type="html"><![CDATA[<p>個人で利用しているさくらのVPSのプラン変更に伴い、サーバの移行作業をしているんですが、
 そのタイミングで、<code>/etc</code>配下のファイルの管理を個人で立ててたgitoliteから
 <a href="https://bitbucket.org/">Bitbucket</a>のprivate repositoryでの管理に変更したのでメモ。</p>
@@ -152,9 +152,9 @@ sudo git push origin master
   
   <entry>
     <title type="html"><![CDATA[Private RepositoryをBitbucketで管理し始めた]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/02/13/manage-private-repository-with-bitbucket/"/>
+    <link href="http://blog.glidenote.com/blog/2012/02/13/manage-private-repository-with-bitbucket/"/>
     <updated>2012-02-13T07:04:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/02/13/manage-private-repository-with-bitbucket</id>
+    <id>http://blog.glidenote.com/blog/2012/02/13/manage-private-repository-with-bitbucket</id>
     <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2012/02/logoBitBucketPNG.png" width="384px" height="125px" align="right" /></p>
 
 <ul>

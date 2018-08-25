@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: stow | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/stow/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/stow/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Stowを利用してソースからビルドしたソフトウェアを効率的に管理する]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/08/10/stow/"/>
+    <link href="http://blog.glidenote.com/blog/2012/08/10/stow/"/>
     <updated>2012-08-10T01:47:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/08/10/stow</id>
+    <id>http://blog.glidenote.com/blog/2012/08/10/stow</id>
     <content type="html"><![CDATA[<p>同じチームの<a href="https://twitter.com/lamanotrama">@lamanotrama</a>さんと話していて、
 これから一部パッケージはRPMを作らず、<a href="https://twitter.com/hirose31">@hirose31</a>さんの方式
 (<a href="http://d.hatena.ne.jp/hirose31/20091217/1260981836">ソースから自前ビルドしたソフトウエアの効率的な管理方法 - (ひ)メモ</a>)

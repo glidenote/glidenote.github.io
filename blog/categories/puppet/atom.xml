@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: puppet | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/puppet/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/puppet/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[rbenvの管理にpuppet-rbenvを使うようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/07/10/puppet-rbenv/"/>
+    <link href="http://blog.glidenote.com/blog/2013/07/10/puppet-rbenv/"/>
     <updated>2013-07-10T21:50:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/07/10/puppet-rbenv</id>
+    <id>http://blog.glidenote.com/blog/2013/07/10/puppet-rbenv</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="https://github.com/alup/puppet-rbenv">alup/puppet-rbenv</a></li>
 </ul>
@@ -86,9 +86,9 @@ puppet module install alup-rbenv
   
   <entry>
     <title type="html"><![CDATA[PuppetのSyntaxをvim(syntastic)とgit hooks(pre-commit)の2重でチェックするようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/03/16/puppet-syntax-check/"/>
+    <link href="http://blog.glidenote.com/blog/2013/03/16/puppet-syntax-check/"/>
     <updated>2013-03-16T21:48:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/03/16/puppet-syntax-check</id>
+    <id>http://blog.glidenote.com/blog/2013/03/16/puppet-syntax-check</id>
     <content type="html"><![CDATA[<p>puppetのmanifestを書いていて、我ながらtypo、構文ミスとかヘボいミスが多すぎるので、
 vimとgit hooks(pre-commit)とで2重でsyntax checkをするようにした。</p>
 

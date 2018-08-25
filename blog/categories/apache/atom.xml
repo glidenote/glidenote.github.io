@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: apache | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/apache/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/apache/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Node.jsで書かれてwebベースのlog streamer「Supergrep」を試してみた]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/07/02/supergrep/"/>
+    <link href="http://blog.glidenote.com/blog/2012/07/02/supergrep/"/>
     <updated>2012-07-02T10:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/07/02/supergrep</id>
+    <id>http://blog.glidenote.com/blog/2012/07/02/supergrep</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="http://codeascraft.etsy.com/2012/06/28/is-it-a-bird-is-it-a-plane-no-its-supergrep/">Is It A Bird? Is It A Plane? No, It’s Supergrep! « Code as Craft</a></li>
   <li><a href="https://github.com/etsy/supergrep">etsy/supergrep</a></li>

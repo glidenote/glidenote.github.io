@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: terminal | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/terminal/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/terminal/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[TotalTerminalとiTerm2のカラースキーマをSolarizedにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/04/22/terminal-solarized/"/>
+    <link href="http://blog.glidenote.com/blog/2013/04/22/terminal-solarized/"/>
     <updated>2013-04-22T20:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/04/22/terminal-solarized</id>
+    <id>http://blog.glidenote.com/blog/2013/04/22/terminal-solarized</id>
     <content type="html"><![CDATA[<p><a href="http://totalterminal.binaryage.com/">TotalTerminal</a>というかTerminal.app上でコピペをすると改行が無くなる問題が結構発生して
 いろいろ調べて見たんですが、原因の特定も解決方法も分からなかったので、<a href="http://www.iterm2.com/#/section/home">iTerm2</a>に切り替え中。</p>
 
@@ -68,9 +68,9 @@
   
   <entry>
     <title type="html"><![CDATA[ターミナルからPinboardのお気に入りを検索できるpblというツールを作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/10/04/pbl/"/>
+    <link href="http://blog.glidenote.com/blog/2012/10/04/pbl/"/>
     <updated>2012-10-04T23:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/10/04/pbl</id>
+    <id>http://blog.glidenote.com/blog/2012/10/04/pbl</id>
     <content type="html"><![CDATA[<ul>
   <li><a href="https://rubygems.org/gems/pbl">pbl</a></li>
 </ul>
@@ -122,14 +122,14 @@ pbl fluentd
   
   <entry>
     <title type="html"><![CDATA[社内でターミナル勉強会を開催した]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/30/terminal-study-vol-2/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/30/terminal-study-vol-2/"/>
     <updated>2012-04-30T03:14:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/30/terminal-study-vol-2</id>
+    <id>http://blog.glidenote.com/blog/2012/04/30/terminal-study-vol-2</id>
     <content type="html"><![CDATA[<p>月一回のペースで社内勉強会を主催しているんですが、
 資料をspeckerdeckに置くようにしたので、
 先日社内で開催したターミナル勉強会の資料を公開。  </p>
 
-<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="presentation_frame_4f9a6a2b78ef2a0021034baa" src="https://blog.glidenote.com//speakerdeck.com/embed/4f9a6a2b78ef2a0021034baa" width="700" height="601"></iframe>
+<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="presentation_frame_4f9a6a2b78ef2a0021034baa" src="http://blog.glidenote.com//speakerdeck.com/embed/4f9a6a2b78ef2a0021034baa" width="700" height="601"></iframe>
 
 <p>去年にも同じテーマで勉強会をやっていて、
 今回は実際のターミナル操作8割、説明2割みたいな感じでやったので

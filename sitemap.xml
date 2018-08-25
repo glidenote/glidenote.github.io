@@ -1,935 +1,933 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>https://blog.glidenote.com/blog/2011/11/07/install-octopress-on-github/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/11/07/install-octopress-on-github/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2011/11/09/markdown-with-vim/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/11/09/markdown-with-vim/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2011/11/14/get-erricson-mini/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/11/14/get-erricson-mini/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2011/11/15/ericsson-mini-rooted/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/11/15/ericsson-mini-rooted/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2011/11/15/disable-lcd-backlight/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/11/15/disable-lcd-backlight/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2011/11/16/install-gist-vim/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/11/16/install-gist-vim/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2011/11/16/install-heso/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            https://blog.glidenote.com/blog/2011/11/18/disable-camera-shutter-sound-on-s51se/
-        </loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2011/11/22/edit-trac-wiki-with-vim/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2011/11/25/install-supervisor/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2011/11/30/iphone-home-bottun/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2011/11/30/extend-lvm-volume/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2011/12/01/watch-mysql-replication-error/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2011/12/02/logmon-with-supervisord/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2011/12/03/yum-exclude/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2011/12/07/window-tidy-with-launchd/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2011/12/12/upgrade-fedora-15-to-16/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2011/12/16/custom-tmux-visual/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2011/12/17/caca-utils/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2011/12/19/wordpress-to-octopress/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/11/16/install-heso/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
         <loc>
-            https://blog.glidenote.com/blog/2011/12/20/how-to-use-custom-domain-on-github-pages/
+            http://blog.glidenote.com/blog/2011/11/18/disable-camera-shutter-sound-on-s51se/
         </loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2011/12/21/install-rbenv-and-ruby-build/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/11/22/edit-trac-wiki-with-vim/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2011/12/22/show-certs-with-openssl/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/11/25/install-supervisor/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2011/12/23/vim-octopress/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/11/30/iphone-home-bottun/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2011/12/23/modify-jekyll.vim-for-octopress/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/11/30/extend-lvm-volume/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2011/12/26/photo-2011/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/12/01/watch-mysql-replication-error/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2011/12/27/hosts-deny-error/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/12/02/logmon-with-supervisord/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2011/12/28/dyndns-iptables-hosts.allow/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/12/03/yum-exclude/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2011/12/29/rudix-on-mac/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/12/07/window-tidy-with-launchd/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2011/12/29/s51se-4.0.2.a.0.61-rooted/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/12/12/upgrade-fedora-15-to-16/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/01/03/cool-design-octopress-sites/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/12/16/custom-tmux-visual/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/01/04/octopress-related-posts/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/12/17/caca-utils/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/01/05/here-document-tips/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/12/19/wordpress-to-octopress/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
         <loc>
-            https://blog.glidenote.com/blog/2012/01/07/rails3.1-could-not-find-a-javascript-runtime./
+            http://blog.glidenote.com/blog/2011/12/20/how-to-use-custom-domain-on-github-pages/
         </loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/01/08/vnc-with-stone/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/12/21/install-rbenv-and-ruby-build/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/01/15/vimpusher/</loc>
+        <loc>http://blog.glidenote.com/blog/2011/12/22/show-certs-with-openssl/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2011/12/23/vim-octopress/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2011/12/23/modify-jekyll.vim-for-octopress/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2011/12/26/photo-2011/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2011/12/27/hosts-deny-error/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2011/12/28/dyndns-iptables-hosts.allow/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2011/12/29/rudix-on-mac/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2011/12/29/s51se-4.0.2.a.0.61-rooted/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/01/03/cool-design-octopress-sites/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/01/04/octopress-related-posts/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/01/05/here-document-tips/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
         <loc>
-            https://blog.glidenote.com/blog/2012/01/23/invalid-kernel-xc_dom_find_loader-no-loader-found/
+            http://blog.glidenote.com/blog/2012/01/07/rails3.1-could-not-find-a-javascript-runtime./
         </loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/01/24/install-hubot/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/01/08/vnc-with-stone/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/01/29/pinboard/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/02/01/filesystem-hierarchy-standard/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/02/03/cobbler-scientific-linux-6.1/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/02/06/systemctl-zsh-completion/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/02/11/weechat-plugins/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/01/15/vimpusher/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
         <loc>
-            https://blog.glidenote.com/blog/2012/02/13/manage-private-repository-with-bitbucket/
+            http://blog.glidenote.com/blog/2012/01/23/invalid-kernel-xc_dom_find_loader-no-loader-found/
         </loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/02/19/ssh-proxycommand/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/01/24/install-hubot/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/02/20/command-line-tools-for-xcode/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/01/29/pinboard/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/02/23/rudix-zsh-completion/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/02/01/filesystem-hierarchy-standard/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/02/25/hub-zsh-completion/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/02/03/cobbler-scientific-linux-6.1/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/02/29/autojump-zsh/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/02/06/systemctl-zsh-completion/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/03/05/bijogoyomi/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/03/13/lion-autofs-nfs/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/03/14/ironman-sticker/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/03/15/cobbler-install/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/03/16/cobbler-system-add/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/03/19/markdown2impress/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/03/21/yankring.vim-error/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/03/23/automation/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/03/26/memolist.vim/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/03/26/memolist-fuzyfinder/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/03/31/update-memolist.vim/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/01/new-gist.vim/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/02/octoeditor.vim/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/03/subsonic-nginx/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/04/presentation-2012/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/05/install-ut-vpn-client/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/07/auto-fu.zsh/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/08/nginx.vim/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/09/keepalived-syntax.vim/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/11/mosh-on-sakura-vps/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/11/mosh-with-tmux/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/12/octopress-canonical-problem/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/14/mosh-hostname-completion/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/16/sheet/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/20/mysql-casucal-vol3/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/21/speaker-deck/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/23/etckeeper-bitbucket/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/24/bash-it/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/04/30/terminal-study-vol-2/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/05/03/zsh-completion/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/05/10/gitspective/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/05/11/ss-zsh-completion/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/05/12/eneloop-mobile-booster/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/05/13/kindle4/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/05/15/mosh-rpm/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/05/16/vim-ruby-homebrew/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/05/21/fluentd-nginx-mongodb/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/05/22/twitter-icon-sticker/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/05/25/bijogoyomi-2012-05-25/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/05/30/manage-chrome-search-engine/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/06/05/pori/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/06/07/pinboard-fu/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/06/10/octopress-post-directory/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/06/16/subversion-to-github/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/06/18/git-issue-zsh-completion/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/06/26/vim-zshenv-rbenv/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/07/02/supergrep/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/07/15/fluentd-regex-debug/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/07/22/git-pocket-reference/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/07/25/git-filter-branch/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/07/26/the-dark-knight-rises/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/08/02/incron/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/08/10/stow/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/08/25/emacs-study/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/08/31/2012-summer/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/09/04/vundle-create-new-buffer/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2012/09/16/pslurp/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/02/11/weechat-plugins/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
         <loc>
-            https://blog.glidenote.com/blog/2012/09/24/miwa-yamasaki-red-and-green-porcelain-exhibition/
+            http://blog.glidenote.com/blog/2012/02/13/manage-private-repository-with-bitbucket/
         </loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/10/01/linux-reserved-blocks/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/02/19/ssh-proxycommand/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/10/04/pbl/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/02/20/command-line-tools-for-xcode/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/10/06/tw-zsh-completion/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/02/23/rudix-zsh-completion/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/10/25/antigen/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/02/25/hub-zsh-completion/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/10/30/lt-and-reading-vimrc/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/02/29/autojump-zsh/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/10/31/thin-octopress/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/03/05/bijogoyomi/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/11/06/snapjoy-everpix/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/03/13/lion-autofs-nfs/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/11/27/github-repos-for-me/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/03/14/ironman-sticker/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/12/15/zsh-syntax-highlighting/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/03/15/cobbler-install/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/12/19/octopress-gist-tag-plugin-fixed/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/03/16/cobbler-system-add/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2012/12/31/2012-summary/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/03/19/markdown2impress/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/01/10/vim-quickrun-marked/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/03/21/yankring.vim-error/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/01/26/newdayone.vim/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/03/23/automation/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/02/04/tmux-pipe-pane-logging/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/03/26/memolist.vim/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/02/20/subsonic-donate/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/03/26/memolist-fuzyfinder/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/03/31/update-memolist.vim/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/01/new-gist.vim/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/02/octoeditor.vim/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/03/subsonic-nginx/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/04/presentation-2012/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/05/install-ut-vpn-client/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/07/auto-fu.zsh/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/08/nginx.vim/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/09/keepalived-syntax.vim/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/11/mosh-on-sakura-vps/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/11/mosh-with-tmux/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/12/octopress-canonical-problem/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/14/mosh-hostname-completion/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/16/sheet/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/20/mysql-casucal-vol3/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/21/speaker-deck/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/23/etckeeper-bitbucket/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/24/bash-it/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/04/30/terminal-study-vol-2/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/05/03/zsh-completion/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/05/10/gitspective/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/05/11/ss-zsh-completion/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/05/12/eneloop-mobile-booster/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/05/13/kindle4/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/05/15/mosh-rpm/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/05/16/vim-ruby-homebrew/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/05/21/fluentd-nginx-mongodb/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/05/22/twitter-icon-sticker/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/05/25/bijogoyomi-2012-05-25/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/05/30/manage-chrome-search-engine/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/06/05/pori/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/06/07/pinboard-fu/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/06/10/octopress-post-directory/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/06/16/subversion-to-github/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/06/18/git-issue-zsh-completion/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/06/26/vim-zshenv-rbenv/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/07/02/supergrep/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/07/15/fluentd-regex-debug/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/07/22/git-pocket-reference/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/07/25/git-filter-branch/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/07/26/the-dark-knight-rises/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/08/02/incron/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/08/10/stow/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/08/25/emacs-study/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/08/31/2012-summer/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/09/04/vundle-create-new-buffer/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/09/16/pslurp/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
         <loc>
-            https://blog.glidenote.com/blog/2013/02/26/jumping-to-the-finder-location-in-terminal/
+            http://blog.glidenote.com/blog/2012/09/24/miwa-yamasaki-red-and-green-porcelain-exhibition/
         </loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/02/28/the-silver-searcher-better-than-ack/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/10/01/linux-reserved-blocks/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/03/16/puppet-syntax-check/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/10/04/pbl/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/04/08/fluentd-mongodb-integer/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/10/06/tw-zsh-completion/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/04/22/terminal-solarized/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/10/25/antigen/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/05/07/httping-munin/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/10/30/lt-and-reading-vimrc/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/05/20/working-with-irc-bot/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/10/31/thin-octopress/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/06/10/control-nagios-alert-with-irc-bot/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/11/06/snapjoy-everpix/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/07/10/puppet-rbenv/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/11/27/github-repos-for-me/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/07/17/learngin-tmux/</loc>
+        <loc>http://blog.glidenote.com/blog/2012/12/15/zsh-syntax-highlighting/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/12/19/octopress-gist-tag-plugin-fixed/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2012/12/31/2012-summary/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2013/01/10/vim-quickrun-marked/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2013/01/26/newdayone.vim/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2013/02/04/tmux-pipe-pane-logging/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2013/02/20/subsonic-donate/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
         <loc>
-            https://blog.glidenote.com/blog/2013/07/18/open-browser-github.vim-for-github-enterprise/
+            http://blog.glidenote.com/blog/2013/02/26/jumping-to-the-finder-location-in-terminal/
         </loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/07/18/github-irc-hooks-event-type/</loc>
+        <loc>http://blog.glidenote.com/blog/2013/02/28/the-silver-searcher-better-than-ack/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/07/22/gitcommit-dictionary/</loc>
+        <loc>http://blog.glidenote.com/blog/2013/03/16/puppet-syntax-check/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/07/29/gem-install-hub-is-slow/</loc>
+        <loc>http://blog.glidenote.com/blog/2013/04/08/fluentd-mongodb-integer/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/08/26/ojt-with-wemux/</loc>
+        <loc>http://blog.glidenote.com/blog/2013/04/22/terminal-solarized/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/09/20/gist-and-gist-zsh-completion/</loc>
+        <loc>http://blog.glidenote.com/blog/2013/05/07/httping-munin/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/09/20/source-vim-files-with-runtime/</loc>
+        <loc>http://blog.glidenote.com/blog/2013/05/20/working-with-irc-bot/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/09/26/bg-and-disown/</loc>
+        <loc>http://blog.glidenote.com/blog/2013/06/10/control-nagios-alert-with-irc-bot/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/10/30/serf-haproxy/</loc>
+        <loc>http://blog.glidenote.com/blog/2013/07/10/puppet-rbenv/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2013/11/06/serf-munin/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2013/11/13/commands-for-trouble/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2013/11/26/sensu/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2013/12/03/recommend-kindle-books/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2013/12/04/yum-not-working/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2013/12/04/git-commit-message-template/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2013/12/20/vagrant-docker-digitalocean/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/01/28/td-agent-queue-size-exceeds-limit/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/01/29/post-to-irc-important-mail-subject/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/02/12/digital-ocean-singapore-region/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/02/13/fluent-plugin-tai64n_parser/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/02/14/octopress-update/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/02/22/remote-pbcopy/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/02/25/torne-hdd-raid1/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/02/26/vagrant-dotenv/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/03/14/tmux-1.9a-is-not-good/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/03/30/tech-tool-knowledge/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/04/20/change-command-path-priority/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/05/15/zsh-bd/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/05/19/sensu-puppet-sample/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/05/22/sensu-casual-freenode/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/05/28/vim-rubocop/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/05/29/bundle-open-with-vimfiler/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/06/09/vagrant-build-nginx/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/06/17/serverspec-snippets/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/06/19/quickrun-serverspec/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2014/06/26/snippets-peco-percol/</loc>
+        <loc>http://blog.glidenote.com/blog/2013/07/17/learngin-tmux/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
         <loc>
-            https://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv/
+            http://blog.glidenote.com/blog/2013/07/18/open-browser-github.vim-for-github-enterprise/
         </loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2014/08/01/join-to-kaizen-platform-inc/</loc>
+        <loc>http://blog.glidenote.com/blog/2013/07/18/github-irc-hooks-event-type/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack/</loc>
+        <loc>http://blog.glidenote.com/blog/2013/07/22/gitcommit-dictionary/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2014/09/12/chatops-security-update/</loc>
+        <loc>http://blog.glidenote.com/blog/2013/07/29/gem-install-hub-is-slow/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2014/10/31/infrastructure-engineer-grows-old/</loc>
+        <loc>http://blog.glidenote.com/blog/2013/08/26/ojt-with-wemux/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions/</loc>
+        <loc>http://blog.glidenote.com/blog/2013/09/20/gist-and-gist-zsh-completion/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery/</loc>
+        <loc>http://blog.glidenote.com/blog/2013/09/20/source-vim-files-with-runtime/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2013/09/26/bg-and-disown/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2013/10/30/serf-haproxy/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2013/11/06/serf-munin/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2013/11/13/commands-for-trouble/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2013/11/26/sensu/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2013/12/03/recommend-kindle-books/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2013/12/04/yum-not-working/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2013/12/04/git-commit-message-template/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2013/12/20/vagrant-docker-digitalocean/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/01/28/td-agent-queue-size-exceeds-limit/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/01/29/post-to-irc-important-mail-subject/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/02/12/digital-ocean-singapore-region/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/02/13/fluent-plugin-tai64n_parser/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/02/14/octopress-update/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/02/22/remote-pbcopy/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/02/25/torne-hdd-raid1/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/02/26/vagrant-dotenv/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/03/14/tmux-1.9a-is-not-good/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/03/30/tech-tool-knowledge/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/04/20/change-command-path-priority/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/05/15/zsh-bd/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/05/19/sensu-puppet-sample/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/05/22/sensu-casual-freenode/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/05/28/vim-rubocop/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/05/29/bundle-open-with-vimfiler/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/06/09/vagrant-build-nginx/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/06/17/serverspec-snippets/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/06/19/quickrun-serverspec/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2014/06/26/snippets-peco-percol/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
         <loc>
-            https://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv/
+            http://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv/
         </loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014/</loc>
+        <loc>http://blog.glidenote.com/blog/2014/08/01/join-to-kaizen-platform-inc/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2015/01/22/serverspec-book/</loc>
+        <loc>http://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws/</loc>
+        <loc>http://blog.glidenote.com/blog/2014/09/12/chatops-security-update/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2015/05/21/amazon-web-services-books/</loc>
+        <loc>http://blog.glidenote.com/blog/2014/10/31/infrastructure-engineer-grows-old/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2015/08/17/move-to-akamai/</loc>
+        <loc>http://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2015/10/01/nightmare-screenshots/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2016/02/04/lets-encrypt/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2016/02/05/roost/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/blog/2016/02/16/web-service-development-vol2/</loc>
+        <loc>http://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
         <loc>
-            https://blog.glidenote.com/blog/2016/02/25/infrastructure-engineer-books-devops/
+            http://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv/
         </loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow/</loc>
+        <loc>http://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2016/03/29/notification-apps/</loc>
+        <loc>http://blog.glidenote.com/blog/2015/01/22/serverspec-book/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2015/05/21/amazon-web-services-books/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2015/08/17/move-to-akamai/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2015/10/01/nightmare-screenshots/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2016/02/04/lets-encrypt/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2016/02/05/roost/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2016/02/16/web-service-development-vol2/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2016/02/25/infrastructure-engineer-books-devops/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/2016/03/29/notification-apps/</loc>
         <lastmod>2018-08-25T15:29:27+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2016/03/29/alfred-mackerel-page-workflow/</loc>
+        <loc>http://blog.glidenote.com/blog/2016/03/29/alfred-mackerel-page-workflow/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
         <loc>
-            https://blog.glidenote.com/blog/2016/08/18/docker-alpine-serverspec-with-circleci/
+            http://blog.glidenote.com/blog/2016/08/18/docker-alpine-serverspec-with-circleci/
         </loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2016/09/02/alb-ecs-docker-hot-deploy/</loc>
+        <loc>http://blog.glidenote.com/blog/2016/09/02/alb-ecs-docker-hot-deploy/</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2016/12/16/goreplay/</loc>
+        <loc>http://blog.glidenote.com/blog/2016/12/16/goreplay/</loc>
         <lastmod>2018-08-25T15:21:13+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/2018/08/24/docker-kubernetes-book/</loc>
+        <loc>http://blog.glidenote.com/blog/2018/08/24/docker-kubernetes-book/</loc>
         <lastmod>2018-08-25T15:17:01+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/about/</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/</loc>
+        <loc>http://blog.glidenote.com/</loc>
         <lastmod>2018-08-25T15:29:27+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/blog/archives/</loc>
+        <loc>http://blog.glidenote.com/about/</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/blog/archives/</loc>
         <lastmod>2018-08-25T15:29:27+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/font/src/assets/font-awesome/less/font-awesome.less</loc>
+        <loc>http://blog.glidenote.com/font/src/community.html</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/font/src/assets/font-awesome/less/fixed-width.less</loc>
+        <loc>http://blog.glidenote.com/font/src/</loc>
+        <lastmod>2018-08-25T15:29:27+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/font/src/glyphicons-test.html</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/font/src/assets/font-awesome/less/larger.less</loc>
+        <loc>http://blog.glidenote.com/font/src/license.html</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/font/src/assets/font-awesome/less/variables.less</loc>
+        <loc>http://blog.glidenote.com/font/src/whats-new.html</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/font/src/assets/font-awesome/less/mixins.less</loc>
+        <loc>http://blog.glidenote.com/font/src/Makefile</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/font/src/assets/font-awesome/less/list.less</loc>
+        <loc>http://blog.glidenote.com/font/src/cheatsheet.html</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/font/src/get-started.html</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/font/src/test.html</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/font/src/examples.html</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/font/src/icons.html</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/font/src/assets/less/site/bootstrap/variables.less</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/font/src/assets/less/site.less</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/font/src/assets/font-awesome/less/list.less</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/font/src/assets/font-awesome/less/stacked.less</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/font/src/assets/font-awesome/less/core.less</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/font/src/assets/font-awesome/less/fixed-width.less</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/font/src/assets/font-awesome/less/variables.less</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
         <loc>
-            https://blog.glidenote.com/font/src/assets/font-awesome/less/rotated-flipped.less
+            http://blog.glidenote.com/font/src/assets/font-awesome/less/rotated-flipped.less
         </loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/font/src/assets/font-awesome/less/font-awesome.less</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/font/src/assets/font-awesome/less/icons.less</loc>
+        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.glidenote.com/font/src/assets/font-awesome/less/spinning.less</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
         <loc>
-            https://blog.glidenote.com/font/src/assets/font-awesome/less/bordered-pulled.less
+            http://blog.glidenote.com/font/src/assets/font-awesome/less/bordered-pulled.less
         </loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/font/src/assets/font-awesome/less/icons.less</loc>
+        <loc>http://blog.glidenote.com/font/src/assets/font-awesome/less/larger.less</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/font/src/assets/font-awesome/less/core.less</loc>
+        <loc>http://blog.glidenote.com/font/src/assets/font-awesome/less/mixins.less</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/font/src/assets/font-awesome/less/spinning.less</loc>
+        <loc>http://blog.glidenote.com/font/src/assets/font-awesome/scss/font-awesome.scss</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
     </url>
     <url>
-        <loc>https://blog.glidenote.com/font/src/assets/font-awesome/less/stacked.less</loc>
+        <loc>http://blog.glidenote.com/font/src/test-2.3.2.html</loc>
         <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/font/src/assets/font-awesome/scss/font-awesome.scss</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/font/src/assets/less/site/bootstrap/variables.less</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/font/src/assets/less/site.less</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/font/src/whats-new.html</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/font/src/test.html</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/font/src/community.html</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/font/src/icons.html</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/font/src/get-started.html</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/font/src/test-2.3.2.html</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/font/src/license.html</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/font/src/examples.html</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/font/src/Makefile</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/font/src/glyphicons-test.html</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/font/src/cheatsheet.html</loc>
-        <lastmod>2018-08-24T20:27:50+09:00</lastmod>
-    </url>
-    <url>
-        <loc>https://blog.glidenote.com/font/src/</loc>
-        <lastmod>2018-08-25T15:29:27+09:00</lastmod>
     </url>
 </urlset>

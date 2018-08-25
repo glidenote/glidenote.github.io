@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: jekyll | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/jekyll/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/jekyll/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[OctopressでRelated Posts(関連エントリー)を表示させるようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/01/04/octopress-related-posts/"/>
+    <link href="http://blog.glidenote.com/blog/2012/01/04/octopress-related-posts/"/>
     <updated>2012-01-04T20:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/01/04/octopress-related-posts</id>
+    <id>http://blog.glidenote.com/blog/2012/01/04/octopress-related-posts</id>
     <content type="html"><![CDATA[<p>Octopressというか<a href="http://jekyllrb.com/">jekyll</a>自体に関連エントリーを表示させる<code>site.related_posts</code>というTemplate Dataがあるんですが、
 利用してみると、内容的に似ている関連エントリーを表示するわけでは無く、単に最近のエントリーを表示するだけ。<br />
 設定の問題なのかと思って調べていたら、</p>
@@ -91,9 +91,9 @@ limitを指定しないと、同じカテゴリーのエントリーが全部表
   
   <entry>
     <title type="html"><![CDATA[jekyll.vim を Octopressで利用出来るようにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/12/23/modify-jekyll.vim-for-octopress/"/>
+    <link href="http://blog.glidenote.com/blog/2011/12/23/modify-jekyll.vim-for-octopress/"/>
     <updated>2011-12-23T23:08:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/12/23/modify-jekyll.vim-for-octopress</id>
+    <id>http://blog.glidenote.com/blog/2011/12/23/modify-jekyll.vim-for-octopress</id>
     <content type="html"><![CDATA[<p>jekyll.vimを修正して、Octopressでも利用出来るように。</p>
 
 <ul>

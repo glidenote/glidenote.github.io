@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: munin | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/munin/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/munin/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[serf-muninを導入してmunin-nodeの監視追加、削除を自動化した]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/11/06/serf-munin/"/>
+    <link href="http://blog.glidenote.com/blog/2013/11/06/serf-munin/"/>
     <updated>2013-11-06T20:12:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/11/06/serf-munin</id>
+    <id>http://blog.glidenote.com/blog/2013/11/06/serf-munin</id>
     <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2013/10/30/serf-haproxy/">前回の続き</a>で<a href="http://www.serfdom.io/">Serf</a>を触ってる。前回のエントリを見て、<a href="https://twitter.com/zembutsu">@zembutsuさん</a>が作ってくれた<a href="https://github.com/zembutsu/serf-munin">serf-munin</a>が素晴らしかったので、弊社仕様に若干修正して導入した。</p>
 
 <ul>
@@ -252,9 +252,9 @@ sudo stop serf
   
   <entry>
     <title type="html"><![CDATA[httpingとmuninでWebサーバのレスポンスをグラフ化した]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/05/07/httping-munin/"/>
+    <link href="http://blog.glidenote.com/blog/2013/05/07/httping-munin/"/>
     <updated>2013-05-07T19:10:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/05/07/httping-munin</id>
+    <id>http://blog.glidenote.com/blog/2013/05/07/httping-munin</id>
     <content type="html"><![CDATA[<p>Webサーバのレスポンスの計測をしたくて、Webサーバにはfluentdを導入済みなので、
 Fluentd+GrowthForecastでやろうと思ったんですが、
 Webサーバは全台muninでモニタリングしてて、muninとGrowthForecastでページが

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: tmux | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/tmux/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/tmux/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[tmux 1.9aの挙動が怪しかったので1.8に戻した]]></title>
-    <link href="https://blog.glidenote.com/blog/2014/03/14/tmux-1.9a-is-not-good/"/>
+    <link href="http://blog.glidenote.com/blog/2014/03/14/tmux-1.9a-is-not-good/"/>
     <updated>2014-03-14T14:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2014/03/14/tmux-1.9a-is-not-good</id>
+    <id>http://blog.glidenote.com/blog/2014/03/14/tmux-1.9a-is-not-good</id>
     <content type="html"><![CDATA[<p>一昨日対応したのでメモとして残しておく。</p>
 
 <p>tmuxが落ちまくって、開いてるウィンドウが一斉に無くなってストレスフルな状態に。
@@ -71,9 +71,9 @@ brew install tmux
   
   <entry>
     <title type="html"><![CDATA[新卒OJTにwemux(multi-user terminal multiplexing)を使って画面共有することにした]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/08/26/ojt-with-wemux/"/>
+    <link href="http://blog.glidenote.com/blog/2013/08/26/ojt-with-wemux/"/>
     <updated>2013-08-26T20:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/08/26/ojt-with-wemux</id>
+    <id>http://blog.glidenote.com/blog/2013/08/26/ojt-with-wemux</id>
     <content type="html"><![CDATA[<p><img src="http://i.imgur.com/iOjcz.png" alt="" /></p>
 
 <ul>
@@ -187,9 +187,9 @@ mergeされてるのでzsh-completions利用すればweemuxのコマンドが補
   
   <entry>
     <title type="html"><![CDATA[新卒研修でtmuxの話をした]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/07/17/learngin-tmux/"/>
+    <link href="http://blog.glidenote.com/blog/2013/07/17/learngin-tmux/"/>
     <updated>2013-07-17T16:12:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/07/17/learngin-tmux</id>
+    <id>http://blog.glidenote.com/blog/2013/07/17/learngin-tmux</id>
     <content type="html"><![CDATA[<p>新卒研修をした。 
 インフラ関連の話は、他のインフラメンバーが散々していたと思うので、
 趣向を変えて私はターミナルマルチプレクサの話(といいつつtmuxだけ)の話を。</p>
@@ -205,9 +205,9 @@ mergeされてるのでzsh-completions利用すればweemuxのコマンドが補
   
   <entry>
     <title type="html"><![CDATA[tmuxのpipe-paneを利用してリモートサーバでの作業ログをローカルに記録する]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/02/04/tmux-pipe-pane-logging/"/>
+    <link href="http://blog.glidenote.com/blog/2013/02/04/tmux-pipe-pane-logging/"/>
     <updated>2013-02-04T23:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/02/04/tmux-pipe-pane-logging</id>
+    <id>http://blog.glidenote.com/blog/2013/02/04/tmux-pipe-pane-logging</id>
     <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2012/04/11/mosh-with-tmux/"><code>ssh</code>や<code>mosh</code>でリモートサーバに接続する際に、<code>tmux</code>のwindowを自動で生成して</a>おり、
 <code>リモートサーバに接続</code>と<code>tmux</code>がセットになっているので、tmuxを使ってリモートサーバでの作業ログをローカルに保存出来ないかと思って調べていたら
 <code>pipe-pane</code>を利用すると可能ぽいのでやってみた。</p>
@@ -265,14 +265,14 @@ hogemogeの部分はtmuxのwindow名が入ります。tmuxのバージョンが�
   
   <entry>
     <title type="html"><![CDATA[社内でターミナル勉強会を開催した]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/04/30/terminal-study-vol-2/"/>
+    <link href="http://blog.glidenote.com/blog/2012/04/30/terminal-study-vol-2/"/>
     <updated>2012-04-30T03:14:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/04/30/terminal-study-vol-2</id>
+    <id>http://blog.glidenote.com/blog/2012/04/30/terminal-study-vol-2</id>
     <content type="html"><![CDATA[<p>月一回のペースで社内勉強会を主催しているんですが、
 資料をspeckerdeckに置くようにしたので、
 先日社内で開催したターミナル勉強会の資料を公開。  </p>
 
-<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="presentation_frame_4f9a6a2b78ef2a0021034baa" src="https://blog.glidenote.com//speakerdeck.com/embed/4f9a6a2b78ef2a0021034baa" width="700" height="601"></iframe>
+<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="presentation_frame_4f9a6a2b78ef2a0021034baa" src="http://blog.glidenote.com//speakerdeck.com/embed/4f9a6a2b78ef2a0021034baa" width="700" height="601"></iframe>
 
 <p>去年にも同じテーマで勉強会をやっていて、
 今回は実際のターミナル操作8割、説明2割みたいな感じでやったので

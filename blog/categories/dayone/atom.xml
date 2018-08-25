@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: dayone | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/dayone/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/dayone/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[美しい日記アプリ「Day One」の記事作成支援vimプラグイン NewDayOne.vimを作った]]></title>
-    <link href="https://blog.glidenote.com/blog/2013/01/26/newdayone.vim/"/>
+    <link href="http://blog.glidenote.com/blog/2013/01/26/newdayone.vim/"/>
     <updated>2013-01-26T07:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2013/01/26/newdayone.vim</id>
+    <id>http://blog.glidenote.com/blog/2013/01/26/newdayone.vim</id>
     <content type="html"><![CDATA[<p><a href="http://click.linksynergy.com/fs-bin/click?id=43Adqh0hMic&amp;subid=0&amp;offerid=94348.1&amp;type=10&amp;tmpid=3910&amp;RD_PARM0=https%3A%2F%2Fitunes.apple.com%2Fjp%2Fapp%2Fday-one%2Fid422304217%3Fmt%3D12%2526uo%3D4&amp;RD_PARM1=https%3A%2F%2Fitunes.apple.com%2Fjp%2Fapp%2Fday-one%2Fid422304217%3Fmt%3D12%2526uo%3D4" rel="nofollow" target="_blank"><img src="https://blog.glidenote.com/images/2013/01/dayone-icon.png" width="159" height="166" align="right" /></a></p>
 
 <p>この記事は、<a href="http://atnd.org/events/33746">Vim Advent Calendar 2012</a>の57日目の記事です。

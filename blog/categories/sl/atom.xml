@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: sl | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/sl/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/sl/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[CobblerでScientific Linux 6.1を導入]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/02/03/cobbler-scientific-linux-6.1/"/>
+    <link href="http://blog.glidenote.com/blog/2012/02/03/cobbler-scientific-linux-6.1/"/>
     <updated>2012-02-03T22:57:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/02/03/cobbler-scientific-linux-6.1</id>
+    <id>http://blog.glidenote.com/blog/2012/02/03/cobbler-scientific-linux-6.1</id>
     <content type="html"><![CDATA[<p>CobblerでScientific Linux 6.1を導入出来るようにしたのでメモ。
 同僚の<a href="https://twitter.com/#!/tnmt">@tnmt</a>の書いた情報を6.1用に書き換えて流用ですが。いつも有益な情報ありがとう！</p>
 
@@ -114,9 +114,9 @@ sudo cobbler profile edit --name=SL6.1-x86_64 --kickstart=/var/lib/cobbler/kicks
   
   <entry>
     <title type="html"><![CDATA[/etc/hosts.deny, missing newline or line too long]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/12/27/hosts-deny-error/"/>
+    <link href="http://blog.glidenote.com/blog/2011/12/27/hosts-deny-error/"/>
     <updated>2011-12-27T20:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/12/27/hosts-deny-error</id>
+    <id>http://blog.glidenote.com/blog/2011/12/27/hosts-deny-error</id>
     <content type="html"><![CDATA[<p>普段iptablesとTCP Wrapperrでアクセス制限をかけているんですが、hosts.denyの設定見直しをしていて、
 /var/log/secureに下記のようなログが吐かれて動作していないサーバがあったのでメモ</p>
 
@@ -154,9 +154,9 @@ ALL : ALL</p>
   
   <entry>
     <title type="html"><![CDATA[install rbenv and ruby-build on SL 6.1]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/12/21/install-rbenv-and-ruby-build/"/>
+    <link href="http://blog.glidenote.com/blog/2011/12/21/install-rbenv-and-ruby-build/"/>
     <updated>2011-12-21T15:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/12/21/install-rbenv-and-ruby-build</id>
+    <id>http://blog.glidenote.com/blog/2011/12/21/install-rbenv-and-ruby-build</id>
     <content type="html"><![CDATA[<p>Octopressをいろいろ弄っていて、Ruby環境が必要なので<a href="https://github.com/sstephenson/rbenv">rbenv</a> + <a href="https://github.com/sstephenson/ruby-build">ruby-build</a>を導入。</p>
 
 <p>rbenv + ruby-buildの導入方法についてググるとMacは
@@ -256,9 +256,9 @@ For full documentation, see: https://github.com/sstephenson/rbenv#readme
   
   <entry>
     <title type="html"><![CDATA[tmuxをyumのアップデート対象から外した]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/12/03/yum-exclude/"/>
+    <link href="http://blog.glidenote.com/blog/2011/12/03/yum-exclude/"/>
     <updated>2011-12-03T13:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/12/03/yum-exclude</id>
+    <id>http://blog.glidenote.com/blog/2011/12/03/yum-exclude</id>
     <content type="html"><![CDATA[<p><a href="http://tmux.sourceforge.net/">tmux</a>を1.5にしたら、マウスでのテキスト選択と、puttyとかMacのターミナルの右クリックでペーストができなくなっていたので1.4に戻した。
 yum updateした際に、またいつの間にか1.5にアップデートしていたら嫌だったので、/etc/yum.confに</p>
 
@@ -273,9 +273,9 @@ yum updateした際に、またいつの間にか1.5にアップデートして�
   
   <entry>
     <title type="html"><![CDATA[スーパーサーバーSupervisorの導入手順メモ]]></title>
-    <link href="https://blog.glidenote.com/blog/2011/11/25/install-supervisor/"/>
+    <link href="http://blog.glidenote.com/blog/2011/11/25/install-supervisor/"/>
     <updated>2011-11-25T18:00:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2011/11/25/install-supervisor</id>
+    <id>http://blog.glidenote.com/blog/2011/11/25/install-supervisor</id>
     <content type="html"><![CDATA[<p>スーパーサーバー<a href="http://supervisord.org/">Supervisor</a>の導入方法をいつも忘れるのでメモ。ほとんど<a href="http://twitter.com/#!/hiboma">@hiboma</a>が
 社内Wikiにまとめてた内容のパクリですが、自宅サーバ構築とかで外から見ようと思っても見えないので。いつもありがとう、<a href="http://twitter.com/#!/hiboma">ひろやん</a>!!</p>
 

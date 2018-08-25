@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: issue | Glide Note]]></title>
-  <link href="https://blog.glidenote.com/blog/categories/issue/atom.xml" rel="self"/>
-  <link href="https://blog.glidenote.com/"/>
-  <updated>2018-08-25T15:30:49+09:00</updated>
-  <id>https://blog.glidenote.com/</id>
+  <link href="http://blog.glidenote.com/blog/categories/issue/atom.xml" rel="self"/>
+  <link href="http://blog.glidenote.com/"/>
+  <updated>2018-08-25T19:22:05+09:00</updated>
+  <id>http://blog.glidenote.com/</id>
   <author>
     <name><![CDATA[Akira Maeda]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[git-issueのzsh補完関数を作った(作っていた)]]></title>
-    <link href="https://blog.glidenote.com/blog/2012/06/18/git-issue-zsh-completion/"/>
+    <link href="http://blog.glidenote.com/blog/2012/06/18/git-issue-zsh-completion/"/>
     <updated>2012-06-18T12:11:00+09:00</updated>
-    <id>https://blog.glidenote.com/blog/2012/06/18/git-issue-zsh-completion</id>
+    <id>http://blog.glidenote.com/blog/2012/06/18/git-issue-zsh-completion</id>
     <content type="html"><![CDATA[<p>ようやく仕事でもGitHubが利用出来るようになりつつあり、結構前に作っていた
 拙作の<a href="https://github.com/yuroyoro/git-issue">git-issue</a>用のzsh補完関数が役に立つ日がきたのでご紹介。</p>
 
