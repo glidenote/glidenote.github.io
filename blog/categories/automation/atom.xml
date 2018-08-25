@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: automation | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/automation/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[エンジニアのための時間管理術、自動化に関するまとめ]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/03/23/automation/"/>
+    <updated>2012-03-23T00:08:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/03/23/automation</id>
+    <content type="html"><![CDATA[<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4873113075/glidenote-22/ref=nosim/" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51jWtxU0sAL._SL160_.jpg" alt="エンジニアのための時間管理術" align="right" /></a></p>
+
+<p>2006年の発売当時に紙書籍で購入し、最近PDFで買い直してKindleに突っ込んでいた
+<a href="http://www.amazon.co.jp/exec/obidos/ASIN/4873113075/glidenote-22/ref=nosim/">エンジニアのための時間管理術</a>を
+読み直していて、自動化について記載されていたので自戒をこめてまとめておく。<br />
+古い本ですが、エンジニア(特にインフラエンジニア)の時間管理術に関しては今でもこれが一番かと思います。</p>
+
+<p><br clear="all" /></p>
+
+<h2 id="section">自動化の目的</h2>
+
+<ul>
+  <li>自分の仕事を減らす。作業時間の短縮や勝手に処理が実行される。 </li>
+  <li>他の人に作業を委任する。委任出来るようにする。</li>
+</ul>
+
+<h2 id="section-1">自動化すべきものと自動化すべきでないもの</h2>
+
+<ul>
+  <li>一度だけ行う単純な作業は<strong>自動化すべきでない</strong>。(自動化することのほうが時間がかかる)</li>
+  <li>一度だけ行う難しい作業は<strong>自動化すべき</strong>。(作業の記録を残すことができる。再びその作業に出会うときに役に立つ。一度あったことは再びあることが多い)</li>
+  <li>頻繁に行う単純な作業は<strong>自動化すべき</strong>。(自動化の効果が最も高い。自動化に投資した時間はすぐに報われる)</li>
+  <li>頻繁に行う難しい作業は<strong>自動化すべきでない</strong>。（無理をして行き詰まる作業が含まれるため、問題解決の時間と資金を補充すべき)</li>
+</ul>
+
+<p>まとめるの下記のようになる。(本書から図引用)</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/automation.png" alt="自動化" /></p>
+
+<h2 id="section-2">自動化によってもたらされるメリット</h2>
+
+<ul>
+  <li>再現性(何かを何度でも一貫した方法で行える)</li>
+  <li>自動化によって、めったに行わない複雑な作業を覚えておかずに済む(本書の例ではMacのhdiutilコマンド)</li>
+  <li>スケーラビリティ(サーバが10台だろうが10000台だろうが同じ手続きを利用出来る)</li>
+  <li>ミスの可能性を排除</li>
+</ul>
+
+<h2 id="section-3">自動化へのステップ</h2>
+
+<ol>
+  <li>手動で行う(すべての手順を洗い出し、wikiにまとめたり、入力したコマンドを記録しておく)</li>
+  <li>各手順をコードにする(手順をコマンドラインで実行出来るものや簡単なプログラムで実行できるものに変換。動作検証もここで行う)</li>
+  <li>手順を1つにまとめる(各手順をまとめて1つの大きなスクリプトにまとめる。1つずつの手順をテストをしながらスクリプトを結合していく)</li>
+  <li>全体をテストする(上記手順で作成していれば、一発でうまくいくはず)</li>
+</ol>
+
+<p>2006年に発売された本なので、makeを利用した自動化が紹介されているんですが、
+今はrubyのRakeを使ったりして自動化するのがいいのかなーと。</p>
+
+<p>久々に読み返すと、普段実践しているつもりでも、
+全然出来て無いなーと思うことと新しい発見もあったりして良いですね。
+日頃何となくやっている自動化への手順と意識を見直そうと思いました。</p>
+]]></content>
+  </entry>
+  
+</feed>

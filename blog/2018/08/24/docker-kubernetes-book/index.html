@@ -1,0 +1,451 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>「Docker/Kubernetes 実践コンテナ開発入門」がProduction環境でDockerを運用している人間にも良書だった - Glide Note</title>
+  <meta property="og:title" content="「Docker/Kubernetes 実践コンテナ開発入門」がProduction環境でDockerを運用している人間にも良書だった - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="Docker/Kubernetes 実践コンテナ開発入門 技術評論社様、著者の山田さんからご恵贈いただきましてありがとうございます。 かなり分厚い本で、内容も濃いので読むのに時間がかかりましたが簡単に感想を書いていきます。 TL;DR &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2018/08/24/docker-kubernetes-book/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2018/08/24/docker-kubernetes-book">
+<meta name="twitter:title" content="「Docker/Kubernetes 実践コンテナ開発入門」がProduction環境でDockerを運用している人間にも良書だった">
+<meta name="twitter:description" content="Docker/Kubernetes 実践コンテナ開発入門 技術評論社様、著者の山田さんからご恵贈いただきましてありがとうございます。 かなり分厚い本で、内容も濃いので読むのに時間がかかりましたが簡単に感想を書いていきます。 TL;DR Production環境でDockerを利用している人でも学びが多い一冊 Kubernetesに対応したDocker for Mac/ &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">「Docker/Kubernetes 実践コンテナ開発入門」がProduction環境でDockerを運用している人間にも良書だった</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-08-24T20:00:00+09:00" pubdate data-updated="true">2018年08月24日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><ul>
+  <li><a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339">Docker/Kubernetes 実践コンテナ開発入門</a>
+<a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339"><img src="https://images-fe.ssl-images-amazon.com/images/I/51d69eJQMyL.jpg" align="right" /></a></li>
+</ul>
+
+<p>技術評論社様、著者の山田さんからご恵贈いただきましてありがとうございます。</p>
+
+<p>かなり分厚い本で、内容も濃いので読むのに時間がかかりましたが簡単に感想を書いていきます。</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li>Production環境でDockerを利用している人でも学びが多い一冊</li>
+  <li>Kubernetesに対応したDocker for Mac/Windowsが2018年07月に正式リリースされ、手軽にKubernetesが動かせるようになったいま、Kubernetesの初学書として最適</li>
+  <li>実際にDockerでサービスを運用してきた著者ならではの視点で語られているコラムが非常に興味深い</li>
+</ul>
+
+<h2 id="section">前提</h2>
+
+<p>書評の前に私のDocker歴について簡単に書いておきます。</p>
+
+<ul>
+  <li>JAWS-UG コンテナ支部で登壇経験あり</li>
+  <li>Dockerに関する基本的な知識は習得済み</li>
+  <li>Amazon ECSを利用して2年ほど前からProduction環境でDocker運用中</li>
+  <li>Kubernetesは理解不足</li>
+  <li>役職が変わってここ1年くらいからDockerと周辺技術の最新情報がキャッチアップ出来てない 😓</li>
+</ul>
+
+<h2 id="section-1">目次</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">1.Dockerの基礎
+</span><span class="line">2.Dockerコンテナのデプロイ
+</span><span class="line">3.実用的なコンテナの構築とデプロイ
+</span><span class="line">4.Swarmによる実践的なアプリケーション構築
+</span><span class="line">5.Kubernetes入門
+</span><span class="line">6.Kubernetesのデプロイ・クラスタ構築
+</span><span class="line">7.Kubernetesの発展的な利用
+</span><span class="line">8.コンテナの運用
+</span><span class="line">9.より軽量なDockerイメージを作る
+</span><span class="line">10.Dockerの様々な活用方法
+</span><span class="line">
+</span><span class="line">Appendix-A セキュリティ
+</span><span class="line">Appendix-B Dockerでの開発を支援するツール・サービス
+</span><span class="line">Appendix-C 主要コマンドまとめ</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">書評</h2>
+
+<h3 id="docker">Docker</h3>
+
+<p>Dockerと周辺技術は変化の速度が非常に早く、情報キャッチアップのコストが高く、Web上にある情報もすぐ陳腐化して大半が役に立たないので、
+私はかねてから<a href="https://docs.docker.com/">公式ドキュメント</a>を読むのが最も良いというスタンスだったのですが、
+本書は公式ドキュメントの内容はもちろんカバーされており、運用周りに関しては公式ドキュメント以上の内容が書かれている。</p>
+
+<h3 id="kubernetes">Kubernetes</h3>
+
+<p>Kubernetesに関しては一番丁寧に手厚く解説されているので、Minikubeで一度挫折したことがある私にとっては、
+サンプルコードを書いてサクサク進めることが出来たので、Kubernetesの採用の足がかりになりそうです。
+先月リリースされたDocker for Mac/Windows(Stable)がKubernetesに対応しており、
+手軽にKubernetes環境が用意出来るようになったので、Kubernetesをこれから始める人にも最適かと。</p>
+
+<h3 id="section-3">コラム</h3>
+
+<p>またコラムが大量にありどれも素晴らしいのですが、特に</p>
+
+<ul>
+  <li>環境変数を積極的に使う</li>
+  <li>認証情報をセキュアに環境変数へ設定する</li>
+  <li>Alpine Linuxベースのイメージを採用するべきか否か</li>
+  <li>DockerはVagrantの代替となるか?</li>
+</ul>
+
+<p>においては、以前エンジニア同士で議論したことがある内容なので大変興味深かった。</p>
+
+<h3 id="section-4">コンテナの運用</h3>
+
+<p>運用部分は普段Amazon ECS上で運用しておりAWSに頼り切っている部分なので、
+ログの保管、障害対策については、他社事例として大変参考になった。</p>
+
+<h2 id="section-5">本書を読むにあたって</h2>
+
+<p>本書のサンプルコマンドを実行するにあたり、BashやZshを事前に設定しておくことをオススメします。これがあるとないとでは効率が段違いです。
+<strong>本当に重要です!!</strong></p>
+
+<ul>
+  <li><a href="https://docs.docker.com/compose/completion/">Command-line completion | Docker Documentation</a></li>
+</ul>
+
+<h2 id="section-6">まとめ</h2>
+
+<p>2018年においては、</p>
+
+<ul>
+  <li><a href="https://docs.docker.com/">公式ドキュメント</a></li>
+  <li><a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339">Docker/Kubernetes 実践コンテナ開発入門</a></li>
+</ul>
+
+<p>を読めば、Docker/Kubernetesに関しては十分なのではないかと思う。</p>
+
+<p>実際私も社内のエンジニアにも「Docker/Kubernetesはこれを読めばOK」と薦めています。</p>
+
+<p>大変オススメです。</p>
+
+<h2 id="section-7">参考</h2>
+
+<ul>
+  <li><a href="https://blog.stormcat.io/post/publish-docker-book/">Docker/Kubernetes 実践コンテナ開発入門 出版に寄せて · tehepero note(・ω&lt;) 2.0</a></li>
+</ul>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-08-24T20:00:00+09:00" pubdate data-updated="true">2018年08月24日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/docker/'>docker</a>, <a class='category' href='/blog/categories/kubernetes/'>kubernetes</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2018/08/24/docker-kubernetes-book/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="「Docker/Kubernetes 実践コンテナ開発入門」がProduction環境でDockerを運用している人間にも良書だった - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=「Docker/Kubernetes 実践コンテナ開発入門」がProduction環境でDockerを運用している人間にも良書だった "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2016/09/02/alb-ecs-docker-hot-deploy/">AWS Application Load Balancer + Amazon ECS でDockerのホットデプロイ環境を構築した</a></li>
+
+  <li><a href="/blog/2016/08/18/docker-alpine-serverspec-with-circleci/">Alpine LinuxなDockerイメージにServerspecを実行する環境を作った</a></li>
+
+  <li><a href="/blog/2013/12/20/vagrant-docker-digitalocean/">MacからVagrantコマンド一発でSSDなVPS(DigitalOcean)上にCentOS6.5+Docker環境を構築する</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/12/16/goreplay/" title="Previous Post: GoReplayを導入して、Production環境へのリクエストを複製し、Staging環境に転送する仕組みを作った">&laquo; GoReplayを導入して、Production環境へのリクエストを複製し、Staging環境に転送する仕組みを作った</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2018/08/24/docker-kubernetes-book/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2018/08/24/docker-kubernetes-book/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

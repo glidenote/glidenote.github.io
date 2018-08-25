@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: zsh | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/zsh/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[peco/percolでCUIなスニペットツールを作ってみる]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/06/26/snippets-peco-percol/"/>
+    <updated>2014-06-26T13:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/06/26/snippets-peco-percol</id>
+    <content type="html"><![CDATA[<p>以前に<a href="http://oscardelben.com/sheet/">Sheet</a>というスニペットツールを利用すると大変便利と書いた。</p>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2012/04/16/sheet/">CUIなスニペットツールsheetが便利なのでzshでsheetファイルを補完 - Glide Note - グライドノート</a></li>
+</ul>
+
+<p>で、障害対応で使うコマンドとかよく忘れるコマンドを大量に登録してて、毎日使ってて重宝してるんですが、スニペットが
+増えると管理が破綻する問題があって、<a href="https://github.com/peco/peco">peco</a>や<a href="https://github.com/mooz/percol">percol</a>を使えば解決出来そうと思ってやってみた。</p>
+
+<h2 id="section">仕組み</h2>
+
+<ul>
+  <li>snippets用のファイル or <code>sheet</code>のスニペットファイルをpeco/percolで絞りこんで、クリップボードに送ったりして簡単に利用できるようにする</li>
+</ul>
+
+<h3 id="section-1">よく使うコマンドのスニペットファイルを用意</h3>
+
+<p>sheetの資産をそのまま利用も出来るんですが、今回は下記のような感じでファイルを<code>~/.snippets</code>で用意。私が使ってるやつから一部抜粋。</p>
+
+<p>``` sh
+# apache
+tail -n 5000 /usr/local/apache2/logs/access_log | awk ‘{print $1}’  | sort | uniq -c | sort -gr | head -n 4
+tail -n 5000 /usr/local/apache2/logs/access_log | awk ‘{print $2}’  | sort | uniq -c | sort -gr | head -n 4
+tail -n 5000 /usr/local/apache2/logs/access_log | awk ‘{print $12}’ | sort | uniq -c | sort -gr | head -n 4 
+tail -n 5000 /usr/local/apache2/logs/access_log | awk ‘{print $13}’ | sort | uniq -c | sort -gr | head -n 4 </p>
+
+<h1 id="search">search</h1>
+<p>netstat -ltapn | grep ESTABLISHED | more
+netstat -ltan | grep “:80 “ | awk ‘{print $5}’ | awk -F : ‘{print $4}’ | sort | uniq -c | sort -nr | head
+lsof -i:80</p>
+
+<h1 id="dstat">dstat</h1>
+<p>dstat -Tclmdrn
+dstat -Tclm
+dstat -Tclr
+dstat -Tclnd
+dstat -Tcldr
+dstat –top-cpu –top-cputime
+dstat –top-io –top-bio
+dstat –top-io-adv –top-bio-adv</p>
+
+<h1 id="openssl">openssl</h1>
+<p>openssl x509 -noout -modulus -in *.crt | openssl md5
+openssl rsa  -noout -modulus -in *.key | openssl md5
+openssl req  -noout -modulus -in *.csr | openssl md5</p>
+
+<h1 id="find">find</h1>
+<p>find ./ -daystart -ctime +2
+find ./ -daystart -ctime -2</p>
+
+<h1 id="date">date</h1>
+<p>date +%Y%m%d
+```</p>
+
+<h2 id="pecopercol">peco/percol経由で利用出来るようにする</h2>
+
+<p>下記のようなのを、<code>.zshrc</code>に記載するか、<code>peco-snippets.zsh</code>とかでファイルを作成して<code>source</code>して読み込む</p>
+
+<p>``` sh
+function peco-snippets() {</p>
+
+<pre><code>local SNIPPETS=$(grep -v "^#" ~/.snippets | peco --query "$LBUFFER" | pbcopy)
+zle clear-screen }
+</code></pre>
+
+<p>zle -N peco-snippets
+bindkey ‘^x^s’ peco-snippets
+```</p>
+
+<p>snippetsファイルを用意せずに、sheetの資産を生かすなら、下記みたいな感じ。</p>
+
+<p>``` sh
+function peco-snippets() {</p>
+
+<pre><code>local SNIPPETS=$(cat ~/.sheets/* | peco --query "$LBUFFER" | pbcopy)
+zle clear-screen }
+</code></pre>
+
+<p>zle -N peco-snippets
+bindkey ‘^x^s’ peco-snippets
+```</p>
+
+<p>で上の例だと<code>Ctrl+x</code>, <code>Ctrl+s</code>でスニペットの一覧が出てくるのでpecoやpercolで絞ると
+<code>pbcopy</code>に渡されて、クリップボードに格納される。</p>
+
+<p>Linux上とかでクリップボード使わずに、そのまま利用したい場合は下記みたいな感じ</p>
+
+<p>``` sh
+function peco-snippets() {</p>
+
+<pre><code>BUFFER=$(grep -v "^#" ~/.snippets | peco --query "$LBUFFER")
+zle clear-screen }
+</code></pre>
+
+<p>zle -N peco-snippets
+bindkey ‘^x^s’ peco-snippets
+```</p>
+
+<p>実際に動かして見るとこんな感じ</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/06/peco-snippets.gif" alt="" /></p>
+
+<p>便利になった!</p>
+
+<p>私が<a href="http://www.amazon.co.jp/UNIX%E3%81%A8%E3%81%84%E3%81%86%E8%80%83%E3%81%88%E6%96%B9%E2%80%95%E3%81%9D%E3%81%AE%E8%A8%AD%E8%A8%88%E6%80%9D%E6%83%B3%E3%81%A8%E5%93%B2%E5%AD%A6-Mike-Gancarz/dp/4274064069%3FSubscriptionId%3DAKIAIMPULMFN3HDGOBYA%26tag%3Dglidenote-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4274064069">UNIXという考え方</a>にどっぶり浸かっているので、pecoやpercolのパイプで渡して処理させるってのは感覚的に分かりやすくて大変扱いやすい。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[rubocop+syntasticでRubyのコーディングルールへの準拠チェックを自動化する]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/05/28/vim-rubocop/"/>
+    <updated>2014-05-28T10:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/05/28/vim-rubocop</id>
+    <content type="html"><![CDATA[<p>sensuのプラグイン書いてて、<a href="https://github.com/sensu/sensu-community-plugins#rubocop-linting">sensu/sensu-community-plugins</a>を見ていたら
+<a href="https://github.com/bbatsov/rubocop">rubocop</a>でlintかけろ的な事が書いて、導入して使ってみたら便利だったのでメモ。</p>
+
+<h2 id="rubocop">rubocopとは</h2>
+
+<ul>
+  <li><a href="https://github.com/bbatsov/rubocop">bbatsov/rubocop</a></li>
+</ul>
+
+<p>rubocopとは、Rubyのコードが<a href="https://github.com/fortissimo1997/ruby-style-guide/blob/japanese/README.ja.md">ruby-style-guide(日本語訳)</a>に
+沿って書かれているか解析してくれるツール</p>
+
+<h2 id="rubocop-1">rubocopのインストールと使い方</h2>
+
+<p><code>sh
+gem install rubocop
+</code></p>
+
+<p>でコマンドラインから利用する場合は下記みたいな感じ。</p>
+
+<p>単一ファイルに対して実行する場合</p>
+
+<p><code>sh
+rubocop hoge.rb
+</code></p>
+
+<p>配下のファイルに一斉に実行する場合</p>
+
+<p><code>sh
+cd /path/to/ruby-project/
+rubocop
+</code></p>
+
+<p><a href="https://github.com/bbatsov/ruby-style-guide">bbatsov/ruby-style-guide</a>に準拠してない、
+記載方法がある場合は指摘される。
+自分で<code>.rubocop.yml</code>とかを用意することで、自分たち用のコーディングルールに変更も出来る。</p>
+
+<h2 id="section">既存プロジェクトへの適用</h2>
+
+<p>新規に使い始めるときは楽なんですが、既存のプロジェクトやコードに<code>rubocop</code>を走らせると恐らく大量に違反が検出されて
+それを直していくのは結構ツラい。
+なのでとりあえずは下記みたいな感じで現段階での違反をとりあえず無視する。</p>
+
+<p><code>sh
+cd /path/to/ruby-project/
+rubocop --auto-gen-config
+echo 'inherit_from: rubocop-todo.yml' &gt;&gt; .rubocop.yml
+rubocop
+</code></p>
+
+<p>それで、チェックしたいルールを1個ずつ下記のように<code>.rubocop.yml</code>に追加</p>
+
+<p><code>
+LineLength:
+  Max: 80
+</code></p>
+
+<p>再度<code>rubocop</code>を実行すると、追加したルールに違反しているものだけ表示されるので、
+少しずつ直していける。</p>
+
+<p>また一部ルールは<code>-a</code>もしくは<code>--auto-correct</code>を利用することで自動的に変換も出来る。</p>
+
+<p><code>
+rubocop -a
+</code></p>
+
+<h2 id="vim">Vimからの利用</h2>
+
+<p>Vimから使えると便利そうと思っていたら、<a href="https://github.com/scrooloose/syntastic">syntastic</a>が
+rubocopをサポートしているので下記のように設定するだけで、簡単に利用出来た。</p>
+
+<p>私は<a href="https://github.com/Shougo/neobundle.vim">neobundle.vim</a>を使っているので下記のような感じで記載して<code>:NeoBundleInstall</code></p>
+
+<p><code>
+NeoBundle 'scrooloose/syntastic'
+let g:syntastic_ruby_checkers = ['rubocop']
+</code></p>
+
+<p>ファイルを保存したタイミングでsyntastic経由で<code>rubocop</code>が実行され、自動でチェックが走ってくれる。
+指摘内容は<code>:Errors</code>とか実行すると確認が出来る。</p>
+
+<p>vimだけじゃなくzshからも利用出来ると便利そうなので、zsh-completionsにPRを出しておいた。</p>
+
+<ul>
+  <li><a href="https://github.com/zsh-users/zsh-completions/pull/232">add rubocop completion by glidenote · Pull Request #232 · zsh-users/zsh-completions</a></li>
+</ul>
+
+<p>今まで、<a href="https://github.com/fortissimo1997/ruby-style-guide/blob/japanese/README.ja.md">ruby-style-guide(日本語訳)</a>に沿った書き方を
+してなかったので、使ってるとイライラさせられる部分もあるけど、矯正されていく感があってなかなか良い。</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/yaotti/items/4f69a145a22f9c8f8333">Ruby - Rubocopを使ってコーディングルールへの準拠チェックを自動化 - Qiita</a></li>
+  <li><a href="http://qiita.com/yuku_t/items/0ac33cea18e10f14e185">Rubocopをsyntasticを使ってVimから自動実行する - Qiita</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[zsh-bdで親ディレクトリへの移動を便利にする]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/05/15/zsh-bd/"/>
+    <updated>2014-05-15T13:20:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/05/15/zsh-bd</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://github.com/Tarrasch/zsh-bd">Tarrasch/zsh-bd</a></li>
+</ul>
+
+<p><a href="https://github.com/joelthelion/autojump">autojump</a>とか<a href="https://github.com/rupa/z">z</a>を使ってると
+ディレクトリの移動は大変便利なんですが、深いディレクトリにいて、ちょっと親ディレクトリに移動したいときには適さない。</p>
+
+<p><a href="https://github.com/vigneshwaranr/bd">vigneshwaranr/bd</a>のzsh版である<a href="https://github.com/Tarrasch/zsh-bd">zsh-bd</a>
+を利用するとそこの問題が解決出来る。</p>
+
+<h2 id="section">導入方法</h2>
+
+<p><a href="https://github.com/Tarrasch/zsh-bd">公式README</a>にはantigenとかでの導入方法が書いてあるんですが、
+普通に<a href="https://github.com/Tarrasch/zsh-bd/blob/master/bd.zsh">bd.zsh</a>を持ってきて、読み込めば利用出来る。</p>
+
+<p><code>sh
+wget https://raw.githubusercontent.com/Tarrasch/zsh-bd/master/bd.zsh
+source bd.zsh
+</code></p>
+
+<h2 id="section-1">使い方</h2>
+
+<p><code>sh
+bd [tab]
+</code></p>
+
+<p>とかで下記のように動いて、親ディレクトリへの移動が楽になる。</p>
+
+<p><img src="https://github.com/Tarrasch/zsh-bd/raw/master/animation.gif" alt="" /></p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="https://github.com/vigneshwaranr/bd">vigneshwaranr/bd</a></li>
+  <li><a href="https://blog.glidenote.com/blog/2012/02/29/autojump-zsh/">zsh使いなら効率改善のため知っておきたいAUTOJUMP - Glide Note - グライドノート</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[gistコマンドが便利だったのでzsh補完関数を書いた]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/09/20/gist-and-gist-zsh-completion/"/>
+    <updated>2013-09-20T20:05:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/09/20/gist-and-gist-zsh-completion</id>
+    <content type="html"><![CDATA[<p><a href="https://gist.github.com/">Gist</a>使ってますか！</p>
+
+<p>普段はmattnさんの<a href="https://github.com/mattn/gist-vim">gist-vim</a>経由でGistにpostしているんですが、
+コマンドの結果とかをパイプとかで渡して、Gistにpost出来ないものかと思ってたら、
+GitHub開発者のdefunkt氏が作ってた。全然知らなくて情弱丸出しだった。</p>
+
+<ul>
+  <li><a href="https://github.com/defunkt/gist">defunkt/gist</a></li>
+</ul>
+
+<p>メンテもちゃんとされてて、ver4.1.1以降なら2段階認証にも対応してる。</p>
+
+<h2 id="section">導入方法</h2>
+
+<p><code>sh
+gem install gist
+</code></p>
+
+<p>Macなら</p>
+
+<p><code>sh
+brew install gist
+</code></p>
+
+<h2 id="section-1">初期設定</h2>
+
+<p><code>
+gist --login
+</code></p>
+
+<p>GH:E使ってる場合は、下記のような感じでURLを
+<code>.bashrc</code>とか<code>.zshrc</code>に書いておく</p>
+
+<p><code>
+export GITHUB_URL=http://ghe.tokyo.pb/
+</code></p>
+
+<h2 id="section-2">使い方</h2>
+
+<p><code>a.rb</code>をPOST。これが一般的な使い方</p>
+
+<p><code>sh
+gist a.rb
+</code></p>
+
+<p>複数を一気にPOST</p>
+
+<p><code>sh
+gist a b c
+gist *.rb
+</code></p>
+
+<p><code>-f</code>でファイル名を設定して、<code>a.rb</code>をPOST</p>
+
+<p><code>sh
+gist -f test.rb &lt;a.rb
+</code></p>
+
+<p>などなど。</p>
+
+<p>そのほかの使い方は公式ページを見てもらうのが良いかと思います。</p>
+
+<p>https://github.com/defunkt/gist#command</p>
+
+<h2 id="section-3">私の実際の使い方</h2>
+
+<p>私はコマンドの結果を直接GistにPOSTしたいとき使ってるんですが、
+SSL証明書を入れ替えして、opensslコマンドで確認したり</p>
+
+<p><code>sh
+openssl s_client -connect github.com:443 -showcerts &lt;&lt; EOF | gist
+HEAD / HTTP/1.0
+EOF
+</code></p>
+
+<p>GistにPostされている内容</p>
+
+<p><div><script src='https://gist.github.com/6633357.js'></script>
+<noscript><pre><code>&lt;html&gt;&lt;body&gt;You are being &lt;a href=&quot;https://github.com/gist/6633357&quot;&gt;redirected&lt;/a&gt;.&lt;/body&gt;&lt;/html&gt;</code></pre></noscript></div>
+</p>
+
+<p>とかみたいに、使ってます。</p>
+
+<h2 id="section-4">その他の便利設定</h2>
+
+<p>下記のように<code>.zshrc</code>とかにaliasを設定しておくと、Gistにpostした後に
+ブラウザが開いて、GistのURLがクリップボードに自動で入ってくれるようになってます。</p>
+
+<p><code>
+alias gist='gist -c -o -p'
+</code></p>
+
+<p>あと用途的にコマンドとかの結果を直接POSTしてるので、思わぬ事故を防止するために<code>-p</code>を付けて、
+デフォルト非公開でPOSTしてます。
+社用MacはPOST先が社内GH:Eサーバなので、インターネット上に公開されるわけで無いんですが、念のため。
+Gistは非公開設定でもURL知ってれば閲覧出来るので、誰かに伝えるときはURL渡して
+デフォルト非公開でも運用的に問題も無い感じです。</p>
+
+<p>公開するものは基本的に見やすいようにvimで整形するので、
+gist-vim経由でPOSTとgistと使い分けをしてます。</p>
+
+<h2 id="zsh">zshでの利用</h2>
+
+<p>zshで補完されないと不便だったので、<a href="https://github.com/zsh-users/zsh-completions/pull/172">zsh補完関数を書いて、zsh-completionsにmergeされている</a>ので、
+zsh-completionsを利用していれば、gistコマンドが下記のように補完されるようになってます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/09/gist0.png" alt="" /></p>
+
+<h2 id="section-5">参考</h2>
+
+<ul>
+  <li><a href="http://marutanm.hatenablog.com/entry/20110428/p1">もっと身近に、gistコマンド - Meltdown Countdown rev.</a></li>
+  <li><a href="https://blog.glidenote.com/blog/2012/04/01/new-gist.vim/">OAuth2認証に対応して新しくなったGist.vimを導入した - Glide Note - グライドノート</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ackを捨てて、より高速なag(The Silver Searcher)に切り替えた]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/02/28/the-silver-searcher-better-than-ack/"/>
+    <updated>2013-02-28T23:30:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/02/28/the-silver-searcher-better-than-ack</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="http://geoff.greer.fm/2011/12/27/the-silver-searcher-better-than-ack/">Geoff’s site: The Silver Searcher: Better than Ack</a></li>
+  <li><a href="https://github.com/ggreer/the_silver_searcher">ggreer/the_silver_searcher · GitHub</a></li>
+</ul>
+
+<p>パターン検索には<a href="http://betterthangrep.com/">ack</a>を利用していて、通常利用時には特に不満は無かったんですが、
+ファイル数が多いディレクトリだと遅かったので、もっと他の方法が無いかと調べていたら
+ackの3〜5倍速いという<a href="https://github.com/ggreer/the_silver_searcher">The Silver Searcher</a>というものが
+あったので導入。</p>
+
+<h2 id="the-silver-searcher">The Silver Searcherの特徴</h2>
+
+<p>公式に書いてあるThe Silver Searcherの特徴</p>
+
+<ul>
+  <li><code>ack</code>の3〜5倍高速</li>
+  <li><code>.gitignore</code>、<code>.hgignore</code>に記載されているものを検索対象から除外</li>
+  <li>検索対象から除外したいファイルは<code>.agignore</code>に記載</li>
+  <li><code>ag</code>というコマンド名で、<code>ack</code>と比べてコマンドが短い(33%減!)</li>
+</ul>
+
+<p>なぜ高速なのかは
+<a href="https://github.com/ggreer/the_silver_searcher#how-is-it-so-fast">https://github.com/ggreer/the_silver_searcher#how-is-it-so-fast</a>
+に記載されています。(要約しにくいので、原文を読んでください!)</p>
+
+<h2 id="the-silver-searcher-1">The Silver Searcherの導入</h2>
+
+<p>Macの場合はhomebrewで導入</p>
+
+<p><code>sh
+brew install the_silver_searcher
+</code></p>
+
+<p><em>2013/10/31 最近は下記でいけると新卒氏に教えてもらったので追記</em></p>
+
+<p><code>sh
+brew install ag
+</code></p>
+
+<p>CentOS6、SL6はRPMが用意されているので、下記を利用</p>
+
+<p><code>sh
+sudo rpm -ivh http://swiftsignal.com/packages/centos/6/x86_64/the-silver-searcher-0.13.1-1.el6.x86_64.rpm --test
+sudo rpm -ivh http://swiftsignal.com/packages/centos/6/x86_64/the-silver-searcher-0.13.1-1.el6.x86_64.rpm
+</code></p>
+
+<p>ソースから導入する場合（コンパイルに<code>automake</code>とか<code>pcre-devel</code>が必要だと思いますので適時入れてください）</p>
+
+<p><code>sh
+git clone https://github.com/ggreer/the_silver_searcher
+cd the_silver_searcher &amp;&amp; ./build.sh &amp;&amp; install
+</code></p>
+
+<p>RHEL6系以外での利用も、<code>spec</code>ファイルが含まれているのでRPM作成も簡単に出来た。</p>
+
+<h2 id="the-silver-searcher-2">The Silver Searcherの利用方法</h2>
+
+<p>The Silver Searcherは<code>ag</code>というコマンドを用い、</p>
+
+<p><code>
+ag [options] {pattern} [{directory}]
+</code></p>
+
+<p>という感じで利用し、ほぼackと同じ。</p>
+
+<p>実際に私の環境(MacBook Air)で、<code>ack</code>と<code>ag</code>で実行時間を計測した結果。</p>
+
+<p>``` sh
+# ファイル数
+[akira@dev001] $ find ~/repos -type f | wc -l
+    3518</p>
+
+<h1 id="section">ディレクトリ容量</h1>
+<p>[akira@dev001] $ du -sh ~/repos
+894M    .</p>
+
+<h1 id="ack">ackの実行時間</h1>
+<p>[akira@dev001] $ time ack package ~/repos |wc -l
+    1475
+    ack package ~/repos  0.84s user 0.26s system 81% cpu 1.341 total</p>
+
+<h1 id="ag">agの実行時間</h1>
+<p>[akira@dev001] $ time ag package ~/repos |wc -l
+    1668
+    ag package ~/repos  0.23s user 0.18s system 172% cpu 0.235 total
+```</p>
+
+<p>3500個くらいのファイル検索でも<code>ack</code>と比べて、<code>ag</code>が高速なのがわかる。
+多分ファイル数がディレクトリだとさらに効果がありそう。</p>
+
+<p>実際にいろいろなディレクトリで何回か検索を実行してみても、<code>ag</code>の方が高速でした。</p>
+
+<h2 id="vimthe-silver-searcher">VimからThe Silver Searcherを利用する</h2>
+
+<p>ackと同じで、Vimから使うことが多いと思うので、Vimから使えるようにする。
+<a href="https://github.com/rking/ag.vim">ag.vim</a>というプラグインがあるので、それを利用。</p>
+
+<p>Vundleを利用している場合は<code>.vimrc</code>に下記を記載して<code>BundleInstall</code></p>
+
+<p><code>
+Bundle 'rking/ag.vim'
+</code></p>
+
+<p>NeoBundleの場合は下記を記載して<code>NeoBundleInstall</code></p>
+
+<p><code>
+NeoBundle 'rking/ag.vim'
+</code></p>
+
+<p>Vim上から下記のような形で利用</p>
+
+<p><code>
+:Ag [options] {pattern} [{directory}]
+</code></p>
+
+<p>Vim上からも高速にパターン検索が出来るようになって素晴らしい。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/02/agvim.png" alt="" /></p>
+
+<h2 id="zshthe-silver-searcher">ZshからのThe Silver Searcherを利用する</h2>
+
+<p>当然zshの補完が効かないと話にならないので、zshの補完関数を書いた。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/ag-zsh-completion">glidenote/ag-zsh-completion · GitHub</a></li>
+</ul>
+
+<p>下記のように補完されます。</p>
+
+<p><strong>追記</strong></p>
+
+<p><a href="https://github.com/zsh-users/zsh-completions">zsh-completions</a>に出していたpull requestがmergeされたので、zsh-completionsからでも利用可能です。</p>
+
+<ul>
+  <li><a href="https://github.com/zsh-users/zsh-completions/pull/127">Add ag(the silver search) completion. by glidenote · Pull Request #127 · zsh-users/zsh-completions · GitHub</a></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2013/02/ag.png" alt="" /></p>
+
+<p>ackと比較して動作もかなり高速だし、vim、zshから快適に使えるようになったので完全に切り替え。</p>
+]]></content>
+  </entry>
+  
+</feed>

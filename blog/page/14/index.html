@@ -1,0 +1,845 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="cinchrb/cinch · GitHub 普段仕事中はIRCがコミュニケーションの中心で、私はWeeChatという
+CUIのIRCクライアントを使っていて、一日の7〜8割はターミナル上で過ごしてて、 全社員がIRC使ってるし、GitHubへのcommitログや、deployのログ、 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/14/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/14">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="cinchrb/cinch · GitHub 普段仕事中はIRCがコミュニケーションの中心で、私はWeeChatという
+CUIのIRCクライアントを使っていて、一日の7〜8割はターミナル上で過ごしてて、 全社員がIRC使ってるし、GitHubへのcommitログや、deployのログ、
+NagiosのアラートもバンバンIRCに流れてくるのでIRCを見てる時間も結構ある。 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/20/working-with-irc-bot/">IRC BOTを作って仕事をさせるようにした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-20T20:02:00+09:00" pubdate data-updated="true">2013年05月20日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+  <li><a href="https://github.com/cinchrb/cinch">cinchrb/cinch · GitHub</a></li>
+</ul>
+
+<p>普段仕事中はIRCがコミュニケーションの中心で、私は<a href="http://weechat.org/">WeeChat</a>という
+CUIのIRCクライアントを使っていて、一日の7〜8割はターミナル上で過ごしてて、 
+全社員がIRC使ってるし、GitHubへのcommitログや、deployのログ、
+NagiosのアラートもバンバンIRCに流れてくるのでIRCを見てる時間も結構ある。</p>
+
+<p>サーバの<code>ラック番号</code>とか<code>muninのグラフ</code>、<code>server-status</code>、Nagiosなどを確認するのに
+ターミナルから離れて、マウス使ってブラウザを操作して
+探してたりすると集中が切れるので、IRC BOTを作って、URLを教えてくれるようにした。
+URLをクリックすればブラウザが勝手に開いてくれる。</p>
+
+<p>管理サーバが数百台でも、ブラウザのブックマークからmuninの一覧を出して、
+該当サーバのURLを探すのも結構だるいし、そもそもキーボードから手を離すのは
+最小限に抑えたい。</p>
+
+<p>IRC BOTの作成には<a href="https://github.com/cinchrb/cinch">cinch</a>を利用して、
+<code>munin hoge</code>とか<code>status hoge</code>みたいなのを発言するとbotが下記のように
+必要な情報を教えてくれる。
+業務バリバリの内容のためほとんど伏せてるので、何が表示されているか分かりにくいですが…</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/05/ircbot0.png" alt="" /></p>
+
+<p>上の例が業務バリバリなので、コードが晒せないんですが、特定キーワードに反応するbotは
+cinchを利用すると簡単に作成出来て、たとえば下記のような感じで、瞬時に追い込みをかけてくれるbotはすぐに投入出来る。</p>
+
+<div><script src="https://gist.github.com/5552409.js"></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+<p><img src="https://blog.glidenote.com/images/2013/05/ircbot1.png" alt="" /></p>
+
+<p><a href="http://hamusoku.com/archives/6391286.html">ブラック企業ことわざ</a>を教えてくれるbotを
+投入して業務を円滑に回したり、</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/05/ircbot2.png" alt="" /></p>
+
+<p>その他、GitHubの応答が悪かったりした場合は、下記のような感じのbotを常駐させておいて、</p>
+
+<div><script src="https://gist.github.com/5553372.js"></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+<p><code>status github</code>とか発言すると、GitHubのapiを叩いて状態を確認してくれる。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/05/ircbot3.png" alt="" /></p>
+
+<p>作ったIRC BOTはsupervisord経由で上げれば、簡単に常駐出来るし、
+IRC BOTを通じてサーバに作業指示が出来るので、<code>deploy hoge</code>、<code>build moge</code>とかで
+IRCからデプロイしたりやビルドを走らせたり、いろいろな使い方が想定出来ると思う。</p>
+
+<p>IRC BOTが仕事をしてくれると、ターミナルから離れなくて済むので
+自分の業務に集中出来ていろいろと捗る。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/07/httping-munin/">httpingとmuninでWebサーバのレスポンスをグラフ化した</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-07T19:10:00+09:00" pubdate data-updated="true">2013年05月07日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Webサーバのレスポンスの計測をしたくて、Webサーバにはfluentdを導入済みなので、
+Fluentd+GrowthForecastでやろうと思ったんですが、
+Webサーバは全台muninでモニタリングしてて、muninとGrowthForecastでページが
+分かれてしまうと視認性が下がるので、muninでグラフ化することにした。</p>
+
+<p>munin自体はエンジニア以外の人も閲覧して、サーバの状態を判断しているので、
+確認するページが複数にまたがるのもちょっと嫌だった。</p>
+
+<p>計測には<a href="https://github.com/zembutsu/munin-plugin-httping_">zembutsuさんのplugin</a>を利用することに。
+導入に際して<a href="https://github.com/zembutsu/munin-plugin-httping_/pull/1">warningとcriticalの値を設定出来るようにpull req</a>を出してmergeもしてもらった。</p>
+
+<p>導入したサーバはCentOS4,CentOS5,CentOS6とSL6。</p>
+
+<h2 id="section">導入方法</h2>
+
+<h3 id="httping">httpingの導入</h3>
+
+<p>httpinのrpmは下記にあるので、それを利用</p>
+
+<ul>
+  <li><a href="http://pkgs.repoforge.org/httping/">http://pkgs.repoforge.org/httping/</a></li>
+</ul>
+
+<h3 id="munin-plugin-httping">munin-plugin-httping_の導入</h3>
+
+<p>導入は下記のような感じ</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">cd</span> /usr/share/munin/plugins/
+</span><span class="line">sudo get --no-check-certificate https://raw.github.com/zembutsu/munin-plugin-httping_/master/httping_
+</span><span class="line">chmod +x httping_
+</span><span class="line">sudo ln -s /usr/share/munin/plugins/httping_ /etc/munin/plugins/httping_localhost
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>/etc/munin/plugin-conf.d/munin-node</code>か<code>/etc/munin/plugin-conf.d/httping</code>などに
+設定ファイルを用意して下記のように設定。返ってくる値はmsecなので1000で1sec。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="o">[</span>httping_localhost<span class="o">]</span>
+</span><span class="line">    env.URL http://localhost/
+</span><span class="line">    env.COUNT   5
+</span><span class="line">    env.connect_warning 400
+</span><span class="line">    env.connect_critical 700
+</span><span class="line">    env.processing_warning 400
+</span><span class="line">    env.processing_critical 1000
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>pluginが正常に動作するか確認</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo munin-run httping_localhost
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下記のような値が返ってくる</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">connect.value 0.478
+</span><span class="line">processing.value 0.332
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>問題が無ければ、munin-nodeを再起動</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo service munin-node restart
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>しばらくすると下記のようなグラフが出来上がる。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/05/httping0.png" alt="" /></p>
+
+<p>設定した閾値を超えるとちゃんとグラフの色が変わってくれるようになった。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/05/httping1.png" alt="" />
+<img src="https://blog.glidenote.com/images/2013/05/httping2.png" alt="" /></p>
+
+<p>localhostだけじゃなくて、宛先をapiサーバとかをしておけば、
+Webサーバとapiサーバ間のレスポンス速度も計測出来て便利なはず。</p>
+
+<ul>
+  <li><a href="http://pocketstudio.jp/log3/2012/09/25/httping_munin_plugin/">【Munin】ウェブサーバのレスポンスを調べるhttpingプラグイン書きました | Pocketstudio.jp log3</a></li>
+  <li><a href="http://d.hatena.ne.jp/rx7/20110822/p0">HTTPで疎通やレイテンシを確認する「httping」 - 元RX-7乗りの適当な日々</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/22/terminal-solarized/">TotalTerminalとiTerm2のカラースキーマをSolarizedにした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-22T20:00:00+09:00" pubdate data-updated="true">2013年04月22日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://totalterminal.binaryage.com/">TotalTerminal</a>というかTerminal.app上でコピペをすると改行が無くなる問題が結構発生して
+いろいろ調べて見たんですが、原因の特定も解決方法も分からなかったので、<a href="http://www.iterm2.com/#/section/home">iTerm2</a>に切り替え中。</p>
+
+<p>TotalTerminalの設定を結構いじってて、iterm2のカラー設定をTotalTerminalと同じにカスタムするのが結構面倒だったので、
+この際両方のカラースキーマを<a href="http://ethanschoonover.com/solarized">Solarized</a>に変更した。
+というかターミナルにカラースキーマという概念があることを初めて知ったし、Solarizedはエディタ専用の配色だと勝手に思ってた…</p>
+
+<p>導入方法は下記サイトのそのままなので割愛</p>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/ebc_2in2crc/20121103/1351928064">Solarized に染まる - Vim (Terminal) 編 - 全力で怠けたい</a></li>
+</ul>
+
+<p>Vim上だとSolarizedはあんまり好きなカラースキーマでなくて、<a href="https://github.com/tomasr/molokai">molokai</a>を
+常用してたんですが、ターミナルだと目が疲れなくてかなり良い。</p>
+
+<p>ターミナルと合わせてvimでも、<a href="https://github.com/altercation/vim-colors-solarized">vim-colors-solarized</a>で
+<code>.vimrc</code>に下記をしたら結構良い感じに思えてきた。</p>
+
+<div><script src="https://gist.github.com/5418240.js"></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+<p>vim画面ですが、左がsolarizedで、右がmolokai。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/04/solarized.png" alt="" /></p>
+
+<p>ターミナルの色が変わると新鮮な感じがして良い感じ。</p>
+
+<p>調べて見ると<code>dircolors</code>用や<code>tmux</code>用のsolarizedがあってそれぞれ設定が出来る模様。</p>
+
+<ul>
+  <li><a href="https://github.com/seebi/tmux-colors-solarized">seebi/tmux-colors-solarized · GitHub</a></li>
+  <li><a href="https://github.com/seebi/dircolors-solarized">seebi/dircolors-solarized · GitHub</a></li>
+</ul>
+
+<p>dircolorsに関してはすでにsolarized化されてて、昔自分で設定してたらしい</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/ebc_2in2crc/20121103/1351928064">Solarized に染まる - Vim (Terminal) 編 - 全力で怠けたい</a></li>
+  <li><a href="http://fixture.jp/blog/2013/02/solarized-termtrans-option/">tmux+vim+solarizedの人はsolarized_termtransオプションを使おう | fixture.jp</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/08/fluentd-mongodb-integer/">FluentdからMongoDBにデータを文字列(string)から数値(integer)に変換して入れる</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-08T23:00:00+09:00" pubdate data-updated="true">2013年04月08日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近ようやく仕事でガッツリFluentdとMongoDBを触るようになってちょっとハマったことが
+あったので誰かの役に立つかも知れないので書いておく。</p>
+
+<p>Fluentd界隈は開発が活発なので、数ヶ月後にはこの記事の情報も恐らく古くなっているのでご注意ください。</p>
+
+<h2 id="section">結論</h2>
+
+<p>書いてたら長くなってしまったので先に要点というか結論を書いておく。</p>
+
+<ul>
+  <li><code>apache</code> =&gt; <code>fluentd</code> =&gt; <code>MongoDB</code> とapacheのアクセスログをMongoDBに入れたときに<code>code</code>や<code>size</code>といった数値が文字列(string)として入っていた</li>
+  <li><code>td-agent.conf</code>の<code>format</code>を自作すると、時間以外のフィールドが文字列(string)として扱われる</li>
+  <li><a href="https://rubygems.org/gems/fluent-plugin-typecast">fluent-plugin-typecast</a>を利用することで<code>code</code>や<code>size</code>といった特定のフィールドを、<code>string</code>や<code>integer</code>などの任意のデータ型に変換可能。今回の場合は<code>size</code>と<code>code</code>をintegerとして扱うように変換して解決した</li>
+  <li>MongoDBのAggregation Frameworkは大変便利</li>
+</ul>
+
+<h2 id="section-1">前段</h2>
+
+<p>MongoDBは2.2から<a href="http://docs.mongodb.org/manual/aggregation/">Aggregation Framework</a>というのが
+使えるようになっていて、これまでMapReduceなどを用いないと実行出来なかったデータの集計作業などが
+コマンド一発で出来るようになっているとのこと。
+Fluentdを利用してMongoDBに貯めていたapacheのログからvhost毎のトラフィック集計作業を行おうとしてた。</p>
+
+<p>MongoDBに入っているapacheのログデータは下記のような形</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="json"><span class="line"><span class="p">{</span>
+</span><span class="line">  <span class="nt">&quot;_id&quot;</span> <span class="p">:</span> <span class="err">ObjectId(</span><span class="s2">&quot;515e912431166b166b000002&quot;</span><span class="err">)</span><span class="p">,</span>
+</span><span class="line">  <span class="nt">&quot;host&quot;</span> <span class="p">:</span> <span class="s2">&quot;hogemoge.glidenote.com&quot;</span><span class="p">,</span>
+</span><span class="line">  <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;192.168.25.84&quot;</span><span class="p">,</span>
+</span><span class="line">  <span class="nt">&quot;method&quot;</span> <span class="p">:</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+</span><span class="line">  <span class="nt">&quot;path&quot;</span> <span class="p">:</span> <span class="s2">&quot;/htdocs_error_Zq9kbQHobRDu8hdp4K06lMGUOLwFoY0dQUSsIqgXLVBYB3gwAIBy9NNcd9coPHRV/css/error.css&quot;</span><span class="p">,</span>
+</span><span class="line">  <span class="nt">&quot;code&quot;</span> <span class="p">:</span> <span class="s2">&quot;200&quot;</span><span class="p">,</span>
+</span><span class="line">  <span class="nt">&quot;size&quot;</span> <span class="p">:</span> <span class="s2">&quot;423&quot;</span><span class="p">,</span>
+</span><span class="line">  <span class="nt">&quot;referer&quot;</span> <span class="p">:</span> <span class="s2">&quot;http://hogemoge.glidenote.com/&quot;</span><span class="p">,</span>
+</span><span class="line">  <span class="nt">&quot;agent&quot;</span> <span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 Safari/537.31&quot;</span><span class="p">,</span> <span class="nt">&quot;time&quot;</span> <span class="p">:</span> <span class="err">ISODate(</span><span class="s2">&quot;2013-04-05T08:53:50Z&quot;</span><span class="err">)</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>hogemoge.glidenote.com</code>の転送量の集計をするために下記コマンドで<code>size</code>で集計をかける。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="json"><span class="line"><span class="err">db.accesslog.aggregate(</span>
+</span><span class="line">  <span class="p">{</span><span class="err">$match</span>   <span class="err">:{</span><span class="nt">&quot;vhost&quot;</span><span class="p">:</span><span class="s2">&quot;hogemoge.glidenote.com&quot;</span> <span class="p">}</span> <span class="err">},</span>
+</span><span class="line">  <span class="p">{</span><span class="err">$project</span> <span class="err">:{</span><span class="nt">&quot;vhost&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span> <span class="err">},</span>
+</span><span class="line">  <span class="p">{</span><span class="err">$group</span>   <span class="err">:{</span><span class="nt">&quot;_id&quot;</span><span class="p">:</span><span class="s2">&quot;$vhost&quot;</span><span class="p">,</span> <span class="nt">&quot;traffic&quot;</span><span class="p">:{</span><span class="nt">&quot;$sum&quot;</span><span class="p">:</span><span class="s2">&quot;$size&quot;</span><span class="p">}</span> <span class="p">}</span> <span class="err">}</span>
+</span><span class="line"><span class="err">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>…、集計出来ないッ!</p>
+
+<h2 id="aggregation-framework">aggregation frameworkで集計出来ない原因</h2>
+
+<p>なぜ集計出来ないのか調査すると、<code>size</code>が文字列として扱われていた。ちなみに各フィールドのデータ型は下記のような形で調べられる。(ダブルクオートで囲まれているので、その時点でintegerではないんですが調査中は全く気づかなかった…)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="json"><span class="line"><span class="err">//</span> <span class="err">type</span> <span class="mi">2</span><span class="err">で抽出されるものはstring</span>
+</span><span class="line"><span class="err">db.accesslog.find(</span> <span class="p">{</span> <span class="err">size</span> <span class="err">:</span> <span class="err">{</span> <span class="err">$type</span> <span class="err">:</span> <span class="err">2</span> <span class="p">}</span> <span class="err">}</span> <span class="err">)</span>
+</span><span class="line">
+</span><span class="line"><span class="err">//</span> <span class="err">type</span> <span class="mi">16</span><span class="err">で抽出されるものは</span><span class="mi">32</span><span class="err">-bit</span> <span class="err">integer</span>
+</span><span class="line"><span class="err">db.accesslog.find(</span> <span class="p">{</span> <span class="err">size</span> <span class="err">:</span> <span class="err">{</span> <span class="err">$type</span> <span class="err">:</span> <span class="err">16</span> <span class="p">}</span> <span class="err">}</span> <span class="err">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">数値が文字列として扱われている問題の原因</h2>
+
+<p>同じような現象を調べて下記有益情報を発見。</p>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/hetaremania/20120627/1340789087">fluentdからmongodbにint（数値）として突っ込む - おどろく程やる気のない日々</a></li>
+  <li><a href="http://d.hatena.ne.jp/mikeda/20120514/1337010657">fluentdのin_tailで特定フィールドをintに変えたい - IT 東京 楽しいと思うこと</a></li>
+</ul>
+
+<h3 id="section-3">問題が発生した時の構成</h3>
+
+<p>問題が発生していたときの構成。(WEBサーバ約200台で、LOGサーバは1台の構成)</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/04/fluentd-mongo0.png" alt="" /></p>
+
+<p>結論を言うと今回の現象はLOGサーバ側で利用していた<code>fluent-plugin-parser</code>の<a href="https://github.com/tagomoris/fluent-plugin-parser/blob/master/lib/fluent/plugin/fixed_parser.rb">fixed_parser.rb</a>部分で発生していた。<a href="https://github.com/fluent/fluentd/blob/master/lib/fluent/parser.rb">fluentdのparser.rb</a>を利用しても同様に発生する問題(2013年4月8日現在)  </p>
+
+<h3 id="string">なぜ数値が文字列(string)として扱われるのか</h3>
+
+<p>解決方法を探るためにソースを見てみると、<code>format apache2</code>の場合は<code>ApacheParser</code>が利用されて<code>size</code>や<code>code</code>に<code>to_i</code>の処理が入っており数値に変換されているが、<code>format</code>を自分で書くと<code>RegexpParser</code>が利用されて<code>time</code>以外は文字列として扱われている。今回は<code>format apache2</code>がそのまま利用出来ないログの形式でformatを自分で書いていたのも一因としてある。</p>
+
+<p><a href="https://github.com/tagomoris/fluent-plugin-parser/blob/master/lib/fluent/plugin/fixed_parser.rb#L178-L187">https://github.com/tagomoris/fluent-plugin-parser/blob/master/lib/fluent/plugin/fixed_parser.rb#L178-L187</a></p>
+
+<h2 id="section-4">問題の解決方法</h2>
+
+<p>問題の原因がわかり、解決方法をいろいろ試していたら、弊社の<a href="https://twitter.com/banyan">@banyan</a>先生から<a href="https://github.com/tarom/fluent-plugin-typecast">fluent-plugin-typecast</a>というのがあると有益情報をゲット。</p>
+
+<p>早速下記のような形で導入</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">/usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-typecast
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>td-agent.conf</code>の<code>fluent-plugin-typecast</code>の部分は下記のような形</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">&lt;match get.apache.access&gt;
+</span><span class="line">  <span class="nb">type </span>typecast
+</span><span class="line">  item_types size:integer,code:integer
+</span><span class="line">  tag filtered.apache.access
+</span><span class="line">&lt;/match&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>apacheのログを流してみると、ちゃんと<code>size</code>と<code>code</code>が数値(integer)としてMongoDBに入るようになった。</p>
+
+<h2 id="aggregation-framework-1">Aggregation Frameworkで再度集計してみる</h2>
+
+<p>当初の目的であるMongoDBのAggregation Frameworkを再度試してみる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class="json"><span class="line"><span class="err">db.accesslog.aggregate(</span>
+</span><span class="line">  <span class="p">{</span><span class="err">$match</span>   <span class="err">:{</span><span class="nt">&quot;vhost&quot;</span><span class="p">:</span><span class="s2">&quot;hogemoge.glidenote.com&quot;</span> <span class="p">}</span> <span class="err">},</span>
+</span><span class="line">  <span class="p">{</span><span class="err">$project</span> <span class="err">:{</span><span class="nt">&quot;vhost&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span> <span class="err">},</span>
+</span><span class="line">  <span class="p">{</span><span class="err">$group</span>   <span class="err">:{</span><span class="nt">&quot;_id&quot;</span><span class="p">:</span><span class="s2">&quot;$vhost&quot;</span><span class="p">,</span> <span class="nt">&quot;traffic&quot;</span><span class="p">:{</span><span class="nt">&quot;$sum&quot;</span><span class="p">:</span><span class="s2">&quot;$size&quot;</span><span class="p">}</span> <span class="p">}</span> <span class="err">}</span>
+</span><span class="line"><span class="err">);</span>
+</span><span class="line">
+</span><span class="line">
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">    <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="p">[</span>
+</span><span class="line">        <span class="p">{</span>
+</span><span class="line">            <span class="nt">&quot;_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;hogemoge.glidenote.com&quot;</span><span class="p">,</span>
+</span><span class="line">            <span class="nt">&quot;traffic&quot;</span> <span class="p">:</span> <span class="mi">289736716</span>
+</span><span class="line">        <span class="p">}</span>
+</span><span class="line">    <span class="p">],</span>
+</span><span class="line">    <span class="nt">&quot;ok&quot;</span> <span class="p">:</span> <span class="mi">1</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>一瞬で集計が完了。素晴らしい!!(<code>$match</code>を書けるvhost、timeとかにindex貼ってないと多分死にます)</p>
+
+<h3 id="section-5">改善後の構成</h3>
+
+<p><img src="https://blog.glidenote.com/images/2013/04/fluentd-mongo1.png" alt="" /></p>
+
+<p>この構成で1秒に約4000ドキュメント、1日で約3億5千ドキュメントをMongoDBに突っ込んで
+数日様子を見てますが、特に大きな問題も無く稼働中です。</p>
+
+<p>当初どこが問題の原因か全く検討も付かなくて調査に半日近く時間を要した。
+仕事でガッツリ触らないと覚えないし、勘も働かないなーと改めて感じた。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/16/puppet-syntax-check/">PuppetのSyntaxをvim(syntastic)とgit hooks(pre-commit)の2重でチェックするようにした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-16T21:48:00+09:00" pubdate data-updated="true">2013年03月16日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>puppetのmanifestを書いていて、我ながらtypo、構文ミスとかヘボいミスが多すぎるので、
+vimとgit hooks(pre-commit)とで2重でsyntax checkをするようにした。</p>
+
+<h2 id="syntax-check">具体的なsyntax checkの方法</h2>
+
+<ul>
+  <li>vimからは<a href="https://github.com/scrooloose/syntastic">syntastic</a>を利用してsyntax check</li>
+  <li>git hooks(pre-commit)から<code>puppet parser validate</code>を利用して、commitのタイミングでsyntax check。問題がある場合はcommitが出来ないようにする</li>
+</ul>
+
+<h2 id="puppetpuppet-lint">puppetとpuppet-lintの導入</h2>
+
+<p>manifestを書いているマシンにpuppetが入っていないとSyntax Checkが出来ないので導入。
+またsyntasticが<code>puppet-lint</code>を利用するので併せて導入。</p>
+
+<p>私は、最近はmac上でmanifestを書いているのでgemで導入</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">gem install puppet
+</span><span class="line">gem install puppet-lint
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>RHEL系でyumの場合は下記のような感じ。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo yum -y install puppet rubygem-puppet-lint
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="syntastic">syntasticの導入</h2>
+
+<ul>
+  <li><a href="https://github.com/scrooloose/syntastic">scrooloose/syntastic · GitHub</a></li>
+</ul>
+
+<p>私は<a href="https://github.com/Shougo/neobundle.vim">neobundle</a>を利用しているので、下記を<code>.vimrc</code>に書いて<code>:NeoBundleInstall</code></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">NeoBundle <span class="s1">&#39;scrooloose/syntastic&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>puppetのmanifestを編集して、保存したタイミングでsyntaxのcheckが走る。
+エラー部分は<code>:Errors</code>で表示。</p>
+
+<p>構文がおかしい場合は、下記のように表示される。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/03/puppet0.png" alt="" /></p>
+
+<p>これでvimからsyntax checkが出来る。</p>
+
+<h2 id="git-pre-commit">git pre-commitを用意</h2>
+
+<p>Vimだけでも良いんですが、puppetのファイルは全てgitで管理しているので、
+git hooksでもcheckが走るようにする。</p>
+
+<p><code>.git/hooks/pre-commit</code>に下記のようなファイルを用意</p>
+
+<div><script src="https://gist.github.com/5174871.js"></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+<p>puppetのversionが2.7以下の場合は、<code>puppet parser validate</code>というコマンドが無いので、下記コマンドを利用するように変更してください。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">git cat-file blob :0:<span class="nv">$indexfile</span> | puppet --color<span class="o">=</span><span class="nb">false</span> --parseonly --ignoreimport &gt; <span class="nv">$error_msg</span> ;;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>するとcommitしようとしたタイミングにsyntax checkが走るので、エラーがある場合は下記のようにcommit出来ない。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/03/puppet1.png" alt="" /></p>
+
+<p>これでヘボいミスも減って、commit履歴を汚さずに済むはず。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/items/dfe1ec9d82c0ed5da7c6">Git hooks まとめ #git - Qiita</a></li>
+  <li><a href="https://puppetlabs.com/blog/verifying-puppet-checking-syntax-and-writing-automated-tests/">Verifying Puppet: Checking Syntax and Writing Automated Tests | Puppet Labs</a></li>
+  <li><a href="http://projects.puppetlabs.com/projects/1/wiki/puppet_version_control">Puppet Version Control - Puppet - Puppet Labs</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/15/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/13/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

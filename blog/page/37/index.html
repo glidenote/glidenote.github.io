@@ -1,0 +1,824 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="windowのレイアウトを自在に変更出来るWindow Tidyを最近使い始めて、
+めちゃくちゃ便利なんですが、いつの間にか落ちていることが結構あったので、Launchdで常時起動させるようにしました。
+動作環境はLionです。 ~/Library/LaunchAgents/windowtidy &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/37/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/37">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="windowのレイアウトを自在に変更出来るWindow Tidyを最近使い始めて、
+めちゃくちゃ便利なんですが、いつの間にか落ちていることが結構あったので、Launchdで常時起動させるようにしました。
+動作環境はLionです。 ~/Library/LaunchAgents/windowtidy.plist を用意 &lt;?xml version=&quot;1.0&quot; &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/12/07/window-tidy-with-launchd/">ウィンドウ管理ツールWindow TidyをLaunchdで常時起動にした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-07T22:25:00+09:00" pubdate data-updated="true">2011年12月07日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://itunes.apple.com/jp/app/window-tidy/id456609775?mt=12"><img src="http://www.glidenote.com/wp-content/uploads/2011/12/windowtidy.png" align="right" /></a>
+windowのレイアウトを自在に変更出来る<a href="http://d.hatena.ne.jp/RyoAnna/20110928/1317220435">Window Tidy</a>を最近使い始めて、
+めちゃくちゃ便利なんですが、いつの間にか落ちていることが結構あったので、Launchdで常時起動させるようにしました。<br />
+動作環境はLionです。</p>
+
+<p><br clear="all" /></p>
+
+<h2 id="librarylaunchagentswindowtidyplist-">~/Library/LaunchAgents/windowtidy.plist を用意</h2>
+
+<div><script src="https://gist.github.com/1442825.js"></script>
+<noscript><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
+&lt;plist version=&quot;1.0&quot;&gt;
+&lt;dict&gt;
+	&lt;key&gt;KeepAlive&lt;/key&gt;
+	&lt;true/&gt;
+	&lt;key&gt;Label&lt;/key&gt;
+	&lt;string&gt;windowtidy&lt;/string&gt;
+	&lt;key&gt;ProgramArguments&lt;/key&gt;
+	&lt;array&gt;
+		&lt;string&gt;/Applications/Window Tidy.app/Contents/MacOS/Window Tidy&lt;/string&gt;
+	&lt;/array&gt;
+	&lt;key&gt;RunAtLoad&lt;/key&gt;
+	&lt;true/&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;</code></pre></noscript></div>
+
+<h2 id="section">設定の読み込み</h2>
+
+<pre><code>/bin/launchctl load ~/Library/LaunchAgents/windowtidy.plist
+</code></pre>
+
+<p>これでkillしても自動で起動してきて、常時起動するようになりました。Launchdで起動を制御しているので、window tidy側の設定「Launch Window Tidy at login」のチェックは外しておきましょう。</p>
+
+<h2 id="section-1">参考サイト</h2>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/kanonji/20100621/1277075926">Mac OSにおける、initや/etc/rcやcronの代わりであるlaunchdの使い方 - kanonjiの日記</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/12/03/yum-exclude/">tmuxをyumのアップデート対象から外した</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-03T13:00:00+09:00" pubdate data-updated="true">2011年12月03日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://tmux.sourceforge.net/">tmux</a>を1.5にしたら、マウスでのテキスト選択と、puttyとかMacのターミナルの右クリックでペーストができなくなっていたので1.4に戻した。
+yum updateした際に、またいつの間にか1.5にアップデートしていたら嫌だったので、/etc/yum.confに</p>
+
+<pre><code>exclude=tmux*
+</code></pre>
+
+<p>を記載。</p>
+
+<p>.tmux.confの設定で回避出来そうだけど、dotfilesをgithubで一元管理して、どのサーバでも同じ設定で利用しており、古いバージョンのtmuxで動作しなくなったら面倒なので.tmux.confをいじるのはやめておいた。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/12/02/logmon-with-supervisord/">ログファイル監視スクリプトlogmonをsupervisordで管理</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-02T18:00:00+09:00" pubdate data-updated="true">2011年12月02日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ログファイル監視スクリプト<a href="http://www-06.ibm.com/jp/domino01/mkt/cnpages7.nsf/page/default-00057580">logmon</a>の重要度がかなり増してきたので、supervisordで起動、停止を管理するように変更。</p>
+
+<p>supervisordの導入は<a href="http://glidenote.github.com/blog/2011/11/25/install-supervisor/">過去のエントリー</a>を参考にしてください</p>
+
+<p>logmonの起動スクリプトは下記なので、起動方法を確認。</p>
+
+<div><script src="https://gist.github.com/1413062.js?file=gistfile1.sh"></script>
+<noscript><pre><code>#!/bin/sh
+
+# chkconfig: 345 13 13
+# description: Log Monitor
+# processname: logmon
+
+LOGMON_CONF=/etc/logmon/logmon.conf
+LOGMON_BIN=/etc/logmon/logmon.pl
+
+logmon_opts=&quot;-f $LOGMON_CONF&quot;
+
+check_start() {
+    $0 status &gt; /dev/null 2&gt;&amp;1
+    if [ $? -eq 0 ]; then
+        echo &quot;Success.&quot;
+        exit 0
+    fi
+    echo &quot;Failed.&quot;
+    exit 1
+}
+
+case &quot;$1&quot; in
+    start)
+        $0 status &gt; /dev/null 2&gt;&amp;1
+        if [ $? -eq 0 ]; then
+            echo &quot;logmon is alredy running.&quot;
+            exit 1
+        fi
+        echo -n $&quot;Starting logmon: &quot;
+        $LOGMON_BIN $logmon_opts &gt;/dev/null 2&gt;&amp;1 &amp;
+        sleep 1
+        check_start
+        ;;
+    stop)
+        echo -n &quot;Stopping logmon: &quot;
+        pkill -TERM -of $LOGMON_BIN
+        echo Done.
+        ;;
+    restart)
+        $0 stop
+        sleep 1
+        $0 start
+        ;;
+    switch)
+        pkill -HUP -of $LOGMON_BIN
+        ;;
+    check)
+        $LOGMON_BIN -c $logmon_opts
+        ;;
+    status)
+        pid=`pgrep -of $LOGMON_BIN`
+        if [ -n &quot;$pid&quot; ]; then
+            echo &quot;logmon (pid $pid) is running...&quot;
+            exit 0
+        fi
+        echo &quot;logmon is stopped&quot;
+        exit 3
+        ;;
+    *)
+        echo &quot;Usage: $0 {start|stop|restart|switch|status|check}&quot;
+        exit 1
+esac</code></pre></noscript></div>
+
+<p>下記のようなで形で、logmonを起動しているので</p>
+
+<pre><code>/etc/logmon/logmon.pl -f /etc/logmon/logmon.conf &gt;/dev/null 2&gt;&amp;1 &amp;
+</code></pre>
+
+<p>/etc/supervisord.d/logmon.ini を下記のような感じで用意</p>
+
+<div><script src="https://gist.github.com/1413062.js?file=logmon.ini"></script>
+<noscript><pre><code>[program:logmon]
+command=/etc/logmon/logmon.pl -f /etc/logmon/logmon.conf
+stdout_logfile_maxbytes=1MB
+stderr_logfile_maxbytes=1MB
+stdout_logfile=/var/log/%(program_name).log
+stderr_logfile=/var/log/%(program_name).log</code></pre></noscript></div>
+
+<p>supervisordで管理するの、chkconfigをoffに</p>
+
+<pre><code>sudo /etc/rc.d/init.d/logmon stop
+sudo chkconfig logmon off
+</code></pre>
+
+<p>新しく監視デーモンとして、logmon.iniを追加したので、supervisordに設定を再読み込みさせる。</p>
+
+<pre><code>sudo supervisorctl reread
+</code></pre>
+
+<p>logmonをsupervisord管理に追加して起動させる</p>
+
+<pre><code>sudo supervisorctl add logmon
+</code></pre>
+
+<p>logmonが起動しているか確認</p>
+
+<pre><code>sudo supervisorctl status
+</code></pre>
+
+<p>logmonをkillしてsupervisordが再起動させるかを確認して問題なければOK牧場</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/12/01/watch-mysql-replication-error/">logmonとMaatkitでMySQLレプリケーションエラーから自動復旧</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-01T16:23:00+09:00" pubdate data-updated="true">2011年12月01日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>昨日からMySQLのレプリケーションで特定のエラーが発生して止まってしまう現象が多発したので、logmonとMaatkitのmk-slave-restartで自動復旧するようにして対応。<br />
+エラー原因の根本解決じゃないですが、エラー検知して対応するまでレプリケーションが止まったままとか、
+深夜にレプリケーションが止まって叩き起こされるよりかは遙かにマシ。</p>
+
+<h2 id="logmon">logmonの導入</h2>
+<p>logmonについては<a href="http://www.glidenote.com/archives/1023">以前ブログ</a>に書いたので、そちらを参照してください。<br />
+とりあえず下記のような感じで導入可能です。</p>
+
+<pre><code>mkdir ~/tmp
+cd ~/tmp
+wget 'http://www-06.ibm.com/jp/domino01/mkt/cnpages7.nsf/ec7481a5abd4ed3149256f9400478d7d/4925722f004efe92492575e200057580/$FILE/logmon_20100411.tgz'
+tar zxvf logmon_20100411.tgz
+cd logmon_20100411
+./setup.sh
+</code></pre>
+
+<h2 id="maatkit">Maatkitの導入</h2>
+
+<p><a href="http://www.maatkit.org/">Maatkit</a>の導入は適当にググってください。私はRPM作成して導入してますが、ソースから入れる場合は下記のような感じです</p>
+
+<pre><code>mkdir ~/tmp
+cd ~/tmp
+wget http://maatkit.googlecode.com/files/maatkit-7284.tar.gz
+tar zxvf maatkit-7284.tar.gz
+cd maatkit-7284
+perl Makefile.PL
+make
+make install clean
+</code></pre>
+
+<h2 id="etclogmonlogmonconf-">/etc/logmon/logmon.conf の設定</h2>
+<p>監視用の設定を用意</p>
+
+<pre><code>:/var/lib/mysql/err.log
+(Error_code: 1100)
+mk-slave-restart -uroot --error-numbers 1100 --verbose -pxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx &gt;&gt; /var/lib/mysql/skip_query.log
+echo "&lt;%%%%&gt;" | mail -s "[db001.hogehoge.com] mk-slave-restart report" "alert@hogehoge.com" -- -f root@hogehoge.com
+</code></pre>
+
+<p>パスワードは/root/.my.cnfか/root/.maatkit.confに書いておけばいいようですが、念のため設定。
+mk-slave-restartが発動した際にはメールも発砲しておきます。 </p>
+
+<p>やっていることは</p>
+
+<ul>
+  <li>mysqlのエラーログ /var/lib/mysql/err.log を監視</li>
+  <li>[Error_code: 1100]という文字列を条件に指定</li>
+  <li>条件にマッチした場合は1100のエラーだけmk-slave-restartでskipしてalert@hogehoge.com宛てにメール発砲</li>
+  <li>skipしたクエリは/var/lib/mysql/skip_query.logに記録</li>
+</ul>
+
+<p>という感じです。実運用ではメールだけでなく社内IRCにも通知するようにもして、リアルタイムで検知出来るようにしてます。</p>
+
+<h2 id="section">構文のチェック</h2>
+
+<pre><code>/etc/rc.d/init.d/logmon check
+</code></pre>
+
+<h2 id="logmon-1">logmonの起動</h2>
+
+<pre><code>/etc/rc.d/init.d/logmon start
+</code></pre>
+
+<p>これでレプリケーションが止まっても自動復旧するようになりました。実際はlogmonをSupervisordで管理してるんですが、長くなるんで別の機会にまとめます。<br />
+エラー番号ごとで実行する処理をかえておけば、他のエラーでも自動復旧可能ですが、あんまりskipしてるとDBが壊れるんでご注意を。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/11/30/extend-lvm-volume/">LVM領域の拡張方法のメモ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-30T14:48:00+09:00" pubdate data-updated="true">2011年11月30日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>LVMが個人的にあまり好きじゃいせいか、LVM領域の拡張方法をいつも忘れてググっているのでメモ</p>
+
+<h2 id="section">ディスク構成と容量の確認</h2>
+
+<p>パーティションは下記のような構成</p>
+
+<pre><code>[root@server002 ~]# fdisk -l
+
+Disk /dev/sda: 598.8 GB, 598879502336 bytes
+255 heads, 63 sectors/track, 72809 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *           1         131     1052226   83  Linux
+/dev/sda2             132        4047    31455270   83  Linux
+/dev/sda3            4048        7963    31455270   83  Linux
+/dev/sda4            7964       72809   520875495    5  Extended
+/dev/sda5            7964        8094     1052226   82  Linux swap
+/dev/sda6            8095       72809   519823206   8e  Linux LVM
+</code></pre>
+
+<p>下の例だと/dev/mapper/vg_home-lv_homeってのがLVMを組んでいる領域です。</p>
+
+<pre><code>[root@server002 ~]# df -ah
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/sda2              30G  826M   28G   3% /
+none                     0     0     0   -  /proc
+none                     0     0     0   -  /sys
+none                     0     0     0   -  /dev/pts
+usbfs                    0     0     0   -  /proc/bus/usb
+/dev/sda1            1012M   41M  920M   5% /boot
+none                  3.9G     0  3.9G   0% /dev/shm
+/dev/mapper/vg_home-lv_home
+                      168G   92M  159G   1% /home
+/dev/sda3              30G   88M   28G   1% /var
+none                     0     0     0   -  /proc/sys/fs/binfmt_misc
+sunrpc                   0     0     0   -  /var/lib/nfs/rpc_pipefs
+</code></pre>
+
+<h2 id="section-1">未割り当て領域サイズの確認</h2>
+
+<pre><code>[root@server002 ~]# vgdisplay -v 
+    Finding all volume groups
+    Finding volume group "vg_home"
+  --- Volume group ---
+  VG Name               vg_home
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  2
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               495.72 GB
+  PE Size               32.00 MB
+  Total PE              15863
+  Alloc PE / Size       5435 / 169.84 GB
+  Free  PE / Size       10428 / 325.88 GB
+  VG UUID               jraZSp-lOCp-NDK3-qevx-96Tc-eMvh-1lZdjd
+
+  --- Logical volume ---
+  LV Name                /dev/vg_home/lv_home
+  VG Name                vg_home
+  LV UUID                nZbwzV-acnK-axmN-FDB2-06o7-voXn-e5nHkc
+  LV Write Access        read/write
+  LV Status              available
+  # open                 1
+  LV Size                169.84 GB
+  Current LE             5435
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:0
+
+  --- Physical volumes ---
+  PV Name               /dev/sda6
+  PV UUID               GDG5eD-J1jo-oKmb-Eb7r-TCy6-9cIn-wh5o7Z
+  PV Status             allocatable
+  Total PE / Free PE    15863 / 10428
+</code></pre>
+
+<p>最下行のTotal PEの15863が最大で割り当てたときのサイズで、Free PEの10428が未割当のサイズ</p>
+
+<h2 id="lvm">LVM領域の拡張</h2>
+
+<p>割当可能な領域全部を割り当てる</p>
+
+<pre><code>[root@server000 ~]# lvextend -l 15863 /dev/vg_home/lv_home
+  Extending logical volume lv_home to 495.72 GB
+  Logical volume lv_home successfully resized
+</code></pre>
+
+<p>指定容量だけ増加させるには下記のような感じ</p>
+
+<pre><code>lvextend -L +20G /dev/vg_home/lv_home
+</code></pre>
+
+<h2 id="section-2">割り当てた領域の確認</h2>
+
+<pre><code>[root@server000 ~]# vgdisplay -v
+    Finding all volume groups
+    Finding volume group "vg_home"
+  --- Volume group ---
+  VG Name               vg_home
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  4
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               495.72 GB
+  PE Size               32.00 MB
+  Total PE              15863
+  Alloc PE / Size       15863 / 495.72 GB
+  Free  PE / Size       0 / 0
+  VG UUID               qFAi4b-krCN-N9rN-u34V-euc8-eU1N-gKsD1N
+
+  --- Logical volume ---
+  LV Name                /dev/vg_home/lv_home
+  VG Name                vg_home
+  LV UUID                0QfiuO-MfB4-nyoL-9dQm-L0ps-BkOE-FzaFmZ
+  LV Write Access        read/write
+  LV Status              available
+  # open                 1
+  LV Size                495.72 GB
+  Current LE             15863
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:0
+
+  --- Physical volumes ---
+  PV Name               /dev/sda6
+  PV UUID               5t2Vka-tweo-2AcM-MTGj-pYAq-RfTz-SLJHeY
+  PV Status             allocatable
+  Total PE / Free PE    15863 / 0
+</code></pre>
+
+<p>LV Sizeが495.72GBに増えているのでOK</p>
+
+<h2 id="lvmumount">LVM領域をumount</h2>
+
+<p>fsckとLVMのリサイズをするためにumount</p>
+
+<pre><code>umount /dev/vg_home/lv_home
+</code></pre>
+
+<h2 id="fsck">fsckをかけてファイルシステムのチェックと修復</h2>
+
+<pre><code>[root@server002 ~]# fsck -f /dev/vg_home/lv_home
+fsck 1.35 (28-Feb-2004)
+e2fsck 1.35 (28-Feb-2004)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/vg_home/lv_home: 11/22265856 files (9.1% non-contiguous), 722110/44523520 blocks
+</code></pre>
+
+<h2 id="lvm-1">LVM領域のサイズ変更</h2>
+
+<pre><code>[root@server002 ~]# resize2fs /dev/vg_home/lv_home
+resize2fs 1.35 (28-Feb-2004)
+Resizing the filesystem on /dev/vg_home/lv_home to 129949696 (4k) blocks.
+The filesystem on /dev/vg_home/lv_home is now 129949696 blocks long.
+</code></pre>
+
+<h2 id="lvmmount">LVM領域の再mount</h2>
+
+<pre><code>mount /dev/vg_home/lv_home /home
+</code></pre>
+
+<h2 id="section-3">容量の確認</h2>
+
+<pre><code>[root@server002 ~]# df -ah
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/sda2              30G  826M   28G   3% /
+none                     0     0     0   -  /proc
+none                     0     0     0   -  /sys
+none                     0     0     0   -  /dev/pts
+usbfs                    0     0     0   -  /proc/bus/usb
+/dev/sda1            1012M   41M  920M   5% /boot
+none                  3.9G     0  3.9G   0% /dev/shm
+/dev/sda3              30G   88M   28G   1% /var
+none                     0     0     0   -  /proc/sys/fs/binfmt_misc
+sunrpc                   0     0     0   -  /var/lib/nfs/rpc_pipefs
+/dev/mapper/vg_home-lv_home
+                      488G  102M  464G   1% /home
+</code></pre>
+
+<p>/dev/mapper/vg_home-lv_homeが増えているので完了</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/38/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/36/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

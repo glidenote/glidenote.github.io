@@ -1,0 +1,795 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="2011年から使っているOctopressですが、導入時から全然アップデートしてなくて、jekyllが古いままだったので、 octopress をアップデートした (.ruby-version が conflict した) 話 - @znz blog を参考にアップデートしてみたので作業メモ。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/9/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/9">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="2011年から使っているOctopressですが、導入時から全然アップデートしてなくて、jekyllが古いままだったので、 octopress をアップデートした (.ruby-version が conflict した) 話 - @znz blog を参考にアップデートしてみたので作業メモ。 作業前にバックアップ git管理しているので、作業前にcommitしておく。 1
+2
+git add &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/14/octopress-update/">Octopressをアップデートした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-14T23:40:00+09:00" pubdate data-updated="true">2014年02月14日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>2011年から使っているOctopressですが、導入時から全然アップデートしてなくて、<a href="https://github.com/jekyll/jekyll">jekyll</a>が古いままだったので、</p>
+
+<ul>
+  <li><a href="http://blog.n-z.jp/blog/2013-10-09-update-octopress-and-conflict-ruby-version.html">octopress をアップデートした (.ruby-version が conflict した) 話 - @znz blog</a></li>
+</ul>
+
+<p>を参考にアップデートしてみたので作業メモ。</p>
+
+<h2 id="section">作業前にバックアップ</h2>
+
+<p>git管理しているので、作業前にcommitしておく。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">git add .
+</span><span class="line">git commit -m <span class="s2">&quot;commit before update&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="remote">remoteの確認</h2>
+
+<p><code>octopress</code>というのがoctopress自体のソースだと確認出来る。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">git remote -v
+</span><span class="line">bitbucket       git@bitbucket.org:glidenote/octopress.git <span class="o">(</span>fetch<span class="o">)</span>
+</span><span class="line">bitbucket       git@bitbucket.org:glidenote/octopress.git <span class="o">(</span>push<span class="o">)</span>
+</span><span class="line">octopress       git://github.com/imathis/octopress.git <span class="o">(</span>fetch<span class="o">)</span>
+</span><span class="line">octopress       git://github.com/imathis/octopress.git <span class="o">(</span>push<span class="o">)</span>
+</span><span class="line">origin  git@github.com:glidenote/glidenote.github.com.git <span class="o">(</span>fetch<span class="o">)</span>
+</span><span class="line">origin  git@github.com:glidenote/glidenote.github.com.git <span class="o">(</span>push<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="octopressmasterfetch">Octopressのmasterをfetch</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">git fetch octopress
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="merge">mergeする前に差分を確認</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">git diff source...octopress/master
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="merge-1">mergeする</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">git merge octopress/master
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>カスタムしているせいか、結構conflictしていたので、手動で1個ずつ修正。</p>
+
+<h2 id="gem">gemの更新</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">bundle install
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>で各種gemの更新。</p>
+
+<h2 id="amazon-plugin">amazon pluginの変更</h2>
+
+<p>今まで、<a href="http://zanshin.net/2011/08/24/amazon-plugin-for-octopress/">Amazon Plugin for Octopress - Zanshin.net</a>のamazon pluginを使っていたんですが、
+中で使用する<code>{</code>と<code>}</code>が2個続く構文が原因で、Liquidがエラーを吐いて、<code>rake generate</code>が走らなくなっていたので、下記プラグインを利用するように変更。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/octopress-amazon-plugin">glidenote/octopress-amazon-plugin</a></li>
+</ul>
+
+<h2 id="octoeditorvimbundle-exec">octoeditor.vimを<code>bundle exec</code>に対応してバージョンアップ</h2>
+
+<p>rakeが新しくなり、<code>bundle exec</code>が必須になっていて、拙作の<a href="https://github.com/glidenote/octoeditor.vim">glidenote/octoeditor.vim</a>で
+記事の<code>:OctopressGenerate</code>と<code>:OctopressDeploy</code>が走らなくなっていたので、<code>budle exec</code>を利用する</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">let </span>g:octopress_bundle_exec <span class="o">=</span> 1
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>というオプションを作って対応。</p>
+
+<p>Octoprssのアップデート後から記事の生成(<code>bundle exec rake generate</code>)が体感的に
+2/3くらいの時間になってちょっと感動した。(早くなると思ってなかったからベンチを取ってなかった…)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/13/fluent-plugin-tai64n_parser/">TAI64N形式のタイムスタンプをparseするFluentdのプラグインfluent-plugin-tai64n_parserを作った</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-13T20:16:00+09:00" pubdate data-updated="true">2014年02月13日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>追記 2014年2月19日</strong>
+本記事の初投稿後に修正がかなり入っているので、最新の利用方法については<a href="https://github.com/glidenote/fluent-plugin-tai64n_parser">glidenote/fluent-plugin-tai64n_parser</a>を参照ください。</p>
+
+<ul>
+  <li><a href="https://rubygems.org/gems/fluent-plugin-tai64n_parser">fluent-plugin-tai64n_parser | RubyGems.org | your community gem host</a></li>
+  <li><a href="https://github.com/glidenote/fluent-plugin-tai64n_parser">glidenote/fluent-plugin-tai64n_parser</a></li>
+</ul>
+
+<p>TAI64N好きですか!!qmailのログとかでよく見る下記みたいなやつ。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">@4000000052fafd8d3298434c new msg 3890
+</span><span class="line">@4000000052fafd8d32984b1c info msg 3890: bytes 372 from &lt;root@**********.pb&gt; qp 31835 uid 0
+</span><span class="line">@4000000052fafd8d373b5dbc starting delivery 9: msg 3890 to remote glidenote@********.co.jp
+</span><span class="line">@4000000052fafd8d373b6974 status: local 0/120 remote 1/60
+</span><span class="line">@4000000052fafd8d38754cec delivery 9: success: ***.***.***.***_accepted_message./Remote_host_said:_250_ok_1392180611_qp_10394/
+</span><span class="line">@4000000052fafd8d387554bc status: local 0/120 remote 0/60
+</span><span class="line">@4000000052fafd8d387554bc end msg 3890</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>私は大嫌いで見たくないです。見たくないけど残念ながら結構見かけるし、Fluentdにただ流してもナノ秒が処理が出来ないので
+TAI64N形式のタイムスタンプをparseする<code>fluent-plugin-tai64n_parser</code>というものを作った。
+既に本番サーバに投入して毎分30000メッセージくらい処理させてるけど、負荷もなく安定して動いてる。</p>
+
+<h2 id="section">設定例</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&lt;match test.**&gt;
+</span><span class="line">  type             tai64n_parser
+</span><span class="line">
+</span><span class="line">  key              tai64n
+</span><span class="line">  output_key       parsed_time
+</span><span class="line">  add_tag_prefix   parsed.
+</span><span class="line">&lt;/match&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下記みたいなメッセージが流れてくると</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="js"><span class="line"><span class="s2">&quot;test&quot;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span><span class="line">  <span class="s2">&quot;tai64n&quot;</span>      <span class="o">=&gt;</span> <span class="s2">&quot;@4000000052f88ea32489532c&quot;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下記のように<code>tai64nlocal</code>かけたときと同じようにparseされる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="js"><span class="line"><span class="s2">&quot;parsed.test&quot;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span><span class="line">  <span class="s2">&quot;tai64n&quot;</span>      <span class="o">=&gt;</span> <span class="s2">&quot;@4000000052f88ea32489532c&quot;</span>
+</span><span class="line">  <span class="s2">&quot;parsed_time&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;2014-02-10 17:32:25.612979500&quot;</span><span class="p">,</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="qmail">qmailの送信ログを処理してみる</h2>
+
+<p>たとえばqmailの送信ログを処理する場合は、下記のような感じで設定</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+</pre></td><td class="code"><pre><code class="js"><span class="line"><span class="o">&lt;</span><span class="nx">match</span> <span class="nx">raw</span><span class="p">.</span><span class="nx">qmail</span><span class="p">.</span><span class="nx">sent</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="nx">type</span>             <span class="nx">parser</span>
+</span><span class="line">  <span class="nx">remove_prefix</span>    <span class="nx">raw</span>
+</span><span class="line">  <span class="nx">format</span>           <span class="o">/^</span><span class="p">(</span><span class="o">?&lt;</span><span class="nx">tai64n</span><span class="o">&gt;</span><span class="p">[</span><span class="o">^</span> <span class="p">]</span><span class="o">+</span><span class="p">)</span> <span class="p">(</span><span class="o">?&lt;</span><span class="nx">message</span><span class="o">&gt;</span><span class="p">(((</span><span class="o">?:</span><span class="k">new</span><span class="o">|</span><span class="nx">end</span><span class="p">)</span> <span class="nx">msg</span> <span class="p">(</span><span class="o">?&lt;</span><span class="nx">key</span><span class="o">&gt;</span><span class="p">[</span><span class="mi">0</span><span class="o">-</span><span class="mi">9</span><span class="p">]</span><span class="o">+</span><span class="p">)</span><span class="o">|</span><span class="nx">info</span> <span class="nx">msg</span> <span class="p">(</span><span class="o">?&lt;</span><span class="nx">key</span><span class="o">&gt;</span><span class="p">[</span><span class="mi">0</span><span class="o">-</span><span class="mi">9</span><span class="p">]</span><span class="o">+</span><span class="p">)</span><span class="o">:</span> <span class="nx">bytes</span> <span class="p">(</span><span class="o">?:</span><span class="err">\</span><span class="nx">d</span><span class="o">+</span><span class="p">)</span> <span class="nx">from</span> <span class="o">&lt;</span><span class="p">(</span><span class="o">?&lt;</span><span class="nx">address</span><span class="o">&gt;</span><span class="p">[</span><span class="o">^&gt;</span><span class="p">]</span><span class="o">*</span><span class="p">)</span><span class="o">&gt;</span> <span class="o">|</span><span class="nx">starting</span> <span class="nx">delivery</span> <span class="p">(</span><span class="o">?&lt;</span><span class="nx">delivery_id</span><span class="o">&gt;</span><span class="p">[</span><span class="mi">0</span><span class="o">-</span><span class="mi">9</span><span class="p">]</span><span class="o">+</span><span class="p">)</span><span class="o">:</span> <span class="nx">msg</span> <span class="p">(</span><span class="o">?&lt;</span><span class="nx">key</span><span class="o">&gt;</span><span class="p">[</span><span class="mi">0</span><span class="o">-</span><span class="mi">9</span><span class="p">]</span><span class="o">+</span><span class="p">)</span> <span class="nx">to</span> <span class="p">(</span><span class="o">?:</span><span class="nx">local</span><span class="o">|</span><span class="nx">remote</span><span class="p">)</span> <span class="p">(</span><span class="o">?&lt;</span><span class="nx">address</span><span class="o">&gt;</span><span class="p">.</span><span class="o">+</span><span class="p">)</span><span class="o">|</span><span class="nx">delivery</span> <span class="p">(</span><span class="o">?&lt;</span><span class="nx">delivery_id</span><span class="o">&gt;</span><span class="p">[</span><span class="mi">0</span><span class="o">-</span><span class="mi">9</span><span class="p">]</span><span class="o">+</span><span class="p">))</span><span class="o">?</span><span class="p">.</span><span class="o">*</span><span class="p">))</span><span class="nx">$</span><span class="o">/</span>
+</span><span class="line">  <span class="nx">key_name</span>         <span class="nx">message</span>
+</span><span class="line">  <span class="nx">suppress_parse_error_log</span> <span class="kc">true</span>
+</span><span class="line"><span class="o">&lt;</span><span class="err">/match&gt;</span>
+</span><span class="line">
+</span><span class="line"><span class="o">&lt;</span><span class="nx">match</span> <span class="nx">qmail</span><span class="p">.</span><span class="nx">sent</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="nx">type</span>             <span class="nx">tai64n_parser</span>
+</span><span class="line">
+</span><span class="line">  <span class="nx">key</span>              <span class="nx">tai64n</span>
+</span><span class="line">  <span class="nx">output_key</span>       <span class="nx">parsed_time</span>
+</span><span class="line">  <span class="nx">add_tag_prefix</span>   <span class="nx">parsed</span><span class="p">.</span>
+</span><span class="line"><span class="o">&lt;</span><span class="err">/match&gt;</span>
+</span><span class="line">
+</span><span class="line"><span class="o">&lt;</span><span class="nx">match</span> <span class="nx">parsed</span><span class="p">.</span><span class="nx">qmail</span><span class="p">.</span><span class="nx">sent</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="nx">type</span> <span class="nx">file</span>
+</span><span class="line">  <span class="nx">path</span> <span class="o">/</span><span class="kd">var</span><span class="err">/log/td-agent/qmail_tai64n_parsed.log</span>
+</span><span class="line"><span class="o">&lt;</span><span class="err">/match&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>すると下記みたいな感じでパースされて、ナノ秒単位で<code>parsed_time</code>に変換された時間が入ってくる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="js"><span class="line"><span class="mi">2014</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">12</span><span class="nx">T13</span><span class="o">:</span><span class="mi">50</span><span class="o">:</span><span class="mi">11</span><span class="o">+</span><span class="mi">09</span><span class="o">:</span><span class="mi">00</span>       <span class="nx">parsed</span><span class="p">.</span><span class="nx">qmail</span><span class="p">.</span><span class="nx">sent</span>       <span class="p">{</span><span class="s2">&quot;tai64n&quot;</span><span class="o">:</span><span class="s2">&quot;@4000000052fafd8d3298434c&quot;</span><span class="p">,</span><span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="s2">&quot;new msg 3890&quot;</span><span class="p">,</span><span class="s2">&quot;key&quot;</span><span class="o">:</span><span class="s2">&quot;3890&quot;</span><span class="p">,</span><span class="s2">&quot;parsed_time&quot;</span><span class="o">:</span><span class="s2">&quot;2014-02-12 13:50:11.848839500&quot;</span><span class="p">}</span>
+</span><span class="line"><span class="mi">2014</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">12</span><span class="nx">T13</span><span class="o">:</span><span class="mi">50</span><span class="o">:</span><span class="mi">11</span><span class="o">+</span><span class="mi">09</span><span class="o">:</span><span class="mi">00</span>       <span class="nx">parsed</span><span class="p">.</span><span class="nx">qmail</span><span class="p">.</span><span class="nx">sent</span>       <span class="p">{</span><span class="s2">&quot;tai64n&quot;</span><span class="o">:</span><span class="s2">&quot;@4000000052fafd8d32984b1c&quot;</span><span class="p">,</span><span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="s2">&quot;info msg 3890: bytes 372 from &lt;root@**********.pb&gt; qp 31835 uid 0&quot;</span><span class="p">,</span><span class="s2">&quot;key&quot;</span><span class="o">:</span><span class="s2">&quot;3890&quot;</span><span class="p">,</span><span class="s2">&quot;address&quot;</span><span class="o">:</span><span class="s2">&quot;root@**********.pb&quot;</span><span class="p">,</span><span class="s2">&quot;parsed_time&quot;</span><span class="o">:</span><span class="s2">&quot;2014-02-12 13:50:11.848841500&quot;</span><span class="p">}</span>
+</span><span class="line"><span class="mi">2014</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">12</span><span class="nx">T13</span><span class="o">:</span><span class="mi">50</span><span class="o">:</span><span class="mi">11</span><span class="o">+</span><span class="mi">09</span><span class="o">:</span><span class="mi">00</span>       <span class="nx">parsed</span><span class="p">.</span><span class="nx">qmail</span><span class="p">.</span><span class="nx">sent</span>       <span class="p">{</span><span class="s2">&quot;tai64n&quot;</span><span class="o">:</span><span class="s2">&quot;@4000000052fafd8d373b5dbc&quot;</span><span class="p">,</span><span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="s2">&quot;starting delivery 9: msg 3890 to remote glidenote@**********.co.jp&quot;</span><span class="p">,</span><span class="s2">&quot;key&quot;</span><span class="o">:</span><span class="s2">&quot;3890&quot;</span><span class="p">,</span><span class="s2">&quot;address&quot;</span><span class="o">:</span><span class="s2">&quot;glidenote@**********.co.jp&quot;</span><span class="p">,</span><span class="s2">&quot;delivery_id&quot;</span><span class="o">:</span><span class="s2">&quot;9&quot;</span><span class="p">,</span><span class="s2">&quot;parsed_time&quot;</span><span class="o">:</span><span class="s2">&quot;2014-02-12 13:50:11.926637500&quot;</span><span class="p">}</span>
+</span><span class="line"><span class="mi">2014</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">12</span><span class="nx">T13</span><span class="o">:</span><span class="mi">50</span><span class="o">:</span><span class="mi">11</span><span class="o">+</span><span class="mi">09</span><span class="o">:</span><span class="mi">00</span>       <span class="nx">parsed</span><span class="p">.</span><span class="nx">qmail</span><span class="p">.</span><span class="nx">sent</span>       <span class="p">{</span><span class="s2">&quot;tai64n&quot;</span><span class="o">:</span><span class="s2">&quot;@4000000052fafd8d373b6974&quot;</span><span class="p">,</span><span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="s2">&quot;status: local 0/120 remote 1/60&quot;</span><span class="p">,</span><span class="s2">&quot;parsed_time&quot;</span><span class="o">:</span><span class="s2">&quot;2014-02-12 13:50:11.926640500&quot;</span><span class="p">}</span>
+</span><span class="line"><span class="mi">2014</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">12</span><span class="nx">T13</span><span class="o">:</span><span class="mi">50</span><span class="o">:</span><span class="mi">11</span><span class="o">+</span><span class="mi">09</span><span class="o">:</span><span class="mi">00</span>       <span class="nx">parsed</span><span class="p">.</span><span class="nx">qmail</span><span class="p">.</span><span class="nx">sent</span>       <span class="p">{</span><span class="s2">&quot;tai64n&quot;</span><span class="o">:</span><span class="s2">&quot;@4000000052fafd8d38754cec&quot;</span><span class="p">,</span><span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="s2">&quot;delivery 9: success: ***.***.***.***_accepted_message./Remote_host_said:_250_ok_1392180611_qp_10394/&quot;</span><span class="p">,</span><span class="s2">&quot;delivery_id&quot;</span><span class="o">:</span><span class="s2">&quot;9&quot;</span><span class="p">,</span><span class="s2">&quot;parsed_time&quot;</span><span class="o">:</span><span class="s2">&quot;2014-02-12 13:50:11.947211500&quot;</span><span class="p">}</span>
+</span><span class="line"><span class="mi">2014</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">12</span><span class="nx">T13</span><span class="o">:</span><span class="mi">50</span><span class="o">:</span><span class="mi">11</span><span class="o">+</span><span class="mi">09</span><span class="o">:</span><span class="mi">00</span>       <span class="nx">parsed</span><span class="p">.</span><span class="nx">qmail</span><span class="p">.</span><span class="nx">sent</span>       <span class="p">{</span><span class="s2">&quot;tai64n&quot;</span><span class="o">:</span><span class="s2">&quot;@4000000052fafd8d387554bc&quot;</span><span class="p">,</span><span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="s2">&quot;status: local 0/120 remote 0/60&quot;</span><span class="p">,</span><span class="s2">&quot;parsed_time&quot;</span><span class="o">:</span><span class="s2">&quot;2014-02-12 13:50:11.947213500&quot;</span><span class="p">}</span>
+</span><span class="line"><span class="mi">2014</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">12</span><span class="nx">T13</span><span class="o">:</span><span class="mi">50</span><span class="o">:</span><span class="mi">11</span><span class="o">+</span><span class="mi">09</span><span class="o">:</span><span class="mi">00</span>       <span class="nx">parsed</span><span class="p">.</span><span class="nx">qmail</span><span class="p">.</span><span class="nx">sent</span>       <span class="p">{</span><span class="s2">&quot;tai64n&quot;</span><span class="o">:</span><span class="s2">&quot;@4000000052fafd8d387554bc&quot;</span><span class="p">,</span><span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="s2">&quot;end msg 3890&quot;</span><span class="p">,</span><span class="s2">&quot;key&quot;</span><span class="o">:</span><span class="s2">&quot;3890&quot;</span><span class="p">,</span><span class="s2">&quot;parsed_time&quot;</span><span class="o">:</span><span class="s2">&quot;2014-02-12 13:50:11.947213500&quot;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>上の例だと<code>fluent-plugin-tai64n_parser</code>でparse後に、<a href="https://github.com/sonots/fluent-plugin-record-reformer">sonots/fluent-plugin-record-reformer</a>のようなプラグインを使って
+<code>tai64n</code>自体のキーを消して、DBに入れればTAI64N形式のタイムスタンプを二度と見なくて良くなる。</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="https://github.com/CaDs/fluent-plugin-time_parser/">CaDs/fluent-plugin-time_parser</a></li>
+  <li><a href="https://gist.github.com/hayajo/2848763">fluentd qmail-send log format</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/12/digital-ocean-singapore-region/">1時間1円でSSDなVPS(Digital Ocean)にシンガポール リージョンが来ていた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-12T20:31:00+09:00" pubdate data-updated="true">2014年02月12日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="https://blog.glidenote.com/images/2014/02/digitalocean-logo.png" alt="" /></p>
+
+<ul>
+  <li><a href="https://www.digitalocean.com/?refcode=510a665458a3">https://www.digitalocean.com</a></li>
+  <li><a href="https://digitalocean.com/blog_posts/we-re-excited-to-announce-our-singapore-datacenter-sgp1">We’re Excited To Announce Our Singapore Datacenter (SGP1) | DigitalOcean</a></li>
+</ul>
+
+<p><a href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/">以前紹介した1時間1円でSSDなVPS(DigitalOcean)</a>にシンガポール リージョンが来ていた。</p>
+
+<p><img src="https://assets.digitalocean.com/blog/SGP1_Announcement/2.png" alt="" /></p>
+
+<p>早速インスタンスを立てて、自分の環境から、どのくらいのレスポンスなのか計測</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="o">[</span>akira@dev001<span class="o">]</span> <span class="nv">$ </span>ping -c 10 128.199.***.***
+</span><span class="line">PING 128.199.***.*** <span class="o">(</span>128.199.***.***<span class="o">)</span> 56<span class="o">(</span>84<span class="o">)</span> bytes of data.
+</span><span class="line">64 bytes from 128.199.***.***: <span class="nv">icmp_seq</span><span class="o">=</span>1 <span class="nv">ttl</span><span class="o">=</span>53 <span class="nb">time</span><span class="o">=</span>76.7 ms
+</span><span class="line">64 bytes from 128.199.***.***: <span class="nv">icmp_seq</span><span class="o">=</span>2 <span class="nv">ttl</span><span class="o">=</span>53 <span class="nb">time</span><span class="o">=</span>75.7 ms
+</span><span class="line">64 bytes from 128.199.***.***: <span class="nv">icmp_seq</span><span class="o">=</span>3 <span class="nv">ttl</span><span class="o">=</span>53 <span class="nb">time</span><span class="o">=</span>73.8 ms
+</span><span class="line">64 bytes from 128.199.***.***: <span class="nv">icmp_seq</span><span class="o">=</span>4 <span class="nv">ttl</span><span class="o">=</span>53 <span class="nb">time</span><span class="o">=</span>73.7 ms
+</span><span class="line">64 bytes from 128.199.***.***: <span class="nv">icmp_seq</span><span class="o">=</span>5 <span class="nv">ttl</span><span class="o">=</span>53 <span class="nb">time</span><span class="o">=</span>74.1 ms
+</span><span class="line">64 bytes from 128.199.***.***: <span class="nv">icmp_seq</span><span class="o">=</span>6 <span class="nv">ttl</span><span class="o">=</span>53 <span class="nb">time</span><span class="o">=</span>76.1 ms
+</span><span class="line">64 bytes from 128.199.***.***: <span class="nv">icmp_seq</span><span class="o">=</span>7 <span class="nv">ttl</span><span class="o">=</span>53 <span class="nb">time</span><span class="o">=</span>75.8 ms
+</span><span class="line">64 bytes from 128.199.***.***: <span class="nv">icmp_seq</span><span class="o">=</span>8 <span class="nv">ttl</span><span class="o">=</span>53 <span class="nb">time</span><span class="o">=</span>75.7 ms
+</span><span class="line">64 bytes from 128.199.***.***: <span class="nv">icmp_seq</span><span class="o">=</span>9 <span class="nv">ttl</span><span class="o">=</span>53 <span class="nb">time</span><span class="o">=</span>76.1 ms
+</span><span class="line">64 bytes from 128.199.***.***: <span class="nv">icmp_seq</span><span class="o">=</span>10 <span class="nv">ttl</span><span class="o">=</span>53 <span class="nb">time</span><span class="o">=</span>78.0 ms
+</span><span class="line">
+</span><span class="line">--- 128.199.***.*** ping statistics ---
+</span><span class="line">10 packets transmitted, 10 received, 0% packet loss, <span class="nb">time </span>9096ms
+</span><span class="line">rtt min/avg/max/mdev <span class="o">=</span> 73.738/75.623/78.060/1.290 ms
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>今まで日本から一番レスポンスの良かった<code>San Francisco1</code>へのping応答が<code>105ms</code>くらいなので、<code>30ms</code>くらい早くなった。</p>
+
+<p>さくらVPSが<code>11ms</code>とかなので、比較するとまだまだですが、sshログインして半日触った感じだと
+レスポンスの遅延とか特に感じなくて快適。(たぶんまだあんまり使われてないからだと思うけど)</p>
+
+<p>とりあえずVagrant+DigitalOceanな使い捨てサーバ環境はシンガポールリージョンに移行した。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/29/post-to-irc-important-mail-subject/">重要なメールが届いたらIRCにメールの件名を通知するようにした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-29T22:57:00+09:00" pubdate data-updated="true">2014年01月29日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>自分がTO,CC,BCCに入ってたり、本文に自分の名前が入ってるメールはちゃんとメーラで振り分けしてチェックしているんですが、
+自分が参加しているML宛てに重要なメールが届いたときにを見逃してしまう事が多い。</p>
+
+<p>IRCは基本的に常時起動していて、キーワードには反応するようにしているので、参加しているML宛てにメールが届いたらメールのsubjectをIRCに通知して気づけるようにした。</p>
+
+<p>これをやる前置きとして、弊社では<a href="https://github.com/yappo/p5-App-Ikachan">Ikachan</a>が導入されてるので、
+curl叩けばIRC通知されるようになっており、IRCへの通知は大変手軽に出来るようになってる。</p>
+
+<h2 id="section">仕組み</h2>
+
+<ul>
+  <li>サーバ上でfetchmailをcronで回して、メールを定期受信</li>
+  <li>procmailで条件に一致する場合を判定し、コマンド(curl)を叩いてIRCに通知する</li>
+</ul>
+
+<p>たとえば、特定の人(From)からメールが届いたらIRCに通知するよう場合の <code>.procmailrc</code>の内容は下記のような感じ</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">SUBJECT=`formail -c -xSubject:`
+</span><span class="line">IRC_POST_SUBJECT=`echo $SUBJECT | nkf -w`
+</span><span class="line">
+</span><span class="line">:0
+</span><span class="line">* ^(From).*hogemoge@ml.hogemoge.com
+</span><span class="line">{
+</span><span class="line">
+</span><span class="line">  :0 c
+</span><span class="line">  | /usr/bin/curl -F channel='#maeda_test' http://ikachan.hogemoge.com:4979/privmsg -F message="メールが届いてるよ!  件名:${IRC_POST_SUBJECT}"
+</span><span class="line">
+</span><span class="line">  :0
+</span><span class="line">  ~/Maildir/
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>「2014年にfetchmailとかprocmailなんて…」という感じかもしれないけど、
+軽量だし、技術的には枯れてて非常に安定しているので、こういうことをやるのには適してると思う。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/28/td-agent-queue-size-exceeds-limit/">td-agentでqueue size exceeds limit</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-28T19:58:00+09:00" pubdate data-updated="true">2014年01月28日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>昨年構築してからずっと安定稼働していたfluend(td-agent)が年明けくらいから下記のエラーが出て連日停止してしまって、
+ちょっとハマったのでメモしておく。(ハッキリとした原因は掴めてないですが)</p>
+
+<p>利用しているtd-agentのバージョンは<code>td-agent-1.1.18-0.x86_64</code>。</p>
+
+<h2 id="section">現象</h2>
+
+<p>fluent.logには下記が出ていて、機能が停止している。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">2014-01-09T20:28:59+09:00       fluent.error    {"error":"#&lt;Fluent::BufferQueueLimitError: queue size exceeds limit&gt;","error_class":"Fluent::BufferQueueLimitError","message":"forward error"}
+</span><span class="line">2014-01-09T20:28:59+09:00       fluent.warn     {"error_class":"Fluent::BufferQueueLimitError","error":"#&lt;Fluent::BufferQueueLimitError: queue size exceeds limit&gt;","message":"emit transaction failed "}
+</span><span class="line">2014-01-09T20:28:59+09:00       fluent.warn     {"error_class":"Fluent::BufferQueueLimitError","error":"#&lt;Fluent::BufferQueueLimitError: queue size exceeds limit&gt;","message":"emit transaction failed "}
+</span><span class="line">2014-01-09T20:28:59+09:00       fluent.warn     {"error_class":"Fluent::BufferQueueLimitError","error":"#&lt;Fluent::BufferQueueLimitError: queue size exceeds limit&gt;","message":"emit transaction failed "}
+</span><span class="line">2014-01-09T20:28:59+09:00       fluent.warn     {"error_class":"Fluent::BufferQueueLimitError","error":"#&lt;Fluent::BufferQueueLimitError: queue size exceeds limit&gt;","message":"emit transaction failed "}
+</span><span class="line">2014-01-09T20:28:59+09:00       fluent.warn     {"error_class":"Fluent::BufferQueueLimitError","error":"#&lt;Fluent::BufferQueueLimitError: queue size exceeds limit&gt;","message":"emit transaction failed "}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>dmesgには下記が延々と出続けている。<code>possible SYN flooding on port 24224</code>はtd-agentがポート開いてるけどaccept(2)してないから出ていると@hiboma先生がサクッと検証用のコードを書いて調査してくれた。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">possible SYN flooding on port 24224. Sending cookies.
+</span><span class="line">possible SYN flooding on port 24224. Sending cookies.
+</span><span class="line">possible SYN flooding on port 24224. Sending cookies.</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>構成は<a href="https://blog.glidenote.com/blog/2013/04/08/fluentd-mongodb-integer/">以前書いたもの</a>のまま。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/04/fluentd-mongo1.png" alt="" /></p>
+
+<h2 id="section-1">対処方法</h2>
+
+<p>いろいろ調査して、試してみたんですが、先に対処内容を書いておくと、@hiboma先生が調べてくれた
+<a href="http://buta9999.hatenablog.jp/entry/20131120/1384958564">fluentdで死の宣告queue size exceeds limit - boku no blog</a>
+を参考に、<code>buffer_type</code>を<code>memory</code>から<code>file</code>に変更して現象は収まって復旧。</p>
+
+<p>変更内容は下記のような感じ</p>
+
+<div><script src="https://gist.github.com/8469146.js"></script>
+<noscript><pre><code>&lt;html&gt;&lt;body&gt;You are being &lt;a href=&quot;https://github.com/gist/8469146&quot;&gt;redirected&lt;/a&gt;.&lt;/body&gt;&lt;/html&gt;</code></pre></noscript></div>
+
+<p><code>buffer_chunk_limit</code>と<code>buffer_queue_limit</code>の値は結構気をつけてたんですが、
+メモリ64GB+SSDのサーバで、盲目的に<code>buffer_type memory</code>にしていたのが災いした模様。</p>
+
+<h2 id="section-2">調査でやったこと</h2>
+
+<ul>
+  <li><code>buffer_chunk_limit</code>,<code>buffer_queue_limit</code>の調整</li>
+  <li>strace、gdbでバックトレース</li>
+  <li>monitoring agentを利用して詳細リソースの監視</li>
+  <li><code>kill -USR1</code> 飛ばしてみる</li>
+</ul>
+
+<p>など、@hibomaと@hfmに協力してもらってかなりいろいろなことを試してみたけど、症状も改善せず。</p>
+
+<p>調査で分かったのは<code>queue size exceeds limit</code>が出て、いきなり止まるんじゃなくて、logrotateのタイミングで死んでるような挙動。
+logrotate内で実行している<code>kill -USR1</code>を実行してみると旧プロセスが残ったままになったりして、調査している問題と別の問題と思われる謎の挙動が発生して
+訳が分からない状態に…</p>
+
+<h2 id="section-3">参考</h2>
+
+<ul>
+  <li><a href="http://buta9999.hatenablog.jp/entry/20131120/1384958564">fluentdで死の宣告queue size exceeds limit - boku no blog</a></li>
+  <li><a href="http://d.hatena.ne.jp/wyukawa/20130212/1360657461">fluentdの複数実行 - wyukawa’s blog</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/10/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/8/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

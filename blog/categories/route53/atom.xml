@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: route53 | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/route53/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Roadworkerとdirenvを使ってRoute53のDNSレコードを管理する & Roadworker用にVimプラグインとZsh補完関数も作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv/"/>
+    <updated>2014-07-09T22:30:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li>Route53のDNSレコード管理にはRoadworkerとdirenvを組み合わせて使うと便利</li>
+  <li>Roadworkerを使いやすくするために、VimプラグインとZsh補完関数を作った</li>
+</ul>
+
+<p>(<code>TL;DR</code>使ってみたかった)</p>
+
+<h2 id="section">経緯</h2>
+
+<ul>
+  <li><a href="https://rubygems.org/gems/roadworker">roadworker | RubyGems.org</a></li>
+  <li><a href="https://github.com/zimbatm/direnv">zimbatm/direnv</a></li>
+</ul>
+
+<p>会社でRoute53に移行したチームがあって、レコードの管理にRoadworkerを使ってて、
+私もちょっと使ってみたんですが、コマンドラインからの使い勝手と、Routefileの編集が
+そのままだと不便だったので、使い勝手が良くなるようにdirenv使ったり、
+Vimプラグインとzsh補完関数を作ったりした。</p>
+
+<p>Macでの作業を想定してます。</p>
+
+<h2 id="roadworker">Roadworkerのインストール</h2>
+
+<p><code>
+gem install roadworker
+</code></p>
+
+<h2 id="direnv">direnvのインストール</h2>
+
+<p>direnvはgoで書かれていてbrewコマンドで導入が可能。</p>
+
+<p><code>
+brew install direnv
+</code></p>
+
+<p><code>~/.zshrc</code>に下記を追記。(もし<code>$EDITOR</code>が設定されてない場合はそれも設定する)</p>
+
+<p><code>
+eval "$(direnv hook zsh)"
+</code></p>
+
+<h2 id="roadworkerdirenv">Roadworkerとdirenvを組み合わせて使う</h2>
+
+<p>Routeworkerを使うときに下記のように</p>
+
+<p><code>sh
+export AWS_ACCESS_KEY_ID='...'
+export AWS_SECRET_ACCESS_KEY='...'
+</code></p>
+
+<p><code>AWS_ACCESS_KEY_ID</code>と<code>AWS_SECRET_ACCESS_KEY</code>を環境変数を設定しないといけないんですが、
+毎回設定するのが面倒なので、これをdirenvにやって貰う。</p>
+
+<p>具体的には、Route53のドメインを管理する(Routefileを管理している)ディレクトリに移動して、
+direnv経由で、<code>.envrc</code>を作成する</p>
+
+<p><code>
+direnv edit .
+</code></p>
+
+<p><code>.envrc</code>の中身は下記のような感じ</p>
+
+<p><code>
+export AWS_ACCESS_KEY_ID='...'
+export AWS_SECRET_ACCESS_KEY='...'
+</code></p>
+
+<p>そうすると、コマンドラインから環境変数を設定しなくても、該当ディレクトリに移動すると
+そのディレクトリ内だけでdirenvが<code>.envrc</code>を読み込んで環境変数が設定される。</p>
+
+<p>あとは普通に<code>roadwork</code>コマンドでRoute53を操作するだけ。Roadworkerの使い方は下記が詳しいです。</p>
+
+<ul>
+  <li><a href="http://dev.classmethod.jp/cloud/aws/route53-as-code-roadworker/">【AWS】Route53をgitで管理する「Roadworker」を早速試してみました ｜ Developers.IO</a></li>
+</ul>
+
+<h2 id="roadworkervim">roadworker.vim</h2>
+
+<ul>
+  <li><a href="https://github.com/glidenote/roadworker.vim">glidenote/roadworker.vim</a></li>
+</ul>
+
+<p>RoadworkerからRoute53を操作するのに、Routefileの編集が必要なので、
+Routefileの編集が楽になるようにプラグインを書いた。</p>
+
+<p>下記みたいにsyntaxがきいたり、snippetを利用して簡単に編集が出来るようになります。 (左がsyntax無し、右がroadworker.vimによりsyntax有りの状態)</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/07/roadworker0.png" alt="" /></p>
+
+<p>導入方法や使い方は<a href="https://github.com/glidenote/roadworker.vim">README.md</a>を参照ください。</p>
+
+<h2 id="zsh">zsh補完関数</h2>
+
+<p>コマンドラインからも便利に使えるようにzsh補完関数を下記みたいなファイルを作成。</p>
+
+<p><div><script src='https://gist.github.com/2062a35fe696d528457d.js'></script>
+<noscript><pre><code>#compdef roadwork
+# ------------------------------------------------------------------------------
+# Description
+# -----------
+#
+#  Completion script for roadworker (https://rubygems.org/gems/roadworker)
+#
+# ------------------------------------------------------------------------------
+# Authors
+# -------
+#
+#  * Akira Maeda &lt;https://github.com/glidenote&gt;
+#
+# ------------------------------------------------------------------------------
+# -*- mode: zsh; sh-indentation: 2; indent-tabs-mode: nil; sh-basic-offset: 2; -*-
+# vim: ft=zsh sw=2 ts=2 et
+# ------------------------------------------------------------------------------
+
+local curcontext=&quot;$curcontext&quot; state line ret=1
+typeset -A opt_args
+
+_arguments -C \
+  &#39;(-k --access-key)&#39;{-k,--access-key}&#39;[Set Access Key ID]:ACCESS_KEY&#39; \
+  &#39;(-s --secret-key)&#39;{-s,--secret-key}&#39;[Set Secret Access Key]:SECRET_KEY&#39; \
+  &#39;(-a --apply)&#39;{-a,--apply}&#39;[Apply routefile to route53]&#39; \
+  &#39;(-f --file)&#39;{-f,--file}&#39;[Set the filename]:FILE&#39; \
+  &#39;(--dry-run)&#39;--dry-run&#39;[Prints out commands without running them dry run mode]&#39; \
+  &#39;(--force)&#39;--force&#39;[Force apply]&#39; \
+  &#39;(--no-health-check-gc)&#39;--no-health-check-gc&#39;[  ]&#39; \
+  &#39;(-e --export)&#39;{-e,--export}&#39;[Export records]&#39; \
+  &#39;(-o --output)&#39;{-o,--output}&#39;[Output file]:FILE&#39; \
+  &#39;(--split)&#39;--split&#39;[Split files by domain]&#39; \
+  &#39;(--with-soa-ns)&#39;--with-soa-ns&#39;[Without SOA NS Server]&#39;\
+  &#39;(-t --test)&#39;{-t,--test}&#39;[Run test]&#39; \
+  &#39;(--nameservers)&#39;--nameservers&#39;[Set nameservers]:SERVERS&#39; \
+  &#39;(--no-color)&#39;--no-color&#39;[Disable all colored output]&#39; \
+  &#39;(--debug)&#39;--debug&#39;[Disply debug message]&#39; \
+  &#39;(-h --help)&#39;{-h,--help}&#39;[print options help]&#39; \
+  &#39;(-v --version)&#39;{-v,--version}&#39;[print version]&#39; \
+  &#39;*: :_files&#39; &amp;&amp; ret=0
+
+return ret</code></pre></noscript></div>
+</p>
+
+<p><code>$fpath</code>の中に設置すれば、下記みたいな感じで動きます。(時間があるときに体裁整えて
+<a href="https://github.com/zsh-users/zsh-completions">zsh-users/zsh-completions</a>にPR出しておきます！)</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/07/roadworker1.png" alt="" /></p>
+
+<p>Roadworkerを利用すれば、DNSレコードをRoutefileという形でgit管理出来るし、変更点をdry-runで事前チェックも出来る。
+またテストコマンドもあるのでCI回したりして、より安全にドメイン操作が出来ると思う。(まだそこまで使いこなせてないけど！)</p>
+
+<p><a href="http://deeeet.com/writing/2014/05/06/direnv/">@deeeetさんがブログに書いてた</a>ようにDotenvより
+direnvの方が他のツールと組み合わせやすくて便利な気がする。</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://dev.classmethod.jp/cloud/aws/route53-as-code-roadworker/">【AWS】Route53をgitで管理する「Roadworker」を早速試してみました ｜ Developers.IO</a></li>
+  <li><a href="http://deeeet.com/writing/2014/05/06/direnv/">DotenvではなくDirenvを使う | SOTA</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

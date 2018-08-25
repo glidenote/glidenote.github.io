@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: jekyll | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/jekyll/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[OctopressでRelated Posts(関連エントリー)を表示させるようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/01/04/octopress-related-posts/"/>
+    <updated>2012-01-04T20:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/01/04/octopress-related-posts</id>
+    <content type="html"><![CDATA[<p>Octopressというか<a href="http://jekyllrb.com/">jekyll</a>自体に関連エントリーを表示させる<code>site.related_posts</code>というTemplate Dataがあるんですが、
+利用してみると、内容的に似ている関連エントリーを表示するわけでは無く、単に最近のエントリーを表示するだけ。<br />
+設定の問題なのかと思って調べていたら、</p>
+
+<ul>
+  <li><a href="http://techtinkering.com/2011/08/17/improving-related-posts-on-jekyll/">Improving the related_posts feature of jekyll</a></li>
+</ul>
+
+<p>に同様な記載があり、どうやらそういう挙動のようで、その挙動を改善するプラグインがあったので導入</p>
+
+<h2 id="relatedposts-jekyllplugin">related_posts-jekyll_pluginの導入</h2>
+<p>関連エントリーを表示させるために、related_posts-jekyll_pluginを利用</p>
+
+<ul>
+  <li><a href="https://github.com/LawrenceWoodman/related_posts-jekyll_plugin">LawrenceWoodman/related_posts-jekyll_plugin - GitHub</a></li>
+</ul>
+
+<p><code>
+mkdir ~/tmp
+cd ~/tmp
+git clone https://github.com/LawrenceWoodman/related_posts-jekyll_plugin.git
+cp related_posts-jekyll_plugin/_plugins/related_posts.rb ~/octopress/plugins/
+</code></p>
+
+<p>octopressのpluginsディレクトリのパス<code>~/octopress/plugins</code>の部分は自分の環境に読み替えて下さい。
+ソースを見ると関連したカテゴリーのエントリーを、最新の順に表示してくれるようになってます。
+つまり個々のエントリーでちゃんとカテゴリーを指定しないと機能してくれません。</p>
+
+<h2 id="octopresssourceincludespostrelatedpostshtml-">octopress/source/_includes/post/related_posts.html を用意</h2>
+<p>下記のような関連エントリー表示用のhtmlを作成。<br />
+limitを指定しないと、同じカテゴリーのエントリーが全部表示されてしまうので、<code>limit:5</code>で制限。  </p>
+
+<p><div><script src='https://gist.github.com/1554272.js?file=related_posts.html'></script>
+<noscript><pre><code>&lt;div class=&quot;related_posts&quot;&gt;&lt;h1&gt;Related Posts&lt;/h1&gt;&lt;ul&gt;
+{% for post in site.related_posts limit:5 %}
+  &lt;li&gt;&lt;a href=&quot;{{ post.url }}&quot;&gt;{{post.title }}&lt;/a&gt;&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;
+&lt;/div&gt;
+</code></pre></noscript></div>
+</p>
+
+<h2 id="octopresssourcelayoutsposthtml-">octopress/source/_layouts/post.html の修正</h2>
+<p>上記で作成したhtmlをpost.htmlでinclude</p>
+
+<p><div><script src='https://gist.github.com/1554272.js?file=post.html.diff'></script>
+<noscript><pre><code>index d3c42e3..cd4c710 100644                                                                                                                                            
+--- a/source/_layouts/post.html                                                                                                                                          
++++ b/source/_layouts/post.html                                                                                                                                          
+@@ -15,6 +15,9 @@ single: true                                                                                                                                           
+     {% unless page.sharing == false %}                                                                                                                                  
+       {% include post/sharing.html %}                                                                                                                                   
+     {% endunless %}                                                                                                                                                     
++    {% unless page.related_posts == false %}                                                                                                                            
++      {% include post/related_posts.html %}                                                                                                                             
++    {% endunless %}                                                                                                                                                     
+     &lt;p class=&quot;meta&quot;&gt;                                                                                                                                                    
+       {% if page.previous.url %}</code></pre></noscript></div>
+</p>
+
+<p>これで個々のエントリーに<code>Related Posts</code>として関連エントリーが表示されるようになりました。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/01/related_posts.png" alt="" /></p>
+
+<h2 id="section">参考</h2>
+<ul>
+  <li><a href="http://techtinkering.com/2011/08/17/improving-related-posts-on-jekyll/">Improving the related_posts feature of jekyll</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[jekyll.vim を Octopressで利用出来るようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/12/23/modify-jekyll.vim-for-octopress/"/>
+    <updated>2011-12-23T23:08:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/12/23/modify-jekyll.vim-for-octopress</id>
+    <content type="html"><![CDATA[<p>jekyll.vimを修正して、Octopressでも利用出来るように。</p>
+
+<ul>
+  <li><a href="https://github.com/csexton/jekyll.vim">csexton/jekyll.vim - GitHub</a></li>
+</ul>
+
+<h2 id="jekyllvim">jekyll.vimの導入</h2>
+
+<p>.vimrcに下記を書いてBundleInstallで導入</p>
+
+<p><code>
+Bundle "csexton/jekyll.vim"
+</code></p>
+
+<h2 id="vimbundlejekyllvimpluginjekyllvim-">~/.vim/bundle/jekyll.vim/plugin/jekyll.vim の修正</h2>
+
+<p>templateにdateとcommentsが無いので追加。Octopressのデフォの書式にも合わせた</p>
+
+<p><div><script src='https://gist.github.com/1510443.js?file=jekyll.vim.diff'></script>
+<noscript><pre><code>diff --git a/plugin/jekyll.vim b/plugin/jekyll.vim
+index 3cd3790..ec9cb20 100644
+--- a/plugin/jekyll.vim
++++ b/plugin/jekyll.vim
+@@ -27,8 +27,8 @@ if !exists(&#39;g:jekyll_post_published&#39;)
+   let g:jekyll_post_published = &quot;true&quot;
+ endif
+ 
+-if !exists(&#39;g:jekyll_post_created&#39;)
+-  let g:jekyll_post_created = &quot;&quot;
++if !exists(&#39;g:jekyll_post_date&#39;)
++  let g:jekyll_post_date = &quot;&quot;
+ endif
+ 
+ if !exists(&#39;g:jekyll_title_pattern&#39;)
+@@ -43,6 +43,10 @@ if !exists(&#39;g:jekyll_prompt_categories&#39;)
+   let g:jekyll_prompt_categories = &quot;&quot;
+ endif
+ 
++if !exists(&#39;g:jekyll_comments&#39;)
++  let g:jekyll_comments = &quot;&quot;
++endif
++
+ function s:esctitle(str)
+   let str = a:str
+   let str = tolower(str)
+@@ -108,14 +112,15 @@ command! -nargs=0 JekyllList :call JekyllList()
+ 
+ function JekyllPost(title)
+   let published = g:jekyll_post_published
+-  let created = g:jekyll_post_created
++  let date = g:jekyll_post_date
+   let tags = g:jekyll_prompt_tags
+   let categories = g:jekyll_prompt_categories
++  let comments = g:jekyll_comments
+ 
+-  if created == &quot;epoch&quot;
+-    let created = localtime() 
+-  elseif created != &quot;&quot;
+-    let created = strftime(created)
++  if date == &quot;epoch&quot;
++    let date = localtime() 
++  elseif date != &quot;&quot;
++    let date = strftime(date)
+   endif
+   let title = a:title
+   if title == &#39;&#39;
+@@ -132,15 +137,18 @@ function JekyllPost(title)
+     echo &quot;Making that post &quot; . file_name
+     exe &quot;e &quot; . g:jekyll_path . &quot;/_posts/&quot; . file_name
+ 
+-    let template = [&quot;---&quot;, &quot;layout: post&quot;, &quot;title: \&quot;&quot; . title . &quot;\&quot;&quot;, &quot;published: &quot; . published]
+-    if created != &quot;&quot;
+-      call add(template, &quot;created:  &quot;  . created)
++    let template = [&quot;---&quot;, &quot;layout: post&quot;, &quot;title: \&quot;&quot; . title . &quot;\&quot;&quot; ]
++    if date != &quot;&quot;
++      call add(template, &quot;date: &quot;  . date)
+     endif
+     if tags != &quot;&quot;
+-      call add(template, &quot;tags: [&quot; . tags . &quot;]&quot;)
+-    endif
++      call add(template, &quot;tags: &quot; . tags)
++               endif
++    if comments != &quot;&quot;
++      call add(template, &quot;comments: &quot; . comments)
++               endif
+     if categories != &quot;&quot;
+-      call add(template, &quot;categories: [&quot; . categories . &quot;]&quot;)
++      call add(template, &quot;categories: &quot; . categories )
+     endif
+     call extend(template,[&quot;---&quot;, &quot;&quot;])</code></pre></noscript></div>
+</p>
+
+<h2 id="vimrc-">~/.vimrc を設定</h2>
+
+<p>.vimrcに下記のように設定。新規記事を作成したときにOctoprssの書式になります。</p>
+
+<p><div><script src='https://gist.github.com/1510443.js?file=.vimrc'></script>
+<noscript><pre><code>Bundle &quot;csexton/jekyll.vim&quot;
+let g:jekyll_path = &quot;~/octopress/source/&quot;
+let g:jekyll_post_date = &quot;%Y-%m-%d %H:%M&quot;
+let g:jekyll_prompt_categories = &quot;true&quot;
+let g:jekyll_comments = &quot;true&quot;
+map &lt;Leader&gt;jb  :JekyllBuild&lt;CR&gt;
+map &lt;Leader&gt;jn  :JekyllPost&lt;CR&gt;
+map &lt;Leader&gt;jl  :JekyllList&lt;CR&gt;</code></pre></noscript></div>
+</p>
+
+<ul>
+  <li>新規記事を作成するときは&lt;Leader&gt;jn</li>
+  <li>記事一覧を見るときは&lt;Leader&gt;jl</li>
+  <li>アップロードするときはjekyll_post_publishedをtrueに変更(falseは下書きの状態)</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2011/12/jekyll_vim.jpg" alt="" /></p>
+
+<p>一覧表示が出来るおかげで記事のpathを追わなくて良いので、管理が楽になりました。</p>
+]]></content>
+  </entry>
+  
+</feed>

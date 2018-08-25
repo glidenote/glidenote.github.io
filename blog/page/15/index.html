@@ -1,0 +1,788 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="Geoff’s site: The Silver Searcher: Better than Ack ggreer/the_silver_searcher · GitHub パターン検索にはackを利用していて、通常利用時には特に不満は無かったんですが、 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/15/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/15">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="Geoff’s site: The Silver Searcher: Better than Ack ggreer/the_silver_searcher · GitHub パターン検索にはackを利用していて、通常利用時には特に不満は無かったんですが、
+ファイル数が多いディレクトリだと遅かったので、もっと他の方法が無いかと調べていたら
+ackの3〜5倍速いというThe Silver &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/28/the-silver-searcher-better-than-ack/">ackを捨てて、より高速なag(The Silver Searcher)に切り替えた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-28T23:30:00+09:00" pubdate data-updated="true">2013年02月28日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+  <li><a href="http://geoff.greer.fm/2011/12/27/the-silver-searcher-better-than-ack/">Geoff’s site: The Silver Searcher: Better than Ack</a></li>
+  <li><a href="https://github.com/ggreer/the_silver_searcher">ggreer/the_silver_searcher · GitHub</a></li>
+</ul>
+
+<p>パターン検索には<a href="http://betterthangrep.com/">ack</a>を利用していて、通常利用時には特に不満は無かったんですが、
+ファイル数が多いディレクトリだと遅かったので、もっと他の方法が無いかと調べていたら
+ackの3〜5倍速いという<a href="https://github.com/ggreer/the_silver_searcher">The Silver Searcher</a>というものが
+あったので導入。</p>
+
+<h2 id="the-silver-searcher">The Silver Searcherの特徴</h2>
+
+<p>公式に書いてあるThe Silver Searcherの特徴</p>
+
+<ul>
+  <li><code>ack</code>の3〜5倍高速</li>
+  <li><code>.gitignore</code>、<code>.hgignore</code>に記載されているものを検索対象から除外</li>
+  <li>検索対象から除外したいファイルは<code>.agignore</code>に記載</li>
+  <li><code>ag</code>というコマンド名で、<code>ack</code>と比べてコマンドが短い(33%減!)</li>
+</ul>
+
+<p>なぜ高速なのかは
+<a href="https://github.com/ggreer/the_silver_searcher#how-is-it-so-fast">https://github.com/ggreer/the_silver_searcher#how-is-it-so-fast</a>
+に記載されています。(要約しにくいので、原文を読んでください!)</p>
+
+<h2 id="the-silver-searcher-1">The Silver Searcherの導入</h2>
+
+<p>Macの場合はhomebrewで導入</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">brew install the_silver_searcher
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><em>2013/10/31 最近は下記でいけると新卒氏に教えてもらったので追記</em></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">brew install ag
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>CentOS6、SL6はRPMが用意されているので、下記を利用</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo rpm -ivh http://swiftsignal.com/packages/centos/6/x86_64/the-silver-searcher-0.13.1-1.el6.x86_64.rpm --test
+</span><span class="line">sudo rpm -ivh http://swiftsignal.com/packages/centos/6/x86_64/the-silver-searcher-0.13.1-1.el6.x86_64.rpm
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ソースから導入する場合（コンパイルに<code>automake</code>とか<code>pcre-devel</code>が必要だと思いますので適時入れてください）</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">git clone https://github.com/ggreer/the_silver_searcher
+</span><span class="line"><span class="nb">cd </span>the_silver_searcher <span class="o">&amp;&amp;</span> ./build.sh <span class="o">&amp;&amp;</span> install
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>RHEL6系以外での利用も、<code>spec</code>ファイルが含まれているのでRPM作成も簡単に出来た。</p>
+
+<h2 id="the-silver-searcher-2">The Silver Searcherの利用方法</h2>
+
+<p>The Silver Searcherは<code>ag</code>というコマンドを用い、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">ag <span class="o">[</span>options<span class="o">]</span> <span class="o">{</span>pattern<span class="o">}</span> <span class="o">[{</span>directory<span class="o">}]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>という感じで利用し、ほぼackと同じ。</p>
+
+<p>実際に私の環境(MacBook Air)で、<code>ack</code>と<code>ag</code>で実行時間を計測した結果。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="c"># ファイル数</span>
+</span><span class="line"><span class="o">[</span>akira@dev001<span class="o">]</span> <span class="nv">$ </span>find ~/repos -type f | wc -l
+</span><span class="line">    3518
+</span><span class="line">
+</span><span class="line"><span class="c"># ディレクトリ容量</span>
+</span><span class="line"><span class="o">[</span>akira@dev001<span class="o">]</span> <span class="nv">$ </span>du -sh ~/repos
+</span><span class="line">894M    .
+</span><span class="line">
+</span><span class="line"><span class="c"># ackの実行時間</span>
+</span><span class="line"><span class="o">[</span>akira@dev001<span class="o">]</span> <span class="nv">$ </span><span class="nb">time </span>ack package ~/repos |wc -l
+</span><span class="line">    1475
+</span><span class="line">    ack package ~/repos  0.84s user 0.26s system 81% cpu 1.341 total
+</span><span class="line">
+</span><span class="line"><span class="c"># agの実行時間</span>
+</span><span class="line"><span class="o">[</span>akira@dev001<span class="o">]</span> <span class="nv">$ </span><span class="nb">time </span>ag package ~/repos |wc -l
+</span><span class="line">    1668
+</span><span class="line">    ag package ~/repos  0.23s user 0.18s system 172% cpu 0.235 total
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>3500個くらいのファイル検索でも<code>ack</code>と比べて、<code>ag</code>が高速なのがわかる。
+多分ファイル数がディレクトリだとさらに効果がありそう。</p>
+
+<p>実際にいろいろなディレクトリで何回か検索を実行してみても、<code>ag</code>の方が高速でした。</p>
+
+<h2 id="vimthe-silver-searcher">VimからThe Silver Searcherを利用する</h2>
+
+<p>ackと同じで、Vimから使うことが多いと思うので、Vimから使えるようにする。
+<a href="https://github.com/rking/ag.vim">ag.vim</a>というプラグインがあるので、それを利用。</p>
+
+<p>Vundleを利用している場合は<code>.vimrc</code>に下記を記載して<code>BundleInstall</code></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">Bundle <span class="s1">&#39;rking/ag.vim&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>NeoBundleの場合は下記を記載して<code>NeoBundleInstall</code></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">NeoBundle <span class="s1">&#39;rking/ag.vim&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Vim上から下記のような形で利用</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">:Ag <span class="o">[</span>options<span class="o">]</span> <span class="o">{</span>pattern<span class="o">}</span> <span class="o">[{</span>directory<span class="o">}]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Vim上からも高速にパターン検索が出来るようになって素晴らしい。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/02/agvim.png" alt="" /></p>
+
+<h2 id="zshthe-silver-searcher">ZshからのThe Silver Searcherを利用する</h2>
+
+<p>当然zshの補完が効かないと話にならないので、zshの補完関数を書いた。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/ag-zsh-completion">glidenote/ag-zsh-completion · GitHub</a></li>
+</ul>
+
+<p>下記のように補完されます。</p>
+
+<p><strong>追記</strong></p>
+
+<p><a href="https://github.com/zsh-users/zsh-completions">zsh-completions</a>に出していたpull requestがmergeされたので、zsh-completionsからでも利用可能です。</p>
+
+<ul>
+  <li><a href="https://github.com/zsh-users/zsh-completions/pull/127">Add ag(the silver search) completion. by glidenote · Pull Request #127 · zsh-users/zsh-completions · GitHub</a></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2013/02/ag.png" alt="" /></p>
+
+<p>ackと比較して動作もかなり高速だし、vim、zshから快適に使えるようになったので完全に切り替え。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/26/jumping-to-the-finder-location-in-terminal/">jumping to the finder location in terminal</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-26T17:34:00+09:00" pubdate data-updated="true">2013年02月26日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://markedapp.com/">Marked</a>の作者の<a href="http://brettterpstra.com/">Brett Terpstra氏のブログ</a>を
+読んでいて有益な情報があったので自分用にメモ。(タイトルもそのままで)</p>
+
+<ul>
+  <li><a href="http://brettterpstra.com/2013/02/09/quick-tip-jumping-to-the-finder-location-in-terminal/">Jumping to the Finder location in Terminal</a></li>
+</ul>
+
+<p>MacのFinderで開いているディレクトリにterminal上で移動するTips。(ついでに<code>open .</code>のaliasを作っておくと逆も楽に出来る)</p>
+
+<p>下記を<code>.zshrc</code>などに追記</p>
+
+<div><script src="https://gist.github.com/5036988.js"></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+<ul>
+  <li><code>f</code>でカレントディレクトリをFinderで表示</li>
+  <li><code>cdf</code>でFinderで開いているディレクトリをterminalで表示</li>
+</ul>
+
+<p><a href="http://totalfinder.binaryage.com/">TotalFinder</a>を使ってるけど、ちゃんと開いているタブで動作してくれた</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/20/subsonic-donate/">ThumperでSubsonicを聴き続けるためにSubsonicに寄付をした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-20T23:00:00+09:00" pubdate data-updated="true">2013年02月20日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>先日から<a href="http://www.thumperapp.com/">Thumper</a>というMacのアプリを利用して
+<a href="http://www.subsonic.org/pages/index.jsp">Subsonic</a>を聞いていたんですが、
+急に曲が再生出来なくなったので、調べたところアプリなどからSubsonicを利用している場合、
+30日間しか利用出来ないらしく、Subsonicに最低10ユーロ寄付をしないといけないらしい。(知らなかった！)</p>
+
+<p>Subsonicに依存していて、今さら離れることが出来ないので、ちゃんと寄付をしようと
+Subsonicの画面からpaypalで支払い試みるもうまく出来ず、
+これも調べたらどうやら日本からの寄付は出来ない模様。</p>
+
+<p>下記サイトを参考に</p>
+
+<ul>
+  <li><a href="http://samurai20000.hatenablog.com/entry/2013/02/16/234633">Subsonicへのdonateでpaypalエラーになる件の解決方法 - 生活。</a></li>
+</ul>
+
+<p>paypalで<code>mail@subsonic.org</code>を指定して10ユーロ支払いをしたら
+すぐにライセンスキーが届いて、Subsonic上でライセンス登録をして、
+Thumperでまた再生出来るようになった。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/02/thumper.png" alt="" /></p>
+
+<p><a href="http://www.summerfondue.com/">SummerFondue.com</a>
+で公開されているHouse Mixのmp3が1個200MBくらいあって、
+iPhoneとかに入れてると容量がかなりきついので、さくらVPSで</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">wget http://www.summerfondue.com/downloads/sfs166
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>みたいな感じで取ってきて、Subsonic経由で聴いてます。
+(ファイル一斉に落とすと先方サーバの負荷になるからsleepとか入れましょう)</p>
+
+<p><a href="https://www.amazon.co.jp/SHURE-Special-%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%82%B9%E3%83%AB%E3%83%BC%E3%82%BB%E3%83%B3%E3%83%88%E3%83%96%E3%83%AB%E3%83%BC-SE215SPE-%E3%80%90%E5%9B%BD%E5%86%85%E6%AD%A3%E8%A6%8F%E5%93%81%E3%80%91/dp/B00A16BT4E?psc=1&amp;SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00A16BT4E"><img src="https://images-fe.ssl-images-amazon.com/images/I/417ivt-VRcL.jpg" align="right" /></a></p>
+
+<ul>
+  <li><a href="https://www.amazon.co.jp/SHURE-Special-%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%82%B9%E3%83%AB%E3%83%BC%E3%82%BB%E3%83%B3%E3%83%88%E3%83%96%E3%83%AB%E3%83%BC-SE215SPE-%E3%80%90%E5%9B%BD%E5%86%85%E6%AD%A3%E8%A6%8F%E5%93%81%E3%80%91/dp/B00A16BT4E?psc=1&amp;SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00A16BT4E">SHURE イヤホン SEシリーズ SE215 カナル型 高遮音性 Special Edition トランススルーセントブルー SE215SPE-A 【国内正規品】</a></li>
+</ul>
+
+<p>最近Shureのイヤホン SE215SPEを買ったんですが、
+ダンス系音楽向けに低音が結構強めなので、ハウスとかを聴くのにかなり良い感じ。
+Shureのイヤホンは高価なイメージがあったんですが、1万円くらいと手頃な値段で
+音質的には好みだったので、良い買い物をしました。<br />
+ただかなり音量を小さくしても周りの音がほとんど聞こえないので、遮音性が高すぎるかも。</p>
+
+<p>あとThumperを利用しているとSubsonic+Nginxのアクセスログが結構流れるので、
+Nginxのログを今流行のLTSV形式にして、Fluentdに流すとかがいろいろと簡単に検証にも使えて一石二鳥。</p>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2012/05/21/fluentd-nginx-mongodb/">Subsonic+Nginxのアクセスログをfluentdを利用してMongoDBに入れてみた - Glide Note - グライドノート</a></li>
+</ul>
+
+<p>最近はMacのiTunesディレクトリをSubsonicのディレクトリにrsyncかけてて、
+SubsonicがiTunesのバックアップも兼ねており重要性が増してきた。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/04/tmux-pipe-pane-logging/">tmuxのpipe-paneを利用してリモートサーバでの作業ログをローカルに記録する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-04T23:00:00+09:00" pubdate data-updated="true">2013年02月04日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://blog.glidenote.com/blog/2012/04/11/mosh-with-tmux/"><code>ssh</code>や<code>mosh</code>でリモートサーバに接続する際に、<code>tmux</code>のwindowを自動で生成して</a>おり、
+<code>リモートサーバに接続</code>と<code>tmux</code>がセットになっているので、tmuxを使ってリモートサーバでの作業ログをローカルに保存出来ないかと思って調べていたら
+<code>pipe-pane</code>を利用すると可能ぽいのでやってみた。</p>
+
+<p>利用環境はtmux 1.7です。(OSはMountain Lion、SL6.1、CentOS6.3全てで動作しました。)</p>
+
+<h2 id="section">ログ用ディレクトリを用意</h2>
+
+<p>pipe-paneを利用する前にログ用ディレクトリを作っておく。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">mkdir ~/.tmux/
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="tmuxconf">.tmux.confの設定</h2>
+
+<p>下記のように設定</p>
+
+<div><script src="https://gist.github.com/4690109.js"></script>
+<noscript><pre><code># log output
+bind-key H pipe-pane &#39;cat &gt;&gt; $HOME/.tmux/tmux-#W.log&#39; \; display-message &#39;Started logging to $HOME/.tmux/tmux-#W.log&#39;
+bind-key h pipe-pane \; display-message &#39;Ended logging to $HOME/.tmux/tmux-#W.log&#39;
+
+</code></pre></noscript></div>
+
+<ul>
+  <li><code>prefix key</code> + <code>H</code>でロギング開始</li>
+  <li><code>prefix key</code> + <code>h</code>でロギング終了</li>
+</ul>
+
+<p>という感じです。</p>
+
+<p>そうすると<code>~/.tmux/tmux-hogemoge.log</code>みたいなログが出来上がる。
+hogemogeの部分はtmuxのwindow名が入ります。tmuxのバージョンが古いと
+<code>tmux-#W.log</code>という残念な感じにファイルが出来上がります…</p>
+
+<p>私はリモートサーバごとでtmuxのwindowが自動で生成して分けているので、</p>
+
+<ul>
+  <li><code>~/.tmux/tmux-web010.log</code></li>
+  <li><code>~/.tmux/tmux-db001.log</code></li>
+  <li><code>~/.tmux/tmux-db002.log</code></li>
+</ul>
+
+<p>といった感じでログファイルが出来上がる。</p>
+
+<p><code>script</code>コマンドと同じで、プロンプトとかに色を付けたりしていると、
+ログに制御文字が入ってかなり見にくいので、<code>cat</code>か<code>less -R</code>で見ると
+良い感じで表示出来ます。</p>
+
+<p>便利。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/26/newdayone.vim/">美しい日記アプリ「Day One」の記事作成支援vimプラグイン NewDayOne.vimを作った</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-26T07:00:00+09:00" pubdate data-updated="true">2013年01月26日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://click.linksynergy.com/fs-bin/click?id=43Adqh0hMic&amp;subid=0&amp;offerid=94348.1&amp;type=10&amp;tmpid=3910&amp;RD_PARM0=https%3A%2F%2Fitunes.apple.com%2Fjp%2Fapp%2Fday-one%2Fid422304217%3Fmt%3D12%2526uo%3D4&amp;RD_PARM1=https%3A%2F%2Fitunes.apple.com%2Fjp%2Fapp%2Fday-one%2Fid422304217%3Fmt%3D12%2526uo%3D4" rel="nofollow" target="_blank"><img src="https://blog.glidenote.com/images/2013/01/dayone-icon.png" width="159" height="166" align="right" /></a></p>
+
+<p>この記事は、<a href="http://atnd.org/events/33746">Vim Advent Calendar 2012</a>の57日目の記事です。
+56日目の記事は<a href="https://twitter.com/tyru">@tyru</a>さんの<a href="http://d.hatena.ne.jp/tyru/20130125/useful_vim_commands_for_getting_along_with_github">GitHubでの仕事を快適にするVimコマンドを紹介します - Humanity</a>でした。</p>
+
+<p>Macには<a href="http://dayoneapp.com/">Day One</a>という非常に美しい日記、テキストログアプリがあり、
+今回はそのDay Oneの記事作成が出来る<a href="https://github.com/glidenote/newdayone.vim">NewDayOne.vim</a>という
+プラグインを作りましたので紹介させていただきます。</p>
+
+<p>プラグイン名<code>NewDayOne.vim</code>は<a href="http://dayoneapp.com/tools/">Day One CLI</a>の<code>dayone new</code>というコマンド名から取っています。</p>
+
+<h2 id="day-one">日記アプリDay Oneの特徴</h2>
+
+<p><img src="https://blog.glidenote.com/images/2013/01/dayone.png" alt="" /></p>
+
+<ul>
+  <li><a href="http://dayoneapp.com/2012/12/app-of-the-year/">2012 Mac App of the Year受賞</a></li>
+  <li>Markdown対応</li>
+  <li>iPhone,iPad,Macから利用可能</li>
+  <li>iCloudやDropboxに対応</li>
+  <li>美しいUI</li>
+</ul>
+
+<h2 id="newdayonevim2013126">NewDayOne.vimで出来ること（2013年1月26日現在)</h2>
+
+<ul>
+  <li>新規記事作成(<code>:NewDayOne</code>)</li>
+  <li>vimからDay Oneの起動(<code>:OpenDayOne</code>)</li>
+</ul>
+
+<p>Day One CLIを利用しているため、既存ファイルの編集は出来ず、新規記事作成だけ可能になります。
+(2013年1月26日現在Day One CLIには新規記事作成しか機能がありません)</p>
+
+<p>またDay Oneはmarkdownに対応しているのですが、記事自体のデータはxmlで管理されていて、
+xmlファイルをparseしてvim上から管理するのは個人的にちょっと違うかな-と思ったため実装してません。
+(そこまでやるとDay Oneを利用している意味も無い気がするので)</p>
+
+<p>どんな感じのプラグインなのか動画を作成しました。</p>
+
+<div class="embed-video-container"><iframe src="https://player.vimeo.com/video/57588139 "></iframe></div>
+
+<h2 id="newdayonevim">NewDayOne.vimの導入方法</h2>
+
+<h3 id="section">必要なソフト</h3>
+
+<p>NewDayOne.vimはDay Oneの記事作成支援プラグインなので、</p>
+
+<ul>
+  <li><a href="http://dayoneapp.com/">Day One</a></li>
+  <li><a href="http://dayoneapp.com/tools/">Day One CLI</a></li>
+</ul>
+
+<p>が必要です。</p>
+
+<h3 id="section-1">導入方法</h3>
+
+<p>導入には<a href="https://github.com/gmarik/vundle">vundle</a>か、<a href="https://github.com/Shougo/neobundle.vim">NeoBundle</a>
+を利用すると楽です。</p>
+
+<p>vundleの場合は、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Bundle 'glidenote/newdayone.vim'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>NeoBundleの場合は、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">NeoBundle 'glidenote/newdayone.vim'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>を.vimrcに記載し、<code>:BundleInstall</code>や<code>:NeoBundleInstall</code>を実行して導入してください。</p>
+
+<h2 id="newdayonevim-1">NewDayOne.vimの使い方</h2>
+
+<h3 id="newdayone">新規記事の作成(:NewDayOne)</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">:NewDayOne</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Day One CLIに依存しており、機能的に新規作成しか出来ないため、
+記事作成の前に、確認プロンプトを出すようにしています。</p>
+
+<h3 id="day-oneopendayone">Day Oneの起動(:OpenDayOne)</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">:OpenDayOne</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="newdayonevim-2">NewDayOne.vimを作った理由</h2>
+
+<ul>
+  <li>Day One自体はUIが美しく素晴らしいが、内蔵のエディタが残念だった。</li>
+  <li><a href="https://github.com/mattn/gist-vim">gist.vim</a>みたいな感じの動作でDay Oneの記事作成をしたかった</li>
+  <li><a href="https://blog.glidenote.com/blog/2012/03/26/memolist.vim/">memolist.vim</a>と連携して、Day Oneの美しいUIで閲覧したかった</li>
+  <li><a href="http://kazuph.hateblo.jp/entry/2013/01/11/151954">dayone.vimというVimPluginをつくっている話 - 僕の車輪の再発明</a>を読んで触発された</li>
+  <li>かなり前にアプリを購入したのに、上手く活用出来てなくて悔しかった</li>
+</ul>
+
+<p>エントリー作成後に修正が出来ないのですが、<a href="https://blog.glidenote.com/blog/2013/01/10/vim-quickrun-marked/">vim-quickrun+Marked</a>で
+ちゃんと表示確認をして、完成したら<code>:NewDayOne</code>でエントリー作成すれば特に問題ないかなーと。</p>
+
+<p>私は今のところ、memolist.vimで日報や日々の作業ログを作成して、それをDay Oneに渡して閲覧のために活用してます。</p>
+
+<p>Enjoy Vim Life!!</p>
+
+<p><a href="http://click.linksynergy.com/fs-bin/click?id=43Adqh0hMic&amp;subid=0&amp;offerid=94348.1&amp;type=10&amp;tmpid=3910&amp;RD_PARM0=https%3A%2F%2Fitunes.apple.com%2Fjp%2Fapp%2Fday-one%2Fid422304217%3Fmt%3D12%2526uo%3D4&amp;RD_PARM1=https%3A%2F%2Fitunes.apple.com%2Fjp%2Fapp%2Fday-one%2Fid422304217%3Fmt%3D12%2526uo%3D4" rel="nofollow" target="_blank"><img align="left" hspace="6" src="http://a5.mzstatic.com/us/r1000/075/Purple/v4/9c/8b/18/9c8b1884-bb91-befb-c007-275fb8150ac1/DayOne-Mac-1024.60x60-50.png" width="75" style="margin-right: 6px;" /><b>Day One</b>
+</a>カテゴリ: ライフスタイル<br />
+価格: ￥850<br clear="all" /></p>
+
+<p>次回のVim Advent Calendar 2012は<a href="https://twitter.com/thinca">@thinca</a>さんです。</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/16/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/14/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

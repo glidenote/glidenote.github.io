@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: sheet | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/sheet/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[CUIなスニペットツールsheetが便利なのでzshでsheetファイルを補完]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/16/sheet/"/>
+    <updated>2012-04-16T10:25:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/16/sheet</id>
+    <content type="html"><![CDATA[<p>コマンドラインで動作するスニペットツール「<a href="http://oscardelben.github.com/sheet/">sheet</a>」を
+使ってみたらめちゃくちゃ便利だったので、zshでsheetファイルを補完するようにしてみました。</p>
+
+<ul>
+  <li><a href="http://oscardelben.github.com/sheet/">Sheet - Text snippets for the command line</a></li>
+</ul>
+
+<p>ついでにsheetの導入方法と使い方も案内。
+sheetの要件の記載が特に無いですが、恐らくRuby 1.9以上は必要かと。
+導入環境は<code>Lion</code>です。</p>
+
+<h2 id="section">導入方法</h2>
+
+<p><code>
+gem install sheet
+</code></p>
+
+<h2 id="sheet">sheetの使い方</h2>
+
+<h3 id="sheet-1">sheetの確認</h3>
+
+<p><code>
+sheet
+</code></p>
+
+<p>もしくは</p>
+
+<p><code>
+sheet list
+</code></p>
+
+<h3 id="sheet-2">sheetの作成</h3>
+
+<p><code>
+sheet new シート名
+</code></p>
+
+<p>たとえば、apacheのログ確認用のスニペットファイルを作成するときは</p>
+
+<p><code>
+sheet apache
+</code></p>
+
+<p>とかでファイルを開いてエディタで編集。</p>
+
+<h3 id="sheet-3">sheetの編集</h3>
+
+<p><code>
+sheet edit シート名
+</code></p>
+
+<h3 id="sheet-4">sheetのクリップボードへのコピー</h3>
+
+<p>Macの<code>pbcopy</code>でしか動作確認していないですが、</p>
+
+<p><code>
+sheet copy シート名
+</code></p>
+
+<p>でシートの中身をクリップボードにコピー出来ます。
+(linuxも<code>xclip</code>でクリップボードと連携出来るようですが、
+私のFedora16環境では動作しなかったので誰かlinuxでの検証を!!)</p>
+
+<h2 id="sheet-5">sheetの削除</h2>
+
+<p>シートの削除自体が、今のところ実装されていないので
+<code>~/.sheet/</code>内のファイルを<code>rm</code>する感じです。</p>
+
+<h2 id="url">URLを開く</h2>
+
+<p>定型フォーマットでURLを記載しておくとブラウザで開くことが出来ます。</p>
+
+<p>sheetファイルを用意。(<code>google</code>というシートファイルを作成)</p>
+
+<p><code>
+sheet new google
+</code></p>
+
+<p>下記のようなフォーマットで用意</p>
+
+<p><code>
+url: https://www.google.co.jp/
+</code></p>
+
+<p>下記コマンドでブラウザにurlを渡されます。</p>
+
+<p><code>
+sheet google
+</code></p>
+
+<h2 id="section-1">活用方法</h2>
+
+<p>とりあえず私は</p>
+
+<p><code>
+sheet new apache
+</code></p>
+
+<p>とかで<code>apache</code>,<code>mysql</code>とかでソフトウェアごとに分類して、よく使うコマンドを下記のように登録してます。</p>
+
+<p><div><script src='https://gist.github.com/2394106.js?file=apache-command.sh'></script>
+<noscript><pre><code># 直近5000アクセス中、アクセスが集中しているURLを調べ、上位4件を表示。 
+tail -5000 /usr/local/apache2/logs/access_log|awk &#39;{print $1}&#39;|sort | uniq -c |sort -gr|head -n 4
+
+# 直近5000アクセス中、アクセス元のIPアドレスを調べ、上位4件を表示。 
+tail -5000 /usr/local/apache2/logs/access_log|awk &#39;{print $2}&#39;|sort | uniq -c |sort -gr|head -n 4
+
+# 直近5000アクセス中アクセスの多いリダイレクト元（アクセス元)を調べ、上位4件を表示。 
+tail -n 5000 /usr/local/apache2/logs/access_log | awk &#39;{print $12}&#39; | sort | uniq -c | sort -gr | head -n 4 
+
+# 直近5000アクセス中アクセスの多いU/Aを調べ、上位4件を表示。 
+tail -n 5000 /usr/local/apache2/logs/access_log | awk &#39;{print $13}&#39; | sort | uniq -c | sort -gr | head -n 4</code></pre></noscript></div>
+</p>
+
+<p><div><script src='https://gist.github.com/2394106.js?file=mysql-command.sql'></script>
+<noscript><pre><code># ユーザの確認
+select user,host,password from mysql.user;
+
+# レプリケーションエラー対応用
+stop slave;
+SET GLOBAL SQL_SLAVE_SKIP_COUNTER=1;
+start slave;
+show slave status\G
+
+# mk-slave-restart
+mk-slave-restart -uroot -p --error-numbers 1062 --verbose</code></pre></noscript></div>
+</p>
+
+<p>そしてzshでsheetファイルが補完されるように<code>.zshrc</code>に下記のような設定を記載</p>
+
+<p><div><script src='https://gist.github.com/2375020.js'></script>
+<noscript><pre><code># sheet
+function _sheets {
+  _files -W ~/.sheets/ &amp;&amp; return 0;
+  return 1;
+}
+compdef _sheets sheet</code></pre></noscript></div>
+</p>
+
+<p>sheetで呼び出してterminalやら、tmuxのコピーモードで必要な行だけコピーして利用してます。<br />
+普段あんまり利用しないコマンドとかを一式用意しておくと楽が出来そうです。</p>
+]]></content>
+  </entry>
+  
+</feed>

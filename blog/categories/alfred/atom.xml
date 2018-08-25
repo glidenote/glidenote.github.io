@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: alfred | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/alfred/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Mackerelのページを瞬時に開くAlfred Workflowを作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/03/29/alfred-mackerel-page-workflow/"/>
+    <updated>2016-03-29T13:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/03/29/alfred-mackerel-page-workflow</id>
+    <content type="html"><![CDATA[<p><a href="https://mackerel.io/">Mackerel</a>を利用していて、</p>
+
+<ul>
+  <li>特定のホストのメトリクス</li>
+  <li>特定のサービスのメトリクス</li>
+  <li>特定のダッシュボード</li>
+</ul>
+
+<p>などを見るときにページにアクセスして探すのに若干手間がかかるので、<a href="https://www.alfredapp.com/">Alfred</a>から瞬時に開けるようにWorkflowを作った。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/alfred-mackerel-page-workflow">glidenote/alfred-mackerel-page-workflow</a></li>
+</ul>
+
+<p>導入方法や使い方は<a href="https://github.com/glidenote/alfred-mackerel-page-workflow">README</a>を参照ください。
+動作は下記のような感じになります。(サービスとダッシュボードを開く動作はキャプチャに秘匿情報が含まれているので割愛してます <img alt="bow" src="/images/emoji/unicode/1f647.png" class="emoji" /> )</p>
+
+<p><img src="https://github.com/glidenote/alfred-mackerel-page-workflow/raw/master/images/alfred-mackerel-page-workflow-animation.gif" alt="" /></p>
+
+<h2 id="section">関連</h2>
+
+<ul>
+  <li><a href="http://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow/">CircleCIのProjectページの移動が簡単になるAlfred Workflowを作った - Glide Note</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CircleCIのProjectページの移動が簡単になるAlfred Workflowを作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow/"/>
+    <updated>2016-03-03T19:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow</id>
+    <content type="html"><![CDATA[<p>実は<a href="http://qiita.com/advent-calendar/2015/circleci">CircleCI Advent Calendar 2015 - Qiita</a>にエントリするために、
+結構前にAlfred Workflowを作っていたんですが、当時多忙でブログに書くのを忘れていました <img alt="sweat" src="/images/emoji/unicode/1f613.png" class="emoji" /></p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/alfred-circleci-projects-workflow">glidenote/alfred-circleci-projects-workflow</a></li>
+</ul>
+
+<p><a href="https://circleci.com/">CircleCI</a>で利用するProject数が増えると、それぞれのページに移動するのが
+めちゃくちゃ面倒なので、CircleCIのProject移動が簡単になるAlfred Workflowを作りました。</p>
+
+<p>インストール方法、使い方は<a href="https://github.com/glidenote/alfred-circleci-projects-workflow">README</a>を見ていただくことにして、
+どんな感じで動作するのかgif animationにしてみました。</p>
+
+<h2 id="project">Projectページを開く</h2>
+
+<p>URL情報をcacheしているので、サクサク動作します。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/03/circleci.gif" alt="" /></p>
+
+<h2 id="projectmasterstatus">各Projectのmasterブランチのstatusを確認する</h2>
+
+<p>その都度APIを叩いて確認しているので、レスポンスが遅めです。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/03/circleci-status.gif" alt="" /></p>
+
+<p>CircleCIとAlfredを利用している方は是非ご活用ください。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[開発環境の情報共有会でDash,SourceTree,Alfredの話をした]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/03/30/tech-tool-knowledge/"/>
+    <updated>2014-03-30T22:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/03/30/tech-tool-knowledge</id>
+    <content type="html"><![CDATA[<p>社内で開発環境についての情報を共有する会を開催した。
+参加者全員が発表のスタイルで、ただ聞いてるだけの人がいないようにしたら
+いろいろな情報を共有出来て大変参考になった。</p>
+
+<p>私は1日のほとんどをターミナル上で過ごすので、ここ数年GUIアプリにはあんまり関心が
+無かったんですが、最近導入して便利だったやつを共有したら好評だったのでまとめておく。</p>
+
+<h2 id="dash">Dash</h2>
+
+<ul>
+  <li><a href="http://kapeli.com/dash">Dash - Documentation Browser, Snippet Manager - Kapeli</a></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/03/dash0.png" alt="" /></p>
+
+<p>ドキュメントブラウザ、スニペット管理ツール。ドキュメントをローカルにダウンロードして
+利用するので高速。今日(2014/03/29)時点で130以上のドキュメントとAPIに対応していて、
+プログラミング言語に加えて、MySQL、MongoDB、Puppet、Vagrantなどのドキュメントもある。
+自作ドキュメントを追加することも可能。</p>
+
+<p>有償アプリですが、一部機能制限のかかった無料版でも特に問題なし。
+単独でももちろん便利なんですが、後述するAlfredと組み合わせると大変便利。</p>
+
+<p>Alfredだけでなく下記のように様々なアプリと連携出来るようになっている。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/03/dash1.png" alt="" /></p>
+
+<p>私はスニペット管理には<a href="https://github.com/oscardelben/sheet">oscardelben/sheet</a>を使っているので、
+ドキュメントブラウザとしてだけ使ってます。</p>
+
+<h2 id="sourcetree">SourceTree</h2>
+
+<ul>
+  <li><a href="http://www.sourcetreeapp.com/">Free Mercurial and Git Client for Windows and Mac | Atlassian SourceTree</a></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/03/sourcetree0.png" alt="" /></p>
+
+<p>MercurialとGitのGUIクライアント。普段gitはコマンドラインからしか使わないし、コミット履歴も<a href="https://github.com/jonas/tig">tig</a>で
+見ているので、GUIのクライアントは不要だと思っていたんですが、使ってみると画面が見やすくて、
+1日の終わりにSourceTreeでコミット履歴を眺めてると、どういう変更が入ったか把握出来て良い。</p>
+
+<p>1日の終わりに自分の関わっているプロジェクトのコミット履歴を見返す習慣が付いたのも良かった。</p>
+
+<h2 id="alfred">Alfred</h2>
+
+<ul>
+  <li><a href="http://www.alfredapp.com/">Alfred App - Productivity App for Mac OS X</a></li>
+</ul>
+
+<p>ランチャーはずっと<a href="http://www.obdev.at/products/launchbar/index.html">LaunchBar 5</a>を使っていて、
+Alfredと併用していたんですが、Workflowが大変便利なので、昨年完全に乗り換えた。</p>
+
+<p>情報共有会ではAlfredをランチャーとして使っている人は結構いたんですが、
+有償版で利用出来るWorkflowを使っている人がいなかったので、どんな感じで使っているのか実演してみた。</p>
+
+<p>やってることを簡単に説明すると下記のような感じ。早送りしている訳でなく実際もこのくらい軽快に動いてます。</p>
+
+<ol>
+  <li>Puppetの<code>hiera</code>のドキュメント呼び出し</li>
+  <li>Rubyの<code>FileUtils</code>のドキュメント呼び出し</li>
+  <li>Vagrantの<code>ssh</code>のドキュメントを呼び出し</li>
+</ol>
+
+<p><div class="embed-video-container"><iframe src="https://player.vimeo.com/video/90291640 "></iframe></div></p>
+
+<p>今回の共有会はAlfred + Dashの布教のためにやったような感じ。</p>
+
+<h2 id="alfred-workflow">便利なAlfred workflow</h2>
+
+<p>他にも便利なWorkflowがあるので一部紹介。</p>
+
+<ul>
+  <li><a href="https://github.com/Kapeli/Dash-Alfred-Workflow">Kapeli/Dash-Alfred-Workflow</a></li>
+  <li><a href="https://github.com/zhaocai/alfred2-sourcetree-workflow">zhaocai/alfred2-sourcetree-workflow</a></li>
+  <li><a href="https://github.com/gharlan/alfred-github-workflow">gharlan/alfred-github-workflow</a></li>
+  <li><a href="https://github.com/eknkc/alfred-pinboard">eknkc/alfred-pinboard</a></li>
+</ul>
+
+<p>私は<a href="https://pinboard.in/">Pinboard</a>のヘビーユーザなので、alfred+pinboardも下記のような感じで多用してます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/03/pinboard0.png" alt="" /></p>
+
+<h2 id="section">情報共有会で出てきた情報を列挙</h2>
+
+<p>出てきた情報をメモった順で箇条書き</p>
+
+<ul>
+  <li><a href="http://ca.storyboards.jp/">Casto :: Live coding in browse, using text editor.</a></li>
+  <li>tmuxの<code>if-shell</code>のtips</li>
+  <li>tmux on tmux(tmux多重起動時)のtips</li>
+  <li><a href="http://totalspaces.binaryage.com/">TotalSpaces</a></li>
+  <li><a href="http://www.clipmenu.com/ja/">ClipMenu</a></li>
+  <li><a href="https://mizage.com/divvy/">Divvy</a></li>
+  <li><a href="https://itunes.apple.com/jp/app/bettersnaptool/id417375580?mt=12">BetterSnapTool</a></li>
+  <li>tmuxの画面分割のtips</li>
+  <li>vimの画面分割のtips</li>
+  <li><a href="http://kien.github.io/ctrlp.vim/">ctrlp.vim</a>のtips</li>
+  <li><a href="https://code.google.com/p/parallel-ssh/">pssh</a></li>
+  <li><a href="https://code.google.com/p/csshx/">csshx</a></li>
+  <li>tmuxの<code>synchronize-panes</code>のtips</li>
+  <li><a href="https://www.atlassian.com/ja/software/confluence">Confluence</a></li>
+  <li><a href="https://github.com/phinze/homebrew-cask">phinze/homebrew-cask</a></li>
+  <li><a href="http://boxen.github.com/">BOXEN</a></li>
+  <li><a href="https://github.com/tmuxinator/tmuxinator">tmuxinator/tmuxinator</a></li>
+  <li>tmuxの<code>run-shell</code>のtips</li>
+  <li><a href="https://github.com/glidenote/rpbcopy">glidenote/rpbcopy</a></li>
+  <li><a href="https://github.com/oscardelben/sheet">oscardelben/sheet</a></li>
+  <li><a href="https://github.com/defunkt/gist">defunkt/gist</a></li>
+  <li><a href="https://github.com/mattn/gist-vim">mattn/gist-vim</a></li>
+  <li><a href="https://github.com/glidenote/pbl">glidenote/pbl</a></li>
+  <li><a href="http://justgetflux.com/">f.lux</a></li>
+  <li><a href="http://www.macbartender.com/">Bartender</a></li>
+</ul>
+
+<p>当日参加していた同僚が作った<a href="http://ca.storyboards.jp/">Casto</a>が非常に素晴らしかった。</p>
+
+<p>便利なアプリでも有料アプリだと買う価値があるのか迷うと思うので、
+こういう情報の共有をすると良いと思う。</p>
+
+<p>余談になりますが、今回スクリーンキャストの録画には<a href="http://quickcast.io/">QuickCast</a>を使ってみたけど、かなり使い勝手が良かった。</p>
+
+<ul>
+  <li><a href="http://quickcast.io/">QuickCast. Make. Publish. Share. 3 Minute Screencasts - Free screencasting software for the Apple Mac.</a></li>
+</ul>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="https://github.com/zenorocha/alfred-workflows">zenorocha/alfred-workflows</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

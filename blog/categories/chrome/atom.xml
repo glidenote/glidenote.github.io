@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: chrome | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/chrome/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[pinboard-fuとはてブのChrome拡張でブックマーク生活が捗る]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/06/07/pinboard-fu/"/>
+    <updated>2012-06-07T23:30:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/06/07/pinboard-fu</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2012/01/pinboard.png" width="200" height="150" align="right" /></p>
+
+<ul>
+  <li><a href="https://chrome.google.com/webstore/detail/ggaonngfgojmeifboajphnhkkhgfefpb">Chrome ウェブストア - pinboard-fu</a></li>
+  <li><a href="https://chrome.google.com/webstore/detail/dnlfpnhinnjdgmjfpccajboogcjocdla">Chrome ウェブストア - はてなブックマーク GoogleChrome 拡張</a></li>
+</ul>
+
+<p><a href="https://blog.glidenote.com/blog/2012/01/29/pinboard/">ソーシャルブックマークをPinboardに移行</a>してからかなり経つんですが、
+<a href="https://twitter.com/#!/banyan">@banyan</a>さんが<a href="https://chrome.google.com/webstore/detail/ggaonngfgojmeifboajphnhkkhgfefpb">pinboardのChrome拡張</a>を作ってくれてたのと
+pinboardを<a href="https://chrome.google.com/webstore/detail/dnlfpnhinnjdgmjfpccajboogcjocdla">はてブのChrome拡張</a>を組み合わせると、
+ブックマーク生活がいろいろと捗ることに気づいたのでご紹介。</p>
+
+<p>pinboardをはてブのChrome拡張を用いて閲覧したときの見た目。ひと目ではてブのブックマーク数も分かります。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/pinboard.png" alt="" /></p>
+
+<p>pinboard-fuやRSSリーダ、twitter経由でとりあえずpinboardに気になるページを突っ込んでおけば
+あとはpinboardの高速な検索とはてブのChrome拡張で、捜し物もすぐに見つかっていろいろと捗ります。</p>
+
+<p>twitterで気になるつぶやきをfavすると自動的にpinboardが捕捉してくれる機能がめちゃくちゃ便利です。</p>
+
+<h2 id="section">関連ページ</h2>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2012/01/29/pinboard/">ソーシャルブックマークのデータをPinboardに集約して一元管理 - Glide Note - グライドノート</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Chromeの検索エンジンにUNIXのman検索を追加した]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/05/30/manage-chrome-search-engine/"/>
+    <updated>2012-05-30T23:02:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/05/30/manage-chrome-search-engine</id>
+    <content type="html"><![CDATA[<p><a href="http://kentaro.hatenablog.com/entry/2012/05/29/230254">社内のRuby開発環境勉強会</a>で、Rubyのドキュメント検索のために、
+Chromeの検索エンジンに<a href="http://rurema.clear-code.com/">るりまサーチ</a>を
+追加すると良いと<a href="https://twitter.com/#!/kyanny">刺身さん</a>教えて貰い、
+ブラウザでmanを見るときに常用している<a href="http://x68000.q-e-d.net/~68user/unix/">UNIXの部屋</a>で同じことをやってみたのでメモ。</p>
+
+<p>るりまサーチの追加については刺身さんのエントリーを参照ください。</p>
+
+<p><a href="http://d.hatena.ne.jp/a666666/20110721/1311262558">Google Chrome の「検索エンジンの管理」にるりまサーチを追加する - 刺身☆ブーメランのはてなダイアリー</a></p>
+
+<h2 id="section">追加手順</h2>
+
+<p><a href="http://x68000.q-e-d.net/~68user/unix/">UNIXの部屋</a>にアクセス</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/unix0.png" alt="" /></p>
+
+<p>検索フィールドで右クリックして、検索エンジンの追加的なやつをクリック。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/unix1.png" alt="" /></p>
+
+<p><code>man ワード</code>で検索が出来るように、下記のような感じで設定。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/unix2.png" alt="" /></p>
+
+<p>ロケーションバーで、<code>man 検索ワード</code>でUNIXの部屋から検索ができるるようになりました。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/unix3.png" alt="" /></p>
+
+<p>これは便利!!</p>
+
+<p><code>command+l</code>でロケーションバーに移動して、<code>man hoge</code>とかで
+一気に調べ物が出来るようになりました。</p>
+
+<p>「ドキュメント読むときにターミナルとか、エディタからだと実は読みにくくね？」とか
+普段私が思っていたけど黙っていたことを参加していた名だたるエンジニア達が同じように言っていて、
+「やっぱり俺だけじゃなく、みんなそうなんだ！」と知ることが出来て良かったし、
+やっぱ便利なものはダサいとか変なプライドを持たず活用しないと駄目だなーと感じた。</p>
+
+<h2 id="section-1">関連サイト</h2>
+
+<ul>
+  <li><a href="http://kentaro.hatenablog.com/entry/2012/05/29/230254">第1回Ruby開発環境勉強会 - delirious thoughts</a></li>
+  <li><a href="http://blog.kyanny.me/entry/2012/05/30/164601">第1回Ruby開発環境勉強会 - 刺身☆ブーメランのブログ</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

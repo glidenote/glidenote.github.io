@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: vagrant | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/vagrant/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ソフトウェアの自前ビルド環境をVagrantで管理する]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/06/09/vagrant-build-nginx/"/>
+    <updated>2014-06-09T22:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/06/09/vagrant-build-nginx</id>
+    <content type="html"><![CDATA[<p>ここ1年くらい自分が担当しているサービスで使ってるNginxとか自前ビルドが必要なソフトは
+RPMを作らずビルドサーバでビルドしたバイナリをpuppetで管理して、
+プロダクション環境にはpuppetやらデプロイツールなりで、バイナリ差し替え配布している。
+(epelとかにrpmがあって、それがそのまま使えれば、基本的にそれを使ってるので、
+自前ビルドしているパッケージはごく少数です。)</p>
+
+<p>なんでRPMを作らないかは<a href="https://twitter.com/hirose31">@hirose31</a>さんのブログを読むと分かります!!</p>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/hirose31/20091217/1260981836">ソースから自前ビルドしたソフトウエアの効率的な管理方法 - (ひ)メモ</a></li>
+</ul>
+
+<p>バージョンアップ、脆弱性対応、モジュールを追加などのたびにビルドし直さないといけなくて、
+普通にやってると結構面倒くさい作業なので、Vagrantを使ってビルドしてる。</p>
+
+<p>具体的にNginxを例に説明すると、下記のような感じのファイルを用意して、<code>vagrant up</code>だけでバイナリが作成される。</p>
+
+<p><div><script src='https://gist.github.com/335894e6e0ba84021824.js?file=Vagrantfile'></script>
+<noscript><pre><code># -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(&quot;2&quot;) do |config|
+
+  # sensu-server
+  config.vm.define :build001 do |server|
+    server.vm.box      = &quot;CentOS6.5-x86_64&quot;
+    server.vm.box_url  = &quot;https://github.com/2creatives/vagrant-centos/releases/download/v6.5.3/centos65-x86_64-20140116.box&quot;
+    server.vm.provision &quot;shell&quot;, path: &quot;provision.sh&quot;
+  end
+
+end
+</code></pre></noscript></div>
+</p>
+
+<p><div><script src='https://gist.github.com/335894e6e0ba84021824.js?file=provision.sh'></script>
+<noscript><pre><code>#!/bin/sh
+
+export LANG=C
+export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+NGINX_VER=&quot;1.7.1&quot;
+
+yum -y groupinstall &#39;Development Tools&#39;
+rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+yum -y install wget yum-utils
+yum -y install pcre-devel lua-devel openssl-devel gd-devel geoip-devel
+
+if [ -d /tmp/build ]; then
+  rm -rf /tmp/build
+fi
+
+mkdir -p /tmp/build/
+cd /tmp/build/
+wget http://nginx.org/download/nginx-${NGINX_VER}.tar.gz
+tar zxvf nginx-${NGINX_VER}.tar.gz
+cd nginx-${NGINX_VER}
+
+# git clone modules
+git clone https://github.com/openresty/lua-nginx-module /usr/local/src/lua-nginx-module
+
+# configure option
+./configure \
+--prefix=/etc/nginx  \
+--sbin-path=/usr/sbin/nginx  \
+--conf-path=/etc/nginx/nginx.conf  \
+--error-log-path=/var/log/nginx/error.log  \
+--http-log-path=/var/log/nginx/access.log  \
+--pid-path=/var/run/nginx.pid  \
+--lock-path=/var/run/nginx.lock  \
+--http-client-body-temp-path=/var/cache/nginx/client_temp  \
+--http-proxy-temp-path=/var/cache/nginx/proxy_temp  \
+--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp  \
+--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp  \
+--http-scgi-temp-path=/var/cache/nginx/scgi_temp  \
+--user=nginx  \
+--group=nginx  \
+--with-http_ssl_module  \
+--with-http_realip_module  \
+--with-http_addition_module  \
+--with-http_sub_module  \
+--with-http_dav_module  \
+--with-http_flv_module  \
+--with-http_mp4_module  \
+--with-http_gunzip_module  \
+--with-http_gzip_static_module  \
+--with-http_random_index_module  \
+--with-http_secure_link_module  \
+--with-http_stub_status_module  \
+--with-file-aio \
+--with-ipv6 \
+--with-pcre \
+--with-http_geoip_module \
+--with-http_image_filter_module \
+--with-http_stub_status_module \
+--add-module=/usr/local/src/lua-nginx-module/ \
+--with-cc-opt=&#39;-O2 -g -pipe -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic&#39;
+
+make
+
+/tmp/build/nginx-1.7.1/objs/nginx -V
+
+echo &quot;Done!!&quot;
+</code></pre></noscript></div>
+</p>
+
+<p>上の例だと</p>
+
+<p><code>/tmp/build/nginx-1.7.1/objs/nginx</code>にバイナリが出来上がるので、
+それをpuppetのリポジトリに入れて、puppet各サーバで流して終わり。</p>
+
+<p>アップデートや、モジュールを追加する場合は、<code>provision.sh</code>を修正するだけで、
+ビルドが終わったら<code>vagrant destroy</code>でビルドサーバを削除。</p>
+
+<p><code>Vagrantfile</code>と<code>provision.sh</code>をgit管理しておけば、ビルド環境もバージョン管理が出来るし、
+たいていこういう作業は忘れた頃に発生して毎回過去のissueを探したり面倒くさいので
+Vagrant使うと大変便利という話。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.nomadscafe.jp/2013/12/vagrantprovisionermroongarpm---mysql-casual-advent-calendar-2013.html">Vagrantのprovisionerを使ってmroongaのrpmを作る方法 - MySQL Casual Advent Calendar 2013 - blog.nomadscafe.jp</a></li>
+  <li><a href="http://d.hatena.ne.jp/hirose31/20091217/1260981836">ソースから自前ビルドしたソフトウエアの効率的な管理方法 - (ひ)メモ</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[dotenvを利用して環境ごとでVagrantfileの設定値を変更してみる]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/02/26/vagrant-dotenv/"/>
+    <updated>2014-02-26T14:40:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/02/26/vagrant-dotenv</id>
+    <content type="html"><![CDATA[<p><a href="https://twitter.com/deeeet">tcnksm</a>さんのブログを見てて</p>
+
+<ul>
+  <li><a href="http://deeeet.com/writing/2014/02/24/vagrant-secret/">他人に共有したくない設定をVagrantfileに書くためのpluginつくった | SOTA</a></li>
+</ul>
+
+<p>おー、便利そうと眺めていたら<a href="http://rubygems.org/gems/dotenv">dotenv</a>で実現出来るとのやりとりを目撃。</p>
+
+<blockquote class="twitter-tweet" lang="ja"><p><a href="https://twitter.com/gongoZ">@gongoZ</a> 初めまして！作ったやつです！Dotenv知りませんでした，Dotenvで事足りますね！恥ずかしい感じです！ありがとうござます！</p>&mdash; tcnksm (@deeeet) <a href="https://twitter.com/deeeet/statuses/438463133875576832">2014, 2月 25</a></blockquote>
+<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>私も<a href="http://rubygems.org/gems/dotenv">dotenv</a>を知らなかったので、Vagrant+dotenvがどんな感じで使えるのかやってみた。</p>
+
+<h2 id="vagrantdotenv">Vagrantからdotenvが使えるようにインストール</h2>
+
+<p>何故か<code>vagrant plugin install</code>には<code>vagrant-*</code>みたいなのしかインストール出来ないと勝手に勘違いしてたんですが、
+普通に<code>gem install</code>しているだけなので、下記でdotenvが導入出来る。
+(<code>sahara</code>が普通にそうだったし、<code>~/.vagrant.d/gems/gems/</code>の中を見れば普通にプラグインに依存してるgemが入ってるのも分かる)</p>
+
+<p><code>sh
+vagrant plugin install dotenv
+</code></p>
+
+<h2 id="env"><code>.env</code>を用意</h2>
+
+<p>dotenvはディレクトリ内にある<code>.env</code>というファイル中身を参照するので、
+環境ごとで変更する値を<code>.env</code>に下記のように記載。</p>
+
+<p><code>
+VM_HOSTNAME     = 'dev001.foovar.com'
+DO_CLIENT_ID    = 'my_client_id'
+DO_API_KEY      = 'my_api_key'
+DO_SSH_KEY_NAME = 'my_ssh_key_name'
+</code></p>
+
+<h2 id="vagrantfileenv"><code>Vagrantfile</code>から<code>.env</code>の内容を呼び出す</h2>
+
+<p><code>.env</code>の内容を呼び出すには<code>Dotenv.load</code>を<code>Vagrantfile</code>に記載して、<code>${ENV['HOGE']}</code>みたいな感じで呼び出す。
+私が普段使ってるDigitalOcean用のVagrantfileで使ってみると下記のような感じ。</p>
+
+<p>``` ruby
+Dotenv.load</p>
+
+<p>Vagrant.configure(‘2’) do |config|
+  config.vm.hostname              = “#{ENV[‘VM_HOSTNAME’]}”
+  config.vm.provision “shell”, inline: “test -e /etc/yum.repos.d/epel.repo || rpm -Uvh http://ftp-srv2.kddilabs.jp/Linux/distributions/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm”
+  config.vm.provision “shell”, inline: “test -e /etc/puppet || yum -y install puppet”</p>
+
+<p>config.vm.provider :digital_ocean do |provider, override|
+    provider.client_id            = “#{ENV[‘DO_CLIENT_ID’]}”
+    provider.api_key              = “#{ENV[‘DO_API_KEY’]}”
+    provider.ssh_key_name         = “#{ENV[‘DO_SSH_KEY_NAME’]}”</p>
+
+<pre><code>override.ssh.private_key_path = '~/.ssh/id_rsa'
+override.vm.box               = 'digital_ocean'
+override.vm.box_url           = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+
+provider.image                = 'CentOS 6.4 x64'
+provider.region               = 'Singapore 1'
+provider.size                 = '512MB'
+provider.ca_path              = '/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt'   end end ```
+</code></pre>
+
+<p><code>vagrant up</code>してみる。</p>
+
+<p><code>sh
+vagrant up --provider=digital_ocean
+</code></p>
+
+<p>ちゃんと動いた。</p>
+
+<p>Vagrantfileを共通化して、環境毎で個別に設定を変更したい場合や特定の値は公開したくない場合などはdotenv使えば良さそう。</p>
+
+<p>(<a href="https://github.com/mitchellh/vagrant/issues/2332">Vagrant+dotenvについては以前Vagrantのissueに提案されてました</a>が<a href="http://www.packer.io/docs/templates/user-variables.html">Packerのuser variables</a>を使えと一蹴されてた。)</p>
+
+<p>GitHubとかに公開する場合は誤って<code>.env</code>を公開しないよう<code>.gitignore</code>に追加をお忘れ無く。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://nekova.hatenablog.com/entry/2013/02/11/171215">dotenvを使ってみました - nekovaの日記</a></li>
+  <li><a href="https://github.com/mitchellh/vagrant/issues/2332">Proposal: Support for loading .env files · Issue #2332 · mitchellh/vagrant</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MacからVagrantコマンド一発でSSDなVPS(DigitalOcean)上にCentOS6.5+Docker環境を構築する]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/12/20/vagrant-docker-digitalocean/"/>
+    <updated>2013-12-20T13:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/12/20/vagrant-docker-digitalocean</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2013/12/vagrant-docker-digital-ocean.png" alt="" /></p>
+
+<p>前回の<a href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/">VagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する - Glide Note - グライドノート</a><a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/"><img src="http://b.hatena.ne.jp/entry/image/https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/" /></a>の続き。</p>
+
+<p>Vagtant+DigitalOceanだけでも十分便利なんですが、先日<code>CentOS6.5</code>がリリースされ、正式に<a href="https://www.docker.io/">Docker</a>がサポートされたので、<a href="https://www.digitalocean.com/?refcode=510a665458a3">DigitalOcean</a>上に<code>CentOS 6.5</code>+<code>Docker</code>な環境を用意してみる。<br />
+といっても、2013年12月20日現在DigitalOceanでは<code>CentOS 6.5</code>なimageが提供されていないので、選択出来る<code>CentOS 6.4</code>のイメージを使いながら、Vagrantを利用してコマンド一発で<code>CentOS 6.5</code>+<code>Docker</code>環境が作れるようにした。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/vagrant-docker-digitalocean">glidenote/vagrant-docker-digitalocean</a></li>
+</ul>
+
+<h2 id="section">これは何</h2>
+
+<ul>
+  <li><a href="http://www.vagrantup.com/">Vagrant</a>を利用して、<a href="https://www.digitalocean.com/?refcode=510a665458a3">DigitalOcean</a>上にCentOS 6.5 + Dockerな環境をコマンド一発(<code>vagrant up --provider=digital_ocean --provision</code>)で構築します。</li>
+  <li>CentOS 6.5より<a href="https://www.docker.io/">Docker</a>がサポートされていますが、2013年12月19日現在DigitalOceanではCentOS 6.5のimageが提供されていません。これを利用することで簡単にCentOS6.5+Dockerが利用可能になります。</li>
+  <li>安く、SSDで高速な開発環境を簡単に構築できます。時間単位での課金なので財布に大変優しい</li>
+</ul>
+
+<h2 id="section-1">事前準備</h2>
+
+<p>Macでの利用を想定した手順になっています。</p>
+
+<p><strong>2014年7月18日 追記</strong><br />
+DigitalOceanのAPIがv2.0になり<a href="https://cloud.digitalocean.com/settings/applications">https://cloud.digitalocean.com/settings/applications</a>で<code>token</code>の生成が必要になりました．
+Vagrantfileに<code>provider.token = 'xxxxxxxxxxxxxxxxxxxxx'</code>といった形でtokenを設定する必要があります．
+また<code>region</code>の指定方法も<code>San Francisco 1</code>から<code>sfo1</code>という感じで変更になっています．</p>
+
+<h3 id="digitaloceanapiclientidapikey">DigitalOceanに申し込んでAPIの<code>client_id</code>と<code>api_key</code>を取得する</h3>
+
+<ol>
+  <li><a href="https://www.digitalocean.com/?refcode=510a665458a3">DigitalOcean</a>に申し込む</li>
+  <li><a href="https://cloud.digitalocean.com/ssh_keys">https://cloud.digitalocean.com/ssh_keys</a>で作成したインスタンスに接続するための<code>ssh key</code>を登録</li>
+  <li><a href="https://cloud.digitalocean.com/api_access">https://cloud.digitalocean.com/api_access</a>から<code>client_id</code>と<code>api_key</code>を取得しておく</li>
+</ol>
+
+<p>前回同様に<a href="https://www.digitalocean.com/?refcode=510a665458a3">ここ経由</a>で申し込んで頂けると私の懐が潤います!</p>
+
+<p>2013年12月20日現在の1時間あたりの料金プランは下記のような感じでホントに安い。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/12/digitalocean-plan.png" alt="" /></p>
+
+<h3 id="vagrant">Vagrantをインストール</h3>
+
+<p><a href="http://www.vagrantup.com/">Vagrant</a>からファイルをダウンロードしてインストール。2013/12/19現在最新の<code>1.4.1</code>を利用してます。</p>
+
+<h3 id="vagrant-digitaloceanhttpsgithubcomsmdahlenvagrant-digitalocean"><a href="https://github.com/smdahlen/vagrant-digitalocean">vagrant-digitalocean</a>のインストール</h3>
+
+<p>vagrantコマンドでvagrant-digitaloceanをインストール。vagrant-digitaloceanは2013/12/19現在最新の<code>0.5.1</code>を利用</p>
+
+<p><code>sh
+vagrant plugin install vagrant-digitalocean
+</code></p>
+
+<h3 id="curl-ca-bundle">curl-ca-bundleのインストール</h3>
+
+<p>apiを叩くのに必要なので、brewで導入</p>
+
+<p><code>sh
+brew install curl-ca-bundle
+</code></p>
+
+<h2 id="section-2">使い方</h2>
+
+<h3 id="clone">リポジトリをclone</h3>
+
+<p><code>sh
+git clone https://github.com/glidenote/vagrant-docker-digitalocean.git
+</code></p>
+
+<h3 id="vagrantfile"><code>Vagrantfile</code>を下記部分を自分の環境に合わせて修正</h3>
+
+<ul>
+  <li><code>config.vm.hostname</code>には付けたいホスト名を設定</li>
+  <li><code>provider.client_id</code>には準備で作成した<code>client_id</code>を設定</li>
+  <li><code>provider.api_key</code>には準備で作成した<code>api_key</code>を設定</li>
+  <li><code>provider.ssh_key_name</code>には準備で作成したssh鍵名を指定</li>
+  <li>regionは日本からのレスポンスが良い<code>San Francisco 1</code>、sizeはDockerを利用するのに快適な<code>1GB</code>に設定しています。2013/12/19現在size<code>1GB</code>のインスタンス(Droplet)は1時間2円弱(0.015ドル)です。売り切れの場合などは必要に応じて適時変更してください</li>
+</ul>
+
+<h3 id="centos65dockerdroplet">CentOS6.5+Dockerなインスタンス(Droplet)の作成</h3>
+
+<p>コマンド一発でインスタンスを作成。ドンッ!! 4〜5分でCentOS6.5+Dockerな環境が出来上がる。</p>
+
+<p><code>sh
+vagrant up --provider=digital_ocean --provision
+</code></p>
+
+<h3 id="dropletssh">インスタンス(Droplet)にsshログイン</h3>
+
+<p><code>vagrant ssh</code>でssh接続するとIPを覚えておく必要がない。</p>
+
+<p><code>sh
+vagrant ssh
+</code></p>
+
+<h3 id="digitaloceandocker">DigitalOcean上でDockerを動かしてみる</h3>
+
+<p>インスタンス作成時にDockerを自動起動させているので、すぐに使えるようになってます。
+たとえば下記でfedoraで立ち上げてみる。どーん！</p>
+
+<p><code>sh
+sudo docker run -i -t mattdm/fedora /bin/bash
+</code></p>
+
+<p>すると1〜2分くらいで、下記みたいな感じでfedoraが使える。</p>
+
+<p><code>sh
+[root@test001 ~]# sudo docker run -i -t mattdm/fedora /bin/bash
+Unable to find image 'mattdm/fedora' (tag: latest) locally
+Pulling repository mattdm/fedora
+373dc830edcd: Download complete
+871613fadf3d: Download complete
+7c8cf65e1efa: Download complete
+bash-4.2# cat /etc/redhat-release
+Fedora release 20 (Heisenbug)
+</code></p>
+
+<h3 id="droplet">使い終わったらインスタンス(Droplet)を削除</h3>
+
+<p>DigitalOceanは停止状態(halt)だと課金されるので、使い終わったら、インスタンスをdestroyで消す。</p>
+
+<p><code>sh
+vagrant destroy
+</code></p>
+
+<p>前回も思ったけど、なんて便利な時代なんだ!!<br />
+時間課金で安いし、SSDで早いし、手元のマシンはファン回りっぱなしとかならないしDigitalOcean最高。</p>
+
+<h2 id="section-3">参考</h2>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/">VagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する - Glide Note - グライドノート</a></li>
+  <li><a href="http://docs.docker.io/en/latest/installation/rhel/">Requirements and Installation on Red Hat Enterprise Linux - Docker Documentation</a></li>
+  <li><a href="http://www.1x1.jp/blog/2013/12/docker_on_centos65.html">CentOS 6.5 に Docker をインストールしてみた - Shin x blog</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[VagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/"/>
+    <updated>2013-12-05T20:56:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2013/12/vagrant-digital-ocean.png" alt="" /></p>
+
+<p>今年の初めくらいから個人的な技術検証にはSSDで動作が速く、1時間1円で料金が安いのと
+ロケーションをSan Franciscoにするとsshでもレスポンスが悪くないので、全部<a href="https://www.digitalocean.com/?refcode=510a665458a3">Digital Ocean</a>を使っている。(<a href="http://z.tokumaru.org/2013/10/digitalocean.html">徳丸先生が紹介する</a>前から使っていたんだ！)</p>
+
+<p>Digital Oceanについては<a href="http://rebuild.fm/2/">Rebuild: 2: Rails, Redis, VPS (Kenn Ejima)</a>の42分くらいから言及されてます。必聴です。</p>
+
+<p>使ってる旧型のMacBookAirみたいな貧弱なマシンだとローカルでVM動かすとファン回りまくりとかで泣きたくなるので、Digital Oceanだと泣かずに済んで快適。</p>
+
+<p>そんで今日<a href="http://www.vagrantup.com/">Vagrant</a>経由でDigital Ocean利用すると、コマンドラインから必要なときに新規インスタンス(Droplet)作って、
+検証終わったら削除という手軽な使い捨て高速サーバ環境が利用出来て検証に大変便利ということを知った。(APIの存在は知っていましたが、情弱なのでブラウザから毎回ポチポチやってました…)</p>
+
+<h2 id="digital-oceanapiclientidapikey">Digital Oceanに申し込んでAPIの<code>client_id</code>と<code>api_key</code>を取得する</h2>
+
+<ol>
+  <li><a href="https://www.digitalocean.com/?refcode=510a665458a3">Digital Ocean</a>に申し込む</li>
+  <li><a href="https://cloud.digitalocean.com/ssh_keys">https://cloud.digitalocean.com/ssh_keys</a>で作成したインスタンスに接続するための<code>ssh key</code>を登録</li>
+  <li><a href="https://cloud.digitalocean.com/api_access">https://cloud.digitalocean.com/api_access</a>から<code>client_id</code>と<code>api_key</code>を取得しておく</li>
+</ol>
+
+<p><a href="https://www.digitalocean.com/?refcode=510a665458a3">ここ経由</a>で申し込んで頂けると私の懐が潤います!</p>
+
+<p>2013年12月05日現在の1時間あたりの料金プランは下記のような感じ</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/12/digitalocean-plan.png" alt="" /></p>
+
+<h2 id="vagrant">Vagrantをインストール</h2>
+
+<p><a href="http://www.vagrantup.com/">Vagrant</a>からファイルをダウンロードしてインストール。2013/12/05現在最新の<code>1.3.5</code>を利用してます。</p>
+
+<h2 id="vagrant-digitaloceanhttpsgithubcomsmdahlenvagrant-digitalocean"><a href="https://github.com/smdahlen/vagrant-digitalocean">vagrant-digitalocean</a>のインストール</h2>
+
+<p>vagrantコマンドでvagrant-digitaloceanをインストール。vagrant-digitaloceanは2013/12/05現在最新の<code>0.4.1</code>を利用</p>
+
+<p><code>sh
+vagrant plugin install vagrant-digitalocean
+</code></p>
+
+<h2 id="curl-ca-bundle">curl-ca-bundleのインストール</h2>
+
+<p>apiを叩くのに必要なので、brewで導入</p>
+
+<p><code>sh
+brew install curl-ca-bundle
+</code></p>
+
+<h2 id="vagrantfile">Vagrantfileを作る</h2>
+
+<p>私は下記のようにディレクトリを掘って、Vagrantfileを用意</p>
+
+<p><code>sh
+mkdir -p ~/repos/vagrant-digital-ocean
+cd ~/repos/vagrant-digital-ocean
+touch Vagrantfile
+</code></p>
+
+<p><strong>2013年12月9日 追記</strong><br />
+申込みが増えているのかサンフランシスコで最小プラン(メモリ512MB)がずっと売り切れの状態なので、
+<code>provider.size = '1GB'</code>にするか、<code>provider.region = 'New York 2'</code>など別ロケーションを選択するなどの必要があります。1GBプランだと1時間約2円(0.015ドル)です。</p>
+
+<p>私が使ってるファイルの中身は下記のような感じ。設定した<code>ssh key</code>の名前や、APIページで取得した<code>client_id</code>と<code>api_key</code>はここで設定。
+repoにepelを追加して、起動時に最低限必要なパッケージを入れるためにpuppetを走らせてます。</p>
+
+<p><strong>2014年7月18日 追記</strong><br />
+DigitalOceanのAPIがv2.0になり<a href="https://cloud.digitalocean.com/settings/applications">https://cloud.digitalocean.com/settings/applications</a>で<code>token</code>の生成が必要になりました．
+下記の例だと<code>provider.token = 'xxxxxxxxxxxxxxxxxxxxx'</code>といった形でtokenを設定する必要があります．
+また<code>region</code>の指定方法も<code>San Francisco 1</code>から<code>sfo1</code>という感じで変更になっています．</p>
+
+<p>``` ruby
+Vagrant.configure(‘2’) do |config|
+  config.vm.hostname              = ‘dev003.hogemoge.com’
+  config.vm.provision “shell”, inline: “rpm -Uvh http://ftp-srv2.kddilabs.jp/Linux/distributions/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm –force”
+  config.vm.provision “shell”, inline: “yum -y install puppet”</p>
+
+<p>config.vm.provider :digital_ocean do |provider, override|
+    override.ssh.private_key_path = ‘~/.ssh/id_rsa’
+    override.vm.box               = ‘digital_ocean’
+    override.vm.box_url           = “https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box”</p>
+
+<pre><code>provider.client_id            = 'xxxxxxxxxxxxxxxxxxxxx'
+provider.api_key              = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+provider.token                = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+provider.image                = 'CentOS 6.4 x64'
+provider.region               = 'sfo1'
+provider.size                 = '512MB'
+provider.ca_path              = '/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt'
+provider.ssh_key_name         = 'office mac'   end
+</code></pre>
+
+<p>config.vm.provision “puppet” do |puppet|
+    puppet.options                = “–verbose –debug”
+  end
+end
+```</p>
+
+<p><code>manifests/default.pp</code>は下記のような感じ。</p>
+
+<p><code>ruby
+package {
+  [
+    'vim-enhanced',
+    'zsh',
+    'tmux',
+    'mosh',
+    'git',
+    'tig',
+    'gcc',
+    'dstat',
+    'iftop',
+    'iotop',
+    'nethogs',
+    'ruby',
+    'ruby-devel',
+    'rubygems',
+    'rubygem-json',
+    'tree',
+    'wget',
+    'xinetd',
+    'nc',
+    'fping',
+    'perf',
+    ]:
+      ensure =&gt; present;
+}
+</code></p>
+
+<h2 id="section">インスタンスの作成</h2>
+
+<p><code>vagrant up</code>コマンドを利用して、インスタンスを作成。ドンッ！</p>
+
+<p><code>sh
+vagrant up --provider=digital_ocean
+</code></p>
+
+<p>すると下記のように数分でインスタンスが作成される。</p>
+
+<p><code>sh
+[usr0600093@pmac008s] $ vagrant up --provider=digital_ocean
+Bringing machine 'default' up with 'digital_ocean' provider...
+[default] Using existing SSH key: office mac
+[default] Creating a new droplet...
+[default] Assigned IP address: xxx.xxx.xxx.xxx
+[default] Modifying sudoers file to remove tty requirement...
+[default] Rsyncing folder: /Users/usr0600093/repos/vagrant-digital-ocean/ =&gt; /vagrant...
+</code></p>
+
+<p><code>San Francisco 1</code>だと時間帯によって結構時間かかるので、
+早めに検証したい場合は<code>New York 2</code>とかに変更すると良いかも。</p>
+
+<p>私はpuppet走らせるので、<code>--provision</code>を付けてインスタンス作成してます。</p>
+
+<p><code>sh
+vagrant up --provider=digital_ocean --provision
+</code></p>
+
+<h2 id="ssh">起動したインスタンスにssh接続</h2>
+
+<p><code>vagrant ssh</code>でssh接続するとIPを覚えておく必要がない。</p>
+
+<p><code>sh
+vagrant ssh
+</code></p>
+
+<h2 id="section-1">使い終わったらインスタンスの削除</h2>
+
+<p>Digital Oceanは停止状態(halt)だと課金されるので、使い終わったら、インスタンスを<code>destroy</code>で消す。</p>
+
+<p><code>sh
+vagrant destroy
+</code></p>
+
+<p>なんて便利な時代なんだ！手元のMacBook Airも熱くない!!</p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://rebuild.fm/2/">Rebuild: 2: Rails, Redis, VPS (Kenn Ejima)</a>の42分くらいから</li>
+  <li><a href="http://z.tokumaru.org/2013/10/digitalocean.html">徳丸浩の雑記帳: 試験環境用VPSとして1時間1円から使えるDigitalOceanが安くて便利</a></li>
+  <li><a href="http://blog.uu59.org/2013-06-29-vagrant-digital-ocean.html">uu59のメモ | Digital OceanのVPSをVagrantでupしたりprovisionしたりする</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,562 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Webサーバのメンテナンス、トラブル調査に役に立つコマンド3選 - Glide Note</title>
+  <meta property="og:title" content="Webサーバのメンテナンス、トラブル調査に役に立つコマンド3選 - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="メンテナンス、サーバのミドルウェア設定、障害対応のときに私がよく使っているコマンド。
+先週Webサーバを16台ほどリプレイスした際にも、使って挙動、確認作業をしてました。 コレ系のコマンドは各人の秘伝のタレみたいになってて、他の人が教えてくれることが少ない気がして、 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2013/11/13/commands-for-trouble/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2013/11/13/commands-for-trouble">
+<meta name="twitter:title" content="Webサーバのメンテナンス、トラブル調査に役に立つコマンド3選">
+<meta name="twitter:description" content="メンテナンス、サーバのミドルウェア設定、障害対応のときに私がよく使っているコマンド。
+先週Webサーバを16台ほどリプレイスした際にも、使って挙動、確認作業をしてました。 コレ系のコマンドは各人の秘伝のタレみたいになってて、他の人が教えてくれることが少ない気がして、
+新卒氏のインフラOJT用に専用の資料作ろうかと思ったけど、新卒氏以外でも知ってれば
+「よく分からんけど、 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Webサーバのメンテナンス、トラブル調査に役に立つコマンド3選</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-13T09:01:00+09:00" pubdate data-updated="true">2013年11月13日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>メンテナンス、サーバのミドルウェア設定、障害対応のときに私がよく使っているコマンド。
+先週Webサーバを16台ほどリプレイスした際にも、使って挙動、確認作業をしてました。</p>
+
+<p>コレ系のコマンドは各人の秘伝のタレみたいになってて、他の人が教えてくれることが少ない気がして、
+新卒氏のインフラOJT用に専用の資料作ろうかと思ったけど、新卒氏以外でも知ってれば
+「よく分からんけど、動かないからインフラ担当者に聞く」みたいなことが
+減って自分で解決出来るのではないかと思うので書いておく。</p>
+
+<p>手元のmac、linuxから該当サーバに対して実行するコマンドで
+ちゃんと該当サーバが外部に向けてサービスが提供出来ているのか、
+要は外から確認するためのコマンドです。</p>
+
+<p>調査系のコマンドは</p>
+
+<ul>
+  <li><em>オプション、使い方が覚えやすい</em></li>
+  <li><em>手軽に使える</em></li>
+  <li><em>結果が見やすい、理解しやすい</em></li>
+</ul>
+
+<p>というのが重要だと思う。</p>
+
+<p>サーバの中で調査するなら</p>
+
+<ul>
+  <li><a href="http://blog.father.gedow.net/2012/10/23/linux-command-for-trouble/">原因調査用Linuxコマンド | 外道父の匠</a></li>
+</ul>
+
+<p>のコマンドを見た方が良いです。</p>
+
+<h3 id="ncnetcat">nc(netcat)</h3>
+
+<p>ポートが開いているか、デーモンが起動してリクエスト応答しているか確認。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">nc -vz github.com 80
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">nc -vz github.com 443
+</span><span class="line">Connection to github.com 443 port <span class="o">[</span>tcp/https<span class="o">]</span> succeeded!
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>今よく触ってるSerfは7946ポートを使うので、他のサーバから下記で接続確認。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">nc -vz manage001.hogemoge.lan 7946
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>アラートが来たら、とりあえずnc叩けば
+接続過多で駄目なのか、そもそもミドルウェアが落ちてるのかとか
+サーバ入る前にだいたい検討付くので初動を間違えずに済む。</p>
+
+<p>普段やること無いですが、一応下記みたいな感じでポートスキャンも出来る。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">nc -vz hogemoge.com 1-1023
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>最近はtelnetをサーバに入れてないことが多いけど、ncが入ってれば
+telnetと同様な感じでも利用出来るので、ヘッダをリクエストしたり</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">nc www.google.com 80 <span class="s">&lt;&lt; EOF</span>
+</span><span class="line"><span class="s">HEAD / HTTP/1.0</span>
+</span><span class="line">
+</span><span class="line"><span class="s">EOF</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>たとえばmunin-nodeが動作しているか確認する場合は、下記みたいに出来る。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="o">[</span>root@manage001 ~<span class="o">]</span><span class="c"># nc manage001.hogemoge.jp 4949</span>
+</span><span class="line"><span class="c"># munin node at manage001.hogemoge.jp</span>
+</span><span class="line">list
+</span><span class="line">cpu df df_abs df_inode entropy forks fw_conntrack fw_forwarded_local fw_packets if_err_eth0 if_err_eth1 if_eth0 if_eth1 interrupts irqstats load memory munin_stats netstat ntp_kernel_err ntp_kernel_pll_freq ntp_kernel_pll_off ntp_offset ntp_states open_files open_inodes postfix_mailqueue postfix_mailvolume proc_pri processes swap threads uptime users vmstat
+</span><span class="line">fetch memory
+</span><span class="line">slab.value 189231104
+</span><span class="line">swap_cache.value 0
+</span><span class="line">page_tables.value 6995968
+</span><span class="line">vmalloc_used.value 119119872
+</span><span class="line">apps.value 936333312
+</span><span class="line">free.value 676610048
+</span><span class="line">buffers.value 247578624
+</span><span class="line">cached.value 1336840192
+</span><span class="line">swap.value 0
+</span><span class="line">committed.value 885620736
+</span><span class="line">mapped.value 31141888
+</span><span class="line">active.value 1401610240
+</span><span class="line">inactive.value 658358272
+</span><span class="line">.
+</span><span class="line">quit
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>通常は接続元IPを制限してると思うので、許可されているIPと許可されていないIPの二つから確認して、
+設定がちゃんと出来てるとかの確認もしてます。</p>
+
+<h2 id="host">host</h2>
+
+<p>サーバの<code>/etc/resolv.conf</code>で設定して参照しているDNSサーバ、Google Public DNSとかとの結果を比較をして、
+おかしなDNS情報を持ってないか確認したりするのに使ってます。</p>
+
+<p>DNSサーバを指定しない場合は、<code>/etc/resolv.conf</code>に設定してあるDNSサーバを利用。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">host -a github.com
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Google Public DNSを参照</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">host -a github.com 8.8.8.8
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>dnsmasqとか使ってると古い情報をキャッシュしてたりするので、<code>host</code>コマンドを使うとすぐ分かる。</p>
+
+<p><a href="https://www.amazon.co.jp/%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AE%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86%E8%A1%93-Thomas-Limoncelli/dp/4873113075?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4873113075">エンジニアのための時間管理術</a> から引用で</p>
+
+<blockquote>
+  <ul>
+    <li>奇妙な問題は DNS の設定ミスが原因していることが多い</li>
+  </ul>
+
+  <p>DNS は多くのサブシステムにとって致命的な影響を与え、しばしば、問題を 別の問題であるかのように見せかけ、その問題を覆い隠してしまう傾向がある。 これに該当するのは、DNS サーバーにアクセスできないクライアント、無効 な DNS データが設定されたホスト、または無効な DNS データが設定された ホストにアクセスしようとするクライアントである。</p>
+</blockquote>
+
+<p>私の経験上でも、意味不明なトラブルはDNS周りが起因していることが多いので、早めに<code>host</code>と<code>dig</code>でDNS周りの調査をします。</p>
+
+<h2 id="http-httpie">http (httpie)</h2>
+
+<p>最近はnginxのプロキシ、リプロシキ、ngx_luaの設定ばっか触ってるので、httpieで挙動確認、設定確認をしてます。</p>
+
+<p>CentOS6では下記のように導入。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">yum -y install python-pip
+</span><span class="line">pip install httpie
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Macの場合はhomebrew利用して<a href="https://gist.github.com/BlakeGardner/5586954">ここ</a>を参考に下記みたいな感じで導入。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">brew install python
+</span><span class="line"><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>/usr/local/share/python:<span class="nv">$PATH</span>
+</span><span class="line">pip install httpie
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>curl</code>でも同じ事が出来るんですが、<code>curl</code>は人間に優しくないというか
+私がオプションを全く覚えることが出来ないので、こちらを多用してます。
+httpieだけでは足りないので、もちろん<code>curl</code>も重宝してます。</p>
+
+<p>下記の例はヘッダを見てるだけだけど、色が付くだけで見やすくなる。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/11/httpie0.jpg" alt="" /></p>
+
+<p>ヘッダの確認</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">http -h httpbin.org
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>basic認証の確認</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">http -a hoge https://httpbin.org/basic-auth
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>リダイレクトの確認</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">http --follow google.co.jp
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>GETのテスト。defaultがGETなので、GETの場合はmethod指定しなくても良い。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">http GET httpbin.org/get
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>PUTのテスト</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">http PUT httpbin.org/put <span class="nv">name</span><span class="o">=</span>hoge <span class="nv">key</span><span class="o">=</span>value
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>と例を挙げたらキリがないんですが、ApacheやNginxの動作、設定確認なので、
+普段はだいたい上記みたいな感じで使ってます。</p>
+
+<p>ちなみに<a href="http://httpbin.org/">http://httpbin.org/</a>を利用するとhttpieの使い方が覚えるのに便利で、
+<a href="https://httpbin.org">https://httpbin.org/</a>もあるので、ssl系のテストも出来る。</p>
+
+<p>httpieのzsh補完関数は先日pull req出して、zsh-completionsにmergeされているので、httpieご利用の方はご活用ください。</p>
+
+<p><a href="https://github.com/zsh-users/zsh-completions/pull/184">add httpie completion by glidenote · Pull Request #184 · zsh-users/zsh-completions</a></p>
+
+<p>他にも調査用のコマンドはありますが、<code>nc</code>,<code>host</code>,<code>httpie</code>を使いこなせれば、
+サーバ入る前にある程度の事が判断ついて、いろいろと捗ると思う。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-13T09:01:00+09:00" pubdate data-updated="true">2013年11月13日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/command/'>command</a>, <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2013/11/13/commands-for-trouble/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="Webサーバのメンテナンス、トラブル調査に役に立つコマンド3選 - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Webサーバのメンテナンス、トラブル調査に役に立つコマンド3選 "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2016/12/16/goreplay/">GoReplayを導入して、Production環境へのリクエストを複製し、Staging環境に転送する仕組みを作った</a></li>
+
+  <li><a href="/blog/2016/02/04/lets-encrypt/">Let’s Encryptで証明書を作ってみた</a></li>
+
+  <li><a href="/blog/2014/12/02/using-netcat-for-file-transfers-with-pv/">ncコマンドでファイル転送するときにpvコマンドで進捗を表示する</a></li>
+
+  <li><a href="/blog/2014/02/22/remote-pbcopy/">ssh接続したリモートサーバの出力を手元Macのクリップボードに送る</a></li>
+
+  <li><a href="/blog/2014/01/29/post-to-irc-important-mail-subject/">重要なメールが届いたらIRCにメールの件名を通知するようにした</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/11/06/serf-munin/" title="Previous Post: serf-muninを導入してmunin-nodeの監視追加、削除を自動化した">&laquo; serf-muninを導入してmunin-nodeの監視追加、削除を自動化した</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/11/26/sensu/" title="next Post: 監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた">監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2013/11/13/commands-for-trouble/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2013/11/13/commands-for-trouble/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

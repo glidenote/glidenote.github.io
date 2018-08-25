@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: terraform | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/terraform/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Terraform + GitHub + CircleCI + Atlasを利用してAWSの操作を自動化した]]></title>
+    <link href="https://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws/"/>
+    <updated>2015-02-18T19:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://www.terraform.io/">Terraform</a> + <a href="https://github.com/">GitHub</a> + <a href="https://circleci.com/">CircleCI</a> + <a href="https://atlas.hashicorp.com/">Atlas</a> を用いてAWSの操作を自動化した</li>
+  <li>各ツールの役割は下記のような感じ
+    <ul>
+      <li>Terraform =&gt; インフラへの変更ツール </li>
+      <li>GitHub    =&gt; <code>.tf</code>ファイルのバージョン管理</li>
+      <li>CircleCI  =&gt; CI、Terraformをawsに対して実行</li>
+      <li>Atlas     =&gt; インフラの状態を記録する<code>terraform.tfstate</code>の管理</li>
+    </ul>
+  </li>
+  <li><a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">インフラの継続的デリバリー - naoyaのはてなダイアリー</a>にて、言及されていた範囲(Route53の変更、Chefの適用)をAWSの操作全体に拡大した</li>
+</ul>
+
+<h2 id="section">背景</h2>
+
+<h3 id="section-1">今までの問題点</h3>
+
+<ul>
+  <li>AWSの各種操作がブラウザからポチポチ業…</li>
+  <li>手作業なので誤操作に気づきにくい。事故りやすい</li>
+  <li>インフラの実構成がバージョン管理出来ていない</li>
+  <li>ちなみにRoute53に関しては<a href="https://github.com/winebarrel/roadworker">roadworker</a>を用いてコードで管理済みなので、今回はRoute53以外の話です。
+    <ul>
+      <li>refs <a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">インフラの継続的デリバリー - naoyaのはてなダイアリー</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="terraform--github--circleci--atlas-">Terraform + GitHub + CircleCI + Atlas でインフラを管理するメリット</h3>
+
+<ul>
+  <li>ブラウザからのポチポチ業から解放される</li>
+  <li>インフラ構成をコードで管理出来る。バージョン管理が出来る</li>
+  <li>インスタンス追加、EIPの設定などAWSの操作、インフラ構成の変更をGitHubのPR、レビュー、Mergeのプロセスに載せることが出来る</li>
+  <li>自動化が可能になる</li>
+  <li>CircleCI上にインフラ変更のログを保持することが出来る</li>
+  <li>インフラの変更をGitHubのMergeボタンに集約出来る</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/09/c49f738048c64521f7ed981a8d8c9458fdec8347.png" alt="" /></p>
+
+<h2 id="section-2">実装概要</h2>
+
+<p>2015年2月18日現在最新の<code>Terraform v0.3.6</code>を用いて実現している</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/02/terraform001.png" alt="" /></p>
+
+<ol>
+  <li>EC2、EIPなどAWSの変更をコードに書いてGitHubにPush。(Atlasで<code>terraform.tfstate</code>を管理している場合は<code>terraform pull</code>して最新の<code>terraform.tfstate</code>もPush)</li>
+  <li>Pushを契機にCircleCI上で<code>terraform plan --refresh=false</code>を実行してtest。testが通ればPull Requestを作成</li>
+  <li>Pull RequestをmasterにMerge</li>
+  <li>masterへのMergeを契機にCircleCI上からterraformを実行</li>
+  <li><code>terraform apply</code>を実行して、awsに設定を反映</li>
+  <li>Atlasに<code>terraform push</code>して、<code>terraform.tfstate</code>ファイルを管理</li>
+  <li>鮨を食べる</li>
+</ol>
+
+<p>CircleCI上からterraformを実行しているキャプチャ</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/02/terraform002.png" alt="" /></p>
+
+<p>設定ミスやエラーが発生するとFailしてSlackに通知される</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/02/terraform003.png" alt="" /></p>
+
+<h2 id="tf">実際の<code>tf</code>ファイルの感じ</h2>
+
+<ul>
+  <li><a href="https://terraform.io/docs/providers/aws/index.html">Provider: AWS - Terraform by HashiCorp</a></li>
+</ul>
+
+<p>クレデンシャル情報はCircleCI上で暗号化した環境変数を管理していて、Gitリポジトリ内では管理せず、
+CI実行時に生成している。</p>
+
+<p>```
+# credential
+provider “aws” {
+    access_key    = “XXXXXXXXXXXXXXXXXXXX”
+    secret_key    = “XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX”
+    region        = “us-west-1”
+}</p>
+
+<p>provider “atlas” {
+    token         = “XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX”
+}
+```</p>
+
+<p><code>
+# instance
+resource "aws_instance" "dev001_foobar_net" {
+    ami             = "ami-xxxxxxxx"
+    instance_type   = "t2.micro"
+    key_name        = "xxxxxxxxxxxxxxxx"
+    security_groups = ["sg-xxxxxxxx"]
+    subnet_id       = "subnet-xxxxxxxx"
+    tags {
+        Name    = "dev001.foobar.net"
+        Role    = "common"
+        Service = "operator"
+        Env     = "dev"
+    }
+}
+</code></p>
+
+<p><code>
+# eip
+resource "aws_eip" "dev001_foobar_net_eip" {
+    instance = "i-xxxxxxxx"
+    vpc      = true
+}
+</code></p>
+
+<p>などTerraformは同じディレクトリ内にある<code>.tf</code>ファイルを見てくれるので、
+用途毎で<code>.tf</code>ファイルを分けて運用してます。</p>
+
+<h2 id="section-3">その他</h2>
+
+<ul>
+  <li>2014年8月にTerraformがリリース直後にチャレンジしたが、機能が足りずに実現出来なかったが、半年経過して必要機能が揃い実現出来た。</li>
+  <li>今日現在(2015年2月18日)TerraformにはAWS上の既存設定をファイルに落とし込む機能がないので、一から作る必要がある。</li>
+  <li>今回はインスタンスの一斉リプレイスがあったので、そのタイミングを利用して導入した。</li>
+  <li>AtlasとGitHubの連携機能がリリース予定なので、それがリリースされるとさらに便利になるかもしれない(1月リリース予定だったけど)
+    <ul>
+      <li><a href="https://atlas.hashicorp.com/help/guides/version-control">Using Atlas with GitHub</a></li>
+    </ul>
+  </li>
+  <li>今回はAtlasとTerraformだけを組み合わせたが、AtlasはVagrant、Packer、Consulとも連携が出来るので引き続き検証中</li>
+</ul>
+
+<p><img src="https://d250n10lsq5j8r.cloudfront.net/assets/atlas/atlas-how-to@2x-eabe86b956d3b2032c721da7e834f63c.png" alt="" /></p>
+
+<h2 id="section-4">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/zembutsu/items/93e546df765f8b2c4f32">Terraform簡易チュートリアル on AWS - Qiita</a></li>
+  <li><a href="http://blog.cloudpack.jp/2014/12/17/awe-advent-calendar-2014-elastic-ip-adress-eip/">AWS Advent Calendar 2014 〜 Elastic IP アドレス (EIP) のお話 | cloudpack技術情報サイト</a> </li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

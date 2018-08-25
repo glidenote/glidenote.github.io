@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: autofs | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/autofs/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Lionでautofsを使って、ファイルサーバを自動マウント]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/03/13/lion-autofs-nfs/"/>
+    <updated>2012-03-13T19:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/03/13/lion-autofs-nfs</id>
+    <content type="html"><![CDATA[<p>社内ファイルサーバの共有ディレクトリをautofsを使って自動NFSマウントするようにしたので作業メモ.</p>
+
+<p>作業環境 Lion(10.7.3)</p>
+
+<h2 id="section">やりたいこと</h2>
+
+<p>MacBookAirの<code>~/mnt/hoge</code>に共有サーバ<code>pos002.tokyo.pb</code>の<code>/data/sites/hoge</code>を自動マウントしたい</p>
+
+<h2 id="etcautomaster-">/etc/auto_master の修正</h2>
+
+<p><code>auto_master</code>に下記を追加</p>
+
+<p><code>
+/Users/maeda/mnt    /etc/auto_nfs
+</code></p>
+
+<h2 id="etcautonfs-">/etc/auto_nfs を新規作成</h2>
+
+<p>NFSマウント用の設定を新規に用意</p>
+
+<p><code>
+hoge -fstype=nfs pos002.tokyo.pb:/data/sites/hoge
+</code></p>
+
+<h2 id="autofsd">autofsdの再起動</h2>
+
+<p>autofsdはlaunchd経由で起動しているので、下記コマンドで再起動</p>
+
+<p><code>
+sudo launchctl stop com.apple.autofsd
+sudo launchctl start com.apple.autofsd
+</code></p>
+
+<h2 id="section-1">自動マウントされているか確認</h2>
+
+<p>```
+df -ah</p>
+
+<p>Filesystem                                Size   Used  Avail Capacity  Mounted on
+/dev/disk0s2                             112Gi   36Gi   76Gi    33%    /
+devfs                                    183Ki  183Ki    0Bi   100%    /dev
+map -hosts                                 0Bi    0Bi    0Bi   100%    /net
+map auto_home                              0Bi    0Bi    0Bi   100%    /home
+map /etc/auto_nfs                          0Bi    0Bi    0Bi   100%    /Users/maeda/mnt
+pos002.tokyo.pb:/data/sites/hoge  997Gi   53Gi  944Gi     6%    /Users/usr0600093/mnt/hoge
+```</p>
+
+<p>うまく自動マウントしてくれました。<br />
+これでマシンを再起動しても自動で共有ディレクトリをマウントしてくれます。</p>
+]]></content>
+  </entry>
+  
+</feed>

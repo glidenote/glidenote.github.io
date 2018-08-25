@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: dayone | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/dayone/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[美しい日記アプリ「Day One」の記事作成支援vimプラグイン NewDayOne.vimを作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/01/26/newdayone.vim/"/>
+    <updated>2013-01-26T07:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/01/26/newdayone.vim</id>
+    <content type="html"><![CDATA[<p><a href="http://click.linksynergy.com/fs-bin/click?id=43Adqh0hMic&amp;subid=0&amp;offerid=94348.1&amp;type=10&amp;tmpid=3910&amp;RD_PARM0=https%3A%2F%2Fitunes.apple.com%2Fjp%2Fapp%2Fday-one%2Fid422304217%3Fmt%3D12%2526uo%3D4&amp;RD_PARM1=https%3A%2F%2Fitunes.apple.com%2Fjp%2Fapp%2Fday-one%2Fid422304217%3Fmt%3D12%2526uo%3D4" rel="nofollow" target="_blank"><img src="https://blog.glidenote.com/images/2013/01/dayone-icon.png" width="159" height="166" align="right" /></a></p>
+
+<p>この記事は、<a href="http://atnd.org/events/33746">Vim Advent Calendar 2012</a>の57日目の記事です。
+56日目の記事は<a href="https://twitter.com/tyru">@tyru</a>さんの<a href="http://d.hatena.ne.jp/tyru/20130125/useful_vim_commands_for_getting_along_with_github">GitHubでの仕事を快適にするVimコマンドを紹介します - Humanity</a>でした。</p>
+
+<p>Macには<a href="http://dayoneapp.com/">Day One</a>という非常に美しい日記、テキストログアプリがあり、
+今回はそのDay Oneの記事作成が出来る<a href="https://github.com/glidenote/newdayone.vim">NewDayOne.vim</a>という
+プラグインを作りましたので紹介させていただきます。</p>
+
+<p>プラグイン名<code>NewDayOne.vim</code>は<a href="http://dayoneapp.com/tools/">Day One CLI</a>の<code>dayone new</code>というコマンド名から取っています。</p>
+
+<h2 id="day-one">日記アプリDay Oneの特徴</h2>
+
+<p><img src="https://blog.glidenote.com/images/2013/01/dayone.png" alt="" /></p>
+
+<ul>
+  <li><a href="http://dayoneapp.com/2012/12/app-of-the-year/">2012 Mac App of the Year受賞</a></li>
+  <li>Markdown対応</li>
+  <li>iPhone,iPad,Macから利用可能</li>
+  <li>iCloudやDropboxに対応</li>
+  <li>美しいUI</li>
+</ul>
+
+<h2 id="newdayonevim2013126">NewDayOne.vimで出来ること（2013年1月26日現在)</h2>
+
+<ul>
+  <li>新規記事作成(<code>:NewDayOne</code>)</li>
+  <li>vimからDay Oneの起動(<code>:OpenDayOne</code>)</li>
+</ul>
+
+<p>Day One CLIを利用しているため、既存ファイルの編集は出来ず、新規記事作成だけ可能になります。
+(2013年1月26日現在Day One CLIには新規記事作成しか機能がありません)</p>
+
+<p>またDay Oneはmarkdownに対応しているのですが、記事自体のデータはxmlで管理されていて、
+xmlファイルをparseしてvim上から管理するのは個人的にちょっと違うかな-と思ったため実装してません。
+(そこまでやるとDay Oneを利用している意味も無い気がするので)</p>
+
+<p>どんな感じのプラグインなのか動画を作成しました。</p>
+
+<p><div class="embed-video-container"><iframe src="https://player.vimeo.com/video/57588139 "></iframe></div></p>
+
+<h2 id="newdayonevim">NewDayOne.vimの導入方法</h2>
+
+<h3 id="section">必要なソフト</h3>
+
+<p>NewDayOne.vimはDay Oneの記事作成支援プラグインなので、</p>
+
+<ul>
+  <li><a href="http://dayoneapp.com/">Day One</a></li>
+  <li><a href="http://dayoneapp.com/tools/">Day One CLI</a></li>
+</ul>
+
+<p>が必要です。</p>
+
+<h3 id="section-1">導入方法</h3>
+
+<p>導入には<a href="https://github.com/gmarik/vundle">vundle</a>か、<a href="https://github.com/Shougo/neobundle.vim">NeoBundle</a>
+を利用すると楽です。</p>
+
+<p>vundleの場合は、</p>
+
+<p><code>
+Bundle 'glidenote/newdayone.vim'
+</code></p>
+
+<p>NeoBundleの場合は、</p>
+
+<p><code>
+NeoBundle 'glidenote/newdayone.vim'
+</code></p>
+
+<p>を.vimrcに記載し、<code>:BundleInstall</code>や<code>:NeoBundleInstall</code>を実行して導入してください。</p>
+
+<h2 id="newdayonevim-1">NewDayOne.vimの使い方</h2>
+
+<h3 id="newdayone">新規記事の作成(:NewDayOne)</h3>
+
+<p><code>
+:NewDayOne
+</code></p>
+
+<p>Day One CLIに依存しており、機能的に新規作成しか出来ないため、
+記事作成の前に、確認プロンプトを出すようにしています。</p>
+
+<h3 id="day-oneopendayone">Day Oneの起動(:OpenDayOne)</h3>
+
+<p><code>
+:OpenDayOne
+</code></p>
+
+<h2 id="newdayonevim-2">NewDayOne.vimを作った理由</h2>
+
+<ul>
+  <li>Day One自体はUIが美しく素晴らしいが、内蔵のエディタが残念だった。</li>
+  <li><a href="https://github.com/mattn/gist-vim">gist.vim</a>みたいな感じの動作でDay Oneの記事作成をしたかった</li>
+  <li><a href="https://blog.glidenote.com/blog/2012/03/26/memolist.vim/">memolist.vim</a>と連携して、Day Oneの美しいUIで閲覧したかった</li>
+  <li><a href="http://kazuph.hateblo.jp/entry/2013/01/11/151954">dayone.vimというVimPluginをつくっている話 - 僕の車輪の再発明</a>を読んで触発された</li>
+  <li>かなり前にアプリを購入したのに、上手く活用出来てなくて悔しかった</li>
+</ul>
+
+<p>エントリー作成後に修正が出来ないのですが、<a href="https://blog.glidenote.com/blog/2013/01/10/vim-quickrun-marked/">vim-quickrun+Marked</a>で
+ちゃんと表示確認をして、完成したら<code>:NewDayOne</code>でエントリー作成すれば特に問題ないかなーと。</p>
+
+<p>私は今のところ、memolist.vimで日報や日々の作業ログを作成して、それをDay Oneに渡して閲覧のために活用してます。</p>
+
+<p>Enjoy Vim Life!!</p>
+
+<p><a href="http://click.linksynergy.com/fs-bin/click?id=43Adqh0hMic&amp;subid=0&amp;offerid=94348.1&amp;type=10&amp;tmpid=3910&amp;RD_PARM0=https%3A%2F%2Fitunes.apple.com%2Fjp%2Fapp%2Fday-one%2Fid422304217%3Fmt%3D12%2526uo%3D4&amp;RD_PARM1=https%3A%2F%2Fitunes.apple.com%2Fjp%2Fapp%2Fday-one%2Fid422304217%3Fmt%3D12%2526uo%3D4" rel="nofollow" target="_blank"><img align="left" hspace="6" src="http://a5.mzstatic.com/us/r1000/075/Purple/v4/9c/8b/18/9c8b1884-bb91-befb-c007-275fb8150ac1/DayOne-Mac-1024.60x60-50.png" width="75" style="margin-right: 6px;" /><b>Day One</b>
+</a>カテゴリ: ライフスタイル<br />
+価格: ￥850<br clear="all" /></p>
+
+<p>次回のVim Advent Calendar 2012は<a href="https://twitter.com/thinca">@thinca</a>さんです。</p>
+
+]]></content>
+  </entry>
+  
+</feed>

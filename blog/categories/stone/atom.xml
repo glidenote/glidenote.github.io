@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: stone | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/stone/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[パケットリピータstoneでVNC接続を中継する]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/01/08/vnc-with-stone/"/>
+    <updated>2012-01-08T12:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/01/08/vnc-with-stone</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="http://www.gcd.org/sengoku/stone/Welcome.ja.html">Simple Repeater `stone’</a></li>
+</ul>
+
+<p>普段MacとLinuxを利用しているので、ほとんどがsshしてコマンド操作(CUI)で用が足りるんですが、
+たまに遠隔地にあるWindows上でGUI操作をしないといけないことがあるので、stoneとvncで解決させました。
+いろいろと方法はあると思いますが、stoneが一番手軽だったので。<br />
+(普段利用している<a href="http://utvpn.tsukuba.ac.jp/ja/">UT-VPN</a>はWin用とLinux用のクライアントはあるんですが、Mac用クライアントが無いので、こんな面倒なことをしてます。)</p>
+
+<h2 id="section">現在の状態</h2>
+
+<ul>
+  <li>MacbookAirとServerAは同じネットワーク(192.168.11.0/24)</li>
+  <li>ServerAとWindowsPCはVPN(UT-VPN)環境を構築済みで通信可能(172.16.100.0/24)</li>
+  <li>Macbook AirとWindowsPCは直接通信不可(WindowsPCは遠隔地でNAT配下)</li>
+</ul>
+
+<h2 id="osip">環境(OS、IPアドレス)</h2>
+
+<ul>
+  <li>MacbookAir(Lion) 192.168.11.20</li>
+  <li>ServerA(Fedora16) 192.168.11.30,172.16.100.50</li>
+  <li>WindowsPC(XP) 172.16.100.10</li>
+</ul>
+
+<h2 id="section-1">実現したいこと</h2>
+
+<ul>
+  <li>stoneでパケットを中継して、MacBookAirからWindowsPCへのVNC接続を可能にする</li>
+  <li>MacbookAirからServerAの5910ポート(192.168.11.30:5910)にVNC接続すると、stoneで中継されWindowsPCの5900ポート(172.16.100.10:5900)に接続される</li>
+  <li>VPN(UT-VPN)上の通信で既に暗号化されているので、今回stoneでSSL化の必要は無し</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2012/01/stone-vnc.png" alt="" /></p>
+
+<h2 id="stone">stoneの導入</h2>
+<p>stoneはServerA(Fedora16)に導入</p>
+
+<p><code>
+mkdir ~/src ~/bin
+cd ~/src
+wget http://www.gcd.org/sengoku/stone/stone-2.3e.tar.gz
+tar zxvf stone-2.3e.tar.gz
+cd stone-2.3d-2.3.2.7
+curl -o stone.diff -LO "http://bugs.debian.org/cgi-bin/bugreport.cgi?msg=10;filename=stone.diff;att=1;bug=517574"
+patch &lt; stone.diff
+make linux
+cp stone ~/bin
+</code></p>
+
+<p>デフォルトのままだと<code>make linux</code>でこけるので、<a href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=517574">ここのpatch</a>も適用してます。patchの内容は下記のような感じで<code>-D_GNU_SOURCE</code>を追加している感じ</p>
+
+<p><div><script src='https://gist.github.com/1573695.js'></script>
+<noscript><pre><code>--- Makefile	2008-02-05 08:00:00.000000000 +0900
++++ Makefile	2009-08-19 08:59:00.000000000 +0900
+@@ -97,7 +97,7 @@
+ 	$(MAKE) FLAGS=&quot;-DNT_SERVICE $(FLAGS)&quot; LIBS=&quot;$(LIBS) $(SVC_LIBS) -ladvapi32 -luser32 -lshell32 -lkernel32&quot; $(TARGET)
+ 
+ linux:
+-	$(MAKE) FLAGS=&quot;-O -Wall -DCPP=&#39;\&quot;/usr/bin/cpp -traditional\&quot;&#39; -DPTHREAD -DUNIX_DAEMON -DPRCTL -DSO_ORIGINAL_DST=80 -DUSE_EPOLL $(FLAGS)&quot; LIBS=&quot;-lpthread $(LIBS)&quot; stone
++	$(MAKE) FLAGS=&quot;-O -Wall -DCPP=&#39;\&quot;/usr/bin/cpp -traditional\&quot;&#39; -DPTHREAD -DUNIX_DAEMON -DPRCTL -DSO_ORIGINAL_DST=80 -DUSE_EPOLL -D_GNU_SOURCE $(FLAGS)&quot; LIBS=&quot;-lpthread $(LIBS)&quot; stone
+ 
+ linux-pop:
+ 	$(MAKE) TARGET=linux pop_stone</code></pre></noscript></div>
+</p>
+
+<h2 id="stone-1">stoneの起動</h2>
+<p>5910ポートで待ち受けて、WindowsPC(172.16.100.10)の5900ポートに中継させます</p>
+
+<p>```
+~/bin/stone 172.16.100.10:5900 5910</p>
+
+<p>Jan  7 12:33:43.735910 3078318336 start (2.3e) [11176]
+Jan  7 12:33:43.759207 3078318336 stone 3: colinux:rfb &lt;- 0.0.0.0:cm
+```</p>
+
+<p>常用するなら、supervisordとかで起動を管理するのがいいと思いますが、一時的に利用するだけなので、フォアグランドで起動。</p>
+
+<h2 id="macbookairvnc">MacbookAirからVNC接続</h2>
+
+<p>Macの画面共有だとうまく接続できないので、<a href="http://www.macupdate.com/app/mac/9517/chicken-of-the-vnc">Chicken of the VNC</a>を利用。<br />
+うまくVNC接続出来ました。</p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://biokids.org/?%A4%C9%A4%D6%A4%AA%2FLinux%A4%C7%CD%B7%A4%DC%A4%A6%A1%AA%2F%A5%D1%A5%B1%A5%C3%A5%C8%A5%EA%A5%D4%A1%BC%A5%BFstone">どぶお/Linuxで遊ぼう！/パケットリピータstone - BioKids Wiki</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

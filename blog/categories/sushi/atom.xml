@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: sushi | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/sushi/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ゆるふわなかんじで Sensu の話題をするためのIRCチャンネルをつくってみた]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/05/22/sensu-casual-freenode/"/>
+    <updated>2014-05-22T10:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/05/22/sensu-casual-freenode</id>
+    <content type="html"><![CDATA[<p><a href="http://sensuapp.org/">Sensu</a>について、ゆるふわなトークが出来るIRCチャンネルを作ってみた。</p>
+
+<p><code>#sensu-casual@freenode</code></p>
+
+<p>まだ誰もいないので<code>ChanServ</code>だけ話をしてる。</p>
+
+<p>たまにカレー情報</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/05/sensu-curry.png" alt="" /></p>
+
+<p>たまに寿司情報</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/05/sensu-sushi.png" alt="" /></p>
+
+<p>がこんな感じで流れるのでSensu使ってないけど、
+カレー情報や寿司情報を入手したい人も入ってくるといいと思います。</p>
+
+<p><a href="https://botbot.me/">BotBot.me</a>に依頼して、<a href="http://wiki.znc.in/ZNC">znc</a>とか使って常駐してなくてもログが追えるよう</p>
+
+<ul>
+  <li><a href="https://botbot.me/freenode/sensu-casual/">https://botbot.me/freenode/sensu-casual/</a></li>
+</ul>
+
+<p>に記録されるようになっているので、便利な感じになってます。</p>
+
+<p><strong>14:18 追記</strong>
+BotBot.meのBotさんが即死して帰ってこないので、ログが追えなくなってます… 。そのうち生き返ると思います。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.64p.org/entry/2013/03/13/195515">ゆるふわなかんじで perl の話題をするためのチャットルームをつくってみた - blog.64p.org</a></li>
+  <li><a href="http://studio3104.hatenablog.com/entry/2013/03/22/164827">ゆるふわなかんじで Chef の話題をするためのIRCチャンネルをつくってみた</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

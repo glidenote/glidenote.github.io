@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: slack | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/slack/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Slackのチャンネル移動をキーボードで簡単に出来るようKarabinerのprivate.xmlを書いた]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack/"/>
+    <updated>2014-08-06T18:32:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2014/08/slack-logo.png" alt="" /></p>
+
+<p>仕事で<a href="https://slack.com/">Slack</a>を使っているんですが、
+<a href="https://slack.zendesk.com/hc/en-us/articles/201374536-Keyboard-Shortcuts">キーボードショートカット</a>があんまり使いやすくなくて、
+特にチャンネル移動が致命的に使いにくくてストレスフルなので、、<a href="https://pqrs.org/osx/karabiner/index.html.ja">Karabiner(旧keyremap2makbook)</a>のprivate.xmlを書いた。
+(Slackのメニューにチャンネル移動の項目がないので、Macの環境設定からキーバインドの設定が出来ないのでKarabinerで実現してます)</p>
+
+<p>今までWeechatというIRCクライアントを使っていたので、そのキーバインドに合わせた。
+具体的には</p>
+
+<ul>
+  <li><code>Ctrl + N</code>で次のチャンネル or DMに移動</li>
+  <li><code>Ctrl + P</code>で前のチャンネル or DMに移動</li>
+  <li><code>Alt + A</code>で未読チャンネル or DMに移動</li>
+</ul>
+
+<h2 id="section">導入方法</h2>
+
+<p><code>~/Library/Application\ Support/Karabiner/private.xml</code> に下記のように設定を追加</p>
+
+<p>``` xml
+<?xml version="1.0"?></p>
+<root>
+
+    <appdef>
+        <appname>SLACK</appname>
+        <equal>com.tinyspeck.slackmacgap</equal>
+    </appdef>
+    <item>
+        <name>For Slack CTRL+N=move next channel, CTRL+P=move previous channel, ALT+A=move unread channel</name>
+        <identifier>private.app_slack_move_channel_with_ctrln_ctrlp</identifier>
+        <only>SLACK</only>
+        <autogen>__KeyToKey__ KeyCode::N, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN, ModifierFlag::OPTION_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::P, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP, ModifierFlag::OPTION_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::A, ModifierFlag::OPTION_L, KeyCode::CURSOR_DOWN, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L</autogen>
+    </item>
+
+</root>
+<p>```</p>
+
+<p>これでKarabinerの設定画面から<code>ReloadXML</code>をして、設定にチェックを入れれば動くようになる。</p>
+
+<p>これでホームポジションから動かずにSlackがだいたい操作できるようになって快適になった。</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: git | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/git/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Homebrewで入れたgit,zshを優先的に利用する]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/04/20/change-command-path-priority/"/>
+    <updated>2014-04-20T10:27:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/04/20/change-command-path-priority</id>
+    <content type="html"><![CDATA[<p>ちょっと前に会社のMacを入れ替えて、Homebrewで最新の<code>git</code>や<code>zsh</code>などを導入したのに
+最初から入っているシステムの<code>git</code>、<code>zsh</code>が優先的に利用されていることに気づいて、
+この設定、数年おきにしていて、いつも忘れるのでメモ。(2回ググったらブログに書く)</p>
+
+<p>呼び出されている<code>git</code>のバージョン確認。(実際にはhub経由でgitを呼び出してました。)</p>
+
+<p><code>sh
+git --version
+git version 1.8.5.2 (Apple Git-48)
+</code></p>
+
+<p>本来利用したいHomebrewでインストールした<code>git</code>のバージョン</p>
+
+<p><code>sh
+/usr/local/bin/git --version
+git version 1.9.2
+</code></p>
+
+<p>下記のように<code>/usr/local/bin</code>が一番上になるように<code>/etc/paths</code>の順番入れ替え。上から優先的に利用されるようになる。</p>
+
+<p><code>
+/usr/local/bin
+/usr/bin
+/bin
+/usr/sbin
+/sbin
+</code></p>
+
+<p><code>exec $SHELL</code>で設定反映。</p>
+
+<p><code>
+git --version
+git version 1.9.2
+</code></p>
+
+<p>ちゃんと意図した動作になった。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[gitでcommitメッセージにテンプレートを使う]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/12/04/git-commit-message-template/"/>
+    <updated>2013-12-04T19:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/12/04/git-commit-message-template</id>
+    <content type="html"><![CDATA[<p>GitHub(GH:E)でプロジェクトをまたぐことが多くて、
+commitメッセージとissueをリンクさせるのに毎回</p>
+
+<p><code>
+ファイル間違ってたので修正 refs paperboy-all/hogemoge#1000
+</code></p>
+
+<p>みたいに<code>organaization/repo</code>を書いてて、
+いい加減ウザくなってきて自動挿入みたいなのが出来ないのか調べてたら、
+<code>commit.template</code>を利用すると実現出来てる模様。</p>
+
+<p><code>sh
+git config --global commit.template $HOME/.gitmessage.txt
+</code></p>
+
+<p>という感じで設定出来る。</p>
+
+<p>下記みたいなテンプレートファイルを用意しておきえば、commitメッセージと<code>xxx</code>のissue番号の変更だけでok</p>
+
+<p><code>
+ refs paperboy-all/puppet#xxx
+</code></p>
+
+<p>プロジェクト毎で利用するテンプレートを変更する場合は
+<code>--global</code>を外して、それぞれのテンプレを用意して設定すれば良い。</p>
+
+<p><code>sh
+git config commit.template $HOME/.gitmessage_puppet.txt
+git config commit.template $HOME/.gitmessage_ops.txt
+</code></p>
+
+<p>これで煩わしい手間が1個減った。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://git-scm.com/book/ja/Git-%E3%81%AE%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%9E%E3%82%A4%E3%82%BA">Git - Git のカスタマイズ</a>のcommit.templateの部分</li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[コミットメッセージを書くときにGitHubのユーザー名が補完されるようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/07/22/gitcommit-dictionary/"/>
+    <updated>2013-07-22T00:56:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/07/22/gitcommit-dictionary</id>
+    <content type="html"><![CDATA[<p>gitでcommit messageを書くときに、関連する人にmentionを送ることが結構あるんですが、
+GitHubとGitHub Enterpriseのユーザ名の覚えが曖昧で、毎回ブラウザでポチポチやって調べていて、
+効率が恐ろしく悪かったので、同僚やmention送るユーザ名は辞書作って補完することにした。</p>
+
+<h2 id="github-username">GitHub Usernameの辞書を作成</h2>
+
+<p><code>sh
+mkdir -p ~/.vim/dictionary/
+touch ~/.vim/dictionary/github_user.dict
+</code></p>
+
+<p><code>~/.vim/dictionary/github_user.dict</code>の中身は下記みたいな感じでユーザー名を列挙。</p>
+
+<p><code>
+mizzy
+lamanotrama
+tnmt
+hiboma
+</code></p>
+
+<h2 id="vimrc">.vimrcの設定</h2>
+
+<p>作った辞書がcommit messageを書くときだけ読み込まれるように<code>.vimrc</code>に下記のように追加。
+<code>git commit</code>したときにfiletypeが<code>gitcommit</code>になってないと辞書が読み込まれないので注意</p>
+
+<p><code>
+autocmd FileType gitcommit :set dictionary=~/.vim/dictionary/github_user.dict
+</code></p>
+
+<p>下記みたいにGitHubのユーザー名が補完されるので、mentionが飛ばしやすくなる。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/07/github_dict0.png" alt="" /></p>
+
+<p>どうやってユーザー名を補完しようか調べてて、<code>git commit</code>でvimを起動するとfiletypeが<code>gitcommit</code>になるのを初めて知った。
+たぶんこれを利用すればもっと便利なことが出来そうな気がする。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://nanasi.jp/articles/howto/config/dictionary.html">辞書ファイルで入力を補完する — 名無しのvim使い</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[open-browser-github.vim を  GitHub Enterpriseで使う]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/07/18/open-browser-github.vim-for-github-enterprise/"/>
+    <updated>2013-07-18T01:12:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/07/18/open-browser-github.vim-for-github-enterprise</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://github.com/tyru/open-browser-github.vim">tyru/open-browser-github.vim</a></li>
+</ul>
+
+<p>GitHubから社内のGitHub EnterpriseサーバにRepositoryを移行したときに、
+open-browser-github.vimが動かなくなっていることに気づいた。</p>
+
+<p>READMEを読むとGitHub Enterpriseを普通にサポートしており、
+下記みたいな感じで設定出来るとのこと。</p>
+
+<p><code>sh
+git config --local hub.host my.git.org
+</code></p>
+
+<p>実際に私の環境では下記のように設定。</p>
+
+<p><code>sh
+cd path/to/repo
+git config --local hub.host ghe.tokyo.pb
+</code></p>
+
+<p><code>:OpenGithubFile</code>でファイルが開くようになって再び快適生活に戻った。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PuppetのSyntaxをvim(syntastic)とgit hooks(pre-commit)の2重でチェックするようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/03/16/puppet-syntax-check/"/>
+    <updated>2013-03-16T21:48:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/03/16/puppet-syntax-check</id>
+    <content type="html"><![CDATA[<p>puppetのmanifestを書いていて、我ながらtypo、構文ミスとかヘボいミスが多すぎるので、
+vimとgit hooks(pre-commit)とで2重でsyntax checkをするようにした。</p>
+
+<h2 id="syntax-check">具体的なsyntax checkの方法</h2>
+
+<ul>
+  <li>vimからは<a href="https://github.com/scrooloose/syntastic">syntastic</a>を利用してsyntax check</li>
+  <li>git hooks(pre-commit)から<code>puppet parser validate</code>を利用して、commitのタイミングでsyntax check。問題がある場合はcommitが出来ないようにする</li>
+</ul>
+
+<h2 id="puppetpuppet-lint">puppetとpuppet-lintの導入</h2>
+
+<p>manifestを書いているマシンにpuppetが入っていないとSyntax Checkが出来ないので導入。
+またsyntasticが<code>puppet-lint</code>を利用するので併せて導入。</p>
+
+<p>私は、最近はmac上でmanifestを書いているのでgemで導入</p>
+
+<p><code>sh
+gem install puppet
+gem install puppet-lint
+</code></p>
+
+<p>RHEL系でyumの場合は下記のような感じ。</p>
+
+<p><code>sh
+sudo yum -y install puppet rubygem-puppet-lint
+</code></p>
+
+<h2 id="syntastic">syntasticの導入</h2>
+
+<ul>
+  <li><a href="https://github.com/scrooloose/syntastic">scrooloose/syntastic · GitHub</a></li>
+</ul>
+
+<p>私は<a href="https://github.com/Shougo/neobundle.vim">neobundle</a>を利用しているので、下記を<code>.vimrc</code>に書いて<code>:NeoBundleInstall</code></p>
+
+<p><code>
+NeoBundle 'scrooloose/syntastic'
+</code></p>
+
+<p>puppetのmanifestを編集して、保存したタイミングでsyntaxのcheckが走る。
+エラー部分は<code>:Errors</code>で表示。</p>
+
+<p>構文がおかしい場合は、下記のように表示される。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/03/puppet0.png" alt="" /></p>
+
+<p>これでvimからsyntax checkが出来る。</p>
+
+<h2 id="git-pre-commit">git pre-commitを用意</h2>
+
+<p>Vimだけでも良いんですが、puppetのファイルは全てgitで管理しているので、
+git hooksでもcheckが走るようにする。</p>
+
+<p><code>.git/hooks/pre-commit</code>に下記のようなファイルを用意</p>
+
+<p><div><script src='https://gist.github.com/5174871.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p>puppetのversionが2.7以下の場合は、<code>puppet parser validate</code>というコマンドが無いので、下記コマンドを利用するように変更してください。</p>
+
+<p><code>
+git cat-file blob :0:$indexfile | puppet --color=false --parseonly --ignoreimport &gt; $error_msg ;;
+</code></p>
+
+<p>するとcommitしようとしたタイミングにsyntax checkが走るので、エラーがある場合は下記のようにcommit出来ない。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/03/puppet1.png" alt="" /></p>
+
+<p>これでヘボいミスも減って、commit履歴を汚さずに済むはず。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/items/dfe1ec9d82c0ed5da7c6">Git hooks まとめ #git - Qiita</a></li>
+  <li><a href="https://puppetlabs.com/blog/verifying-puppet-checking-syntax-and-writing-automated-tests/">Verifying Puppet: Checking Syntax and Writing Automated Tests | Puppet Labs</a></li>
+  <li><a href="http://projects.puppetlabs.com/projects/1/wiki/puppet_version_control">Puppet Version Control - Puppet - Puppet Labs</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

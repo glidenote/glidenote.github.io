@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: alb | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/alb/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[AWS Application Load Balancer + Amazon ECS でDockerのホットデプロイ環境を構築した]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/09/02/alb-ecs-docker-hot-deploy/"/>
+    <updated>2016-09-02T09:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/09/02/alb-ecs-docker-hot-deploy</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://aws.amazon.com/jp/elasticloadbalancing/applicationloadbalancer/">AWS Application Load Balancer(以下ALB)</a> + Amazon ECS でDockerのホットデプロイ環境を構築した</li>
+  <li>ALBのTarget GroupとECSのServiceを紐付けることで、ALB配下のコンテナの入れ替えが自動で行われるようになる</li>
+</ul>
+
+<p>ALBは先日リリースされたばかりで、私もまだ色々と検証している段階なので、内容や認識等に誤りがあるかもしれないのでご容赦下さい。(詳しい人教えてください!!)</p>
+
+<h2 id="section">その他弊社の前提情報</h2>
+
+<ul>
+  <li>GitHub + CircleCIが連携済み</li>
+  <li>Docker RepoにはAmazon EC2 Container Registry(以下ECR)を利用</li>
+  <li>DeployはGitHubのデプロイブランチへのマージを契機にCircleCI経由で、Docker Pushと<a href="https://github.com/silinternational/ecs-deploy">ecs-deploy</a>でDockerデプロイを実施</li>
+</ul>
+
+<h2 id="section-1">準備</h2>
+
+<p>ALBとECSの設定については<a href="https://twitter.com/inokara">@inokara</a>さんのブログが詳しいので、そちらを参照ください。
+今回はALBのDynamic Port Mappingは利用してません。</p>
+
+<ul>
+  <li><a href="http://inokara.hateblo.jp/entry/2016/08/13/095449">Amazon ECS と AWS Application Load Balancer の組み合わせを試しているメモ - ようへいの日々精進XP</a></li>
+  <li><a href="http://inokara.hateblo.jp/entry/2016/08/13/231404">Amazon ECS と AWS Application Load Balancer の組み合わせを試しているメモ（2）〜 AWS CLI で試す 〜 - ようへいの日々精進XP</a></li>
+</ul>
+
+<h2 id="section-2">デプロイフロー</h2>
+
+<p>デプロイフローは下記のような形になってます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs0.png" alt="" /></p>
+
+<h2 id="section-3">デプロイ前の稼働中の状態</h2>
+
+<ul>
+  <li>ALBは80,443ポートで稼働</li>
+  <li>コンテナではnode.jsのアプリが3000ポートで稼働</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs1.png" alt="" /></p>
+
+<h2 id="section-4">デプロイ直後の状態</h2>
+
+<ul>
+  <li>CircleCI経由で、ecs-deployを実行し、新しいコンテナを作成。</li>
+  <li>新しいコンテナが起動すると、自動でALB配下に追加されアクセスを流れる</li>
+  <li>古いコンテナと新しいコンテナが混在する</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs2.png" alt="" /></p>
+
+<p>ecs-deployは下記のような形で実行。CircleCI上では<code>AWS_ACCESS_KEY_ID</code>、<code>AWS_SECRET_ACCESS_KEY</code> を環境変数に設定し、引数に利用しているregionを<code>-r us-west-1</code>を追加して実行してます。</p>
+
+<p><code>sh
+ecs-deploy \
+-c クラスター名 \
+-n サービス名 \
+-i xxxxxxxxxxxx.dkr.ecr.us-west-1.amazonaws.com/kaizenplatform/kaizen-xxxxxxxx:947 \
+-t 300
+</code></p>
+
+<p>デプロイ部分の<code>docker push</code>と<code>ecs-deploy</code>合わせて1分半くらいで完了している。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs5.png" alt="" /></p>
+
+<h2 id="section-5">デプロイ完了後の状態</h2>
+
+<ul>
+  <li>しばらくすると古いコンテナが破棄され、新しいコンテナだけで稼働する</li>
+  <li>一連の作業中にリクエストを流し続けて、サービスが停止しないことも確認</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs3.png" alt="" /></p>
+
+<p>ecs-deployの実行が走ってから、新しいコンテナが起動し、古いコンテナが廃棄されるまで、
+大体6分くらい要している。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs4.png" alt="" /></p>
+
+<p>ALBとECSの初期設定が結構面倒ですが、設定さえ終われば、
+新旧コンテナの入れ替え、ALB配下への追加削除が自動で行われるようになるので大変便利。</p>
+
+<p>引き続きDynamic Port Mappingを利用した構成も検証中。</p>
+
+<h2 id="section-6">参考</h2>
+
+<ul>
+  <li><a href="http://inokara.hateblo.jp/entry/2016/08/13/095449">Amazon ECS と AWS Application Load Balancer の組み合わせを試しているメモ - ようへいの日々精進XP</a></li>
+  <li><a href="http://inokara.hateblo.jp/entry/2016/08/13/231404">Amazon ECS と AWS Application Load Balancer の組み合わせを試しているメモ（2）〜 AWS CLI で試す 〜 - ようへいの日々精進XP</a></li>
+  <li><a href="http://orih.io/2015/12/run-automated-deployment-by-git-push-with-ecs-deploy-script/">Git プッシュから Amazon ECS に自動デプロイする仕組みを構築する | ORIH</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

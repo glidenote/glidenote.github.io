@@ -1,0 +1,440 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>rubocop+syntasticでRubyのコーディングルールへの準拠チェックを自動化する - Glide Note</title>
+  <meta property="og:title" content="rubocop+syntasticでRubyのコーディングルールへの準拠チェックを自動化する - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="sensuのプラグイン書いてて、sensu/sensu-community-pluginsを見ていたら
+rubocopでlintかけろ的な事が書いて、導入して使ってみたら便利だったのでメモ。 rubocopとは bbatsov/rubocop rubocopとは、Rubyのコードがruby- &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2014/05/28/vim-rubocop/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2014/05/28/vim-rubocop">
+<meta name="twitter:title" content="rubocop+syntasticでRubyのコーディングルールへの準拠チェックを自動化する">
+<meta name="twitter:description" content="sensuのプラグイン書いてて、sensu/sensu-community-pluginsを見ていたら
+rubocopでlintかけろ的な事が書いて、導入して使ってみたら便利だったのでメモ。 rubocopとは bbatsov/rubocop rubocopとは、Rubyのコードがruby-style-guide(日本語訳)に
+沿って書かれているか解析してくれるツール &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">rubocop+syntasticでRubyのコーディングルールへの準拠チェックを自動化する</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-28T10:00:00+09:00" pubdate data-updated="true">2014年05月28日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>sensuのプラグイン書いてて、<a href="https://github.com/sensu/sensu-community-plugins#rubocop-linting">sensu/sensu-community-plugins</a>を見ていたら
+<a href="https://github.com/bbatsov/rubocop">rubocop</a>でlintかけろ的な事が書いて、導入して使ってみたら便利だったのでメモ。</p>
+
+<h2 id="rubocop">rubocopとは</h2>
+
+<ul>
+  <li><a href="https://github.com/bbatsov/rubocop">bbatsov/rubocop</a></li>
+</ul>
+
+<p>rubocopとは、Rubyのコードが<a href="https://github.com/fortissimo1997/ruby-style-guide/blob/japanese/README.ja.md">ruby-style-guide(日本語訳)</a>に
+沿って書かれているか解析してくれるツール</p>
+
+<h2 id="rubocop-1">rubocopのインストールと使い方</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">gem install rubocop
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>でコマンドラインから利用する場合は下記みたいな感じ。</p>
+
+<p>単一ファイルに対して実行する場合</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">rubocop hoge.rb
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>配下のファイルに一斉に実行する場合</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">cd</span> /path/to/ruby-project/
+</span><span class="line">rubocop
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><a href="https://github.com/bbatsov/ruby-style-guide">bbatsov/ruby-style-guide</a>に準拠してない、
+記載方法がある場合は指摘される。
+自分で<code>.rubocop.yml</code>とかを用意することで、自分たち用のコーディングルールに変更も出来る。</p>
+
+<h2 id="section">既存プロジェクトへの適用</h2>
+
+<p>新規に使い始めるときは楽なんですが、既存のプロジェクトやコードに<code>rubocop</code>を走らせると恐らく大量に違反が検出されて
+それを直していくのは結構ツラい。
+なのでとりあえずは下記みたいな感じで現段階での違反をとりあえず無視する。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">cd</span> /path/to/ruby-project/
+</span><span class="line">rubocop --auto-gen-config
+</span><span class="line"><span class="nb">echo</span> <span class="s1">&#39;inherit_from: rubocop-todo.yml&#39;</span> &gt;&gt; .rubocop.yml
+</span><span class="line">rubocop
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>それで、チェックしたいルールを1個ずつ下記のように<code>.rubocop.yml</code>に追加</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">LineLength:
+</span><span class="line">  Max: 80
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>再度<code>rubocop</code>を実行すると、追加したルールに違反しているものだけ表示されるので、
+少しずつ直していける。</p>
+
+<p>また一部ルールは<code>-a</code>もしくは<code>--auto-correct</code>を利用することで自動的に変換も出来る。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">rubocop -a
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="vim">Vimからの利用</h2>
+
+<p>Vimから使えると便利そうと思っていたら、<a href="https://github.com/scrooloose/syntastic">syntastic</a>が
+rubocopをサポートしているので下記のように設定するだけで、簡単に利用出来た。</p>
+
+<p>私は<a href="https://github.com/Shougo/neobundle.vim">neobundle.vim</a>を使っているので下記のような感じで記載して<code>:NeoBundleInstall</code></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">NeoBundle <span class="s1">&#39;scrooloose/syntastic&#39;</span>
+</span><span class="line"><span class="nb">let </span>g:syntastic_ruby_checkers <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;rubocop&#39;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ファイルを保存したタイミングでsyntastic経由で<code>rubocop</code>が実行され、自動でチェックが走ってくれる。
+指摘内容は<code>:Errors</code>とか実行すると確認が出来る。</p>
+
+<p>vimだけじゃなくzshからも利用出来ると便利そうなので、zsh-completionsにPRを出しておいた。</p>
+
+<ul>
+  <li><a href="https://github.com/zsh-users/zsh-completions/pull/232">add rubocop completion by glidenote · Pull Request #232 · zsh-users/zsh-completions</a></li>
+</ul>
+
+<p>今まで、<a href="https://github.com/fortissimo1997/ruby-style-guide/blob/japanese/README.ja.md">ruby-style-guide(日本語訳)</a>に沿った書き方を
+してなかったので、使ってるとイライラさせられる部分もあるけど、矯正されていく感があってなかなか良い。</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/yaotti/items/4f69a145a22f9c8f8333">Ruby - Rubocopを使ってコーディングルールへの準拠チェックを自動化 - Qiita</a></li>
+  <li><a href="http://qiita.com/yuku_t/items/0ac33cea18e10f14e185">Rubocopをsyntasticを使ってVimから自動実行する - Qiita</a></li>
+</ul>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-28T10:00:00+09:00" pubdate data-updated="true">2014年05月28日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/rubocop/'>rubocop</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/vim/'>vim</a>, <a class='category' href='/blog/categories/zsh/'>zsh</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2014/05/28/vim-rubocop/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="rubocop+syntasticでRubyのコーディングルールへの準拠チェックを自動化する - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=rubocop+syntasticでRubyのコーディングルールへの準拠チェックを自動化する "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2012/06/26/vim-zshenv-rbenv/">VimからrbenvのRubyが呼び出せない問題が発生してハマった</a></li>
+
+  <li><a href="/blog/2014/05/29/bundle-open-with-vimfiler/">bundle openでVimfilerやCtrlP.vimやFuzzyFinderを起動する</a></li>
+
+  <li><a href="/blog/2012/05/16/vim-ruby-homebrew/">homebrewを利用してrubyオプションが有効なvimを導入</a></li>
+
+  <li><a href="/blog/2013/02/28/the-silver-searcher-better-than-ack/">ackを捨てて、より高速なag(The Silver Searcher)に切り替えた</a></li>
+
+  <li><a href="/blog/2014/02/26/vagrant-dotenv/">dotenvを利用して環境ごとでVagrantfileの設定値を変更してみる</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/05/22/sensu-casual-freenode/" title="Previous Post: ゆるふわなかんじで Sensu の話題をするためのIRCチャンネルをつくってみた">&laquo; ゆるふわなかんじで Sensu の話題をするためのIRCチャンネルをつくってみた</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/05/29/bundle-open-with-vimfiler/" title="next Post: bundle openでVimfilerやCtrlP.vimやFuzzyFinderを起動する">bundle openでVimfilerやCtrlP.vimやFuzzyFinderを起動する &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2014/05/28/vim-rubocop/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2014/05/28/vim-rubocop/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

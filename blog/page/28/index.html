@@ -1,0 +1,1050 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="glidenote/memolist.vim memolist.vimが@mattn_jpさん、@heavenshellさん、
+@banyanさんにより、不具合修正と機能追加が毎日されており感謝感謝です。 追加された機能 起動の高速化 メモタイトルが空の場合は、日付をタイトルに &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/28/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/28">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="glidenote/memolist.vim memolist.vimが@mattn_jpさん、@heavenshellさん、
+@banyanさんにより、不具合修正と機能追加が毎日されており感謝感謝です。 追加された機能 起動の高速化 メモタイトルが空の場合は、日付をタイトルに 外部ファイルをメモテンプレートとして指定可。let g:memolist_template_dir_path = " &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/31/update-memolist.vim/">memolist.vimの機能追加と仕様変更のお知らせ(Ver 0.0.5)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-31T01:36:00+09:00" pubdate data-updated="true">2012年03月31日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+  <li><a href="https://github.com/glidenote/memolist.vim">glidenote/memolist.vim</a></li>
+</ul>
+
+<p>memolist.vimが<a href="https://twitter.com/#!/mattn_jp">@mattn_jp</a>さん、<a href="https://twitter.com/#!/heavenshell">@heavenshell</a>さん、
+<a href="https://twitter.com/#!/banyan">@banyan</a>さんにより、<a href="https://github.com/glidenote/memolist.vim/commits/master/">不具合修正と機能追加</a>が毎日されており感謝感謝です。 </p>
+
+<h2 id="section">追加された機能</h2>
+
+<ul>
+  <li>起動の高速化</li>
+  <li>メモタイトルが空の場合は、日付をタイトルに</li>
+  <li>外部ファイルをメモテンプレートとして指定可。<code>let g:memolist_template_dir_path = "path/to/dir"</code>をして、指定したディレクトリの中にテンプレートとなるファイルを配置。詳しくは<code>:help memolist</code>を参照ください。</li>
+  <li>vimfiler連携機能。 <code>let g:memolist_vimfiler = 1</code>でnetrwから<a href="https://github.com/Shougo/vimfiler">vimfiler</a>への切り替え可</li>
+  <li>Windows対応</li>
+</ul>
+
+<h2 id="section-1">仕様変更</h2>
+
+<p>当初機能の有効/無効はtrue/falseでしていたんですが、下記のように</p>
+
+<blockquote class="twitter-tweet tw-align-center" data-in-reply-to="185414251169591296" lang="ja"><p>@<a href="https://twitter.com/heavenshell">heavenshell</a> @<a href="https://twitter.com/glidenote">glidenote</a> 0/1が良いです。</p>&mdash; mattnさん (@mattn_jp) <a href="https://twitter.com/mattn_jp/status/185417286994243585" data-datetime="2012-03-29T17:25:00+00:00">3月 29, 2012</a></blockquote>
+<script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>とのことなので、今後のメンテナンスのためVim Scriptの作法に従いブール値が0/1に仕様を変更しました。
+そのため<code>.vimrc</code>にtrue/falseを指定するオプションを記載している場合は修正が必要になります。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">let g:memolist_prompt_tags = 1
+</span><span class="line">let g:memolist_prompt_categories = 1
+</span><span class="line">let g:memolist_qfixgrep = 1
+</span><span class="line">let g:memolist_vimfiler = 1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>自分が使うために作成したプラグインの反響が大きく、まさかこんな事になろうとは。 
+本当にありがたい話です。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/29/install-ut-vpn-server-on-centos6/">さくらVPS 2G(CentOS6)にUT-VPNを導入(サーバ側設定編)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-29T17:43:00+09:00" pubdate data-updated="true">2012年03月29日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>さくらVPSを2Gにプラン移行して、<a href="http://utvpn.tsukuba.ac.jp/ja/">UT-VPN</a>も
+移行したんですが、再セットアップが結構面倒だったのでメモ。</p>
+
+<h2 id="ut-vpn">UT-VPNの導入</h2>
+
+<h3 id="section">必要パッケージの導入</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">yum -y install readline-devel ncurses-devel openssl-devel</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="centos6">CentOS6で利用出来るようにする</h3>
+
+<p>OpenSSLのバージョンの問題でCentOS6もFedora15と同様にすんなり入らなかったので、
+<a href="http://www.glidenote.com/archives/1305">昔書いた自分のブログの記事</a>を参考に作業</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir ~/src
+</span><span class="line">cd ~/src
+</span><span class="line">wget "http://utvpn.tsukuba.ac.jp/files/utvpn/v1.01-7101-public-2010.06.27/Source%20Code%20(Win32%20and%20Unix)/utvpn-src-unix-v101-7101-public-2010.06.27.tar.gz"
+</span><span class="line">tar zxvf utvpn-src-unix-v101-7101-public-2010.06.27.tar.gz
+</span><span class="line">cd utvpn-unix-v101-7101-public
+</span><span class="line">cp /usr/include/openssl/* ~/src/utvpn-unix-v101-7101-public/src/Mayaqua/openssl/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="configure">configure</h3>
+
+<p><code>1: Linux</code>、<code>2: 64-bit</code>を選択</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">./configure
+</span><span class="line">-------------------------------------------------------------
+</span><span class="line">SoftEther UT-VPN for Unix
+</span><span class="line">
+</span><span class="line">Copyright (C) 2004-2010 SoftEther Corporation.
+</span><span class="line">Copyright (C) 2004-2010 University of Tsukuba, Japan.
+</span><span class="line">Copyright (C) 2003-2010 Daiyuu Nobori. All Rights Reserved.
+</span><span class="line">
+</span><span class="line">This program is free software; you can redistribute it and/or
+</span><span class="line">modify it under the terms of the GNU General Public License
+</span><span class="line">version 2 as published by the Free Software Foundation.
+</span><span class="line">-------------------------------------------------------------
+</span><span class="line">
+</span><span class="line">Please select your Operating System below:
+</span><span class="line"> 1: Linux
+</span><span class="line"> 2: FreeBSD
+</span><span class="line"> 3: Solaris
+</span><span class="line"> 4: Mac OS X
+</span><span class="line">
+</span><span class="line">Which is your operating system (1-4):
+</span><span class="line">1
+</span><span class="line">
+</span><span class="line">Please select your CPU Bits below:
+</span><span class="line"> 1: 32-bit
+</span><span class="line"> 2: 64-bit
+</span><span class="line">
+</span><span class="line">Which is the bits of your CPU (1-2):
+</span><span class="line">2
+</span><span class="line">
+</span><span class="line">Makefile is generated. Please execute 'make' to build UT-VPN.</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="make--make-install">make &amp;&amp; make install</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">make
+</span><span class="line">make install
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">--------------------------------------------------------------------
+</span><span class="line">Installation completed successfully.
+</span><span class="line">
+</span><span class="line">Please execute 'utvpnserver start' to run UT-VPN Server Background Service.
+</span><span class="line">Or please execute 'utvpnclient start' to run UT-VPN Client Background Service.
+</span><span class="line">And please execute 'utvpncmd' to run UT-VPN Command-Line Utility to configure UT-Server or UT-VPN Client.
+</span><span class="line">--------------------------------------------------------------------</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="etcrcdinitdutvpnserver-">起動スクリプトの用意 (/etc/rc.d/init.d/utvpnserver) と起動</h3>
+
+<div><script src="https://gist.github.com/2235174.js"></script>
+<noscript><pre><code>#!/bin/sh
+# chkconfig: 2345 99 01
+# description: UT-VPN Server
+DAEMON=/usr/bin/utvpnserver
+LOCK=/var/lock/subsys/utvpnserver
+
+test -x $DAEMON || exit 0
+
+case &quot;$1&quot; in
+start)
+    $DAEMON start
+    touch $LOCK
+    ;;
+stop)
+    $DAEMON stop
+    rm $LOCK
+    ;;
+restart)
+    $DAEMON stop
+    sleep 3
+    $DAEMON start
+    ;;
+*)
+    echo &quot;Usage: $0 {start|stop|restart}&quot;
+    exit 1
+esac
+exit 0</code></pre></noscript></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">chmod +x /etc/rc.d/init.d/utvpnserver
+</span><span class="line">chkconfig --add utvpnserver
+</span><span class="line">chkconfig utvpnserver on
+</span><span class="line">service utpvnserver start</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>落ちると困るのでsupervisordで管理した方が良いですが、ちゃんと移行出来てから対応します。</p>
+
+<h2 id="ut-vpn-1">UT-VPNサーバ側の初期設定</h2>
+
+<p>私は全部CUIで設定をしていますが、windows環境であれば、下記のサイトを参考にGUIを使った方が簡単かもしれません。<br />
+<a href="http://oku2006.blog43.fc2.com/blog-entry-1598.html">VPN の素人が UT-VPN を使ってみた K.O.K.Blog</a></p>
+
+<h3 id="section-1">管理ユーティリティに接続</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">utvpncmd
+</span><span class="line">
+</span><span class="line">utvpncmd コマンド - SoftEther UT-VPN コマンドライン管理ユーティリティ
+</span><span class="line">SoftEther UT-VPN コマンドライン管理ユーティリティ (utvpncmd コマンド)
+</span><span class="line">Version 1.01 Build 7101   (Japanese)
+</span><span class="line">Compiled 2010/06/27 18:40:28 by yagi at pc25
+</span><span class="line">Copyright (C) 2004-2010 SoftEther Corporation.
+</span><span class="line">Copyright (C) 2004-2010 University of Tsukuba, Japan.
+</span><span class="line">Copyright (C) 2003-2010 Daiyuu Nobori.
+</span><span class="line">All Rights Reserved.
+</span><span class="line">
+</span><span class="line">utvpncmd プログラムを使って以下のことができます。
+</span><span class="line">
+</span><span class="line">1. VPN Server または VPN Bridge の管理
+</span><span class="line">2. VPN Client の管理
+</span><span class="line">3. VPN Tools コマンドの使用 (証明書作成や通信速度測定)
+</span><span class="line">
+</span><span class="line">1 - 3 を選択: 1
+</span><span class="line">
+</span><span class="line">接続先の VPN Server または VPN Bridge が動作しているコンピュータの IP アドレスまたはホスト名を指定してください。
+</span><span class="line">'ホスト名:ポート番号' の形式で指定すると、ポート番号も指定できます。
+</span><span class="line">(ポート番号を指定しない場合は 443 が使用されます。)
+</span><span class="line">何も入力せずに Enter を押すと、localhost (このコンピュータ) のポート 443 に接続します。
+</span><span class="line">接続先のホスト名または IP アドレス:localhost:5555
+</span><span class="line">
+</span><span class="line">サーバーに仮想 HUB 管理モードで接続する場合は、仮想 HUB 名を入力してください。
+</span><span class="line">サーバー管理モードで接続する場合は、何も入力せずに Enter を押してください。
+</span><span class="line">接続先の仮想 HUB 名を入力:
+</span><span class="line">VPN Server "localhost" (ポート 5555) に接続しました。
+</span><span class="line">
+</span><span class="line">VPN Server 全体の管理権限があります。
+</span><span class="line">
+</span><span class="line">VPN Server&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-2">管理パスワードの設定</h3>
+
+<p>UT-VPN Serverの管理者用のパスワードを設定します。これをしないとサーバにアクセス出来る人が誰でも設定変更出来てしまいます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">VPN Server&gt;ServerPasswordSet
+</span><span class="line">ServerPasswordSet コマンド - VPN Server の管理者パスワードの設定
+</span><span class="line">パスワードを入力してください。キャンセルするには Ctrl+D キーを押してください。
+</span><span class="line">
+</span><span class="line">パスワード: ********************
+</span><span class="line">確認入力  : ********************
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">コマンドは正常に終了しました。</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-3">不要ポートを閉じる</h3>
+
+<p>UT-VPN serverを起動すると管理用443,992,5555のポートが開きます。どのポートでも利用できますが、今回5555以外の不要ポートは閉じます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">VPN Server&gt;ListenerList
+</span><span class="line">ListenerList コマンド - TCP リスナー一覧の取得
+</span><span class="line">ポート番号|状態
+</span><span class="line">----------+------
+</span><span class="line">TCP 443   |動作中
+</span><span class="line">TCP 992   |動作中
+</span><span class="line">TCP 5555  |動作中
+</span><span class="line">コマンドは正常に終了しました。
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">VPN Server&gt;ListenerDelete
+</span><span class="line">ListenerDelete コマンド - TCP リスナーの削除
+</span><span class="line">削除する TCP/IP リスナーのポート番号: 443
+</span><span class="line">
+</span><span class="line">コマンドは正常に終了しました。
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">VPN Server&gt;ListenerDelete
+</span><span class="line">ListenerDelete コマンド - TCP リスナーの削除
+</span><span class="line">削除する TCP/IP リスナーのポート番号: 992
+</span><span class="line">
+</span><span class="line">コマンドは正常に終了しました。
+</span><span class="line">
+</span><span class="line">VPN Server&gt;ListenerList
+</span><span class="line">ListenerList コマンド - TCP リスナー一覧の取得
+</span><span class="line">ポート番号|状態
+</span><span class="line">----------+------
+</span><span class="line">TCP 5555  |動作中
+</span><span class="line">コマンドは正常に終了しました。</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="hub">仮想HUBの設定と接続ユーザの作成</h3>
+
+<p>導入直後からDEFAULTという仮想HUBがあるので、それを利用します。サービスで本格運用する場合は新しい仮想HUBを作成しましょう</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">VPN Server&gt;Hub DEFAULT
+</span><span class="line">
+</span><span class="line">VPN Server/DEFAULT&gt;UserCreate
+</span><span class="line">UserCreate コマンド - ユーザーの作成
+</span><span class="line">ユーザー名: glidenote
+</span><span class="line">
+</span><span class="line">参加するグループ名:
+</span><span class="line">
+</span><span class="line">ユーザーの本名: 
+</span><span class="line">
+</span><span class="line">ユーザーの説明: 
+</span><span class="line">
+</span><span class="line">コマンドは正常に終了しました。</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-4">接続ユーザのパスワード設定</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">VPN Server/DEFAULT&gt;UserPasswordSet
+</span><span class="line">UserPasswordSet コマンド - ユーザーの認証方法をパスワード認証に設定しパスワードを設定
+</span><span class="line">ユーザー名: glidenote
+</span><span class="line">
+</span><span class="line">パスワードを入力してください。キャンセルするには Ctrl+D キーを押してください。
+</span><span class="line">
+</span><span class="line">パスワード: ****************
+</span><span class="line">確認入力  : ****************</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ここで設定したパスワードは、UT-VPN Clientの接続設定時に利用します。</p>
+
+<h3 id="section-5">作成した接続ユーザの確認</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">VPN Server/DEFAULT&gt;UserList
+</span><span class="line">UserList コマンド - ユーザー一覧の取得
+</span><span class="line">項目            |値
+</span><span class="line">----------------+--------------
+</span><span class="line">ユーザー名      |glidenote
+</span><span class="line">本名            |
+</span><span class="line">所属グループ    |
+</span><span class="line">説明            |
+</span><span class="line">認証方法        |パスワード認証
+</span><span class="line">ログイン回数    |0
+</span><span class="line">最終ログイン日時|(なし)
+</span><span class="line">コマンドは正常に終了しました。</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>これで、サーバ側の設定は完了。クライアント側の設定は別エントリーで書きます。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/26/memolist-fuzyfinder/">FuzzyFinderでmemolist.vimが進化した！</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-26T14:43:00+09:00" pubdate data-updated="true">2012年03月26日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>同僚の<a href="https://twitter.com/#!/lamanotrama">@lamanotrama</a>さんから
+<a href="https://github.com/vim-scripts/FuzzyFinder">FuzzyFinder</a>を利用すると
+<a href="https://github.com/glidenote/memolist.vim">memolist.vim</a>がさらに便利になると
+教えてもらったのでやってみた。</p>
+
+<h2 id="fuzzyfinder">FuzzyFinderの導入</h2>
+
+<p>私はVundleを利用しているので、下記のような感じで記載。</p>
+
+<div><script src="https://gist.github.com/2202781.js"></script>
+<noscript><pre><code>Bundle &#39;L9&#39;
+Bundle &#39;FuzzyFinder&#39;
+nmap mf  :FufFile &lt;C-r&gt;=expand(g:memolist_path.&quot;/&quot;)&lt;CR&gt;&lt;CR&gt;</code></pre></noscript></div>
+
+<p><code>mf</code>と入力すると下記のような感じで、ファイル名補完が出来るようになりました。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/memolist5.png" alt="" /></p>
+
+<p>ス、スゲー！！<br />
+@lamanotrama++</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/26/memolist.vim/">シンプルなメモ管理用プラグインmemolist.vimを作った</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-26T09:00:00+09:00" pubdate data-updated="true">2012年03月26日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://octopress.org/">Octopress</a>の記事を書くときに<a href="https://blog.glidenote.com/blog/2011/12/23/modify-jekyll.vim-for-octopress/">カスタムしたjekyll.vim</a>を
+利用していて、「新規作成」と「記事の管理」が非常に便利なので、
+同じようなことが出来るメモ用プラグインを作ってみました。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/memolist.vim">glidenote/memolist.vim</a></li>
+</ul>
+
+<h2 id="memolistvim">memolist.vimの概要</h2>
+
+<ul>
+  <li>作成。決まったフォーマット(デフォルトだとmarkdown)のメモを瞬時に作成出来る(:MemoNew)</li>
+  <li>管理。作成したメモの一覧表示が瞬時にできる(:MemoList)</li>
+  <li>検索。メモの検索が瞬時に出来る(:MemoGrep)</li>
+</ul>
+
+<p>どのディレクトリにいても、すぐにメモが呼び出せるので、作業メモや、議事録などを
+残すのに便利です。<code>&lt;日付&gt;-＜記事タイトル&gt;</code>という形でファイルが生成されるので、
+ファイル名から<strong>いつ作成した</strong>か、<strong>何の内容</strong>かも瞬時に判断出来ます。</p>
+
+<h2 id="section">導入方法</h2>
+
+<p>導入には<a href="https://github.com/gmarik/vundle">vundle</a>か、<a href="https://github.com/Shougo/neobundle.vim">NeoBundle</a>
+を利用すると楽です。</p>
+
+<p>vundleの場合は、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Bundle 'glidenote/memolist.vim'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>NeoBundleの場合は、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">NeoBundle 'glidenote/memolist.vim'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>を.vimrcに記載。</p>
+
+<h2 id="vimrc">.vimrcの設定</h2>
+
+<p>基本的には何も設定がいりませんが、<code>.vimrc</code>に下記マッピングを記載しておくと、
+<code>\mn</code>と入力すると瞬時に新規ファイルの作成が出来ます。<code>&lt;Leader&gt;</code>はデフォルトだと
+キーボードの￥マークになっていると思います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">map &lt;Leader&gt;mn  :MemoNew&lt;CR&gt;
+</span><span class="line">map &lt;Leader&gt;ml  :MemoList&lt;CR&gt;
+</span><span class="line">map &lt;Leader&gt;mg  :MemoGrep&lt;CR&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>memolist.vimではデフォルトで<code>$HOME/memo</code>を利用するため
+別のディレクトリを利用したい場合は、下記のようにmemo用ディレクトリの指定も出来ます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">let g:memolist_path = "path/to/dir"</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>その他に下記のようなオプションがあるので、用途によって変更が可能です。</p>
+
+<p><strong>2012年3月31日 テンプレート機能の追加とブール値をtrue/falseから0/1に仕様変更しました</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">let g:memolist_memo_suffix = "txt"
+</span><span class="line">let g:memolist_memo_date = "%Y-%m-%d %H:%M"
+</span><span class="line">let g:memolist_memo_date = "epoch"
+</span><span class="line">let g:memolist_memo_date = "%D %T"
+</span><span class="line">let g:memolist_prompt_tags = 1
+</span><span class="line">let g:memolist_prompt_categories = 1
+</span><span class="line">let g:memolist_qfixgrep = 1
+</span><span class="line">let g:memolist_vimfiler = 1
+</span><span class="line">let g:memolist_template_dir_path = "path/to/dir"</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>検索には<a href="https://github.com/fuenor/qfixgrep">qfixgrep</a>を導入し、併用すると便利です。
+また私の好みでデフォルトがmarkdwon形式のファイルになっていますが<code>memolist_memo_suffix</code>を
+変更して、拡張子を好きなものに変更可能です。</p>
+
+<h2 id="section-1">使い方</h2>
+
+<h3 id="memonew">メモの作成 (:MemoNew)</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">:MemoNew</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>入力したメモのタイトル名がそのままファイル名にも利用されます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/memolist1.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/memolist2.png" alt="" /></p>
+
+<h3 id="memolist">メモの一覧表示 (:MemoList)</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">:MemoList</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>netrwを呼び出し、メモ一覧の表示</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/memolist3.png" alt="" /></p>
+
+<h3 id="memogrep">メモの検索 (:MemoGrep)</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">:MemoGrep</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>qfixgrepを利用した際の検索結果。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/memolist4.png" alt="" /></p>
+
+<p><a href="https://github.com/fuenor/qfixgrep">qfixgrep</a>を導入している場合は、
+下記を.vimrcに追記して、デフォルトの<code>vimgrep</code>から<code>qfixgrep</code>に切り替え可能です。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">let g:memolist_qfixgrep = 1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>メモ用のvimプラグインというと<a href="https://github.com/fuenor/qfixhowm">qfixhowm</a>が
+定番でありますが、Vimプラグインの作り方を覚えたかったので、
+普段自分がよく使う機能だけを実装して作成してみました。
+デフォルトのファイル形式をmarkdownにしたのは
+あとからいろんな形式に変換しやすいのと、箇条書きに適しているので。</p>
+
+<p>ちなみに私は下記を.vimrcに記載して利用してます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Bundle 'fuenor/qfixgrep.git'
+</span><span class="line">Bundle 'glidenote/memolist.vim'
+</span><span class="line">let g:memolist_qfixgrep = 1
+</span><span class="line">map &lt;Leader&gt;ml  :MemoList&lt;CR&gt;
+</span><span class="line">map &lt;Leader&gt;mn  :MemoNew&lt;CR&gt;
+</span><span class="line">map &lt;Leader&gt;mg  :MemoGrep&lt;CR&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>バグや要望などありましたら<a href="https://twitter.com/#!/glidenote">@glidenote</a>かgithubのissueに連絡頂ければと思います。
+MacとLinuxでは動作確認済みですが、<s>普段利用せず検証環境の無いWindowsは&#8230;</s><br />
+<strong>2012年3月31日 windows環境でも動作するようになっています</strong></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/23/automation/">エンジニアのための時間管理術、自動化に関するまとめ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-23T00:08:00+09:00" pubdate data-updated="true">2012年03月23日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4873113075/glidenote-22/ref=nosim/" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51jWtxU0sAL._SL160_.jpg" alt="エンジニアのための時間管理術" align="right" /></a></p>
+
+<p>2006年の発売当時に紙書籍で購入し、最近PDFで買い直してKindleに突っ込んでいた
+<a href="http://www.amazon.co.jp/exec/obidos/ASIN/4873113075/glidenote-22/ref=nosim/">エンジニアのための時間管理術</a>を
+読み直していて、自動化について記載されていたので自戒をこめてまとめておく。<br />
+古い本ですが、エンジニア(特にインフラエンジニア)の時間管理術に関しては今でもこれが一番かと思います。</p>
+
+<p><br clear="all" /></p>
+
+<h2 id="section">自動化の目的</h2>
+
+<ul>
+  <li>自分の仕事を減らす。作業時間の短縮や勝手に処理が実行される。 </li>
+  <li>他の人に作業を委任する。委任出来るようにする。</li>
+</ul>
+
+<h2 id="section-1">自動化すべきものと自動化すべきでないもの</h2>
+
+<ul>
+  <li>一度だけ行う単純な作業は<strong>自動化すべきでない</strong>。(自動化することのほうが時間がかかる)</li>
+  <li>一度だけ行う難しい作業は<strong>自動化すべき</strong>。(作業の記録を残すことができる。再びその作業に出会うときに役に立つ。一度あったことは再びあることが多い)</li>
+  <li>頻繁に行う単純な作業は<strong>自動化すべき</strong>。(自動化の効果が最も高い。自動化に投資した時間はすぐに報われる)</li>
+  <li>頻繁に行う難しい作業は<strong>自動化すべきでない</strong>。（無理をして行き詰まる作業が含まれるため、問題解決の時間と資金を補充すべき)</li>
+</ul>
+
+<p>まとめるの下記のようになる。(本書から図引用)</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/automation.png" alt="自動化" /></p>
+
+<h2 id="section-2">自動化によってもたらされるメリット</h2>
+
+<ul>
+  <li>再現性(何かを何度でも一貫した方法で行える)</li>
+  <li>自動化によって、めったに行わない複雑な作業を覚えておかずに済む(本書の例ではMacのhdiutilコマンド)</li>
+  <li>スケーラビリティ(サーバが10台だろうが10000台だろうが同じ手続きを利用出来る)</li>
+  <li>ミスの可能性を排除</li>
+</ul>
+
+<h2 id="section-3">自動化へのステップ</h2>
+
+<ol>
+  <li>手動で行う(すべての手順を洗い出し、wikiにまとめたり、入力したコマンドを記録しておく)</li>
+  <li>各手順をコードにする(手順をコマンドラインで実行出来るものや簡単なプログラムで実行できるものに変換。動作検証もここで行う)</li>
+  <li>手順を1つにまとめる(各手順をまとめて1つの大きなスクリプトにまとめる。1つずつの手順をテストをしながらスクリプトを結合していく)</li>
+  <li>全体をテストする(上記手順で作成していれば、一発でうまくいくはず)</li>
+</ol>
+
+<p>2006年に発売された本なので、makeを利用した自動化が紹介されているんですが、
+今はrubyのRakeを使ったりして自動化するのがいいのかなーと。</p>
+
+<p>久々に読み返すと、普段実践しているつもりでも、
+全然出来て無いなーと思うことと新しい発見もあったりして良いですね。
+日頃何となくやっている自動化への手順と意識を見直そうと思いました。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/29/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/27/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: mysql | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/mysql/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL Casual Talks Vol.3でLTをさせて頂きました]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/20/mysql-casucal-vol3/"/>
+    <updated>2012-04-20T08:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/20/mysql-casucal-vol3</id>
+    <content type="html"><![CDATA[<p><a href="http://atnd.org/events/26373">MySQL Casual Talks Vol.3</a>でLTをさせて頂きました。<br />
+登壇の機会を与えてくれた主催の<a href="https://twitter.com/#!/myfinder">@myfinder</a>さん、
+会場を提供していただいた日本オラクルさん、運営に携わった方々ありがとうございました！</p>
+
+<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="presentation_frame_4f9008a649bc250022016265" src="https://blog.glidenote.com//speakerdeck.com/embed/4f9008a649bc250022016265" width="700" height="601"></iframe>
+
+<p><br clear="all" /></p>
+
+<p>以前blogに書いた内容に、実際の状況などを加えCacualに話させて頂きました。<br />
+詳しい内容は下記エントリをご覧ください</p>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2011/12/01/watch-mysql-replication-error/">logmonとMaatkitでMySQLレプリケーションエラーから自動復旧 - Glide Note - グライドノート</a></li>
+  <li><a href="https://blog.glidenote.com/blog/2011/12/02/logmon-with-supervisord/">ログファイル監視スクリプトlogmonをsupervisordで管理 - Glide Note - グライドノート</a></li>
+</ul>
+
+<p>あと下記のようなエントリを書いておいて、何事も無かったかのようにしれっとkeynoteでCasualにLT。</p>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2012/04/04/presentation-2012/">2012年のプレゼンはgithub pages+markdown2impressで決まり!! - Glide Note - グライドノート</a></li>
+</ul>
+
+<p>私が運悪く担当サービスのメンテ日と重なってしまい、<a href="http://atnd.org/events/28056">懇親会</a>に出れなくて残念でしたが、
+<a href="https://twitter.com/#!/n0ts">@n0ts</a>さん、<a href="https://twitter.com/#!/sugyan">@sugyan</a>さんにお会いできて感激しました。 </p>
+
+<p>またどこかで登壇する機会があれば、そのときは皆様よろしくお願いします。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[logmonとMaatkitでMySQLレプリケーションエラーから自動復旧]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/12/01/watch-mysql-replication-error/"/>
+    <updated>2011-12-01T16:23:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/12/01/watch-mysql-replication-error</id>
+    <content type="html"><![CDATA[<p>昨日からMySQLのレプリケーションで特定のエラーが発生して止まってしまう現象が多発したので、logmonとMaatkitのmk-slave-restartで自動復旧するようにして対応。<br />
+エラー原因の根本解決じゃないですが、エラー検知して対応するまでレプリケーションが止まったままとか、
+深夜にレプリケーションが止まって叩き起こされるよりかは遙かにマシ。</p>
+
+<h2 id="logmon">logmonの導入</h2>
+<p>logmonについては<a href="http://www.glidenote.com/archives/1023">以前ブログ</a>に書いたので、そちらを参照してください。<br />
+とりあえず下記のような感じで導入可能です。</p>
+
+<pre><code>mkdir ~/tmp
+cd ~/tmp
+wget 'http://www-06.ibm.com/jp/domino01/mkt/cnpages7.nsf/ec7481a5abd4ed3149256f9400478d7d/4925722f004efe92492575e200057580/$FILE/logmon_20100411.tgz'
+tar zxvf logmon_20100411.tgz
+cd logmon_20100411
+./setup.sh
+</code></pre>
+
+<h2 id="maatkit">Maatkitの導入</h2>
+
+<p><a href="http://www.maatkit.org/">Maatkit</a>の導入は適当にググってください。私はRPM作成して導入してますが、ソースから入れる場合は下記のような感じです</p>
+
+<pre><code>mkdir ~/tmp
+cd ~/tmp
+wget http://maatkit.googlecode.com/files/maatkit-7284.tar.gz
+tar zxvf maatkit-7284.tar.gz
+cd maatkit-7284
+perl Makefile.PL
+make
+make install clean
+</code></pre>
+
+<h2 id="etclogmonlogmonconf-">/etc/logmon/logmon.conf の設定</h2>
+<p>監視用の設定を用意</p>
+
+<pre><code>:/var/lib/mysql/err.log
+(Error_code: 1100)
+mk-slave-restart -uroot --error-numbers 1100 --verbose -pxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx &gt;&gt; /var/lib/mysql/skip_query.log
+echo "&lt;%%%%&gt;" | mail -s "[db001.hogehoge.com] mk-slave-restart report" "alert@hogehoge.com" -- -f root@hogehoge.com
+</code></pre>
+
+<p>パスワードは/root/.my.cnfか/root/.maatkit.confに書いておけばいいようですが、念のため設定。
+mk-slave-restartが発動した際にはメールも発砲しておきます。 </p>
+
+<p>やっていることは</p>
+
+<ul>
+  <li>mysqlのエラーログ /var/lib/mysql/err.log を監視</li>
+  <li>[Error_code: 1100]という文字列を条件に指定</li>
+  <li>条件にマッチした場合は1100のエラーだけmk-slave-restartでskipしてalert@hogehoge.com宛てにメール発砲</li>
+  <li>skipしたクエリは/var/lib/mysql/skip_query.logに記録</li>
+</ul>
+
+<p>という感じです。実運用ではメールだけでなく社内IRCにも通知するようにもして、リアルタイムで検知出来るようにしてます。</p>
+
+<h2 id="section">構文のチェック</h2>
+
+<pre><code>/etc/rc.d/init.d/logmon check
+</code></pre>
+
+<h2 id="logmon-1">logmonの起動</h2>
+
+<pre><code>/etc/rc.d/init.d/logmon start
+</code></pre>
+
+<p>これでレプリケーションが止まっても自動復旧するようになりました。実際はlogmonをSupervisordで管理してるんですが、長くなるんで別の機会にまとめます。<br />
+エラー番号ごとで実行する処理をかえておけば、他のエラーでも自動復旧可能ですが、あんまりskipしてるとDBが壊れるんでご注意を。</p>
+]]></content>
+  </entry>
+  
+</feed>

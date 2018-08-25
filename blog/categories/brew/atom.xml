@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: brew | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/brew/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Homebrewで入れたgit,zshを優先的に利用する]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/04/20/change-command-path-priority/"/>
+    <updated>2014-04-20T10:27:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/04/20/change-command-path-priority</id>
+    <content type="html"><![CDATA[<p>ちょっと前に会社のMacを入れ替えて、Homebrewで最新の<code>git</code>や<code>zsh</code>などを導入したのに
+最初から入っているシステムの<code>git</code>、<code>zsh</code>が優先的に利用されていることに気づいて、
+この設定、数年おきにしていて、いつも忘れるのでメモ。(2回ググったらブログに書く)</p>
+
+<p>呼び出されている<code>git</code>のバージョン確認。(実際にはhub経由でgitを呼び出してました。)</p>
+
+<p><code>sh
+git --version
+git version 1.8.5.2 (Apple Git-48)
+</code></p>
+
+<p>本来利用したいHomebrewでインストールした<code>git</code>のバージョン</p>
+
+<p><code>sh
+/usr/local/bin/git --version
+git version 1.9.2
+</code></p>
+
+<p>下記のように<code>/usr/local/bin</code>が一番上になるように<code>/etc/paths</code>の順番入れ替え。上から優先的に利用されるようになる。</p>
+
+<p><code>
+/usr/local/bin
+/usr/bin
+/bin
+/usr/sbin
+/sbin
+</code></p>
+
+<p><code>exec $SHELL</code>で設定反映。</p>
+
+<p><code>
+git --version
+git version 1.9.2
+</code></p>
+
+<p>ちゃんと意図した動作になった。</p>
+]]></content>
+  </entry>
+  
+</feed>

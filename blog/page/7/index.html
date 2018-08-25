@@ -1,0 +1,689 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="sensuのプラグイン書いてて、sensu/sensu-community-pluginsを見ていたら
+rubocopでlintかけろ的な事が書いて、導入して使ってみたら便利だったのでメモ。 rubocopとは bbatsov/rubocop rubocopとは、Rubyのコードがruby- &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/7/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/7">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="sensuのプラグイン書いてて、sensu/sensu-community-pluginsを見ていたら
+rubocopでlintかけろ的な事が書いて、導入して使ってみたら便利だったのでメモ。 rubocopとは bbatsov/rubocop rubocopとは、Rubyのコードがruby-style-guide(日本語訳)に
+沿って書かれているか解析してくれるツール &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/28/vim-rubocop/">rubocop+syntasticでRubyのコーディングルールへの準拠チェックを自動化する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-28T10:00:00+09:00" pubdate data-updated="true">2014年05月28日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>sensuのプラグイン書いてて、<a href="https://github.com/sensu/sensu-community-plugins#rubocop-linting">sensu/sensu-community-plugins</a>を見ていたら
+<a href="https://github.com/bbatsov/rubocop">rubocop</a>でlintかけろ的な事が書いて、導入して使ってみたら便利だったのでメモ。</p>
+
+<h2 id="rubocop">rubocopとは</h2>
+
+<ul>
+  <li><a href="https://github.com/bbatsov/rubocop">bbatsov/rubocop</a></li>
+</ul>
+
+<p>rubocopとは、Rubyのコードが<a href="https://github.com/fortissimo1997/ruby-style-guide/blob/japanese/README.ja.md">ruby-style-guide(日本語訳)</a>に
+沿って書かれているか解析してくれるツール</p>
+
+<h2 id="rubocop-1">rubocopのインストールと使い方</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">gem install rubocop
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>でコマンドラインから利用する場合は下記みたいな感じ。</p>
+
+<p>単一ファイルに対して実行する場合</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">rubocop hoge.rb
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>配下のファイルに一斉に実行する場合</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">cd</span> /path/to/ruby-project/
+</span><span class="line">rubocop
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><a href="https://github.com/bbatsov/ruby-style-guide">bbatsov/ruby-style-guide</a>に準拠してない、
+記載方法がある場合は指摘される。
+自分で<code>.rubocop.yml</code>とかを用意することで、自分たち用のコーディングルールに変更も出来る。</p>
+
+<h2 id="section">既存プロジェクトへの適用</h2>
+
+<p>新規に使い始めるときは楽なんですが、既存のプロジェクトやコードに<code>rubocop</code>を走らせると恐らく大量に違反が検出されて
+それを直していくのは結構ツラい。
+なのでとりあえずは下記みたいな感じで現段階での違反をとりあえず無視する。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">cd</span> /path/to/ruby-project/
+</span><span class="line">rubocop --auto-gen-config
+</span><span class="line"><span class="nb">echo</span> <span class="s1">&#39;inherit_from: rubocop-todo.yml&#39;</span> &gt;&gt; .rubocop.yml
+</span><span class="line">rubocop
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>それで、チェックしたいルールを1個ずつ下記のように<code>.rubocop.yml</code>に追加</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">LineLength:
+</span><span class="line">  Max: 80
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>再度<code>rubocop</code>を実行すると、追加したルールに違反しているものだけ表示されるので、
+少しずつ直していける。</p>
+
+<p>また一部ルールは<code>-a</code>もしくは<code>--auto-correct</code>を利用することで自動的に変換も出来る。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">rubocop -a
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="vim">Vimからの利用</h2>
+
+<p>Vimから使えると便利そうと思っていたら、<a href="https://github.com/scrooloose/syntastic">syntastic</a>が
+rubocopをサポートしているので下記のように設定するだけで、簡単に利用出来た。</p>
+
+<p>私は<a href="https://github.com/Shougo/neobundle.vim">neobundle.vim</a>を使っているので下記のような感じで記載して<code>:NeoBundleInstall</code></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">NeoBundle <span class="s1">&#39;scrooloose/syntastic&#39;</span>
+</span><span class="line"><span class="nb">let </span>g:syntastic_ruby_checkers <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;rubocop&#39;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ファイルを保存したタイミングでsyntastic経由で<code>rubocop</code>が実行され、自動でチェックが走ってくれる。
+指摘内容は<code>:Errors</code>とか実行すると確認が出来る。</p>
+
+<p>vimだけじゃなくzshからも利用出来ると便利そうなので、zsh-completionsにPRを出しておいた。</p>
+
+<ul>
+  <li><a href="https://github.com/zsh-users/zsh-completions/pull/232">add rubocop completion by glidenote · Pull Request #232 · zsh-users/zsh-completions</a></li>
+</ul>
+
+<p>今まで、<a href="https://github.com/fortissimo1997/ruby-style-guide/blob/japanese/README.ja.md">ruby-style-guide(日本語訳)</a>に沿った書き方を
+してなかったので、使ってるとイライラさせられる部分もあるけど、矯正されていく感があってなかなか良い。</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/yaotti/items/4f69a145a22f9c8f8333">Ruby - Rubocopを使ってコーディングルールへの準拠チェックを自動化 - Qiita</a></li>
+  <li><a href="http://qiita.com/yuku_t/items/0ac33cea18e10f14e185">Rubocopをsyntasticを使ってVimから自動実行する - Qiita</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/22/sensu-casual-freenode/">ゆるふわなかんじで Sensu の話題をするためのIRCチャンネルをつくってみた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-22T10:00:00+09:00" pubdate data-updated="true">2014年05月22日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://sensuapp.org/">Sensu</a>について、ゆるふわなトークが出来るIRCチャンネルを作ってみた。</p>
+
+<p><code>#sensu-casual@freenode</code></p>
+
+<p>まだ誰もいないので<code>ChanServ</code>だけ話をしてる。</p>
+
+<p>たまにカレー情報</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/05/sensu-curry.png" alt="" /></p>
+
+<p>たまに寿司情報</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/05/sensu-sushi.png" alt="" /></p>
+
+<p>がこんな感じで流れるのでSensu使ってないけど、
+カレー情報や寿司情報を入手したい人も入ってくるといいと思います。</p>
+
+<p><a href="https://botbot.me/">BotBot.me</a>に依頼して、<a href="http://wiki.znc.in/ZNC">znc</a>とか使って常駐してなくてもログが追えるよう</p>
+
+<ul>
+  <li><a href="https://botbot.me/freenode/sensu-casual/">https://botbot.me/freenode/sensu-casual/</a></li>
+</ul>
+
+<p>に記録されるようになっているので、便利な感じになってます。</p>
+
+<p><strong>14:18 追記</strong>
+BotBot.meのBotさんが即死して帰ってこないので、ログが追えなくなってます… 。そのうち生き返ると思います。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.64p.org/entry/2013/03/13/195515">ゆるふわなかんじで perl の話題をするためのチャットルームをつくってみた - blog.64p.org</a></li>
+  <li><a href="http://studio3104.hatenablog.com/entry/2013/03/22/164827">ゆるふわなかんじで Chef の話題をするためのIRCチャンネルをつくってみた</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/19/sensu-puppet-sample/">sensu-puppetがよく理解出来るかもしれないsensu-puppet-sampleを作った</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-19T22:00:00+09:00" pubdate data-updated="true">2014年05月19日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="https://raw.github.com/sensu/sensu/master/sensu-logo.png" alt="" /></p>
+
+<p>前に<a href="https://blog.glidenote.com/blog/2013/11/26/sensu/">監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた - Glide Note - グライドノート</a> を書いて、
+さらに半年近く経過し、<strong>約8ヶ月間Sensuを本番環境で運用しているけど、非常に安定していて監視もちゃんと機能していて1回もsensu自体は止まったことはない。</strong></p>
+
+<p>某誌からSensuについて執筆の依頼が来てたんですが、企画が流れてしまったので、
+企画段階で書いたり、作ったりしたものをせっかくなので公開しようと思う。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/sensu-puppet-sample">glidenote/sensu-puppet-sample</a></li>
+</ul>
+
+<p>sensu-puppet-sampleを利用すると下記のような構成が出来上がります。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/05/sensu-puppet-sample0.png" alt="" /></p>
+
+<p>sensu-puppet-sampleではsensu用のマニフェストは1つのファイルで完結してて、
+<code>puppet apply</code>だけで適用出来るようになっているので、</p>
+
+<ul>
+  <li>puppetを使ってない環境への組み込みが簡単</li>
+  <li>すでにpuppet使っている場合は既存puppet環境との共存が簡単</li>
+</ul>
+
+<p>というふうに作ってあります。</p>
+
+<p>社内の開発サーバの死活監視が必要になったときもこれを使ってサクッと構築。</p>
+
+<h2 id="section">はじめに</h2>
+
+<ul>
+  <li>簡単に<a href="http://sensuapp.org/">Sensu</a>を試してみたい人を対象としている</li>
+  <li>Sensu導入にはChef/Puppetの利用が推奨されているため、今回はSensu公式の<a href="https://github.com/sensu/sensu-puppet">sensu-puppet</a>を利用してSensuを導入するが、Puppetにおける前提知識を必要としない</li>
+  <li>sensu-chefと比較して、sensu-puppetは情報が少なく利用の敷居が高いため、利用方法やマニフェストの記載例として用意</li>
+  <li>Puppetの<code>puppet apply</code>コマンドだけを利用する(agent/master構成を取らない) ( refs <a href="http://tatsu-zine.com/books/puppet">入門Puppet - Automate Your Infrastructure - 達人出版会</a>)</li>
+  <li>Puppetモジュールを積極的に活用してPuppetマニフェストが簡潔にする</li>
+  <li>CentOS 6.xでの作業を想定してます</li>
+</ul>
+
+<h2 id="sensu-puppet-sample">sensu-puppet-sampleの利用方法</h2>
+
+<ul>
+  <li><a href="https://github.com/glidenote/sensu-puppet-sample">https://github.com/glidenote/sensu-puppet-sample</a>を参照ください。</li>
+</ul>
+
+<h2 id="sensu-puppet">sensu-puppetに関してのまとめ</h2>
+
+<p><a href="https://github.com/sensu/sensu-puppet">sensu/sensu-puppet</a>もsensuを本番投入前から触っていて、
+9ヶ月くらい運用しているので、ちょっとまとめてみる。</p>
+
+<h3 id="sensu-puppet-1">sensu-puppetを利用するメリット</h3>
+
+<ul>
+  <li>サーバ構築時にpuppetを実行するだけで、構築作業と監視設定が完了して監視もその時点から始まる。</li>
+  <li>sensuの各種設定を、puppetマニフェストを通じて生成、管理出来る。</li>
+  <li>sensu-puppetが、マニフェストからSensuのjson形式の設定ファイル(json形式)を生成してくれるので、Sensuの設定ファイルの記載方法を覚えなくても良い</li>
+  <li>監視設定を追加、変更する場合はpuppetマニフェストを用意して、<code>puppet apply</code>すれば反映される</li>
+</ul>
+
+<h3 id="sensu-puppet-2">sensu-puppetを利用するデメリット</h3>
+
+<ul>
+  <li>sensu-puppet用のマニフェストの書き方をしないといけない</li>
+  <li>ドキュメントがほぼ無いので、変わったことをやろうとするとソースを読まないといけない</li>
+</ul>
+
+<p>sensu-puppetを使ってる人があんまりいないので、参考になれば幸いです。
+Sensuが普及してきたら、特集してくれるようになので、流行ってくれるといいな-</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://inokara.hateblo.jp/entry/2014/01/16/064456">docker + puppet + sensu で構築するセンス香る監視環境（1） - ようへいの日々精進 XP</a></li>
+  <li><a href="http://inokara.hateblo.jp/entry/2014/01/18/170644">docker + puppet + sensu で構築するセンス香る監視環境（2） - ようへいの日々精進 XP</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/15/zsh-bd/">zsh-bdで親ディレクトリへの移動を便利にする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-15T13:20:00+09:00" pubdate data-updated="true">2014年05月15日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+  <li><a href="https://github.com/Tarrasch/zsh-bd">Tarrasch/zsh-bd</a></li>
+</ul>
+
+<p><a href="https://github.com/joelthelion/autojump">autojump</a>とか<a href="https://github.com/rupa/z">z</a>を使ってると
+ディレクトリの移動は大変便利なんですが、深いディレクトリにいて、ちょっと親ディレクトリに移動したいときには適さない。</p>
+
+<p><a href="https://github.com/vigneshwaranr/bd">vigneshwaranr/bd</a>のzsh版である<a href="https://github.com/Tarrasch/zsh-bd">zsh-bd</a>
+を利用するとそこの問題が解決出来る。</p>
+
+<h2 id="section">導入方法</h2>
+
+<p><a href="https://github.com/Tarrasch/zsh-bd">公式README</a>にはantigenとかでの導入方法が書いてあるんですが、
+普通に<a href="https://github.com/Tarrasch/zsh-bd/blob/master/bd.zsh">bd.zsh</a>を持ってきて、読み込めば利用出来る。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">wget https://raw.githubusercontent.com/Tarrasch/zsh-bd/master/bd.zsh
+</span><span class="line"><span class="nb">source </span>bd.zsh
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">使い方</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">bd <span class="o">[</span>tab<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>とかで下記のように動いて、親ディレクトリへの移動が楽になる。</p>
+
+<p><img src="https://github.com/Tarrasch/zsh-bd/raw/master/animation.gif" alt="" /></p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="https://github.com/vigneshwaranr/bd">vigneshwaranr/bd</a></li>
+  <li><a href="https://blog.glidenote.com/blog/2012/02/29/autojump-zsh/">zsh使いなら効率改善のため知っておきたいAUTOJUMP - Glide Note - グライドノート</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/20/change-command-path-priority/">Homebrewで入れたgit,zshを優先的に利用する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-20T10:27:00+09:00" pubdate data-updated="true">2014年04月20日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ちょっと前に会社のMacを入れ替えて、Homebrewで最新の<code>git</code>や<code>zsh</code>などを導入したのに
+最初から入っているシステムの<code>git</code>、<code>zsh</code>が優先的に利用されていることに気づいて、
+この設定、数年おきにしていて、いつも忘れるのでメモ。(2回ググったらブログに書く)</p>
+
+<p>呼び出されている<code>git</code>のバージョン確認。(実際にはhub経由でgitを呼び出してました。)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">git --version
+</span><span class="line">git version 1.8.5.2 <span class="o">(</span>Apple Git-48<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>本来利用したいHomebrewでインストールした<code>git</code>のバージョン</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">/usr/local/bin/git --version
+</span><span class="line">git version 1.9.2
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下記のように<code>/usr/local/bin</code>が一番上になるように<code>/etc/paths</code>の順番入れ替え。上から優先的に利用されるようになる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">/usr/local/bin
+</span><span class="line">/usr/bin
+</span><span class="line">/bin
+</span><span class="line">/usr/sbin
+</span><span class="line">/sbin
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>exec $SHELL</code>で設定反映。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">git --version
+</span><span class="line">git version 1.9.2
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ちゃんと意図した動作になった。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/8/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/6/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

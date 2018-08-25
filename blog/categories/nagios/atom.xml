@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: nagios | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/nagios/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[NagiosのアラートをIRC BOT経由で制御する]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/06/10/control-nagios-alert-with-irc-bot/"/>
+    <updated>2013-06-10T21:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/06/10/control-nagios-alert-with-irc-bot</id>
+    <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2013/05/20/working-with-irc-bot/">IRC BOTを作って仕事をさせるようにした</a>の続き。
+<a href="https://twitter.com/mikeda">@mikeda</a>さんと<a href="https://twitter.com/hirose31">@hirose31</a>さんのやりとりを見ていて、
+Nagiosアラートをコマンドラインから停止出来ることを知った!!</p>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/mikeda/20130525/1369476059">CLIでNagiosのアラートを停止する - IT 東京 楽しいと思うこと</a></li>
+</ul>
+
+<p>@mikedaさんの上記記事を参考にせっかくなので、下記みたいに書いて、IRC BOTさんに作業をしてもらうことに。
+ブラウザでもちゃんと確認するので、返り値とかチェックしてないけど。</p>
+
+<p>``` ruby
+#!/usr/bin/env ruby
+# -<em>- coding: utf-8 -</em>-</p>
+
+<p>require ‘cinch’</p>
+
+<p>bot = Cinch::Bot.new do
+  configure do |c|
+    c.server = “xxxxxxxxxxxxxxx”
+    c.ssl.use = true
+    c.port = 6668
+    c.password = ‘xxxxxxxxxxxxx’
+    c.channels = [“#xxxxxxxxxxx”]
+    c.nick = ‘nagios-cli-bot’
+    c.realname = ‘nagios-cli-bot’
+    c.user = ‘nagios-cli-bot’
+  end</p>
+
+<p># disable nagios alert
+  on :message, /^disable (.+)/ do |m, query|
+    system(“echo "[$(date +%s)] DISABLE_HOST_SVC_NOTIFICATIONS;#{query}.hogemoge.jp" &gt; /var/nagios/rw/nagios.cmd”)
+    system(“echo "[$(date +%s)] DISABLE_HOST_NOTIFICATIONS;#{query}.hogemoge.jp" &gt; /var/nagios/rw/nagios.cmd”)
+    system(“echo "[$(date +%s)] DISABLE_HOST_SVC_NOTIFICATIONS;#{query}.hogemoge.lan" &gt; /var/nagios/rw/nagios.cmd”)
+    system(“echo "[$(date +%s)] DISABLE_HOST_NOTIFICATIONS;#{query}.hogemoge.lan" &gt; /var/nagios/rw/nagios.cmd”)
+    m.reply “DISABLE NOTIFICATIONS #{query}.hogemoge.jp and #{query}.hogemoge.lan”
+  end</p>
+
+<p># enable nagios alert
+  on :message, /^enable (.+)/ do |m, query|
+    system(“echo "[$(date +%s)] ENABLE_HOST_SVC_NOTIFICATIONS;#{query}.hogemoge.jp" &gt; /var/nagios/rw/nagios.cmd”)
+    system(“echo "[$(date +%s)] ENABLE_HOST_NOTIFICATIONS;#{query}.hogemoge.jp" &gt; /var/nagios/rw/nagios.cmd”)
+    system(“echo "[$(date +%s)] ENABLE_HOST_SVC_NOTIFICATIONS;#{query}.hogemoge.lan" &gt; /var/nagios/rw/nagios.cmd”)
+    system(“echo "[$(date +%s)] ENABLE_HOST_NOTIFICATIONS;#{query}.hogemoge.lan" &gt; /var/nagios/rw/nagios.cmd”)
+    m.reply “ENABLE NOTIFICATIONS #{query}.hogemoge.jp and #{query}.hogemoge.lan”
+  end</p>
+
+<p>end</p>
+
+<p>bot.start
+```</p>
+
+<p><code>disable web001</code>でアラートを停止、<code>enable web001</code>でアラートを再開出来るようになった。</p>
+
+<p>稼働してみた後によく考えてみると、気軽に監視を停止出来るのは結構危険なので、
+常駐はさせずにメンテの時にアラートを一斉に停止させたり、再開させる作業があるので、そのときだけ働いてもらうようにした。</p>
+
+<p>ここ2週間くらいメンテで使ってるけどなかなか便利。
+よく使うようなら<code>wakeup nagios-cli-bot</code>とか<code>sleep nagios-cli-bot</code>でIRC BOTの稼働を制御するようにしてみよう。</p>
+]]></content>
+  </entry>
+  
+</feed>

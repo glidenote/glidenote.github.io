@@ -1,0 +1,688 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="Rubyスクリプトを書いていて、いつからかvimでquickrunから
+スクリプトを実行出来なくなってハマったのでメモ。
+Linuxでは発生しなかったのでMacだけ発生する問題かもしれない。 起こっていた現象 quickrunを実行するとrequire': no such file to &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/21/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/21">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="Rubyスクリプトを書いていて、いつからかvimでquickrunから
+スクリプトを実行出来なくなってハマったのでメモ。
+Linuxでは発生しなかったのでMacだけ発生する問題かもしれない。 起こっていた現象 quickrunを実行するとrequire': no such file to loadとかで怒られる。 ruby hogemoge.rbとかの場合は実行可能 開発環境 Mac Lion &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/26/vim-zshenv-rbenv/">VimからrbenvのRubyが呼び出せない問題が発生してハマった</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-26T23:40:00+09:00" pubdate data-updated="true">2012年06月26日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Rubyスクリプトを書いていて、いつからかvimで<a href="https://github.com/thinca/vim-quickrun">quickrun</a>から
+スクリプトを実行出来なくなってハマったのでメモ。<br />
+Linuxでは発生しなかったのでMacだけ発生する問題かもしれない。</p>
+
+<h2 id="section">起こっていた現象</h2>
+
+<ul>
+  <li>quickrunを実行すると<code>require': no such file to load</code>とかで怒られる。</li>
+  <li><code>ruby hogemoge.rb</code>とかの場合は実行可能</li>
+</ul>
+
+<h2 id="section-1">開発環境</h2>
+
+<ul>
+  <li>Mac Lion 10.7.4</li>
+  <li>zsh 4.3.11</li>
+  <li>rbenv(<code>git clone git://github.com/sstephenson/rbenv.git .rbenv</code>で導入してます)</li>
+  <li>vim 7.3.515</li>
+  <li>quickrun 0.6.0</li>
+</ul>
+
+<h2 id="section-2">原因</h2>
+
+<ul>
+  <li>vimがシステム標準のRubyを呼んでいた(rbenvのRubyが呼ばれていなかった)</li>
+  <li><code>.zshenv</code>に記載すべき設定を<code>.zshrc</code>に書いていた</li>
+</ul>
+
+<p>下記のようにコマンドラインから呼ばれるRubyと、Vimから呼ばれるRubyが異なっていた。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/zshenv.png" alt="" /></p>
+
+<h2 id="section-3">解決方法</h2>
+
+<p>下記の設定を<code>.zshrc</code>から<code>.zshenv</code>に移行。</p>
+
+<div><script src="https://gist.github.com/2993633.js"></script>
+<noscript><pre><code>#=============================
+# rbenv
+#=============================
+if [ -d ${HOME}/.rbenv  ] ; then
+  PATH=${HOME}/.rbenv/bin:${PATH}
+  export PATH
+  eval &quot;$(rbenv init -)&quot;
+fi</code></pre></noscript></div>
+
+<p><a href="https://github.com/sstephenson/rbenv">rbenvのドキュメント</a>にも<code>.zshenv</code>に書くように書いてありますね…<br />
+動くからといって、手抜きで全部<code>.zshrc</code>に書いていてハマりました。 <br />
+ググって見つけた情報を鵜呑みにせず、ちゃんと公式ドキュメントを読みましょうという話ですね。</p>
+
+<p><strong>追記</strong>  </p>
+
+<p>homebrew経由でrbenvを導入している場合は、<code>eval "$(rbenv init -)" </code>を<code>.zprofile</code>に書かないといけない模様</p>
+
+<ul>
+  <li><a href="https://github.com/sstephenson/rbenv/#section_2.2">Homebrew on Mac OS X</a></li>
+</ul>
+
+<h2 id="url">参考URL</h2>
+
+<p><a href="http://d.hatena.ne.jp/uasi/20110411/1302531017">RVM で入れた Ruby を Vim の QuickRun プラグインで使う - Yarukidenized:ヤルキデナイズド</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/18/git-issue-zsh-completion/">git-issueのzsh補完関数を作った(作っていた)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-18T12:11:00+09:00" pubdate data-updated="true">2012年06月18日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ようやく仕事でもGitHubが利用出来るようになりつつあり、結構前に作っていた
+拙作の<a href="https://github.com/yuroyoro/git-issue">git-issue</a>用のzsh補完関数が役に立つ日がきたのでご紹介。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/git-issue-zsh-completion">glidenote/git-issue-zsh-completion</a></li>
+  <li><a href="http://yuroyoro.hatenablog.com/entry/20120301/1330580453">git-issue : CLIでRedmine/Github-issuesのticketをbrows/editできるgitサブコマンド - ゆるよろ・オブ・ザ・( ;ﾟ皿ﾟ)ﾉｼΣ ﾌｨﾝｷﾞｨｨｰｰｯ!!! 日記</a></li>
+</ul>
+
+<h2 id="section">導入方法</h2>
+
+<p>当然ですが、<a href="https://github.com/yuroyoro/git-issue">git-issue</a>が導入してある必要があります。</p>
+
+<p><code>git clone</code>して<code>$fpath</code>配下に補完関数を配置。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir ~/repos/
+</span><span class="line">cd ~/repos/
+</span><span class="line">git clone git://github.com/glidenote/git-issue-zsh-completion.git
+</span><span class="line">sudo cp git-issue-zsh-completion/_git-issue /usr/share/zsh/site-functions/
+</span><span class="line">exec zsh</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>使ってみた感じ。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/git-issue0.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/git-issue1.png" alt="" /></p>
+
+<p>私がGitHubしか利用しないため、GitHub用オプションしか補完しないので、
+Redmine用オプションも補完したい場合は是非pull reqを。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/16/subversion-to-github/">社内SubversionリポジトリをGitHubへの移行中</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-16T17:14:00+09:00" pubdate data-updated="true">2012年06月16日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>6月に部署異動をし、自分の部署の社内SubversionリポジトリをGitHubに移行中。
+ここ数日でいろいろと試行錯誤しながら作業をしているのでメモ。</p>
+
+<h2 id="organization">Organizationの作成</h2>
+
+<ul>
+  <li><a href="https://github.com/account/organizations/new">Create an organization</a></li>
+</ul>
+
+<p>自分のGithubアカウントでログインをして、Organizationを作成します。</p>
+
+<ul>
+  <li><code>Organization Name</code>はサービス名を利用</li>
+  <li><code>Organization Email</code>はサービスで利用しているメールアドレス。担当部署のみんなが受け取れるアドレスが良いかと思います。</li>
+  <li>Bronzeプラン($25/month) </li>
+  <li>クレジットカードの番号が必要になります。（会社のクレジットカード番号を入力)</li>
+</ul>
+
+<h2 id="graveter">Graveterに登録してアイコンを設定</h2>
+
+<ul>
+  <li><a href="http://ja.gravatar.com/">Gravatar - グローバルに認識されるアバター (Globally Recognized Avatars)</a></li>
+</ul>
+
+<p>Organizationのアイコンを設定するため、Gravatarの登録。
+Organizationの作成の際に利用したアドレスで登録すると管理が楽かと思います。</p>
+
+<p>登録が完了したら</p>
+
+<p>必要があればOrganization Profileの<code>Profile Information</code>を更新。</p>
+
+<h2 id="organization-1">Organizationメンバーの登録</h2>
+
+<p><code>Teams</code>でメンバーを登録します。チームごとに権限を割り振りしてメンバーを登録することもできます。</p>
+
+<h2 id="githuborganization">GitHubでOrganizationリポジトリの作成</h2>
+
+<p>Organizationで利用するリポジトリを作成。<code>puppet</code>とか<code>yum</code>とか、社内のRepository命名規則に従い作成。
+<a href="https://github.com/defunkt/hub">hub</a>を利用してコマンドラインからOrganizationのリポジトリが作れるかはまだ調べてないです</p>
+
+<h2 id="subversiongit-svngithubpush">社内Subversionリポジトリをgit-svnでインポートしてGitHubにpush</h2>
+
+<p>同じチームの<a href="https://twitter.com/#!/tnmt">@tnmt</a>に教えて貰って、
+試しに下記みたいな感じでgit-svnを利用し、社内リポジトリからローカルにimportしGitHubにpush。<br />
+Macbook Airで作業をしたらpuppetマニフェストだけなのに1時間くらいかかって、ファンがフル回転…</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir -p ~/svn-to-github
+</span><span class="line">git svn clone -s http://192.168.25.37/svn/server/puppet/hogemoge ~/svn-to-github/hogemoge-puppet/
+</span><span class="line">cd ~/svn-to-github/hogemoge-puppet/
+</span><span class="line">git remote add origin https://github.com/paperboy-hogemoge/puppet.git
+</span><span class="line">git push -u origin master</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>こうすることで、Subversion時代のcommitログがGitHubでも閲覧可能でした。</p>
+
+<p>とりあえずGitHubでPushまで出来るようになって移行手順の流れが掴めた。</p>
+
+<p>自作のデプロイツールとかの改修が必要だったり、運用ルールを決めたり
+完全移行までにはやらないといけないことが結構あって、
+まだ時間がかかりそうだけどGitHubを使って仕事が出来るのでかなり快適になりそう。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="https://help.github.com/articles/importing-from-subversion">Importing from Subversion · github:help</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/10/octopress-post-directory/">Octopressは_postsの下にディレクトリ切っても記事が生成される</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-10T03:26:00+09:00" pubdate data-updated="true">2012年06月10日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Octopressでブログの記事を書いていると、<code>octopress/source/_posts</code>の下に
+私のブログだと下記のような感じで</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">├── 2012-04-01-new-gist.vim.markdown
+</span><span class="line">├── 2012-04-02-octoeditor.vim.markdown
+</span><span class="line">├── 2012-04-03-subsonic-nginx.markdown
+</span><span class="line">├── 2012-04-04-presentation-2012.markdown
+</span><span class="line">├── 2012-04-05-install-ut-vpn-client.markdown
+</span><span class="line">├── 2012-04-07-auto-fu.zsh.markdown
+</span><span class="line">├── 2012-04-08-nginx.vim.markdown
+</span><span class="line">├── 2012-04-09-keepalived-syntax.vim.markdown
+</span><span class="line">├── 2012-04-11-mosh-on-sakura-vps.markdown
+</span><span class="line">├── 2012-04-11-mosh-with-tmux.markdown
+</span><span class="line">├── 2012-04-12-octopress-canonical-problem.markdown
+</span><span class="line">├── 2012-04-14-mosh-hostname-completion.markdown
+</span><span class="line">├── 2012-04-16-sheet.markdown
+</span><span class="line">├── 2012-04-20-mysql-casucal-vol3.markdown
+</span><span class="line">├── 2012-04-21-speaker-deck.markdown
+</span><span class="line">├── 2012-04-23-etckeeper-bitbucket.markdown
+</span><span class="line">├── 2012-04-24-bash-it.markdown
+</span><span class="line">├── 2012-04-30-terminal-study-vol-2.markdown
+</span><span class="line">├── 2012-05-03-zsh-completion.markdown
+</span><span class="line">├── 2012-05-10-gitspective.markdown
+</span><span class="line">├── 2012-05-11-ss-zsh-completion.markdown
+</span><span class="line">├── 2012-05-12-eneloop-mobile-booster.markdown
+</span><span class="line">├── 2012-05-13-kindle4.markdown
+</span><span class="line">├── 2012-05-15-mosh-rpm.markdown
+</span><span class="line">├── 2012-05-16-vim-ruby-homebrew.markdown
+</span><span class="line">├── 2012-05-21-fluentd-nginx-mongodb.markdown
+</span><span class="line">├── 2012-05-22-twitter-icon-sticker.markdown
+</span><span class="line">├── 2012-05-25-bijogoyomi-2012-05-25.markdown
+</span><span class="line">├── 2012-05-28-gollum-memolist.vim.markdown
+</span><span class="line">└── 2012-05-30-manage-chrome-search-engine.markdown</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>markdownファイルが増えてきて、ファイルの管理が面倒だなと
+思っていたんですが、<code>~/octopress/source/_posts/2012/06/</code>とか
+下記のような感じで</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">├── 2012
+</span><span class="line">│   └── 06
+</span><span class="line">│       ├── 2012-06-05-pori.markdown
+</span><span class="line">│       ├── 2012-06-07-pinboard-fu.markdown
+</span><span class="line">│       └── 2012-06-10-octopress-post-directory.markdown</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ディレクトリを切って、その下にmarkdownを作ってもページが生成されることに気づいた。</p>
+
+<p>本当に大丈夫なのかOctopressのRakefileを見ると記事を生成するときは下記のような感じの処理をしていて</p>
+
+<div><script src="https://gist.github.com/2902280.js"></script>
+<noscript><pre><code>desc &quot;Generate jekyll site&quot;
+task :generate do
+  raise &quot;### You haven&#39;t set anything up yet. First run `rake install` to set up an Octopress theme.&quot; unless File.directory?(source_dir)
+  puts &quot;## Generating Site with Jekyll&quot;
+  system &quot;compass compile --css-dir #{source_dir}/stylesheets&quot;
+  system &quot;jekyll&quot;
+end</code></pre></noscript></div>
+
+<p><code>system "jekyll"</code>を実行してページを生成している。<br />
+jekyllのソースをおってみたら
+<a href="https://github.com/mojombo/jekyll/blob/master/lib/jekyll/site.rb">jekyll/lib/jekyll/site.rb</a>
+の部分で再帰的にディレクトリの探していることが分かる。</p>
+
+<p>ブログの記事が多くなってきたら<code>_posts/2012/06</code>とかでディレクトリを切って
+管理すると良い感じになる。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/07/pinboard-fu/">pinboard-fuとはてブのChrome拡張でブックマーク生活が捗る</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-07T23:30:00+09:00" pubdate data-updated="true">2012年06月07日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="https://blog.glidenote.com/images/2012/01/pinboard.png" width="200" height="150" align="right" /></p>
+
+<ul>
+  <li><a href="https://chrome.google.com/webstore/detail/ggaonngfgojmeifboajphnhkkhgfefpb">Chrome ウェブストア - pinboard-fu</a></li>
+  <li><a href="https://chrome.google.com/webstore/detail/dnlfpnhinnjdgmjfpccajboogcjocdla">Chrome ウェブストア - はてなブックマーク GoogleChrome 拡張</a></li>
+</ul>
+
+<p><a href="https://blog.glidenote.com/blog/2012/01/29/pinboard/">ソーシャルブックマークをPinboardに移行</a>してからかなり経つんですが、
+<a href="https://twitter.com/#!/banyan">@banyan</a>さんが<a href="https://chrome.google.com/webstore/detail/ggaonngfgojmeifboajphnhkkhgfefpb">pinboardのChrome拡張</a>を作ってくれてたのと
+pinboardを<a href="https://chrome.google.com/webstore/detail/dnlfpnhinnjdgmjfpccajboogcjocdla">はてブのChrome拡張</a>を組み合わせると、
+ブックマーク生活がいろいろと捗ることに気づいたのでご紹介。</p>
+
+<p>pinboardをはてブのChrome拡張を用いて閲覧したときの見た目。ひと目ではてブのブックマーク数も分かります。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/pinboard.png" alt="" /></p>
+
+<p>pinboard-fuやRSSリーダ、twitter経由でとりあえずpinboardに気になるページを突っ込んでおけば
+あとはpinboardの高速な検索とはてブのChrome拡張で、捜し物もすぐに見つかっていろいろと捗ります。</p>
+
+<p>twitterで気になるつぶやきをfavすると自動的にpinboardが捕捉してくれる機能がめちゃくちゃ便利です。</p>
+
+<h2 id="section">関連ページ</h2>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2012/01/29/pinboard/">ソーシャルブックマークのデータをPinboardに集約して一元管理 - Glide Note - グライドノート</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/22/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/20/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: peco | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/peco/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[peco/percolでCUIなスニペットツールを作ってみる]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/06/26/snippets-peco-percol/"/>
+    <updated>2014-06-26T13:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/06/26/snippets-peco-percol</id>
+    <content type="html"><![CDATA[<p>以前に<a href="http://oscardelben.com/sheet/">Sheet</a>というスニペットツールを利用すると大変便利と書いた。</p>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2012/04/16/sheet/">CUIなスニペットツールsheetが便利なのでzshでsheetファイルを補完 - Glide Note - グライドノート</a></li>
+</ul>
+
+<p>で、障害対応で使うコマンドとかよく忘れるコマンドを大量に登録してて、毎日使ってて重宝してるんですが、スニペットが
+増えると管理が破綻する問題があって、<a href="https://github.com/peco/peco">peco</a>や<a href="https://github.com/mooz/percol">percol</a>を使えば解決出来そうと思ってやってみた。</p>
+
+<h2 id="section">仕組み</h2>
+
+<ul>
+  <li>snippets用のファイル or <code>sheet</code>のスニペットファイルをpeco/percolで絞りこんで、クリップボードに送ったりして簡単に利用できるようにする</li>
+</ul>
+
+<h3 id="section-1">よく使うコマンドのスニペットファイルを用意</h3>
+
+<p>sheetの資産をそのまま利用も出来るんですが、今回は下記のような感じでファイルを<code>~/.snippets</code>で用意。私が使ってるやつから一部抜粋。</p>
+
+<p>``` sh
+# apache
+tail -n 5000 /usr/local/apache2/logs/access_log | awk ‘{print $1}’  | sort | uniq -c | sort -gr | head -n 4
+tail -n 5000 /usr/local/apache2/logs/access_log | awk ‘{print $2}’  | sort | uniq -c | sort -gr | head -n 4
+tail -n 5000 /usr/local/apache2/logs/access_log | awk ‘{print $12}’ | sort | uniq -c | sort -gr | head -n 4 
+tail -n 5000 /usr/local/apache2/logs/access_log | awk ‘{print $13}’ | sort | uniq -c | sort -gr | head -n 4 </p>
+
+<h1 id="search">search</h1>
+<p>netstat -ltapn | grep ESTABLISHED | more
+netstat -ltan | grep “:80 “ | awk ‘{print $5}’ | awk -F : ‘{print $4}’ | sort | uniq -c | sort -nr | head
+lsof -i:80</p>
+
+<h1 id="dstat">dstat</h1>
+<p>dstat -Tclmdrn
+dstat -Tclm
+dstat -Tclr
+dstat -Tclnd
+dstat -Tcldr
+dstat –top-cpu –top-cputime
+dstat –top-io –top-bio
+dstat –top-io-adv –top-bio-adv</p>
+
+<h1 id="openssl">openssl</h1>
+<p>openssl x509 -noout -modulus -in *.crt | openssl md5
+openssl rsa  -noout -modulus -in *.key | openssl md5
+openssl req  -noout -modulus -in *.csr | openssl md5</p>
+
+<h1 id="find">find</h1>
+<p>find ./ -daystart -ctime +2
+find ./ -daystart -ctime -2</p>
+
+<h1 id="date">date</h1>
+<p>date +%Y%m%d
+```</p>
+
+<h2 id="pecopercol">peco/percol経由で利用出来るようにする</h2>
+
+<p>下記のようなのを、<code>.zshrc</code>に記載するか、<code>peco-snippets.zsh</code>とかでファイルを作成して<code>source</code>して読み込む</p>
+
+<p>``` sh
+function peco-snippets() {</p>
+
+<pre><code>local SNIPPETS=$(grep -v "^#" ~/.snippets | peco --query "$LBUFFER" | pbcopy)
+zle clear-screen }
+</code></pre>
+
+<p>zle -N peco-snippets
+bindkey ‘^x^s’ peco-snippets
+```</p>
+
+<p>snippetsファイルを用意せずに、sheetの資産を生かすなら、下記みたいな感じ。</p>
+
+<p>``` sh
+function peco-snippets() {</p>
+
+<pre><code>local SNIPPETS=$(cat ~/.sheets/* | peco --query "$LBUFFER" | pbcopy)
+zle clear-screen }
+</code></pre>
+
+<p>zle -N peco-snippets
+bindkey ‘^x^s’ peco-snippets
+```</p>
+
+<p>で上の例だと<code>Ctrl+x</code>, <code>Ctrl+s</code>でスニペットの一覧が出てくるのでpecoやpercolで絞ると
+<code>pbcopy</code>に渡されて、クリップボードに格納される。</p>
+
+<p>Linux上とかでクリップボード使わずに、そのまま利用したい場合は下記みたいな感じ</p>
+
+<p>``` sh
+function peco-snippets() {</p>
+
+<pre><code>BUFFER=$(grep -v "^#" ~/.snippets | peco --query "$LBUFFER")
+zle clear-screen }
+</code></pre>
+
+<p>zle -N peco-snippets
+bindkey ‘^x^s’ peco-snippets
+```</p>
+
+<p>実際に動かして見るとこんな感じ</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/06/peco-snippets.gif" alt="" /></p>
+
+<p>便利になった!</p>
+
+<p>私が<a href="http://www.amazon.co.jp/UNIX%E3%81%A8%E3%81%84%E3%81%86%E8%80%83%E3%81%88%E6%96%B9%E2%80%95%E3%81%9D%E3%81%AE%E8%A8%AD%E8%A8%88%E6%80%9D%E6%83%B3%E3%81%A8%E5%93%B2%E5%AD%A6-Mike-Gancarz/dp/4274064069%3FSubscriptionId%3DAKIAIMPULMFN3HDGOBYA%26tag%3Dglidenote-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4274064069">UNIXという考え方</a>にどっぶり浸かっているので、pecoやpercolのパイプで渡して処理させるってのは感覚的に分かりやすくて大変扱いやすい。</p>
+]]></content>
+  </entry>
+  
+</feed>

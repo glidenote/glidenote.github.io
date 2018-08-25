@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: markdown | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/markdown/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[vim-quickrunとMarkedでmarkdown編集が快適になった]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/01/10/vim-quickrun-marked/"/>
+    <updated>2013-01-10T23:44:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/01/10/vim-quickrun-marked</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2013/01/marked.png" align="right" /></p>
+
+<ul>
+  <li><a href="http://markedapp.com/">Marked - smart tools for smart writers</a></li>
+</ul>
+
+<p>最近購入したMac用の<a href="http://markedapp.com/">Marked</a>というMarkdownのプレビューアプリの出来がかなり良い。</p>
+
+<h2 id="marked">Markedの良い点</h2>
+
+<ul>
+  <li>markdownのプレビュー機能に特化している。(markdownファイルをDrag&amp;Dropでプレビュー）</li>
+  <li>エディタ同梱のアプリではないので、自分の好きなエディタが使える</li>
+  <li>GitHub風の表示スタイルがあって見やすい。(<a href="http://github.github.com/github-flavored-markdown/">GitHub Flavored Markdown</a>に完全対応しているわけではないですが)</li>
+</ul>
+
+<p>あまりに便利なので、vim-quickrunのmarkdownプレビュー用に使えるように設定。</p>
+
+<p>vim-quickrunのバージョンは2013年1月11日時点で最新の<code>Version: 0.6.0</code>を利用しています。</p>
+
+<p>コマンドラインからMarkedを起動する場合は下記のような感じなので</p>
+
+<p><code>sh
+open -a Marked foovar.md
+</code></p>
+
+<p>quickrunを実行したときに上と同じようになるように、<code>.vimrc</code>に記載。</p>
+
+<p><div><script src='https://gist.github.com/4500536.js'></script>
+<noscript><pre><code>let g:quickrun_config = {}
+let g:quickrun_config.markdown = {
+      \ &#39;outputter/buffer/close_on_empty&#39; : 1,
+      \ &#39;command&#39; : &#39;open&#39;,
+      \ &#39;cmdopt&#39;  : &#39;-a Marked&#39;,
+      \ }
+</code></pre></noscript></div>
+</p>
+
+<p><strong>追記 2013年1月11日11:23</strong><br />
+<del>‘outputter/buffer/close_on_empty’ : 1が無いと
+新規bufferが開いてしまって、Markedにフォーカスが移らないので設定します。</del></p>
+
+<blockquote class="twitter-tweet" lang="ja"><p>出力が必要ないなら 'outputter': 'null' にすれば良いかな。 / "vim-quickrunとMarkedでmarkdown編集が快適になった - Glide Note - グライドノート" <a href="http://t.co/lTlQ5qtG" title="http://bit.ly/XTEsXg">bit.ly/XTEsXg</a></p>&mdash; thincaさん (@thinca) <a href="https://twitter.com/thinca/status/289554218459742208" data-datetime="2013-01-11T02:07:59+00:00">1月 11, 2013</a></blockquote>
+<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>出力が無い場合は<code>'outputter' : 'null'</code>が良いと<a href="https://twitter.com/thinca">@thinca</a>さんから教えて頂きました</p>
+
+<p>実際に使ってみると下記のような感じで、vimでmarkdownを編集して、Markedで表示確認が出来る。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/01/vim-marked.png" alt="" /></p>
+
+<p>Mac限定ですが、これでmarkdown編集がかなり快適になった。<br />
+これでvimで<code>README.md</code>やwikiを編集してGithubにpushしたらレイアウトが崩れてて残念なんてことは無くなるはず。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[2012年のプレゼンはgithub pages+markdown2impressで決まり!!]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/04/presentation-2012/"/>
+    <updated>2012-04-04T20:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/04/presentation-2012</id>
+    <content type="html"><![CDATA[<p>今度<a href="http://atnd.org/events/26373">MySQL Casual Talks Vol.3 : ATND</a>でLTをさせて頂くので
+そろそろ資料作りをしないとなーと思っていて、プレゼン作成で良い方法があったのでメモ。</p>
+
+<h2 id="section">プレゼン作成に使用する環境</h2>
+
+<ul>
+  <li><a href="https://github.com/yoshiki/markdown2impress">yoshiki/markdown2impress</a></li>
+  <li><a href="https://github.com/defunkt/hub">defunkt/hub</a></li>
+  <li><a href="https://github.com/glidenote/hub-zsh-completion">glidenote/hub-zsh-completion</a></li>
+</ul>
+
+<p>拙作の<a href="https://github.com/glidenote/hub-zsh-completion">hub-zsh-completion</a>は無くても
+作業は出来ますが、hubコマンドが補完されるので導入しておくと便利です。
+<code>markdown2impress</code>と<code>hub-zsh-completion</code>の導入方法は以前紹介しているので
+そちらを参照してください。</p>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2012/03/19/markdown2impress/">markdown2impressを導入してみた - Glide Note - グライドノート</a></li>
+  <li><a href="https://blog.glidenote.com/blog/2012/02/25/hub-zsh-completion/">githubのhubコマンドを補完するzsh補完関数を作ってみた - Glide Note - グライドノート</a></li>
+</ul>
+
+<h2 id="section-1">作業用ディレクトリの作成</h2>
+
+<p><code>
+mkdir -p ~/work/slide-test
+cd ~/work/slide-test
+</code></p>
+
+<h2 id="section-2">プレゼン資料の下書き作成</h2>
+
+<p>markdown2impressを利用するので、プレゼン資料の下書きをmarkdownで記載。
+ここでは<code>slide.markdown</code>とでもします。vimやら好きなエディタで作成してください。</p>
+
+<p><code>
+vim ~/work/slide-test/slide.markdown
+</code></p>
+
+<h2 id="markdown2impressindexhtml">markdown2impressで下書きからindex.htmlの作成</h2>
+
+<p><code>
+~/bin/markdown2impress.pl ~/work/slide-test/slide.markdown
+</code></p>
+
+<p>この状態で該当ディレクトリは下記のようなファイル構成になっています。</p>
+
+<p><code>
+[akira@MacBookAir] $ ls -1 ~/work/slide-test
+css
+index.html
+js
+slide.markdown
+</code></p>
+
+<h2 id="hubgithub">hubコマンドでgithubにリポジトリを作成</h2>
+
+<p>githubでブラウザからリポジトリを作成してもいいんですが、
+せっかく<a href="https://github.com/defunkt/hub">hub</a>という便利なコマンドがあるので、
+hubコマンドを用いて、リポジトリを作成します。</p>
+
+<p><code>
+cd ~/work/slide-test/
+git init
+hub create
+</code></p>
+
+<p>hub-zsh-completionを導入していると<code>hub create</code>ではなく、<code>git create</code>でも
+リポジトリの作成が出来ます。</p>
+
+<h2 id="section-3">プレゼンページの作成</h2>
+
+<p>github pagesを作成するには<code>gh-pages</code>というブランチを切ってpushするだけです。</p>
+
+<p><code>
+cd ~/work/slide-test/
+git add .
+git commit -a -m "first commt"
+git branch gh-pages
+git push origin gh-pages
+</code></p>
+
+<p><code>gh-pages</code>というブランチを作成してpushすると<a href="http://glidenote.github.com/slide-test">http://glidenote.github.com/slide-test</a>
+という形でgithub pagesが作成されます。</p>
+
+<p>下記にテスト用でスライドを上げてます。
+(Octopress用に、CNAMEをあてているので、<a href="https://blog.glidenote.com/slide-test/">https://blog.glidenote.com/slide-test/</a>
+になっていますが)</p>
+
+<ul>
+  <li><a href="http://glidenote.github.com/slide-test">http://glidenote.github.com/slide-test</a></li>
+</ul>
+
+<h2 id="section-4">プレゼンページの編集、更新方法</h2>
+
+<p><code>gh-pages</code>というブランチで下書きのmarkdownを編集、commit、pushでスライドは更新されます。
+<code>gh-pages</code>はキャッシュが利いているようで、pushしても即反映はされない場合があるので5分程度待ちましょう。</p>
+
+<p>編集、更新作業の流れて気には下記のような感じです</p>
+
+<p><code>
+git checkout gh-pages
+vim ~/work/slide-test/slide.markdown
+~/bin/markdown2impress.pl ~/work/slide-test/slide.markdown
+git commit -a
+git push origin gh-pages
+</code></p>
+
+<p>スライドごとにリポジトリを作成するのは無駄なので、<code>slides</code>とかでリポジトリを作成し、
+その下に<code>2012/hoge</code>とかディレクトリを切って、管理していくと良いかと思います。  </p>
+
+<p>好きなエディタで資料作成出来るし、表示確認以外はコマンドラインで作業が完結するのでいろいろと捗ります。  </p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: subversion | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/subversion/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[社内SubversionリポジトリをGitHubへの移行中]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/06/16/subversion-to-github/"/>
+    <updated>2012-06-16T17:14:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/06/16/subversion-to-github</id>
+    <content type="html"><![CDATA[<p>6月に部署異動をし、自分の部署の社内SubversionリポジトリをGitHubに移行中。
+ここ数日でいろいろと試行錯誤しながら作業をしているのでメモ。</p>
+
+<h2 id="organization">Organizationの作成</h2>
+
+<ul>
+  <li><a href="https://github.com/account/organizations/new">Create an organization</a></li>
+</ul>
+
+<p>自分のGithubアカウントでログインをして、Organizationを作成します。</p>
+
+<ul>
+  <li><code>Organization Name</code>はサービス名を利用</li>
+  <li><code>Organization Email</code>はサービスで利用しているメールアドレス。担当部署のみんなが受け取れるアドレスが良いかと思います。</li>
+  <li>Bronzeプラン($25/month) </li>
+  <li>クレジットカードの番号が必要になります。（会社のクレジットカード番号を入力)</li>
+</ul>
+
+<h2 id="graveter">Graveterに登録してアイコンを設定</h2>
+
+<ul>
+  <li><a href="http://ja.gravatar.com/">Gravatar - グローバルに認識されるアバター (Globally Recognized Avatars)</a></li>
+</ul>
+
+<p>Organizationのアイコンを設定するため、Gravatarの登録。
+Organizationの作成の際に利用したアドレスで登録すると管理が楽かと思います。</p>
+
+<p>登録が完了したら</p>
+
+<p>必要があればOrganization Profileの<code>Profile Information</code>を更新。</p>
+
+<h2 id="organization-1">Organizationメンバーの登録</h2>
+
+<p><code>Teams</code>でメンバーを登録します。チームごとに権限を割り振りしてメンバーを登録することもできます。</p>
+
+<h2 id="githuborganization">GitHubでOrganizationリポジトリの作成</h2>
+
+<p>Organizationで利用するリポジトリを作成。<code>puppet</code>とか<code>yum</code>とか、社内のRepository命名規則に従い作成。
+<a href="https://github.com/defunkt/hub">hub</a>を利用してコマンドラインからOrganizationのリポジトリが作れるかはまだ調べてないです</p>
+
+<h2 id="subversiongit-svngithubpush">社内Subversionリポジトリをgit-svnでインポートしてGitHubにpush</h2>
+
+<p>同じチームの<a href="https://twitter.com/#!/tnmt">@tnmt</a>に教えて貰って、
+試しに下記みたいな感じでgit-svnを利用し、社内リポジトリからローカルにimportしGitHubにpush。<br />
+Macbook Airで作業をしたらpuppetマニフェストだけなのに1時間くらいかかって、ファンがフル回転…</p>
+
+<p><code>
+mkdir -p ~/svn-to-github
+git svn clone -s http://192.168.25.37/svn/server/puppet/hogemoge ~/svn-to-github/hogemoge-puppet/
+cd ~/svn-to-github/hogemoge-puppet/
+git remote add origin https://github.com/paperboy-hogemoge/puppet.git
+git push -u origin master
+</code></p>
+
+<p>こうすることで、Subversion時代のcommitログがGitHubでも閲覧可能でした。</p>
+
+<p>とりあえずGitHubでPushまで出来るようになって移行手順の流れが掴めた。</p>
+
+<p>自作のデプロイツールとかの改修が必要だったり、運用ルールを決めたり
+完全移行までにはやらないといけないことが結構あって、
+まだ時間がかかりそうだけどGitHubを使って仕事が出来るのでかなり快適になりそう。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="https://help.github.com/articles/importing-from-subversion">Importing from Subversion · github:help</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

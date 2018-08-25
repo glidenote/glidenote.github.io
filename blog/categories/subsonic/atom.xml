@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: subsonic | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/subsonic/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ThumperでSubsonicを聴き続けるためにSubsonicに寄付をした]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/02/20/subsonic-donate/"/>
+    <updated>2013-02-20T23:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/02/20/subsonic-donate</id>
+    <content type="html"><![CDATA[<p>先日から<a href="http://www.thumperapp.com/">Thumper</a>というMacのアプリを利用して
+<a href="http://www.subsonic.org/pages/index.jsp">Subsonic</a>を聞いていたんですが、
+急に曲が再生出来なくなったので、調べたところアプリなどからSubsonicを利用している場合、
+30日間しか利用出来ないらしく、Subsonicに最低10ユーロ寄付をしないといけないらしい。(知らなかった！)</p>
+
+<p>Subsonicに依存していて、今さら離れることが出来ないので、ちゃんと寄付をしようと
+Subsonicの画面からpaypalで支払い試みるもうまく出来ず、
+これも調べたらどうやら日本からの寄付は出来ない模様。</p>
+
+<p>下記サイトを参考に</p>
+
+<ul>
+  <li><a href="http://samurai20000.hatenablog.com/entry/2013/02/16/234633">Subsonicへのdonateでpaypalエラーになる件の解決方法 - 生活。</a></li>
+</ul>
+
+<p>paypalで<code>mail@subsonic.org</code>を指定して10ユーロ支払いをしたら
+すぐにライセンスキーが届いて、Subsonic上でライセンス登録をして、
+Thumperでまた再生出来るようになった。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/02/thumper.png" alt="" /></p>
+
+<p><a href="http://www.summerfondue.com/">SummerFondue.com</a>
+で公開されているHouse Mixのmp3が1個200MBくらいあって、
+iPhoneとかに入れてると容量がかなりきついので、さくらVPSで</p>
+
+<p><code>sh
+wget http://www.summerfondue.com/downloads/sfs166
+</code></p>
+
+<p>みたいな感じで取ってきて、Subsonic経由で聴いてます。
+(ファイル一斉に落とすと先方サーバの負荷になるからsleepとか入れましょう)</p>
+
+<p><a href="https://www.amazon.co.jp/SHURE-Special-%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%82%B9%E3%83%AB%E3%83%BC%E3%82%BB%E3%83%B3%E3%83%88%E3%83%96%E3%83%AB%E3%83%BC-SE215SPE-%E3%80%90%E5%9B%BD%E5%86%85%E6%AD%A3%E8%A6%8F%E5%93%81%E3%80%91/dp/B00A16BT4E?psc=1&amp;SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00A16BT4E"><img src="https://images-fe.ssl-images-amazon.com/images/I/417ivt-VRcL.jpg" align="right" /></a></p>
+
+<ul>
+  <li><a href="https://www.amazon.co.jp/SHURE-Special-%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%82%B9%E3%83%AB%E3%83%BC%E3%82%BB%E3%83%B3%E3%83%88%E3%83%96%E3%83%AB%E3%83%BC-SE215SPE-%E3%80%90%E5%9B%BD%E5%86%85%E6%AD%A3%E8%A6%8F%E5%93%81%E3%80%91/dp/B00A16BT4E?psc=1&amp;SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00A16BT4E">SHURE イヤホン SEシリーズ SE215 カナル型 高遮音性 Special Edition トランススルーセントブルー SE215SPE-A 【国内正規品】</a></li>
+</ul>
+
+<p>最近Shureのイヤホン SE215SPEを買ったんですが、
+ダンス系音楽向けに低音が結構強めなので、ハウスとかを聴くのにかなり良い感じ。
+Shureのイヤホンは高価なイメージがあったんですが、1万円くらいと手頃な値段で
+音質的には好みだったので、良い買い物をしました。<br />
+ただかなり音量を小さくしても周りの音がほとんど聞こえないので、遮音性が高すぎるかも。</p>
+
+<p>あとThumperを利用しているとSubsonic+Nginxのアクセスログが結構流れるので、
+Nginxのログを今流行のLTSV形式にして、Fluentdに流すとかがいろいろと簡単に検証にも使えて一石二鳥。</p>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2012/05/21/fluentd-nginx-mongodb/">Subsonic+Nginxのアクセスログをfluentdを利用してMongoDBに入れてみた - Glide Note - グライドノート</a></li>
+</ul>
+
+<p>最近はMacのiTunesディレクトリをSubsonicのディレクトリにrsyncかけてて、
+SubsonicがiTunesのバックアップも兼ねており重要性が増してきた。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[さくらVPS 2G+Subsonic+Nginxで自分用ストリーミングサーバを構築]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/03/subsonic-nginx/"/>
+    <updated>2012-04-03T01:18:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/03/subsonic-nginx</id>
+    <content type="html"><![CDATA[<p>先日契約したさくらVPS 2Gのディスク容量がかなりあるので、自分用のストリーミングサーバを
+<a href="http://www.subsonic.org/pages/index.jsp">subsonic</a>と<a href="http://wiki.nginx.org/Main">nginx</a>で立ててみました。 
+subsonic単体でも良いんですが、同僚の天才<a href="https://twitter.com/#!/hiboma">@hiboma</a>が
+<a href="http://d.hatena.ne.jp/hiboma/20110702/1309591830">以前Mac+subsonic+nginxを組み合わせてた</a>のを思い出してパクってみました。</p>
+
+<p>導入環境はCentOS 6です。
+あらかじめAレコードなどは設定している状態です。
+またsubsonicのGUIでのセットアップ手順の説明などは省いてます。</p>
+
+<h2 id="javasdk">javaのSDKのインストール</h2>
+
+<p><code>
+sudo yum install java-1.6.0-openjdk
+</code></p>
+
+<h2 id="subsonic">subsonicのインストール</h2>
+<p><a href="http://www.subsonic.org/pages/download.jsp">Subsonic » Free Music Streamer</a>、からRPMを持ってくる。</p>
+
+<p><code>
+mkdir ~/tmp
+cd ~/tmp
+wget http://downloads.sourceforge.net/project/subsonic/subsonic/4.6/subsonic-4.6.rpm
+sudo rpm -ivh subsonic-4.6.rpm --test
+sudo rpm -ivh subsonic-4.6.rpm
+</code></p>
+
+<p>自動エンコーディング機能を利用するために必要ライブラリを導入</p>
+
+<p><code>
+sudo yum -y install lame flac faad2 vorbis-tools ffmpeg
+</code></p>
+
+<p>音楽ファイル用のディレクトリを用意。</p>
+
+<p><code>
+sudo mkdir /var/music
+sudo mkdir /var/playlists
+sudo chmod 777 /var/music
+sudo chmod 777 /var/playlists
+</code></p>
+
+<p>ローカルPCからVPS上の<code>/var/music/</code>にrsyncでもかけて、音楽ファイルを配置。</p>
+
+<h2 id="nginx">nginxのインストール</h2>
+
+<p><code>
+sudo yum -y nginx
+</code></p>
+
+<h3 id="etcnginxnginxconf">/etc/nginx/nginx.conf</h3>
+
+<p>nginxが80番で待ち受けて、subsonicの4040番に渡しています。 
+<code>server_name</code>の部分はAレコードをあてている自分のドメインに書き換えてください。</p>
+
+<p><div><script src='https://gist.github.com/2281393.js'></script>
+<noscript><pre><code>#######################################################################
+#
+# This is the main Nginx configuration file.  
+#
+# More information about the configuration options is available on 
+#   * the English wiki - http://wiki.nginx.org/Main
+#   * the Russian documentation - http://sysoev.ru/nginx/
+#
+#######################################################################
+
+user              nginx;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    gzip  on;
+    
+    server {
+        listen       80;
+        server_name  foobar.com;
+
+        error_page  404              /404.html;
+        location = /404.html {
+            root   /usr/share/nginx/html;
+        }
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+
+        location / {
+            proxy_pass   http://127.0.0.1:4040;
+            break;
+        }
+    }
+
+    # Load config files from the /etc/nginx/conf.d directory
+    include /etc/nginx/conf.d/*.conf;
+
+}</code></pre></noscript></div>
+</p>
+
+<h2 id="subsonicnginx">subsonicとnginxの起動</h2>
+
+<p><code>
+sudo service subsonic start
+sudo service nginx start
+</code></p>
+
+<p>nginx.confで設定した<code>http://foobar.com/</code>にアクセス</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/subsonic.png" alt="" /></p>
+
+<p>おー、動いた。</p>
+
+<h2 id="url">参考URL</h2>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/hiboma/20110702/1309591830">Subsonic所感 - hibomaのはてなダイアリー</a></li>
+  <li><a href="http://d.hatena.ne.jp/Molokheiya/20110628/p1">さくらのVPSとSubsonicでiTunesをゴミ箱にダンクシュートした - 甘味志向＠はてな</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

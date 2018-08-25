@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: misc | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/misc/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[最近導入した開発に役立つ便利なステータスバー通知系アプリ3選]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/03/29/notification-apps/"/>
+    <updated>2016-03-29T12:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/03/29/notification-apps</id>
+    <content type="html"><![CDATA[<p>最近追加したステータスバーの通知系アプリで便利なやつを共有。</p>
+
+<h2 id="github-notifications">GitHub Notifications</h2>
+
+<p><img src="https://gitify.io/static/images/mockup.png" alt="" /></p>
+
+<ul>
+  <li><a href="https://gitify.io/">Gitify - GitHub Notifications on your menu bar</a></li>
+</ul>
+
+<p>GitHubのNotifications通知については、Gitifyを利用。
+それまでは自分宛の通知は<a href="https://zapier.com/">Zapier</a>使ってSlackに通知したり、Chrome Extensionとか使って検知してたんですが、
+ステータスバーに通知するやつが自分にはあっていたので、半年くらい前から利用してます。</p>
+
+<h2 id="circleci-notifications">CircleCI Notifications</h2>
+
+<p><img src="https://blog.glidenote.com/images/2016/03/seaeye.png" alt="" /></p>
+
+<ul>
+  <li><a href="https://github.com/nolaneo/SeaEye">nolaneo/SeaEye: OSX notifications for Circle CI builds</a></li>
+</ul>
+
+<p>CircleCIの通知にはSeaEyeを利用。特定プロジェクトや、自分のビルドだけ通知などが設定ができるのが大変便利。</p>
+
+<h2 id="bitbar--sensu-notifications">BitBar &amp; Sensu Notifications</h2>
+
+<p><img src="https://raw.githubusercontent.com/ripienaar/sensu_bitbar/master/screenshot.png" alt="" /></p>
+
+<ul>
+  <li><a href="https://github.com/ripienaar/sensu_bitbar">ripienaar/sensu_bitbar: BitBar Sensu status plugin</a></li>
+</ul>
+
+<p>rebuild.fm a132で話題に出ていた<a href="https://github.com/matryer/bitbar">BitBar</a>で、KAIZENで利用している監視システム<a href="https://sensuapp.org/">Sensu</a>のPluginがあったので導入。
+Sensuがアラートを検知した場合、Pagerduty経由で、Slack、メール、電話、スマホアプリへの通知などをしてくれるので、無くても良いんですが、ちょっとBitBarを利用してみたかったので導入。</p>
+
+<p>これを機にメールとSlackでの通知も減らしたので作業に集中する時間が増えた(気がする)</p>
+
+<h1 id="section">参考</h1>
+
+<ul>
+  <li><a href="http://rebuild.fm/132a/">Rebuild: Aftershow 132: Math Is Hard, Let’s Go Programming (higepon)</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Roost Laptop Standで肩こりが解消した]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/02/05/roost/"/>
+    <updated>2016-02-05T19:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/02/05/roost</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2016/02/roost0.jpg" alt="" /></p>
+
+<ul>
+  <li><a href="http://www.therooststand.com/">Roost Laptop Stand: Portable, Lightweight, Adjustable, Ergonomic Stand</a></li>
+</ul>
+
+<p>Kickstarterで注文していた新しいRoost Laptop Standが昨年末に届いて、最近は下のような形で作業している。</p>
+
+<blockquote class="instagram-media" data-instgrm-captioned="" data-instgrm-version="6" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:8px;"> <div style=" background:#F8F8F8; line-height:0; margin-top:40px; padding:50.0% 0; text-align:center; width:100%;"> <div style=" background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAGFBMVEUiIiI9PT0eHh4gIB4hIBkcHBwcHBwcHBydr+JQAAAACHRSTlMABA4YHyQsM5jtaMwAAADfSURBVDjL7ZVBEgMhCAQBAf//42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB/lQPb79drWOyJVa/DAvg9B/rLB4cC+Nqgdz/TvBbBnr6GBReqn/nRmDgaQEej7WhonozjF+Y2I/fZou/qAAAAAElFTkSuQmCC); display:block; height:44px; margin:0 auto -44px; position:relative; top:-22px; width:44px;"></div></div> <p style=" margin:8px 0 0 0; padding:0 4px;"> <a href="https://www.instagram.com/p/_1IWh2Cw47/" style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none; word-wrap:break-word;" target="_blank">2016年に向けた作業環境が整った</a></p> <p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;">A photo posted by Akira Maeda (@glidenote) on <time style=" font-family:Arial,sans-serif; font-size:14px; line-height:17px;" datetime="2015-12-28T09:17:35+00:00">Dec 28, 2015 at 1:17am PST</time></p></div></blockquote>
+<script async="" defer="" src="https://blog.glidenote.com//platform.instagram.com/en_US/embeds.js"></script>
+
+<p><br />
+1ヶ月半くらい、この状態で過ごしてみての感想は、</p>
+
+<ul>
+  <li>真っ直ぐを向く姿勢になるので、肩こりが解消した</li>
+  <li>姿勢が楽なので集中力が長時間持続する</li>
+  <li>イヤホンを接続するとケーブルが邪魔</li>
+  <li>Roostは持ち運びを想定した設計だが、キーボードとかも一緒に持ち歩かないといけないので、持ち運びには適さない(と思う)</li>
+</ul>
+
+<p>単に目の高さにディスプレイがくるようになれば良いのかと思って、それまで使っていた外部ディスプレイ(27インチ)を目線の高さにくるようにしてみたけど
+外部ディスプレイだと画面が広いせいか、首は動かないけど視線(眼球)がよく動いて、目の疲れは軽減されないことがわかった。</p>
+
+<p>MacBook Pro Retina 15くらいだと視線ほぼ動かないので、目が疲れず、それが肩こり軽減にも一役買っている。</p>
+
+<p>これまで肩こりで集中力が切れることが結構あったが、Roostを使いだしてからそれが無くなって劇的に快適になった。
+作業環境において、ここ数年で一番良い買い物をした感じがする。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://rebuild.fm/71a/">Rebuild: Aftershow 71: Green Grass On GitHub (Naoya Ito)</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ChatOps + NightmareでメトリクスグラフとBIレポートをSlackに投げるようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2015/10/01/nightmare-screenshots/"/>
+    <updated>2015-10-01T20:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2015/10/01/nightmare-screenshots</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2015/09/nightmare_0.png" alt="" /></p>
+
+<ul>
+  <li><a href="http://www.nightmarejs.org/">Nightmare</a></li>
+</ul>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li>Slack + Hubot + Nightmare + CircleCI を利用してSlackにNewRelicのメトリクスグラフやBIレポートを投げるようにした</li>
+  <li>Slackなどチャットツールとのintegrationが無いツールでもグラフを投稿出来るようにした</li>
+  <li>会社のKPIやサービスの状態をSlack上からhubotを利用して誰でも簡単に確認が出来るようになった</li>
+</ul>
+
+<h2 id="section">仕組み</h2>
+
+<p><img src="https://blog.glidenote.com/images/2015/09/nightmare_1.png" alt="" /></p>
+
+<ol>
+  <li>Slack上でHubotを呼び出す(hubot-cronで自動で稼働する)</li>
+  <li>HubotがCircleCIのAPIを叩いて、rebuid</li>
+  <li>CircleCI上でNightmareを利用し、NewRelicやBIツールのスクリーンショットを取得し、s3にアップロード</li>
+  <li>SlackのIncoming webhooksを利用してグラフを投稿する</li>
+</ol>
+
+<h3 id="newrelic">NewRelicにログインしてスクリーンショットを取るスクリプトサンプル</h3>
+
+<p>```js
+var Nightmare = require(‘nightmare’);
+var fs = require(‘fs’);</p>
+
+<p>var urls = [];
+urls.push(‘https://rpm.newrelic.com/accounts/xxxxxxxxxxxxxxxxxxxxxxxxxxx’);
+urls.push(‘https://rpm.newrelic.com/accounts/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx’);
+urls.push(‘https://rpm.newrelic.com/accounts/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx’);</p>
+
+<p>var i = 0;</p>
+
+<p>for(u in urls) {
+    var url = urls[u];
+    var filename = ‘/tmp/tmp’ + i + ‘.png’;
+    fs.appendFile(‘/tmp/urls.txt’,url+’\n’);
+    new Nightmare()
+      .viewport(1600, 900)
+      .useragent(“Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36”)
+      .goto(‘https://login.newrelic.com/login’)
+      .type(‘#login_email’, ‘foobar@sample.com’)
+      .type(‘#login_password’, ‘foobarpass’)
+      .click(‘#login_submit’)
+      .wait()
+      .goto(“https://rpm.newrelic.com/set_time_window?tw%5Bdur%5D=last_3_days”)
+      .goto(url)
+      .wait(10000)
+      .screenshot(filename)
+      .run(function (err, nightmare) {
+        if (err) return console.log(err);
+        console.log(‘Done!’);
+     });
+    i = i + 1;
+}
+```</p>
+
+<h3 id="circleyml"><code>circle.yml</code></h3>
+
+<ul>
+  <li>CircleCI上のphantomjsが古くグラフが正常に表示されないので、<code>2.0.1</code>にバージョンアップしてます。</li>
+  <li>ブランチ毎で処理を変更</li>
+  <li>スクリーンショットをs3にアップロードして、slackにpostするスクリプトはいろいろとハードコードされているので割愛…</li>
+</ul>
+
+<p>```yaml
+dependencies:
+  pre:
+    - bundle install
+    - npm install
+    - sudo apt-get update; sudo apt-get install libicu52
+    - curl –output /home/ubuntu/bin/phantomjs-2.0.1-linux-x86<em>64-dynamic https://s3.amazonaws.com/circle-support-bucket/phantomjs/phantomjs-2.0.1-linux-x86</em>64-dynamic
+    - chmod a+x /home/ubuntu/bin/phantomjs-2.0.1-linux-x86<em>64-dynamic
+    - sudo ln -s –force /home/ubuntu/bin/phantomjs-2.0.1-linux-x86</em>64-dynamic /usr/local/bin/phantomjs</p>
+
+<p>test:
+  pre:
+    - phantomjs –version
+    - npm test</p>
+
+<p>deployment:
+  master:
+    branch: master
+    commands:
+      - node ./scripts/foobar.js
+      - ./bin/post_image_to_slack -c #bot-test -t “post title” -u “kaizenbot”</p>
+
+<p>newrelic-webapp-overview:
+    branch: newrelic/webapp-overview
+    commands:
+      - node ./scripts/newrelic-webapp-overview.js
+      - ./bin/post_image_to_slack -c #engineering -t “New Relic Webapp Overview” -u “New Relic Report Bot”</p>
+
+<p>newrelic-external-services:
+    branch: newrelic/external-services
+    commands:
+      - node ./scripts/newrelic-external-services.js
+      - ./bin/post_image_to_slack -c #engineering -t “New Relic External Services” -u “New Relic Report Bot”</p>
+
+<p>domo-variations:
+    branch: domo/variations
+    commands:
+      - node ./scripts/domo-variations.js
+      - ./bin/post_image_to_slack -c #general -t “K2 &amp; BP Variations” -u “BI Report Bot”
+```</p>
+
+<h2 id="section-1">実際の動作</h2>
+
+<ul>
+  <li>実際にはhubot-cronを用いて自動で動くようになっています。</li>
+  <li>BIレポートは日替わりで内容を変えるようにしてます。</li>
+  <li>hubotを利用して、誰でも任意のタイミングで実行出来るようにしてます。</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2015/09/nightmare_2.png" alt="" />
+<img src="https://blog.glidenote.com/images/2015/09/nightmare_4.png" alt="" />
+<img src="https://blog.glidenote.com/images/2015/09/nightmare_3.png" alt="" /></p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://blog.kyanny.me/entry/2014/11/15/180032">New Relic のグラフを毎時チャットに貼り付ける - @kyanny’s blog</a></li>
+  <li><a href="http://qiita.com/mizchi/items/04c53e17ed5c4ec7e8d7">NightmareでE2Eテストしつつスクリーンショットとってgifに結合したら目視チェックが最高に楽になった - Qiita</a></li>
+  <li><a href="http://liginc.co.jp/web/programming/node-js/139045">nightmare.jsとgmを使ってnode.jsでLIGブログの更新をSlackでゲットだぜ | 株式会社LIG</a></li>
+  <li><a href="http://www.muratayusuke.com/2015/07/30/test_reactjs_app_with_phantomjs_on_circleci/">Circleci上でPhantomjsを使ってReactアプリをテストする</a></li>
+</ul>
+
+<p>私が悪戦苦闘しているのを横目に、技術顧問が寿司情報を収集するのにサラッと使いこなしていた有益プレゼン死霊</p>
+
+<script async="" class="speakerdeck-embed" data-id="23356e934da04f499b8fe0f7c1f87299" data-ratio="1.33333333333333" src="https://blog.glidenote.com//speakerdeck.com/assets/embed.js"></script>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[サーバ/インフラ徹底攻略を読んでインフラエンジニアの高齢化問題について考える]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/10/31/infrastructure-engineer-grows-old/"/>
+    <updated>2014-10-31T18:35:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/10/31/infrastructure-engineer-grows-old</id>
+    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/%E3%82%B5%E3%83%BC%E3%83%90-%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-WEB-PRESS-plus/dp/4774167681?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774167681"><img src="https://images-fe.ssl-images-amazon.com/images/I/61FyzLfkvnL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E3%82%B5%E3%83%BC%E3%83%90-%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-WEB-PRESS-plus/dp/4774167681?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774167681">サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)</a></p>
+
+<p>本書の「テスト駆動インフラ&amp;CI最前線」を執筆された<a href="https://twitter.com/gosukenator">mizzyさん</a>からご恵贈頂きました。ありがとうございます。</p>
+
+<p>事前に断っておくと私がここで記載している「インフラエンジニア」はITインフラエンジニアの話です。</p>
+
+<p>本書の詳細なレビューは他の方にお任せするとして、内容を読むと</p>
+
+<ul>
+  <li>サーバプロビジョニング</li>
+  <li>Vagrant</li>
+  <li>Serverspec</li>
+  <li>インフラCI</li>
+  <li>AWS</li>
+  <li>GitHub</li>
+  <li>Docker</li>
+  <li>nginx</li>
+  <li>メンテナンス、運用の話</li>
+</ul>
+
+<p>が主なTopicsになる。</p>
+
+<p>これらは今のインフラエンジニアにとって必須の知識、スキルになってきていて、その他にも
+従来から必要だったOSレイヤー、ミドルウェアレイヤー、LAMP、ログ収集の定番Fluentdなど
+インフラエンジニアに要求されるスキルセットの範囲が広く、しかも深くなっていると個人的には思っている。
+もはや運用だけでやっていればいい時代は終わっていて、必要なものは自分で作るためにコードを書ける必要もある。</p>
+
+<p>守備範囲が広く、そして深いので覚えることが尽きず、インフラエンジニアは非常に面白い職種のはずなんですが、
+それがあまり伝わっていないのか、 若い人が非常に少ない職種。
+私自身、6年前にインフラエンジニア(当時はサーバエンジニアという名前だった)になるまで
+どんな職種だかよく理解していなかったので、イメージがしにくい職種なのは確かだと思う。</p>
+
+<p>WEB系企業各社インフラエンジニアの採用には非常に苦労しているようで、
+このままだと5年後、10年後にはさらに高齢化が進むのは必至なのと、今現役バリバリの優秀なエンジニアから
+知見を引き継ぐ若い優秀な人材が減っていってしまうので、今から若いインフラエンジニアを養成する必要があると思う。</p>
+
+<p>本書は2014年のインフラエンジニアに求められている知識やスキルが1冊に良くまとまっているし、
+インフラエンジニアの魅力も伝わると思うので、インフラエンジニアを理解したい人や
+インフラエンジニアを目指している人には非常に良書である。</p>
+
+<p>新卒エンジニアには研修などで是非読んで欲しい本。</p>
+
+<p>2014/10/31時点でAmazonでベストセラー1位になっているので、サーバ/インフラ徹底攻略を読んで、
+若いインフラエンジニアが増えてくれることを期待している。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/10/webdbpress.png" alt="" /></p>
+
+<p>今インフラは楽しいぞ！</p>
+
+<p>```
+目次</p>
+
+<p>巻頭企画
+[入門]コードによるインフラ構築
+サーバ構成管理の自動化を実現するる……伊藤 直也
+第1章 ChefとVagrantによるインフラのコード化
+設定の一元管理で作業を省力化する
+第2章 Serverspecによるテスト駆動インフラ構築
+設定変更の反映を確実なものにする</p>
+
+<p>特集1
+Amazon Web Services最新活用
+レイヤ別比較,構築の定石,構成管理の自動化る
+第1章 Amazon Web Servicesレイヤ別比較
+各サービスの特徴を理解し,うまく使い分ける……片山 暁雄,平山 毅
+第2章 EC2とVPCによるシステム構築
+セキュアで可用性を高めたインフラの作り方……舟崎 健治,吉荒 祐一
+第3章 RDSによるデータベースの活用
+作成,デプロイ,バックアップ……今井 雄太,八木橋 徹平
+第4章 CloudFormationによる構築の自動化
+テンプレートの作成からミドルウェア構築設定まで……安川 健太</p>
+
+<p>特集2
+テスト駆動インフラ&amp;CI最前線
+Infrastructure as Codeがもたらすワークフローの刷新る……宮下 剛輔
+第1章 インフラのテストとその重要性
+「インフラのコード化」による開発手法の応用
+第2章 テスト駆動インフラの実践
+VirtualBox,Vagrant,Puppet,Serverspecによるテスト自動化
+第3章 インフラCIの実践
+GitHub,Wercker,DigitalOceanによる継続的テスト
+第4章 インフラの継続的改善の実践
+GitHub Flowをベースとしたワークフロー変革</p>
+
+<p>特集3
+実践Immutable Infrastructure
+使い捨てサーバによる運用の変革る……田中 慎司
+第1章 Immutable Infrastructureとは何か
+不変なサーバ,Blue-green Deploymentとそれらの利点
+第2章 Immutable Infrastructureで利用するツール/サービス
+比較・整理と,システム全体での組み合わせ
+第3章 コンテナ型仮想化とクラウドによる実践
+Docker+HAProxy,Amazon EC2+ELB
+第4章 クラスタ管理ツールによる実践
+Apache Mesosでリソース管理の自動化</p>
+
+<p>特集4
+[詳解]nginx
+設定の柔軟性と優れたスケーラビリティ
+第1章 nginxの世界へようこそ
+アーキテクチャ,用途,メリット,デメリット……久保 達彦
+第2章 はじめてのnginx
+インストール,起動と終了,基本設定……道井 俊介
+第3章 一般的なWebサーバの構築
+バーチャルホスト,アクセス制御,SSL通信,基本認証……飯田 祐基
+第4章 実践的なWebアプリケーションサーバの構築
+Unicorn/RailsやPHP-FPMと連携させる……道井 俊介
+第5章 大規模コンテンツ配信システムの構築
+キャッシュ,ロードバランシングを活用する……飯田 祐基
+第6章 拡張モジュールのしくみと作り方
+nginxを自由にカスタマイズするための基礎知識……久保 達彦</p>
+
+<p>特集5
+メンテナンス本格入門
+緊急対応,計画停止,メンテフリー化
+第1章 メンテナンスとは
+種類と手法を整理する……桑野 章弘
+第2章 計画メンテナンスの流れ
+事前準備,作業のチェック,振り返り……松浦 隼人
+第3章 緊急メンテナンスの流れ
+普段から備えるべきこと,障害時の対応……松浦 隼人
+第4章 メンテフリーへのアプローチ【インフラ編】
+省力運用を実現するインフラ,データベース設計と障害検知……松浦 隼人,中村 俊之
+第5章 メンテフリーへのアプローチ【アプリケーション編】
+ダウンタイムを減らすリリース手法とアプリケーション設計……福永 亘,中村 俊之,松浦 隼人
+第6章 ガールフレンド(仮)とアメーバピグの事例
+現場でどう実践し,どう障害を切り抜けたか……福永 亘,杉山 仁則</p>
+
+<p>一般記事
+Dockerで軽量な仮想環境
+Linuxコンテナでインフラを瞬時に構築する……伊藤 直也
+```</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.kenjiskywalker.org/blog/2014/10/26/server-infra-webdb-book/">「サーバ/インフラ徹底攻略」を読んだ - さよならインターネット</a></li>
+  <li><a href="http://d.hatena.ne.jp/rx7/20141030/p1">「サーバ/インフラ徹底攻略」を読んだ - 元RX-7乗りの適当な日々</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[KAIZEN platform Inc.に入社した]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/08/01/join-to-kaizen-platform-inc/"/>
+    <updated>2014-08-01T17:15:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/08/01/join-to-kaizen-platform-inc</id>
+    <content type="html"><![CDATA[<p>いわゆる転職エントリーなので、興味無い人はそっと閉じて頂ければ幸いです。</p>
+
+<p>私事ですが、6年弱勤め、シニアエンジニアとしてサービスのインフラ系業務を担当していたGMOペパボ株式会社(旧株式会社paperboy&amp;co.)を7月末に退職して、
+8月から<a href="http://kaizenplatform.in/">KAIZEN platform Inc.</a>に入社しました。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/08/kaizen.jpg" alt="" /></p>
+
+<h2 id="kaizen-platform-inc">なぜKAIZEN platform Inc.を選んだのか</h2>
+
+<p><a href="http://goo.gl/hvPxog">CEO 須藤憲司さんのブログ</a>、技術顧問である<a href="https://twitter.com/naoya_ito">伊藤直也さん</a>のブログや
+出演していた<a href="http://rebuild.fm/">Rebuild</a>で知っていたのもあるんですが、入社を決めたポイントをまとめると下記のような感じ。</p>
+
+<ul>
+  <li>前職でKAIZEN platform Inc.の<a href="https://planb.cd/?lang=ja">planBCD</a>を導入しており、非常に高い効果がありプロダクトに関心があった</li>
+  <li>創業間も無いのに優秀なエンジニアが揃っており、技術的にもチャレンジングで尖ったことをやっていた</li>
+  <li>本気で海外進出を目指しており(会議はもちろん全編英語)、エンジニアだけでなく、営業やバックオフィスにも優秀な人材を揃えていた</li>
+  <li>企業理念が「世界をKAIZEN(改善)する」ということで、世の中を良くしていこうとしている会社だから</li>
+  <li>面接で企業の成長速度、事業計画や採用計画を聞いていて、今参加しないと1〜2年後には入社が不可能なレベルの会社になっていると感じた</li>
+</ul>
+
+<h2 id="kaizen-platform-inc-1">KAIZEN platform Inc.がよく分かるまとめ</h2>
+
+<p>KAIZEN platform Inc.のことを知らないひとに向けてちょっとまとめを。</p>
+
+<ul>
+  <li><a href="http://wired.jp/2013/12/22/kaizen-platform/">クラウドソーシング型A/Bテストで、サイトUIを改善する「KAIZEN Platform」 « WIRED.jp</a></li>
+  <li><a href="http://thebridge.jp/2014/07/kaizen-launched-a-growth-hack-network">KAIZENが創業特区福岡市でクリエイティブ人材育成ネットワークを開始 #bdash - THE BRIDGE（ザ・ブリッジ）</a></li>
+  <li><a href="http://kaizenplatform.in/hiring/engineer.html">採用ページ</a></li>
+</ul>
+
+<h3 id="ceo-">CEO 須藤憲司さんの記事</h3>
+
+<ul>
+  <li><a href="http://storys.jp/story/3178">KAIZEN Platformの始まり</a></li>
+  <li><a href="http://goo.gl/zgXILi">KAIZEN platformの働き方</a></li>
+  <li><a href="http://storys.jp/story/4049">スタートアップを支える家族</a></li>
+  <li><a href="http://goo.gl/uq7KBk">スタートアップの実態</a></li>
+  <li><a href="http://goo.gl/hvPxog">世界は落下している</a></li>
+</ul>
+
+<h3 id="cto-">CTO 石橋利真さんの記事</h3>
+
+<ul>
+  <li><a href="http://goo.gl/gFXJVW">開発現場の暗黙知をなくすチーム運営術</a></li>
+  <li><a href="http://goo.gl/Ockzhj">効率化で人を自由にする</a></li>
+  <li><a href="http://time.levtech.jp/article/a-cto-kaizen-2/">無駄を減らして、その分クリエイティブな事に時間を使った世界がどうなるかを見たい</a></li>
+</ul>
+
+<h3 id="section">技術顧問 伊藤直也さんの記事</h3>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/naoya/20140512/1399864629">Sqwiggle が良いという話、またはリモートでアジャイル開発をどう進めるか - naoyaのはてなダイアリー</a></li>
+  <li><a href="http://rebuild.fm/32/">Rebuild: 32: How We Work Remotely (Naoya Ito)</a></li>
+  <li><a href="https://speakerdeck.com/naoya/sukerusurukai-fa-zu-zhi-falsezuo-rifang-number-jawsug">スケールする開発組織の作り方 #jawsug // Speaker Deck</a></li>
+  <li><a href="https://speakerdeck.com/naoya/kaizen-platform-inc-niokeruyun-yong-zi-dong-hua">KAIZEN platform Inc. における運用自動化 // Speaker Deck</a></li>
+  <li><a href="https://speakerdeck.com/naoya/kaizen-platform-inc-falsekai-fa-manezimento">KAIZEN platform Inc. の開発マネジメント // Speaker Deck</a></li>
+  <li><a href="https://speakerdeck.com/naoya/websabisukai-fa-falsebian-qian-toxian-zai">Webサービス開発の変遷と現在 // Speaker Deck</a></li>
+  <li><a href="https://speakerdeck.com/naoya/b2bsabisukai-fa-falsexian-chang-kara-number-devsumi">B2Bサービス開発の現場から #devsumi // Speaker Deck</a></li>
+</ul>
+
+<h2 id="gmo">GMOペパボについて</h2>
+
+<p>転職エントリーを書くと、転職元に対して地味にダメージを与える傾向があるので、誤解が無いよう書いておこうと思う。
+GMOペパボは、上場企業で福利厚生もちゃんとしているし、エンジニアの評価制度もしっかりしていて、エンジニアにとって働きやすく素晴らしい会社だと思う。
+優秀なエンジニアも多数在籍しているし、新しい事にも積極的に取り組んでいて、刺激的な環境で本当にオススメの会社だと思う。</p>
+
+<p>私が辞めたのはいわゆるベンチャー志向であるからであって、ペパボに不満があったとかでは無いです。
+ベンチャー志向については2007年の伊藤直也さんの動画を観るとよく分かります。(素晴らしい動画です)</p>
+
+<script type="text/javascript" src="http://ext.nicovideo.jp/thumb_watch/sm1241482"></script>
+<noscript><a href="http://www.nicovideo.jp/watch/sm1241482">【ニコニコ動画】ベンチャー指向プログラマ - 伊藤直也さん</a></noscript>
+
+<p>既にペパボを退職されていますが、ペパボでは<a href="http://serverspec.org/">Serverspec</a>でお馴染みの<a href="https://twitter.com/gosukenator">mizzyさん</a>という一流エンジニアと一緒に働くことが出来て、
+非常に多くの事を吸収することが出来、エンジニアとしても、人生において素晴らしい時間を過ごすことが出来た。</p>
+
+<p>社長の<a href="https://twitter.com/kentarow">ケンタロさん</a>を始め、多くの人々に支えられ、ペパボには感謝しか無いです。</p>
+
+<h2 id="section-1">最後に</h2>
+
+<p>転職エントリにつきもののウィッシュリストを用意したので、
+KAIZEN platform Inc.の新しい住所宛<code>〒163-0241　東京都新宿区西新宿2-6-1 新宿住友ビル41F</code>に送って頂けると大変助かります!!</p>
+
+<p><a href="http://www.amazon.co.jp/gp/registry/wishlist/5ORP9L8895JE/ref=cm_wl_rlist_go_o?ie=UTF8&amp;sort=priority">Wishlist</a></p>
+
+<p>今後ともよろしくお願いします。</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,601 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Cobblerサーバの構築メモ - Glide Note</title>
+  <meta property="og:title" content="Cobblerサーバの構築メモ - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="Cobbler - Linux install and update server Cobblerを使って、業務で日常的にOSのインストールを
+しているんですが、Cobblerサーバ自体はチーム内の他の人が構築してくれてて、
+自分で一から立てたことが無く、今回構築してみたのでメモ。 構築環境 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2012/03/15/cobbler-install/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2012/03/15/cobbler-install">
+<meta name="twitter:title" content="Cobblerサーバの構築メモ">
+<meta name="twitter:description" content="Cobbler - Linux install and update server Cobblerを使って、業務で日常的にOSのインストールを
+しているんですが、Cobblerサーバ自体はチーム内の他の人が構築してくれてて、
+自分で一から立てたことが無く、今回構築してみたのでメモ。 構築環境 CentOS release 5.8 (Final) cobbler-2.0.11-2.el5 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Cobblerサーバの構築メモ</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-15T23:14:00+09:00" pubdate data-updated="true">2012年03月15日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><ul>
+  <li><a href="http://cobbler.github.com/">Cobbler - Linux install and update server</a></li>
+</ul>
+
+<p><a href="http://cobbler.github.com/">Cobbler</a>を使って、業務で日常的にOSのインストールを
+しているんですが、Cobblerサーバ自体はチーム内の他の人が構築してくれてて、
+自分で一から立てたことが無く、今回構築してみたのでメモ。</p>
+
+<p>構築環境</p>
+
+<ul>
+  <li>CentOS release 5.8 (Final)</li>
+  <li>cobbler-2.0.11-2.el5</li>
+  <li>CobblerサーバのIP 172.17.8.11</li>
+  <li>PXEブートするIPレンジ 172.17.8.0/24</li>
+</ul>
+
+<h2 id="epel">epelの導入</h2>
+
+<p>Cobblerはepelにあるので、epelをリポジトリに追加</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir ~/src
+</span><span class="line">cd ~/src
+</span><span class="line">wget http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
+</span><span class="line">rpm -ivh epel-release-5-4.noarch.rpm</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="cobbler">Cobblerの導入とサービスの起動</h2>
+
+<p>Cobblerと一緒に必要なパッケージが入るんですが、
+dhcpは一緒に入らなかったのでdhcpも導入。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">yum -y install cobbler dhcp</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>サービスを起動して、自動で起動するようにも設定</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">service cobblerd start
+</span><span class="line">service httpd start
+</span><span class="line">service xinetd start
+</span><span class="line">service dhcpd start
+</span><span class="line">
+</span><span class="line">chkconfig cobblerd on
+</span><span class="line">chkconfig httpd on
+</span><span class="line">chkconfig xinetd on
+</span><span class="line">chkconfig dhcpd on</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="cobbler-1">Cobblerの各種設定を用意</h2>
+
+<p>Cobblerを起動したら<code>cobbler check</code>で設定ファイルをチェック。問題がある部分が表示されるので一個ずつ修正していきます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cobbler check
+</span><span class="line">
+</span><span class="line">The following are potential configuration items that you may want to fix:
+</span><span class="line">
+</span><span class="line">1 : The 'server' field in /etc/cobbler/settings must be set to something other than localhost, or kickstarting features will not work.  This should be a resolvable hostname or IP for the boot server as reachable by all machines that will use it.
+</span><span class="line">2 : For PXE to be functional, the 'next_server' field in /etc/cobbler/settings must be set to something other than 127.0.0.1, and should match the IP of the boot server on the PXE network.
+</span><span class="line">3 : some network boot-loaders are missing from /var/lib/cobbler/loaders, you may run 'cobbler get-loaders' to download them, or, if you only want to handle x86/x86_64 netbooting, you may ensure that you have installed a *recent* version of the syslinux package installed and can ignore this message entirely.  Files in this directory, should you want to support all architectures, should include pxelinux.0, menu.c32, elilo.efi, and yaboot. The 'cobbler get-loaders' command is the easiest way to resolve these requirements.
+</span><span class="line">4 : change 'disable' to 'no' in /etc/xinetd.d/tftp
+</span><span class="line">5 : change 'disable' to 'no' in /etc/xinetd.d/rsync
+</span><span class="line">6 : debmirror package is not installed, it will be required to manage debian deployments and repositories
+</span><span class="line">7 : The default password used by the sample templates for newly installed machines (default_password_crypted in /etc/cobbler/settings) is still set to 'cobbler' and should be changed, try: "openssl passwd -1 -salt 'random-phrase-here' 'your-password-here'" to generate new one
+</span><span class="line">8 : fencing tools were not found, and are required to use the (optional) power management features. install cman or fence-agents to use them
+</span><span class="line">
+</span><span class="line">Restart cobblerd and then run 'cobbler sync' to apply changes.</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="etccobblersettings">/etc/cobbler/settings</h3>
+
+<div><script src="https://gist.github.com/2042460.js?file=settings.diff"></script>
+<noscript><pre><code>--- settings.dist	2012-03-15 03:08:45.000000000 +0900
++++ settings	2012-03-14 18:39:53.000000000 +0900
+@@ -195,7 +195,7 @@
+ 
+ # set to 1 to enable Cobbler&#39;s DHCP management features.
+ # the choice of DHCP management engine is in /etc/cobbler/modules.conf
+-manage_dhcp: 0
++manage_dhcp: 1
+ 
+ # set to 1 to enable Cobbler&#39;s DNS management features.
+ # the choice of DNS mangement engine is in /etc/cobbler/modules.conf
+@@ -210,7 +210,7 @@
+ # if using cobbler with manage_dhcp, put the IP address
+ # of the cobbler server here so that PXE booting guests can find it
+ # if you do not set this correctly, this will be manifested in TFTP open timeouts.
+-next_server: 127.0.0.1
++next_server: 172.17.8.11
+ 
+ # settings for power management features.  optional.
+ # see https://fedorahosted.org/cobbler/wiki/PowerManagement to learn more
+@@ -322,7 +322,7 @@
+ # if you have a server that appears differently to different subnets
+ # (dual homed, etc), you need to read the --server-override section
+ # of the manpage for how that works.
+-server: 127.0.0.1
++server: 172.17.8.11
+ 
+ # this is a directory of files that cobbler uses to make
+ # templating easier.  See the Wiki for more information.  Changing</code></pre></noscript></div>
+
+<h3 id="etcxinetddtftp">/etc/xinetd.d/tftp</h3>
+
+<div><script src="https://gist.github.com/2042460.js?file=tftp.diff"></script>
+<noscript><pre><code>--- /etc/xinetd.d/tftp.dist     2012-03-15 03:12:09.000000000 +0900
++++ /etc/xinetd.d/tftp  2012-03-15 03:12:34.000000000 +0900
+@@ -11,7 +11,7 @@
+        user                    = root
+        server                  = /usr/sbin/in.tftpd
+        server_args             = -s /tftpboot
+-       disable                 = yes
++       disable                 = no
+        per_source              = 11
+        cps                     = 100 2
+        flags                   = IPv4</code></pre></noscript></div>
+
+<h3 id="etcxinetddrsync">/etc/xinetd.d/rsync</h3>
+
+<div><script src="https://gist.github.com/2042460.js?file=rsync.diff"></script>
+<noscript><pre><code>--- /etc/xinetd.d/rsync.dist    2012-03-15 03:13:30.000000000 +0900
++++ /etc/xinetd.d/rsync 2012-03-15 03:13:44.000000000 +0900
+@@ -3,7 +3,7 @@
+ #      allows crc checksumming etc.
+ service rsync
+ {
+-       disable = yes
++       disable = no
+        socket_type     = stream
+        wait            = no
+        user            = root</code></pre></noscript></div>
+
+<h3 id="etccobblerdhcptemplate">/etc/cobbler/dhcp.template</h3>
+
+<p>cobblerにdhcpdも管理させるのでdhcp.templateも修正</p>
+
+<div><script src="https://gist.github.com/2042460.js?file=dhcp.template.diff"></script>
+<noscript><pre><code>--- /etc/cobbler/dhcp.template.dist     2012-03-14 18:41:17.000000000 +0900
++++ /etc/cobbler/dhcp.template  2012-03-14 18:42:36.000000000 +0900
+@@ -16,14 +16,14 @@
+ ignore client-updates;
+ set vendorclass = option vendor-class-identifier;
+ 
+-subnet 192.168.1.0 netmask 255.255.255.0 {
+-     option routers             192.168.1.5;
+-     option domain-name-servers 192.168.1.1;
++subnet 172.17.8.0 netmask 255.255.255.0 {
++     option routers             172.17.8.11;
++     option domain-name-servers 172.17.8.11;
+      option subnet-mask         255.255.255.0;
+-     range dynamic-bootp        192.168.1.100 192.168.1.254;
++     range dynamic-bootp        172.17.8.250 172.17.8.253;
+      filename                   &quot;/pxelinux.0&quot;;
+-     default-lease-time         21600;
+-     max-lease-time             43200;
++     default-lease-time         600;
++     max-lease-time             600;
+      next-server                $next_server;
+ }
+</code></pre></noscript></div>
+
+<h3 id="etchostsallow">/etc/hosts.allow</h3>
+
+<p>hosts.allowにPXEブートするIPレンジを記載</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">bootps:         172.17.8.0/255.255.255.0
+</span><span class="line">tftp:           172.17.8.0/255.255.255.0
+</span><span class="line">in.tftpd:       172.17.8.0/255.255.255.0</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="bootloader">bootloaderの用意</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cobbler get-loaders</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section">インストール用のディストリビューションを用意</h2>
+
+<p><code>cobbler import</code>でCentOS5.8とScicentifc Linux6.2をimport。だいたい1つに30分〜40分かかります</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cobbler import --path=rsync://ftp.jaist.ac.jp/pub/Linux/CentOS/5.8/os/x86_64/ --name=CentOS5.8-x86_64
+</span><span class="line">cobbler import --path=rsync://ftp.jaist.ac.jp/pub/Linux/scientific/6.2/x86_64/os/ --name=SL6.2-x86_64
+</span><span class="line">cobbler sync</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">再度設定をチェック</h2>
+
+<p><code>cobbler check</code>で再度設定をチェック。下記の注意書きが出ますが、関係ないので無視</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">The following are potential configuration items that you may want to fix:
+</span><span class="line">
+</span><span class="line">1 : debmirror package is not installed, it will be required to manage debian deployments and repositories
+</span><span class="line">2 : The default password used by the sample templates for newly installed machines (default_password_crypted in /etc/cobbler/settings) is still set to 'cobbler' and should be changed, try: "openssl passwd -1 -salt 'random-phrase-here' 'your-password-here'" to generate new one
+</span><span class="line">3 : fencing tools were not found, and are required to use the (optional) power management features. install cman or fence-agents to use them
+</span><span class="line">
+</span><span class="line">Restart cobblerd and then run 'cobbler sync' to apply changes.</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>各種設定が出来たので、Cobbler再起動して設定を反映</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">service cobblerd restart</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">動作確認</h2>
+
+<p>動作チェックのため、iptablesを一時的に止める</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">service iptables stop</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>適当なksファイル<code>/var/lib/cobbler/kickstarts/mysql-server.ks</code>などを用意して、profileに登録</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cobbler profile add --name=mysql-server --distro=CentOS5.8-x86_64 --kickstart=/var/lib/cobbler/kickstarts/mysql-server.ks
+</span><span class="line">cobbler sync</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>まっさらなサーバを起動してCobblerの画面が出るか確認</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/cobbler0.png" alt="" /></p>
+
+<p>用意した<code>mysql-server</code>を選択してインストール作業の確認</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/cobbler1.png" alt="" /></p>
+
+<p>うまくいきました。</p>
+
+<p><code>/etc/cobbler/settings</code>を眺めてたら<code>git</code>やら<code>puppet</code>やらの設定項目があって、
+もっと便利に使えそうな予感が。</p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-15T23:14:00+09:00" pubdate data-updated="true">2012年03月15日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/centos/'>centos</a>, <a class='category' href='/blog/categories/rhel/'>rhel</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2012/03/15/cobbler-install/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="Cobblerサーバの構築メモ - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Cobblerサーバの構築メモ "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2012/05/15/mosh-rpm/">Moshのrpm作成を簡略化した</a></li>
+
+  <li><a href="/blog/2012/03/16/cobbler-system-add/">Cobbler System addのメモ</a></li>
+
+  <li><a href="/blog/2012/10/01/linux-reserved-blocks/">ext3でリザーブ領域のサイズを変更</a></li>
+
+  <li><a href="/blog/2014/02/22/remote-pbcopy/">ssh接続したリモートサーバの出力を手元Macのクリップボードに送る</a></li>
+
+  <li><a href="/blog/2013/12/04/yum-not-working/">CentOS 6.5にupgradeしたらyumが動かなくなったので直した</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/14/ironman-sticker/" title="Previous Post: Iron Man Sticker">&laquo; Iron Man Sticker</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/03/16/cobbler-system-add/" title="next Post: Cobbler System addのメモ">Cobbler System addのメモ &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2012/03/15/cobbler-install/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2012/03/15/cobbler-install/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

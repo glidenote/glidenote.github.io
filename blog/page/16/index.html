@@ -1,0 +1,550 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="Marked - smart tools for smart writers 最近購入したMac用のMarkedというMarkdownのプレビューアプリの出来がかなり良い。 Markedの良い点 markdownのプレビュー機能に特化している。(markdownファイルをDrag&amp; &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/16/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/16">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="Marked - smart tools for smart writers 最近購入したMac用のMarkedというMarkdownのプレビューアプリの出来がかなり良い。 Markedの良い点 markdownのプレビュー機能に特化している。(markdownファイルをDrag&amp;Dropでプレビュー） エディタ同梱のアプリではないので、自分の好きなエディタが使える &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/10/vim-quickrun-marked/">vim-quickrunとMarkedでmarkdown編集が快適になった</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-10T23:44:00+09:00" pubdate data-updated="true">2013年01月10日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="https://blog.glidenote.com/images/2013/01/marked.png" align="right" /></p>
+
+<ul>
+  <li><a href="http://markedapp.com/">Marked - smart tools for smart writers</a></li>
+</ul>
+
+<p>最近購入したMac用の<a href="http://markedapp.com/">Marked</a>というMarkdownのプレビューアプリの出来がかなり良い。</p>
+
+<h2 id="marked">Markedの良い点</h2>
+
+<ul>
+  <li>markdownのプレビュー機能に特化している。(markdownファイルをDrag&amp;Dropでプレビュー）</li>
+  <li>エディタ同梱のアプリではないので、自分の好きなエディタが使える</li>
+  <li>GitHub風の表示スタイルがあって見やすい。(<a href="http://github.github.com/github-flavored-markdown/">GitHub Flavored Markdown</a>に完全対応しているわけではないですが)</li>
+</ul>
+
+<p>あまりに便利なので、vim-quickrunのmarkdownプレビュー用に使えるように設定。</p>
+
+<p>vim-quickrunのバージョンは2013年1月11日時点で最新の<code>Version: 0.6.0</code>を利用しています。</p>
+
+<p>コマンドラインからMarkedを起動する場合は下記のような感じなので</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">open -a Marked foovar.md
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>quickrunを実行したときに上と同じようになるように、<code>.vimrc</code>に記載。</p>
+
+<div><script src="https://gist.github.com/4500536.js"></script>
+<noscript><pre><code>let g:quickrun_config = {}
+let g:quickrun_config.markdown = {
+      \ &#39;outputter/buffer/close_on_empty&#39; : 1,
+      \ &#39;command&#39; : &#39;open&#39;,
+      \ &#39;cmdopt&#39;  : &#39;-a Marked&#39;,
+      \ }
+</code></pre></noscript></div>
+
+<p><strong>追記 2013年1月11日11:23</strong><br />
+<del>‘outputter/buffer/close_on_empty’ : 1が無いと
+新規bufferが開いてしまって、Markedにフォーカスが移らないので設定します。</del></p>
+
+<blockquote class="twitter-tweet" lang="ja"><p>出力が必要ないなら &#8216;outputter&#8217;: &#8216;null&#8217; にすれば良いかな。 / &#8220;vim-quickrunとMarkedでmarkdown編集が快適になった - Glide Note - グライドノート&#8221; <a href="http://t.co/lTlQ5qtG" title="http://bit.ly/XTEsXg">bit.ly/XTEsXg</a></p>&mdash; thincaさん (@thinca) <a href="https://twitter.com/thinca/status/289554218459742208" data-datetime="2013-01-11T02:07:59+00:00">1月 11, 2013</a></blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>出力が無い場合は<code>'outputter' : 'null'</code>が良いと<a href="https://twitter.com/thinca">@thinca</a>さんから教えて頂きました</p>
+
+<p>実際に使ってみると下記のような感じで、vimでmarkdownを編集して、Markedで表示確認が出来る。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/01/vim-marked.png" alt="" /></p>
+
+<p>Mac限定ですが、これでmarkdown編集がかなり快適になった。<br />
+これでvimで<code>README.md</code>やwikiを編集してGithubにpushしたらレイアウトが崩れてて残念なんてことは無くなるはず。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/31/2012-summary/">2012年振り返り</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-31T13:18:00+09:00" pubdate data-updated="true">2012年12月31日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>2012年はいろいろなことがあったので、後から思い出せるようにまとめておく。(振り返りエントリーが流行っているし!!)
+大きな出来事だけ、ざっくり時系列順に箇条書きで記載。</p>
+
+<ul>
+  <li>結婚をした</li>
+  <li><a href="https://blog.glidenote.com/blog/2012/03/26/memolist.vim/">memolist.vimを作った</a></li>
+  <li><a href="https://blog.glidenote.com/blog/2012/04/20/mysql-casucal-vol3/">MySQL Casual Vol.3でLTをさせてもらった</a></li>
+  <li>シニアエンジニアになった</li>
+  <li><a href="https://blog.glidenote.com/blog/2012/08/25/emacs-study/">Emacs勉強会でLTをさせてもらった</a></li>
+  <li>子どもが産まれた</li>
+</ul>
+
+<p>公私ともに非常に大きい変化があり、意識しないところでストレスになっていたようで
+帯状疱疹にかかったりもしたけど、来年以降の下準備が整った気がする。</p>
+
+<p>今年ほど、いろいろな人に助けられて、感謝する年は無かった。</p>
+
+<p>来年もよろしくお願い致します!!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/19/octopress-gist-tag-plugin-fixed/">Octopressのgist tag pluginが修正されていた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-19T23:03:00+09:00" pubdate data-updated="true">2012年12月19日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://github.com/blog/1276-welcome-to-a-new-gist">先日のgistリニューアル</a>以降、
+Octopressに貼ったgist表示の不具合の修正が出ていた。</p>
+
+<ul>
+  <li><a href="https://github.com/imathis/octopress/commit/72b4e8d5621dbb3c110fe2c273bcc3ac408ffc32">gist tag plugin now works with the latest changes GitHub gists and does … · 72b4e8d · imathis/octopress</a></li>
+</ul>
+
+<p>私は<a href="http://twitter.com/chiastolite">@chiastolite</a>さんに指摘されるまで
+不具合に全く気づいておりませんでした!!</p>
+
+<blockquote class="twitter-tweet"><p>@<a href="https://twitter.com/glidenote">glidenote</a> <a href="http://t.co/MNZHleGn" title="http://bit.ly/Xk3Y2a">bit.ly/Xk3Y2a</a> 前にお世話になったエントリ見ようとしたらGistの部分が消えちゃってますね。Gistの仕様変更にOctpressが追い付いてないんでしょうか…</p>&mdash; Hiroyuki Morita (@chiastolite) <a href="https://twitter.com/chiastolite/status/279465595106390016" data-datetime="2012-12-14T05:59:24+00:00">December 14, 2012</a></blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Octopressを利用している人は要修正ですね。</p>
+
+<p>当ブログも上記修正をしたんですが、CSSが全く反映されず、原因を追っていたら
+CDNとして利用している<a href="http://jp.cloudflare.com/">CloudFlare</a>のキャッシュが原因だったので、
+CloudFlareのコンパネからキャッシュをpurgeして不具合も直った。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/15/zsh-syntax-highlighting/">zsh-syntax-highlightingでコマンドラインにsyntax highlightを効かす</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-15T20:51:00+09:00" pubdate data-updated="true">2012年12月15日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+  <li><a href="https://github.com/zsh-users/zsh-syntax-highlighting">zsh-users/zsh-syntax-highlighting · GitHub</a></li>
+</ul>
+
+<p>zshで作業中にsyntax-highlightをしてくれるスクリプトがあったので導入してみた。</p>
+
+<p>紹介動画をみると、どんなものだか分かります。</p>
+
+<div class="embed-video-container"><iframe src="https://player.vimeo.com/video/25778693 "></iframe></div>
+
+<h2 id="section">導入方法</h2>
+
+<p>私は下記のように<code>~/.zsh</code>というディレクトリを掘って作業。(実際にはgit submodule化してます)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">mkdir ~/.zsh
+</span><span class="line">git clone git://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>.zshrc</code>に下記のように書いて読み込む。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="c">#=============================</span>
+</span><span class="line"><span class="c"># source zsh-syntax-highlighting</span>
+</span><span class="line"><span class="c">#=============================</span>
+</span><span class="line"><span class="k">if</span> <span class="o">[</span> -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh <span class="o">]</span>; <span class="k">then</span>
+</span><span class="line"><span class="k">  </span><span class="nb">source</span> ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+</span><span class="line"><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><a href="https://blog.glidenote.com/blog/2012/10/25/antigen/">antigen</a>を使っている場合は、<code>.zshrc</code>に下記のように記載</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">antigen-bundle zsh-users/zsh-syntax-highlighting
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>.zshrc</code>の修正が終わったら、設定を反映させる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">exec</span> <span class="nv">$SHELL</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>コマンドを打つたびに、syntax highlightが効くようになった。
+なかなか便利そうなのでしばらく使ってみる。(auto-fu.zsh使ってるので挙動が若干干渉するけど)</p>
+
+<p>上のvimeoの動画を貼るために<a href="https://github.com/optikfluffel/octopress-responsive-video-embed">optikfluffel/octopress-responsive-video-embed</a>
+というOctopress用のpluginを導入してみたけど便利。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/27/github-repos-for-me/">Githubに置いていた自分用のツールを外国の方が修正してくれた話</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-27T08:24:00+09:00" pubdate data-updated="true">2012年11月27日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ブログに書こうと思っていたのに忘れていた。  </p>
+
+<p>自分が使うためにGithub上においていた<a href="http://mosh.mit.edu/">mosh</a>のRPM作成用の
+スクリプトをエゲレスの方がpull req送ってくれて不具合を修正してくれた。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/mosh-1.2-rpm/pull/1">Add extra requirements by kaerast · Pull Request #1 · glidenote/mosh-1.2-rpm</a></li>
+</ul>
+
+<p>ブログ書くのと同じで、自分用のツールでもGithubに公開することにより、
+会った事も無い外国の人にも役に立って、最終的には自分のためにもなるんだなーと実感した。</p>
+
+<p>自前のサーバにgit repoを運用して、非公開だったらこういう経験はしなかっただろうし、
+Githubの有用性みたいなのも実感できた。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/17/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/15/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

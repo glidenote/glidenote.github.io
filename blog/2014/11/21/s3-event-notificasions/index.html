@@ -1,0 +1,465 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>S3 Event NotificasionsをAmazon SQSで受け取る - Glide Note</title>
+  <meta property="og:title" content="S3 Event NotificasionsをAmazon SQSで受け取る - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="最近やっている仕事で先日発表されたS3 Event Notificationsが利用出来そうな感じがしたのでちょっと調査。
+S3にファイルがアップされたらAmazon SQSで通知を受け取るようにしてみた。 S3 =&gt; SNS =&gt; SQS &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions">
+<meta name="twitter:title" content="S3 Event NotificasionsをAmazon SQSで受け取る">
+<meta name="twitter:description" content="最近やっている仕事で先日発表されたS3 Event Notificationsが利用出来そうな感じがしたのでちょっと調査。
+S3にファイルがアップされたらAmazon SQSで通知を受け取るようにしてみた。 S3 =&gt; SNS =&gt; SQS への通知は解説しているサイトが結構あるんですが、S3 =&gt; SQS への通知設定の
+情報が見当たらなかったので、動くようになるまで、 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">S3 Event NotificasionsをAmazon SQSで受け取る</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-21T11:00:00+09:00" pubdate data-updated="true">2014年11月21日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>最近やっている仕事で先日発表された<a href="http://aws.typepad.com/aws_japan/2014/11/s3-event-notification.html">S3 Event Notifications</a>が利用出来そうな感じがしたのでちょっと調査。
+S3にファイルがアップされたらAmazon SQSで通知を受け取るようにしてみた。</p>
+
+<p><code>S3 =&gt; SNS =&gt; SQS</code> への通知は解説しているサイトが結構あるんですが、<code>S3 =&gt; SQS</code> への通知設定の
+情報が見当たらなかったので、動くようになるまで、いろいろと試行錯誤を繰り返した。
+特にSQSのPermission設定が恐ろしく分かりにくくに2日くらいハマったので、自分用にメモしておく。</p>
+
+<h2 id="s3-bucket">S3 Bucketの作成</h2>
+
+<p>S3でBucketを作成。既存Bucketを利用する場合はここはSKIP。
+今回は検証用に<code>glidenote-sqs-test</code>という名前でBucketを作成</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e01.png" alt="" /></p>
+
+<h2 id="sqs">SQSの設定</h2>
+
+<p>S3のイベント通知を受け取るQueueを作成する</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e02.png" alt="" /></p>
+
+<p>Queue名を<code>sqs-test</code>をして作成。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e03.png" alt="" /></p>
+
+<p><code>Add a Permission</code>をクリックして通知の受信元を設定する。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e04.png" alt="" /></p>
+
+<p>下記のように設定して、<code>Add Condition</code>を選択</p>
+
+<ul>
+  <li>Valueには<code>arn:aws:s3:::{S3のBucket名}</code>を設定</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e05.png" alt="" /></p>
+
+<p>Actions部分は<code>SendMessage</code>だけ選択して、<code>Add Permission</code> を選択</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e06.png" alt="" /></p>
+
+<p>こんな感じの設定になっていることを確認</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e07.png" alt="" /></p>
+
+<h2 id="s3-event-notifications">S3 Event Notificationsの設定</h2>
+
+<p>S3のイベント通知をSQSに送るように設定。下記の例では<code>PUT</code>と<code>POST</code>イベントのみSQSに通知するように設定</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e08.png" alt="" /></p>
+
+<p>正しく設定が出来ると下記のようになる。SQSのパーミッション設定が上手くてきていないとエラーになる。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e09.png" alt="" /></p>
+
+<h2 id="s3-eventsqs">実際にS3 EventをSQSで受け取る</h2>
+
+<p>下記のようなrubyのスクリプトを用意してSQSでイベントを受信してみる</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1">#!/usr/bin/env ruby</span>
+</span><span class="line"><span class="c1"># -*- coding: utf-8 -*-</span>
+</span><span class="line">
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;aws-sdk&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="no">AWS</span><span class="o">.</span><span class="n">config</span><span class="p">(</span>
+</span><span class="line">  <span class="ss">:access_key_id</span>     <span class="o">=&gt;</span> <span class="s1">&#39;your_access_key_id&#39;</span><span class="p">,</span>
+</span><span class="line">  <span class="ss">:secret_access_key</span> <span class="o">=&gt;</span> <span class="s1">&#39;your_secret_access_key&#39;</span><span class="p">,</span>
+</span><span class="line">  <span class="ss">:sss_endpoint</span>      <span class="o">=&gt;</span> <span class="s1">&#39;sqs.ap-northeast-1.amazonaws.com&#39;</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://sqs.ap-northeast-1.amazonaws.com/xxxxxxxxxxxx/sqs-test&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">sqs</span> <span class="o">=</span> <span class="ss">AWS</span><span class="p">:</span><span class="ss">:SQS</span><span class="o">.</span><span class="n">new</span>
+</span><span class="line">
+</span><span class="line"><span class="k">while</span> <span class="kp">true</span>
+</span><span class="line">  <span class="n">receive</span> <span class="o">=</span> <span class="n">sqs</span><span class="o">.</span><span class="n">queues</span><span class="o">[</span><span class="n">url</span><span class="o">].</span><span class="n">receive_message</span><span class="p">()</span>
+</span><span class="line">  <span class="k">if</span> <span class="n">receive</span>
+</span><span class="line">    <span class="nb">puts</span> <span class="n">receive</span><span class="o">.</span><span class="n">body</span>
+</span><span class="line">    <span class="n">receive</span><span class="o">.</span><span class="n">delete</span>
+</span><span class="line">    <span class="nb">sleep</span> <span class="mi">1</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">  <span class="nb">puts</span> <span class="s2">&quot;Waiting&quot;</span>
+</span><span class="line">  <span class="nb">sleep</span> <span class="mi">1</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>するとほぼリアルタイムで下記のような感じでイベントを受信出来る</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="p">{</span><span class="s2">&quot;Records&quot;</span><span class="p">:</span><span class="o">[</span><span class="p">{</span><span class="s2">&quot;eventVersion&quot;</span><span class="ss">:&quot;2.0&quot;</span><span class="p">,</span><span class="s2">&quot;eventSource&quot;</span><span class="ss">:&quot;aws:s3&quot;</span><span class="p">,</span><span class="s2">&quot;awsRegion&quot;</span><span class="ss">:&quot;ap-northeast-1&quot;</span><span class="p">,</span><span class="s2">&quot;eventTime&quot;</span><span class="ss">:&quot;2014-11-20T06:16:39.474Z&quot;</span><span class="p">,</span><span class="s2">&quot;eventName&quot;</span><span class="ss">:&quot;ObjectCreated:Put&quot;</span><span class="p">,</span><span class="s2">&quot;userIdentity&quot;</span><span class="p">:{</span><span class="s2">&quot;principalId&quot;</span><span class="ss">:&quot;AWLW0VGTI46AA&quot;</span><span class="p">},</span><span class="s2">&quot;requestParameters&quot;</span><span class="p">:{</span><span class="s2">&quot;sourceIPAddress&quot;</span><span class="ss">:&quot;10.115.144.24&quot;</span><span class="p">},</span><span class="s2">&quot;responseElements&quot;</span><span class="p">:{</span><span class="s2">&quot;x-amz-request-id&quot;</span><span class="ss">:&quot;E1C0A0C1F42CAA54&quot;</span><span class="p">,</span><span class="s2">&quot;x-amz-id-2&quot;</span><span class="ss">:&quot;0p2FzYuEkiyaZn/n33XJLYjE3cmePkiqEFF5NMYy+c1PSGTNfmUf+Msou4Mejnr0&quot;</span><span class="p">},</span><span class="s2">&quot;s3&quot;</span><span class="p">:{</span><span class="s2">&quot;s3SchemaVersion&quot;</span><span class="ss">:&quot;1.0&quot;</span><span class="p">,</span><span class="s2">&quot;configurationId&quot;</span><span class="ss">:&quot;S3TestNotification&quot;</span><span class="p">,</span><span class="s2">&quot;bucket&quot;</span><span class="p">:{</span><span class="s2">&quot;name&quot;</span><span class="ss">:&quot;glidenote-sqs-test&quot;</span><span class="p">,</span><span class="s2">&quot;ownerIdentity&quot;</span><span class="p">:{</span><span class="s2">&quot;principalId&quot;</span><span class="ss">:&quot;AWLW0VGTI46AA&quot;</span><span class="p">},</span><span class="s2">&quot;arn&quot;</span><span class="ss">:&quot;arn:aws:s3:::glidenote-sqs-test&quot;</span><span class="p">},</span><span class="s2">&quot;object&quot;</span><span class="p">:{</span><span class="s2">&quot;key&quot;</span><span class="ss">:&quot;shindel.png&quot;</span><span class="p">,</span><span class="s2">&quot;size&quot;</span><span class="p">:</span><span class="mi">794485</span><span class="p">,</span><span class="s2">&quot;eTag&quot;</span><span class="ss">:&quot;b52627268c0e9071be00c5a38fdbc912&quot;</span><span class="p">}}}</span><span class="o">]</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>リアルタイムでS3のイベントを受信するにはSQSと常時通信しているために
+Supervisordなどを用いてスクリプトを動かす必要があり。</p>
+
+<p>これでリアルタイムな処理に対応が出来るようになった。ちょっと現在やってるタスクに適用出来るかしばらく検証してみる。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.cloudpack.jp/2014/11/17/white-belt-22-new-feature-amazon-s3-notification-sns-sqs-and-raspberry-pi/">Amazon S3 Event Notifications</a></li>
+  <li><a href="http://docs.aws.amazon.com/ja_jp/AmazonS3/latest/dev/NotificationHowTo.html">バケットイベントの通知の設定 - Amazon Simple Storage Service</a></li>
+</ul>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-21T11:00:00+09:00" pubdate data-updated="true">2014年11月21日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/aws/'>aws</a>, <a class='category' href='/blog/categories/s3/'>s3</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="S3 Event NotificasionsをAmazon SQSで受け取る - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=S3 Event NotificasionsをAmazon SQSで受け取る "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2016/12/16/goreplay/">GoReplayを導入して、Production環境へのリクエストを複製し、Staging環境に転送する仕組みを作った</a></li>
+
+  <li><a href="/blog/2015/05/21/amazon-web-services-books/">「Amazon Web Services パターン別構築・運用ガイド」が良かった</a></li>
+
+  <li><a href="/blog/2015/02/18/terraform-github-circleci-atlas-aws/">Terraform + GitHub + CircleCI + Atlasを利用してAWSの操作を自動化した</a></li>
+
+  <li><a href="/blog/2014/11/21/cloudfront-logs-to-bigquery/">CloudFrontのログをfluent-plugin-bigqueryを利用してBigQueryに入れるようにした</a></li>
+
+  <li><a href="/blog/2014/07/09/manage-route53-with-roadworker-and-direnv/">Roadworkerとdirenvを使ってRoute53のDNSレコードを管理する & Roadworker用にVimプラグインとZsh補完関数も作った</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/10/31/infrastructure-engineer-grows-old/" title="Previous Post: サーバ/インフラ徹底攻略を読んでインフラエンジニアの高齢化問題について考える">&laquo; サーバ/インフラ徹底攻略を読んでインフラエンジニアの高齢化問題について考える</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/11/21/cloudfront-logs-to-bigquery/" title="next Post: CloudFrontのログをfluent-plugin-bigqueryを利用してBigQueryに入れるようにした">CloudFrontのログをfluent-plugin-bigqueryを利用してBigQueryに入れるようにした &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,548 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GrowthForecast導入&Supervisorで起動を管理 - Glide Note</title>
+  <meta property="og:title" content="GrowthForecast導入&Supervisorで起動を管理 - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="社内にGrowthForecastブームが
+来ているので、乗り遅れないように導入。 @do_akiさんのブログ記事にSupervisorでの起動方法を追加した内容です。
+何回もググっているので自分の作業用メモも兼ねて。同じ事を2回ググったらブログに書く精神で。 導入環境はSL6.2です。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor">
+<meta name="twitter:title" content="GrowthForecast導入&Supervisorで起動を管理">
+<meta name="twitter:description" content="社内にGrowthForecastブームが
+来ているので、乗り遅れないように導入。 @do_akiさんのブログ記事にSupervisorでの起動方法を追加した内容です。
+何回もググっているので自分の作業用メモも兼ねて。同じ事を2回ググったらブログに書く精神で。 導入環境はSL6.2です。作業の流れとしては Perlbrewの導入 GrowthForecastの導入 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">GrowthForecast導入&Supervisorで起動を管理</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-05T00:37:00+09:00" pubdate data-updated="true">2012年07月05日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>社内に<a href="http://kazeburo.github.com/GrowthForecast/">GrowthForecast</a>ブームが
+来ているので、乗り遅れないように導入。</p>
+
+<p><a href="http://d.hatena.ne.jp/do_aki/20120522/1337665000">@do_akiさんのブログ記事</a>にSupervisorでの起動方法を追加した内容です。
+何回もググっているので自分の作業用メモも兼ねて。同じ事を2回ググったらブログに書く精神で。</p>
+
+<p>導入環境はSL6.2です。作業の流れとしては</p>
+
+<ol>
+  <li>Perlbrewの導入</li>
+  <li>GrowthForecastの導入</li>
+  <li>SupervisordでGrowthForecastを管理</li>
+</ol>
+
+<p>という感じです。</p>
+
+<p>GrowthForecastは下記のように管理します。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/07/gf.png" alt="" /></p>
+
+<h2 id="section">必要パッケージの導入</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo yum -y groupinstall "Development Tools"
+</span><span class="line">sudo yum -y install pkgconfig glib2-devel gettext libxml2-devel pango-devel cairo-devel</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="growthforecast">GrowthForecast用のユーザの作成</h3>
+
+<p>Perlbrewを導入するのでGrowthForecast用にユーザーを作成。パスワードも設定</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo useradd growthforecast
+</span><span class="line">sudo passwd growthforecast</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="perlbrewcpanm">Perlbrewとcpanmの導入</h2>
+
+<p>GrowthForecastの利用には<a href="http://perlbrew.pl/">Perlbrew</a>の利用が推奨されているので、perlbrewを導入。
+growthforecastユーザのホームディレクトリ内に導入。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo su - growthforecast
+</span><span class="line">curl -kL http://install.perlbrew.pl | bash
+</span><span class="line">echo '[[ -s "$HOME/perl5/perlbrew/etc/bashrc" ]] &amp;&amp; source "$HOME/perl5/perlbrew/etc/bashrc"' &gt;&gt; .bash_profile
+</span><span class="line">source $HOME/perl5/perlbrew/etc/bashrc</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>続いてperl-5.16.0とcpanmの導入。結構時間がかかります。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">perlbrew install perl-5.16.0
+</span><span class="line">perlbrew switch perl-5.16.0
+</span><span class="line">perlbrew install-cpanm</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="rrdtool">RRDtoolのインストール</h3>
+
+<p><strong>2012年7月5日 10:00 追記</strong></p>
+
+<p><a href="https://twitter.com/#!/kentaro/">antipopさん</a>に教えてもらい、現在はもう不要な手順です。
+Makefile.plに含まれているので別途導入する必要はありません。</p>
+
+<p><a href="https://github.com/kazeburo/GrowthForecast/blob/master/Makefile.PL">GrowthForecast/Makefile.PL at master · kazeburo/GrowthForecast https://github.com/kazeburo/GrowthForecast/blob/master/Makefile.PL</a></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cpanm http://search.cpan.org/CPAN/authors/id/G/GF/GFUJI/Alien-RRDtool-0.03.tar.gz</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="growthforecast-1">GrowthForecastのインストール</h2>
+
+<p>引き続き作業はgrowthforecastユーザで。</p>
+
+<p><strong>cpanmでの方法に修正 2012年7月5日 13:00</strong></p>
+
+<p><a href="https://twitter.com/#!/oranie/">@oranieさん</a>からの指摘でcpanmの方法に修正。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cpanm -n http://cloud.github.com/downloads/kazeburo/GrowthForecast/GrowthForecast-0.30.tar.gz</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="growthforecast-2">GrowthForecastの動作確認</h3>
+
+<p>とりあえず起動確認。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">growthforecast.pl --port=5125</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>hostname:5125</code>にアクセスして表示されるか確認。
+ちゃんと動いていたら<code>ctrl+c</code>で終了。</p>
+
+<h2 id="supervisord">Supervisordで管理</h2>
+
+<p><a href="http://www.glidenote.com/archives/1684">過去の記事</a>を参考にsupervisord経由で
+GrowthForecastを起動する。</p>
+
+<p>ここからはrootかsudoで作業します。</p>
+
+<h3 id="supervisord-1">Supervisordの導入</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo yum -y install python-setuptools
+</span><span class="line">sudo easy_install pip
+</span><span class="line">sudo pip install supervisor</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="supervisordlogconf">supervisord用のlogとconfディレクトリの用意</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo mkdir /var/log/supervisor
+</span><span class="line">sudo mkdir /etc/supervisord.d</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="etcsupervisordconf-">/etc/supervisord.conf の用意</h3>
+
+<div><script src="https://gist.github.com/3047243.js?file=etc_supervisord.conf"></script>
+<noscript><pre><code>[unix_http_server]
+file=/tmp/supervisor.sock   ; (the path to the socket file)
+
+[supervisord]
+logfile=/var/log/supervisor/supervisord.log ; (main log file;default $CWD/supervisord.log)
+logfile_maxbytes=50MB        ; (max main logfile bytes b4 rotation;default 50MB)
+logfile_backups=10           ; (num of main logfile rotation backups;default 10)loglevel=info                ; (log level;default info; others: debug,warn,trace)
+pidfile=/var/run//supervisord.pid ; (supervisord pidfile;default supervisord.pid)
+nodaemon=false               ; (start in foreground if true;default false)
+minfds=1024                  ; (min. avail startup file descriptors;default 1024)
+minprocs=200                 ; (min. avail process descriptors;default 200)
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+serverurl=unix:///tmp/supervisor.sock ; use a unix:// URL  for a unix socket
+
+[include]
+files = supervisord.d/*.ini</code></pre></noscript></div>
+
+<h3 id="upstartsupervisor">Upstart経由でSupervisorを起動</h3>
+
+<p>supervisordが落ちたら元も子もないのでUpstart経由で起動。
+<code>/etc/init/supervisord.conf</code>を用意</p>
+
+<div><script src="https://gist.github.com/3047243.js?file=init_supervisord.conf"></script>
+<noscript><pre><code>description     &quot;supervisord&quot;
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+respawn
+exec /usr/bin/supervisord -n</code></pre></noscript></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo initctl start supervisord</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="etcsupervisorddgrowthforecastini-">/etc/supervisord.d/growthforecast.ini の用意</h3>
+
+<p>GrowthForecast用の設定を用意。(commandのところもっと上手い書き方知ってる人いたら教えてください!)</p>
+
+<div><script src="https://gist.github.com/3047243.js?file=growthforecast.ini"></script>
+<noscript><pre><code>[program:growthforecast]
+command=/home/growthforecast/perl5/perlbrew/perls/perl-5.16.0/bin/perl /home/growthforecast/GrowthForecast/growthforecast.pl --port=5125process_name=%(program_name)s_%(process_num)02d
+stdout_logfile_maxbytes=1MB
+stderr_logfile_maxbytes=1MB
+stdout_logfile=/var/log/supervisor/%(program_name)s.log
+stderr_logfile=/var/log/supervisor/%(program_name)s.log
+user=growthforecast
+autostart=true
+autorestart=true</code></pre></noscript></div>
+
+<h3 id="growthforecast-3">GrowthForecastのデータ用ディレクトリの作成</h3>
+
+<p>GrowthForecastデータ用ディレクトリも用意</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo mkdir /var/run/growthforecast
+</span><span class="line">sudo chown -R growthforecast:growthforecast /var/run/growthforecast</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-1">必要ディレクトリの権限設定</h3>
+
+<p><code>/tmp/.xslate_cache/</code>に書き込み権限がないとエラーが出たので設定</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo chown -R growthforecast:growthforecast /tmp/.xslate_cache/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="supervisordgrowthforecast">Supervisord経由でGrowthForecastを起動</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo supervisorctl add growthforecast
+</span><span class="line">sudo supervisorctl start growthforecast
+</span><span class="line">sudo supervisorctl status growthforecast</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>動作ログでエラーを吐いてないか確認。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">tail /var/log/supervisor/supervisord.log  /var/log/supervisor/growthforecast.log</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>正常に動作していれば、GrowthForecastをkillしてみる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo pkill -u growthforecast</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>を実行して、再度起動してくるか確認。<br />
+GrowthForecastがSupervisord経由で管理出来るように。</p>
+
+<p>一通り作業を終えた後に<a href="https://twitter.com/#!/kazeburo/">@kazeburo</a>さんがProcletというsupervisorを出していたことに気づいた。</p>
+
+<ul>
+  <li><a href="http://blog.nomadscafe.jp/2012/06/proclet-supervisor.html">Proclet という supervisor モジュール書いてリリースした - blog.nomadscafe.jp</a></li>
+</ul>
+
+<p>とりあえず常駐化出来たので、fluentdを組み合わせてガンガン使っていこう。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-05T00:37:00+09:00" pubdate data-updated="true">2012年07月05日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/growthforecast/'>growthforecast</a>, <a class='category' href='/blog/categories/supervisor/'>supervisor</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="GrowthForecast導入&Supervisorで起動を管理 - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=GrowthForecast導入&Supervisorで起動を管理 "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2011/12/02/logmon-with-supervisord/">ログファイル監視スクリプトlogmonをsupervisordで管理</a></li>
+
+  <li><a href="/blog/2011/11/25/install-supervisor/">スーパーサーバーSupervisorの導入手順メモ</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/07/02/supergrep/" title="Previous Post: Node.jsで書かれてwebベースのlog streamer「Supergrep」を試してみた">&laquo; Node.jsで書かれてwebベースのlog streamer「Supergrep」を試してみた</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/07/15/fluentd-regex-debug/" title="next Post: fluentdのformat(正規表現)の作り方について試行錯誤中 #fluentd">fluentdのformat(正規表現)の作り方について試行錯誤中 #fluentd &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: stow | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/stow/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Stowを利用してソースからビルドしたソフトウェアを効率的に管理する]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/08/10/stow/"/>
+    <updated>2012-08-10T01:47:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/08/10/stow</id>
+    <content type="html"><![CDATA[<p>同じチームの<a href="https://twitter.com/lamanotrama">@lamanotrama</a>さんと話していて、
+これから一部パッケージはRPMを作らず、<a href="https://twitter.com/hirose31">@hirose31</a>さんの方式
+(<a href="http://d.hatena.ne.jp/hirose31/20091217/1260981836">ソースから自前ビルドしたソフトウエアの効率的な管理方法 - (ひ)メモ</a>)
+を採用するとのことで、「なるほど!!」と思いながら上記記事の<a href="http://b.hatena.ne.jp/entry/d.hatena.ne.jp/hirose31/20091217/1260981836">はてブコメント</a>
+を眺めてたら<a href="http://www.gnu.org/software/stow/">Stow</a>というものを発見。</p>
+
+<p>早速検証してみた。検証環境はCentOS 6.3です。</p>
+
+<h2 id="stow">Stowの概要</h2>
+
+<ul>
+  <li>Perlで書かれている</li>
+  <li>ソースからビルドしたソフトウェアを管理するソフト</li>
+  <li>任意のディレクトリ<code>/usr/local/stow</code>などにパッケージ一式をインストール</li>
+  <li>インストールしたパッケージから<code>/usr/lib/{bin,lib,share}</code>にリンクを貼って利用。</li>
+  <li>バージョンの切り替えはリンク張り直しで行う(ファイルの上書きはしない)</li>
+  <li><code>zsh-4.3.17</code>や<code>zsh-5.0.0</code>などバージョンの切り替えが容易になる(同じようなソフトの<a href="http://paco.sourceforge.net/">paco</a>と違う点)</li>
+</ul>
+
+<h2 id="stow-1">Stowの導入</h2>
+
+<p>epelにあるので<code>yum</code>で導入。<code>cpanm</code>でも入ります。</p>
+
+<p><code>sh
+sudo yum -y install stow
+</code></p>
+
+<h2 id="stow-2">Stow用のディレクトリを用意</h2>
+
+<p>パッケージインストール用のディレクトリを作成</p>
+
+<p><code>sh
+sudo mkdir -p /user/local/stow/
+</code></p>
+
+<h2 id="stowzsh-500">Stowを利用してzsh-5.0.0を導入</h2>
+
+<p>試しに<code>zsh-5.0.0</code>を利用してみる。</p>
+
+<p><code>configure</code>のときに<code>--prefix=/usr/local/stow/zsh-5.0.0</code>といった感じで、
+<code>--prefix=/usr/local/stow/{name}-{version}</code>というような感じでインストール先を指定し、
+<code>/usr/local/stow/</code>以下に一式インストールする。これにより<code>/usr/local/{bin,lib,share}</code>以下が汚れずに済むし、管理も楽になる。</p>
+
+<p><code>sh
+mkdir ~/src
+cd ~/src
+curl -Lo zsh-5.0.0.tar.gz http://sourceforge.net/projects/zsh/files/zsh/5.0.0/zsh-5.0.0.tar.gz/download
+tar zxvf zsh-5.0.0.tar.gz
+cd zsh-5.0.0
+./configure --prefix=/usr/local/stow/zsh-5.0.0
+make
+sudo make install
+</code></p>
+
+<p><code>stow</code>コマンドを用いて、<code>/usr/local/{bin,lib,share}</code>にsymlinkを貼る。
+<code>-v</code>,<code>--verbose</code>をつけると詳細が見えるので良い感じです。</p>
+
+<p><code>sh
+cd /usr/local/stow
+sudo stow -v zsh-5.0.0
+</code></p>
+
+<p>symlinkを貼ろうとした際に既にファイルが存在すると下記のようなエラーが発生する。</p>
+
+<p><code>sh
+[akira@dev001] $ sudo stow
+WARNING! stowing bin would cause conflicts:
+  * existing target is neither a link nor a directory: zsh
+  * existing target is neither a link nor a directory: zsh-5.0.0
+All operations aborted.
+</code></p>
+
+<p>既存ファイルの待避。マニュアルは入らないから一式削除</p>
+
+<p><code>sh
+sudo mv /usr/local/bin/zsh{,.org} 
+sudo mv /usr/local/bin/zsh-5.0.0{,.org} 
+sudo mv /usr/local/share/zsh{,.org}
+sudo mv /usr/local/lib/zsh{,.org}
+sudo rm -rf  /usr/local/share/man/man1/zsh*
+</code></p>
+
+<p>再度<code>stow</code>コマンドを実行。</p>
+
+<p><code>sh
+cd /usr/local/stow
+sudo stow -v zsh-5.0.0
+</code></p>
+
+<p>下記のような形でlinkが貼られる。</p>
+
+<p><code>
+LINK: bin/zsh-5.0.0 =&gt; ../stow/zsh-5.0.0/bin/zsh-5.0.0
+LINK: bin/zsh =&gt; ../stow/zsh-5.0.0/bin/zsh
+LINK: share/man/man1/zshtcpsys.1 =&gt; ../../../stow/zsh-5.0.0/share/man/man1/zshtcpsys.1
+LINK: share/man/man1/zshparam.1 =&gt; ../../../stow/zsh-5.0.0/share/man/man1/zshparam.1
+LINK: share/man/man1/zshcontrib.1 =&gt; ../../../stow/zsh-5.0.0/share/man/man1/zshcontrib.1
+LINK: share/man/man1/zshoptions.1 =&gt; ../../../stow/zsh-5.0.0/share/man/man1/zshoptions.1
+LINK: share/man/man1/zsh.1 =&gt; ../../../stow/zsh-5.0.0/share/man/man1/zsh.1
+LINK: share/man/man1/zshroadmap.1 =&gt; ../../../stow/zsh-5.0.0/share/man/man1/zshroadmap.1
+LINK: share/man/man1/zshexpn.1 =&gt; ../../../stow/zsh-5.0.0/share/man/man1/zshexpn.1
+LINK: share/man/man1/zshmisc.1 =&gt; ../../../stow/zsh-5.0.0/share/man/man1/zshmisc.1
+LINK: share/man/man1/zshzle.1 =&gt; ../../../stow/zsh-5.0.0/share/man/man1/zshzle.1
+LINK: share/man/man1/zshbuiltins.1 =&gt; ../../../stow/zsh-5.0.0/share/man/man1/zshbuiltins.1
+LINK: share/man/man1/zshcalsys.1 =&gt; ../../../stow/zsh-5.0.0/share/man/man1/zshcalsys.1
+LINK: share/man/man1/zshmodules.1 =&gt; ../../../stow/zsh-5.0.0/share/man/man1/zshmodules.1
+LINK: share/man/man1/zshcompctl.1 =&gt; ../../../stow/zsh-5.0.0/share/man/man1/zshcompctl.1
+LINK: share/man/man1/zshzftpsys.1 =&gt; ../../../stow/zsh-5.0.0/share/man/man1/zshzftpsys.1
+LINK: share/man/man1/zshcompsys.1 =&gt; ../../../stow/zsh-5.0.0/share/man/man1/zshcompsys.1
+LINK: share/man/man1/zshall.1 =&gt; ../../../stow/zsh-5.0.0/share/man/man1/zshall.1
+LINK: share/man/man1/zshcompwid.1 =&gt; ../../../stow/zsh-5.0.0/share/man/man1/zshcompwid.1
+LINK: share/zsh =&gt; ../stow/zsh-5.0.0/share/zsh
+LINK: lib/zsh =&gt; ../stow/zsh-5.0.0/lib/zsh
+</code></p>
+
+<p><code>ls</code>で<code>/usr/local/{bin,lib,share}</code>を確認</p>
+
+<p>``` sh
+[akira@dev001] $ ll /usr/local/bin/ | grep zsh
+lrwxrwxrwx 1 root root       25 Aug  9 12:42 zsh -&gt; ../stow/zsh-5.0.0/bin/zsh
+lrwxrwxrwx 1 root root       31 Aug  9 12:42 zsh-5.0.0 -&gt; ../stow/zsh-5.0.0/bin/zsh-5.0.0
+-rwxr-xr-x 1 root root   690064 Jul 23 11:00 zsh-5.0.0.org
+-rwxr-xr-x 1 root root   687144 Mar 29 13:06 zsh.old</p>
+
+<p>[akira@dev001] $ ll /usr/local/lib/ | grep zsh
+lrwxrwxrwx 1 root root   25 Aug  9 12:42 zsh -&gt; ../stow/zsh-5.0.0/lib/zsh
+drwxr-xr-x 4 root root 4096 Jul 23 11:00 zsh.org</p>
+
+<p>[akira@dev001] $ ll /usr/local/share | grep zsh
+lrwxrwxrwx   1 root root   27 Aug  9 12:42 zsh -&gt; ../stow/zsh-5.0.0/share/zsh
+drwxr-xr-x   5 root root 4096 Jul 23 11:00 zsh.dist
+```</p>
+
+<h2 id="stowzsh">Stowを利用してzshバージョンの切り替え</h2>
+
+<p>zsh-4.3.17を導入して、zsh-5.0.0から切り替えをしてみる。</p>
+
+<p><code>sh
+cd ~/src
+curl -Lo zsh-4.3.17.tar.gz http://sourceforge.net/projects/zsh/files/zsh-dev/4.3.17/zsh-4.3.17.tar.gz/download
+tar zxvf zsh-4.3.17.tar.gz
+cd zsh-4.3.17
+./configure --prefix=/usr/local/stow/zsh-4.3.17
+make
+sudo make install
+</code></p>
+
+<p>この状態で<code>/usr/local/stow</code>配下に2つのバージョンがある。</p>
+
+<p><code>
+[akira@dev001] $ ll /usr/local/stow
+total 8
+drwxr-xr-x 5 root root 4096 Aug  9 12:12 zsh-4.3.17
+drwxr-xr-x 5 root root 4096 Aug  9 11:27 zsh-5.0.0
+</code></p>
+
+<p><code>zsh-5.0.0</code>へのリンクを削除(<code>stow -D</code>)して、<code>zsh-4.3.17</code>にリンクを貼る。</p>
+
+<p><code>sh
+cd /usr/local/stow/
+sudo stow -Dv zsh-5.0.0
+sudo stow -v zsh-4.3.17
+</code></p>
+
+<p><code>sh
+[akira@dev001] $ sudo stow -v zsh-4.3.17
+LINK: bin/zsh-4.3.17 =&gt; ../stow/zsh-4.3.17/bin/zsh-4.3.17
+LINK: bin/zsh =&gt; ../stow/zsh-4.3.17/bin/zsh
+LINK: share/man/man1/zshtcpsys.1 =&gt; ../../../stow/zsh-4.3.17/share/man/man1/zshtcpsys.1
+LINK: share/man/man1/zshparam.1 =&gt; ../../../stow/zsh-4.3.17/share/man/man1/zshparam.1
+LINK: share/man/man1/zshcontrib.1 =&gt; ../../../stow/zsh-4.3.17/share/man/man1/zshcontrib.1
+LINK: share/man/man1/zshoptions.1 =&gt; ../../../stow/zsh-4.3.17/share/man/man1/zshoptions.1
+LINK: share/man/man1/zsh.1 =&gt; ../../../stow/zsh-4.3.17/share/man/man1/zsh.1
+LINK: share/man/man1/zshroadmap.1 =&gt; ../../../stow/zsh-4.3.17/share/man/man1/zshroadmap.1
+LINK: share/man/man1/zshexpn.1 =&gt; ../../../stow/zsh-4.3.17/share/man/man1/zshexpn.1
+LINK: share/man/man1/zshmisc.1 =&gt; ../../../stow/zsh-4.3.17/share/man/man1/zshmisc.1
+LINK: share/man/man1/zshzle.1 =&gt; ../../../stow/zsh-4.3.17/share/man/man1/zshzle.1
+LINK: share/man/man1/zshbuiltins.1 =&gt; ../../../stow/zsh-4.3.17/share/man/man1/zshbuiltins.1
+LINK: share/man/man1/zshcalsys.1 =&gt; ../../../stow/zsh-4.3.17/share/man/man1/zshcalsys.1
+LINK: share/man/man1/zshmodules.1 =&gt; ../../../stow/zsh-4.3.17/share/man/man1/zshmodules.1
+LINK: share/man/man1/zshcompctl.1 =&gt; ../../../stow/zsh-4.3.17/share/man/man1/zshcompctl.1
+LINK: share/man/man1/zshzftpsys.1 =&gt; ../../../stow/zsh-4.3.17/share/man/man1/zshzftpsys.1
+LINK: share/man/man1/zshcompsys.1 =&gt; ../../../stow/zsh-4.3.17/share/man/man1/zshcompsys.1
+LINK: share/man/man1/zshall.1 =&gt; ../../../stow/zsh-4.3.17/share/man/man1/zshall.1
+LINK: share/man/man1/zshcompwid.1 =&gt; ../../../stow/zsh-4.3.17/share/man/man1/zshcompwid.1
+LINK: share/zsh =&gt; ../stow/zsh-4.3.17/share/zsh
+LINK: lib/zsh =&gt; ../stow/zsh-4.3.17/lib/zsh
+</code></p>
+
+<p>下記でバージョンが切り替わっているか確認。バージョン切り替えが楽。</p>
+
+<p>``` sh
+exec zsh
+zsh –version</p>
+
+<p>zsh 4.3.17 (x86_64-unknown-linux-gnu)
+```</p>
+
+<p>Stow関連の情報は全体的に古いものが多くて、ググっているとオワコン的な雰囲気が漂ってるんですが
+2012年現在もちゃんとメンテされているので、ソースからビルドするならStowを利用するのが良いかもしれない。  </p>
+
+<p>運用としてはwebistranoなどを利用して、</p>
+
+<ul>
+  <li>ビルドサーバでビルドしたものをデプロイ</li>
+  <li>各サーバで<code>stow</code>コマンドを実行してバージョン切り替え</li>
+</ul>
+
+<p>という感じになるかなーと考え中。</p>
+
+<p>もう少し突っ込んで検証してみよう。</p>
+
+<h2 id="url">参考URL</h2>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/hirose31/20091217/1260981836">ソースから自前ビルドしたソフトウエアの効率的な管理方法 - (ひ)メモ</a></li>
+  <li><a href="http://www.gnu.org/software/stow/">Stow - GNU Project - Free Software Foundation</a></li>
+  <li><a href="http://www.ibm.com/developerworks/jp/linux/library/l-stow/">Stowを使ってのパッケージ管理</a></li>
+  <li><a href="http://junaraki.net/blog/2009/03/21/146.html">Jun Araki’s Blog | Stow によるパッケージ管理</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

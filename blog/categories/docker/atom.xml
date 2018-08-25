@@ -1,0 +1,648 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: docker | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/docker/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[「Docker/Kubernetes 実践コンテナ開発入門」がProduction環境でDockerを運用している人間にも良書だった]]></title>
+    <link href="https://blog.glidenote.com/blog/2018/08/24/docker-kubernetes-book/"/>
+    <updated>2018-08-24T20:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2018/08/24/docker-kubernetes-book</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339">Docker/Kubernetes 実践コンテナ開発入門</a>
+<a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339"><img src="https://images-fe.ssl-images-amazon.com/images/I/51d69eJQMyL.jpg" align="right" /></a></li>
+</ul>
+
+<p>技術評論社様、著者の山田さんからご恵贈いただきましてありがとうございます。</p>
+
+<p>かなり分厚い本で、内容も濃いので読むのに時間がかかりましたが簡単に感想を書いていきます。</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li>Production環境でDockerを利用している人でも学びが多い一冊</li>
+  <li>Kubernetesに対応したDocker for Mac/Windowsが2018年07月に正式リリースされ、手軽にKubernetesが動かせるようになったいま、Kubernetesの初学書として最適</li>
+  <li>実際にDockerでサービスを運用してきた著者ならではの視点で語られているコラムが非常に興味深い</li>
+</ul>
+
+<h2 id="section">前提</h2>
+
+<p>書評の前に私のDocker歴について簡単に書いておきます。</p>
+
+<ul>
+  <li>JAWS-UG コンテナ支部で登壇経験あり</li>
+  <li>Dockerに関する基本的な知識は習得済み</li>
+  <li>Amazon ECSを利用して2年ほど前からProduction環境でDocker運用中</li>
+  <li>Kubernetesは理解不足</li>
+  <li>役職が変わってここ1年くらいからDockerと周辺技術の最新情報がキャッチアップ出来てない 😓</li>
+</ul>
+
+<h2 id="section-1">目次</h2>
+
+<p>```
+1.Dockerの基礎
+2.Dockerコンテナのデプロイ
+3.実用的なコンテナの構築とデプロイ
+4.Swarmによる実践的なアプリケーション構築
+5.Kubernetes入門
+6.Kubernetesのデプロイ・クラスタ構築
+7.Kubernetesの発展的な利用
+8.コンテナの運用
+9.より軽量なDockerイメージを作る
+10.Dockerの様々な活用方法</p>
+
+<p>Appendix-A セキュリティ
+Appendix-B Dockerでの開発を支援するツール・サービス
+Appendix-C 主要コマンドまとめ
+```</p>
+
+<h2 id="section-2">書評</h2>
+
+<h3 id="docker">Docker</h3>
+
+<p>Dockerと周辺技術は変化の速度が非常に早く、情報キャッチアップのコストが高く、Web上にある情報もすぐ陳腐化して大半が役に立たないので、
+私はかねてから<a href="https://docs.docker.com/">公式ドキュメント</a>を読むのが最も良いというスタンスだったのですが、
+本書は公式ドキュメントの内容はもちろんカバーされており、運用周りに関しては公式ドキュメント以上の内容が書かれている。</p>
+
+<h3 id="kubernetes">Kubernetes</h3>
+
+<p>Kubernetesに関しては一番丁寧に手厚く解説されているので、Minikubeで一度挫折したことがある私にとっては、
+サンプルコードを書いてサクサク進めることが出来たので、Kubernetesの採用の足がかりになりそうです。
+先月リリースされたDocker for Mac/Windows(Stable)がKubernetesに対応しており、
+手軽にKubernetes環境が用意出来るようになったので、Kubernetesをこれから始める人にも最適かと。</p>
+
+<h3 id="section-3">コラム</h3>
+
+<p>またコラムが大量にありどれも素晴らしいのですが、特に</p>
+
+<ul>
+  <li>環境変数を積極的に使う</li>
+  <li>認証情報をセキュアに環境変数へ設定する</li>
+  <li>Alpine Linuxベースのイメージを採用するべきか否か</li>
+  <li>DockerはVagrantの代替となるか?</li>
+</ul>
+
+<p>においては、以前エンジニア同士で議論したことがある内容なので大変興味深かった。</p>
+
+<h3 id="section-4">コンテナの運用</h3>
+
+<p>運用部分は普段Amazon ECS上で運用しておりAWSに頼り切っている部分なので、
+ログの保管、障害対策については、他社事例として大変参考になった。</p>
+
+<h2 id="section-5">本書を読むにあたって</h2>
+
+<p>本書のサンプルコマンドを実行するにあたり、BashやZshを事前に設定しておくことをオススメします。これがあるとないとでは効率が段違いです。
+<strong>本当に重要です!!</strong></p>
+
+<ul>
+  <li><a href="https://docs.docker.com/compose/completion/">Command-line completion | Docker Documentation</a></li>
+</ul>
+
+<h2 id="section-6">まとめ</h2>
+
+<p>2018年においては、</p>
+
+<ul>
+  <li><a href="https://docs.docker.com/">公式ドキュメント</a></li>
+  <li><a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339">Docker/Kubernetes 実践コンテナ開発入門</a></li>
+</ul>
+
+<p>を読めば、Docker/Kubernetesに関しては十分なのではないかと思う。</p>
+
+<p>実際私も社内のエンジニアにも「Docker/Kubernetesはこれを読めばOK」と薦めています。</p>
+
+<p>大変オススメです。</p>
+
+<h2 id="section-7">参考</h2>
+
+<ul>
+  <li><a href="https://blog.stormcat.io/post/publish-docker-book/">Docker/Kubernetes 実践コンテナ開発入門 出版に寄せて · tehepero note(・ω&lt;) 2.0</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AWS Application Load Balancer + Amazon ECS でDockerのホットデプロイ環境を構築した]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/09/02/alb-ecs-docker-hot-deploy/"/>
+    <updated>2016-09-02T09:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/09/02/alb-ecs-docker-hot-deploy</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://aws.amazon.com/jp/elasticloadbalancing/applicationloadbalancer/">AWS Application Load Balancer(以下ALB)</a> + Amazon ECS でDockerのホットデプロイ環境を構築した</li>
+  <li>ALBのTarget GroupとECSのServiceを紐付けることで、ALB配下のコンテナの入れ替えが自動で行われるようになる</li>
+</ul>
+
+<p>ALBは先日リリースされたばかりで、私もまだ色々と検証している段階なので、内容や認識等に誤りがあるかもしれないのでご容赦下さい。(詳しい人教えてください!!)</p>
+
+<h2 id="section">その他弊社の前提情報</h2>
+
+<ul>
+  <li>GitHub + CircleCIが連携済み</li>
+  <li>Docker RepoにはAmazon EC2 Container Registry(以下ECR)を利用</li>
+  <li>DeployはGitHubのデプロイブランチへのマージを契機にCircleCI経由で、Docker Pushと<a href="https://github.com/silinternational/ecs-deploy">ecs-deploy</a>でDockerデプロイを実施</li>
+</ul>
+
+<h2 id="section-1">準備</h2>
+
+<p>ALBとECSの設定については<a href="https://twitter.com/inokara">@inokara</a>さんのブログが詳しいので、そちらを参照ください。
+今回はALBのDynamic Port Mappingは利用してません。</p>
+
+<ul>
+  <li><a href="http://inokara.hateblo.jp/entry/2016/08/13/095449">Amazon ECS と AWS Application Load Balancer の組み合わせを試しているメモ - ようへいの日々精進XP</a></li>
+  <li><a href="http://inokara.hateblo.jp/entry/2016/08/13/231404">Amazon ECS と AWS Application Load Balancer の組み合わせを試しているメモ（2）〜 AWS CLI で試す 〜 - ようへいの日々精進XP</a></li>
+</ul>
+
+<h2 id="section-2">デプロイフロー</h2>
+
+<p>デプロイフローは下記のような形になってます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs0.png" alt="" /></p>
+
+<h2 id="section-3">デプロイ前の稼働中の状態</h2>
+
+<ul>
+  <li>ALBは80,443ポートで稼働</li>
+  <li>コンテナではnode.jsのアプリが3000ポートで稼働</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs1.png" alt="" /></p>
+
+<h2 id="section-4">デプロイ直後の状態</h2>
+
+<ul>
+  <li>CircleCI経由で、ecs-deployを実行し、新しいコンテナを作成。</li>
+  <li>新しいコンテナが起動すると、自動でALB配下に追加されアクセスを流れる</li>
+  <li>古いコンテナと新しいコンテナが混在する</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs2.png" alt="" /></p>
+
+<p>ecs-deployは下記のような形で実行。CircleCI上では<code>AWS_ACCESS_KEY_ID</code>、<code>AWS_SECRET_ACCESS_KEY</code> を環境変数に設定し、引数に利用しているregionを<code>-r us-west-1</code>を追加して実行してます。</p>
+
+<p><code>sh
+ecs-deploy \
+-c クラスター名 \
+-n サービス名 \
+-i xxxxxxxxxxxx.dkr.ecr.us-west-1.amazonaws.com/kaizenplatform/kaizen-xxxxxxxx:947 \
+-t 300
+</code></p>
+
+<p>デプロイ部分の<code>docker push</code>と<code>ecs-deploy</code>合わせて1分半くらいで完了している。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs5.png" alt="" /></p>
+
+<h2 id="section-5">デプロイ完了後の状態</h2>
+
+<ul>
+  <li>しばらくすると古いコンテナが破棄され、新しいコンテナだけで稼働する</li>
+  <li>一連の作業中にリクエストを流し続けて、サービスが停止しないことも確認</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs3.png" alt="" /></p>
+
+<p>ecs-deployの実行が走ってから、新しいコンテナが起動し、古いコンテナが廃棄されるまで、
+大体6分くらい要している。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs4.png" alt="" /></p>
+
+<p>ALBとECSの初期設定が結構面倒ですが、設定さえ終われば、
+新旧コンテナの入れ替え、ALB配下への追加削除が自動で行われるようになるので大変便利。</p>
+
+<p>引き続きDynamic Port Mappingを利用した構成も検証中。</p>
+
+<h2 id="section-6">参考</h2>
+
+<ul>
+  <li><a href="http://inokara.hateblo.jp/entry/2016/08/13/095449">Amazon ECS と AWS Application Load Balancer の組み合わせを試しているメモ - ようへいの日々精進XP</a></li>
+  <li><a href="http://inokara.hateblo.jp/entry/2016/08/13/231404">Amazon ECS と AWS Application Load Balancer の組み合わせを試しているメモ（2）〜 AWS CLI で試す 〜 - ようへいの日々精進XP</a></li>
+  <li><a href="http://orih.io/2015/12/run-automated-deployment-by-git-push-with-ecs-deploy-script/">Git プッシュから Amazon ECS に自動デプロイする仕組みを構築する | ORIH</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Alpine LinuxなDockerイメージにServerspecを実行する環境を作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/08/18/docker-alpine-serverspec-with-circleci/"/>
+    <updated>2016-08-18T14:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/08/18/docker-alpine-serverspec-with-circleci</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://www.alpinelinux.org/">Alpine Linux</a>なDockerイメージにServerspecを実行する環境をMacとCircleCI上に作った</li>
+  <li>CircleCI環境では <code>lxc-attach</code> コマンドが必要なので、<code>spec_helper.rb</code> で環境差を吸収するようにした</li>
+  <li>今後よく利用しそうなので、流用しやすい形でGithubに置いておいた
+    <ul>
+      <li><a href="https://github.com/glidenote/docker-alpine-serverspec-sample">glidenote/docker-alpine-serverspec-sample</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section">前提</h2>
+
+<p>最近<a href="https://kaizenplatform.com/hiring/engineer.html">Kaizen Platform, Inc.</a>で利用している一部Docker ImageをAmazon LinuxベースのものからAlpine Linuxベースのものに置き換え中。
+Alpine Linuxについては<a href="https://twitter.com/stormcat24">@stormcat24</a>さんの<a href="http://blog.stormcat.io/archive/category/Alpine">ブログ</a>が一番参考になります。</p>
+
+<p>今までDockerイメージにServerspecを実行するときには、コンテナ内でsshdを立てて、ssh経由で<code>knife-solo</code>でプロビジョニングを実行し、その後同じくssh経由で<code>Serverspec</code>を流していた。</p>
+
+<p>Alpine Linuxベースに切り替えてから、出来るだけイメージサイズを小さくするために<code>knife-solo</code>は利用せずに、<code>Dockerfile</code> だけで構築している。(<code>Dockerfile</code>だけが良いかは現在検証中)
+<code>knife-solo</code>のためにコンテナ内でsshdを立てる必要はなくなったので、同じくssh経由で実行していた<code>Serverspec</code>は<code>docker-api</code> 経由で実行するようにした。</p>
+
+<h2 id="section-1">実行環境</h2>
+
+<ul>
+  <li>Mac OS X
+    <ul>
+      <li>ProductVersion: 10.11.6</li>
+      <li>Ruby 2.3.0</li>
+      <li>Docker 1.12.0</li>
+    </ul>
+  </li>
+  <li>CircleCI
+    <ul>
+      <li>Ruby 2.3.0</li>
+      <li>Docker 1.9.1-circleci-cp-workaround</li>
+    </ul>
+  </li>
+  <li>serverspec 2.36.0</li>
+  <li>docker-api 1.31.0</li>
+</ul>
+
+<h2 id="section-2">実際の作業</h2>
+
+<h3 id="section-3">ファイル構成</h3>
+
+<p>先に作業後のファイル構成を書いておくと下記のような感じになります。</p>
+
+<p><code>
+.
+├── Dockerfile
+├── Gemfile
+├── Gemfile.lock
+├── Rakefile
+├── circle.yml
+└── spec
+    ├── docker
+    │   └── package_spec.rb
+    └── spec_helper.rb
+</code></p>
+
+<h3 id="gemfile">Gemfile</h3>
+
+<p>Gemfileを用意して <code>bundle install</code></p>
+
+<p>```ruby
+source ‘https://rubygems.org’</p>
+
+<p>gem ‘rake’
+gem ‘serverspec’
+gem ‘docker-api’
+```</p>
+
+<h3 id="dockerfile">Dockerfile</h3>
+
+<p>Dockerfileを用意。debugしやすいようにbashだけ導入</p>
+
+<p>```
+FROM alpine:3.4</p>
+
+<p>RUN apk add –no-cache bash
+```</p>
+
+<p>tagは <code>docker-alpine-serverspec-sample</code> としてbuild。</p>
+
+<p><code>sh
+docker build -t docker-alpine-serverspec-sample .
+</code></p>
+
+<h3 id="serverspec">Serverspec各種ファイル</h3>
+
+<p><code>serverspec-init</code> で各種ファイルを作成</p>
+
+<p>```sh
+⇒  serverspec-init
+Select OS type:</p>
+
+<p>1) UN*X
+  2) Windows</p>
+
+<p>Select number: 1</p>
+
+<p>Select a backend type:</p>
+
+<p>1) SSH
+  2) Exec (local)</p>
+
+<p>Select number: 2</p>
+
+<ul>
+  <li>spec/</li>
+  <li>spec/localhost/</li>
+  <li>spec/localhost/sample_spec.rb</li>
+  <li>spec/spec_helper.rb</li>
+  <li>Rakefile</li>
+  <li>.rspec
+```</li>
+</ul>
+
+<p>生成されるsampleのテストは利用しないので削除</p>
+
+<p><code>sh
+rm -rf spec/localhost
+</code></p>
+
+<h3 id="spechelperrb">ローカル用の spec_helper.rb</h3>
+
+<p>```ruby
+require ‘serverspec’
+require ‘docker’</p>
+
+<p>set :backend, :docker
+set :docker_url, ENV[“DOCKER_HOST”]
+image = Docker::Image.build_from_dir(‘.’)
+set :docker_image, image.id</p>
+
+<p>Excon.defaults[:ssl_verify_peer] = false
+```</p>
+
+<h3 id="section-4">テストファイルの追加</h3>
+
+<p>ディレクトリの作成し、Dockerfileのパッケージインストールに対応するテスト <code>spec/docker/package_spec.rb</code> を追加</p>
+
+<p><code>sh
+mkdir -p spec/docker/
+</code></p>
+
+<p>```ruby
+require ‘spec_helper’</p>
+
+<p>describe package(‘bash’) do
+  it { should be_installed }
+end
+```</p>
+
+<h3 id="serverspec-1">Serverspecの実行</h3>
+<p>テストの準備が整ったので、Serverspecを流してみる。</p>
+
+<p><code>sh
+bundle exec rake spec
+</code></p>
+
+<p>問題がなければ下記のようになる。</p>
+
+<p>```
+Package “bash”
+  should be installed</p>
+
+<p>Finished in 1.61 seconds (files took 0.67509 seconds to load)
+1 example, 0 failures
+```</p>
+
+<h2 id="circleci">CircleCI上での実行</h2>
+
+<p>ローカルに続いて、CircleCI環境でも動くようにする。</p>
+
+<h3 id="circleyml-">circle.yml の用意</h3>
+
+<p>```yml
+machine:
+  timezone: UTC
+  ruby:
+    version: 2.3.0
+  services:
+    - docker</p>
+
+<p>dependencies:
+  pre:
+    - bundle install</p>
+
+<p>test:
+  pre:
+    - docker version
+    - docker info
+    - docker build -t ${CIRCLE_PROJECT_REPONAME} . :
+        timeout: 1200
+    - docker run ${CIRCLE_PROJECT_REPONAME} &amp;
+    - sleep 5
+  override:
+    - bundle exec rspec
+    - docker ps -a
+    - docker images
+```</p>
+
+<h3 id="circleci-spechelperrb">CircleCI でも動くようにspec_helper.rbの修正</h3>
+
+<p><a href="https://circleci.com/docs/docker/#docker-exec">公式ドキュメント</a> に記載されているようにCircleCIのDockerでは <code>docker exec</code> が利用できず、 <code>lxc-attach</code> コマンドを利用しないといけないので、<code>spec_helper.rb</code> でMacとの環境差を吸収し、同じコマンドでServerspecが流せるようにする。</p>
+
+<p>元同僚の<a href="https://twitter.com/ngs">@ngs</a>が<a href="https://ja.ngs.io/2015/09/26/circleci-docker-serverspec/">自身のブログ</a>に書いていたのでそれを利用。</p>
+
+<p>```ruby
+require ‘serverspec’
+require ‘docker’</p>
+
+<p>set :backend, :docker
+set :docker_url, ENV[“DOCKER_HOST”]
+image = Docker::Image.build_from_dir(‘.’)
+set :docker_image, image.id</p>
+
+<p>Excon.defaults[:ssl_verify_peer] = false</p>
+
+<h1 id="httpscirclecicomdocsdockerdocker-exec">https://circleci.com/docs/docker#docker-exec</h1>
+<p>if ENV[‘CIRCLECI’]
+  module Docker
+    class Container
+      def exec(command, opts = {}, &amp;block)
+        command[2] = command[2].inspect # [‘/bin/sh’, ‘-c’, ‘YOUR COMMAND’]
+        cmd = %Q{sudo lxc-attach -n #{self.id} – #{command.join(‘ ‘)}}
+        stdin, stdout, stderr, wait_thread = Open3.popen3 cmd
+        [stdout.read, [stderr.read], wait_thread.value.exitstatus]
+      end
+      def remove(options={})
+        # do not delete container
+      end
+      alias_method :delete, :remove
+      alias_method :kill, :remove
+    end
+  end
+end
+```</p>
+
+<p>これで、Mac上でもCircleCI上でも同じ</p>
+
+<p><code>sh
+bundle exec rake spec
+</code></p>
+
+<p>でテストが実行できるようになった。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/08/docker-alpine-serverspec-sample_0.png" alt="" /></p>
+
+<p>↑の画像のように、イメージのサイズが非常に小さいAlpine Linuxに切り替えてからbuildもtestもすぐに完了するので生産性が高くなった。</p>
+
+<h2 id="section-5">参考</h2>
+
+<ul>
+  <li><a href="http://blog.stormcat.io/archive/category/Alpine">Alpine カテゴリーの記事一覧 - tehepero note(・ω&lt;)</a></li>
+  <li><a href="https://circleci.com/docs/docker/#docker-exec">Continuous Integration and Delivery with Docker - CircleCI</a></li>
+  <li><a href="https://ja.ngs.io/2015/09/26/circleci-docker-serverspec/">CircleCI で Docker Container を Serverspec でテストする - Atsushi Nagase</a></li>
+  <li><a href="http://qiita.com/yulii/items/3ae64d6b68d64db7b1a9">Docker + Serverspec を使ってCircleCI 上でインフラのテストを実行する - Qiita</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MacからVagrantコマンド一発でSSDなVPS(DigitalOcean)上にCentOS6.5+Docker環境を構築する]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/12/20/vagrant-docker-digitalocean/"/>
+    <updated>2013-12-20T13:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/12/20/vagrant-docker-digitalocean</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2013/12/vagrant-docker-digital-ocean.png" alt="" /></p>
+
+<p>前回の<a href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/">VagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する - Glide Note - グライドノート</a><a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/"><img src="http://b.hatena.ne.jp/entry/image/https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/" /></a>の続き。</p>
+
+<p>Vagtant+DigitalOceanだけでも十分便利なんですが、先日<code>CentOS6.5</code>がリリースされ、正式に<a href="https://www.docker.io/">Docker</a>がサポートされたので、<a href="https://www.digitalocean.com/?refcode=510a665458a3">DigitalOcean</a>上に<code>CentOS 6.5</code>+<code>Docker</code>な環境を用意してみる。<br />
+といっても、2013年12月20日現在DigitalOceanでは<code>CentOS 6.5</code>なimageが提供されていないので、選択出来る<code>CentOS 6.4</code>のイメージを使いながら、Vagrantを利用してコマンド一発で<code>CentOS 6.5</code>+<code>Docker</code>環境が作れるようにした。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/vagrant-docker-digitalocean">glidenote/vagrant-docker-digitalocean</a></li>
+</ul>
+
+<h2 id="section">これは何</h2>
+
+<ul>
+  <li><a href="http://www.vagrantup.com/">Vagrant</a>を利用して、<a href="https://www.digitalocean.com/?refcode=510a665458a3">DigitalOcean</a>上にCentOS 6.5 + Dockerな環境をコマンド一発(<code>vagrant up --provider=digital_ocean --provision</code>)で構築します。</li>
+  <li>CentOS 6.5より<a href="https://www.docker.io/">Docker</a>がサポートされていますが、2013年12月19日現在DigitalOceanではCentOS 6.5のimageが提供されていません。これを利用することで簡単にCentOS6.5+Dockerが利用可能になります。</li>
+  <li>安く、SSDで高速な開発環境を簡単に構築できます。時間単位での課金なので財布に大変優しい</li>
+</ul>
+
+<h2 id="section-1">事前準備</h2>
+
+<p>Macでの利用を想定した手順になっています。</p>
+
+<p><strong>2014年7月18日 追記</strong><br />
+DigitalOceanのAPIがv2.0になり<a href="https://cloud.digitalocean.com/settings/applications">https://cloud.digitalocean.com/settings/applications</a>で<code>token</code>の生成が必要になりました．
+Vagrantfileに<code>provider.token = 'xxxxxxxxxxxxxxxxxxxxx'</code>といった形でtokenを設定する必要があります．
+また<code>region</code>の指定方法も<code>San Francisco 1</code>から<code>sfo1</code>という感じで変更になっています．</p>
+
+<h3 id="digitaloceanapiclientidapikey">DigitalOceanに申し込んでAPIの<code>client_id</code>と<code>api_key</code>を取得する</h3>
+
+<ol>
+  <li><a href="https://www.digitalocean.com/?refcode=510a665458a3">DigitalOcean</a>に申し込む</li>
+  <li><a href="https://cloud.digitalocean.com/ssh_keys">https://cloud.digitalocean.com/ssh_keys</a>で作成したインスタンスに接続するための<code>ssh key</code>を登録</li>
+  <li><a href="https://cloud.digitalocean.com/api_access">https://cloud.digitalocean.com/api_access</a>から<code>client_id</code>と<code>api_key</code>を取得しておく</li>
+</ol>
+
+<p>前回同様に<a href="https://www.digitalocean.com/?refcode=510a665458a3">ここ経由</a>で申し込んで頂けると私の懐が潤います!</p>
+
+<p>2013年12月20日現在の1時間あたりの料金プランは下記のような感じでホントに安い。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/12/digitalocean-plan.png" alt="" /></p>
+
+<h3 id="vagrant">Vagrantをインストール</h3>
+
+<p><a href="http://www.vagrantup.com/">Vagrant</a>からファイルをダウンロードしてインストール。2013/12/19現在最新の<code>1.4.1</code>を利用してます。</p>
+
+<h3 id="vagrant-digitaloceanhttpsgithubcomsmdahlenvagrant-digitalocean"><a href="https://github.com/smdahlen/vagrant-digitalocean">vagrant-digitalocean</a>のインストール</h3>
+
+<p>vagrantコマンドでvagrant-digitaloceanをインストール。vagrant-digitaloceanは2013/12/19現在最新の<code>0.5.1</code>を利用</p>
+
+<p><code>sh
+vagrant plugin install vagrant-digitalocean
+</code></p>
+
+<h3 id="curl-ca-bundle">curl-ca-bundleのインストール</h3>
+
+<p>apiを叩くのに必要なので、brewで導入</p>
+
+<p><code>sh
+brew install curl-ca-bundle
+</code></p>
+
+<h2 id="section-2">使い方</h2>
+
+<h3 id="clone">リポジトリをclone</h3>
+
+<p><code>sh
+git clone https://github.com/glidenote/vagrant-docker-digitalocean.git
+</code></p>
+
+<h3 id="vagrantfile"><code>Vagrantfile</code>を下記部分を自分の環境に合わせて修正</h3>
+
+<ul>
+  <li><code>config.vm.hostname</code>には付けたいホスト名を設定</li>
+  <li><code>provider.client_id</code>には準備で作成した<code>client_id</code>を設定</li>
+  <li><code>provider.api_key</code>には準備で作成した<code>api_key</code>を設定</li>
+  <li><code>provider.ssh_key_name</code>には準備で作成したssh鍵名を指定</li>
+  <li>regionは日本からのレスポンスが良い<code>San Francisco 1</code>、sizeはDockerを利用するのに快適な<code>1GB</code>に設定しています。2013/12/19現在size<code>1GB</code>のインスタンス(Droplet)は1時間2円弱(0.015ドル)です。売り切れの場合などは必要に応じて適時変更してください</li>
+</ul>
+
+<h3 id="centos65dockerdroplet">CentOS6.5+Dockerなインスタンス(Droplet)の作成</h3>
+
+<p>コマンド一発でインスタンスを作成。ドンッ!! 4〜5分でCentOS6.5+Dockerな環境が出来上がる。</p>
+
+<p><code>sh
+vagrant up --provider=digital_ocean --provision
+</code></p>
+
+<h3 id="dropletssh">インスタンス(Droplet)にsshログイン</h3>
+
+<p><code>vagrant ssh</code>でssh接続するとIPを覚えておく必要がない。</p>
+
+<p><code>sh
+vagrant ssh
+</code></p>
+
+<h3 id="digitaloceandocker">DigitalOcean上でDockerを動かしてみる</h3>
+
+<p>インスタンス作成時にDockerを自動起動させているので、すぐに使えるようになってます。
+たとえば下記でfedoraで立ち上げてみる。どーん！</p>
+
+<p><code>sh
+sudo docker run -i -t mattdm/fedora /bin/bash
+</code></p>
+
+<p>すると1〜2分くらいで、下記みたいな感じでfedoraが使える。</p>
+
+<p><code>sh
+[root@test001 ~]# sudo docker run -i -t mattdm/fedora /bin/bash
+Unable to find image 'mattdm/fedora' (tag: latest) locally
+Pulling repository mattdm/fedora
+373dc830edcd: Download complete
+871613fadf3d: Download complete
+7c8cf65e1efa: Download complete
+bash-4.2# cat /etc/redhat-release
+Fedora release 20 (Heisenbug)
+</code></p>
+
+<h3 id="droplet">使い終わったらインスタンス(Droplet)を削除</h3>
+
+<p>DigitalOceanは停止状態(halt)だと課金されるので、使い終わったら、インスタンスをdestroyで消す。</p>
+
+<p><code>sh
+vagrant destroy
+</code></p>
+
+<p>前回も思ったけど、なんて便利な時代なんだ!!<br />
+時間課金で安いし、SSDで早いし、手元のマシンはファン回りっぱなしとかならないしDigitalOcean最高。</p>
+
+<h2 id="section-3">参考</h2>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/">VagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する - Glide Note - グライドノート</a></li>
+  <li><a href="http://docs.docker.io/en/latest/installation/rhel/">Requirements and Installation on Red Hat Enterprise Linux - Docker Documentation</a></li>
+  <li><a href="http://www.1x1.jp/blog/2013/12/docker_on_centos65.html">CentOS 6.5 に Docker をインストールしてみた - Shin x blog</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

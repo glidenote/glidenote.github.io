@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rubygems | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/rubygems/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[コマンドライン上からBitbucketのPrivate Repositoryを作成するgemを作ってみた]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/06/05/pori/"/>
+    <updated>2012-06-05T23:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/06/05/pori</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://rubygems.org/gems/pori">pori | RubyGems.org | your community gem host</a></li>
+</ul>
+
+<p>gitのラッパーコマンド<a href="https://github.com/defunkt/hub">hub</a>が便利で、コマンドライン上で
+<code>hub create -p</code>とかでGitHubにPrivate Repositoryが作成出来て、
+わざわざブラウザを立ち上げずにすみ、めちゃくちゃ便利なので
+<a href="https://bitbucket.org/">Bitbucket</a>でもコマンドライン上から<strong>private repositoryだけ</strong>が作成出来る
+gemを作って公開しました。</p>
+
+<h2 id="section">導入と使い方</h2>
+
+<p><code>pori</code>を利用するには<a href="http://curl.haxx.se/">cURL</a>が必要です</p>
+
+<p><code>
+gem install pori
+exec $SHELL
+cd /path/to/local-git-dir/
+pori
+</code></p>
+
+<ul>
+  <li>アカウント情報の管理は<a href="https://rubygems.org/gems/pit">pit</a>を使っています。</li>
+  <li>初回起動時は、Bitbucketのアカウント名とパスワードの入力が必要です。アカウント情報は<code>~/.pit/default.yaml</code>を編集し直すことで設定が出来ます。</li>
+  <li>アカウント名とパスワードが間違っていても、BitbucketのAPIはエラーを吐かないので、エラー補足出来てません。</li>
+  <li>gitで管理されていないディレクトリでは動作しないので、git管理でない場合は、最初に<code>git init</code>を実行してください。</li>
+</ul>
+
+<h2 id="section-1">やっていること</h2>
+
+<ul>
+  <li>Bitbucketに<strong>private repositoryだけ</strong>が作成</li>
+  <li>git remote add でremote repositoryの登録</li>
+  <li>現在gitのみ対応</li>
+</ul>
+
+<h2 id="todo">TODO</h2>
+
+<ul>
+  <li>オプションでpublicとprivateのrepositoryの切り替え</li>
+  <li>エラーハンドリング</li>
+  <li>mercurial対応</li>
+</ul>
+
+<p>作り始めのツールとか非公開の各種コンフィグとかは、とりあえずBitbucketのPrivate Repositoryに
+Pushしているので、自分が使うために作ったgemです。</p>
+]]></content>
+  </entry>
+  
+</feed>

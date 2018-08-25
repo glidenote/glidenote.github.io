@@ -1,0 +1,407 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>社内SubversionリポジトリをGitHubへの移行中 - Glide Note</title>
+  <meta property="og:title" content="社内SubversionリポジトリをGitHubへの移行中 - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="6月に部署異動をし、自分の部署の社内SubversionリポジトリをGitHubに移行中。
+ここ数日でいろいろと試行錯誤しながら作業をしているのでメモ。 Organizationの作成 Create an organization 自分のGithubアカウントでログインをして、 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2012/06/16/subversion-to-github/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2012/06/16/subversion-to-github">
+<meta name="twitter:title" content="社内SubversionリポジトリをGitHubへの移行中">
+<meta name="twitter:description" content="6月に部署異動をし、自分の部署の社内SubversionリポジトリをGitHubに移行中。
+ここ数日でいろいろと試行錯誤しながら作業をしているのでメモ。 Organizationの作成 Create an organization 自分のGithubアカウントでログインをして、Organizationを作成します。 Organization Nameはサービス名を利用 Organization &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">社内SubversionリポジトリをGitHubへの移行中</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-16T17:14:00+09:00" pubdate data-updated="true">2012年06月16日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>6月に部署異動をし、自分の部署の社内SubversionリポジトリをGitHubに移行中。
+ここ数日でいろいろと試行錯誤しながら作業をしているのでメモ。</p>
+
+<h2 id="organization">Organizationの作成</h2>
+
+<ul>
+  <li><a href="https://github.com/account/organizations/new">Create an organization</a></li>
+</ul>
+
+<p>自分のGithubアカウントでログインをして、Organizationを作成します。</p>
+
+<ul>
+  <li><code>Organization Name</code>はサービス名を利用</li>
+  <li><code>Organization Email</code>はサービスで利用しているメールアドレス。担当部署のみんなが受け取れるアドレスが良いかと思います。</li>
+  <li>Bronzeプラン($25/month) </li>
+  <li>クレジットカードの番号が必要になります。（会社のクレジットカード番号を入力)</li>
+</ul>
+
+<h2 id="graveter">Graveterに登録してアイコンを設定</h2>
+
+<ul>
+  <li><a href="http://ja.gravatar.com/">Gravatar - グローバルに認識されるアバター (Globally Recognized Avatars)</a></li>
+</ul>
+
+<p>Organizationのアイコンを設定するため、Gravatarの登録。
+Organizationの作成の際に利用したアドレスで登録すると管理が楽かと思います。</p>
+
+<p>登録が完了したら</p>
+
+<p>必要があればOrganization Profileの<code>Profile Information</code>を更新。</p>
+
+<h2 id="organization-1">Organizationメンバーの登録</h2>
+
+<p><code>Teams</code>でメンバーを登録します。チームごとに権限を割り振りしてメンバーを登録することもできます。</p>
+
+<h2 id="githuborganization">GitHubでOrganizationリポジトリの作成</h2>
+
+<p>Organizationで利用するリポジトリを作成。<code>puppet</code>とか<code>yum</code>とか、社内のRepository命名規則に従い作成。
+<a href="https://github.com/defunkt/hub">hub</a>を利用してコマンドラインからOrganizationのリポジトリが作れるかはまだ調べてないです</p>
+
+<h2 id="subversiongit-svngithubpush">社内Subversionリポジトリをgit-svnでインポートしてGitHubにpush</h2>
+
+<p>同じチームの<a href="https://twitter.com/#!/tnmt">@tnmt</a>に教えて貰って、
+試しに下記みたいな感じでgit-svnを利用し、社内リポジトリからローカルにimportしGitHubにpush。<br />
+Macbook Airで作業をしたらpuppetマニフェストだけなのに1時間くらいかかって、ファンがフル回転…</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir -p ~/svn-to-github
+</span><span class="line">git svn clone -s http://192.168.25.37/svn/server/puppet/hogemoge ~/svn-to-github/hogemoge-puppet/
+</span><span class="line">cd ~/svn-to-github/hogemoge-puppet/
+</span><span class="line">git remote add origin https://github.com/paperboy-hogemoge/puppet.git
+</span><span class="line">git push -u origin master</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>こうすることで、Subversion時代のcommitログがGitHubでも閲覧可能でした。</p>
+
+<p>とりあえずGitHubでPushまで出来るようになって移行手順の流れが掴めた。</p>
+
+<p>自作のデプロイツールとかの改修が必要だったり、運用ルールを決めたり
+完全移行までにはやらないといけないことが結構あって、
+まだ時間がかかりそうだけどGitHubを使って仕事が出来るのでかなり快適になりそう。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="https://help.github.com/articles/importing-from-subversion">Importing from Subversion · github:help</a></li>
+</ul>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-16T17:14:00+09:00" pubdate data-updated="true">2012年06月16日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/git/'>git</a>, <a class='category' href='/blog/categories/github/'>github</a>, <a class='category' href='/blog/categories/subversion/'>subversion</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2012/06/16/subversion-to-github/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="社内SubversionリポジトリをGitHubへの移行中 - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=社内SubversionリポジトリをGitHubへの移行中 "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2013/07/22/gitcommit-dictionary/">コミットメッセージを書くときにGitHubのユーザー名が補完されるようにした</a></li>
+
+  <li><a href="/blog/2013/07/18/open-browser-github.vim-for-github-enterprise/">open-browser-github.vim を  GitHub Enterpriseで使う</a></li>
+
+  <li><a href="/blog/2012/11/27/github-repos-for-me/">Githubに置いていた自分用のツールを外国の方が修正してくれた話</a></li>
+
+  <li><a href="/blog/2012/07/25/git-filter-branch/">git filter-branchで過去commitのAuthorとメールアドレスを一括変更</a></li>
+
+  <li><a href="/blog/2012/07/22/git-pocket-reference/">ワンランク上のGit使いになるために手元に置いておきたい「Gitポケットリファレンス」</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/06/10/octopress-post-directory/" title="Previous Post: Octopressは_postsの下にディレクトリ切っても記事が生成される">&laquo; Octopressは_postsの下にディレクトリ切っても記事が生成される</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/06/18/git-issue-zsh-completion/" title="next Post: git-issueのzsh補完関数を作った(作っていた)">git-issueのzsh補完関数を作った(作っていた) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2012/06/16/subversion-to-github/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2012/06/16/subversion-to-github/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

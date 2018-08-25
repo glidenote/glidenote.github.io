@@ -1,0 +1,1031 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="antipop the vimmer pic.twitter.com/iVbuT1kFPj&mdash; Gosuke Miyashita (@gosukenator) September 18, 2013 どういう心境の変化かあんちぽさんが最近Vimを使い始めていて、 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/12/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/12">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="antipop the vimmer pic.twitter.com/iVbuT1kFPj&mdash; Gosuke Miyashita (@gosukenator) September 18, 2013 どういう心境の変化かあんちぽさんが最近Vimを使い始めていて、
+社内IRCのvimチャンネルで結構質問をしてて、みんなでアレやコレや
+それぞれのやり方を教えてて、 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/20/source-vim-files-with-runtime/">「source ~/.vim/*.vim みたいなことをしたい」とあんちぽさんに質問された話</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-20T21:02:00+09:00" pubdate data-updated="true">2013年09月20日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote class="twitter-tweet"><p>antipop the vimmer <a href="http://t.co/iVbuT1kFPj">pic.twitter.com/iVbuT1kFPj</a></p>&mdash; Gosuke Miyashita (@gosukenator) <a href="https://twitter.com/gosukenator/statuses/380282528717733888">September 18, 2013</a></blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>どういう心境の変化か<a href="https://twitter.com/kentaro">あんちぽさん</a>が最近Vimを使い始めていて、
+社内IRCのvimチャンネルで結構質問をしてて、みんなでアレやコレや
+それぞれのやり方を教えてて、私も知らないことがかなりあってなかなか勉強になってる。</p>
+
+<p>とてもVim歴9日と思えない質問をバンバンしてくるし、
+「Emacsでは普通に出来るんだけど、Vimではどうやんの？」みたいな
+煽りもちょいちょい入れてきて結構ウザい。</p>
+
+<p>で昨日あんちぽさんから質問が出てた件</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">18:46:56     antipop_ | source .vim/*.vim
+</span><span class="line">18:47:01     antipop_ | みたいなことしたいんですが
+</span><span class="line">18:47:05     antipop_ | なんかいい方法ありますか
+</span><span class="line">18:52:03     antipop_ | *.vimがたくさんあるんですよ
+</span><span class="line">18:52:18     antipop_ | {foo,bar,baz}.vimみたいな
+</span><span class="line">18:52:23     antipop_ | カテゴリにわけて管理してる
+</span><span class="line">18:52:29     antipop_ | だけど、いちいちsourceしたくない
+</span><span class="line">18:52:45     antipop_ | なので、~/.vim/*.vimは全部自動的にsourceしたい
+</span><span class="line">18:54:00     antipop_ | source ~/.vim/neobundle.vim
+</span><span class="line">18:54:00     antipop_ | source ~/.vim/basic.vim
+</span><span class="line">18:54:00     antipop_ | source ~/.vim/window.vim
+</span><span class="line">18:54:01     antipop_ | source ~/.vim/moving.vim
+</span><span class="line">18:54:03     antipop_ | source ~/.vim/editing.vim
+</span><span class="line">18:54:05     antipop_ | source ~/.vim/search.vim
+</span><span class="line">18:54:07     antipop_ | source ~/.vim/unite.vim
+</span><span class="line">18:54:09     antipop_ | source ~/.vim/filer.vim
+</span><span class="line">18:54:11     antipop_ | source ~/.vim/colors.vim
+</span><span class="line">18:54:13     antipop_ | source ~/.vim/quickfix.vim
+</span><span class="line">18:54:15     antipop_ | source ~/.vim/completion.vim
+</span><span class="line">18:54:17     antipop_ | source ~/.vim/programming.vim
+</span><span class="line">18:54:19     antipop_ | source ~/.vim/ruby.vim
+</span><span class="line">18:54:21     antipop_ | source ~/.vim/tools.vim
+</span><span class="line">18:54:23     antipop_ | source ~/.vim/misc.vim
+</span><span class="line">18:54:25     antipop_ | とか~/.vim/vimrcにかいてるんす
+</span><span class="line">18:54:29     antipop_ | カテゴリふやすごとに↑に追加するのがだるいので
+</span><span class="line">18:54:33     antipop_ | 自動的によんでほしい</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>社内Vim使いには上みたいに設定ファイルを分割して使ってる人がいなくて不明だったので、
+Twitterに書いたら、@kaoriyaさんと@rbtnnさんから速攻で助言を頂いた!!
+ありがたい。</p>
+
+<blockquote class="twitter-tweet"><p><a href="https://twitter.com/glidenote">@glidenote</a> :runtimeが一番近いかも</p>&mdash; MURAOKA Taro (@kaoriya) <a href="https://twitter.com/kaoriya/statuses/380639073678815232">September 19, 2013</a></blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet"><p><a href="https://twitter.com/glidenote">@glidenote</a> filter(split(glob(&#39;hoge/*.vim&#39;),&quot;\n&quot;),&#39;feedkeys(&quot;:source &quot;.v:val.&quot;\&lt;cr&gt;&quot;)&#39;)&#10;&#10;こんな感じかな、ワンライナーだと。</p>&mdash; Vimうさぎさん (@rbtnn) <a href="https://twitter.com/rbtnn/statuses/380645183735349248">September 19, 2013</a></blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>上の二つの方法をあんちぽさんに教えたところ、下記のように<code>~/.vim/conf.d/</code>設定ファイル用ディレクトリを用意して、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~/.vim/conf.d/hoge.vim
+</span><span class="line">~/.vim/conf.d/moge.vim</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>.vimrc</code>に下記のように書いて実現出来た模様。なんか読み込む順番に依存関係があるとハマるらしい。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">set runtimepath+=~/.vim/
+</span><span class="line">runtime! conf.d/*.vim</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<blockquote class="twitter-tweet"><p><a href="https://twitter.com/kentaro">@kentaro</a> Maybe, tonight.</p>&mdash; Akira MAEDA (@glidenote) <a href="https://twitter.com/glidenote/statuses/380849255428026368">September 20, 2013</a></blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>え、俺が書くの… 。 ウォーキングデッド観てて忙しいんだけど。<br />
+というか普通に返答してしまったけど、「今でしょ」とか林先生を求めただけかもしれないと今気づいた。</p>
+
+<p>下記のような感じであんちぽさんのおかげで社内IRCのvimチャンネルが活性化されて良い感じ。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">13:18:06     antipop_ | unite-grepとagよいですな 
+</span><span class="line">13:19:26     antipop_ | grepなquickfixを自動的にuniteに展開してたんだけど 
+</span><span class="line">13:19:38     antipop_ | trailing errorでて一回enterしないとならなくてだるい 
+</span><span class="line">13:19:47     antipop_ | のでやめた 
+</span><span class="line">13:24:17     antipop_ | Emacsにmoccur-grep-findって超絶便利なのがあるんだけど 
+</span><span class="line">13:24:34     antipop_ | Qfreplaceが同じような感じだけど、なんかじゃっかん不安を感じる… 
+</span><span class="line">13:25:17     antipop_ | あと、昨日Emacsの動きを確認しようと思って起動したら、ウィンドウの移動のしかたを忘れていて、マウスでぽちぽち選択しました… 
+</span><span class="line">13:25:25     antipop_ | もうVimにそまっている… 
+</span><span class="line">13:27:38        maeda | Vimもここ2、3年でPluginが量産されててどれ使えばいいのか調べるのが大変なんですよね 
+</span><span class="line">13:27:55        maeda | ハセコさんのvimpusher見るのが良いんですが、 
+</span><span class="line">13:27:56        maeda | http://www.vimpusher.com/plugins 
+</span><span class="line">13:28:03     antipop_ | おっとそれだ！ 
+</span><span class="line">13:28:10     antipop_ | なんだっけあれ、ってなってだんだった 
+</span><span class="line">13:28:25        maeda | http://www.vimpusher.com/users 
+</span><span class="line">13:28:37        maeda | 最近も結構登録されてますね 
+</span><span class="line">13:28:53        maeda | 外人が結構登録してる 
+</span><span class="line">13:29:44     antipop_ | でもまあ、もう人気プラグインはだいたいみつくした 
+</span><span class="line">13:30:21     antipop_ | 自分的に使いこなせそうもないのとかはいれない 
+</span><span class="line">13:31:36     antipop_ | vim-textobj-multiblockが素晴らしいとおもいました 
+</span><span class="line">13:32:11     antipop_ | i'とかi)とかi}とかだるすぎるのを、一発で全部できる 
+</span><span class="line">13:33:49        maeda | http://d.hatena.ne.jp/osyo-manga/20130329/1364569153 
+</span><span class="line">13:33:50     antipop_ | あと、Advent Calendar 2012ぜんぶよんだ 
+</span><span class="line">13:33:54        maeda | チェックしてなかった 
+</span><span class="line">13:34:32     antipop_ | Vimではtextobjがすごいとおもいました！(Emacsにないから 
+</span><span class="line">13:41:19       kuroda | vim-textobj-multiblock よさそう。しらなかった。 
+</span><span class="line">13:41:44        maeda | command! Ev edit $MYVIMRC 
+</span><span class="line">13:41:44        maeda | command! Rv source $MYVIMRC 
+</span><span class="line">13:41:50        maeda | とかを設定しておくと、 
+</span><span class="line">13:42:01        maeda | :Ev で.vimrc開いて 
+</span><span class="line">13:42:30        maeda | :Rv で再読み込み出来るので、 
+</span><span class="line">13:42:51        maeda | 設定弄るときに便利です 
+</span><span class="line">13:43:03        maeda | 最近教えてもらいました 
+</span><span class="line">13:43:15 morygonzalez | 便利情報 
+</span><span class="line">13:53:31       kuroda | ふーむ。ブレースでdibが動かない。なぜだ。 
+</span><span class="line">13:57:19        maeda | :map dib 
+</span><span class="line">13:57:44        maeda | とかで他のプラグインとかが勝手にキーバインド設定してないか見ると良いかもですね 
+</span><span class="line">14:36:48       kuroda | YankRingとかぶってた… 
+</span><span class="line">14:39:12     antipop_ | ＞＜ 
+</span><span class="line">14:39:21     antipop_ | vim-startifyいいすね 
+</span><span class="line">14:47:30     antipop_ | http://192.168.25.37/gyazo/data/6b89990b3923709da4a843e6f3eb6db5.png 
+</span><span class="line">14:49:38       kuroda | vim-startify便利だ… 
+</span><span class="line">14:49:46       kuroda | あんちぽさん便利… 
+</span><span class="line">14:50:10     antipop_ | brew install figletして 
+</span><span class="line">14:50:11       kuroda | bで選んで復数開けるんすなぁ 
+</span><span class="line">14:50:16     antipop_ | 適当に文字つくる 
+</span><span class="line">14:52:33       kitak_ | sugoi 
+</span><span class="line">14:57:10     antipop_ | 誰もEmacsってかかれてるのにつっこまない 
+</span><span class="line">14:57:13     antipop_ | くそくそっ 
+</span><span class="line">15:04:13       okkun_ | figletの代わりにこれ http://patorjk.com/software/taag/#p=display&amp;f=Graffiti&amp;t=Type%20Something%20 使ってました 
+</span><span class="line">15:04:41     antipop_ | なにこれすごい 
+</span><span class="line">15:05:09       okkun_ | http://patorjk.com/software/taag/#p=display&amp;f=Ghost&amp;t=vim%207.4 
+</span><span class="line">15:05:13       okkun_ | かわいい 
+</span><span class="line">15:25:38        maeda | https://github.com/mhinz/vim-startify/issues/15 
+</span><span class="line">15:25:40        maeda | うける 
+</span><span class="line">15:25:54     antipop_ | ウガンダ 
+</span><span class="line">15:40:06        mizzy | なんだこれｗ 
+</span><span class="line">15:41:36        mizzy | http://d.hatena.ne.jp/tyru/20130212/pay_for_uganda これと何か関係あるのかな？ 
+</span><span class="line">15:44:24       kitak_ | ウガンダの子どもたちに寄付を」 
+</span><span class="line">15:44:30        maeda | Vim起動するとウガンダの子どもへの援助を募るメッセージが出るんですが、vim-startify使うと無視されるからですねw 
+</span><span class="line">15:44:30       kitak_ | みたいなメッセージをみかけたことがあるような 
+</span><span class="line">15:45:50        mizzy | なるほどなるほど＞vim-startifyを使うと無視 
+</span><span class="line">15:46:08        mizzy | 理解した 
+</span><span class="line">15:46:21        mizzy | ハイコンテキストだ… 
+</span><span class="line">15:46:26     antipop_ | www 
+</span><span class="line">15:46:29     antipop_ | Vimギャグ 
+</span><span class="line">15:47:13        mizzy | Vimmerはこういうギャグも理解できるようにならないといけないんですね 
+</span><span class="line">15:47:29        maeda | ですねw 
+</span><span class="line">15:47:34     antipop_ | 私はすぐに理解しました 
+</span><span class="line">15:47:39        mizzy | さすがだ 
+</span><span class="line">15:47:44     antipop_ | 本物のVimmerなので。 
+</span><span class="line">15:49:12        maeda | https://github.com/vim-jp/issues/issues/355 
+</span><span class="line">15:49:50     antipop_ | 本物のVimmerになりたくない 
+</span><span class="line">15:51:31        mizzy | 本物のVimmerすごい </span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>福岡支社でVim勉強会も開催されていたので、盛り上がってきてる気がする。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/20/gist-and-gist-zsh-completion/">gistコマンドが便利だったのでzsh補完関数を書いた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-20T20:05:00+09:00" pubdate data-updated="true">2013年09月20日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://gist.github.com/">Gist</a>使ってますか！</p>
+
+<p>普段はmattnさんの<a href="https://github.com/mattn/gist-vim">gist-vim</a>経由でGistにpostしているんですが、
+コマンドの結果とかをパイプとかで渡して、Gistにpost出来ないものかと思ってたら、
+GitHub開発者のdefunkt氏が作ってた。全然知らなくて情弱丸出しだった。</p>
+
+<ul>
+  <li><a href="https://github.com/defunkt/gist">defunkt/gist</a></li>
+</ul>
+
+<p>メンテもちゃんとされてて、ver4.1.1以降なら2段階認証にも対応してる。</p>
+
+<h2 id="section">導入方法</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">gem install gist
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Macなら</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">brew install gist
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">初期設定</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">gist --login
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>GH:E使ってる場合は、下記のような感じでURLを
+<code>.bashrc</code>とか<code>.zshrc</code>に書いておく</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">export </span><span class="nv">GITHUB_URL</span><span class="o">=</span>http://ghe.tokyo.pb/
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">使い方</h2>
+
+<p><code>a.rb</code>をPOST。これが一般的な使い方</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">gist a.rb
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>複数を一気にPOST</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">gist a b c
+</span><span class="line">gist *.rb
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>-f</code>でファイル名を設定して、<code>a.rb</code>をPOST</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">gist -f test.rb &lt;a.rb
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>などなど。</p>
+
+<p>そのほかの使い方は公式ページを見てもらうのが良いかと思います。</p>
+
+<p>https://github.com/defunkt/gist#command</p>
+
+<h2 id="section-3">私の実際の使い方</h2>
+
+<p>私はコマンドの結果を直接GistにPOSTしたいとき使ってるんですが、
+SSL証明書を入れ替えして、opensslコマンドで確認したり</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">openssl s_client -connect github.com:443 -showcerts <span class="s">&lt;&lt; EOF | gist</span>
+</span><span class="line"><span class="s">HEAD / HTTP/1.0</span>
+</span><span class="line"><span class="s">EOF</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>GistにPostされている内容</p>
+
+<div><script src="https://gist.github.com/6633357.js"></script>
+<noscript><pre><code>&lt;html&gt;&lt;body&gt;You are being &lt;a href=&quot;https://github.com/gist/6633357&quot;&gt;redirected&lt;/a&gt;.&lt;/body&gt;&lt;/html&gt;</code></pre></noscript></div>
+
+<p>とかみたいに、使ってます。</p>
+
+<h2 id="section-4">その他の便利設定</h2>
+
+<p>下記のように<code>.zshrc</code>とかにaliasを設定しておくと、Gistにpostした後に
+ブラウザが開いて、GistのURLがクリップボードに自動で入ってくれるようになってます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">alias </span><span class="nv">gist</span><span class="o">=</span><span class="s1">&#39;gist -c -o -p&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>あと用途的にコマンドとかの結果を直接POSTしてるので、思わぬ事故を防止するために<code>-p</code>を付けて、
+デフォルト非公開でPOSTしてます。
+社用MacはPOST先が社内GH:Eサーバなので、インターネット上に公開されるわけで無いんですが、念のため。
+Gistは非公開設定でもURL知ってれば閲覧出来るので、誰かに伝えるときはURL渡して
+デフォルト非公開でも運用的に問題も無い感じです。</p>
+
+<p>公開するものは基本的に見やすいようにvimで整形するので、
+gist-vim経由でPOSTとgistと使い分けをしてます。</p>
+
+<h2 id="zsh">zshでの利用</h2>
+
+<p>zshで補完されないと不便だったので、<a href="https://github.com/zsh-users/zsh-completions/pull/172">zsh補完関数を書いて、zsh-completionsにmergeされている</a>ので、
+zsh-completionsを利用していれば、gistコマンドが下記のように補完されるようになってます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/09/gist0.png" alt="" /></p>
+
+<h2 id="section-5">参考</h2>
+
+<ul>
+  <li><a href="http://marutanm.hatenablog.com/entry/20110428/p1">もっと身近に、gistコマンド - Meltdown Countdown rev.</a></li>
+  <li><a href="https://blog.glidenote.com/blog/2012/04/01/new-gist.vim/">OAuth2認証に対応して新しくなったGist.vimを導入した - Glide Note - グライドノート</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/26/ojt-with-wemux/">新卒OJTにwemux(multi-user terminal multiplexing)を使って画面共有することにした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-26T20:00:00+09:00" pubdate data-updated="true">2013年08月26日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="http://i.imgur.com/iOjcz.png" alt="" /></p>
+
+<ul>
+  <li><a href="https://github.com/zolrath/wemux">zolrath/wemux</a></li>
+</ul>
+
+<p>新卒氏がインフラに配属になって、横に座ってOJTをやっているんですが、
+説明で自分の画面と、新卒氏の画面を行ったり来たりしてアレやコレや言って作業をしているのが
+かなり効率が悪かったので、1ヶ月くらい前からwemuxを使って画面を共有するようにした。</p>
+
+<p>screenでも画面共有出来ますが、最近私がscreen使って無いのと、
+<a href="https://blog.glidenote.com/blog/2013/07/17/learngin-tmux/">新卒研修でtmuxを使え</a>と
+強制しておいたので、wemuxを使ってます。</p>
+
+<h2 id="wemux">wemuxの特徴</h2>
+
+<ol>
+  <li>tmux1.6以上が必要</li>
+  <li>単一の端末を複数人で共有出来る。</li>
+  <li>読み取り専用のmirror mode</li>
+  <li>複数人で操作ができるpair mode</li>
+</ol>
+
+<p>などの特徴があります。</p>
+
+<h2 id="wemux-1">wemuxの導入</h2>
+
+<p>導入環境はCentOS5系で、tmux1.6が既に導入済みです。</p>
+
+<p>wemux自体はtmuxのwrapperなので、tmux1.6以上が必要です。
+weemuxは管理サーバ(sshの踏み台サーバ)で動かしてて、教える人と教わる人が
+ログインして画面共有をしています。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo git clone git://github.com/zolrath/wemux.git /usr/local/share/wemux
+</span><span class="line">sudo ln -s /usr/local/share/wemux/wemux /usr/local/bin/wemux
+</span><span class="line">sudo cp /usr/local/share/wemux/wemux.conf.example /usr/local/etc/wemux.conf
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>/usr/local/etc/wemux.conf</code>の<code>host_list</code>にwemuxで画面を共有するユーザを
+下記のように記載</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nv">host_list</span><span class="o">=(</span>glidenote tnmt lamanotrama<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="wemux-2">wemuxの使い方</h2>
+
+<p>先にwemuxを起動した人がhost側になります。OJTでは教える側が先にwemuxを起動して
+hostになっています。(pair modeで動かしているので、両方が操作できますが、
+一応形式的に教える人がhostになってます)</p>
+
+<p>まず最初に教える側(私)が下記のような感じでwemuxを起動、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">wemux
+</span><span class="line">chmod 1777 /tmp/wemux-wemux
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>続いて教わる側(新卒氏)が</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">wemux
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>でclient側になります。引数でmodeを指定しない場合は、<code>/usr/local/etc/wemux.conf</code>で
+設定されているmodeで起動します。</p>
+
+<p>wemuxを終了するときは、host側(私)がdetachして</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">wemux stop
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>すれば<code>/tmp/wemux-wemux</code>が削除されます。<code>/tmp/wemux-wemux</code>が残っていると
+他の人がwemuxを起動してhostになれないので注意。</p>
+
+<p>1ヶ月使ってみて感じたメリット、デメリット</p>
+
+<h2 id="section">メリット</h2>
+
+<ul>
+  <li>tmuxで画面共有が出来る。</li>
+  <li>自分の使い慣れたキーバインドで、説明が出来る。</li>
+  <li>相手の操作を見るときも、わざわざディスプレイを見に行かなくても良い。</li>
+  <li>コピーモードの矩形選択を利用することで、指摘したい部分を選択出来る。</li>
+</ul>
+
+<h2 id="section-1">デメリット</h2>
+
+<ul>
+  <li>tmux限定</li>
+  <li>wemux host側の<code>.tmux.conf</code>が利用されるので、変態的なキーバインドだと教わる側や二人同時に操作できる<code>pair mode</code>できつい</li>
+  <li>wemux hostとclient側でディスプレイサイズが異なるとと、表示が残念な感じになる。</li>
+</ul>
+
+<p>ホスト側とクライアント側で微妙にサブコマンドが違って、zshで補完されないと使い勝手が悪かったので、wemuxの補完関数を作って
+<a href="https://github.com/zsh-users/zsh-completions/pull/162">zsh-completionsにpull req</a>を出しておいたのが
+mergeされてるのでzsh-completions利用すればweemuxのコマンドが補完されるようになってます。</p>
+
+<p>confはほぼデフォルトのままで使ってるんですが、1ヶ月くらい使ってみて特に不都合も無く良い感じに稼働してます。
+同じ画面を見て作業出来るので、確認が楽に出来て、メンテとか重要作業でも使えるかなーと思案中。</p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/thso83/items/892db2affe92a984e586">Mac - リモートから作業中のセッションに接続し、共同作業してもらう方法 - Qiita [キータ]</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/29/gem-install-hub-is-slow/">`gem install`で入れた`hub`が遅い話</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-29T20:41:00+09:00" pubdate data-updated="true">2013年07月29日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ちゃんとマニュアル読んでれば「何を今さら」という感じなんですが、
+hubコマンドについて、ちょっと調べ物をして、<a href="https://github.com/github/hub#rubygems">README</a>読んでたら</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Though not recommended, hub can also be installed as a RubyGem:</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>というのが目に入った。</p>
+
+<p>理由の<a href="https://gist.github.com/defunkt/284823">Why to not use hub with RubyGems</a>をみると
+RubyGems経由でインストールしたhubは遅いから使うべきじゃ無いとベンチマーク結果とともに書いてある。</p>
+
+<p>実際に手元のMacで比較</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="c"># No RubyGems</span>
+</span><span class="line"><span class="nb">time</span> <span class="o">(</span><span class="k">for </span>i in <span class="o">{</span>1..10<span class="o">}</span>
+</span><span class="line"><span class="k">do</span>
+</span><span class="line">  /usr/local/bin/hub --version &gt; /dev/null
+</span><span class="line"><span class="k">done</span><span class="o">)</span>
+</span><span class="line">
+</span><span class="line"><span class="o">(</span> <span class="k">for </span>i in <span class="o">{</span>1..10<span class="o">}</span>; <span class="k">do</span>; /usr/local/bin/hub --version &gt; /dev/null; <span class="k">done</span>; <span class="o">)</span>  0.55s user 0.22s system 83% cpu 0.925 total
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="c"># With RubyGems</span>
+</span><span class="line"><span class="nb">time</span> <span class="o">(</span><span class="k">for </span>i in <span class="o">{</span>1..10<span class="o">}</span>
+</span><span class="line"><span class="k">do</span>
+</span><span class="line">  ~/.rbenv/versions/1.9.3-p194/bin/hub --version &gt; /dev/null
+</span><span class="line"><span class="k">done</span><span class="o">)</span>
+</span><span class="line">
+</span><span class="line"><span class="o">(</span> <span class="k">for </span>i in <span class="o">{</span>1..10<span class="o">}</span>; <span class="k">do</span>; ~/.rbenv/versions/1.9.3-p194/bin/hub --version &gt; ; ; <span class="o">)</span>  4.02s user 0.60s system 87% cpu 5.282 total
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>え、こんなに遅いの…</p>
+
+<h2 id="section">改善方法(というかちゃんとしたインストール方法)</h2>
+
+<p><a href="https://github.com/github/hub#installation">公式に書いてあるよう</a>にmacならhomebrewで</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">brew install hub
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Linuxなら</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">curl http://hub.github.com/standalone -sLo ~/bin/hub <span class="o">&amp;&amp;</span> chmod +x ~/bin/hub
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>で入れる。</p>
+
+<p><a href="https://github.com/github/hub#standalone-via-rubygems">RubyGems経由で導入した場合も、下記のようにstandalone形式で入れると早い</a>とのこと。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">gem install hub
+</span><span class="line">hub hub standalone &gt; ~/bin/hub <span class="o">&amp;&amp;</span> chmod +x ~/bin/hub
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>実際に測定してみた。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="c"># Standalone via RubyGems</span>
+</span><span class="line"><span class="nb">time</span> <span class="o">(</span><span class="k">for </span>i in <span class="o">{</span>1..10<span class="o">}</span>
+</span><span class="line"><span class="k">do</span>
+</span><span class="line"> ~/bin/hub --version &gt; /dev/null
+</span><span class="line"><span class="k">done</span><span class="o">)</span>
+</span><span class="line">
+</span><span class="line"><span class="o">(</span> <span class="k">for </span>i in <span class="o">{</span>1..10<span class="o">}</span>; <span class="k">do</span>; ~/bin/hub --version &gt; /dev/null; <span class="k">done</span>; <span class="o">)</span>  0.56s user 0.22s system 84% cpu 0.928 total
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>確かに早い。</p>
+
+<p>でも<code>which hub</code>とかすると、自分の環境ではgemで入れたhubが呼ばれてたので、
+Macなら<code>homebrew</code>、Linuxは<code>curl</code>で入れるとかが統一しておいて、<code>gem install hub</code>しないほうが良さそう。</p>
+
+<p>2年近くhub使ってて初めて知った…</p>
+
+<p>余談ですがzshのプロンプトにgitのブランチ名とか出してる場合、毎回hubが呼び出されている可能性があるので下記を忘れずに。</p>
+
+<ul>
+  <li><a href="http://qiita.com/yaotti/items/0af5d50f4f52d22a46fe">hubコマンドを利用&amp;&amp;プロンプトにgitのブランチ等を表示している人向けのzsh高速化 - Qiita [キータ]</a></li>
+</ul>
+
+<p>gitとhubを比べてみると結構速度に差があるな-</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">time</span> /usr/local/bin/hub --version &gt; /dev/null
+</span><span class="line">/usr/local/bin/hub --version &gt; /dev/null  0.06s user 0.02s system 83% cpu 0.093 total
+</span><span class="line">
+</span><span class="line"><span class="nb">time</span> /usr/bin/git --version &gt; /dev/null
+</span><span class="line">/usr/bin/git --version &gt; /dev/null  0.00s user 0.00s system 71% cpu 0.003 total
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/22/gitcommit-dictionary/">コミットメッセージを書くときにGitHubのユーザー名が補完されるようにした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-22T00:56:00+09:00" pubdate data-updated="true">2013年07月22日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>gitでcommit messageを書くときに、関連する人にmentionを送ることが結構あるんですが、
+GitHubとGitHub Enterpriseのユーザ名の覚えが曖昧で、毎回ブラウザでポチポチやって調べていて、
+効率が恐ろしく悪かったので、同僚やmention送るユーザ名は辞書作って補完することにした。</p>
+
+<h2 id="github-username">GitHub Usernameの辞書を作成</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">mkdir -p ~/.vim/dictionary/
+</span><span class="line">touch ~/.vim/dictionary/github_user.dict
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>~/.vim/dictionary/github_user.dict</code>の中身は下記みたいな感じでユーザー名を列挙。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">mizzy
+</span><span class="line">lamanotrama
+</span><span class="line">tnmt
+</span><span class="line">hiboma
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="vimrc">.vimrcの設定</h2>
+
+<p>作った辞書がcommit messageを書くときだけ読み込まれるように<code>.vimrc</code>に下記のように追加。
+<code>git commit</code>したときにfiletypeが<code>gitcommit</code>になってないと辞書が読み込まれないので注意</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">autocmd FileType gitcommit :set <span class="nv">dictionary</span><span class="o">=</span>~/.vim/dictionary/github_user.dict
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下記みたいにGitHubのユーザー名が補完されるので、mentionが飛ばしやすくなる。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/07/github_dict0.png" alt="" /></p>
+
+<p>どうやってユーザー名を補完しようか調べてて、<code>git commit</code>でvimを起動するとfiletypeが<code>gitcommit</code>になるのを初めて知った。
+たぶんこれを利用すればもっと便利なことが出来そうな気がする。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://nanasi.jp/articles/howto/config/dictionary.html">辞書ファイルで入力を補完する — 名無しのvim使い</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/13/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/11/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

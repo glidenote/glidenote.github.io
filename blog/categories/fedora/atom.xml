@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: fedora | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/fedora/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ssh接続したリモートサーバの出力を手元Macのクリップボードに送る]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/02/22/remote-pbcopy/"/>
+    <updated>2014-02-22T21:27:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/02/22/remote-pbcopy</id>
+    <content type="html"><![CDATA[<p>今までsshしたリモートサーバ上でコマンド実行したときの結果出力とかは、
+tmuxのコピーモードとかを駆使して、Macのクリップボードに送ってたんですが
+もっと手軽に出来る方法があったのでGitHubにまとめてみた。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/rpbcopy">glidenote/rpbcopy</a></li>
+</ul>
+
+<h2 id="section">仕組みの説明</h2>
+
+<ol>
+  <li>Mac上で、受け取った内容をクリップボード(pbcopy)に渡す<code>LaunchAgent</code>を作って起動</li>
+  <li>リモートサーバ上の出力を受け取るスクリプト<code>rpbcopy(nc)</code>に渡す</li>
+  <li>sshの<code>RemoteForward</code>を利用して、リモートサーバで<code>rpcopy(nc)</code>に渡された内容をMac上の<code>LaunchAgent</code>に渡す</li>
+  <li>Mac上の<code>LaunchAgent</code>が受け取ったデータをMacの<code>pbcopy(クリップボード)</code>に入れる</li>
+  <li><code>pbpaste</code>などで貼り付けが出来る</li>
+</ol>
+
+<p>図にすると下記のような感じ</p>
+
+<p><code>
++ - - - - - - - - -+                       +- - - - - - - - - - - - - - - - -+
+' Remote Server:   '                       ' Mac:                            '
+'                  '                       '                                 '
+' +--------------+ '  ssh(RemoteForward)   ' +--------------+     +--------+ '
+' | rpbcopy(nc)  | ' --------------------&gt; ' | LaunchAgent  | --&gt; | pbcopy | '
+' +--------------+ '                       ' +--------------+     +--------+ '
+'                  '                       '                                 '
++ - - - - - - - - -+                       +- - - - - - - - - - - - - - - - -+
+</code></p>
+
+<h2 id="section-1">導入方法</h2>
+
+<p>動作検証環境</p>
+
+<ul>
+  <li>リモートサーバ CentOS 6.4、Fedora 19</li>
+  <li>ローカルMac OS X 10.9.1</li>
+</ul>
+
+<p><a href="https://github.com/glidenote/rpbcopy">glidenote/rpbcopy</a>に各種ファイルをまとめているので、
+cloneしてくるのが早いです。</p>
+
+<p><code>sh
+git clone https://github.com/glidenote/rpbcopy
+</code></p>
+
+<h3 id="mac">Mac側の設定</h3>
+
+<h4 id="launchagent">LaunchAgentを起動</h4>
+
+<p><code>2224</code>ポートで待ち受けて、受け取った内容をクリップボードに渡すLaunchAgentを用意。
+同梱の<code>pbcopy.plist</code>を<code>~/Library/LaunchAgents/pbcopy.plist</code>に設置して、下記で起動</p>
+
+<p><code>sh
+launchctl load ~/Library/LaunchAgents/pbcopy.plist
+</code></p>
+
+<p>停止する場合は下記</p>
+
+<p><code>sh
+launchctl unload ~/Library/LaunchAgents/pbcopy.plist
+</code></p>
+
+<h4 id="sshconfig"><code>~/.ssh/config</code>の設定</h4>
+
+<p>リモートサーバの<code>2224</code>ポートをフォワーディングするので、
+<code>~/.ssh/config</code>に</p>
+
+<p><code>
+RemoteForward 2224 127.0.0.1:2224
+</code></p>
+
+<p>を追加。</p>
+
+<h4 id="cfusertextencoding"><code>~/.CFUserTextEncoding</code>の設定</h4>
+
+<p>必ず必要な作業ではありませんが、UTF-8の内容を送ると文字化けが発生する場合、転送が上手くされない場合は
+同梱の<code>.CFUserTextEncoding</code>を<code>~/.CFUserTextEncoding</code>に設置することで回避出来ると思います。</p>
+
+<p><code>~/.CFUserTextEncoding</code>を編集することで他に影響が及ぶ場合があるので、
+必ずバックアップを取り、自己責任で編集お願いします。</p>
+
+<h3 id="centos">リモートサーバ(CentOS)側の設定</h3>
+
+<h4 id="nc">ncの導入</h4>
+
+<p><code>nc(netcat)</code>が無いと使えないので<code>nc</code>を導入。(<code>nc</code>のバージョンが古いと<code>-C</code>オプションが存在しない場合があります。)</p>
+
+<p><code>sh
+sudo yum -y install nc
+</code></p>
+
+<h4 id="rpbcopy">rpbcopyスクリプトの設置</h4>
+
+<p>同梱の<code>rpbcopy</code>を<code>~/bin/rpbcopy</code>など<code>PATH</code>が通っている場所に設置して権限を付与</p>
+
+<p><code>sh
+chmod a+x ~/bin/rpbcopy
+</code></p>
+
+<h2 id="section-2">使い方</h2>
+
+<p>リモートサーバにsshログイン。
+手元Macのクリップボードに送りたいファイルやコマンドの出力を、リモートサーバ上で</p>
+
+<p>```
+# 転送が出来るかテスト
+echo “hello” | rpbcopy</p>
+
+<h1 id="mac-cfusertextencoding">日本語が転送が出来るかテスト。駄目な場合はMac側の <code>~/.CFUserTextEncoding</code>を設定する必要あり</h1>
+<p>echo “こんにちは” | rpbcopy</p>
+
+<h1 id="filemac">fileの中身を手元Macのクリップボードにコピー</h1>
+<p>cat fileneme | rpbcopy</p>
+
+<h1 id="historymac">リモートサーバのhistoryの内容を手元Macのクリップボードにコピー</h1>
+<p>history | rpbcopy
+```</p>
+
+<p>という感じでrpbcopyに渡すと、手元のMacのクリップボードに渡されるので
+Mac側で<code>pbpaste</code>や貼り付けが出来る。</p>
+
+<h2 id="section-3">補足</h2>
+
+<p><code>~/.bash_profile</code>や<code>~/.zsh_profile</code>などに</p>
+
+<p><code>
+alias pbcopy='~/bin/rpbcopy'
+</code></p>
+
+<p>とaliasを追加して、<code>pbcopy</code>でも使えるようにしておけば、
+リモートサーバとローカルサーバを意識せずに利用出来る。</p>
+
+<h2 id="section-4">トラブルシューティング</h2>
+
+<p>導入の際にハマったところをまとめておく。</p>
+
+<h3 id="mac-1">Mac側</h3>
+
+<h4 id="launchctl-loadunloadcould-not-open-job-overrides-database-at-privatevardblaunchddbcomapplelaunchdoverridesplist-13-permission-denied"><code>launchctl load/unload</code>を実行すると<code>Could not open job overrides database at: /private/var/db/launchd.db/com.apple.launchd/overrides.plist: 13: Permission denied</code>と出る。</h4>
+
+<p>tmuxを起動している状態で<code>launchctl load/unload</code>を実行するとPermissionのエラーが出てしまうことがあるようです。<a href="https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/">ChrisJohnsen/tmux-MacOSX-pasteboard</a>を利用することで回避出来る模様。</p>
+
+<h4 id="launchagent2224">LaunchAgentは動作しているか、2224ポートは開いているか確認</h4>
+
+<p><code>
+nc -vz 127.0.0.1 2224
+</code></p>
+
+<h4 id="launchagent--pbcopy-"><code>LaunchAgent</code> =&gt; <code>pbcopy</code> とデータが渡っているか。</h4>
+
+<p>Macのncの場合オプションは<code>-c</code>なので注意</p>
+
+<p><code>
+echo "hello" | nc -c 127.0.0.1 2224
+pbpaste
+</code></p>
+
+<h4 id="launchagent--pbcopy--1"><code>LaunchAgent</code> =&gt; <code>pbcopy</code> と日本語のデータが渡っているか。</h4>
+
+<p>Macのncの場合オプションは<code>-c</code>なので注意.</p>
+
+<p><code>
+echo "日本語のテスト" | nc -c 127.0.0.1 2224
+pbpaste
+</code></p>
+
+<p>駄目な場合は、<code>~/.CFUserTextEncoding</code>を同梱のものに入れ替えるてどうか確認。</p>
+
+<h3 id="centos-1">CentOS側</h3>
+
+<h4 id="nc-1">ncが入っているか</h4>
+
+<p><code>sh
+type nc
+</code></p>
+
+<h4 id="ssh-remoteforward">2224ポートと疎通が出来ているか。SSH RemoteForwardが出来ているか</h4>
+
+<p><code>sh
+nc -vz 127.0.0.1 2224
+</code></p>
+
+<h4 id="ssh-remoteforwardmacpbpaste">SSH RemoteForward経由でMacのpbpasteにデータを渡せているか</h4>
+
+<p><code>
+echo "hello" | nc -c 127.0.0.1 2224
+</code></p>
+
+<p>mac側で<code>pbpaste</code>を実行してみてどうか。</p>
+
+<hr />
+
+<p>普段私が常用しているmoshだとこれが利用出来ないので、いい方法がないか思案中。<br />
+とりあえず、<code>ターミナル作業用のmosh接続</code>とは別で<code>rpbcopy専用のssh接続</code>を作っておくことで利用してる。</p>
+
+<h2 id="section-5">参考</h2>
+
+<ul>
+  <li><a href="http://seancoates.com/blogs/remote-pbcopy">Sean Coates blogs: Remote pbcopy</a></li>
+  <li><a href="http://brettterpstra.com/2014/02/19/remote-pbcopy-on-os-x-systems/">Remote pbcopy on OS X systems - BrettTerpstra.com</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Fedora16 systemctlコマンドのメモ]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/02/06/systemctl-zsh-completion/"/>
+    <updated>2012-02-06T00:33:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/02/06/systemctl-zsh-completion</id>
+    <content type="html"><![CDATA[<p>自宅サーバはFedora 16で構築してるんですが、systemctlコマンドが全く頭に入ってこないので自分用にメモ。
+2回ググったらブログに書く。</p>
+
+<h2 id="squid">たとえばsquidを管理する場合</h2>
+
+<h3 id="section">起動</h3>
+
+<p><code>
+sudo systemctl start squid.service
+</code></p>
+
+<h3 id="section-1">停止</h3>
+
+<p><code>
+sudo systemctl stop squid.service
+</code></p>
+
+<h3 id="section-2">再起動</h3>
+
+<p><code>
+sudo systemctl restart squid.service
+</code></p>
+
+<h3 id="section-3">自動起動設定</h3>
+
+<p><code>
+sudo systemctl enable squid.service
+</code></p>
+
+<h3 id="section-4">自動起動の解除</h3>
+
+<p><code>
+sudo systemctl disable squid.service
+</code></p>
+
+<h3 id="status">statusを確認</h3>
+
+<p><code>
+[akira@mini9] $ sudo systemctl status squid.service
+squid.service - Sqid caching proxy
+      Loaded: loaded (/lib/systemd/system/squid.service; enabled)
+          Active: active (running) since Mon, 06 Feb 2012 00:41:33 +0900; 3min 53s ago
+             Process: 3410 ExecStop=/usr/sbin/squid -k shutdown -f $SQUID_CONF (code=exited, status=0/SUCCESS)
+                 Process: 3400 ExecReload=/usr/sbin/squid $SQUID_OPTS -k reconfigure -f $SQUID_CONF (code=exited, status=0/SUCCESS)
+                     Process: 3418 ExecStart=/usr/sbin/squid $SQUID_OPTS -f $SQUID_CONF (code=exited, status=0/SUCCESS)
+                         Process: 3412 ExecStartPre=/usr/libexec/squid/cache_swap.sh (code=exited, status=0/SUCCESS)
+                            Main PID: 3419 (squid)
+                                  CGroup: name=systemd:/system/squid.service
+                                          ├ 3419 /usr/sbin/squid -f /etc/squid/squid.conf
+                                                  ├ 3421 (squid-1) -f /etc/squid/squid.conf
+                                                          ├ 3426 (logfile-daemon) /var/log/squid/access.log
+                                                                  └ 3427 (unlinkd)
+</code></p>
+
+<h2 id="section-5">その他のコマンド</h2>
+<p><code>
+[akira@mimi9] $ systemctl
+systemctl command
+cancel                               -- Cancel all, one, or more jobs
+daemon-reexec                        -- Reexecute systemd manager
+daemon-reload                        -- Reload systemd manager configuration
+default                              -- Enter system default mode
+delete                               -- Remove one or more snapshots
+disable                              -- Disable one or more unit files
+dot                                  -- Dump dependency graph for dot(1)
+dump                                 -- Dump server status
+emergency                            -- Enter system emergency mode
+enable                               -- Enable one or more unit files
+exit                                 -- Ask for user instance termination
+halt                                 -- Shut down and halt the system
+is-active                            -- Check whether units are active
+is-enabled                           -- Check whether unit files are enabled
+isolate                              -- Start one unit and stop all others
+kexec                                -- Shut down and reboot the system with kexec
+kill                                 -- Send signal to processes of a unit
+list-jobs                            -- List jobs
+list-units                           -- List units
+load                                 -- Load one or more units
+monitor                              -- Monitor unit/job changes
+poweroff                             -- Shut down and power-off the system
+reboot                               -- Shut down and reboot the system
+reload                               -- Reload one or more units
+reload-or-restart                    -- Reload one or more units is possible, otherwise start or restart
+reload-or-try-restart  force-reload  -- Reload one or more units is possible, otherwise restart if active
+rescue                               -- Enter system rescue mode
+reset-failed                         -- Reset failed state for all, one, or more units
+restart                              -- Start or restart one or more units
+set-environment                      -- Set one or more environment variables
+show                                 -- Show properties of one or more units/jobs or the manager
+show-environment                     -- Dump environment
+snapshot                             -- Create a snapshot
+start                                -- Start (activate) one or more units
+status                               -- Show runtime status of one or more units
+stop                                 -- Stop (deactivate) one or more units
+try-restart            condrestart   -- Restart one or more units if active
+unset-environment                    -- Unset one or more environment variables
+</code></p>
+
+<p>systemdでは<code>/lib/systemd/system</code>に設定ファイルを用意して、
+<code>/etc/systemd/system</code>配下の<code>xxxx.wants</code>へリンクを貼ると自動起動設定となる。</p>
+
+<p>ちなみにzshのバージョンを4.3.15にあげたらsytemctlの補完が効いてくれるようになった</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[/etc/hosts.deny, missing newline or line too long]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/12/27/hosts-deny-error/"/>
+    <updated>2011-12-27T20:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/12/27/hosts-deny-error</id>
+    <content type="html"><![CDATA[<p>普段iptablesとTCP Wrapperrでアクセス制限をかけているんですが、hosts.denyの設定見直しをしていて、
+/var/log/secureに下記のようなログが吐かれて動作していないサーバがあったのでメモ</p>
+
+<p><code>
+sshd[20929]: warning: /etc/hosts.deny, line 0: missing newline or line too long
+</code></p>
+
+<h2 id="etchostsdeny">/etc/hosts.denyの設定</h2>
+
+<p>問題のhosts.denyは下記のような設定で一見問題が無さそうに見える</p>
+
+<p><code>
+ALL : ALL
+</code></p>
+
+<h2 id="section">機能しなかった原因</h2>
+
+<p>原因は下記の通り、設定行に改行コードが含まれていないことが原因でした</p>
+
+<p><blockquote><p>ホストアクセスファイルの最後の行が、改行マーク([Enter]キーを 押して出るマーク)でなければ、そのファイル内の最後の規則は、失敗してエラーが /var/log/messages又は/var/log/secureに ログされます。これは、規則の行が逆スラッシュを使用することなく、複数行に跨ぐ場合にも 同様の問題となります。以下の例では、以上のどちらかの状況による規則違反のログメッセージ の関連する部分を表示しています：</p><footer><strong>TCPラッパーの設定ファイル</strong> <cite><a href='http://www.jp.redhat.com/manual/Doc9/rhl-rg-ja-9/s1-tcpwrappers-access.html'>www.jp.redhat.com/manual/Doc9/&hellip;</a></cite></footer></blockquote></p>
+
+<h2 id="etchostsdeny-1">修正後の/etc/hosts.deny</h2>
+
+<p>下記のように改行を入れて</p>
+
+<p>```
+ALL : ALL</p>
+
+<p>```</p>
+
+<p>としたらちゃんと動作してくれました。調べていたら改行コードがLFでない場合でも発生するようです。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[自宅サーバをFedora 15からFedora 16 アップグレード]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/12/12/upgrade-fedora-15-to-16/"/>
+    <updated>2011-12-12T12:36:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/12/12/upgrade-fedora-15-to-16</id>
+    <content type="html"><![CDATA[<p><img src="http://www.glidenote.com/wp-content/uploads/2011/12/f16release.png" align="right" />
+自宅のサーバをFedora15から16にアップグレードしたので、作業メモ。<br />
+手順は公式ページに載ってるそのまま<br />
+<a href="http://fedoraproject.org/wiki/Upgrading_Fedora_using_yum#Fedora_15_-.3E_Fedora_16">Upgrading Fedora using yum - FedoraProject</a>
+<br clear="all" /></p>
+
+<pre><code>cat /etc/redhat-release
+Fedora release 15 (Lovelock) 
+
+sudo rpm --import https://fedoraproject.org/static/A82BA4B7.txt
+sudo yum update yum
+sudo yum clean all
+sudo yum --releasever=16 --disableplugin=presto distro-sync
+</code></pre>
+
+<p>上位ネットワークにFWを入れているので、iptablesは無効にしておく。会社のPCではこれを忘れて再起動してしまい、iptablesが有効になって他からssh接続出来ない状態に。</p>
+
+<pre><code>sudo systemctl stop iptables.service
+sudo systemctl stop ip6tables.service
+
+sudo systemctl disable iptables.service
+sudo systemctl disable ip6tables.service
+</code></pre>
+
+<p>これで無事16にアップグレード完了</p>
+
+<pre><code>cat /etc/redhat-release
+Fedora release 16 (Verne)
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[tmuxをyumのアップデート対象から外した]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/12/03/yum-exclude/"/>
+    <updated>2011-12-03T13:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/12/03/yum-exclude</id>
+    <content type="html"><![CDATA[<p><a href="http://tmux.sourceforge.net/">tmux</a>を1.5にしたら、マウスでのテキスト選択と、puttyとかMacのターミナルの右クリックでペーストができなくなっていたので1.4に戻した。
+yum updateした際に、またいつの間にか1.5にアップデートしていたら嫌だったので、/etc/yum.confに</p>
+
+<pre><code>exclude=tmux*
+</code></pre>
+
+<p>を記載。</p>
+
+<p>.tmux.confの設定で回避出来そうだけど、dotfilesをgithubで一元管理して、どのサーバでも同じ設定で利用しており、古いバージョンのtmuxで動作しなくなったら面倒なので.tmux.confをいじるのはやめておいた。</p>
+]]></content>
+  </entry>
+  
+</feed>

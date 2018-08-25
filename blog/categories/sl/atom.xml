@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: sl | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/sl/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[CobblerでScientific Linux 6.1を導入]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/02/03/cobbler-scientific-linux-6.1/"/>
+    <updated>2012-02-03T22:57:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/02/03/cobbler-scientific-linux-6.1</id>
+    <content type="html"><![CDATA[<p>CobblerでScientific Linux 6.1を導入出来るようにしたのでメモ。
+同僚の<a href="https://twitter.com/#!/tnmt">@tnmt</a>の書いた情報を6.1用に書き換えて流用ですが。いつも有益な情報ありがとう！</p>
+
+<ul>
+  <li><a href="http://blog.tnmt.info/2011/07/06/scientific-linux-kvm-with-cobbler-koan/">Cobbler+KoanでScientific Linux 6.0なKVMのVMをコマンド一発で作成する - blog.tnmt.info</a></li>
+</ul>
+
+<p>利用したCobblerサーバはCentOS 5.7でCobblerのバージョンは1.6.6です。</p>
+
+<h2 id="scientific-linux-61">Scientific Linux 6.1の必要ファイルのインポート</h2>
+
+<p>30～40分くらいかかります。</p>
+
+<p><code>
+sudo cobbler import --path=rsync://ftp.jaist.ac.jp/pub/Linux/scientific/6.1/x86_64/os/ --name=SL6.1-x86_64
+</code></p>
+
+<h2 id="section">設定の確認</h2>
+
+<p>```
+sudo cobbler distro report –name SL6.1-x86_64</p>
+
+<p>distro               : SL6.1-x86<em>64
+architecture         : x86</em>64
+breed                : redhat
+created              : Fri Feb  3 10:40:32 2012
+comment              :
+initrd               : /var/www/cobbler/ks_mirror/SL6.1-x86<em>64/images/pxeboot/initrd.img
+kernel               : /var/www/cobbler/ks_mirror/SL6.1-x86</em>64/images/pxeboot/vmlinuz
+kernel options       : {}
+ks metadata          : {‘tree’: ‘http://@@http_server@@/cblr/links/SL6.1-x86_64’}
+tree build time      : Thu Jan  1 09:00:00 1970
+modified             : Fri Feb  3 10:45:35 2012
+mgmt classes         : []
+os version           :
+owners               : [‘admin’]
+post kernel options  : {}
+redhat mgmt key      : «inherit»
+redhat mgmt server   : «inherit»
+template files       : {}
+```</p>
+
+<p>```
+sudo cobbler profile report –name SL6.1-x86_64</p>
+
+<p>profile              : SL6.1-x86<em>64
+distro               : SL6.1-x86</em>64
+comment              :
+created              : Fri Feb  3 10:40:33 2012
+dhcp tag             : default
+enable menu          : True
+kernel options       : {}
+kickstart            : /var/lib/cobbler/kickstarts/default.ks
+ks metadata          : {}
+mgmt classes         : []
+modified             : Fri Feb  3 10:40:33 2012
+name servers         : []
+name servers search  : []
+owners               : [‘admin’]
+post kernel options  : {}
+redhat mgmt key      : «inherit»
+redhat mgmt server   : «inherit»
+repos                : []
+server               : «inherit»
+template_files       : {}
+virt bridge          : xenbr0
+virt cpus            : 1
+virt file size       : 5
+virt path            :
+virt ram             : 512
+virt type            : qemu
+```</p>
+
+<h2 id="kickstart">kickstartファイルの用意</h2>
+
+<p><code>/var/lib/cobbler/kickstarts/SL61-x86_64-basic.ks</code>とかを適当に用意して、ksファイルをデフォルトの<code>/var/lib/cobbler/kickstarts/default.ks</code>から変更</p>
+
+<p><code>
+sudo cobbler profile edit --name=SL6.1-x86_64 --kickstart=/var/lib/cobbler/kickstarts/SL61-x86_64-basic.ks
+</code></p>
+
+<h2 id="os">OSのインストール</h2>
+
+<p>とりあえず、<code>cobbler system add</code> 無しでサーバに電源投入。
+下記のようにcobblerが走って、SL6.1を選べばOSインストール完了。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/cobbler.png" alt="" />
+<img src="https://blog.glidenote.com/images/2012/02/cobbler2.png" alt="" /></p>
+
+<p><code>cobbler system add</code> して事前にサーバの各種固有情報を登録しておけば電源投入するだけ。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[/etc/hosts.deny, missing newline or line too long]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/12/27/hosts-deny-error/"/>
+    <updated>2011-12-27T20:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/12/27/hosts-deny-error</id>
+    <content type="html"><![CDATA[<p>普段iptablesとTCP Wrapperrでアクセス制限をかけているんですが、hosts.denyの設定見直しをしていて、
+/var/log/secureに下記のようなログが吐かれて動作していないサーバがあったのでメモ</p>
+
+<p><code>
+sshd[20929]: warning: /etc/hosts.deny, line 0: missing newline or line too long
+</code></p>
+
+<h2 id="etchostsdeny">/etc/hosts.denyの設定</h2>
+
+<p>問題のhosts.denyは下記のような設定で一見問題が無さそうに見える</p>
+
+<p><code>
+ALL : ALL
+</code></p>
+
+<h2 id="section">機能しなかった原因</h2>
+
+<p>原因は下記の通り、設定行に改行コードが含まれていないことが原因でした</p>
+
+<p><blockquote><p>ホストアクセスファイルの最後の行が、改行マーク([Enter]キーを 押して出るマーク)でなければ、そのファイル内の最後の規則は、失敗してエラーが /var/log/messages又は/var/log/secureに ログされます。これは、規則の行が逆スラッシュを使用することなく、複数行に跨ぐ場合にも 同様の問題となります。以下の例では、以上のどちらかの状況による規則違反のログメッセージ の関連する部分を表示しています：</p><footer><strong>TCPラッパーの設定ファイル</strong> <cite><a href='http://www.jp.redhat.com/manual/Doc9/rhl-rg-ja-9/s1-tcpwrappers-access.html'>www.jp.redhat.com/manual/Doc9/&hellip;</a></cite></footer></blockquote></p>
+
+<h2 id="etchostsdeny-1">修正後の/etc/hosts.deny</h2>
+
+<p>下記のように改行を入れて</p>
+
+<p>```
+ALL : ALL</p>
+
+<p>```</p>
+
+<p>としたらちゃんと動作してくれました。調べていたら改行コードがLFでない場合でも発生するようです。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[install rbenv and ruby-build on SL 6.1]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/12/21/install-rbenv-and-ruby-build/"/>
+    <updated>2011-12-21T15:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/12/21/install-rbenv-and-ruby-build</id>
+    <content type="html"><![CDATA[<p>Octopressをいろいろ弄っていて、Ruby環境が必要なので<a href="https://github.com/sstephenson/rbenv">rbenv</a> + <a href="https://github.com/sstephenson/ruby-build">ruby-build</a>を導入。</p>
+
+<p>rbenv + ruby-buildの導入方法についてググるとMacは
+結構情報がまとまっているのですが、SL 6.1とかの情報は見当たらなかったのでメモ。</p>
+
+<p>導入環境はScientific Linux release 6.1 (Carbon)</p>
+
+<h2 id="rbenv">rbenvの導入</h2>
+
+<p><code>
+cd ~
+git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
+</code></p>
+
+<h2 id="ruby-build">ruby-buildの導入</h2>
+
+<p><code>
+cd ~
+git clone git://github.com/sstephenson/ruby-build.git
+cd ruby-build
+sudo ./install.sh
+</code></p>
+
+<h2 id="zshenv">.zshenvの編集</h2>
+
+<p>.zshenvに下記を追加</p>
+
+<p><div><script src='https://gist.github.com/1500497.js'></script>
+<noscript><pre><code>export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;
+eval &quot;$(rbenv init -)&quot;
+source ~/.rbenv/completions/rbenv.zsh</code></pre></noscript></div>
+</p>
+
+<p>.zshenvに追記した設定を反映</p>
+
+<p><code>
+exec $SHELL
+</code></p>
+
+<h2 id="ruby">Rubyのインストール</h2>
+<p>Octopressをいじるのに必要なRuby 1.9.2-p290を導入。ついでに、1.9.3-rc1も入れておく。</p>
+
+<p><code>
+rbenv install 1.9.2-p290
+rbenv install 1.9.3-rc1
+rbenv rehash
+rbenv versions
+</code></p>
+
+<p>通常利用するのは1.9.2-p290なので、デフォルトに設定</p>
+
+<p>```
+rbenv global 1.9.2-p290
+rbenv version</p>
+
+<p>```</p>
+
+<h2 id="ruby-1">rubyが切り替わっているか確認</h2>
+
+<p>```
+exec $SHELL
+ruby -v</p>
+
+<p>ruby 1.9.2p290 (2011-07-09 revision 32553) [x86_64-linux]
+```</p>
+
+<h2 id="rbenv-1">rbenvの用法</h2>
+
+<p>```
+rbenage: rbenv <command /> [<args>]</args></p>
+
+<p>Some useful rbenv commands are:
+   commands      List all rbenv commands
+   rehash        Rehash rbenv shims (run this after installing binaries)
+   global        Set or show the global Ruby version
+   local         Set or show the local directory-specific Ruby version
+   shell         Set or show the shell-specific Ruby version
+   version       Show the current Ruby version
+   versions      List all Ruby versions known by rbenv
+   which         Show the full path for the given Ruby command
+   whence        List all Ruby versions with the given command</p>
+
+<p>See ‘rbenv help <command />’ for information on a specific command.
+For full documentation, see: https://github.com/sstephenson/rbenv#readme
+```</p>
+
+<p>Rubyは普段ほとんど触らないので、これから覚えていきたいと思いますよ。</p>
+
+<h2 id="section">参考サイト</h2>
+
+<ul>
+  <li><a href="http://www.223soft.net/50">rbenv + ruby-buildのインストール方法 - 223 Software</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[tmuxをyumのアップデート対象から外した]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/12/03/yum-exclude/"/>
+    <updated>2011-12-03T13:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/12/03/yum-exclude</id>
+    <content type="html"><![CDATA[<p><a href="http://tmux.sourceforge.net/">tmux</a>を1.5にしたら、マウスでのテキスト選択と、puttyとかMacのターミナルの右クリックでペーストができなくなっていたので1.4に戻した。
+yum updateした際に、またいつの間にか1.5にアップデートしていたら嫌だったので、/etc/yum.confに</p>
+
+<pre><code>exclude=tmux*
+</code></pre>
+
+<p>を記載。</p>
+
+<p>.tmux.confの設定で回避出来そうだけど、dotfilesをgithubで一元管理して、どのサーバでも同じ設定で利用しており、古いバージョンのtmuxで動作しなくなったら面倒なので.tmux.confをいじるのはやめておいた。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[スーパーサーバーSupervisorの導入手順メモ]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/11/25/install-supervisor/"/>
+    <updated>2011-11-25T18:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/11/25/install-supervisor</id>
+    <content type="html"><![CDATA[<p>スーパーサーバー<a href="http://supervisord.org/">Supervisor</a>の導入方法をいつも忘れるのでメモ。ほとんど<a href="http://twitter.com/#!/hiboma">@hiboma</a>が
+社内Wikiにまとめてた内容のパクリですが、自宅サーバ構築とかで外から見ようと思っても見えないので。いつもありがとう、<a href="http://twitter.com/#!/hiboma">ひろやん</a>!!</p>
+
+<p>導入環境はScientific Linux 6.1です。(Upstart経由での起動の部分を、init経由での起動にすればCentOS 5系でも動作するかと思います)</p>
+
+<h2 id="supervisor">Supervisorの導入</h2>
+<p>easy_installでも良いんですが、pipで導入</p>
+
+<pre><code>sudo yum -y install python-setuptools
+sudo easy_install pip
+sudo pip install supervisor
+</code></pre>
+
+<h2 id="logconf">log用ディレクトリと、conf用ディレクトリを用意</h2>
+<p>デフォルトだと/tmp配下にログが吐かれるので、log用ディレクトリの作成</p>
+
+<pre><code>sudo mkdir /var/log/supervisor/
+</code></pre>
+
+<p>監視するデーモンごとに設定を分けるので、confディレクトリを用意</p>
+
+<pre><code>sudo mkdir /etc/supervisord.d
+</code></pre>
+
+<h2 id="supervisor-1">Supervisorの設定を用意</h2>
+<p>conf生成用のコマンドで作成</p>
+
+<pre><code>sudo echo_supervisord_conf &gt; /etc/supervisord.conf
+</code></pre>
+
+<p>zshだとエラー(zsh: permission denied: /etc/supervisord.conf)が出てので、下記コマンドで生成。</p>
+
+<pre><code>sudo su - root -c "echo_supervisord_conf &gt; /etc/supervisord.conf" 
+</code></pre>
+
+<p>下記のように修正をしてます。</p>
+
+<p><div><script src='https://gist.github.com/1390777.js?file=etc_supervisord.conf.diff'></script>
+<noscript><pre><code>--- /etc/supervisord.conf.dist  2011-11-24 15:19:15.940609281 +0900
++++ /etc/supervisord.conf       2011-11-24 15:23:12.655620601 +0900
+@@ -13,11 +13,11 @@
+ ;password=123               ; (default is no password (open server))
+
+ [supervisord]
+-logfile=/tmp/supervisord.log ; (main log file;default $CWD/supervisord.log)
++logfile=/var/log/supervisor/supervisord.log ; (main log file;default $CWD/supervisord.log)
+ logfile_maxbytes=50MB       ; (max main logfile bytes b4 rotation;default 50MB)
+ logfile_backups=10          ; (num of main logfile rotation backups;default 10)
+ loglevel=info               ; (log level;default info; others: debug,warn,trace)
+-pidfile=/tmp/supervisord.pid ; (supervisord pidfile;default supervisord.pid)
++pidfile=/var/run/supervisord.pid ; (supervisord pidfile;default supervisord.pid)
+ nodaemon=false              ; (start in foreground if true;default false)
+ minfds=1024                 ; (min. avail startup file descriptors;default 1024)
+ minprocs=200                ; (min. avail process descriptors;default 200)
+@@ -125,5 +125,5 @@
+ ; interpreted as relative to this file.  Included files *cannot*
+ ; include files themselves.
+
+-;[include]
+-;files = relative/directory/*.ini
++[include]
++files = /etc/supervisord.d/*.ini</code></pre></noscript></div>
+</p>
+
+<p>監視するデーモンの設定は</p>
+
+<pre><code>/etc/supervisord.d/hogehoge.ini
+</code></pre>
+
+<p>みたいな感じで用意します。</p>
+
+<p>Hesoを監視するようにした時の設定の/etc/supervisord.d/heso.iniは下記のような感じです。</p>
+
+<p><div><script src='https://gist.github.com/1369137.js?file=heso.ini'></script>
+<noscript><pre><code>[program:heso]
+command=/var/www/heso/bin/server
+stdout_logfile_maxbytes=1MB
+stderr_logfile_maxbytes=1MB
+stdout_logfile=/var/log/%(program_name)s.log
+stderr_logfile=/var/log/%(program_name)s.log</code></pre></noscript></div>
+</p>
+
+<h2 id="upstartsupervisor">Upstart経由でSupervisorを起動</h2>
+<p>Supervisor自体が落ちたら意味がないので、Upstartで経由で起動。Supervisorが落ちたらUpstartが自動で起動。<br />
+etc/init/supervisord.conf を用意</p>
+
+<p><div><script src='https://gist.github.com/1390777.js?file=etc_init_supervisord.conf'></script>
+<noscript><pre><code>description     &quot;supervisord&quot;
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+exec /usr/bin/supervisord -n</code></pre></noscript></div>
+</p>
+
+<p>下記コマンドで起動。</p>
+
+<pre><code>sudo initctl start supervisord
+</code></pre>
+
+<p>psなどでプロセスを確認して起動していればOK。supervisordをkillして自動で起動してくるかも確認。</p>
+
+<p>CentOS 5とかならinittabに下記のような設定をして、init経由で起動させれば良いかと。</p>
+
+<p><div><script src='https://gist.github.com/1390777.js?file=etc_inittab'></script>
+<noscript><pre><code>svd:2345:respawn:/usr/bin/supervisord -n</code></pre></noscript></div>
+</p>
+
+<h2 id="supervisor-2">Supervisorの各種コマンド</h2>
+
+<pre><code>supervisorctl
+add             -- Activates any updates in config for process/group
+avail           -- Display all configured processes
+clear           -- Clear process/multiple-process/all-process log files
+fg              -- Connect to a process in foreground mode
+help            -- Show help
+maintail        -- tail of supervisor main log file
+open            -- Connect to a remote supervisord process. (for UNIX domain socket, use unix:///socket/path)
+pid             -- Get the PID of supervisord.
+quit      exit  -- Exit the supervisor shell.
+reload          -- Restart the remote supervisord.
+remove          -- Removes process/group from active config
+reread          -- Reload the daemon's configuration files
+restart         -- Restart process or group.
+shutdown        -- Shut the remote supervisord down.
+start           -- Start process or groups.
+status          -- Get process status info.
+stop            -- Stop process or group.
+tail            -- tail of process stdout
+update          -- Reload config and add/remove as necessary
+version         -- Show the version of the remote supervisord process
+</code></pre>
+
+<p>たとえばHeso用の設定を変更した場合は下記みたいな感じで設定を再読込</p>
+
+<pre><code>sudo supervisorctl reread heso
+</code></pre>
+
+<h2 id="supervisorctlzsh">supervisorctlをzshで補完</h2>
+<p>supervisorctlコマンドをzshで補完出来るように。
+functionsの下に置くと、自動で読み込まれるようになります。</p>
+
+<pre><code>sudo yum -y install hg
+mkdir ~/tmp
+cd ~/tmp
+hg clone https://bitbucket.org/hhatto/zshcompfunc4supervisor
+cd zshcompfunc4supervisor
+sudo cp _supervisor* /usr/share/zsh/4.3.10/functions/
+</code></pre>
+
+<h2 id="section">参考サイト</h2>
+
+<ul>
+  <li><a href="http://mizzy.org/blog/2011/04/27/SupervisorAProcessControlSystem/">SupervisorAProcessControlSystem - mizzy.org</a></li>
+  <li><a href="http://www.hexacosa.net/blog/detail/122/">少し前にsupervisord/supervisorctlのZsh補完関数書いた | hexacosa.net</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

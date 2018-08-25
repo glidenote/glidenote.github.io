@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: speakerdeck | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/speakerdeck/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Speaker Deckを貼れないサイトにEmbedlyを利用して貼る方法]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/21/speaker-deck/"/>
+    <updated>2012-04-21T06:30:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/21/speaker-deck</id>
+    <content type="html"><![CDATA[<p>プレゼンの資料を公開するのに今回<a href="http://speakerdeck.com/">Speaker Deck</a>を
+使ってみたのですが、自分のブログに資料を貼ろうとしても上手く表示されず。 
+ちょっと工夫が必要だったのでメモ。</p>
+
+<p>結論から言うと<a href="http://embed.ly/">Embedly</a>を活用すれば出来る。</p>
+
+<ul>
+  <li><a href="http://embed.ly/">Embedly | Embed any URL through one powerful API</a></li>
+</ul>
+
+<h2 id="speaker-deckscript">Speaker Deck自体のScript</h2>
+
+<p>Speaker Deck自体で表示されるのは下記のようなscript</p>
+
+<p><code>
+&lt;script async class="speakerdeck-embed" data-id="4f9008a649bc250022016265" data-ratio="1.299492385786802" src="https://blog.glidenote.com//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;
+</code></p>
+
+<p>上を貼ってもそのまま表示されてプレゼン資料は表示されず。</p>
+
+<p>いろいろ調べてみると、Speaker Deck自体が貼れないブログサービス、
+CMSが結構あるらしく上手く貼るために別途プラグインが用意されているというのを理解。</p>
+
+<p>やっぱSlideShareに変更しようかと迷いながら、なんとかする方法は無いか調べていたら
+公式のFAQを読んでいたら下記のような記載を発見。</p>
+
+<p><blockquote><p>Every presentation on Speaker Deck has the oEmbed endpoint as a link tag in the header so it can be automatically detected by sites like Embed.ly.</p><footer><strong>How do I use oEmbed to display a presentation on my site?</strong> <cite><a href='http://speakerdeck.com/faq#oembed'>speakerdeck.com/faq#oembed/&hellip;</a></cite></footer></blockquote></p>
+
+<h2 id="embedly">Embedlyを利用</h2>
+
+<p>下記のように自分の資料のURLを入力</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/embedly0.png" alt="" /></p>
+
+<p>すると下記のように変換される</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/embedly1.png" alt="" /></p>
+
+<p>Embedlyで表示されるiframeを利用した形式</p>
+
+<p><code>
+&lt;iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="presentation_frame_4f9008a649bc250022016265" src="https://blog.glidenote.com//speakerdeck.com/embed/4f9008a649bc250022016265" width="700" height="601"&gt;&lt;/iframe&gt;  
+</code></p>
+
+<p>上を貼るとちゃんと表示されるようになりました。<br />
+これで「2012年にもなってSlideShare使ってんじゃねえよ」とかdisられなくて済みます。たぶん。</p>
+]]></content>
+  </entry>
+  
+</feed>

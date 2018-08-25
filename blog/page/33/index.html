@@ -1,0 +1,766 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="Vimpusher Vimpusher という Web サービスをリリースしました - 写経日記 同僚の@banyanさんが作ったVimpusherがスゲー良いんです!!
+何が良いかまとめると すごい点 今みんなが利用している、いわゆる流行のVim pluginを知ることが出来る。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/33/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/33">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="Vimpusher Vimpusher という Web サービスをリリースしました - 写経日記 同僚の@banyanさんが作ったVimpusherがスゲー良いんです!!
+何が良いかまとめると すごい点 今みんなが利用している、いわゆる流行のVim pluginを知ることが出来る。未知のPluginを発見出来る トップエンジニアの使っているVim pluginが分かる。（開発環境が垣間見れる &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/01/15/vimpusher/">みんな、Vimpusherで便利なVim pluginを共有しようぜ!!</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-15T10:00:00+09:00" pubdate data-updated="true">2012年01月15日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.vimpusher.com/"><img src="https://blog.glidenote.com/images/2012/01/vimpusher.png" align="right" /></a></p>
+
+<ul>
+  <li><a href="http://www.vimpusher.com/">Vimpusher</a></li>
+  <li><a href="http://d.hatena.ne.jp/bannyan/20120104/1325689087">Vimpusher という Web サービスをリリースしました - 写経日記</a></li>
+</ul>
+
+<p>同僚の@banyanさんが作った<a href="http://www.vimpusher.com/">Vimpusher</a>がスゲー良いんです!!<br />
+何が良いかまとめると</p>
+
+<h2 id="section">すごい点</h2>
+
+<ul>
+  <li>今みんなが利用している、いわゆる流行のVim pluginを知ることが出来る。未知のPluginを発見出来る</li>
+  <li>トップエンジニアの使っているVim pluginが分かる。（開発環境が垣間見れる!!)</li>
+  <li>他の人の.vimrcをリンクから辿って参考に出来る(カオスになりがちな.vimrcの記述方法を参考に出来る)</li>
+</ul>
+
+<p>たとえばVimの整形Pluginといえば、<a href="http://www.vimpusher.com/plugins/9">Align</a>しか知らなかったんですが、
+Vimpusherのおかげで<a href="http://www.vimpusher.com/plugins/11">vim-alignta</a>というものがあると知ることが出来ました。  </p>
+
+<p>そのほかにもVim Pluginを通じて、今どんな言語、技術にみんなが感心を持って
+取り組んでいるのかも認識出来て素晴らしいです。(<a href="http://www.vimpusher.com/plugins/34">vim-coffee-script</a>使ってる人多いすね)</p>
+
+<h2 id="section-1">俺が考える、あればもっと便利と思う機能(要望)</h2>
+
+<ul>
+  <li>.vimrcを直接入力させ集計(.vimrcを非公開にしている人も結構いると思うので)</li>
+  <li>ユーザ検索</li>
+  <li>ホッテントリ的な人気急上昇Pluginの表示(RSSとかあるとうれしい)</li>
+  <li><a href="http://www.vimpusher.com/plugins/50">この画面</a>で<code>Bundle 'hogemoge.vim'</code>とか.vimrcにすぐ記載出来る表記の表示</li>
+</ul>
+
+<p>Vimpusherは仕組み的にVim使ってる人が、.vimrcを登録していかないと統計としては廃れていってしまうので、
+魅力あるサービス成長のためにみんなで広めていきましょう!!</p>
+
+<p>ちなみに私のVimpusherはこちら  </p>
+
+<ul>
+  <li><a href="http://www.vimpusher.com/glidenote">http://www.vimpusher.com/glidenote</a></li>
+</ul>
+
+<p>ステマなので、ユーザが増えたら@banyanさんから寿司を奢ってもらいます</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/01/08/vnc-with-stone/">パケットリピータstoneでVNC接続を中継する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-08T12:00:00+09:00" pubdate data-updated="true">2012年01月08日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+  <li><a href="http://www.gcd.org/sengoku/stone/Welcome.ja.html">Simple Repeater `stone’</a></li>
+</ul>
+
+<p>普段MacとLinuxを利用しているので、ほとんどがsshしてコマンド操作(CUI)で用が足りるんですが、
+たまに遠隔地にあるWindows上でGUI操作をしないといけないことがあるので、stoneとvncで解決させました。
+いろいろと方法はあると思いますが、stoneが一番手軽だったので。<br />
+(普段利用している<a href="http://utvpn.tsukuba.ac.jp/ja/">UT-VPN</a>はWin用とLinux用のクライアントはあるんですが、Mac用クライアントが無いので、こんな面倒なことをしてます。)</p>
+
+<h2 id="section">現在の状態</h2>
+
+<ul>
+  <li>MacbookAirとServerAは同じネットワーク(192.168.11.0/24)</li>
+  <li>ServerAとWindowsPCはVPN(UT-VPN)環境を構築済みで通信可能(172.16.100.0/24)</li>
+  <li>Macbook AirとWindowsPCは直接通信不可(WindowsPCは遠隔地でNAT配下)</li>
+</ul>
+
+<h2 id="osip">環境(OS、IPアドレス)</h2>
+
+<ul>
+  <li>MacbookAir(Lion) 192.168.11.20</li>
+  <li>ServerA(Fedora16) 192.168.11.30,172.16.100.50</li>
+  <li>WindowsPC(XP) 172.16.100.10</li>
+</ul>
+
+<h2 id="section-1">実現したいこと</h2>
+
+<ul>
+  <li>stoneでパケットを中継して、MacBookAirからWindowsPCへのVNC接続を可能にする</li>
+  <li>MacbookAirからServerAの5910ポート(192.168.11.30:5910)にVNC接続すると、stoneで中継されWindowsPCの5900ポート(172.16.100.10:5900)に接続される</li>
+  <li>VPN(UT-VPN)上の通信で既に暗号化されているので、今回stoneでSSL化の必要は無し</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2012/01/stone-vnc.png" alt="" /></p>
+
+<h2 id="stone">stoneの導入</h2>
+<p>stoneはServerA(Fedora16)に導入</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir ~/src ~/bin
+</span><span class="line">cd ~/src
+</span><span class="line">wget http://www.gcd.org/sengoku/stone/stone-2.3e.tar.gz
+</span><span class="line">tar zxvf stone-2.3e.tar.gz
+</span><span class="line">cd stone-2.3d-2.3.2.7
+</span><span class="line">curl -o stone.diff -LO "http://bugs.debian.org/cgi-bin/bugreport.cgi?msg=10;filename=stone.diff;att=1;bug=517574"
+</span><span class="line">patch &lt; stone.diff
+</span><span class="line">make linux
+</span><span class="line">cp stone ~/bin</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>デフォルトのままだと<code>make linux</code>でこけるので、<a href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=517574">ここのpatch</a>も適用してます。patchの内容は下記のような感じで<code>-D_GNU_SOURCE</code>を追加している感じ</p>
+
+<div><script src="https://gist.github.com/1573695.js"></script>
+<noscript><pre><code>--- Makefile	2008-02-05 08:00:00.000000000 +0900
++++ Makefile	2009-08-19 08:59:00.000000000 +0900
+@@ -97,7 +97,7 @@
+ 	$(MAKE) FLAGS=&quot;-DNT_SERVICE $(FLAGS)&quot; LIBS=&quot;$(LIBS) $(SVC_LIBS) -ladvapi32 -luser32 -lshell32 -lkernel32&quot; $(TARGET)
+ 
+ linux:
+-	$(MAKE) FLAGS=&quot;-O -Wall -DCPP=&#39;\&quot;/usr/bin/cpp -traditional\&quot;&#39; -DPTHREAD -DUNIX_DAEMON -DPRCTL -DSO_ORIGINAL_DST=80 -DUSE_EPOLL $(FLAGS)&quot; LIBS=&quot;-lpthread $(LIBS)&quot; stone
++	$(MAKE) FLAGS=&quot;-O -Wall -DCPP=&#39;\&quot;/usr/bin/cpp -traditional\&quot;&#39; -DPTHREAD -DUNIX_DAEMON -DPRCTL -DSO_ORIGINAL_DST=80 -DUSE_EPOLL -D_GNU_SOURCE $(FLAGS)&quot; LIBS=&quot;-lpthread $(LIBS)&quot; stone
+ 
+ linux-pop:
+ 	$(MAKE) TARGET=linux pop_stone</code></pre></noscript></div>
+
+<h2 id="stone-1">stoneの起動</h2>
+<p>5910ポートで待ち受けて、WindowsPC(172.16.100.10)の5900ポートに中継させます</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~/bin/stone 172.16.100.10:5900 5910
+</span><span class="line">
+</span><span class="line">Jan  7 12:33:43.735910 3078318336 start (2.3e) [11176]
+</span><span class="line">Jan  7 12:33:43.759207 3078318336 stone 3: colinux:rfb &lt;- 0.0.0.0:cm</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>常用するなら、supervisordとかで起動を管理するのがいいと思いますが、一時的に利用するだけなので、フォアグランドで起動。</p>
+
+<h2 id="macbookairvnc">MacbookAirからVNC接続</h2>
+
+<p>Macの画面共有だとうまく接続できないので、<a href="http://www.macupdate.com/app/mac/9517/chicken-of-the-vnc">Chicken of the VNC</a>を利用。<br />
+うまくVNC接続出来ました。</p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://biokids.org/?%A4%C9%A4%D6%A4%AA%2FLinux%A4%C7%CD%B7%A4%DC%A4%A6%A1%AA%2F%A5%D1%A5%B1%A5%C3%A5%C8%A5%EA%A5%D4%A1%BC%A5%BFstone">どぶお/Linuxで遊ぼう！/パケットリピータstone - BioKids Wiki</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/01/07/rails3.1-could-not-find-a-javascript-runtime./">Rails3.1 Could not find a JavaScript runtime.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-07T20:00:00+09:00" pubdate data-updated="true">2012年01月07日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>普段業務で使ってる環境以外も勉強しないとやばいなーと思って、Railsを触ってるんですが、
+Ruby力も、Rails力もなさ過ぎでいきなりつまずいたのでメモ。</p>
+
+<p>環境</p>
+
+<ul>
+  <li>ruby 1.9.2p290 (2011-07-09 revision 32553) [x86 64-linux] </li>
+  <li>Rails 3.1.3</li>
+</ul>
+
+<p><code>rails new</code>で新規アプリを作成</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">rails new hoge
+</span><span class="line">cd hoge
+</span><span class="line">rake about</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>rake about</code>で環境を確認すると</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">rake aborted!
+</span><span class="line">Could not find a JavaScript runtime. See https://github.com/sstephenson/execjs for a list of available runtimes.
+</span><span class="line">
+</span><span class="line">(See full trace by running task with --trace)</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>JavaScriptのランタイムが検出できないとのエラーとのエラー。エラーでググってみると
+<code>execjs</code>と<code>therubyracer</code>を導入すれば解決するとのことなので導入</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">echo "gem 'execjs'" &gt;&gt; Gemfile
+</span><span class="line">echo "gem 'therubyracer'" &gt;&gt; Gemfile
+</span><span class="line">bundle install</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>再度<code>rake about</code>を実行すると</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">rake about
+</span><span class="line">
+</span><span class="line">About your application's environment
+</span><span class="line">Ruby version              1.9.2 (x86_64-linux)
+</span><span class="line">RubyGems version          1.8.10
+</span><span class="line">Rack version              1.3
+</span><span class="line">Rails version             3.1.3
+</span><span class="line">JavaScript Runtime        therubyracer (V8)
+</span><span class="line">Active Record version     3.1.3
+</span><span class="line">Action Pack version       3.1.3
+</span><span class="line">Active Resource version   3.1.3
+</span><span class="line">Action Mailer version     3.1.3
+</span><span class="line">Active Support version    3.1.3
+</span><span class="line">Middleware                ActionDispatch::Static, Rack::Lock, #&lt;ActiveSupport::Cache::Strategy::LocalCache::Middleware:0x0000001c986b58&gt;, Rack::Runtime, Rack::MethodOverride, Rails::Rack::Logger, ActionDispatch::ShowExceptions, ActionDispatch::RemoteIp, Rack::Sendfile, ActionDispatch::Reloader, ActionDispatch::Callbacks, ActiveRecord::ConnectionAdapters::ConnectionManagement, ActiveRecord::QueryCache, ActionDispatch::Cookies, ActionDispatch::Session::CookieStore, ActionDispatch::Flash, ActionDispatch::ParamsParser, ActionDispatch::Head, Rack::ConditionalGet, Rack::ETag, ActionDispatch::BestStandardsSupport
+</span><span class="line">Application root          /home/akira/work/hoge
+</span><span class="line">Environment               development
+</span><span class="line">Database adapter          sqlite3
+</span><span class="line">Database schema version   </span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ちゃんと動作するようになりました。今年はRuby力とRails力を鍛えていきたいと思います。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://stackoverflow.com/questions/6282307/rails-3-1-execjs-and-could-not-find-a-javascript-runtime">Rails 3.1 execjs and Could not find a JavaScript runtime - Stack Overflow</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/01/05/here-document-tips/">Shellでヒアドキュメント利用時に変数展開を抑制する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-05T21:43:00+09:00" pubdate data-updated="true">2012年01月05日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>zshやbashでヒアドキュメントを利用するときに、いつも忘れてやらかすのでメモ</p>
+
+<h2 id="section">変数展開してしまう例</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat &lt;&lt; EOF &gt;/etc/yum.repos.d/nginx.repo
+</span><span class="line">[nginx]
+</span><span class="line">name=nginx repo
+</span><span class="line">baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+</span><span class="line">gpgcheck=0
+</span><span class="line">enabled=1
+</span><span class="line">EOF</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat /etc/yum.repos.d/nginx.repo
+</span><span class="line">
+</span><span class="line">[nginx]
+</span><span class="line">name=nginx repo
+</span><span class="line">baseurl=http://nginx.org/packages/centos///
+</span><span class="line">gpgcheck=0
+</span><span class="line">enabled=1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>$releasever</code>と<code>$basearch</code>が変数として展開されてしまう。</p>
+
+<h2 id="section-1">変数展開しない例</h2>
+
+<p>区切りシンボルをシングルクオート<code>'</code>かバッククオート<code>"</code>することで
+変数展開を抑制出来る。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat &lt;&lt; 'EOF' &gt;/etc/yum.repos.d/nginx.repo
+</span><span class="line">[nginx]
+</span><span class="line">name=nginx repo
+</span><span class="line">baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+</span><span class="line">gpgcheck=0
+</span><span class="line">enabled=1
+</span><span class="line">EOF</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cat /etc/yum.repos.d/nginx.repo
+</span><span class="line">
+</span><span class="line">[nginx]
+</span><span class="line">name=nginx repo
+</span><span class="line">baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+</span><span class="line">gpgcheck=0
+</span><span class="line">enabled=1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">参考記事</h2>
+
+<ul>
+  <li><a href="http://shellscript.sunone.me/input_output.html">入力と出力 - UNIX &amp; Linux コマンド・シェルスクリプト リファレンス</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/01/04/octopress-related-posts/">OctopressでRelated Posts(関連エントリー)を表示させるようにした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-04T20:00:00+09:00" pubdate data-updated="true">2012年01月04日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Octopressというか<a href="http://jekyllrb.com/">jekyll</a>自体に関連エントリーを表示させる<code>site.related_posts</code>というTemplate Dataがあるんですが、
+利用してみると、内容的に似ている関連エントリーを表示するわけでは無く、単に最近のエントリーを表示するだけ。<br />
+設定の問題なのかと思って調べていたら、</p>
+
+<ul>
+  <li><a href="http://techtinkering.com/2011/08/17/improving-related-posts-on-jekyll/">Improving the related_posts feature of jekyll</a></li>
+</ul>
+
+<p>に同様な記載があり、どうやらそういう挙動のようで、その挙動を改善するプラグインがあったので導入</p>
+
+<h2 id="relatedposts-jekyllplugin">related_posts-jekyll_pluginの導入</h2>
+<p>関連エントリーを表示させるために、related_posts-jekyll_pluginを利用</p>
+
+<ul>
+  <li><a href="https://github.com/LawrenceWoodman/related_posts-jekyll_plugin">LawrenceWoodman/related_posts-jekyll_plugin - GitHub</a></li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir ~/tmp
+</span><span class="line">cd ~/tmp
+</span><span class="line">git clone https://github.com/LawrenceWoodman/related_posts-jekyll_plugin.git
+</span><span class="line">cp related_posts-jekyll_plugin/_plugins/related_posts.rb ~/octopress/plugins/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>octopressのpluginsディレクトリのパス<code>~/octopress/plugins</code>の部分は自分の環境に読み替えて下さい。
+ソースを見ると関連したカテゴリーのエントリーを、最新の順に表示してくれるようになってます。
+つまり個々のエントリーでちゃんとカテゴリーを指定しないと機能してくれません。</p>
+
+<h2 id="octopresssourceincludespostrelatedpostshtml-">octopress/source/_includes/post/related_posts.html を用意</h2>
+<p>下記のような関連エントリー表示用のhtmlを作成。<br />
+limitを指定しないと、同じカテゴリーのエントリーが全部表示されてしまうので、<code>limit:5</code>で制限。  </p>
+
+<div><script src="https://gist.github.com/1554272.js?file=related_posts.html"></script>
+<noscript><pre><code>&lt;div class=&quot;related_posts&quot;&gt;&lt;h1&gt;Related Posts&lt;/h1&gt;&lt;ul&gt;
+{% for post in site.related_posts limit:5 %}
+  &lt;li&gt;&lt;a href=&quot;{{ post.url }}&quot;&gt;{{post.title }}&lt;/a&gt;&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;
+&lt;/div&gt;
+</code></pre></noscript></div>
+
+<h2 id="octopresssourcelayoutsposthtml-">octopress/source/_layouts/post.html の修正</h2>
+<p>上記で作成したhtmlをpost.htmlでinclude</p>
+
+<div><script src="https://gist.github.com/1554272.js?file=post.html.diff"></script>
+<noscript><pre><code>index d3c42e3..cd4c710 100644                                                                                                                                            
+--- a/source/_layouts/post.html                                                                                                                                          
++++ b/source/_layouts/post.html                                                                                                                                          
+@@ -15,6 +15,9 @@ single: true                                                                                                                                           
+     {% unless page.sharing == false %}                                                                                                                                  
+       {% include post/sharing.html %}                                                                                                                                   
+     {% endunless %}                                                                                                                                                     
++    {% unless page.related_posts == false %}                                                                                                                            
++      {% include post/related_posts.html %}                                                                                                                             
++    {% endunless %}                                                                                                                                                     
+     &lt;p class=&quot;meta&quot;&gt;                                                                                                                                                    
+       {% if page.previous.url %}</code></pre></noscript></div>
+
+<p>これで個々のエントリーに<code>Related Posts</code>として関連エントリーが表示されるようになりました。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/01/related_posts.png" alt="" /></p>
+
+<h2 id="section">参考</h2>
+<ul>
+  <li><a href="http://techtinkering.com/2011/08/17/improving-related-posts-on-jekyll/">Improving the related_posts feature of jekyll</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/34/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/32/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

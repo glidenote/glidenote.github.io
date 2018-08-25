@@ -1,0 +1,511 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>複数のサーバから一斉にファイルを収集するのにpslurpが便利 - Glide Note</title>
+  <meta property="og:title" content="複数のサーバから一斉にファイルを収集するのにpslurpが便利 - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="以前、ブログに書いて以来、活用しているpsshとpscpなんですが、
+付属コマンドのpslurpについてはすっかり忘れて全く利用していなかったんですが、
+同僚の刺身さんが結構活用しているというのを聞いて、改めて使ってみると大変便利！ Parallel sshで複数のホストへ同時にコマンドを実行する &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2012/09/16/pslurp/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2012/09/16/pslurp">
+<meta name="twitter:title" content="複数のサーバから一斉にファイルを収集するのにpslurpが便利">
+<meta name="twitter:description" content="以前、ブログに書いて以来、活用しているpsshとpscpなんですが、
+付属コマンドのpslurpについてはすっかり忘れて全く利用していなかったんですが、
+同僚の刺身さんが結構活用しているというのを聞いて、改めて使ってみると大変便利！ Parallel sshで複数のホストへ同時にコマンドを実行する | Glide Note - グライドノート 環境はSL6.1です。 pslurpの使いどころ &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">複数のサーバから一斉にファイルを収集するのにpslurpが便利</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-16T20:34:00+09:00" pubdate data-updated="true">2012年09月16日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>以前、<a href="http://www.glidenote.com/archives/758">ブログに書いて</a>以来、活用している<code>pssh</code>と<code>pscp</code>なんですが、
+付属コマンドの<code>pslurp</code>についてはすっかり忘れて全く利用していなかったんですが、
+同僚の<a href="http://twitter.com/kyanny">刺身さん</a>が結構活用しているというのを聞いて、改めて使ってみると大変便利！</p>
+
+<ul>
+  <li><a href="http://www.glidenote.com/archives/758">Parallel sshで複数のホストへ同時にコマンドを実行する | Glide Note - グライドノート</a></li>
+</ul>
+
+<p>環境はSL6.1です。</p>
+
+<h2 id="pslurp">pslurpの使いどころ</h2>
+
+<ul>
+  <li>複数のサーバから<code>access.log</code>などのログ、<code>my.cnf</code>といった設定ファイルなどの同名ファイルを持ってくる場合</li>
+  <li>DNSラウンドロビンや、ロードバランサを利用していてアクセスログが分散している場合</li>
+</ul>
+
+<p>通常何も考えずscpとかで持ってくるとファイルが上書きされてしまうので、
+ホスト毎にファイルを分けて管理したい場合にpslurpが活躍します。</p>
+
+<h2 id="pippssh">pipを利用してpsshの導入</h2>
+
+<p>2012年なんで<code>easy_install</code>ではなく、<code>pip</code>を利用して導入。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo pip install pssh
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section">接続先のサーバリストの作成</h2>
+
+<p><code>db_server.txt</code>とかで下記のようなファイルを用意。
+各ホストには鍵が通っている必要があります。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">mysql0.glidenote.lan
+</span><span class="line">mysql1.glidenote.lan
+</span><span class="line">mysql2.glidenote.lan
+</span><span class="line">mysql3.glidenote.lan
+</span><span class="line">mysql4.glidenote.lan
+</span><span class="line">mysql5.glidenote.lan
+</span><span class="line">mysql6.glidenote.lan
+</span><span class="line">mysql7.glidenote.lan
+</span><span class="line">mysql8.glidenote.lan
+</span><span class="line">mysql9.glidenote.lan
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">ファイルの一斉取得</h2>
+
+<p>下記のようなコマンドでファイルを一斉に取得</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo pslurp -h db_server.txt /etc/my.cnf .
+</span><span class="line">sudo pslurp -h db_server.txt /var/log/secure .
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下記のようにホスト毎にディレクトリが作られて、ファイルが収納される。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="o">[</span>akira@manage<span class="o">]</span> <span class="nv">$ </span>tree
+</span><span class="line">.
+</span><span class="line">|-- db_server.txt
+</span><span class="line">|-- mysql0.glidenote.lan
+</span><span class="line">|   |-- my.cnf
+</span><span class="line">|   <span class="sb">`</span>-- secure
+</span><span class="line">|-- mysql1.glidenote.lan
+</span><span class="line">|   |-- my.cnf
+</span><span class="line">|   <span class="sb">`</span>-- secure
+</span><span class="line">|-- mysql2.glidenote.lan
+</span><span class="line">|   |-- my.cnf
+</span><span class="line">|   <span class="sb">`</span>-- secure
+</span><span class="line">|-- mysql3.glidenote.lan
+</span><span class="line">|   |-- my.cnf
+</span><span class="line">|   <span class="sb">`</span>-- secure
+</span><span class="line">|-- mysql4.glidenote.lan
+</span><span class="line">|   |-- my.cnf
+</span><span class="line">|   <span class="sb">`</span>-- secure
+</span><span class="line">|-- mysql5.glidenote.lan
+</span><span class="line">|   |-- my.cnf
+</span><span class="line">|   <span class="sb">`</span>-- secure
+</span><span class="line">|-- mysql6.glidenote.lan
+</span><span class="line">|   |-- my.cnf
+</span><span class="line">|   <span class="sb">`</span>-- secure
+</span><span class="line">|-- mysql7.glidenote.lan
+</span><span class="line">|   |-- my.cnf
+</span><span class="line">|   <span class="sb">`</span>-- secure
+</span><span class="line">|-- mysql8.glidenote.lan
+</span><span class="line">|   |-- my.cnf
+</span><span class="line">|   <span class="sb">`</span>-- secure
+</span><span class="line"><span class="sb">`</span>-- mysql9.glidenote.lan
+</span><span class="line">    |-- my.cnf
+</span><span class="line">    <span class="sb">`</span>-- secure
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>同じようなことをシェルスクリプトでやろうとするとディレクトリ作ったりとか
+下記のような感じで面倒くさい。</p>
+
+<div><script src="https://gist.github.com/3732267.js"></script>
+<noscript><pre><code>#!/bin/sh
+
+SERVERS=&quot;
+mysql0.glidenote.lan
+mysql1.glidenote.lan
+mysql2.glidenote.lan
+mysql3.glidenote.lan
+mysql4.glidenote.lan
+mysql5.glidenote.lan
+mysql6.glidenote.lan
+mysql7.glidenote.lan
+mysql8.glidenote.lan
+mysql9.glidenote.lan
+&quot;
+
+FILES=&quot;
+/var/log/secure
+/etc/my.cnf
+&quot;
+
+for server in ${SERVERS};
+do
+    mkdir ${server}
+    for file in ${FILES}
+    do
+        scp ${server}:${file} ${server}/
+    done
+done</code></pre></noscript></div>
+
+<p>特定の日時のログを一括で確認したい場合や、サーバ全台の設定ファイルの比較とかに活用出来ます。</p>
+
+<p>ファイルのデプロイに関してはpuppetやwebistranoなどで管理が出来ていますが、
+ファイルの一斉収集についてはpslurpが良い感じですね。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-16T20:34:00+09:00" pubdate data-updated="true">2012年09月16日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2012/09/16/pslurp/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="複数のサーバから一斉にファイルを収集するのにpslurpが便利 - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=複数のサーバから一斉にファイルを収集するのにpslurpが便利 "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2016/12/16/goreplay/">GoReplayを導入して、Production環境へのリクエストを複製し、Staging環境に転送する仕組みを作った</a></li>
+
+  <li><a href="/blog/2016/02/04/lets-encrypt/">Let’s Encryptで証明書を作ってみた</a></li>
+
+  <li><a href="/blog/2014/12/02/using-netcat-for-file-transfers-with-pv/">ncコマンドでファイル転送するときにpvコマンドで進捗を表示する</a></li>
+
+  <li><a href="/blog/2014/02/22/remote-pbcopy/">ssh接続したリモートサーバの出力を手元Macのクリップボードに送る</a></li>
+
+  <li><a href="/blog/2014/01/29/post-to-irc-important-mail-subject/">重要なメールが届いたらIRCにメールの件名を通知するようにした</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/09/04/vundle-create-new-buffer/" title="Previous Post: VundleでBundleInstall時に新規バッファが生成されるようになっていた">&laquo; VundleでBundleInstall時に新規バッファが生成されるようになっていた</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/09/24/miwa-yamasaki-red-and-green-porcelain-exhibition/" title="next Post: MIWA YAMASAKI Red-and-Green Porcelain Exhibition">MIWA YAMASAKI Red-and-Green Porcelain Exhibition &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2012/09/16/pslurp/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2012/09/16/pslurp/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

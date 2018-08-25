@@ -1,0 +1,1006 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="社内SubversionからGitHubに移行するのにあたって、git-svnで移行処理を進めたんですが、
+Subversion時代の Author名 Authorのメールアドレス をGitHubのものに合わせたくて修正方法を調べていたらgit filter-branchを利用すると良いとのこと &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/20/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/20">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="社内SubversionからGitHubに移行するのにあたって、git-svnで移行処理を進めたんですが、
+Subversion時代の Author名 Authorのメールアドレス をGitHubのものに合わせたくて修正方法を調べていたらgit filter-branchを利用すると良いとのこと。 私は下記のような形で一括変更。(Subversion時代のAuthor名はmaedaです) git &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/25/git-filter-branch/">git filter-branchで過去commitのAuthorとメールアドレスを一括変更</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-25T23:00:00+09:00" pubdate data-updated="true">2012年07月25日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>社内SubversionからGitHubに移行するのにあたって、git-svnで移行処理を進めたんですが、
+Subversion時代の</p>
+
+<ul>
+  <li>Author名</li>
+  <li>Authorのメールアドレス</li>
+</ul>
+
+<p>をGitHubのものに合わせたくて修正方法を調べていたら<code>git filter-branch</code>を利用すると良いとのこと。</p>
+
+<p>私は下記のような形で一括変更。(Subversion時代のAuthor名は<code>maeda</code>です)</p>
+
+<div><script src="https://gist.github.com/3161853.js"></script>
+<noscript><pre><code>git filter-branch --commit-filter &#39;
+        if [ &quot;$GIT_AUTHOR_NAME&quot; = &quot;maeda&quot; ];
+        then
+                GIT_AUTHOR_NAME=&quot;Akira Maeda&quot;;
+                GIT_AUTHOR_EMAIL=&quot;glidenote@gmail.com&quot;;
+                git commit-tree &quot;$@&quot;;
+        else
+                git commit-tree &quot;$@&quot;;
+        fi&#39; HEAD</code></pre></noscript></div>
+
+<p>Subversion時代の遺産も活用出来るようになりました。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://git-scm.com/book/ja/ch6-4.html">6.4 Git のさまざまなツール - 歴史の書き換え</a></li>
+  <li><a href="http://d.hatena.ne.jp/idesaku/20090908/1252419890">GitのCommit中のAuthor名およびCommitter名を変える - idesaku blog</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/22/git-pocket-reference/">ワンランク上のGit使いになるために手元に置いておきたい「Gitポケットリファレンス」</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-22T02:36:00+09:00" pubdate data-updated="true">2012年07月22日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://www.amazon.co.jp/Git%E3%83%9D%E3%82%B1%E3%83%83%E3%83%88%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9-%E5%B2%A1%E6%9C%AC-%E9%9A%86%E5%8F%B2/dp/477415184X?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=477415184X"><img src="https://images-fe.ssl-images-amazon.com/images/I/51I5ZLcWDaL._SL160_.jpg" align="right" /></a></p>
+
+<ul>
+  <li><a href="https://www.amazon.co.jp/Git%E3%83%9D%E3%82%B1%E3%83%83%E3%83%88%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9-%E5%B2%A1%E6%9C%AC-%E9%9A%86%E5%8F%B2/dp/477415184X?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=477415184X">Gitポケットリファレンス</a></li>
+</ul>
+
+<p>下記3つはいずれもcommitの修正ですが、違いが分からない人は
+Gitポケットリファレンスを読むことをオススメします。(答えはGitポケットリファレンスに書いてあります。)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">git reset --hard HEAD^
+</span><span class="line">git commit --amend
+</span><span class="line">git revert</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以前書いたとおり<a href="https://blog.glidenote.com/blog/2012/06/16/subversion-to-github/">社内SubversionリポジトリをGitHubへの移行中</a>で
+GitHubへの本格移行する前に、「運用ルール決め」と「意識合わせ」の意味で
+社内のインフラ系エンジニア向けに「Git、GitHub講習会」と銘打って勉強会を開催。</p>
+
+<p>個人的にはGitHubも活用してて、Git自体も理解しているつもりだったんですが、
+人に説明していると、理解があやふやな点が結構あることがわかったので、
+先日発売されて、周りの評判も上々なGitポケットリファレンスを購入。</p>
+
+<p>Gitの概念について説明している書籍は多数発売されていますが、本書はGitの一つ一つのコマンドについて
+見やすく説明されているので、普段からGitをガンガン使っている人ほど手元に置いておくのが良いんじゃないかなーと思ったり。</p>
+
+<p>特に複数人でのGit運用時に遭遇するであろうエラーとその対処方法について、
+一つ一つ書いてあるので、GitHubに移行完了した後にかなり役に立ちそうな予感。</p>
+
+<p>またgit-svnについても書いてあるので、いろいろ事情があってSubversionを使わざるを得ない人も
+読むとある程度ストレスから解放されるんじゃないかと思います。(私がそうだったように)</p>
+
+<p>Gitポケットリファレンスを手元に置いてワンランク上のエンジニアを目指しましょう!!1</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/15/fluentd-regex-debug/">fluentdのformat(正規表現)の作り方について試行錯誤中 #fluentd</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-15T23:59:00+09:00" pubdate data-updated="true">2012年07月15日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://fluentd.org/">Fluentd</a>を触るようになって、いろんなログをfluentdに
+渡すように試行錯誤している最中。</p>
+
+<p><code>td-agent.conf</code>、<code>fluent.conf</code>を用意するときに任意のjson形式にするために
+正規表現を用いてformatを書く必要があるんですが、formatの作り方というかデバック方法について
+どういう手順に作ると良いのか情報がネット上に見当たらず試行錯誤中。  </p>
+
+<p>もっと良い方法を教えてもらいたいので、今やっている方法を晒してみる。</p>
+
+<h2 id="format">そもそもの疑問、どうやってformatを作るのか</h2>
+
+<p>たとえばfluentd関連の情報を調べてると、</p>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/sfujiwara/20120326/1332760934">#fluentd で maillog を読み込んで MongoDB に投入 - 酒日記 はてな支店</a></li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">format /^(?&lt;date&gt;[^ ]+) (?&lt;host&gt;[^ ]+) (?&lt;process&gt;[^:]+): (?&lt;message&gt;((?&lt;key&gt;[^ :]+)[ :])? ?((to|from)=&lt;(?&lt;address&gt;[^&gt;]+)&gt;)?.*)$/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li><a href="http://blog.kentarok.org/entry/2012/07/01/000518">fluent-plugin-rewriteというプラグインを作成した #fluentd - delirious thoughts</a></li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">format /^[^ ]+ [^ ]+ [^ ]+ [^ ]+ \[(?&lt;time&gt;[^\]]+)\] "(?&lt;method&gt;[^ ]+) (?&lt;path&gt;[^ ]+) [^"]+" (?&lt;status&gt;[^ ]+) [^ ]+ [^ ]+ "[^"]+" "[^"]+" (?&lt;response_time&gt;[^ ]+)$/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>という感じで、formatの正規表現がサラッと書いてあって、
+当然作れるでしょ的な感じでformatの作り方については言及されてない。
+でも実際に作ろうとすると、どういう方法でやればいいのかよく分からない。</p>
+
+<h2 id="squidaccesslogjson">やりたいこと、squidのaccess.logをjson形式に</h2>
+
+<p>たとえば下記のようなsquidのaccess.log(<a href="http://wiki.squid-cache.org/Features/LogFormat">squidのログ形式</a>)をfluentdに渡して</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">1342297357.149    440 192.168.11.3 TCP_MISS/302 627 GET http://glidenote.disqus.com/count.js - HIER_DIRECT/75.126.109.204 text/javascript</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下記のようにシリアライズしたい。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">{
+</span><span class="line">  "date"           : "1342297357.149",
+</span><span class="line">  "duration"       : "440",
+</span><span class="line">  "client address" : "192.168.11.3",
+</span><span class="line">  "result code"    : "TCP_MISS/302",
+</span><span class="line">  "bytes"          : "627",
+</span><span class="line">  "request method" : "GET",
+</span><span class="line">  "url"            : "http://glidenote.disqus.com/count.js",
+</span><span class="line">  "rfc931"         : "-",
+</span><span class="line">  "hierarchy code" : "HIER_DIRECT/75.126.109.204",
+</span><span class="line">  "type"           : "text/javascript"
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>でもこれを実現するための<code>format</code>の作り方の手順を解説しているところが無い。(調べ方が悪いだけかもしれないですが）</p>
+
+<h2 id="format-1">最初にformat作成のためにやっていたこと(非効率な方法)</h2>
+
+<p>最初は</p>
+
+<ol>
+  <li>confを修正</li>
+  <li>設定ファイル再読込</li>
+  <li>確認</li>
+</ol>
+
+<p>というのを繰り返しやっていたんですが、非効率過ぎてこれだと<code>format</code>を作る気にならず途中で断念。
+というのが数ヶ月前の話。</p>
+
+<h2 id="format-2">今回format作成のためにやってみたこと</h2>
+
+<p>今回再チャレンジでいろいろ調べてみると有益な情報が。</p>
+
+<ul>
+  <li><a href="http://oboerutech.blog16.fc2.com/blog-entry-49.html">覚えるテク [Ruby][Fluentd]in_tailの正規表現をテスト</a></li>
+</ul>
+
+<p><code>fluent/parserの"RegexpParser"クラス</code>を利用すれば<code>format</code>作成のデバッグが出来るらしい。</p>
+
+<h3 id="section">デバッグ用スクリプトの用意</h3>
+
+<p>上記サイトを参考に、下記のようなデバッグ用スクリプトを用意して<code>log</code>,<code>format</code>,<code>time_format</code>の部分を調整していく。
+vim+quickrunとかの環境だと書きながらテストが出来るのでオススメです。
+(外部ファイルを読み込ませる形より、<code>log</code>,<code>format</code>を直接修正しながらテストしたほうが効率的でした)</p>
+
+<div><script src="https://gist.github.com/3113323.js"></script>
+<noscript><pre><code>#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+
+require &#39;time&#39;
+require &#39;fluent/log&#39;
+require &#39;fluent/config&#39;
+require &#39;fluent/engine&#39;
+require &#39;fluent/parser&#39;
+
+$log ||= Fluent::Log.new
+
+# debug
+log = &#39;&#39;
+format = //
+time_format = &#39;&#39;
+
+parser = Fluent::TextParser::RegexpParser.new(format, &#39;time_format&#39; =&gt; time_format)
+puts parser.call(log)</code></pre></noscript></div>
+
+<p>いきなり全部のformatを書くのは無理なので、下記のような感じでログの一部ずつやっていく。
+（今回の例だと<code>time_format</code>は利用していないので空のままです)</p>
+
+<p>下記のような形で<code>date</code>の項目だけ記載してシリアライズしてみる</p>
+
+<div><script src="https://gist.github.com/3115861.js?file=format_debug1.rb"></script>
+<noscript><pre><code>log = &#39;1342297357.149&#39;
+format = /^(?&lt;date&gt;[^ ]+)$/
+time_format = &#39;&#39;</code></pre></noscript></div>
+
+<p>意図した形式で出力された。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">{"date"=&gt;"1342297357.149"}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>上手くいったら、<code>duration</code>など1個ずつ項目を増やしてやっていく。</p>
+
+<div><script src="https://gist.github.com/3115861.js?file=format_debug2.rb"></script>
+<noscript><pre><code>log = &#39;1342297357.149    440&#39; 
+format = /^(?&lt;date&gt;[^ ]+)\s*(?&lt;duration&gt;.*)$/
+time_format = &#39;&#39;</code></pre></noscript></div>
+
+<p>これを繰り返していくと、下記のような形で出来上がる。</p>
+
+<div><script src="https://gist.github.com/3115861.js?file=format_debug3.rb"></script>
+<noscript><pre><code>log = &#39;1342297357.149    440 192.168.11.3 TCP_MISS/302 627 GET http://glidenote.disqus.com/count.js - HIER_DIRECT/75.126.109.204 text/javascript&#39;
+format = /^(?&lt;date&gt;[^ ]+)\s*(?&lt;duration&gt;.*) (?&lt;client address&gt;.*) (?&lt;result code&gt;.*) (?&lt;bytes&gt;.*) (?&lt;request method&gt;.*) (?&lt;url&gt;.*) (?&lt;rfc931&gt;.*) (?&lt;hierarchy code&gt;.*) (?&lt;type&gt;.*)$/</code></pre></noscript></div>
+
+<p>これを<code>conf</code>に反映。とりあえずfile書き出しで様子見。(td-agent.confには<code>=</code>は必要無いので消す)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&lt;source&gt;
+</span><span class="line">  type tail
+</span><span class="line">  path /var/log/squid/access.log
+</span><span class="line">  tag squid
+</span><span class="line">  format /^(?&lt;date&gt;[^ ]+)\s+(?&lt;duration&gt;.*) (?&lt;client address&gt;.*) (?&lt;result code&gt;.*) (?&lt;bytes&gt;.*) (?&lt;request method&gt;.*) (?&lt;url&gt;.*) (?&lt;rfc931&gt;.*) (?&lt;hierarchy code&gt;.*) (?
+</span><span class="line">&lt;type&gt;.*)$/
+</span><span class="line">  pos_file /var/log/fluent/squid.pos
+</span><span class="line">&lt;/source&gt;
+</span><span class="line">
+</span><span class="line">&lt;match squid.**&gt;
+</span><span class="line">  type file
+</span><span class="line">  path /var/log/fluent/squid.log
+</span><span class="line">&lt;/match&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>これでやりたいことが実現出来た。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/07/fluentd-squid.png" alt="" /></p>
+
+<p>もっと上手いやり方ありそうなんだけど、「こうすると良い」とか誰かもっと良い方法を教えて欲しい。</p>
+
+<p><strong>追記 2012年7月16日</strong></p>
+
+<p><a href="https://twitter.com/tagomoris/">@tagomoris</a>さんがirbを利用する方法を教えてくれました。感謝です</p>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/tagomoris/20120715/1342368392">Fluentdでparser用の正規表現を書く・試す - tagomorisのメモ置き場</a></li>
+</ul>
+
+<p><strong>追記 2012年10月01日</strong></p>
+
+<p>今だとこういう便利なものがあるようです!!</p>
+
+<ul>
+  <li><a href="http://fluentular.herokuapp.com/">Fluentular: a Fluentd regular expression editor</a></li>
+</ul>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://oboerutech.blog16.fc2.com/blog-entry-49.html">覚えるテク [Ruby][Fluentd]in_tailの正規表現をテスト</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/05/growthforecast-supervisor/">GrowthForecast導入&Supervisorで起動を管理</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-05T00:37:00+09:00" pubdate data-updated="true">2012年07月05日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>社内に<a href="http://kazeburo.github.com/GrowthForecast/">GrowthForecast</a>ブームが
+来ているので、乗り遅れないように導入。</p>
+
+<p><a href="http://d.hatena.ne.jp/do_aki/20120522/1337665000">@do_akiさんのブログ記事</a>にSupervisorでの起動方法を追加した内容です。
+何回もググっているので自分の作業用メモも兼ねて。同じ事を2回ググったらブログに書く精神で。</p>
+
+<p>導入環境はSL6.2です。作業の流れとしては</p>
+
+<ol>
+  <li>Perlbrewの導入</li>
+  <li>GrowthForecastの導入</li>
+  <li>SupervisordでGrowthForecastを管理</li>
+</ol>
+
+<p>という感じです。</p>
+
+<p>GrowthForecastは下記のように管理します。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/07/gf.png" alt="" /></p>
+
+<h2 id="section">必要パッケージの導入</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo yum -y groupinstall "Development Tools"
+</span><span class="line">sudo yum -y install pkgconfig glib2-devel gettext libxml2-devel pango-devel cairo-devel</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="growthforecast">GrowthForecast用のユーザの作成</h3>
+
+<p>Perlbrewを導入するのでGrowthForecast用にユーザーを作成。パスワードも設定</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo useradd growthforecast
+</span><span class="line">sudo passwd growthforecast</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="perlbrewcpanm">Perlbrewとcpanmの導入</h2>
+
+<p>GrowthForecastの利用には<a href="http://perlbrew.pl/">Perlbrew</a>の利用が推奨されているので、perlbrewを導入。
+growthforecastユーザのホームディレクトリ内に導入。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo su - growthforecast
+</span><span class="line">curl -kL http://install.perlbrew.pl | bash
+</span><span class="line">echo '[[ -s "$HOME/perl5/perlbrew/etc/bashrc" ]] &amp;&amp; source "$HOME/perl5/perlbrew/etc/bashrc"' &gt;&gt; .bash_profile
+</span><span class="line">source $HOME/perl5/perlbrew/etc/bashrc</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>続いてperl-5.16.0とcpanmの導入。結構時間がかかります。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">perlbrew install perl-5.16.0
+</span><span class="line">perlbrew switch perl-5.16.0
+</span><span class="line">perlbrew install-cpanm</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="rrdtool">RRDtoolのインストール</h3>
+
+<p><strong>2012年7月5日 10:00 追記</strong></p>
+
+<p><a href="https://twitter.com/#!/kentaro/">antipopさん</a>に教えてもらい、現在はもう不要な手順です。
+Makefile.plに含まれているので別途導入する必要はありません。</p>
+
+<p><a href="https://github.com/kazeburo/GrowthForecast/blob/master/Makefile.PL">GrowthForecast/Makefile.PL at master · kazeburo/GrowthForecast https://github.com/kazeburo/GrowthForecast/blob/master/Makefile.PL</a></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cpanm http://search.cpan.org/CPAN/authors/id/G/GF/GFUJI/Alien-RRDtool-0.03.tar.gz</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="growthforecast-1">GrowthForecastのインストール</h2>
+
+<p>引き続き作業はgrowthforecastユーザで。</p>
+
+<p><strong>cpanmでの方法に修正 2012年7月5日 13:00</strong></p>
+
+<p><a href="https://twitter.com/#!/oranie/">@oranieさん</a>からの指摘でcpanmの方法に修正。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cpanm -n http://cloud.github.com/downloads/kazeburo/GrowthForecast/GrowthForecast-0.30.tar.gz</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="growthforecast-2">GrowthForecastの動作確認</h3>
+
+<p>とりあえず起動確認。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">growthforecast.pl --port=5125</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>hostname:5125</code>にアクセスして表示されるか確認。
+ちゃんと動いていたら<code>ctrl+c</code>で終了。</p>
+
+<h2 id="supervisord">Supervisordで管理</h2>
+
+<p><a href="http://www.glidenote.com/archives/1684">過去の記事</a>を参考にsupervisord経由で
+GrowthForecastを起動する。</p>
+
+<p>ここからはrootかsudoで作業します。</p>
+
+<h3 id="supervisord-1">Supervisordの導入</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo yum -y install python-setuptools
+</span><span class="line">sudo easy_install pip
+</span><span class="line">sudo pip install supervisor</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="supervisordlogconf">supervisord用のlogとconfディレクトリの用意</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo mkdir /var/log/supervisor
+</span><span class="line">sudo mkdir /etc/supervisord.d</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="etcsupervisordconf-">/etc/supervisord.conf の用意</h3>
+
+<div><script src="https://gist.github.com/3047243.js?file=etc_supervisord.conf"></script>
+<noscript><pre><code>[unix_http_server]
+file=/tmp/supervisor.sock   ; (the path to the socket file)
+
+[supervisord]
+logfile=/var/log/supervisor/supervisord.log ; (main log file;default $CWD/supervisord.log)
+logfile_maxbytes=50MB        ; (max main logfile bytes b4 rotation;default 50MB)
+logfile_backups=10           ; (num of main logfile rotation backups;default 10)loglevel=info                ; (log level;default info; others: debug,warn,trace)
+pidfile=/var/run//supervisord.pid ; (supervisord pidfile;default supervisord.pid)
+nodaemon=false               ; (start in foreground if true;default false)
+minfds=1024                  ; (min. avail startup file descriptors;default 1024)
+minprocs=200                 ; (min. avail process descriptors;default 200)
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+serverurl=unix:///tmp/supervisor.sock ; use a unix:// URL  for a unix socket
+
+[include]
+files = supervisord.d/*.ini</code></pre></noscript></div>
+
+<h3 id="upstartsupervisor">Upstart経由でSupervisorを起動</h3>
+
+<p>supervisordが落ちたら元も子もないのでUpstart経由で起動。
+<code>/etc/init/supervisord.conf</code>を用意</p>
+
+<div><script src="https://gist.github.com/3047243.js?file=init_supervisord.conf"></script>
+<noscript><pre><code>description     &quot;supervisord&quot;
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+respawn
+exec /usr/bin/supervisord -n</code></pre></noscript></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo initctl start supervisord</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="etcsupervisorddgrowthforecastini-">/etc/supervisord.d/growthforecast.ini の用意</h3>
+
+<p>GrowthForecast用の設定を用意。(commandのところもっと上手い書き方知ってる人いたら教えてください!)</p>
+
+<div><script src="https://gist.github.com/3047243.js?file=growthforecast.ini"></script>
+<noscript><pre><code>[program:growthforecast]
+command=/home/growthforecast/perl5/perlbrew/perls/perl-5.16.0/bin/perl /home/growthforecast/GrowthForecast/growthforecast.pl --port=5125process_name=%(program_name)s_%(process_num)02d
+stdout_logfile_maxbytes=1MB
+stderr_logfile_maxbytes=1MB
+stdout_logfile=/var/log/supervisor/%(program_name)s.log
+stderr_logfile=/var/log/supervisor/%(program_name)s.log
+user=growthforecast
+autostart=true
+autorestart=true</code></pre></noscript></div>
+
+<h3 id="growthforecast-3">GrowthForecastのデータ用ディレクトリの作成</h3>
+
+<p>GrowthForecastデータ用ディレクトリも用意</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo mkdir /var/run/growthforecast
+</span><span class="line">sudo chown -R growthforecast:growthforecast /var/run/growthforecast</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-1">必要ディレクトリの権限設定</h3>
+
+<p><code>/tmp/.xslate_cache/</code>に書き込み権限がないとエラーが出たので設定</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo chown -R growthforecast:growthforecast /tmp/.xslate_cache/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="supervisordgrowthforecast">Supervisord経由でGrowthForecastを起動</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo supervisorctl add growthforecast
+</span><span class="line">sudo supervisorctl start growthforecast
+</span><span class="line">sudo supervisorctl status growthforecast</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>動作ログでエラーを吐いてないか確認。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">tail /var/log/supervisor/supervisord.log  /var/log/supervisor/growthforecast.log</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>正常に動作していれば、GrowthForecastをkillしてみる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo pkill -u growthforecast</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>を実行して、再度起動してくるか確認。<br />
+GrowthForecastがSupervisord経由で管理出来るように。</p>
+
+<p>一通り作業を終えた後に<a href="https://twitter.com/#!/kazeburo/">@kazeburo</a>さんがProcletというsupervisorを出していたことに気づいた。</p>
+
+<ul>
+  <li><a href="http://blog.nomadscafe.jp/2012/06/proclet-supervisor.html">Proclet という supervisor モジュール書いてリリースした - blog.nomadscafe.jp</a></li>
+</ul>
+
+<p>とりあえず常駐化出来たので、fluentdを組み合わせてガンガン使っていこう。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/02/supergrep/">Node.jsで書かれてwebベースのlog streamer「Supergrep」を試してみた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-02T10:00:00+09:00" pubdate data-updated="true">2012年07月02日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+  <li><a href="http://codeascraft.etsy.com/2012/06/28/is-it-a-bird-is-it-a-plane-no-its-supergrep/">Is It A Bird? Is It A Plane? No, It’s Supergrep! « Code as Craft</a></li>
+  <li><a href="https://github.com/etsy/supergrep">etsy/supergrep</a></li>
+</ul>
+
+<p><a href="http://www.etsy.com/">Etsy</a>からNode.jsで書かれた、ブラウザから利用するlogs streamerのSupergrepが
+リリースされたので早速試してみました。</p>
+
+<p>ツールとしては任意のログが、任意の不要なログを除いた形式で出力され、
+そこからさらにブラウザ上で自分でフィルタをかけるようなツールです。</p>
+
+<p>公式の説明としても、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">tail -f {log filename} | grep -v {stuff you'd expect to see in log lines}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>という感じの説明をしていて、解析に必要無いログは排除する設定が任意で出来て、表示されています。</p>
+
+<p>導入環境はSL6.2です。</p>
+
+<h2 id="nodejs">Node.jsの導入</h2>
+
+<p>SupergrepはNode.jsで書かれているので、Node.jsとnpmを導入。
+2012年6月29日現在の最新版v0.8.0を導入</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir ~/src
+</span><span class="line">cd ~/src
+</span><span class="line">wget http://nodejs.org/dist/v0.8.0/node-v0.8.0.tar.gz
+</span><span class="line">tar zxvf node-v0.8.0.tar.gz
+</span><span class="line">cd node-v0.8.0
+</span><span class="line">./configure
+</span><span class="line">make
+</span><span class="line">sudo make install</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="npm">npmの導入</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo -s
+</span><span class="line">curl http://npmjs.org/install.sh | sh
+</span><span class="line">exit</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="supergrep">Supergrepの導入と起動</h2>
+
+<p>とりあえずデフォルトのまま起動。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir ~/repos
+</span><span class="line">cd ~/repos
+</span><span class="line">git clone git://github.com/etsy/supergrep.git
+</span><span class="line">cd supergrep
+</span><span class="line">npm install
+</span><span class="line">./runlocal</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>http://hostname:3000</code>にアクセスしてみると下記のような感じのガイドが表示される</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/supergrep0.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/supergrep1.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/supergrep2.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/supergrep3.png" alt="" /></p>
+
+<p>と説明が続く。</p>
+
+<h2 id="supergrep-1">Supergrepの設定</h2>
+
+<p>Supergrepの設定は同梱されている<code>localConfig.js</code>に記載。
+私は下記のように修正。当然ですが、apache以外のlogにも使えます。</p>
+
+<div><script src="https://gist.github.com/3015393.js"></script>
+<noscript><pre><code>--- localConfig.js.dist 2012-06-29 10:08:51.293463302 +0900
++++ localConfig.js      2012-06-29 10:43:45.759470687 +0900
+@@ -15,7 +15,7 @@
+     files: [
+         {
+             name: &#39;web&#39;,
+-            path: [&#39;/var/log/httpd/info.log&#39;, &#39;/var/log/httpd/php.log&#39;]
++            path: [&#39;/var/log/httpd/info.log&#39;, &#39;/var/log/httpd/php.log&#39;, &#39;/var/log/httpd/access_log&#39;]
+             // you can also do this
+             //            filter: function (line, config) {
+             //                if (! line.match(config.noisyErrors)) {</code></pre></noscript></div>
+
+<p>Supergrepがlogを読み取れないといけないので、権限を修正</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo chmod 755 /var/log/httpd/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="supergrep-2">Supergrepを動作</h2>
+
+<p>設定が済んだら、再度Supergrepを起動してみる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">./runlocal</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>apache_log</code>を<code>403</code>でハイライトした感じ</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/supergrep4.png" alt="" /></p>
+
+<p>ログサイズがでかい場合は、どのくらいの負荷になるのかなど検証しないといけないですが、</p>
+
+<ul>
+  <li>サポートの人とかサーバに入らずブラウザからログを閲覧</li>
+  <li>デプロイ直後のログ確認</li>
+</ul>
+
+<p>とかに向いてるかなという印象。
+不要なログが排除されててログの見通しがよく、ターミナル上で見るより見やすい。</p>
+
+<p>でも今だとfluentd+mongodbとかで、そういう環境を整えるのが良いかなーと思ったりも。</p>
+
+<p><a href="http://www.etsy.com/">Etsy</a>はサイトの見た目とは対照的に、<a href="http://codeascraft.etsy.com/2012/01/23/solr-bittorrent-index-replication/">SolrのIndexレプリケーションにBitTorrentを使っていたり</a>、
+技術的に尖ったことをやっていて面白い会社ですね。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/21/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/19/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

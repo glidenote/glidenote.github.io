@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: keepalived | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/keepalived/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[keepalived.conf編集用にkeepalived-syntax.vimを作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/09/keepalived-syntax.vim/"/>
+    <updated>2012-04-09T01:09:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/09/keepalived-syntax.vim</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/vim-scripts/nginx.vim">nginx.vim</a>のソースを眺めてて、
+syntax系Vim pluginが作ってみたくなったのと、<a href="http://www.keepalived.org/">keepalived</a>
+のconfを書くときにsyntax highlightが効かなくて困っていたのを思い出したので書いてみた。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/keepalived-syntax.vim">glidenote/keepalived-syntax.vim</a></li>
+</ul>
+
+<p>keepalived自体にconfのsyntax checkをしてくれる機能が無くて、confを修正するときは
+<a href="https://github.com/frsyuki/keepalived-check">keepalived-check</a>を必ず回しているんですが
+そもそもconfの作成の時点で、間違いに気づければいいなと昔から思っていたので、
+それが解決しそうです。</p>
+
+<h2 id="section">導入方法</h2>
+
+<p>導入には<a href="https://github.com/gmarik/vundle">vundle</a>か、<a href="https://github.com/Shougo/neobundle.vim">NeoBundle</a>を利用してください。</p>
+
+<p>私はvundleを利用しているので、<code>.vimrc</code>に下記のように記載しています。</p>
+
+<p><strong>2012年4月9日 2:00追記 setからsetlocalに修正しました</strong></p>
+
+<p><code>
+Bundle 'glidenote/keepalived-syntax.vim'
+au BufRead,BufNewFile keepalived.conf setlocal ft=keepalived
+</code></p>
+
+<p>@heavenshellさんに教えてもらいました</p>
+
+<blockquote class="twitter-tweet" lang="ja"><p>@<a href="https://twitter.com/glidenote">glidenote</a> "au BufRead,BufNewFile keepalived.conf set ft=keepalived" は setlocal の方が良いようです。<a href="http://t.co/IDF8bqkX" title="http://bit.ly/Itypeg">bit.ly/Itypeg</a> <a href="http://t.co/6F0BIw4a" title="http://bit.ly/Itypeh">bit.ly/Itypeh</a></p>&mdash; heavenshellさん (@heavenshell) <a href="https://twitter.com/heavenshell/status/189033982409703425" data-datetime="2012-04-08T16:56:28+00:00">4月 8, 2012</a></blockquote>
+<script src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>before</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/keepalived0.png" alt="" /></p>
+
+<p>after</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/keepalived1.png" alt="" /></p>
+
+<p>最近keepalivedのconfを一から書く事はほとんどないですが、
+confを修正するときに重宝しそうです。</p>
+
+]]></content>
+  </entry>
+  
+</feed>

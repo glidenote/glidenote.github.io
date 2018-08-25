@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: android | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/android/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[モバイルバッテリーを大容量から小容量に切り替えたら生活が快適になった話]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/05/12/eneloop-mobile-booster/"/>
+    <updated>2012-05-12T22:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/05/12/eneloop-mobile-booster</id>
+    <content type="html"><![CDATA[<p>
+<a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L54D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V5400mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMNSE?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMNSE"><img src="https://images-fe.ssl-images-amazon.com/images/I/4183wp7N5bL._SL160_.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L27D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V2700mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMOMY?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMOMY"><img src="https://images-fe.ssl-images-amazon.com/images/I/41oqWuqmL5L._SL160_.jpg" align="right" /></a>
+</p>
+
+<ul>
+<li><a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L27D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V2700mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMOMY?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMOMY">SANYO USB出力付きリチウムイオンバッテリー (高容量リチウムイオン3.7V2700mAh電池使用) KBC-L27D</a></li>
+<li><a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L54D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V5400mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMNSE?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMNSE">SANYO USB出力付きリチウムイオンバッテリー (高容量リチウムイオン3.7V5400mAh電池使用) KBC-L54D</a></li>
+</ul>
+
+<p>最近iPhoneとSony Ericsson mini用に使っているモバイルバッテリーを電池容量の小さいものに
+変えたら生活が快適になったので、ちょっと書こうかと思います。</p>
+
+<p>KBC-L54DとKBC-L27Dは同じ日に発売された同世代のモバイルバッテリーなので、
+本体サイズ、電池容量、給電ポート数以外の性能は同じです。<br />
+ランプで残容量が分かったり、 マイクロUSBで充電が出来るタイプのものです。</p>
+
+<h2 id="kbc-l54d">大容量KBC-L54Dを利用していて不便に感じていた点</h2>
+
+<ul>
+  <li>サイズが大きい 62(幅)×70(高さ)×22(奥行)mm</li>
+  <li>重い 142g</li>
+  <li>片手でiPhoneと一緒に持つと操作しにくい。疲れる</li>
+  <li>充電しながらズボンのポケットに入れて持ち歩くことが難しいサイズ感</li>
+  <li>上記理由から充電するときはカバンに入れざるを得ない</li>
+  <li>給電ポート2個を同時に利用することがほとんど無い</li>
+  <li>電池容量(5400mAh)が大きいので充電時間が長い</li>
+</ul>
+
+<p><img src="http://farm6.staticflickr.com/5337/7180207570_8f60285ee1_c.jpg" alt="" /></p>
+
+<h2 id="kbc-l27d">小容量KBC-L27Dに切り替えて良かった点</h2>
+
+<ul>
+  <li>サイズが小さい 寸法:70(幅)×39(高さ)×22(奥行)mm</li>
+  <li>軽い 78g</li>
+  <li>iPhoneを充電しながらポケットに入れて持ち歩けるサイズ感</li>
+  <li>片手でiPhoneと一緒に持っても操作問題なし</li>
+  <li>電池容量(2700mAh)が小さいので充電が早い</li>
+  <li>iPhone4へのフル充電が1回半出来るので、1日過ごすには十分</li>
+</ul>
+
+<p><img src="http://farm8.staticflickr.com/7103/7180206696_ce96fc41d6_c.jpg" alt="" /></p>
+
+<p>KBC-L54DとKBC-L27Dはいずれも2011年9月に発売され、コストパフォーマンスが良かったので
+何も考えず大容量のKBC-L54Dを購入して利用していたのですが、5400mAhという容量は使い切ることがなく
+1回給電したら充電という利用方法で、大容量のメリットを生かし切れておらず
+上に挙げたような不便さだけが際立ってきていたので、小容量のKBC-L27Dに切り替えて快適になりました。</p>
+
+<p>KBC-L27Dは値段が安定していないので、同等性能のPanasonic製品の方が安いケースがありますので、 
+購入前に両方の値段をチェックすることをお勧めします。</p>
+
+<p>
+<a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-400mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL201-K/dp/B0051R4EYU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EYU"><img src="https://images-fe.ssl-images-amazon.com/images/I/21otpm0VfNL._SL160_.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-700mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL101/dp/B0051R4EJU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EJU"><img src="https://images-fe.ssl-images-amazon.com/images/I/31P4Z3LsIaL._SL160_.jpg" align="right" /></a>
+</p>
+
+<ul>
+<li><a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-700mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL101/dp/B0051R4EJU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EJU">パナソニック モバイルバッテリー 2,700mAh 無接点充電(Qi) 対応 USBモバイル電源 QE-PL101</a></li>
+<li><a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-400mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL201-K/dp/B0051R4EYU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EYU">パナソニック モバイルバッテリー 5,400mAh 無接点充電(Qi) 対応 USBモバイル電源 ブラック QE-PL201-K</a></li>
+</ul>
+
+<p><br clear="all" /></p>
+
+<p>iPhone4のバッテリもへたってきたのか、最近バッテリ持ちが悪くなってきたので買い換え時かな…</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sony Ericsson mini(S51SE)をRootedのまま4.0.2.A.0.61へアップデート]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/12/29/s51se-4.0.2.a.0.61-rooted/"/>
+    <updated>2011-12-29T23:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/12/29/s51se-4.0.2.a.0.61-rooted</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2011/12/s51se_rooted.png" width="240" height="320" align="right" />
+以前、<a href="https://blog.glidenote.com/blog/2011/11/15/ericsson-mini-rooted/">Sony Ericsson mini(S51SE)のroot権限を取得 - Glide Note - グライドノート</a>で
+Sony Ericsson mini（S51SE）のroot権限を取得していたのですが、4.0.2.A.0.61にアップデートしたらroot権限が無くなってしまい、
+再度root権限取得のために作業したのでメモ。毎度のことながら自己責任で。</p>
+
+<p>細かい手順は端折りますが、下記のような流れでうまくいきました。下記の作業はWindowsじゃないと作業が出来ません。    </p>
+
+<ol>
+  <li><a href="http://www.wotanserver.com/en">WotanServer.com</a>に登録</li>
+  <li><a href="http://www.wotanserver.com/en/sony-ericsson/se/xperia-mini-s51se/unlock-tool/debranding-flash">Sony Ericsson Xperia mini S51SE Unlock Tool</a>から下記2ツールをダウンロード
+    <ul>
+      <li>USB Flash Driver</li>
+      <li>WotanClient 3</li>
+    </ul>
+  </li>
+  <li>WotanClient 3を利用して、Sony Ericsson miniを工場出荷時の4.0.2.A.0.58に戻す(当然ですがデータが全部消えます)</li>
+  <li>DooMLoRD’s Easy Rooting Toolkitを用いて<a href="https://blog.glidenote.com/blog/2011/11/15/ericsson-mini-rooted/">以前と同じ手順</a>でroot権限取得</li>
+  <li>root権限取得したら、Sony Ericsson mini単体で4.0.2.A.0.61にアップデートする(輝度調整無効のためにファイル差し替えとかしてるとアップデートが出来なかったので、デフォの状態でアップデートをかける)</li>
+  <li>4.0.2.A.0.61のなってもrootedの状態なのを確認</li>
+  <li>Titanium Backup(要root権限)で取得しておいたバックアップからアプリのデータを復元で以前の以前のRootedの状態に元通り</li>
+</ol>
+
+<p>ちなみにWotanServerからS51SEのファームウェアは登録が必要ですが無料で取得できます。</p>
+
+<h2 id="section">関連記事</h2>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2011/11/15/ericsson-mini-rooted/">Sony Ericsson mini(S51SE)のroot権限を取得 - Glide Note - グライドノート</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[disable camera shutter sound on S51SE]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/11/18/disable-camera-shutter-sound-on-s51se/"/>
+    <updated>2011-11-18T01:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/11/18/disable-camera-shutter-sound-on-s51se</id>
+    <content type="html"><![CDATA[<p>/system/build.propを下記のように修正
+<div><script src='https://gist.github.com/1366282.js'></script>
+<noscript><pre><code>@@ -20,7 +20,7 @@
+ ro.semc.version.cust=1255-6223
+ ro.semc.version.cust_revision=R7D
+ ro.semc.enable.fast_dormancy=true
+-ro.camera.sound.forced=1
++ro.camera.sound.forced=0
+ ro.semc.ecclist.num=3
+ ro.semc.ecclist.type.0=firebrigade ambulance
+ ro.semc.ecclist.number.0=119</code></pre></noscript></div>
+</p>
+
+<p><a href="https://market.android.com/details?id=com.protocol.x.su.fbs&amp;hl=ja">SU File Manager &amp; Terminal</a>かなんかを使って、
+ファイルを差し替えれば完了。</p>
+
+<p><img src="http://www.glidenote.com/wp-content/uploads/2011/11/screenshot_2011-11-17_1338_2.png" alt="" /></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sony Ericsson mini(S51SE)の輝度自動調整を無効にした]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/11/15/disable-lcd-backlight/"/>
+    <updated>2011-11-15T09:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/11/15/disable-lcd-backlight</id>
+    <content type="html"><![CDATA[<p><img src="http://farm7.static.flickr.com/6053/6339838737_a41e4b810e_z.jpg" alt="" /><br />
+Sony Ericsson miniの輝度調整センサーが過敏すぎて、ちょっとした影ですぐ画面が明るくなったり、
+暗くなったりと画面がチラついてウザかったので無効にしました。
+作業には要root権限です。</p>
+
+<p>/system/etc/hw_config.shをSDカードにコピーし、下記のように修正
+<div><script src='https://gist.github.com/1365547.js?file=hw_config.sh.diff'></script>
+<noscript><pre><code>@@ -41,7 +41,7 @@
+ echo 3,2,2,0 &gt; $dev/lcd-backlight/als/params  #[gain],[filter_up],[filter_down],[offset]
+ echo 8000 &gt; $dev/button-backlight-rgb1/max_current
+ echo 8000 &gt; $dev/button-backlight-rgb2/max_current
+-echo 1,30,255,54,52,1,65 &gt; $dev/lcd-backlight/als/curve  # ALS curve display BL [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
++echo 1,30,255,0,0,1,65   &gt; $dev/lcd-backlight/als/curve  # ALS curve display BL [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+ echo 2,48,0,128,128,4,10 &gt; $dev/button-backlight-rgb1/als/curve  # ALS curve key LED 1 [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+ echo 2,48,0,128,128,4,10 &gt; $dev/button-backlight-rgb2/als/curve  # ALS curve key LED 2 [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+ echo 3,71,255,64,32,5,37 &gt; $dev/red/als/curve  # ALS curve RGB(red) [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]</code></pre></noscript></div>
+</p>
+
+<p>最終的な/system/etc/hw_config.shは下記のような感じです。
+<div><script src='https://gist.github.com/1365547.js?file=hw_config.sh'></script>
+<noscript><pre><code># Audio jack configuration
+dev=/sys/devices/platform/simple_remote.0
+echo 0,201,1600 &gt; $dev/accessory_min_vals  # default = 0,200,1600
+echo 200,1599  &gt; $dev/accessory_max_vals  # default = 200,1600
+echo 0,100,280,500,700 &gt; $dev/button_min_vals  # default = 0,100,300,600,700
+echo 99,199,399,699,5000  &gt; $dev/button_max_vals  # default = 99,199,399,699,5000
+echo 512   &gt; $dev/btn_trig_period_freq  # Button Period Freq(Hz) default = 512
+echo 16  &gt; $dev/btn_trig_period_time  # Button Period Time(cycle) default = 16
+echo 512   &gt; $dev/btn_trig_hyst_freq    # Button Hysteresis Freq(Hz) default = 512
+echo 16  &gt; $dev/btn_trig_hyst_time   # Button Hysteresis Time(Cycle) default = 16
+echo 500 &gt; $dev/btn_trig_level  # default = 500
+
+# Proximity sensor configuration
+dev=/sys/bus/i2c/devices/0-0054/
+val_cycle=0
+val_nburst=26
+val_freq=0
+val_threshold=2
+val_filter=0
+
+nv_param_loader 60240 prox_cal
+val_calibrated=$?
+case $val_calibrated in
+ 1)
+  nv_param_loader 60240 threshold
+  val_threshold=$?
+  nv_param_loader 60240 rfilter
+  val_filter=$?
+  ;;
+esac
+
+echo $val_cycle &gt; $dev/cycle    # Duration Cycle. Valid range is 0 - 3.
+echo $val_nburst &gt; $dev/nburst  # Number of pulses in burst. Valid range is 0 - 15. 16 - 31 is a special range for smultron only (SP)
+echo $val_freq &gt; $dev/freq      # Burst frequency. Valid range is 0 - 3.
+echo $val_threshold &gt; $dev/threshold # sensor threshold. Valid range is 0 - 15 (0.12V - 0.87V)
+echo $val_filter &gt; $dev/filter  # RFilter. Valid range is 0 - 3.
+
+# LMU AS3676 Configuration
+dev=/sys/devices/i2c-0/0-0040/leds
+echo 1 &gt; $dev/lcd-backlight/als/enable  #Sensor on/off. 1 = on, reg 90h
+echo 3,2,2,0 &gt; $dev/lcd-backlight/als/params  #[gain],[filter_up],[filter_down],[offset]
+echo 8000 &gt; $dev/button-backlight-rgb1/max_current
+echo 8000 &gt; $dev/button-backlight-rgb2/max_current
+echo 1,30,255,0,0,1,65   &gt; $dev/lcd-backlight/als/curve  # ALS curve display BL [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+echo 2,48,0,128,128,4,10 &gt; $dev/button-backlight-rgb1/als/curve  # ALS curve key LED 1 [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+echo 2,48,0,128,128,4,10 &gt; $dev/button-backlight-rgb2/als/curve  # ALS curve key LED 2 [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+echo 3,71,255,64,32,5,37 &gt; $dev/red/als/curve  # ALS curve RGB(red) [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+echo 3,71,255,64,32,5,37 &gt; $dev/green/als/curve  # ALS curve RGB(green) [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+echo 3,71,255,64,32,5,37 &gt; $dev/blue/als/curve  # ALS curve RGB(blue) [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+
+# Touch panel
+dev=/sys/devices/platform/spi_qsd.0/spi0.0
+app_id=`cat  $dev/appid`
+case &quot;$app_id&quot; in
+	&quot;0x0505&quot;)
+		fw=touch_smultron_innolux.hex
+        ;;
+	&quot;0x0105&quot;)
+		fw=touch_smultron_sony.hex
+        ;;
+	&quot;0x0015&quot;)
+		fw=touch_smultron_sony.hex
+        ;;
+	*)
+		fw=touch_smultron_sony.hex
+        ;;
+esac
+cyttsp_fwloader -dev $dev -fw /system/etc/firmware/$fw
+
+# TI BQ275xx firmware loader
+bq275xx_fwloader</code></pre></noscript></div>
+</p>
+
+<p>私は、<a href="https://market.android.com/details?id=com.protocol.x.su.fbs&amp;hl=ja">SU File Manager &amp; Terminal</a>を使って、</p>
+
+<ul>
+  <li>/system/etc をread+writeで再マウント</li>
+  <li>元のファイル(/system/etc/hw_config.sh)をrename</li>
+  <li>修正したhw_config.shをSDカードから/system/etc/にcopy</li>
+  <li>/system/etc をread-onlyで再マウント</li>
+</ul>
+
+<p>でファイルの差し替え。再起動すると設定が反映されてました。<br />
+輝度調整センサーを無効にすると画面が若干暗くなりましたが、画面のチラつきは解消しました。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sony Ericsson mini(S51SE)のroot権限を取得]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/11/15/ericsson-mini-rooted/"/>
+    <updated>2011-11-15T00:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/11/15/ericsson-mini-rooted</id>
+    <content type="html"><![CDATA[<p>Sony Ericsson miniのroot権限を取得した際の作業メモ。root権限取得にはリスクを伴うので、自己責任で作業。</p>
+
+<h2 id="root">root権限取得作業の前に</h2>
+<p>root権限取得については下記の記事が参考になるので、作業前に目を通しておくと良いです。  </p>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/ppppnryu/20110529/1306657534">※必見！！！Xperia arc root化前の必須作業 - 初心者のためのXperia arc (rooted)</a></li>
+  <li><a href="http://d.hatena.ne.jp/ppppnryu/20110509/1304934270">Xperia arcが正常に起動できなくなったら… ～SEUSの使い方～ - 初心者のためのXperia arc (rooted)</a></li>
+</ul>
+
+<p>文鎮化しても元に戻せるようにPC companionとSEUSの導入。これはWindows機でないと作業ができませんでした。  </p>
+
+<ol>
+  <li><a href="http://www.sonyericsson.co.jp/support/software/pcc/2.1/">PC コンパニオン（PC Companion）の導入</a></li>
+  <li><a href="http://www.sonyericsson.co.jp/support/software/updateservice/">SEUS(Sony Ericsson Update service)の導入</a></li>
+</ol>
+
+<p>SEUSを起動してS51SE(Sony Ericsson miniの製品名)があるのを確認して、S51SEでも工場出荷時に戻せるのを念のため確認。</p>
+
+<p><img src="http://www.glidenote.com/wp-content/uploads/2011/11/133ba3868f6f2688b88a2e47fca96995.png" alt="" /></p>
+
+<h2 id="root-1">root権限取得</h2>
+<p>root権限の取得には下記ページを参考に。<br />
+<a href="http://plus.appgiga.jp/ky777/2011/11/02/7556/">ワンクリックで簡単root化！Xperia arc\/acro\/ray\/playやGalaxy S2対応「DooMLoRD’s Easy Rooting Toolkit」 | APPGIGA!!（アプギガ）</a></p>
+
+<p><blockquote><p>DooMLoRD’s Easy Rooting Toolkitのダウンロード</p></p><p><p>http://forum.xda-developers.com/showthread.php?t=1321582</p></p><p><p>手順は以下のやり方を参照して欲しい。端末本体とWindowsパソコンを使って行う。</p></p><p><ol><br/>  <li>上記リンクからファイルをパソコンにダウンロードして解凍（[Download link]の項目）</li><br/>  <li>端末の設定で”USBデバッグ”を有効にする（設定→アプリケーション→開発）</li><br/>  <li>パソコンと端末をUSBケーブルで接続</li><br/>  <li>解凍後のフォルダ内に「runme.bat」というファイルがあるので実行</li><br/></ol></p><p><p></p></blockquote></p>
+
+<p>これでroot権限が取得できました。</p>
+
+<h2 id="section">追記 2011年12月29日</h2>
+<p><a href="https://blog.glidenote.com/blog/2011/12/29/s51se-4.0.2.a.0.61-rooted/">Sony Ericsson mini(S51SE)でRootedのまま4.0.2.A.0.61へアップデート - Glide Note - グライドノート</a></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: mac | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/mac/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ncコマンドでファイル転送するときにpvコマンドで進捗を表示する]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv/"/>
+    <updated>2014-12-02T10:50:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv</id>
+    <content type="html"><![CDATA[<p>ファイルを送受信するときに暗号化する必要が無い場合は
+高速なので<code>nc</code>コマンドを多用しているんですが、進捗表示の方法を毎回忘れてググっているので自分用にメモ。</p>
+
+<h2 id="section">送信側</h2>
+
+<p><code>3000</code>ポートを転送に使う場合。</p>
+
+<p><code>sh
+pv hogemoge.zip | nc -l 3000
+</code></p>
+
+<h2 id="section-1">受信側</h2>
+
+<p><code>sh
+nc foobar.com 3000 | pv &gt; hogemoge.zip
+</code></p>
+
+<p>ファイル転送中は下記みたいな感じで転送済みデータサイズ、転送速度、残り時間、プログレスバーなど進捗が確認出来る</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/nc_pv0.png" alt="" /></p>
+
+<p>簡易的な回線速度の測定にも使えるので、大変便利。</p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/hogem/20101115/1289827270">nc(netcat)で超簡易ファイル転送 - うまいぼうblog</a></li>
+  <li><a href="http://apatheia.info/blog/2011/12/17/pv/">プログレスバーを簡単に表示できるコマンド pv - apatheia.info</a></li>
+  <li><a href="http://www.g-loaded.eu/2006/11/06/netcat-a-couple-of-useful-examples/">Netcat – a couple of useful examples | G-Loaded Journal</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Homebrewで入れたgit,zshを優先的に利用する]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/04/20/change-command-path-priority/"/>
+    <updated>2014-04-20T10:27:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/04/20/change-command-path-priority</id>
+    <content type="html"><![CDATA[<p>ちょっと前に会社のMacを入れ替えて、Homebrewで最新の<code>git</code>や<code>zsh</code>などを導入したのに
+最初から入っているシステムの<code>git</code>、<code>zsh</code>が優先的に利用されていることに気づいて、
+この設定、数年おきにしていて、いつも忘れるのでメモ。(2回ググったらブログに書く)</p>
+
+<p>呼び出されている<code>git</code>のバージョン確認。(実際にはhub経由でgitを呼び出してました。)</p>
+
+<p><code>sh
+git --version
+git version 1.8.5.2 (Apple Git-48)
+</code></p>
+
+<p>本来利用したいHomebrewでインストールした<code>git</code>のバージョン</p>
+
+<p><code>sh
+/usr/local/bin/git --version
+git version 1.9.2
+</code></p>
+
+<p>下記のように<code>/usr/local/bin</code>が一番上になるように<code>/etc/paths</code>の順番入れ替え。上から優先的に利用されるようになる。</p>
+
+<p><code>
+/usr/local/bin
+/usr/bin
+/bin
+/usr/sbin
+/sbin
+</code></p>
+
+<p><code>exec $SHELL</code>で設定反映。</p>
+
+<p><code>
+git --version
+git version 1.9.2
+</code></p>
+
+<p>ちゃんと意図した動作になった。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ssh接続したリモートサーバの出力を手元Macのクリップボードに送る]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/02/22/remote-pbcopy/"/>
+    <updated>2014-02-22T21:27:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/02/22/remote-pbcopy</id>
+    <content type="html"><![CDATA[<p>今までsshしたリモートサーバ上でコマンド実行したときの結果出力とかは、
+tmuxのコピーモードとかを駆使して、Macのクリップボードに送ってたんですが
+もっと手軽に出来る方法があったのでGitHubにまとめてみた。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/rpbcopy">glidenote/rpbcopy</a></li>
+</ul>
+
+<h2 id="section">仕組みの説明</h2>
+
+<ol>
+  <li>Mac上で、受け取った内容をクリップボード(pbcopy)に渡す<code>LaunchAgent</code>を作って起動</li>
+  <li>リモートサーバ上の出力を受け取るスクリプト<code>rpbcopy(nc)</code>に渡す</li>
+  <li>sshの<code>RemoteForward</code>を利用して、リモートサーバで<code>rpcopy(nc)</code>に渡された内容をMac上の<code>LaunchAgent</code>に渡す</li>
+  <li>Mac上の<code>LaunchAgent</code>が受け取ったデータをMacの<code>pbcopy(クリップボード)</code>に入れる</li>
+  <li><code>pbpaste</code>などで貼り付けが出来る</li>
+</ol>
+
+<p>図にすると下記のような感じ</p>
+
+<p><code>
++ - - - - - - - - -+                       +- - - - - - - - - - - - - - - - -+
+' Remote Server:   '                       ' Mac:                            '
+'                  '                       '                                 '
+' +--------------+ '  ssh(RemoteForward)   ' +--------------+     +--------+ '
+' | rpbcopy(nc)  | ' --------------------&gt; ' | LaunchAgent  | --&gt; | pbcopy | '
+' +--------------+ '                       ' +--------------+     +--------+ '
+'                  '                       '                                 '
++ - - - - - - - - -+                       +- - - - - - - - - - - - - - - - -+
+</code></p>
+
+<h2 id="section-1">導入方法</h2>
+
+<p>動作検証環境</p>
+
+<ul>
+  <li>リモートサーバ CentOS 6.4、Fedora 19</li>
+  <li>ローカルMac OS X 10.9.1</li>
+</ul>
+
+<p><a href="https://github.com/glidenote/rpbcopy">glidenote/rpbcopy</a>に各種ファイルをまとめているので、
+cloneしてくるのが早いです。</p>
+
+<p><code>sh
+git clone https://github.com/glidenote/rpbcopy
+</code></p>
+
+<h3 id="mac">Mac側の設定</h3>
+
+<h4 id="launchagent">LaunchAgentを起動</h4>
+
+<p><code>2224</code>ポートで待ち受けて、受け取った内容をクリップボードに渡すLaunchAgentを用意。
+同梱の<code>pbcopy.plist</code>を<code>~/Library/LaunchAgents/pbcopy.plist</code>に設置して、下記で起動</p>
+
+<p><code>sh
+launchctl load ~/Library/LaunchAgents/pbcopy.plist
+</code></p>
+
+<p>停止する場合は下記</p>
+
+<p><code>sh
+launchctl unload ~/Library/LaunchAgents/pbcopy.plist
+</code></p>
+
+<h4 id="sshconfig"><code>~/.ssh/config</code>の設定</h4>
+
+<p>リモートサーバの<code>2224</code>ポートをフォワーディングするので、
+<code>~/.ssh/config</code>に</p>
+
+<p><code>
+RemoteForward 2224 127.0.0.1:2224
+</code></p>
+
+<p>を追加。</p>
+
+<h4 id="cfusertextencoding"><code>~/.CFUserTextEncoding</code>の設定</h4>
+
+<p>必ず必要な作業ではありませんが、UTF-8の内容を送ると文字化けが発生する場合、転送が上手くされない場合は
+同梱の<code>.CFUserTextEncoding</code>を<code>~/.CFUserTextEncoding</code>に設置することで回避出来ると思います。</p>
+
+<p><code>~/.CFUserTextEncoding</code>を編集することで他に影響が及ぶ場合があるので、
+必ずバックアップを取り、自己責任で編集お願いします。</p>
+
+<h3 id="centos">リモートサーバ(CentOS)側の設定</h3>
+
+<h4 id="nc">ncの導入</h4>
+
+<p><code>nc(netcat)</code>が無いと使えないので<code>nc</code>を導入。(<code>nc</code>のバージョンが古いと<code>-C</code>オプションが存在しない場合があります。)</p>
+
+<p><code>sh
+sudo yum -y install nc
+</code></p>
+
+<h4 id="rpbcopy">rpbcopyスクリプトの設置</h4>
+
+<p>同梱の<code>rpbcopy</code>を<code>~/bin/rpbcopy</code>など<code>PATH</code>が通っている場所に設置して権限を付与</p>
+
+<p><code>sh
+chmod a+x ~/bin/rpbcopy
+</code></p>
+
+<h2 id="section-2">使い方</h2>
+
+<p>リモートサーバにsshログイン。
+手元Macのクリップボードに送りたいファイルやコマンドの出力を、リモートサーバ上で</p>
+
+<p>```
+# 転送が出来るかテスト
+echo “hello” | rpbcopy</p>
+
+<h1 id="mac-cfusertextencoding">日本語が転送が出来るかテスト。駄目な場合はMac側の <code>~/.CFUserTextEncoding</code>を設定する必要あり</h1>
+<p>echo “こんにちは” | rpbcopy</p>
+
+<h1 id="filemac">fileの中身を手元Macのクリップボードにコピー</h1>
+<p>cat fileneme | rpbcopy</p>
+
+<h1 id="historymac">リモートサーバのhistoryの内容を手元Macのクリップボードにコピー</h1>
+<p>history | rpbcopy
+```</p>
+
+<p>という感じでrpbcopyに渡すと、手元のMacのクリップボードに渡されるので
+Mac側で<code>pbpaste</code>や貼り付けが出来る。</p>
+
+<h2 id="section-3">補足</h2>
+
+<p><code>~/.bash_profile</code>や<code>~/.zsh_profile</code>などに</p>
+
+<p><code>
+alias pbcopy='~/bin/rpbcopy'
+</code></p>
+
+<p>とaliasを追加して、<code>pbcopy</code>でも使えるようにしておけば、
+リモートサーバとローカルサーバを意識せずに利用出来る。</p>
+
+<h2 id="section-4">トラブルシューティング</h2>
+
+<p>導入の際にハマったところをまとめておく。</p>
+
+<h3 id="mac-1">Mac側</h3>
+
+<h4 id="launchctl-loadunloadcould-not-open-job-overrides-database-at-privatevardblaunchddbcomapplelaunchdoverridesplist-13-permission-denied"><code>launchctl load/unload</code>を実行すると<code>Could not open job overrides database at: /private/var/db/launchd.db/com.apple.launchd/overrides.plist: 13: Permission denied</code>と出る。</h4>
+
+<p>tmuxを起動している状態で<code>launchctl load/unload</code>を実行するとPermissionのエラーが出てしまうことがあるようです。<a href="https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/">ChrisJohnsen/tmux-MacOSX-pasteboard</a>を利用することで回避出来る模様。</p>
+
+<h4 id="launchagent2224">LaunchAgentは動作しているか、2224ポートは開いているか確認</h4>
+
+<p><code>
+nc -vz 127.0.0.1 2224
+</code></p>
+
+<h4 id="launchagent--pbcopy-"><code>LaunchAgent</code> =&gt; <code>pbcopy</code> とデータが渡っているか。</h4>
+
+<p>Macのncの場合オプションは<code>-c</code>なので注意</p>
+
+<p><code>
+echo "hello" | nc -c 127.0.0.1 2224
+pbpaste
+</code></p>
+
+<h4 id="launchagent--pbcopy--1"><code>LaunchAgent</code> =&gt; <code>pbcopy</code> と日本語のデータが渡っているか。</h4>
+
+<p>Macのncの場合オプションは<code>-c</code>なので注意.</p>
+
+<p><code>
+echo "日本語のテスト" | nc -c 127.0.0.1 2224
+pbpaste
+</code></p>
+
+<p>駄目な場合は、<code>~/.CFUserTextEncoding</code>を同梱のものに入れ替えるてどうか確認。</p>
+
+<h3 id="centos-1">CentOS側</h3>
+
+<h4 id="nc-1">ncが入っているか</h4>
+
+<p><code>sh
+type nc
+</code></p>
+
+<h4 id="ssh-remoteforward">2224ポートと疎通が出来ているか。SSH RemoteForwardが出来ているか</h4>
+
+<p><code>sh
+nc -vz 127.0.0.1 2224
+</code></p>
+
+<h4 id="ssh-remoteforwardmacpbpaste">SSH RemoteForward経由でMacのpbpasteにデータを渡せているか</h4>
+
+<p><code>
+echo "hello" | nc -c 127.0.0.1 2224
+</code></p>
+
+<p>mac側で<code>pbpaste</code>を実行してみてどうか。</p>
+
+<hr />
+
+<p>普段私が常用しているmoshだとこれが利用出来ないので、いい方法がないか思案中。<br />
+とりあえず、<code>ターミナル作業用のmosh接続</code>とは別で<code>rpbcopy専用のssh接続</code>を作っておくことで利用してる。</p>
+
+<h2 id="section-5">参考</h2>
+
+<ul>
+  <li><a href="http://seancoates.com/blogs/remote-pbcopy">Sean Coates blogs: Remote pbcopy</a></li>
+  <li><a href="http://brettterpstra.com/2014/02/19/remote-pbcopy-on-os-x-systems/">Remote pbcopy on OS X systems - BrettTerpstra.com</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[新卒研修でtmuxの話をした]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/07/17/learngin-tmux/"/>
+    <updated>2013-07-17T16:12:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/07/17/learngin-tmux</id>
+    <content type="html"><![CDATA[<p>新卒研修をした。 
+インフラ関連の話は、他のインフラメンバーが散々していたと思うので、
+趣向を変えて私はターミナルマルチプレクサの話(といいつつtmuxだけ)の話を。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/learning-tmux">glidenote/learning-tmux</a></li>
+</ul>
+
+<p>いつも通りというか、ほとんど実演なので、死霊だけだとあんまり参考にならないかもしれない。
+次回のtmux勉強会は新卒の中から誰かやってくれると思う。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[TotalTerminalとiTerm2のカラースキーマをSolarizedにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/04/22/terminal-solarized/"/>
+    <updated>2013-04-22T20:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/04/22/terminal-solarized</id>
+    <content type="html"><![CDATA[<p><a href="http://totalterminal.binaryage.com/">TotalTerminal</a>というかTerminal.app上でコピペをすると改行が無くなる問題が結構発生して
+いろいろ調べて見たんですが、原因の特定も解決方法も分からなかったので、<a href="http://www.iterm2.com/#/section/home">iTerm2</a>に切り替え中。</p>
+
+<p>TotalTerminalの設定を結構いじってて、iterm2のカラー設定をTotalTerminalと同じにカスタムするのが結構面倒だったので、
+この際両方のカラースキーマを<a href="http://ethanschoonover.com/solarized">Solarized</a>に変更した。
+というかターミナルにカラースキーマという概念があることを初めて知ったし、Solarizedはエディタ専用の配色だと勝手に思ってた…</p>
+
+<p>導入方法は下記サイトのそのままなので割愛</p>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/ebc_2in2crc/20121103/1351928064">Solarized に染まる - Vim (Terminal) 編 - 全力で怠けたい</a></li>
+</ul>
+
+<p>Vim上だとSolarizedはあんまり好きなカラースキーマでなくて、<a href="https://github.com/tomasr/molokai">molokai</a>を
+常用してたんですが、ターミナルだと目が疲れなくてかなり良い。</p>
+
+<p>ターミナルと合わせてvimでも、<a href="https://github.com/altercation/vim-colors-solarized">vim-colors-solarized</a>で
+<code>.vimrc</code>に下記をしたら結構良い感じに思えてきた。</p>
+
+<p><div><script src='https://gist.github.com/5418240.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p>vim画面ですが、左がsolarizedで、右がmolokai。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/04/solarized.png" alt="" /></p>
+
+<p>ターミナルの色が変わると新鮮な感じがして良い感じ。</p>
+
+<p>調べて見ると<code>dircolors</code>用や<code>tmux</code>用のsolarizedがあってそれぞれ設定が出来る模様。</p>
+
+<ul>
+  <li><a href="https://github.com/seebi/tmux-colors-solarized">seebi/tmux-colors-solarized · GitHub</a></li>
+  <li><a href="https://github.com/seebi/dircolors-solarized">seebi/dircolors-solarized · GitHub</a></li>
+</ul>
+
+<p>dircolorsに関してはすでにsolarized化されてて、昔自分で設定してたらしい</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/ebc_2in2crc/20121103/1351928064">Solarized に染まる - Vim (Terminal) 編 - 全力で怠けたい</a></li>
+  <li><a href="http://fixture.jp/blog/2013/02/solarized-termtrans-option/">tmux+vim+solarizedの人はsolarized_termtransオプションを使おう | fixture.jp</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

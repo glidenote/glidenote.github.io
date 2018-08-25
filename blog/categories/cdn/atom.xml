@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: cdn | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/cdn/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[CDNをAkamaiに切り替えた]]></title>
+    <link href="https://blog.glidenote.com/blog/2015/08/17/move-to-akamai/"/>
+    <updated>2015-08-17T19:10:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2015/08/17/move-to-akamai</id>
+    <content type="html"><![CDATA[<p>2ヶ月くらい前にCDNをAkamaiに切り替えたので、知見を公開。 (<strong>追記 2015年8月18日 私個人の認識不足で用語の使い方に問題があったので一部修正しました</strong> <code>s/SLA 100%/高可用性構成/g</code>)</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://kaizenplatform.com/ja/">Kaizen Platform, Inc.</a>で利用しているCDNをAkamaiに切り替えた</li>
+  <li>Akamaiはスタートアップでも利用出来るコスト感</li>
+  <li>高可用性構成のAkamaiを利用することでCDNの可用性というインフラエンジニア的に頭の痛い問題が減った</li>
+</ul>
+
+<h2 id="cdn-aws-cloudfront-cdn--20151">CDN第一世代 AWS CloudFront CDN (-2015年1月)</h2>
+
+<ul>
+  <li>CDNにCloudFrontを利用</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-1.png" alt="" /></p>
+
+<p>サービスで利用しているインフラのほとんどがAWSで稼働しており、
+その関係でCDNもCloudFrontを選択。</p>
+
+<h2 id="cdn-cloudfront--cdn77-20151-5">CDN第二世代 CloudFront + CDN77 (2015年1月-5月)</h2>
+
+<ul>
+  <li>AWS CloudFrontにおいて、2014年11月、12月と立て続けに障害が発生し、 CloudFrontの障害がサービス提供に与える影響が大きいため、対策を実施。</li>
+  <li>Route53のDNSフェイルオーバーとCloudFront + CDN77を利用し、CDNを冗長構成</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-2.png" alt="" /></p>
+
+<p>対策を講じるにあたりヌーラボさんの下記のブログが大変参考になった。</p>
+
+<ul>
+  <li><a href="https://nulab-inc.com/ja/blog/nulab/how-to-overcome-cloudfront-failure/">実践！ヌーラボサービスでの CloudFront の障害対策 - ヌーラボ [Nulab Inc.]</a></li>
+</ul>
+
+<p>ヌーラボさんの記事を参考に予備系CDNの調査と選定</p>
+
+<h3 id="cdn">当時のCDNの必須要件</h3>
+
+<ul>
+  <li>専用 IP 独自 (SSL Dedicated IP Custom SSL) が利用出来る。</li>
+  <li>Amazon S3をバックエンドに利用出来る</li>
+  <li>日本とUSにエッジがある</li>
+  <li>予備系なので従量課金が良い</li>
+  <li>AWSとは別の独自ネットワーク上に構成されている</li>
+</ul>
+
+<p>当時6社くらいのCDN検証と問い合わせを行い、上記条件を満たすCDNとして<a href="https://www.cdn77.com/">CDN77.com</a>が最適だったので、
+Route53のDNSフェイルオーバーとCloudFront + CDN77を利用し、CDNを冗長構成にした。(ヌーラボさんで利用していたKeyCDNは当時調査していたときSNI Custom SSLしか提供しておらず要件を満たさず)。
+余談ですがCDN77は結構込み入った技術的な質問にも1時間以内で返信してきて、
+サポート体制が素晴らしかったのも選定要因になりました。</p>
+
+<p>CDNの冗長構成を構築したんですが、幸か不幸か、CloudFrontに障害が発生しなかったため、
+予備系のCDN77が稼働することは無かった。</p>
+
+<h2 id="cdn-akamai20156-">CDN第三世代 Akamai(2015年6月-)</h2>
+
+<ul>
+  <li>CDNにAkamaiを利用</li>
+  <li>Akamaiは<del>SLA100%なので利用することはないと思いますが</del>高可用性構成のため利用することはほぼ無さそうですが、予備系としてそれまで稼働していたCloudFrontを残す(<strong>追記 2015年8月18日 誤解を招く表現なので修正しました</strong>)</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-3.png" alt="" /></p>
+
+<h3 id="cloudfront--cnd77">CloudFront + CND77の冗長構成の懸念点</h3>
+
+<ul>
+  <li>検証としてCloudFrontを<code>Disable</code>にしたときには自動でCDN切り替わったが、CloudFrontが実際に障害になったときの挙動が検証不可のため、自動で切り替わるか確認出来ず
+    <ul>
+      <li>Route53のDNSフェイルオーバーに10〜20分程度要する(CloudFrontが完全に反応無くなるまでコンテンツが返ってくるためフェイルオーバーが実行されない)</li>
+    </ul>
+  </li>
+  <li>CloudFrontの障害発生頻度として、年に1〜2回程度なので、そこで正常に冗長構成が稼働するか不安がある</li>
+</ul>
+
+<h3 id="akamai">Akamaiを選択した理由</h3>
+
+<ul>
+  <li>高可用性構成</li>
+  <li>私を含めインフラのメンバー全員前職などでAkamaiを利用していたので、特徴などを把握している</li>
+  <li>数年間Akamaiを利用した経験の中で障害無し</li>
+  <li>担当営業の方の頑張り＆ボリュームディスカウントがあり、スタートアップでも利用できる、財布に優しいコスト感</li>
+</ul>
+
+<h3 id="akamai-with-chatops">Akamai With ChatOps</h3>
+
+<p><a href="https://github.com/ngs/hubot-cloudfront">ngs/hubot-cloudfront</a> で、SlackからCloudFrontのInvalidateを実行していた部分を <a href="https://www.npmjs.com/package/hubot-akamai-ccu">hubot-akamai-ccu</a> を導入し、
+SlackからAkamaiのキャッシュのInvalidateを実行出来るようにもした。</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-4.png" alt="" /></p>
+
+<hr />
+
+<p>この手の話はあまり外に出すような話じゃないかと思うんですが、
+Kaizen Platform, Inc.のエンジニア行動指針というのが、社内Qiita Teamにあって、
+冒頭にCEO <a href="https://twitter.com/sudoken">@sudoken</a>のmessageが載っていて、
+その中に</p>
+
+<blockquote>
+  <p>様々な国や地域で多くの人が前向きに協力したくなるようなオープンな組織や事業でいよう</p>
+</blockquote>
+
+<p>というのがあり、この情報が役に立つ人達もいると思うので公開しました。
+CDNの可用性はインフラエンジニア的にかなり頭の痛い問題だと思いますし、
+参考になれば幸いです。</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-0.png" alt="" /></p>
+
+<p>先日<a href="http://engineer.wantedly.com/2015/08/06/hashicorp-product-meetup.html">Hashicorp Product Meetup</a>に
+参加したときに、KAIZENのエンジニア行動指針を見たいとの意見を頂いたので、
+その他の行動指針を一部公開すると下記のような感じになってます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-5.png" alt="" /></p>
+]]></content>
+  </entry>
+  
+</feed>

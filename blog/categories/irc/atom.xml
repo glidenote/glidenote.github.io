@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: irc | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/irc/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[重要なメールが届いたらIRCにメールの件名を通知するようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/01/29/post-to-irc-important-mail-subject/"/>
+    <updated>2014-01-29T22:57:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/01/29/post-to-irc-important-mail-subject</id>
+    <content type="html"><![CDATA[<p>自分がTO,CC,BCCに入ってたり、本文に自分の名前が入ってるメールはちゃんとメーラで振り分けしてチェックしているんですが、
+自分が参加しているML宛てに重要なメールが届いたときにを見逃してしまう事が多い。</p>
+
+<p>IRCは基本的に常時起動していて、キーワードには反応するようにしているので、参加しているML宛てにメールが届いたらメールのsubjectをIRCに通知して気づけるようにした。</p>
+
+<p>これをやる前置きとして、弊社では<a href="https://github.com/yappo/p5-App-Ikachan">Ikachan</a>が導入されてるので、
+curl叩けばIRC通知されるようになっており、IRCへの通知は大変手軽に出来るようになってる。</p>
+
+<h2 id="section">仕組み</h2>
+
+<ul>
+  <li>サーバ上でfetchmailをcronで回して、メールを定期受信</li>
+  <li>procmailで条件に一致する場合を判定し、コマンド(curl)を叩いてIRCに通知する</li>
+</ul>
+
+<p>たとえば、特定の人(From)からメールが届いたらIRCに通知するよう場合の <code>.procmailrc</code>の内容は下記のような感じ</p>
+
+<p>```
+SUBJECT=<code>formail -c -xSubject:</code>
+IRC_POST_SUBJECT=<code>echo $SUBJECT | nkf -w</code></p>
+
+<p>:0
+* ^(From).*hogemoge@ml.hogemoge.com
+{</p>
+
+<p>:0 c
+  | /usr/bin/curl -F channel=’#maeda_test’ http://ikachan.hogemoge.com:4979/privmsg -F message=”メールが届いてるよ!  件名:${IRC_POST_SUBJECT}”</p>
+
+<p>:0
+  ~/Maildir/
+}
+```</p>
+
+<p>「2014年にfetchmailとかprocmailなんて…」という感じかもしれないけど、
+軽量だし、技術的には枯れてて非常に安定しているので、こういうことをやるのには適してると思う。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GitHubのissueやpull reqにcommentが付いたらIRC hoooks経由で通知されるように設定した]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/07/18/github-irc-hooks-event-type/"/>
+    <updated>2013-07-18T20:39:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/07/18/github-irc-hooks-event-type</id>
+    <content type="html"><![CDATA[<p>もともと<a href="https://twitter.com/gosukenator">mizzy</a>さんが作ったプログラムで
+GitHubの業務用Repository上のイベントはIRCに通知されるようになっていたんですが、
+<a href="http://twitter.com/tnmt">@tnmt</a>からGitHubのhooksだけで出来るようになったとの情報をゲットしたので早速設定してみた。</p>
+
+<blockquote class="twitter-tweet"><p>github の irc hook に幾つかの event type が追加されました - <a href="https://twitter.com/soh335">@soh335</a> memo <a href="http://t.co/40g46OxvkC">http://t.co/40g46OxvkC</a> <a href="https://twitter.com/glidenote">@glidenote</a> 先生がアップを始めました</p>&mdash; TSUNEMATSU Shinya (@tnmt) <a href="https://twitter.com/tnmt/statuses/354796424686354432">July 10, 2013</a></blockquote>
+<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p><a href="http://soh335.hatenablog.com/entry/2013/05/21/113049">@soh335さんのブログ</a>
+を見ると、下記のような形で、hooksの設定確認や設定変更が出来る模様。</p>
+
+<p><code>sh
+curl -u username https://api.github.com/repos/:owner/:reponame/hooks
+curl -u username https://api.github.com/repos/:owner/:reponame/hooks/:id -X PATCH -d '{ "add_events": ["issues"] }'
+</code></p>
+
+<p>たとえば私の場合は下記のような感じで、hooksの詳細を確認</p>
+
+<p><code>sh
+curl -u "glidenote" -in https://api.github.com/repos/paperboy-hogemoge/hogemoge-ops/hooks
+</code></p>
+
+<p>下記のような形で返ってくる。</p>
+
+<p><code>
+[
+  {
+    "url": "https://api.github.com/repos/paperboy-hogemoge/hogemoge-puppet/hooks/367xxx",
+    "test_url": "https://api.github.com/repos/paperboy-hogemoge/hogemoge-puppet/hooks/367xxx/test",
+    "id": 367xxx,
+    "name": "irc",
+    "active": true,
+    "events": [
+      "push"
+    ],
+    "config": {
+      "server": "irc.hogemoge.co.jp",
+      "port": "6668",
+      "room": "hogemoge-ops",
+      "nick": "github",
+      "branch_regexes": "",
+      "nickserv_password": "",
+      "password": "*************************",
+      "ssl": "1",
+      "notice": "1"
+    },
+    "last_response": {
+      "code": 504,
+      "status": "timeout",
+      "message": "Service Timeout"
+    },
+    "updated_at": "2013-06-25T07:01:21Z",
+    "created_at": "2012-08-02T06:59:43Z"
+  }
+]
+</code></p>
+
+<p><code>id</code>が分かったので、下記のような形で設定</p>
+
+<p><code>sh
+curl -u "glidenote" -in https://api.github.com/repos/paperboy-hogemoge/hogemoge-ops/hooks/367xxx -X PATCH -d '{ "add_events": ["issues"] }'
+curl -u "glidenote" -in https://api.github.com/repos/paperboy-hogemoge/hogemoge-ops/hooks/367xxx -X PATCH -d '{ "add_events": ["issue_comment"] }'
+curl -u "glidenote" -in https://api.github.com/repos/paperboy-hogemoge/hogemoge-ops/hooks/367xxx -X PATCH -d '{ "add_events": ["commit_comment"] }'
+curl -u "glidenote" -in https://api.github.com/repos/paperboy-hogemoge/hogemoge-ops/hooks/367xxx -X PATCH -d '{ "add_events": ["pull_request_review_comment"] }'
+</code></p>
+
+<p>issueが作られたり、issueにコメントが付くとhooks経由でIRCに通知されるようになった。</p>
+
+<p>GitHub Enterpriseでも同じように設定出来るかと思ったけど、まだ対応してなかった。 
+ちなみにGitHub Enterpriseの場合は下記のような感じで詳細確認が出来た。</p>
+
+<p><code>sh
+curl -u "glidenote" -in https://hostname/api/v3/repos/:owner/:repos/hooks
+</code></p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://soh335.hatenablog.com/entry/2013/05/21/113049">github の irc hook で issue も hook してもらう - @soh335 memo</a></li>
+  <li><a href="http://soh335.hatenablog.com/entry/2013/07/10/100354">github の irc hook に幾つかの event type が追加されました - @soh335 memo</a></li>
+  <li><a href="http://developer.github.com/v3/activity/events/types/">Event types | GitHub API</a></li>
+  <li><a href="https://api.github.com/hooks">https://api.github.com/hooks</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NagiosのアラートをIRC BOT経由で制御する]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/06/10/control-nagios-alert-with-irc-bot/"/>
+    <updated>2013-06-10T21:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/06/10/control-nagios-alert-with-irc-bot</id>
+    <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2013/05/20/working-with-irc-bot/">IRC BOTを作って仕事をさせるようにした</a>の続き。
+<a href="https://twitter.com/mikeda">@mikeda</a>さんと<a href="https://twitter.com/hirose31">@hirose31</a>さんのやりとりを見ていて、
+Nagiosアラートをコマンドラインから停止出来ることを知った!!</p>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/mikeda/20130525/1369476059">CLIでNagiosのアラートを停止する - IT 東京 楽しいと思うこと</a></li>
+</ul>
+
+<p>@mikedaさんの上記記事を参考にせっかくなので、下記みたいに書いて、IRC BOTさんに作業をしてもらうことに。
+ブラウザでもちゃんと確認するので、返り値とかチェックしてないけど。</p>
+
+<p>``` ruby
+#!/usr/bin/env ruby
+# -<em>- coding: utf-8 -</em>-</p>
+
+<p>require ‘cinch’</p>
+
+<p>bot = Cinch::Bot.new do
+  configure do |c|
+    c.server = “xxxxxxxxxxxxxxx”
+    c.ssl.use = true
+    c.port = 6668
+    c.password = ‘xxxxxxxxxxxxx’
+    c.channels = [“#xxxxxxxxxxx”]
+    c.nick = ‘nagios-cli-bot’
+    c.realname = ‘nagios-cli-bot’
+    c.user = ‘nagios-cli-bot’
+  end</p>
+
+<p># disable nagios alert
+  on :message, /^disable (.+)/ do |m, query|
+    system(“echo "[$(date +%s)] DISABLE_HOST_SVC_NOTIFICATIONS;#{query}.hogemoge.jp" &gt; /var/nagios/rw/nagios.cmd”)
+    system(“echo "[$(date +%s)] DISABLE_HOST_NOTIFICATIONS;#{query}.hogemoge.jp" &gt; /var/nagios/rw/nagios.cmd”)
+    system(“echo "[$(date +%s)] DISABLE_HOST_SVC_NOTIFICATIONS;#{query}.hogemoge.lan" &gt; /var/nagios/rw/nagios.cmd”)
+    system(“echo "[$(date +%s)] DISABLE_HOST_NOTIFICATIONS;#{query}.hogemoge.lan" &gt; /var/nagios/rw/nagios.cmd”)
+    m.reply “DISABLE NOTIFICATIONS #{query}.hogemoge.jp and #{query}.hogemoge.lan”
+  end</p>
+
+<p># enable nagios alert
+  on :message, /^enable (.+)/ do |m, query|
+    system(“echo "[$(date +%s)] ENABLE_HOST_SVC_NOTIFICATIONS;#{query}.hogemoge.jp" &gt; /var/nagios/rw/nagios.cmd”)
+    system(“echo "[$(date +%s)] ENABLE_HOST_NOTIFICATIONS;#{query}.hogemoge.jp" &gt; /var/nagios/rw/nagios.cmd”)
+    system(“echo "[$(date +%s)] ENABLE_HOST_SVC_NOTIFICATIONS;#{query}.hogemoge.lan" &gt; /var/nagios/rw/nagios.cmd”)
+    system(“echo "[$(date +%s)] ENABLE_HOST_NOTIFICATIONS;#{query}.hogemoge.lan" &gt; /var/nagios/rw/nagios.cmd”)
+    m.reply “ENABLE NOTIFICATIONS #{query}.hogemoge.jp and #{query}.hogemoge.lan”
+  end</p>
+
+<p>end</p>
+
+<p>bot.start
+```</p>
+
+<p><code>disable web001</code>でアラートを停止、<code>enable web001</code>でアラートを再開出来るようになった。</p>
+
+<p>稼働してみた後によく考えてみると、気軽に監視を停止出来るのは結構危険なので、
+常駐はさせずにメンテの時にアラートを一斉に停止させたり、再開させる作業があるので、そのときだけ働いてもらうようにした。</p>
+
+<p>ここ2週間くらいメンテで使ってるけどなかなか便利。
+よく使うようなら<code>wakeup nagios-cli-bot</code>とか<code>sleep nagios-cli-bot</code>でIRC BOTの稼働を制御するようにしてみよう。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IRC BOTを作って仕事をさせるようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/05/20/working-with-irc-bot/"/>
+    <updated>2013-05-20T20:02:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/05/20/working-with-irc-bot</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://github.com/cinchrb/cinch">cinchrb/cinch · GitHub</a></li>
+</ul>
+
+<p>普段仕事中はIRCがコミュニケーションの中心で、私は<a href="http://weechat.org/">WeeChat</a>という
+CUIのIRCクライアントを使っていて、一日の7〜8割はターミナル上で過ごしてて、 
+全社員がIRC使ってるし、GitHubへのcommitログや、deployのログ、
+NagiosのアラートもバンバンIRCに流れてくるのでIRCを見てる時間も結構ある。</p>
+
+<p>サーバの<code>ラック番号</code>とか<code>muninのグラフ</code>、<code>server-status</code>、Nagiosなどを確認するのに
+ターミナルから離れて、マウス使ってブラウザを操作して
+探してたりすると集中が切れるので、IRC BOTを作って、URLを教えてくれるようにした。
+URLをクリックすればブラウザが勝手に開いてくれる。</p>
+
+<p>管理サーバが数百台でも、ブラウザのブックマークからmuninの一覧を出して、
+該当サーバのURLを探すのも結構だるいし、そもそもキーボードから手を離すのは
+最小限に抑えたい。</p>
+
+<p>IRC BOTの作成には<a href="https://github.com/cinchrb/cinch">cinch</a>を利用して、
+<code>munin hoge</code>とか<code>status hoge</code>みたいなのを発言するとbotが下記のように
+必要な情報を教えてくれる。
+業務バリバリの内容のためほとんど伏せてるので、何が表示されているか分かりにくいですが…</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/05/ircbot0.png" alt="" /></p>
+
+<p>上の例が業務バリバリなので、コードが晒せないんですが、特定キーワードに反応するbotは
+cinchを利用すると簡単に作成出来て、たとえば下記のような感じで、瞬時に追い込みをかけてくれるbotはすぐに投入出来る。</p>
+
+<p><div><script src='https://gist.github.com/5552409.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/05/ircbot1.png" alt="" /></p>
+
+<p><a href="http://hamusoku.com/archives/6391286.html">ブラック企業ことわざ</a>を教えてくれるbotを
+投入して業務を円滑に回したり、</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/05/ircbot2.png" alt="" /></p>
+
+<p>その他、GitHubの応答が悪かったりした場合は、下記のような感じのbotを常駐させておいて、</p>
+
+<p><div><script src='https://gist.github.com/5553372.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p><code>status github</code>とか発言すると、GitHubのapiを叩いて状態を確認してくれる。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/05/ircbot3.png" alt="" /></p>
+
+<p>作ったIRC BOTはsupervisord経由で上げれば、簡単に常駐出来るし、
+IRC BOTを通じてサーバに作業指示が出来るので、<code>deploy hoge</code>、<code>build moge</code>とかで
+IRCからデプロイしたりやビルドを走らせたり、いろいろな使い方が想定出来ると思う。</p>
+
+<p>IRC BOTが仕事をしてくれると、ターミナルから離れなくて済むので
+自分の業務に集中出来ていろいろと捗る。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Weegetを利用して、WeeChatのPlugin管理を楽にする]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/02/11/weechat-plugins/"/>
+    <updated>2012-02-11T13:27:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/02/11/weechat-plugins</id>
+    <content type="html"><![CDATA[<p><img src="http://www.weechat.org/media/images/screenshots/medium/weechat_2009-08-03_kron4eg.png" alt="" /></p>
+
+<p>最近IRCクライアントで<a href="http://limechat.net/">LimeChat</a>を捨てて、<a href="http://www.weechat.org/">WeeChat</a>を使い始めた人が
+周りに増えてきたので、Pluginの導入方法を共有。
+私の環境はScientific Linux 6.1ですが、他のOSでもそのまま使えると思います。</p>
+
+<h2 id="weegetplugin">weegetを利用してPluginを管理</h2>
+
+<p>WeeChatにはWeegetという「Pluginを管理するためのPlugin」があるので一番最初に導入しましょう。</p>
+
+<p><code>
+cd ~/.weechat/python/autoload/
+wget http://www.weechat.org/files/scripts/weeget.py
+</code></p>
+
+<p>ファイルの配置が終わったらWeeChatから</p>
+
+<p><code>
+/python autoload
+</code></p>
+
+<p>をして、利用出来るようにします。</p>
+
+<h2 id="weeget">weegetのコマンド</h2>
+
+<p>```
+/help weeget</p>
+
+<p>weechat     |          list: list scripts (search text if given)
+weechat     | listinstalled: list installed scripts (search text if given) <br />
+weechat     |          show: show detailed information about a script (in repository)
+weechat     |       install: install/upgrade script(s)
+weechat     |         check: check if local scripts needs upgrade
+weechat     |        update: update local scripts cache
+weechat     |       upgrade: upgrade all local scripts if they are obsolete
+weechat     |        remove: remove script(s)
+```</p>
+
+<p>たとえばめちゃくちゃ便利なbuffers.plを導入する場合は下記のような感じ</p>
+
+<p><code>
+/weeget install buffers
+</code></p>
+
+<h2 id="plugin">私の使っているPlugin</h2>
+
+<ul>
+  <li><code>buffers</code> Sidebar with list of buffers.</li>
+  <li><code>go</code> Quick jump to buffers.</li>
+  <li><code>grep</code> Search regular expression in buffers or log files.</li>
+  <li><code>growl</code> Send Growl notifications upon events.</li>
+  <li><code>highmon</code> Adds a highlight monitor buffer.</li>
+  <li><code>im_kayac_com_notify</code> Push notification to im.kayac.com.</li>
+  <li><code>weeget</code> Scripts manager.</li>
+</ul>
+
+<p>WeeChatを使いこなして、CUI生活を快適にしていきましょう</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ssh | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/ssh/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[tmux上でmosh接続したときに新しいウィンドウを生成する]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/11/mosh-with-tmux/"/>
+    <updated>2012-04-11T23:12:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/11/mosh-with-tmux</id>
+    <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2012/04/11/mosh-on-sakura-vps/">前回の記事</a>で
+<a href="http://mosh.mit.edu/">Mosh</a>を導入してあまりに快適なので、zsh+tmux+moshの環境を整え中。</p>
+
+<p>tmuxを利用中に、moshでリモートホストに接続したら、新規ウィンドウを生成するように
+<code>.zshrc</code>に下記のように記載。</p>
+
+<p><div><script src='https://gist.github.com/2359525.js'></script>
+<noscript><pre><code>if [ $TERM = screen ]; then
+function mosh_tmux() {
+    eval server=\${$#}
+    tmux new-window -n $@ &quot;exec ssh $@&quot;
+}
+alias mosh=mosh_tmux
+fi</code></pre></noscript></div>
+</p>
+
+<p>下記のように、新規にmoshでリモートホストに接続すると
+hostnameの入ったウィンドウが生成されるようになりました。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/mosh-tmux.png" alt="" /></p>
+
+<p>スリープから復帰してもリモートホストに接続しているターミナルが
+生きているので、tmux+moshで新境地が開拓出来そうな予感。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[さくらVPSにSSH代替品のMoshを入れてみた]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/11/mosh-on-sakura-vps/"/>
+    <updated>2012-04-11T11:42:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/11/mosh-on-sakura-vps</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="http://mosh.mit.edu/">Mosh: the mobile shell</a></li>
+</ul>
+
+<p>話題の<a href="http://mosh.mit.edu/">Mosh</a>をMacBook Airと自宅サーバのFedora16に入れて、
+あまりのレスポンスの良さに感動して、早速さくらVPS(CentOS6)にも入れてみました。<br />
+moshの解説は<a href="http://d.hatena.ne.jp/karasuyamatengu/20120411/1334092521">karasuyamatenguさんのサイト</a>に非常によくまとまっています。</p>
+
+<p>ssh鍵の登録などのsshの設定は完了しているものとして作業します。(認証部分はsshに依存しているので)</p>
+
+<h2 id="vpsmosh">さくらVPSにMoshを導入</h2>
+
+<p><code>
+sudo yum -y install boost-devel zlib-devel ncurses-devel protobuf-devel paco
+exec $SHELL
+</code></p>
+
+<p>yumで導入出来なかったので、githubからソースを持ってきて導入。
+ソースから導入する場合は、<a href="http://paco.sourceforge.net/">paco</a>で
+管理した方が楽なので、<code>paco</code>を利用します。<br />
+<code>IO::Pty</code>も必要のようなことが書いてありますが検証した<code>Lion</code>、<code>Fedora16</code>、<code>SL6.2</code>、<code>CentOS6.2</code>では導入しなくても大丈夫でした。</p>
+
+<p><code>
+mkdir ~/tmp
+cd ~/tmp
+git clone git://github.com/keithw/mosh.git
+cd mosh
+./autogen.sh
+./configure
+make
+sudo paco -D make install
+sudo paco -ua
+exec $SHELL
+</code></p>
+
+<p>さくらVPS側では、UDPの60000-61000番ポートを開放する必要があります。<br />
+私は<code>/etc/sysconfig/iptables</code>に下記を設定しました。適時変更してください。<br />
+検証時は接続元を絞った方がいいかと思います。</p>
+
+<p><code>
+# mosh
+-A RH-Firewall-1-INPUT -m state --state NEW -m udp -p udp --dport 60000:61000 -j ACCEPT
+</code></p>
+
+<h2 id="macmosh">MacにMoshを導入</h2>
+
+<p>Homebrewを利用して導入</p>
+
+<p><code>
+brew install mobile-shell
+</code></p>
+
+<h2 id="macvpsmosh">MacからさくらVPSにMosh接続</h2>
+
+<p><code>
+mosh hostname
+</code></p>
+
+<p>という感じで接続出来ます。sshdのように常時デーモンが起動しているわけでなく、
+mosh接続した際に、リモートホストでmosh-serverが起動される感じです。</p>
+
+<p>sshに慣れきっていたので、Moshのレスポンスの良さは驚きです。
+とりあえずローカル環境に関してはsshじゃなくmoshでいいような。</p>
+
+<p>自分の開発環境には全台導入しました。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[多段SSHで4段先のサーバに一発ログイン]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/02/19/ssh-proxycommand/"/>
+    <updated>2012-02-19T17:08:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/02/19/ssh-proxycommand</id>
+    <content type="html"><![CDATA[<p>先日にルータの不具合で、東京本社から福岡支社内の一部開発サーバに直接ssh出来なくなったので、
+ProxyCommandを利用して、3個のサーバを経由して目的のサーバにsshしたので、設定のメモ。</p>
+
+<h2 id="section">やりたいこと</h2>
+
+<p>ProxyCommandを利用してcolinuxから複数のサーバを経由して、支社内のサーバに入りたい。
+経由するサーバは下記のような感じで中継サーバ3個。</p>
+
+<p><code>
++---------+     +------------+     +--------------+     +----------------+     +---------------+
+| colinux | ==&gt; | dev server | ==&gt; | tokyo server | ==&gt; | fukuoka server | ==&gt; | backup server |
++---------+     +------------+     +--------------+     +----------------+     +---------------+
+</code></p>
+
+<h2 id="sshconfig">~/.ssh/configの設定確認</h2>
+
+<p>自PC内colinuxの<code>~/.ssh/config</code> に下記のように記載。各サーバはssh鍵は通してあります。</p>
+
+<p>```
+Host *
+   User maeda</p>
+
+<p>Host dev000
+   Hostname 192.168.45.17</p>
+
+<p>Host tokyo
+   Hostname manage001.tokyo.pb
+   ProxyCommand ssh dev000 nc %h %p</p>
+
+<p>Host fukuoka
+   Hostname manage001.fukuoka.pb
+   ProxyCommand ssh tokyo nc %h %p</p>
+
+<p>Host backup
+   Hostname 192.168.72.51
+   ProxyCommand ssh fukuoka nc %h %p
+```</p>
+
+<h2 id="ssh">実際にssh接続してみる</h2>
+
+<p><code>~/.ssh/config</code> に設定がしてあるので、下記コマンドだけで3個の中継サーバを経由して、目的のサーバにsshしてくれます。</p>
+
+<p><code>
+ssh backup
+</code>
+うまく該当サーバに接続出来ました。  </p>
+
+<p>ProxyCommandを利用して2段先くらいは日常的にやってますが、
+設定さえすれば今回のように何段先でも一発でsshログイン出来ることを理解。
+便利すね。</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://openlab.dino.co.jp/2009/05/28/235026555.html">続・$HOME/.ssh/configを活用していますか？ — ディノオープンラボラトリ</a></li>
+  <li><a href="http://d.hatena.ne.jp/tkng/20110225/1298596697">サルでも分かる多段ssh - 射撃しつつ前転</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: hub | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/hub/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[`gem install`で入れた`hub`が遅い話]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/07/29/gem-install-hub-is-slow/"/>
+    <updated>2013-07-29T20:41:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/07/29/gem-install-hub-is-slow</id>
+    <content type="html"><![CDATA[<p>ちゃんとマニュアル読んでれば「何を今さら」という感じなんですが、
+hubコマンドについて、ちょっと調べ物をして、<a href="https://github.com/github/hub#rubygems">README</a>読んでたら</p>
+
+<p><code>
+Though not recommended, hub can also be installed as a RubyGem:
+</code></p>
+
+<p>というのが目に入った。</p>
+
+<p>理由の<a href="https://gist.github.com/defunkt/284823">Why to not use hub with RubyGems</a>をみると
+RubyGems経由でインストールしたhubは遅いから使うべきじゃ無いとベンチマーク結果とともに書いてある。</p>
+
+<p>実際に手元のMacで比較</p>
+
+<p>``` sh
+# No RubyGems
+time (for i in {1..10}
+do
+  /usr/local/bin/hub –version &gt; /dev/null
+done)</p>
+
+<p>( for i in {1..10}; do; /usr/local/bin/hub –version &gt; /dev/null; done; )  0.55s user 0.22s system 83% cpu 0.925 total
+```</p>
+
+<p>``` sh
+# With RubyGems
+time (for i in {1..10}
+do
+  ~/.rbenv/versions/1.9.3-p194/bin/hub –version &gt; /dev/null
+done)</p>
+
+<p>( for i in {1..10}; do; ~/.rbenv/versions/1.9.3-p194/bin/hub –version &gt; ; ; )  4.02s user 0.60s system 87% cpu 5.282 total
+```</p>
+
+<p>え、こんなに遅いの…</p>
+
+<h2 id="section">改善方法(というかちゃんとしたインストール方法)</h2>
+
+<p><a href="https://github.com/github/hub#installation">公式に書いてあるよう</a>にmacならhomebrewで</p>
+
+<p><code>
+brew install hub
+</code></p>
+
+<p>Linuxなら</p>
+
+<p><code>sh
+curl http://hub.github.com/standalone -sLo ~/bin/hub &amp;&amp; chmod +x ~/bin/hub
+</code></p>
+
+<p>で入れる。</p>
+
+<p><a href="https://github.com/github/hub#standalone-via-rubygems">RubyGems経由で導入した場合も、下記のようにstandalone形式で入れると早い</a>とのこと。</p>
+
+<p><code>sh
+gem install hub
+hub hub standalone &gt; ~/bin/hub &amp;&amp; chmod +x ~/bin/hub
+</code></p>
+
+<p>実際に測定してみた。</p>
+
+<p>``` sh
+# Standalone via RubyGems
+time (for i in {1..10}
+do
+ ~/bin/hub –version &gt; /dev/null
+done)</p>
+
+<p>( for i in {1..10}; do; ~/bin/hub –version &gt; /dev/null; done; )  0.56s user 0.22s system 84% cpu 0.928 total
+```</p>
+
+<p>確かに早い。</p>
+
+<p>でも<code>which hub</code>とかすると、自分の環境ではgemで入れたhubが呼ばれてたので、
+Macなら<code>homebrew</code>、Linuxは<code>curl</code>で入れるとかが統一しておいて、<code>gem install hub</code>しないほうが良さそう。</p>
+
+<p>2年近くhub使ってて初めて知った…</p>
+
+<p>余談ですがzshのプロンプトにgitのブランチ名とか出してる場合、毎回hubが呼び出されている可能性があるので下記を忘れずに。</p>
+
+<ul>
+  <li><a href="http://qiita.com/yaotti/items/0af5d50f4f52d22a46fe">hubコマンドを利用&amp;&amp;プロンプトにgitのブランチ等を表示している人向けのzsh高速化 - Qiita [キータ]</a></li>
+</ul>
+
+<p>gitとhubを比べてみると結構速度に差があるな-</p>
+
+<p>``` sh
+time /usr/local/bin/hub –version &gt; /dev/null
+/usr/local/bin/hub –version &gt; /dev/null  0.06s user 0.02s system 83% cpu 0.093 total</p>
+
+<p>time /usr/bin/git –version &gt; /dev/null
+/usr/bin/git –version &gt; /dev/null  0.00s user 0.00s system 71% cpu 0.003 total
+```</p>
+
+]]></content>
+  </entry>
+  
+</feed>

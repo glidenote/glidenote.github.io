@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: xcode | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/xcode/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[XcodeからCommand Line Tools for Xcodeに切り替えたらHDD使用容量が7GB減った]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/02/20/command-line-tools-for-xcode/"/>
+    <updated>2012-02-20T00:29:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/02/20/command-line-tools-for-xcode</id>
+    <content type="html"><![CDATA[<p>homebrewしか使わないのに、Xcodeに8GBくらいHDDの容量を消費されてて
+MacBook AirとかにはXcodeを入れていなかったんですが、
+先日SDKなどを抜いた<code>Command Line Tools for Xcode</code>という200MB程度の
+軽量版Xcode(?)がリリースされていたので早速導入。</p>
+
+<p>Command Line Tools for Xcodeが利用出来るのはLionだけです。</p>
+
+<p>どれだけ容量削減になるのか知りたかったので、既にXcode導入済みの
+Mac miniで作業を行いました。</p>
+
+<h2 id="xcode">既存のXcodeを削除</h2>
+
+<p>下記コマンドでXcodeを削除</p>
+
+<p><code>
+sudo /Developer/Library/uninstall-devtools --mode=all /thx
+</code></p>
+
+<h2 id="command-line-tools-for-xcode">Command Line Tools for Xcodeの導入</h2>
+
+<p><a href="http://developer.apple.com/downloads">Apple Developer</a>のページから
+<code>Command Line Tools for Xcode</code>をダウンロードしてきてインストール。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode.png" alt="" /></p>
+
+<p>ダウンロードしてきた<code>command_line_tools_for_xcode_.dmg</code>をマウントして、
+インストーラーを起動させて下記のような感じでインストール。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode0.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode1.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode2.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode3.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode4.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode5.png" alt="" /></p>
+
+<p>ちなみにCommand Line Tools for Xcodeに含まれるソフトは下記コマンドで確認できます。
+Git関連のツールもちらほら入ってます。</p>
+
+<p><code>
+cd /Volumes/Command\ Line\ Tools/Packages/
+pkgutil --payload-files DeveloperToolsCLI.pkg
+</code></p>
+
+<h2 id="hdd">HDDの使用量の変化</h2>
+
+<p>SDK込みのXcode利用時のHDD容量</p>
+
+<p><code>
+[akira@macmini] $ df -ah /
+Filesystem      Size   Used  Avail Capacity  Mounted on
+/dev/disk0s2   148Gi  122Gi   26Gi    83%    /
+</code></p>
+
+<p>Command Line Tools for Xcode導入後のHDD容量</p>
+
+<p><code>
+[akira@macmini] $ df -ah /
+Filesystem      Size   Used  Avail Capacity  Mounted on
+/dev/disk0s2   148Gi  115Gi   33Gi    78%    /
+</code></p>
+
+<p>なんと7GBも容量減!!素晴らしい。</p>
+
+<p>homebrewも普通に使えているので、しばらくこれで使ってみて
+問題が無ければMacBook Airにも入れてみたいと思います。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://d.karashi.org/20120217.html#p01">Command Line Tools for Xcodeでディスク容量が大幅に減った！</a></li>
+  <li><a href="http://kennethreitz.com/xcode-gcc-and-homebrew.html">Xcode, GCC, and Homebrew</a></li>
+  <li><a href="http://www.hsbt.org/diary/20120218.html">Xcode 4.3 または CLI tools を入れた話 , デブサミ2012 の写真 - HsbtDiary(2012-02-18)</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

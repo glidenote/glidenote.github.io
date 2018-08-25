@@ -1,0 +1,444 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>監視アーキテクチャ(Sensu,Pingdom,Mackerel,StatusPage.io,PagerDuty)についてまとめてみる(2014年12月版) - Glide Note</title>
+  <meta property="og:title" content="監視アーキテクチャ(Sensu,Pingdom,Mackerel,StatusPage.io,PagerDuty)についてまとめてみる(2014年12月版) - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="Sensu Advent Calendarに便乗して、Kaizen Platform, Inc.の2014年12月現在の監視アーキテクチャの話をちょっとしてみようと思う。 モニタリング領域 サービスを監視している領域 Pingdom Pingdom - Website Monitoring &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014">
+<meta name="twitter:title" content="監視アーキテクチャ(Sensu,Pingdom,Mackerel,StatusPage.io,PagerDuty)についてまとめてみる(2014年12月版)">
+<meta name="twitter:description" content="Sensu Advent Calendarに便乗して、Kaizen Platform, Inc.の2014年12月現在の監視アーキテクチャの話をちょっとしてみようと思う。 モニタリング領域 サービスを監視している領域 Pingdom Pingdom - Website Monitoring 外部ネットワークからのサービスの死活監視。アメリカ、ヨーロッパ、 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">監視アーキテクチャ(Sensu,Pingdom,Mackerel,StatusPage.io,PagerDuty)についてまとめてみる(2014年12月版)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-03T19:00:00+09:00" pubdate data-updated="true">2014年12月03日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://qiita.com/advent-calendar/2014/sensu">Sensu Advent Calendar</a>に便乗して、<a href="https://kaizenplatform.com/">Kaizen Platform, Inc.</a>の2014年12月現在の監視アーキテクチャの話をちょっとしてみようと思う。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent00.png" alt="" /></p>
+
+<h2 id="section">モニタリング領域</h2>
+
+<p>サービスを監視している領域</p>
+
+<h3 id="pingdom">Pingdom</h3>
+
+<ul>
+  <li><a href="https://www.pingdom.com/">Pingdom - Website Monitoring</a></li>
+  <li>外部ネットワークからのサービスの死活監視。アメリカ、ヨーロッパ、アジアなどの拠点からサービスの死活監視が出来るため、特定の地域からアクセス出来ない場合なのが検知出来る。</li>
+  <li>後述するstatuspage.ioとの連携で、障害を検知すると、サービスのステータス状況が自動で変わるようになっている</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent01.png" alt="" /></p>
+
+<h3 id="sensu">Sensu</h3>
+
+<ul>
+  <li><a href="http://sensuapp.org/">Sensu | The open source monitoring framework.</a></li>
+  <li>監視フレームワーク</li>
+  <li>サーバを内部ネットワークから監視するために利用</li>
+  <li>サーバのプロセス監視、サーバ間の疎通監視、エラー監視など一般的な監視はSensuが担当</li>
+  <li>自作の監視プラグインなども利用して監視</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent02.png" alt="" /></p>
+
+<h3 id="mackerel">Mackerel</h3>
+
+<ul>
+  <li><a href="https://mackerel.io/">Mackerel: A Revolutionary New Kind of Application Performance Management</a></li>
+  <li>メトリクス監視。</li>
+  <li>CPU、メモリ、LA監視などグラフと一緒に確認したいものはMackerelが担当</li>
+  <li>CPUアラートが来たら、Mackerelの画面を見て、いつから現象が発生しているかなどすぐに確認が出来る。</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent03.png" alt="" /></p>
+
+<h2 id="incident-management">Incident Management領域</h2>
+
+<p>アラート通知先や障害情報の自動更新を管理している領域</p>
+
+<h3 id="statuspageio">StatusPage.io</h3>
+
+<ul>
+  <li><a href="https://www.statuspage.io/">StatusPage.io - Hosted Status Pages for Your Company</a></li>
+  <li>サービスのステータスを外部に公開、障害情報の公開に利用。 <a href="http://status.kaizenplatform.net/">Kaizen Platform Inc Status</a></li>
+  <li>Pingdomと連携しているので、サービスに障害があった場合は自動でお知らせが出る。</li>
+  <li>Twitter連携しているので障害情報を公開すると、Twitterアカウントにもお知らせが出せる。</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent04.png" alt="" /></p>
+
+<h3 id="pagerduty">PagerDuty</h3>
+
+<ul>
+  <li><a href="http://www.pagerduty.com/">Incident Management System for IT Monitoring Tools | PagerDuty</a></li>
+  <li>アラートのハンドリングに利用</li>
+  <li>各監視サービスのアラートは全てPagerDutyに集約</li>
+  <li>アラートの通知先をSMS、電話、スマホアプリ、チャットなどに設定出来る。</li>
+  <li>通知スケジュールも細かく設定出来るので、日替わりでエスカレーション先のエンジニアを切り替えている</li>
+  <li>スマホアプリの出来が良い。</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent05.png" alt="" /></p>
+
+<h2 id="infomation--escalation">Infomation / Escalation領域</h2>
+
+<p>お知らせ、エスカレーション領域</p>
+
+<h3 id="twitter">Twitter</h3>
+
+<ul>
+  <li>前述のstatuspage.ioと連携。</li>
+  <li>statuspage.io上で障害情報を掲載するとTwitterにも投稿されるので、障害情報の更新において二度手間が無い。</li>
+</ul>
+
+<h3 id="slack">Slack</h3>
+
+<ul>
+  <li><a href="https://slack.com/">Slack: Be less busy</a></li>
+  <li>各種アラートがPagerDuty経由でSlackに通知される</li>
+  <li>Slackに逐一通知されるんので、アラートの履歴や対応状況などが一目で分かるようになっている</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent06.png" alt="" /></p>
+
+<h3 id="smspush">電話、SMS、メール、アプリへのPush通知など</h3>
+
+<ul>
+  <li>PagerDutyが通知をハンドリングしてくれるので、「最初はSMSにアラートを送って、反応が無ければ○○分後電話する」など通知設定をして運用している。</li>
+  <li>監視担当の人がその日都合が悪かったりした場合など、通知先の変更が簡単にできる。</li>
+</ul>
+
+<h2 id="section-1">その他</h2>
+
+<ul>
+  <li>Mackerelの部分には、<a href="https://www.datadoghq.com/">Datadog</a>も検証。非常に素晴らしいサービスだった。</li>
+  <li>現時点ではDatadogの方が高機能なんですが、MackerelがDatadogの超えてくれるのを期待してMackerelを採用</li>
+</ul>
+
+<p>なぜ複数のサービスを組み合わせて監視しているかは技術顧問の伊藤直也さんのスライドを見ると分かるかと思います。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent07.png" alt="" /></p>
+
+<script async="" class="speakerdeck-embed" data-id="617b55a011990132168932d3f2247bb6" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+
+<p>来年にはガラッと変わっているかもしれないけど、各コンポーネントがAPIで疎結合化されているのでアーキテクチャの変更も容易。</p>
+
+<p>些細な障害、兆候も検知して見逃さないように、いろいろと試行錯誤を繰り返している。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-03T19:00:00+09:00" pubdate data-updated="true">2014年12月03日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/sensu/'>sensu</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="監視アーキテクチャ(Sensu,Pingdom,Mackerel,StatusPage.io,PagerDuty)についてまとめてみる(2014年12月版) - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=監視アーキテクチャ(Sensu,Pingdom,Mackerel,StatusPage.io,PagerDuty)についてまとめてみる(2014年12月版) "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2014/05/22/sensu-casual-freenode/">ゆるふわなかんじで Sensu の話題をするためのIRCチャンネルをつくってみた</a></li>
+
+  <li><a href="/blog/2014/05/19/sensu-puppet-sample/">sensu-puppetがよく理解出来るかもしれないsensu-puppet-sampleを作った</a></li>
+
+  <li><a href="/blog/2013/11/26/sensu/">監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/12/02/using-netcat-for-file-transfers-with-pv/" title="Previous Post: ncコマンドでファイル転送するときにpvコマンドで進捗を表示する">&laquo; ncコマンドでファイル転送するときにpvコマンドで進捗を表示する</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/01/22/serverspec-book/" title="next Post: Serverspec本を読んで、先鋭化されつつあるWeb系インフラエンジニアを知る">Serverspec本を読んで、先鋭化されつつあるWeb系インフラエンジニアを知る &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

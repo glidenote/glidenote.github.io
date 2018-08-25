@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: digitalocean | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/digitalocean/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[1時間1円でSSDなVPS(Digital Ocean)にシンガポール リージョンが来ていた]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/02/12/digital-ocean-singapore-region/"/>
+    <updated>2014-02-12T20:31:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/02/12/digital-ocean-singapore-region</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2014/02/digitalocean-logo.png" alt="" /></p>
+
+<ul>
+  <li><a href="https://www.digitalocean.com/?refcode=510a665458a3">https://www.digitalocean.com</a></li>
+  <li><a href="https://digitalocean.com/blog_posts/we-re-excited-to-announce-our-singapore-datacenter-sgp1">We’re Excited To Announce Our Singapore Datacenter (SGP1) | DigitalOcean</a></li>
+</ul>
+
+<p><a href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/">以前紹介した1時間1円でSSDなVPS(DigitalOcean)</a>にシンガポール リージョンが来ていた。</p>
+
+<p><img src="https://assets.digitalocean.com/blog/SGP1_Announcement/2.png" alt="" /></p>
+
+<p>早速インスタンスを立てて、自分の環境から、どのくらいのレスポンスなのか計測</p>
+
+<p>``` sh
+[akira@dev001] $ ping -c 10 128.199.<strong><em>.</em></strong>
+PING 128.199.<strong><em>.</em></strong> (128.199.<strong><em>.</em></strong>) 56(84) bytes of data.
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=1 ttl=53 time=76.7 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=2 ttl=53 time=75.7 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=3 ttl=53 time=73.8 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=4 ttl=53 time=73.7 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=5 ttl=53 time=74.1 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=6 ttl=53 time=76.1 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=7 ttl=53 time=75.8 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=8 ttl=53 time=75.7 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=9 ttl=53 time=76.1 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=10 ttl=53 time=78.0 ms</p>
+
+<p>— 128.199.<strong><em>.</em></strong> ping statistics —
+10 packets transmitted, 10 received, 0% packet loss, time 9096ms
+rtt min/avg/max/mdev = 73.738/75.623/78.060/1.290 ms
+```</p>
+
+<p>今まで日本から一番レスポンスの良かった<code>San Francisco1</code>へのping応答が<code>105ms</code>くらいなので、<code>30ms</code>くらい早くなった。</p>
+
+<p>さくらVPSが<code>11ms</code>とかなので、比較するとまだまだですが、sshログインして半日触った感じだと
+レスポンスの遅延とか特に感じなくて快適。(たぶんまだあんまり使われてないからだと思うけど)</p>
+
+<p>とりあえずVagrant+DigitalOceanな使い捨てサーバ環境はシンガポールリージョンに移行した。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MacからVagrantコマンド一発でSSDなVPS(DigitalOcean)上にCentOS6.5+Docker環境を構築する]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/12/20/vagrant-docker-digitalocean/"/>
+    <updated>2013-12-20T13:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/12/20/vagrant-docker-digitalocean</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2013/12/vagrant-docker-digital-ocean.png" alt="" /></p>
+
+<p>前回の<a href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/">VagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する - Glide Note - グライドノート</a><a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/"><img src="http://b.hatena.ne.jp/entry/image/https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/" /></a>の続き。</p>
+
+<p>Vagtant+DigitalOceanだけでも十分便利なんですが、先日<code>CentOS6.5</code>がリリースされ、正式に<a href="https://www.docker.io/">Docker</a>がサポートされたので、<a href="https://www.digitalocean.com/?refcode=510a665458a3">DigitalOcean</a>上に<code>CentOS 6.5</code>+<code>Docker</code>な環境を用意してみる。<br />
+といっても、2013年12月20日現在DigitalOceanでは<code>CentOS 6.5</code>なimageが提供されていないので、選択出来る<code>CentOS 6.4</code>のイメージを使いながら、Vagrantを利用してコマンド一発で<code>CentOS 6.5</code>+<code>Docker</code>環境が作れるようにした。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/vagrant-docker-digitalocean">glidenote/vagrant-docker-digitalocean</a></li>
+</ul>
+
+<h2 id="section">これは何</h2>
+
+<ul>
+  <li><a href="http://www.vagrantup.com/">Vagrant</a>を利用して、<a href="https://www.digitalocean.com/?refcode=510a665458a3">DigitalOcean</a>上にCentOS 6.5 + Dockerな環境をコマンド一発(<code>vagrant up --provider=digital_ocean --provision</code>)で構築します。</li>
+  <li>CentOS 6.5より<a href="https://www.docker.io/">Docker</a>がサポートされていますが、2013年12月19日現在DigitalOceanではCentOS 6.5のimageが提供されていません。これを利用することで簡単にCentOS6.5+Dockerが利用可能になります。</li>
+  <li>安く、SSDで高速な開発環境を簡単に構築できます。時間単位での課金なので財布に大変優しい</li>
+</ul>
+
+<h2 id="section-1">事前準備</h2>
+
+<p>Macでの利用を想定した手順になっています。</p>
+
+<p><strong>2014年7月18日 追記</strong><br />
+DigitalOceanのAPIがv2.0になり<a href="https://cloud.digitalocean.com/settings/applications">https://cloud.digitalocean.com/settings/applications</a>で<code>token</code>の生成が必要になりました．
+Vagrantfileに<code>provider.token = 'xxxxxxxxxxxxxxxxxxxxx'</code>といった形でtokenを設定する必要があります．
+また<code>region</code>の指定方法も<code>San Francisco 1</code>から<code>sfo1</code>という感じで変更になっています．</p>
+
+<h3 id="digitaloceanapiclientidapikey">DigitalOceanに申し込んでAPIの<code>client_id</code>と<code>api_key</code>を取得する</h3>
+
+<ol>
+  <li><a href="https://www.digitalocean.com/?refcode=510a665458a3">DigitalOcean</a>に申し込む</li>
+  <li><a href="https://cloud.digitalocean.com/ssh_keys">https://cloud.digitalocean.com/ssh_keys</a>で作成したインスタンスに接続するための<code>ssh key</code>を登録</li>
+  <li><a href="https://cloud.digitalocean.com/api_access">https://cloud.digitalocean.com/api_access</a>から<code>client_id</code>と<code>api_key</code>を取得しておく</li>
+</ol>
+
+<p>前回同様に<a href="https://www.digitalocean.com/?refcode=510a665458a3">ここ経由</a>で申し込んで頂けると私の懐が潤います!</p>
+
+<p>2013年12月20日現在の1時間あたりの料金プランは下記のような感じでホントに安い。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/12/digitalocean-plan.png" alt="" /></p>
+
+<h3 id="vagrant">Vagrantをインストール</h3>
+
+<p><a href="http://www.vagrantup.com/">Vagrant</a>からファイルをダウンロードしてインストール。2013/12/19現在最新の<code>1.4.1</code>を利用してます。</p>
+
+<h3 id="vagrant-digitaloceanhttpsgithubcomsmdahlenvagrant-digitalocean"><a href="https://github.com/smdahlen/vagrant-digitalocean">vagrant-digitalocean</a>のインストール</h3>
+
+<p>vagrantコマンドでvagrant-digitaloceanをインストール。vagrant-digitaloceanは2013/12/19現在最新の<code>0.5.1</code>を利用</p>
+
+<p><code>sh
+vagrant plugin install vagrant-digitalocean
+</code></p>
+
+<h3 id="curl-ca-bundle">curl-ca-bundleのインストール</h3>
+
+<p>apiを叩くのに必要なので、brewで導入</p>
+
+<p><code>sh
+brew install curl-ca-bundle
+</code></p>
+
+<h2 id="section-2">使い方</h2>
+
+<h3 id="clone">リポジトリをclone</h3>
+
+<p><code>sh
+git clone https://github.com/glidenote/vagrant-docker-digitalocean.git
+</code></p>
+
+<h3 id="vagrantfile"><code>Vagrantfile</code>を下記部分を自分の環境に合わせて修正</h3>
+
+<ul>
+  <li><code>config.vm.hostname</code>には付けたいホスト名を設定</li>
+  <li><code>provider.client_id</code>には準備で作成した<code>client_id</code>を設定</li>
+  <li><code>provider.api_key</code>には準備で作成した<code>api_key</code>を設定</li>
+  <li><code>provider.ssh_key_name</code>には準備で作成したssh鍵名を指定</li>
+  <li>regionは日本からのレスポンスが良い<code>San Francisco 1</code>、sizeはDockerを利用するのに快適な<code>1GB</code>に設定しています。2013/12/19現在size<code>1GB</code>のインスタンス(Droplet)は1時間2円弱(0.015ドル)です。売り切れの場合などは必要に応じて適時変更してください</li>
+</ul>
+
+<h3 id="centos65dockerdroplet">CentOS6.5+Dockerなインスタンス(Droplet)の作成</h3>
+
+<p>コマンド一発でインスタンスを作成。ドンッ!! 4〜5分でCentOS6.5+Dockerな環境が出来上がる。</p>
+
+<p><code>sh
+vagrant up --provider=digital_ocean --provision
+</code></p>
+
+<h3 id="dropletssh">インスタンス(Droplet)にsshログイン</h3>
+
+<p><code>vagrant ssh</code>でssh接続するとIPを覚えておく必要がない。</p>
+
+<p><code>sh
+vagrant ssh
+</code></p>
+
+<h3 id="digitaloceandocker">DigitalOcean上でDockerを動かしてみる</h3>
+
+<p>インスタンス作成時にDockerを自動起動させているので、すぐに使えるようになってます。
+たとえば下記でfedoraで立ち上げてみる。どーん！</p>
+
+<p><code>sh
+sudo docker run -i -t mattdm/fedora /bin/bash
+</code></p>
+
+<p>すると1〜2分くらいで、下記みたいな感じでfedoraが使える。</p>
+
+<p><code>sh
+[root@test001 ~]# sudo docker run -i -t mattdm/fedora /bin/bash
+Unable to find image 'mattdm/fedora' (tag: latest) locally
+Pulling repository mattdm/fedora
+373dc830edcd: Download complete
+871613fadf3d: Download complete
+7c8cf65e1efa: Download complete
+bash-4.2# cat /etc/redhat-release
+Fedora release 20 (Heisenbug)
+</code></p>
+
+<h3 id="droplet">使い終わったらインスタンス(Droplet)を削除</h3>
+
+<p>DigitalOceanは停止状態(halt)だと課金されるので、使い終わったら、インスタンスをdestroyで消す。</p>
+
+<p><code>sh
+vagrant destroy
+</code></p>
+
+<p>前回も思ったけど、なんて便利な時代なんだ!!<br />
+時間課金で安いし、SSDで早いし、手元のマシンはファン回りっぱなしとかならないしDigitalOcean最高。</p>
+
+<h2 id="section-3">参考</h2>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/">VagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する - Glide Note - グライドノート</a></li>
+  <li><a href="http://docs.docker.io/en/latest/installation/rhel/">Requirements and Installation on Red Hat Enterprise Linux - Docker Documentation</a></li>
+  <li><a href="http://www.1x1.jp/blog/2013/12/docker_on_centos65.html">CentOS 6.5 に Docker をインストールしてみた - Shin x blog</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[VagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/"/>
+    <updated>2013-12-05T20:56:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2013/12/vagrant-digital-ocean.png" alt="" /></p>
+
+<p>今年の初めくらいから個人的な技術検証にはSSDで動作が速く、1時間1円で料金が安いのと
+ロケーションをSan Franciscoにするとsshでもレスポンスが悪くないので、全部<a href="https://www.digitalocean.com/?refcode=510a665458a3">Digital Ocean</a>を使っている。(<a href="http://z.tokumaru.org/2013/10/digitalocean.html">徳丸先生が紹介する</a>前から使っていたんだ！)</p>
+
+<p>Digital Oceanについては<a href="http://rebuild.fm/2/">Rebuild: 2: Rails, Redis, VPS (Kenn Ejima)</a>の42分くらいから言及されてます。必聴です。</p>
+
+<p>使ってる旧型のMacBookAirみたいな貧弱なマシンだとローカルでVM動かすとファン回りまくりとかで泣きたくなるので、Digital Oceanだと泣かずに済んで快適。</p>
+
+<p>そんで今日<a href="http://www.vagrantup.com/">Vagrant</a>経由でDigital Ocean利用すると、コマンドラインから必要なときに新規インスタンス(Droplet)作って、
+検証終わったら削除という手軽な使い捨て高速サーバ環境が利用出来て検証に大変便利ということを知った。(APIの存在は知っていましたが、情弱なのでブラウザから毎回ポチポチやってました…)</p>
+
+<h2 id="digital-oceanapiclientidapikey">Digital Oceanに申し込んでAPIの<code>client_id</code>と<code>api_key</code>を取得する</h2>
+
+<ol>
+  <li><a href="https://www.digitalocean.com/?refcode=510a665458a3">Digital Ocean</a>に申し込む</li>
+  <li><a href="https://cloud.digitalocean.com/ssh_keys">https://cloud.digitalocean.com/ssh_keys</a>で作成したインスタンスに接続するための<code>ssh key</code>を登録</li>
+  <li><a href="https://cloud.digitalocean.com/api_access">https://cloud.digitalocean.com/api_access</a>から<code>client_id</code>と<code>api_key</code>を取得しておく</li>
+</ol>
+
+<p><a href="https://www.digitalocean.com/?refcode=510a665458a3">ここ経由</a>で申し込んで頂けると私の懐が潤います!</p>
+
+<p>2013年12月05日現在の1時間あたりの料金プランは下記のような感じ</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/12/digitalocean-plan.png" alt="" /></p>
+
+<h2 id="vagrant">Vagrantをインストール</h2>
+
+<p><a href="http://www.vagrantup.com/">Vagrant</a>からファイルをダウンロードしてインストール。2013/12/05現在最新の<code>1.3.5</code>を利用してます。</p>
+
+<h2 id="vagrant-digitaloceanhttpsgithubcomsmdahlenvagrant-digitalocean"><a href="https://github.com/smdahlen/vagrant-digitalocean">vagrant-digitalocean</a>のインストール</h2>
+
+<p>vagrantコマンドでvagrant-digitaloceanをインストール。vagrant-digitaloceanは2013/12/05現在最新の<code>0.4.1</code>を利用</p>
+
+<p><code>sh
+vagrant plugin install vagrant-digitalocean
+</code></p>
+
+<h2 id="curl-ca-bundle">curl-ca-bundleのインストール</h2>
+
+<p>apiを叩くのに必要なので、brewで導入</p>
+
+<p><code>sh
+brew install curl-ca-bundle
+</code></p>
+
+<h2 id="vagrantfile">Vagrantfileを作る</h2>
+
+<p>私は下記のようにディレクトリを掘って、Vagrantfileを用意</p>
+
+<p><code>sh
+mkdir -p ~/repos/vagrant-digital-ocean
+cd ~/repos/vagrant-digital-ocean
+touch Vagrantfile
+</code></p>
+
+<p><strong>2013年12月9日 追記</strong><br />
+申込みが増えているのかサンフランシスコで最小プラン(メモリ512MB)がずっと売り切れの状態なので、
+<code>provider.size = '1GB'</code>にするか、<code>provider.region = 'New York 2'</code>など別ロケーションを選択するなどの必要があります。1GBプランだと1時間約2円(0.015ドル)です。</p>
+
+<p>私が使ってるファイルの中身は下記のような感じ。設定した<code>ssh key</code>の名前や、APIページで取得した<code>client_id</code>と<code>api_key</code>はここで設定。
+repoにepelを追加して、起動時に最低限必要なパッケージを入れるためにpuppetを走らせてます。</p>
+
+<p><strong>2014年7月18日 追記</strong><br />
+DigitalOceanのAPIがv2.0になり<a href="https://cloud.digitalocean.com/settings/applications">https://cloud.digitalocean.com/settings/applications</a>で<code>token</code>の生成が必要になりました．
+下記の例だと<code>provider.token = 'xxxxxxxxxxxxxxxxxxxxx'</code>といった形でtokenを設定する必要があります．
+また<code>region</code>の指定方法も<code>San Francisco 1</code>から<code>sfo1</code>という感じで変更になっています．</p>
+
+<p>``` ruby
+Vagrant.configure(‘2’) do |config|
+  config.vm.hostname              = ‘dev003.hogemoge.com’
+  config.vm.provision “shell”, inline: “rpm -Uvh http://ftp-srv2.kddilabs.jp/Linux/distributions/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm –force”
+  config.vm.provision “shell”, inline: “yum -y install puppet”</p>
+
+<p>config.vm.provider :digital_ocean do |provider, override|
+    override.ssh.private_key_path = ‘~/.ssh/id_rsa’
+    override.vm.box               = ‘digital_ocean’
+    override.vm.box_url           = “https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box”</p>
+
+<pre><code>provider.client_id            = 'xxxxxxxxxxxxxxxxxxxxx'
+provider.api_key              = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+provider.token                = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+provider.image                = 'CentOS 6.4 x64'
+provider.region               = 'sfo1'
+provider.size                 = '512MB'
+provider.ca_path              = '/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt'
+provider.ssh_key_name         = 'office mac'   end
+</code></pre>
+
+<p>config.vm.provision “puppet” do |puppet|
+    puppet.options                = “–verbose –debug”
+  end
+end
+```</p>
+
+<p><code>manifests/default.pp</code>は下記のような感じ。</p>
+
+<p><code>ruby
+package {
+  [
+    'vim-enhanced',
+    'zsh',
+    'tmux',
+    'mosh',
+    'git',
+    'tig',
+    'gcc',
+    'dstat',
+    'iftop',
+    'iotop',
+    'nethogs',
+    'ruby',
+    'ruby-devel',
+    'rubygems',
+    'rubygem-json',
+    'tree',
+    'wget',
+    'xinetd',
+    'nc',
+    'fping',
+    'perf',
+    ]:
+      ensure =&gt; present;
+}
+</code></p>
+
+<h2 id="section">インスタンスの作成</h2>
+
+<p><code>vagrant up</code>コマンドを利用して、インスタンスを作成。ドンッ！</p>
+
+<p><code>sh
+vagrant up --provider=digital_ocean
+</code></p>
+
+<p>すると下記のように数分でインスタンスが作成される。</p>
+
+<p><code>sh
+[usr0600093@pmac008s] $ vagrant up --provider=digital_ocean
+Bringing machine 'default' up with 'digital_ocean' provider...
+[default] Using existing SSH key: office mac
+[default] Creating a new droplet...
+[default] Assigned IP address: xxx.xxx.xxx.xxx
+[default] Modifying sudoers file to remove tty requirement...
+[default] Rsyncing folder: /Users/usr0600093/repos/vagrant-digital-ocean/ =&gt; /vagrant...
+</code></p>
+
+<p><code>San Francisco 1</code>だと時間帯によって結構時間かかるので、
+早めに検証したい場合は<code>New York 2</code>とかに変更すると良いかも。</p>
+
+<p>私はpuppet走らせるので、<code>--provision</code>を付けてインスタンス作成してます。</p>
+
+<p><code>sh
+vagrant up --provider=digital_ocean --provision
+</code></p>
+
+<h2 id="ssh">起動したインスタンスにssh接続</h2>
+
+<p><code>vagrant ssh</code>でssh接続するとIPを覚えておく必要がない。</p>
+
+<p><code>sh
+vagrant ssh
+</code></p>
+
+<h2 id="section-1">使い終わったらインスタンスの削除</h2>
+
+<p>Digital Oceanは停止状態(halt)だと課金されるので、使い終わったら、インスタンスを<code>destroy</code>で消す。</p>
+
+<p><code>sh
+vagrant destroy
+</code></p>
+
+<p>なんて便利な時代なんだ！手元のMacBook Airも熱くない!!</p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://rebuild.fm/2/">Rebuild: 2: Rails, Redis, VPS (Kenn Ejima)</a>の42分くらいから</li>
+  <li><a href="http://z.tokumaru.org/2013/10/digitalocean.html">徳丸浩の雑記帳: 試験環境用VPSとして1時間1円から使えるDigitalOceanが安くて便利</a></li>
+  <li><a href="http://blog.uu59.org/2013-06-29-vagrant-digital-ocean.html">uu59のメモ | Digital OceanのVPSをVagrantでupしたりprovisionしたりする</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

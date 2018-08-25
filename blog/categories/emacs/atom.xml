@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: emacs | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/emacs/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Emacs勉強会でLTしてきた #Agile渋谷]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/08/25/emacs-study/"/>
+    <updated>2012-08-25T11:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/08/25/emacs-study</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2012/08/paperboy-el.png" alt="" /></p>
+
+<ul>
+  <li><a href="http://shibuya.doorkeeper.jp/events/1615">Emacs勉強会 - Agile渋谷</a></li>
+  <li><a href="https://blog.glidenote.com/paperboy.el/">paperboy.el</a></li>
+</ul>
+
+<p>最近坊主にして杉作J太郎クリソツの<a href="https://twitter.com/kentaro">antipop</a>さんに
+そそのかされて参加したのが運の尽き…<br />
+著者の大竹智也さんをはじめ、参加者全員から「<a href="http://www.amazon.co.jp/Emacs%E5%AE%9F%E8%B7%B5%E5%85%A5%E9%96%80-%EF%BD%9E%E6%80%9D%E8%80%83%E3%82%92%E7%9B%B4%E6%84%9F%E7%9A%84%E3%81%AB%E3%82%B3%E3%83%BC%E3%83%89%E5%8C%96%E3%81%97%E3%80%81%E9%96%8B%E7%99%BA%E3%82%92%E5%8A%A0%E9%80%9F%E3%81%99%E3%82%8B-WEB-DB-PRESS-plus/dp/4774150029?SubscriptionId=AKIAI227ELAAME5ZX3JQ&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774150029">Emacs実践入門</a>」で尻を1万回スパンキングされる勉強会でした。</p>
+
+<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="presentation_frame_503781b9c4145e00020695ba" src="https://blog.glidenote.com//speakerdeck.com/embed/503781b9c4145e00020695ba" width="700" height="601"></iframe>
+
+<p><br /></p>
+
+<p>「<a href="https://www.google.co.jp/search?um=1&amp;hl=ja&amp;safe=off&amp;biw=1316&amp;bih=651&amp;tbm=isch&amp;sa=1&amp;q=%E3%83%AA%E3%83%81%E3%83%A3%E3%83%BC%E3%83%89%E3%80%80%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%83%9E%E3%83%B3&amp;oq=%E3%83%AA%E3%83%81%E3%83%A3%E3%83%BC%E3%83%89%E3%80%80%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%83%9E%E3%83%B3&amp;gs_l=img.3..0.1926.6501.0.6846.22.21.0.0.0.3.127.1552.20j1.21.0...0.0...1c.ndDS7wvSM1o">リチャードストールマン</a>にクリソツのAV男優さんいますよねー」とか「あのAV男優さん出てくるとEmacs使いたくなりますよねー」とかで会場が盛り上がっててEmacs使いの狂気を感じた。<br />
+vim使いの私とは相容れない水と油、もしくは水とローションといった感じだった。</p>
+
+<p>今回paperboy.elのlogoも作ったのでステッカーにしようかと思います。</p>
+]]></content>
+  </entry>
+  
+</feed>

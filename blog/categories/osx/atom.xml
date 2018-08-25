@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: osx | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/osx/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[zshのプラグインマネージャーantigenでoh-my-zshの良いとこ取りをする]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/10/25/antigen/"/>
+    <updated>2012-10-25T22:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/10/25/antigen</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://github.com/zsh-users/antigen">zsh-users/antigen</a></li>
+</ul>
+
+<p>個人的には<code>.zshrc</code>で細かく設定しているので、利用することのない<a href="https://github.com/robbyrussell/oh-my-zsh">oh-my-zsh</a>ですが、
+oh-my-zshを利用している人をみるとなかなか便利そうで、特に<a href="https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins">plugins</a>が
+開発も活発で、種類も豊富で便利な感じ。</p>
+
+<p>oh-my-zshを利用していなくても<a href="https://github.com/zsh-users/antigen">antigen</a>を利用すると
+oh-my-zshのthemeやpluginが利用できるので導入してみた。</p>
+
+<p>antigenはvimプラグインマネージャーの<a href="https://github.com/gmarik/vundle">Vundle</a>の
+影響を受けているので、Vundle使いの私には設定方法が似ていて導入もしやすかった。</p>
+
+<h2 id="antigen">antigenの導入</h2>
+
+<p><code>git clone</code>で持ってくるだけ。</p>
+
+<p><code>sh
+cd
+git clone https://github.com/zsh-users/antigen.git
+</code></p>
+
+<h2 id="zshrc"><code>.zshrc</code>の設定</h2>
+
+<p><code>~/.zshrc</code>に直接書いても良いんですが、設定ファイルを分離したかったので、
+下記のようにantigen用の設定を読み込むように追記。
+antigenを利用しなくなったら該当行をコメントアウトするだけ。</p>
+
+<p><code>
+source ~/.zshrc.antigen
+</code></p>
+
+<h2 id="zshrcantigen">~/.zshrc.antigenの用意</h2>
+
+<p>antigen用の設定は<code>~/.zshrc.antigen</code>などで用意。(私の環境だと<code>antigen-lib</code>を記載するとエラー吐いてしまうので除外してます)</p>
+
+<p>``` 
+source ~/antigen/antigen.zsh</p>
+
+<h1 id="bundles-from-the-default-repo">Bundles from the default repo</h1>
+<p>antigen-bundle git
+antigen-bundle autojunp
+antigen-bundle heroku
+```</p>
+
+<p><code>~/.zshrc.antigen</code>を用意して</p>
+
+<p><code>
+exec $SHELL
+</code></p>
+
+<p>をするとpluginやthemeのインストールが開始する。</p>
+
+<p>下記は公式のREADMEに書いてある設定ですが、利用したいpluginやthemeを記載</p>
+
+<p><div><script src='https://gist.github.com/3922687.js'></script>
+<noscript><pre><code>source /path-to-antigen-clone/antigen.zsh
+
+# Load the oh-my-zsh&#39;s library.
+antigen-lib
+
+# Bundles from the default repo (robbyrussell&#39;s oh-my-zsh).
+antigen-bundle git
+antigen-bundle heroku
+antigen-bundle pip
+antigen-bundle lein
+antigen-bundle command-not-found
+
+# Syntax highlighting bundle.
+antigen-bundle zsh-users/zsh-syntax-highlighting
+
+# Load the theme.
+antigen-theme robbyrussell
+
+# Tell antigen that you&#39;re done.
+antigen-apply</code></pre></noscript></div>
+</p>
+
+<h2 id="oh-my-zshtheme">一時的にoh-my-zshのthemeを利用する</h2>
+
+<p>一時的にoh-my-zshのthemeを利用したり、新しいthemeの試用をする場合は
+コマンドラインから</p>
+
+<p><code>sh
+antigen-theme funky
+</code></p>
+
+<p>といった感じで一時的にプロンプトを変更することが可能。</p>
+
+<h2 id="angigen">angigenのコマンド</h2>
+
+<p>antigenには下記のコマンドが含まれていて<code>.zshrc</code>などに書かず、
+コマンドラインから一時的にプラグインやテーマを利用することが出来る。
+各コマンドの用法は<a href="https://github.com/zsh-users/antigen">公式ドキュメント</a>を参照。</p>
+
+<ul>
+  <li>antigen-bundles</li>
+  <li>antigen-update</li>
+  <li>antigen-revert</li>
+  <li>antigen-list</li>
+  <li>antigen-cleanup</li>
+  <li>antigen-lib</li>
+  <li>antigen-theme</li>
+  <li>antigen-apply</li>
+  <li>antigen-snapshot</li>
+  <li>antigen-restore</li>
+  <li>antigen-help</li>
+</ul>
+
+<p>今までずっと.zshrcは自分でガリガリ書いてましたが、promptとかについては
+themeを使った方が便利そうな気が最近してる。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[zsh使いなら効率改善のため知っておきたいAUTOJUMP]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/02/29/autojump-zsh/"/>
+    <updated>2012-02-29T10:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/02/29/autojump-zsh</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://github.com/joelthelion/autojump">joelthelion/autojump - GitHub</a></li>
+</ul>
+
+<p>zsh補完関数の書き方をいろいろ調べていたら、<code>autojump-zsh</code>というパッケージを発見。
+気になって使ってみたらめちゃくちゃ便利で、久々に感動したので紹介。</p>
+
+<p><code>autojump</code>は<code>cd</code>コマンドの拡張的なコマンドで、移動したディレクトリを記録し、
+ディレクトリ間を行ったり来たりするときに絶大な効果を発揮します。</p>
+
+<p><a href="https://github.com/joelthelion/autojump/wiki/">公式wiki</a>に書いてあるよう
+コマンドライン作業の10〜20%は<code>cd</code>コマンドのため、ディレクトリ移動の動作が
+改善すると必然的に作業効率も向上するということです。<br />
+実際私もautojumpを使い出してから、作業効率が上がりました。</p>
+
+<p>それでは早速autojumpの説明を。動作検証環境は下記です。</p>
+
+<ul>
+  <li>Mac OSX 10.7.3</li>
+  <li>Fedora 16</li>
+  <li>Scientifix Linux 6.1</li>
+</ul>
+
+<h2 id="section">導入方法</h2>
+
+<p>autojumpを利用するにはpython2.6か3.0以上が必要です。<br />
+yumやbrewでも導入可能ですが、その場合はzsh補完関数<code>_j</code>ファイルを
+自分で配置するあげる必要があります。</p>
+
+<p>私は下記のようにソースから入れました。</p>
+
+<p><code>
+mkdir ~/src
+cd ~/src
+git clone git://github.com/joelthelion/autojump.git
+cd autojump
+sudo sh ./install.sh --zsh
+</code></p>
+
+<p><strong>2012年3月3日追記 MacでBrewを使って導入する方法</strong></p>
+
+<p><code>
+brew install autojump
+</code></p>
+
+<p>.zshrcに下記を追記。</p>
+
+<p><code>
+alias j="autojump"
+if [ -f `brew --prefix`/etc/autojump ]; then
+  . `brew --prefix`/etc/autojump
+fi
+</code></p>
+
+<p><code>j</code>でautojumpが動かない場合があるようなので、その場合はalias設定も追加。</p>
+
+<h2 id="autojumpzsh">autojumpのzsh補完関数の配置</h2>
+
+<p>autojumpは同梱されているzshの補完関数<code>_j</code>で<strong>真価を発揮する</strong>ので、
+補完関数を<code>$fpath</code>に配置。</p>
+
+<p>$fpathの調べ方は下記のような感じで</p>
+
+<p><code>
+echo $fpath
+/usr/local/share/zsh/site-functions /usr/local/share/zsh/4.3.12/functions
+</code></p>
+
+<p>通常は
+<code>/usr/share/zsh/site-functions/</code>や<code>/usr/local/share/zsh/site-functions/</code>
+などになるかと思います。</p>
+
+<p>私は下記のような感じで配置。</p>
+
+<p><code>
+sudo cp ~/src/autojump/_j /usr/local/share/zsh/site-functions/
+</code></p>
+
+<p><code>exec zsh</code>では、なぜかautojumpが有効にならないので、ログインし直した方が良いです。</p>
+
+<h2 id="section-1">利用方法</h2>
+
+<p><code>cd</code>コマンドで移動するたび<code>~/.local/share/autojump/autojump.txt</code>にディレクトリ名と回数が記録され、
+次回そのディレクトリに移動する際は<code>j</code>コマンドを用いて</p>
+
+<p><code>
+j ディレクトリ名の一部[tab]
+</code></p>
+
+<p>という感じで移動出来ます。</p>
+
+<p>たとえば<code>~/misc/hogehoge</code>というディレクトリの場合、</p>
+
+<p><code>
+j h[tab]
+または
+j ge[tab]
+</code></p>
+
+<p>などディレクトリの一部だけ入力して移動でき、<strong>キー入力の回数が激減</strong>です。</p>
+
+<p>ちなみにautojump出来るディレクトリのリストは</p>
+
+<p><code>
+jumpstat
+</code></p>
+
+<p>で確認が出来ます。</p>
+
+<p>使い始めは「<code>ctrl+r ディレクトリ名</code>とかで十分じゃん」とか「zshのディレクトリスタック使えば良いじゃん」
+とか思ってたんですが、使い込むうちにautojumpだとカレントディレクトリとか移動先のディレクトリの
+相対パスと絶対パスを意識しなくて良いことがわかり、何より<strong>キー入力の数が格段に減る</strong>ので、
+今ではautojump無しの生活は考えられなくなりました。</p>
+
+<p>autojumpを活用して作業効率を改善させましょう。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[XcodeからCommand Line Tools for Xcodeに切り替えたらHDD使用容量が7GB減った]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/02/20/command-line-tools-for-xcode/"/>
+    <updated>2012-02-20T00:29:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/02/20/command-line-tools-for-xcode</id>
+    <content type="html"><![CDATA[<p>homebrewしか使わないのに、Xcodeに8GBくらいHDDの容量を消費されてて
+MacBook AirとかにはXcodeを入れていなかったんですが、
+先日SDKなどを抜いた<code>Command Line Tools for Xcode</code>という200MB程度の
+軽量版Xcode(?)がリリースされていたので早速導入。</p>
+
+<p>Command Line Tools for Xcodeが利用出来るのはLionだけです。</p>
+
+<p>どれだけ容量削減になるのか知りたかったので、既にXcode導入済みの
+Mac miniで作業を行いました。</p>
+
+<h2 id="xcode">既存のXcodeを削除</h2>
+
+<p>下記コマンドでXcodeを削除</p>
+
+<p><code>
+sudo /Developer/Library/uninstall-devtools --mode=all /thx
+</code></p>
+
+<h2 id="command-line-tools-for-xcode">Command Line Tools for Xcodeの導入</h2>
+
+<p><a href="http://developer.apple.com/downloads">Apple Developer</a>のページから
+<code>Command Line Tools for Xcode</code>をダウンロードしてきてインストール。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode.png" alt="" /></p>
+
+<p>ダウンロードしてきた<code>command_line_tools_for_xcode_.dmg</code>をマウントして、
+インストーラーを起動させて下記のような感じでインストール。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode0.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode1.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode2.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode3.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode4.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode5.png" alt="" /></p>
+
+<p>ちなみにCommand Line Tools for Xcodeに含まれるソフトは下記コマンドで確認できます。
+Git関連のツールもちらほら入ってます。</p>
+
+<p><code>
+cd /Volumes/Command\ Line\ Tools/Packages/
+pkgutil --payload-files DeveloperToolsCLI.pkg
+</code></p>
+
+<h2 id="hdd">HDDの使用量の変化</h2>
+
+<p>SDK込みのXcode利用時のHDD容量</p>
+
+<p><code>
+[akira@macmini] $ df -ah /
+Filesystem      Size   Used  Avail Capacity  Mounted on
+/dev/disk0s2   148Gi  122Gi   26Gi    83%    /
+</code></p>
+
+<p>Command Line Tools for Xcode導入後のHDD容量</p>
+
+<p><code>
+[akira@macmini] $ df -ah /
+Filesystem      Size   Used  Avail Capacity  Mounted on
+/dev/disk0s2   148Gi  115Gi   33Gi    78%    /
+</code></p>
+
+<p>なんと7GBも容量減!!素晴らしい。</p>
+
+<p>homebrewも普通に使えているので、しばらくこれで使ってみて
+問題が無ければMacBook Airにも入れてみたいと思います。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://d.karashi.org/20120217.html#p01">Command Line Tools for Xcodeでディスク容量が大幅に減った！</a></li>
+  <li><a href="http://kennethreitz.com/xcode-gcc-and-homebrew.html">Xcode, GCC, and Homebrew</a></li>
+  <li><a href="http://www.hsbt.org/diary/20120218.html">Xcode 4.3 または CLI tools を入れた話 , デブサミ2012 の写真 - HsbtDiary(2012-02-18)</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Filesystem Hierarchy Standard]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/02/01/filesystem-hierarchy-standard/"/>
+    <updated>2012-02-01T22:10:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/02/01/filesystem-hierarchy-standard</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="http://ja.wikipedia.org/wiki/Filesystem_Hierarchy_Standard">Filesystem Hierarchy Standard</a></li>
+  <li><a href="http://www.itmedia.co.jp/help/howto/linux/0007master/14/">エンタープライズ： - 第14回：FHSによるディレクトリの規格化</a></li>
+</ul>
+
+<p>FHS守りましょう。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rudixを利用して、Xcodeの無いMacにUnix系ソフトウェアを導入する]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/12/29/rudix-on-mac/"/>
+    <updated>2011-12-29T11:34:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/12/29/rudix-on-mac</id>
+    <content type="html"><![CDATA[<p><a href="http://rudix.org/"><img src="https://blog.glidenote.com/images/2011/12/rudix.jpg" width="315" height="216" align="right" /></a>
+<a href="http://rudix.org/">Rudix: The hassle-free way to get Unix programs on Mac OS X</a>  </p>
+
+<p>MacでUnix系のソフトウェアを利用するときはHomebrewかMacPortsなどを利用するのが一般的かと思いますが、
+両方ともXCodeを必要として、MBAといったディスク容量の少ないモデルだと、容量バカ食いのXCodeを入れるのはためらわれます。</p>
+
+<p>私自身、HDD容量に余裕のあるMac miniにはXCodeとHomebrewを入れていますが、MBAにはディスク容量の問題からXcodeを入れていません。
+(そもそも外部サーバにssh接続して、作業しているのでMacでコンパイル作業しないってのもありますが)</p>
+
+<p>しかしながらXcodeを入れてないMacでもrsync3系やtmuxなど、Unix系のソフトウェアを利用したい事が少なからずあるので、
+そんな時に利用するのが<a href="http://rudix.org/">Rudix</a>です。  </p>
+
+<p>Rudixの仕組みとしてはあらかじめMac用にコンパイルされたUnix系ソフトのpkg、dmgファイルを用いてソフトウェアを導入するので
+非常に軽快に動作し、Xcode自体も不要です。</p>
+
+<h2 id="rudix">Rudixの特徴</h2>
+
+<p>Rudixの特徴としては下記のような事項が挙げられています。</p>
+
+<ul>
+  <li>LionとSnow Leopard用に設計</li>
+  <li>すべてのパッケージが依存関係を解決している(必要なライブラリなどはパッケージに含まれているので、インストールするだけで利用可能)</li>
+  <li>幅広いパッケージの選択肢</li>
+  <li>パッケージがすぐに利用可能(コンパイル作業不要)</li>
+  <li>Webとコマンドラインの両方で利用可能</li>
+</ul>
+
+<p>イメージとしては私が普段利用しているRHEL系OSのyumに近いです。</p>
+
+<h2 id="rudix-1">Rudixの導入</h2>
+
+<p><code>
+mkdir ~/src
+cd ~/src
+curl -O http://rudix.googlecode.com/hg/Ports/rudix/rudix.py
+sudo python rudix.py install rudix
+</code></p>
+
+<p>zshの場合は下記を実行して、rudixを認識させましょう</p>
+
+<p><code>
+exec $SHELL
+</code></p>
+
+<h2 id="rudix-2">Rudixの利用方法</h2>
+
+<h3 id="section">ソフトウェアの検索</h3>
+
+<p><code>
+sudo rudix search &lt;package-name&gt;
+</code></p>
+
+<p>たとえばrsyncを検索してみると下記のような感じ。</p>
+
+<p><code>
+sudo rudix search rsync
+</code></p>
+
+<h3 id="section-1">ソフトウェアのインストール</h3>
+
+<p><code>
+sudo rudix install &lt;package-name&gt;
+</code></p>
+
+<p>Rudixを利用してrsyncを導入してみた場合は下記のような感じ。
+あらかじめコンパイルされたパッケージを導入しているので、早いです。</p>
+
+<p>```
+sudo rudix install rsync</p>
+
+<p>Downloading rudix.googlecode.com/files/rsync-3.0.9-0.pkg
+######################################################################## 100.0%
+installer: Package name is Rsync 3.0.9
+installer: Installing at base path /
+installer: The install was successful.
+All done
+```</p>
+
+<p>すると/usr/local/bin/ の下に導入されます。</p>
+
+<p>zshを利用している場合は</p>
+
+<p><code>
+exec $SHELL
+</code></p>
+
+<p>とか実行しないとpathを認識しないです。</p>
+
+<h3 id="rudix-3">Rudixで管理しているソフト一覧表示</h3>
+
+<p><code>
+sudo rudix list
+</code></p>
+
+<h3 id="section-2">ソフトウェアのアンインストール</h3>
+
+<p><code>
+sudo rudix remove パッケージ名
+</code></p>
+
+<p>```
+sudo rudix remove rsync</p>
+
+<p>もしくは</p>
+
+<p>sudo rudix remove org.rudix.pkg.rsync
+```</p>
+
+<h3 id="rudix-4">Rudixのオプション</h3>
+
+<p>```
+Rudix Package Manager – RPM ;D</p>
+
+<p>Usage:
+rudix [help|version|list|remove-all|verify-all|update|interactive]
+      [info <package-id>|files <package-id>|install <package-id>|remove <package-id>|search <package-id>|owner <path>|verify <package-id>|fix <package-id>]</package-id></package-id></path></package-id></package-id></package-id></package-id></package-id></p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>rudix [-h</td>
+      <td>-v</td>
+      <td>-l</td>
+      <td>-R</td>
+      <td>-K</td>
+      <td>-u</td>
+      <td>-z]</td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>[-I <package-id></package-id></td>
+      <td>-L <package-id></package-id></td>
+      <td>-i <package-id></package-id></td>
+      <td>-r <package-id></package-id></td>
+      <td>-s <package-id></package-id></td>
+      <td>-S <path></path></td>
+      <td>-V <package-id></package-id></td>
+      <td>-f <package-id></package-id></td>
+      <td>-n <package-id>]</package-id></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>List all installed packages (package-id) unless options are given, like:
+  -h    This help message
+  -v    Print version
+  -l    List all installed packages (package-id, version and install date)
+  -I    Print package information (package-id, version and install date)
+  -L    List package content
+  -i    Install package (download if not a file)
+  -r    Remove package
+  -R    Remove <em>all</em> Rudix packages installed (ask to confirm)
+  -s    List available versions for package-id
+  -S    Search for <path> in all packages and print if matched
+  -V    Verify package
+  -K    Verify all installed packages
+  -f    Fix (repair) package
+  -n    Download and install package (remote install)
+  -u    Download and install all updated packages (remote update)
+  -z    Interactive mode (type exit to quit)</path></p>
+
+<p>Where <package-id> is either org.rudix.pkg.<name> or <name>.
+```</name></name></package-id></p>
+
+<p>パッケージ数がHomebrewに比べると少ないですが、下記のようにもっとパッケージ欲しいなら他のパッケージ管理システムを利用しろと公式でも書いてありますし、
+主要なUnix系のソフトはRudixに揃っているので、私はだいたいはこれで十分です。</p>
+
+<p><blockquote><p>I dislike Rudix. Is there any alternative?</p></p><p><p>We recommend Homebrew if you need more packages than we have or just dislike Rudix. There are other package systems for Mac OS X if you want also:</p></p><p><ul><br/>  <li>MacPorts</li><br/>  <li>Fink</p><footer><strong>FAQ - rudix - Frequently Asked Questions</strong> <cite><a href='http://code.google.com/p/rudix/wiki/FAQ'>code.google.com/p/rudix/wiki/&hellip;</a></cite></footer></blockquote></li>
+</ul>
+
+<p>また下記ページから各種pkgとdmgの検索とダウンロードも出来ます。</p>
+
+<ul>
+  <li><a href="http://code.google.com/p/rudix/downloads/list">Downloads - rudix - Rudix: The hassle-free way to get Unix programs on Mac OS X - Google Project Hosting</a></li>
+</ul>
+
+<p>yumやaptのような使い方でわかりやすいですし、Xcodeも必要無いので、ローカル環境をクリーンに保つという意味でもSSD容量の少ないMacBook Airでめちゃくちゃ重宝してます。</p>
+
+]]></content>
+  </entry>
+  
+</feed>

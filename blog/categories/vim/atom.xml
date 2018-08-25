@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: vim | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/vim/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Roadworkerとdirenvを使ってRoute53のDNSレコードを管理する & Roadworker用にVimプラグインとZsh補完関数も作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv/"/>
+    <updated>2014-07-09T22:30:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li>Route53のDNSレコード管理にはRoadworkerとdirenvを組み合わせて使うと便利</li>
+  <li>Roadworkerを使いやすくするために、VimプラグインとZsh補完関数を作った</li>
+</ul>
+
+<p>(<code>TL;DR</code>使ってみたかった)</p>
+
+<h2 id="section">経緯</h2>
+
+<ul>
+  <li><a href="https://rubygems.org/gems/roadworker">roadworker | RubyGems.org</a></li>
+  <li><a href="https://github.com/zimbatm/direnv">zimbatm/direnv</a></li>
+</ul>
+
+<p>会社でRoute53に移行したチームがあって、レコードの管理にRoadworkerを使ってて、
+私もちょっと使ってみたんですが、コマンドラインからの使い勝手と、Routefileの編集が
+そのままだと不便だったので、使い勝手が良くなるようにdirenv使ったり、
+Vimプラグインとzsh補完関数を作ったりした。</p>
+
+<p>Macでの作業を想定してます。</p>
+
+<h2 id="roadworker">Roadworkerのインストール</h2>
+
+<p><code>
+gem install roadworker
+</code></p>
+
+<h2 id="direnv">direnvのインストール</h2>
+
+<p>direnvはgoで書かれていてbrewコマンドで導入が可能。</p>
+
+<p><code>
+brew install direnv
+</code></p>
+
+<p><code>~/.zshrc</code>に下記を追記。(もし<code>$EDITOR</code>が設定されてない場合はそれも設定する)</p>
+
+<p><code>
+eval "$(direnv hook zsh)"
+</code></p>
+
+<h2 id="roadworkerdirenv">Roadworkerとdirenvを組み合わせて使う</h2>
+
+<p>Routeworkerを使うときに下記のように</p>
+
+<p><code>sh
+export AWS_ACCESS_KEY_ID='...'
+export AWS_SECRET_ACCESS_KEY='...'
+</code></p>
+
+<p><code>AWS_ACCESS_KEY_ID</code>と<code>AWS_SECRET_ACCESS_KEY</code>を環境変数を設定しないといけないんですが、
+毎回設定するのが面倒なので、これをdirenvにやって貰う。</p>
+
+<p>具体的には、Route53のドメインを管理する(Routefileを管理している)ディレクトリに移動して、
+direnv経由で、<code>.envrc</code>を作成する</p>
+
+<p><code>
+direnv edit .
+</code></p>
+
+<p><code>.envrc</code>の中身は下記のような感じ</p>
+
+<p><code>
+export AWS_ACCESS_KEY_ID='...'
+export AWS_SECRET_ACCESS_KEY='...'
+</code></p>
+
+<p>そうすると、コマンドラインから環境変数を設定しなくても、該当ディレクトリに移動すると
+そのディレクトリ内だけでdirenvが<code>.envrc</code>を読み込んで環境変数が設定される。</p>
+
+<p>あとは普通に<code>roadwork</code>コマンドでRoute53を操作するだけ。Roadworkerの使い方は下記が詳しいです。</p>
+
+<ul>
+  <li><a href="http://dev.classmethod.jp/cloud/aws/route53-as-code-roadworker/">【AWS】Route53をgitで管理する「Roadworker」を早速試してみました ｜ Developers.IO</a></li>
+</ul>
+
+<h2 id="roadworkervim">roadworker.vim</h2>
+
+<ul>
+  <li><a href="https://github.com/glidenote/roadworker.vim">glidenote/roadworker.vim</a></li>
+</ul>
+
+<p>RoadworkerからRoute53を操作するのに、Routefileの編集が必要なので、
+Routefileの編集が楽になるようにプラグインを書いた。</p>
+
+<p>下記みたいにsyntaxがきいたり、snippetを利用して簡単に編集が出来るようになります。 (左がsyntax無し、右がroadworker.vimによりsyntax有りの状態)</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/07/roadworker0.png" alt="" /></p>
+
+<p>導入方法や使い方は<a href="https://github.com/glidenote/roadworker.vim">README.md</a>を参照ください。</p>
+
+<h2 id="zsh">zsh補完関数</h2>
+
+<p>コマンドラインからも便利に使えるようにzsh補完関数を下記みたいなファイルを作成。</p>
+
+<p><div><script src='https://gist.github.com/2062a35fe696d528457d.js'></script>
+<noscript><pre><code>#compdef roadwork
+# ------------------------------------------------------------------------------
+# Description
+# -----------
+#
+#  Completion script for roadworker (https://rubygems.org/gems/roadworker)
+#
+# ------------------------------------------------------------------------------
+# Authors
+# -------
+#
+#  * Akira Maeda &lt;https://github.com/glidenote&gt;
+#
+# ------------------------------------------------------------------------------
+# -*- mode: zsh; sh-indentation: 2; indent-tabs-mode: nil; sh-basic-offset: 2; -*-
+# vim: ft=zsh sw=2 ts=2 et
+# ------------------------------------------------------------------------------
+
+local curcontext=&quot;$curcontext&quot; state line ret=1
+typeset -A opt_args
+
+_arguments -C \
+  &#39;(-k --access-key)&#39;{-k,--access-key}&#39;[Set Access Key ID]:ACCESS_KEY&#39; \
+  &#39;(-s --secret-key)&#39;{-s,--secret-key}&#39;[Set Secret Access Key]:SECRET_KEY&#39; \
+  &#39;(-a --apply)&#39;{-a,--apply}&#39;[Apply routefile to route53]&#39; \
+  &#39;(-f --file)&#39;{-f,--file}&#39;[Set the filename]:FILE&#39; \
+  &#39;(--dry-run)&#39;--dry-run&#39;[Prints out commands without running them dry run mode]&#39; \
+  &#39;(--force)&#39;--force&#39;[Force apply]&#39; \
+  &#39;(--no-health-check-gc)&#39;--no-health-check-gc&#39;[  ]&#39; \
+  &#39;(-e --export)&#39;{-e,--export}&#39;[Export records]&#39; \
+  &#39;(-o --output)&#39;{-o,--output}&#39;[Output file]:FILE&#39; \
+  &#39;(--split)&#39;--split&#39;[Split files by domain]&#39; \
+  &#39;(--with-soa-ns)&#39;--with-soa-ns&#39;[Without SOA NS Server]&#39;\
+  &#39;(-t --test)&#39;{-t,--test}&#39;[Run test]&#39; \
+  &#39;(--nameservers)&#39;--nameservers&#39;[Set nameservers]:SERVERS&#39; \
+  &#39;(--no-color)&#39;--no-color&#39;[Disable all colored output]&#39; \
+  &#39;(--debug)&#39;--debug&#39;[Disply debug message]&#39; \
+  &#39;(-h --help)&#39;{-h,--help}&#39;[print options help]&#39; \
+  &#39;(-v --version)&#39;{-v,--version}&#39;[print version]&#39; \
+  &#39;*: :_files&#39; &amp;&amp; ret=0
+
+return ret</code></pre></noscript></div>
+</p>
+
+<p><code>$fpath</code>の中に設置すれば、下記みたいな感じで動きます。(時間があるときに体裁整えて
+<a href="https://github.com/zsh-users/zsh-completions">zsh-users/zsh-completions</a>にPR出しておきます！)</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/07/roadworker1.png" alt="" /></p>
+
+<p>Roadworkerを利用すれば、DNSレコードをRoutefileという形でgit管理出来るし、変更点をdry-runで事前チェックも出来る。
+またテストコマンドもあるのでCI回したりして、より安全にドメイン操作が出来ると思う。(まだそこまで使いこなせてないけど！)</p>
+
+<p><a href="http://deeeet.com/writing/2014/05/06/direnv/">@deeeetさんがブログに書いてた</a>ようにDotenvより
+direnvの方が他のツールと組み合わせやすくて便利な気がする。</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://dev.classmethod.jp/cloud/aws/route53-as-code-roadworker/">【AWS】Route53をgitで管理する「Roadworker」を早速試してみました ｜ Developers.IO</a></li>
+  <li><a href="http://deeeet.com/writing/2014/05/06/direnv/">DotenvではなくDirenvを使う | SOTA</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[vim-quickrunでServerspecをカーソル行単位でテストして編集効率を10倍にする]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/06/19/quickrun-serverspec/"/>
+    <updated>2014-06-19T18:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/06/19/quickrun-serverspec</id>
+    <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2014/06/17/serverspec-snippets/">Serverspecが超高速で書けるserverspec-snippetsを作った</a>の続き。</p>
+
+<p>超高速で<a href="http://serverspec.org/">Serverspec</a>が書けるようになったので、
+今度は<a href="https://github.com/thinca/vim-quickrun">vim-quickrun</a>を使って、
+Serverspecを書きながらカーソル行だけテストを回せるようにした。</p>
+
+<p>どんな感じかまた動画を用意したので、見ていただくのが早いです。</p>
+
+<p><div class="embed-video-container"><iframe src="https://player.vimeo.com/video/98562985 "></iframe></div></p>
+
+<p>カーソル行だけテストが実行されるので、全体のテストを実行するより高速になってます。</p>
+
+<p>vim-quickrunでテストを実行すると、出力に色が付かないので下記のようなsyntaxプラグインを作成。
+使い方やvim-quickrunの設定例も下記にまとまっているので、参照ください。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/rspec-result-syntax">glidenote/rspec-result-syntax</a></li>
+</ul>
+
+<p><code>g:quickrun_config</code>において<code>cmdopt</code>、<code>args</code>、<code>exec</code>を調整すれば
+いろんな環境に対応が出来ると思います。</p>
+
+<p><img src="http://i.vimeocdn.com/video/479397234_640.jpg" alt="" /></p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/Qureana/items/b057c934733554e05427">Ruby - Rspec + QuickRun でカーソル行のテストする - Qiita</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Serverspecが超高速で書けるserverspec-snippetsを作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/06/17/serverspec-snippets/"/>
+    <updated>2014-06-17T20:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/06/17/serverspec-snippets</id>
+    <content type="html"><![CDATA[<p><a href="http://serverspec.org/">Serverspec</a>書いてますか！</p>
+
+<p>Serverspecが超高速で書けるようにsnippetsを作成しました。(本当は私がResource Typesを全く覚えられないので作成しただけなんですが)</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/serverspec-snippets">glidenote/serverspec-snippets</a></li>
+</ul>
+
+<p>どんな感じのものなのかは動画を見て頂くのが早いです。</p>
+
+<p><div class="embed-video-container"><iframe src="https://player.vimeo.com/video/98406679 "></iframe></div></p>
+
+<p>インストール方法や使い方は<a href="https://github.com/glidenote/serverspec-snippets">glidenote/serverspec-snippets</a>
+を参照ください。</p>
+
+<p><a href="https://github.com/Keithbsmiley/rspec.vim/blob/master/ftdetect/rspec.vim">https://github.com/Keithbsmiley/rspec.vim/blob/master/ftdetect/rspec.vim</a> みたい感じで、
+filetypeを<code>ruby.serverspec</code>へと自動指定は出来るんですが、rspecと干渉するので、ちょっと良い案を思案中。</p>
+
+<p>大変便利になった</p>
+
+<p><strong>追記 2014/06/26</strong></p>
+
+<p><code>should</code> &lt;=&gt; <code>should_not</code>などの切り替えは下記のプラグインを使うと簡単にできるのでオススメです。</p>
+
+<ul>
+  <li><a href="https://github.com/AndrewRadev/switch.vim">AndrewRadev/switch.vim</a></li>
+</ul>
+
+<p><img src="http://i.vimeocdn.com/video/479112148_640.jpg" alt="" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[bundle openでVimfilerやCtrlP.vimやFuzzyFinderを起動する]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/05/29/bundle-open-with-vimfiler/"/>
+    <updated>2014-05-29T13:30:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/05/29/bundle-open-with-vimfiler</id>
+    <content type="html"><![CDATA[<p>今朝社内IRCで<a href="https://twitter.com/hsbt">@hsbt</a>さんと<a href="https://twitter.com/udzura">@udzuraさん</a>が
+<a href="https://gist.github.com/kakutani/43b9f42197ab002fcdf8">IdobataのGemfile</a>の話をしていて、</p>
+
+<p><code>
+10:54:44      hsbt | この Gemfile を持って来て、bundle install &amp;&amp; bundle open が
+10:54:58      hsbt | 一番、これ何だを見るのが楽だった
+10:56:28    udzura | bundler benri
+</code></p>
+
+<p>その中で上のようなbundlerの便利情報を話していて、そういえば<a href="http://rebuild.fm/41/">rebuild.fm vol.41</a>で
+同じようなこと言ってたなーと思い出して、vim使って便利に出来ないかなーと思ってやってみたら簡単にできたのでメモ。</p>
+
+<p>各種Vimプラグインのインストール方法は割愛。(<a href="https://github.com/Shougo/neobundle.vim">neobundle.vim</a>とかを使ってください)</p>
+
+<p>単に<code>BUNDLER_EDITOR</code>という環境変数を設定するだけのお手軽TIPS</p>
+
+<h2 id="vimfilerhttpsgithubcomshougovimfilervim"><a href="https://github.com/Shougo/vimfiler.vim">VimFiler</a>を利用する場合</h2>
+
+<p><code>sh
+export BUNDLER_EDITOR="vim +VimFiler"
+</code></p>
+
+<h2 id="ctrlpvimhttpsgithubcomkienctrlpvim"><a href="https://github.com/kien/ctrlp.vim">ctrlp.vim</a>を利用する場合</h2>
+
+<p><code>sh
+export BUNDLER_EDITOR="vim +CtrlP"
+</code></p>
+
+<h2 id="fuzzyfinderhttpsgithubcomvim-scriptsfuzzyfinder"><a href="https://github.com/vim-scripts/FuzzyFinder">FuzzyFinder</a>を利用する場合</h2>
+
+<p><code>sh
+export BUNDLER_EDITOR="vim +FufFile"
+</code></p>
+
+<h2 id="bundle-opengem">bundle openでgemの中身を確認</h2>
+
+<p><code>
+bundle open gemname
+</code></p>
+
+<p>私はVimfiler使うように設定。</p>
+
+<p>たとえば、<code>bundle open rubocop</code>とかやると下記のような感じでVimfilerで
+該当gemの中身を見れるようになった。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/05/bundler_open0.png" alt="" /></p>
+
+<p>便利〜</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://xoyip.hatenablog.com/entry/2014/04/24/200613">bundle openで使うBUNDLER_EDITORをカスタマイズする - PILOG</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[rubocop+syntasticでRubyのコーディングルールへの準拠チェックを自動化する]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/05/28/vim-rubocop/"/>
+    <updated>2014-05-28T10:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/05/28/vim-rubocop</id>
+    <content type="html"><![CDATA[<p>sensuのプラグイン書いてて、<a href="https://github.com/sensu/sensu-community-plugins#rubocop-linting">sensu/sensu-community-plugins</a>を見ていたら
+<a href="https://github.com/bbatsov/rubocop">rubocop</a>でlintかけろ的な事が書いて、導入して使ってみたら便利だったのでメモ。</p>
+
+<h2 id="rubocop">rubocopとは</h2>
+
+<ul>
+  <li><a href="https://github.com/bbatsov/rubocop">bbatsov/rubocop</a></li>
+</ul>
+
+<p>rubocopとは、Rubyのコードが<a href="https://github.com/fortissimo1997/ruby-style-guide/blob/japanese/README.ja.md">ruby-style-guide(日本語訳)</a>に
+沿って書かれているか解析してくれるツール</p>
+
+<h2 id="rubocop-1">rubocopのインストールと使い方</h2>
+
+<p><code>sh
+gem install rubocop
+</code></p>
+
+<p>でコマンドラインから利用する場合は下記みたいな感じ。</p>
+
+<p>単一ファイルに対して実行する場合</p>
+
+<p><code>sh
+rubocop hoge.rb
+</code></p>
+
+<p>配下のファイルに一斉に実行する場合</p>
+
+<p><code>sh
+cd /path/to/ruby-project/
+rubocop
+</code></p>
+
+<p><a href="https://github.com/bbatsov/ruby-style-guide">bbatsov/ruby-style-guide</a>に準拠してない、
+記載方法がある場合は指摘される。
+自分で<code>.rubocop.yml</code>とかを用意することで、自分たち用のコーディングルールに変更も出来る。</p>
+
+<h2 id="section">既存プロジェクトへの適用</h2>
+
+<p>新規に使い始めるときは楽なんですが、既存のプロジェクトやコードに<code>rubocop</code>を走らせると恐らく大量に違反が検出されて
+それを直していくのは結構ツラい。
+なのでとりあえずは下記みたいな感じで現段階での違反をとりあえず無視する。</p>
+
+<p><code>sh
+cd /path/to/ruby-project/
+rubocop --auto-gen-config
+echo 'inherit_from: rubocop-todo.yml' &gt;&gt; .rubocop.yml
+rubocop
+</code></p>
+
+<p>それで、チェックしたいルールを1個ずつ下記のように<code>.rubocop.yml</code>に追加</p>
+
+<p><code>
+LineLength:
+  Max: 80
+</code></p>
+
+<p>再度<code>rubocop</code>を実行すると、追加したルールに違反しているものだけ表示されるので、
+少しずつ直していける。</p>
+
+<p>また一部ルールは<code>-a</code>もしくは<code>--auto-correct</code>を利用することで自動的に変換も出来る。</p>
+
+<p><code>
+rubocop -a
+</code></p>
+
+<h2 id="vim">Vimからの利用</h2>
+
+<p>Vimから使えると便利そうと思っていたら、<a href="https://github.com/scrooloose/syntastic">syntastic</a>が
+rubocopをサポートしているので下記のように設定するだけで、簡単に利用出来た。</p>
+
+<p>私は<a href="https://github.com/Shougo/neobundle.vim">neobundle.vim</a>を使っているので下記のような感じで記載して<code>:NeoBundleInstall</code></p>
+
+<p><code>
+NeoBundle 'scrooloose/syntastic'
+let g:syntastic_ruby_checkers = ['rubocop']
+</code></p>
+
+<p>ファイルを保存したタイミングでsyntastic経由で<code>rubocop</code>が実行され、自動でチェックが走ってくれる。
+指摘内容は<code>:Errors</code>とか実行すると確認が出来る。</p>
+
+<p>vimだけじゃなくzshからも利用出来ると便利そうなので、zsh-completionsにPRを出しておいた。</p>
+
+<ul>
+  <li><a href="https://github.com/zsh-users/zsh-completions/pull/232">add rubocop completion by glidenote · Pull Request #232 · zsh-users/zsh-completions</a></li>
+</ul>
+
+<p>今まで、<a href="https://github.com/fortissimo1997/ruby-style-guide/blob/japanese/README.ja.md">ruby-style-guide(日本語訳)</a>に沿った書き方を
+してなかったので、使ってるとイライラさせられる部分もあるけど、矯正されていく感があってなかなか良い。</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/yaotti/items/4f69a145a22f9c8f8333">Ruby - Rubocopを使ってコーディングルールへの準拠チェックを自動化 - Qiita</a></li>
+  <li><a href="http://qiita.com/yuku_t/items/0ac33cea18e10f14e185">Rubocopをsyntasticを使ってVimから自動実行する - Qiita</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

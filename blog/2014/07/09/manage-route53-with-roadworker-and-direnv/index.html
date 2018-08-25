@@ -1,0 +1,492 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Roadworkerとdirenvを使ってRoute53のDNSレコードを管理する & Roadworker用にVimプラグインとZsh補完関数も作った - Glide Note</title>
+  <meta property="og:title" content="Roadworkerとdirenvを使ってRoute53のDNSレコードを管理する & Roadworker用にVimプラグインとZsh補完関数も作った - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="TL;DR Route53のDNSレコード管理にはRoadworkerとdirenvを組み合わせて使うと便利 Roadworkerを使いやすくするために、VimプラグインとZsh補完関数を作った (TL;DR使ってみたかった) 経緯 roadworker | RubyGems.org &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv">
+<meta name="twitter:title" content="Roadworkerとdirenvを使ってRoute53のDNSレコードを管理する & Roadworker用にVimプラグインとZsh補完関数も作った">
+<meta name="twitter:description" content="TL;DR Route53のDNSレコード管理にはRoadworkerとdirenvを組み合わせて使うと便利 Roadworkerを使いやすくするために、VimプラグインとZsh補完関数を作った (TL;DR使ってみたかった) 経緯 roadworker | RubyGems.org zimbatm/direnv 会社でRoute53に移行したチームがあって、 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Roadworkerとdirenvを使ってRoute53のDNSレコードを管理する & Roadworker用にVimプラグインとZsh補完関数も作った</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-09T22:30:00+09:00" pubdate data-updated="true">2014年07月09日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li>Route53のDNSレコード管理にはRoadworkerとdirenvを組み合わせて使うと便利</li>
+  <li>Roadworkerを使いやすくするために、VimプラグインとZsh補完関数を作った</li>
+</ul>
+
+<p>(<code>TL;DR</code>使ってみたかった)</p>
+
+<h2 id="section">経緯</h2>
+
+<ul>
+  <li><a href="https://rubygems.org/gems/roadworker">roadworker | RubyGems.org</a></li>
+  <li><a href="https://github.com/zimbatm/direnv">zimbatm/direnv</a></li>
+</ul>
+
+<p>会社でRoute53に移行したチームがあって、レコードの管理にRoadworkerを使ってて、
+私もちょっと使ってみたんですが、コマンドラインからの使い勝手と、Routefileの編集が
+そのままだと不便だったので、使い勝手が良くなるようにdirenv使ったり、
+Vimプラグインとzsh補完関数を作ったりした。</p>
+
+<p>Macでの作業を想定してます。</p>
+
+<h2 id="roadworker">Roadworkerのインストール</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">gem install roadworker</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="direnv">direnvのインストール</h2>
+
+<p>direnvはgoで書かれていてbrewコマンドで導入が可能。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">brew install direnv</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>~/.zshrc</code>に下記を追記。(もし<code>$EDITOR</code>が設定されてない場合はそれも設定する)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">eval "$(direnv hook zsh)"</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="roadworkerdirenv">Roadworkerとdirenvを組み合わせて使う</h2>
+
+<p>Routeworkerを使うときに下記のように</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">export </span><span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span><span class="s1">&#39;...&#39;</span>
+</span><span class="line"><span class="nb">export </span><span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span><span class="s1">&#39;...&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>AWS_ACCESS_KEY_ID</code>と<code>AWS_SECRET_ACCESS_KEY</code>を環境変数を設定しないといけないんですが、
+毎回設定するのが面倒なので、これをdirenvにやって貰う。</p>
+
+<p>具体的には、Route53のドメインを管理する(Routefileを管理している)ディレクトリに移動して、
+direnv経由で、<code>.envrc</code>を作成する</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">direnv edit .
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>.envrc</code>の中身は下記のような感じ</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">export </span><span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span><span class="s1">&#39;...&#39;</span>
+</span><span class="line"><span class="nb">export </span><span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span><span class="s1">&#39;...&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>そうすると、コマンドラインから環境変数を設定しなくても、該当ディレクトリに移動すると
+そのディレクトリ内だけでdirenvが<code>.envrc</code>を読み込んで環境変数が設定される。</p>
+
+<p>あとは普通に<code>roadwork</code>コマンドでRoute53を操作するだけ。Roadworkerの使い方は下記が詳しいです。</p>
+
+<ul>
+  <li><a href="http://dev.classmethod.jp/cloud/aws/route53-as-code-roadworker/">【AWS】Route53をgitで管理する「Roadworker」を早速試してみました ｜ Developers.IO</a></li>
+</ul>
+
+<h2 id="roadworkervim">roadworker.vim</h2>
+
+<ul>
+  <li><a href="https://github.com/glidenote/roadworker.vim">glidenote/roadworker.vim</a></li>
+</ul>
+
+<p>RoadworkerからRoute53を操作するのに、Routefileの編集が必要なので、
+Routefileの編集が楽になるようにプラグインを書いた。</p>
+
+<p>下記みたいにsyntaxがきいたり、snippetを利用して簡単に編集が出来るようになります。 (左がsyntax無し、右がroadworker.vimによりsyntax有りの状態)</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/07/roadworker0.png" alt="" /></p>
+
+<p>導入方法や使い方は<a href="https://github.com/glidenote/roadworker.vim">README.md</a>を参照ください。</p>
+
+<h2 id="zsh">zsh補完関数</h2>
+
+<p>コマンドラインからも便利に使えるようにzsh補完関数を下記みたいなファイルを作成。</p>
+
+<div><script src="https://gist.github.com/2062a35fe696d528457d.js"></script>
+<noscript><pre><code>#compdef roadwork
+# ------------------------------------------------------------------------------
+# Description
+# -----------
+#
+#  Completion script for roadworker (https://rubygems.org/gems/roadworker)
+#
+# ------------------------------------------------------------------------------
+# Authors
+# -------
+#
+#  * Akira Maeda &lt;https://github.com/glidenote&gt;
+#
+# ------------------------------------------------------------------------------
+# -*- mode: zsh; sh-indentation: 2; indent-tabs-mode: nil; sh-basic-offset: 2; -*-
+# vim: ft=zsh sw=2 ts=2 et
+# ------------------------------------------------------------------------------
+
+local curcontext=&quot;$curcontext&quot; state line ret=1
+typeset -A opt_args
+
+_arguments -C \
+  &#39;(-k --access-key)&#39;{-k,--access-key}&#39;[Set Access Key ID]:ACCESS_KEY&#39; \
+  &#39;(-s --secret-key)&#39;{-s,--secret-key}&#39;[Set Secret Access Key]:SECRET_KEY&#39; \
+  &#39;(-a --apply)&#39;{-a,--apply}&#39;[Apply routefile to route53]&#39; \
+  &#39;(-f --file)&#39;{-f,--file}&#39;[Set the filename]:FILE&#39; \
+  &#39;(--dry-run)&#39;--dry-run&#39;[Prints out commands without running them dry run mode]&#39; \
+  &#39;(--force)&#39;--force&#39;[Force apply]&#39; \
+  &#39;(--no-health-check-gc)&#39;--no-health-check-gc&#39;[  ]&#39; \
+  &#39;(-e --export)&#39;{-e,--export}&#39;[Export records]&#39; \
+  &#39;(-o --output)&#39;{-o,--output}&#39;[Output file]:FILE&#39; \
+  &#39;(--split)&#39;--split&#39;[Split files by domain]&#39; \
+  &#39;(--with-soa-ns)&#39;--with-soa-ns&#39;[Without SOA NS Server]&#39;\
+  &#39;(-t --test)&#39;{-t,--test}&#39;[Run test]&#39; \
+  &#39;(--nameservers)&#39;--nameservers&#39;[Set nameservers]:SERVERS&#39; \
+  &#39;(--no-color)&#39;--no-color&#39;[Disable all colored output]&#39; \
+  &#39;(--debug)&#39;--debug&#39;[Disply debug message]&#39; \
+  &#39;(-h --help)&#39;{-h,--help}&#39;[print options help]&#39; \
+  &#39;(-v --version)&#39;{-v,--version}&#39;[print version]&#39; \
+  &#39;*: :_files&#39; &amp;&amp; ret=0
+
+return ret</code></pre></noscript></div>
+
+<p><code>$fpath</code>の中に設置すれば、下記みたいな感じで動きます。(時間があるときに体裁整えて
+<a href="https://github.com/zsh-users/zsh-completions">zsh-users/zsh-completions</a>にPR出しておきます！)</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/07/roadworker1.png" alt="" /></p>
+
+<p>Roadworkerを利用すれば、DNSレコードをRoutefileという形でgit管理出来るし、変更点をdry-runで事前チェックも出来る。
+またテストコマンドもあるのでCI回したりして、より安全にドメイン操作が出来ると思う。(まだそこまで使いこなせてないけど！)</p>
+
+<p><a href="http://deeeet.com/writing/2014/05/06/direnv/">@deeeetさんがブログに書いてた</a>ようにDotenvより
+direnvの方が他のツールと組み合わせやすくて便利な気がする。</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://dev.classmethod.jp/cloud/aws/route53-as-code-roadworker/">【AWS】Route53をgitで管理する「Roadworker」を早速試してみました ｜ Developers.IO</a></li>
+  <li><a href="http://deeeet.com/writing/2014/05/06/direnv/">DotenvではなくDirenvを使う | SOTA</a></li>
+</ul>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-09T22:30:00+09:00" pubdate data-updated="true">2014年07月09日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/aws/'>aws</a>, <a class='category' href='/blog/categories/route53/'>route53</a>, <a class='category' href='/blog/categories/vim/'>vim</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="Roadworkerとdirenvを使ってRoute53のDNSレコードを管理する & Roadworker用にVimプラグインとZsh補完関数も作った - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Roadworkerとdirenvを使ってRoute53のDNSレコードを管理する & Roadworker用にVimプラグインとZsh補完関数も作った "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2016/12/16/goreplay/">GoReplayを導入して、Production環境へのリクエストを複製し、Staging環境に転送する仕組みを作った</a></li>
+
+  <li><a href="/blog/2015/05/21/amazon-web-services-books/">「Amazon Web Services パターン別構築・運用ガイド」が良かった</a></li>
+
+  <li><a href="/blog/2015/02/18/terraform-github-circleci-atlas-aws/">Terraform + GitHub + CircleCI + Atlasを利用してAWSの操作を自動化した</a></li>
+
+  <li><a href="/blog/2014/11/21/cloudfront-logs-to-bigquery/">CloudFrontのログをfluent-plugin-bigqueryを利用してBigQueryに入れるようにした</a></li>
+
+  <li><a href="/blog/2014/11/21/s3-event-notificasions/">S3 Event NotificasionsをAmazon SQSで受け取る</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/06/26/snippets-peco-percol/" title="Previous Post: peco/percolでCUIなスニペットツールを作ってみる">&laquo; peco/percolでCUIなスニペットツールを作ってみる</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/08/01/join-to-kaizen-platform-inc/" title="next Post: KAIZEN platform Inc.に入社した">KAIZEN platform Inc.に入社した &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2014/07/09/manage-route53-with-roadworker-and-direnv/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

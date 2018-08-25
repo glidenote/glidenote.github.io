@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: cobbler | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/cobbler/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Cobbler System addのメモ]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/03/16/cobbler-system-add/"/>
+    <updated>2012-03-16T12:59:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/03/16/cobbler-system-add</id>
+    <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2012/03/15/cobbler-install/">前回</a>の続き</p>
+
+<p><code>cobbler system add</code>コマンドをいつも忘れるのでメモ。</p>
+
+<h2 id="profile">profileの作成(用途ごとの設定)</h2>
+
+<p>WEBサーバ、DBサーバとかの用途ごとの設定はprofileで設定</p>
+
+<p><code>
+cobbler profile add --name=mysql-server --distro=CentOS5.8-x86_64 --kickstart=/var/lib/cobbler/kickstarts/mysql-server.ks
+cobbler sync
+</code></p>
+
+<h2 id="system">systemの作成(サーバ固有の設定)</h2>
+
+<p>下記のようなサーバ固有の設定はsystemで設定。共通の設定はprofileで設定したほうがいいかも。</p>
+
+<ul>
+  <li>ホストネーム</li>
+  <li>インターフェースのMACアドレス</li>
+  <li>ネットワーク設定(IPアドレス、サブネットマスク、ゲートウェイ、DNSサーバ)</li>
+</ul>
+
+<p>```
+cobbler system add  \
+–name=hogemoge001.com \     # system名を指定(addの場合はこの名前でsystemが作成される)
+–hostname=hogemoge001.com \ # Hostnameを設定
+–profile=mysql-server \     # 利用するprofileを指定
+–interface=eth0 \           # 設定するインターフェースを指定
+–mac=xx:xx:xx:xx:xx:xx \    # eth0のMACアドレス
+–static=1 \                 # 固定IP or DHCP (DHCPの場合は0)
+–ip=xxx.xxx.xxx.xxx \       # eth0のIPアドレス
+–subnet=255.255.255.0 \     # eth0のサブネットマスク
+–gateway=xxx.xxx.xxx.xxx \  # eth0のゲートウェイ
+–name-servers=8.8.8.8 \     # 参照するDNSサーバ
+–kopts=’ksdevice=eth1’      # カーネルオプションがある場合はここで指定</p>
+
+<p>cobbler system edit \
+–name=hogemoge001.com \     # system名を指定(editの場合は、この名前のsystemを変更)
+–interface=eth1 \           # 設定するインターフェースを指定
+–mac=xx:xx:xx:xx:xx:xx \    # eth1側のMACアドレス
+–static=1 \                 # 固定IP or DHCP (DHCPの場合は0)
+–ip=xxx.xxx.xxx.xxx \       # eth1のIPアドレス
+–subnet=255.255.255.0       # eth1のサブネットマスク</p>
+
+<p>cobbler sync
+```</p>
+
+<p>設定の確認</p>
+
+<p><code>
+cobbler system report --name=hogemoge001.com
+</code></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CobblerでScientific Linux 6.1を導入]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/02/03/cobbler-scientific-linux-6.1/"/>
+    <updated>2012-02-03T22:57:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/02/03/cobbler-scientific-linux-6.1</id>
+    <content type="html"><![CDATA[<p>CobblerでScientific Linux 6.1を導入出来るようにしたのでメモ。
+同僚の<a href="https://twitter.com/#!/tnmt">@tnmt</a>の書いた情報を6.1用に書き換えて流用ですが。いつも有益な情報ありがとう！</p>
+
+<ul>
+  <li><a href="http://blog.tnmt.info/2011/07/06/scientific-linux-kvm-with-cobbler-koan/">Cobbler+KoanでScientific Linux 6.0なKVMのVMをコマンド一発で作成する - blog.tnmt.info</a></li>
+</ul>
+
+<p>利用したCobblerサーバはCentOS 5.7でCobblerのバージョンは1.6.6です。</p>
+
+<h2 id="scientific-linux-61">Scientific Linux 6.1の必要ファイルのインポート</h2>
+
+<p>30～40分くらいかかります。</p>
+
+<p><code>
+sudo cobbler import --path=rsync://ftp.jaist.ac.jp/pub/Linux/scientific/6.1/x86_64/os/ --name=SL6.1-x86_64
+</code></p>
+
+<h2 id="section">設定の確認</h2>
+
+<p>```
+sudo cobbler distro report –name SL6.1-x86_64</p>
+
+<p>distro               : SL6.1-x86<em>64
+architecture         : x86</em>64
+breed                : redhat
+created              : Fri Feb  3 10:40:32 2012
+comment              :
+initrd               : /var/www/cobbler/ks_mirror/SL6.1-x86<em>64/images/pxeboot/initrd.img
+kernel               : /var/www/cobbler/ks_mirror/SL6.1-x86</em>64/images/pxeboot/vmlinuz
+kernel options       : {}
+ks metadata          : {‘tree’: ‘http://@@http_server@@/cblr/links/SL6.1-x86_64’}
+tree build time      : Thu Jan  1 09:00:00 1970
+modified             : Fri Feb  3 10:45:35 2012
+mgmt classes         : []
+os version           :
+owners               : [‘admin’]
+post kernel options  : {}
+redhat mgmt key      : «inherit»
+redhat mgmt server   : «inherit»
+template files       : {}
+```</p>
+
+<p>```
+sudo cobbler profile report –name SL6.1-x86_64</p>
+
+<p>profile              : SL6.1-x86<em>64
+distro               : SL6.1-x86</em>64
+comment              :
+created              : Fri Feb  3 10:40:33 2012
+dhcp tag             : default
+enable menu          : True
+kernel options       : {}
+kickstart            : /var/lib/cobbler/kickstarts/default.ks
+ks metadata          : {}
+mgmt classes         : []
+modified             : Fri Feb  3 10:40:33 2012
+name servers         : []
+name servers search  : []
+owners               : [‘admin’]
+post kernel options  : {}
+redhat mgmt key      : «inherit»
+redhat mgmt server   : «inherit»
+repos                : []
+server               : «inherit»
+template_files       : {}
+virt bridge          : xenbr0
+virt cpus            : 1
+virt file size       : 5
+virt path            :
+virt ram             : 512
+virt type            : qemu
+```</p>
+
+<h2 id="kickstart">kickstartファイルの用意</h2>
+
+<p><code>/var/lib/cobbler/kickstarts/SL61-x86_64-basic.ks</code>とかを適当に用意して、ksファイルをデフォルトの<code>/var/lib/cobbler/kickstarts/default.ks</code>から変更</p>
+
+<p><code>
+sudo cobbler profile edit --name=SL6.1-x86_64 --kickstart=/var/lib/cobbler/kickstarts/SL61-x86_64-basic.ks
+</code></p>
+
+<h2 id="os">OSのインストール</h2>
+
+<p>とりあえず、<code>cobbler system add</code> 無しでサーバに電源投入。
+下記のようにcobblerが走って、SL6.1を選べばOSインストール完了。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/cobbler.png" alt="" />
+<img src="https://blog.glidenote.com/images/2012/02/cobbler2.png" alt="" /></p>
+
+<p><code>cobbler system add</code> して事前にサーバの各種固有情報を登録しておけば電源投入するだけ。</p>
+
+]]></content>
+  </entry>
+  
+</feed>

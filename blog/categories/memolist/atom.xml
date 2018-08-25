@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: memolist | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/memolist/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Octopressの記事管理用プラグイン、Octoeditor.vimを作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/02/octoeditor.vim/"/>
+    <updated>2012-04-02T00:49:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/02/octoeditor.vim</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/glidenote/memolist.vim">memolist.vim</a>が非常に使いやすくなり、
+もともと利用していた<a href="https://blog.glidenote.com/blog/2011/12/23/modify-jekyll.vim-for-octopress/">カスタムしたjekyll.vim</a>よりも
+使いやすいのでmemolist.vimの機能を実装した<a href="http://octopress.org/">Octopress</a>の記事管理用
+のvimプラグインを作成しました。<strong>Octo</strong>press-<strong>editor</strong>を略して<strong>Octoeditor[オクトエディタ]</strong>と読みます。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/octoeditor.vim">glidenote/octoeditor.vim</a></li>
+</ul>
+
+<h2 id="octoeditorvim">Octoeditor.vimの概要</h2>
+
+<ul>
+  <li>新規記事の作成。<code>rake new_post[title]</code>の実行(:OctopressNew)</li>
+  <li>記事の管理。(:OctopressList)</li>
+  <li>記事のGrep検索。(:OctopressGrep)</li>
+  <li>プレビューの生成。<code>rake generate</code>の実行(:OctopressGenerate)</li>
+  <li>記事の投稿。<code>rake gen_deploy</code>の実行(:OctopressDeploy)</li>
+</ul>
+
+<p>Octopressでブログを更新する際に必要な機能を一通り実装しました。
+プレビュー確認の<code>rake preview</code>はvimとは別で起動していないと
+いけないので、Octoeditorの機能としては省いています。</p>
+
+<h2 id="section">導入方法</h2>
+
+<p>導入には<a href="https://github.com/gmarik/vundle">vundle</a>か、<a href="https://github.com/Shougo/neobundle.vim">NeoBundle</a>
+を利用すると楽です。</p>
+
+<p>vundleの場合は、</p>
+
+<p><code>
+Bundle 'glidenote/octoeditor.vim'
+</code></p>
+
+<p>NeoBundleの場合は、</p>
+
+<p><code>
+NeoBundle 'glidenote/octoeditor.vim'
+</code></p>
+
+<p>を.vimrcに記載。</p>
+
+<h2 id="vimrc">.vimrcの設定</h2>
+
+<p>octoeditor.vimを利用するには、<code>.vimrc</code>にOctopressのディレクトリのパスを
+下記のように設定します。</p>
+
+<p><code>
+let g:octopress_path = '~/octopress'
+</code></p>
+
+<p>私はその他に下記マッピングを記載して利用しています。
+<code>\on</code>と入力すると瞬時に新規ファイルの作成が出来、<code>,og</code>と入力して
+記事の確認をしています。
+<code>&lt;Leader&gt;</code>はデフォルトだとキーボードの￥マークになっていると思います。</p>
+
+<p><code>
+map &lt;Leader&gt;on  :OctopressNew&lt;CR&gt;
+map &lt;Leader&gt;ol  :OctopressList&lt;CR&gt;
+map &lt;Leader&gt;og  :OctopressGrep&lt;CR&gt;
+nmap ,og  :OctopressGenerate&lt;CR&gt;
+nmap ,od  :OctopressDeploy&lt;CR&gt;
+</code></p>
+
+<p>その他に下記のようなオプションがあります。qfixgrepやvimfilerとの連携も出来ます。</p>
+
+<p><code>
+let g:octopress_post_suffix = "markdown"
+let g:octopress_post_date = "%Y-%m-%d %H:%M"
+let g:octopress_post_date = "epoch"
+let g:octopress_post_date = "%D %T"
+let g:octopress_published = 0
+let g:octopress_comments = 0
+let g:octopress_prompt_tags = 1
+let g:octopress_prompt_categories = 1
+let g:octopress_qfixgrep = 1
+let g:octopress_vimfiler = 1
+let g:octopress_template_dir_path = "path/to/dir"
+</code></p>
+
+<h2 id="section-1">使い方</h2>
+
+<h3 id="octopressnew">新規記事の作成(:OctopressNew)</h3>
+
+<p><code>
+:OctopressNew
+</code></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor0.png" alt="" /></p>
+
+<p>Octopress用のフォーマットで記事が作成されます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor1.png" alt="" /></p>
+
+<p>Octopressの仕様で日本語を含むファイル名が利用できないので、
+[Post title]の部分ではアルファベットで入力し、
+記事編集でタイトルを日本語に変更してください。</p>
+
+<h3 id="octopresslist">記事の管理(:OctopressList)</h3>
+
+<p><code>
+:OctopressList
+</code></p>
+
+<p>デフォルトのnetrwを利用した場合</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor2.png" alt="" /></p>
+
+<p><a href="https://github.com/Shougo/vimfiler">vimfiler</a>連携を利用した場合</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor3.png" alt="" /></p>
+
+<h3 id="grepoctopressgrep">記事のGrep検索(:OctopressGrep)</h3>
+
+<p><code>
+:OctopressGrep
+</code></p>
+
+<p><a href="https://github.com/fuenor/qfixgrep">qfixgrep</a>連携を利用した場合</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor4.png" alt="" /></p>
+
+<h3 id="rake-generateoctopressgenerate">プレビューの生成 <code>rake generate</code>(:OctopressGenerate)</h3>
+
+<p><code>
+:OctopressGenerate
+</code></p>
+
+<p>vim上から<code>rake generate</code>を実行します。
+<code>rake preview</code>を別途ターミナル上から実行しておけば、
+プレビューを確認できます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor5.png" alt="" /></p>
+
+<h3 id="rake-gendeployoctopressdeploy">記事の投稿 <code>rake gen_deploy</code>(:OctopressDeploy)</h3>
+
+<p><code>
+:OctopressDeploy
+</code></p>
+
+<p>vim上から<code>rake gen_deploy</code>を実行し、記事を投稿できます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor6.png" alt="" /></p>
+
+<h2 id="octopress">Octopressの記事更新の流れ</h2>
+
+<ul>
+  <li><code>:OctopressNew</code>で新規記事を作成</li>
+  <li><code>:OctopressGenerate</code>でプレビュー確認</li>
+  <li><code>:OctopressDeploy</code>で記事の投稿</li>
+</ul>
+
+<p>私は下記のように設定をして、<a href="https://github.com/vim-scripts/FuzzyFinder">FuzzyFinder</a>と
+<a href="https://github.com/vim-scripts/ctrlp.vim">ctrlp.vim</a>などと連携をして利用しています。</p>
+
+<p><div><script src='https://gist.github.com/2276389.js'></script>
+<noscript><pre><code>Bundle &#39;glidenote/octoeditor.vim&#39;
+let g:octopress_path = &#39;~/octopress&#39;
+let g:octopress_prompt_categories = 1
+let g:octopress_qfixgrep = 1
+map &lt;Leader&gt;on  :OctopressNew&lt;CR&gt;
+map &lt;Leader&gt;ol  :OctopressList&lt;CR&gt;
+map &lt;Leader&gt;og  :OctopressGrep&lt;CR&gt;
+nmap ,og  :OctopressGenerate&lt;CR&gt;
+nmap ,od  :OctopressDeploy&lt;CR&gt;
+&quot; For FuzzyFinder
+nmap of  :FufFile &lt;C-r&gt;=expand(g:octopress_path.&quot;/source/_posts/&quot;)&lt;CR&gt;&lt;CR&gt;
+&quot; For ctrlp
+nmap ,of :exe &quot;CtrlP&quot; g:octopress_path . &quot;/source/_posts/&quot;&lt;cr&gt;&lt;f5&gt;</code></pre></noscript></div>
+</p>
+
+<p>FuzzyFinerを利用したファイル検索</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor7.png" alt="" /></p>
+
+<p>ctrlpを利用したファイル検索</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor8.png" alt="" /></p>
+
+<p>バグや要望などありましたら<a href="https://twitter.com/#!/glidenote">@glidenote</a>かgithubのissueに連絡頂ければと思います。</p>
+
+<p>blogを書く作業が、vim上で完結するようになり快適です。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[memolist.vimの機能追加と仕様変更のお知らせ(Ver 0.0.5)]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/03/31/update-memolist.vim/"/>
+    <updated>2012-03-31T01:36:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/03/31/update-memolist.vim</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://github.com/glidenote/memolist.vim">glidenote/memolist.vim</a></li>
+</ul>
+
+<p>memolist.vimが<a href="https://twitter.com/#!/mattn_jp">@mattn_jp</a>さん、<a href="https://twitter.com/#!/heavenshell">@heavenshell</a>さん、
+<a href="https://twitter.com/#!/banyan">@banyan</a>さんにより、<a href="https://github.com/glidenote/memolist.vim/commits/master/">不具合修正と機能追加</a>が毎日されており感謝感謝です。 </p>
+
+<h2 id="section">追加された機能</h2>
+
+<ul>
+  <li>起動の高速化</li>
+  <li>メモタイトルが空の場合は、日付をタイトルに</li>
+  <li>外部ファイルをメモテンプレートとして指定可。<code>let g:memolist_template_dir_path = "path/to/dir"</code>をして、指定したディレクトリの中にテンプレートとなるファイルを配置。詳しくは<code>:help memolist</code>を参照ください。</li>
+  <li>vimfiler連携機能。 <code>let g:memolist_vimfiler = 1</code>でnetrwから<a href="https://github.com/Shougo/vimfiler">vimfiler</a>への切り替え可</li>
+  <li>Windows対応</li>
+</ul>
+
+<h2 id="section-1">仕様変更</h2>
+
+<p>当初機能の有効/無効はtrue/falseでしていたんですが、下記のように</p>
+
+<blockquote class="twitter-tweet tw-align-center" data-in-reply-to="185414251169591296" lang="ja"><p>@<a href="https://twitter.com/heavenshell">heavenshell</a> @<a href="https://twitter.com/glidenote">glidenote</a> 0/1が良いです。</p>&mdash; mattnさん (@mattn_jp) <a href="https://twitter.com/mattn_jp/status/185417286994243585" data-datetime="2012-03-29T17:25:00+00:00">3月 29, 2012</a></blockquote>
+<script src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>とのことなので、今後のメンテナンスのためVim Scriptの作法に従いブール値が0/1に仕様を変更しました。
+そのため<code>.vimrc</code>にtrue/falseを指定するオプションを記載している場合は修正が必要になります。</p>
+
+<p><code>
+let g:memolist_prompt_tags = 1
+let g:memolist_prompt_categories = 1
+let g:memolist_qfixgrep = 1
+let g:memolist_vimfiler = 1
+</code></p>
+
+<p>自分が使うために作成したプラグインの反響が大きく、まさかこんな事になろうとは。 
+本当にありがたい話です。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[FuzzyFinderでmemolist.vimが進化した！]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/03/26/memolist-fuzyfinder/"/>
+    <updated>2012-03-26T14:43:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/03/26/memolist-fuzyfinder</id>
+    <content type="html"><![CDATA[<p>同僚の<a href="https://twitter.com/#!/lamanotrama">@lamanotrama</a>さんから
+<a href="https://github.com/vim-scripts/FuzzyFinder">FuzzyFinder</a>を利用すると
+<a href="https://github.com/glidenote/memolist.vim">memolist.vim</a>がさらに便利になると
+教えてもらったのでやってみた。</p>
+
+<h2 id="fuzzyfinder">FuzzyFinderの導入</h2>
+
+<p>私はVundleを利用しているので、下記のような感じで記載。</p>
+
+<p><div><script src='https://gist.github.com/2202781.js'></script>
+<noscript><pre><code>Bundle &#39;L9&#39;
+Bundle &#39;FuzzyFinder&#39;
+nmap mf  :FufFile &lt;C-r&gt;=expand(g:memolist_path.&quot;/&quot;)&lt;CR&gt;&lt;CR&gt;</code></pre></noscript></div>
+</p>
+
+<p><code>mf</code>と入力すると下記のような感じで、ファイル名補完が出来るようになりました。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/memolist5.png" alt="" /></p>
+
+<p>ス、スゲー！！<br />
+@lamanotrama++</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[シンプルなメモ管理用プラグインmemolist.vimを作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/03/26/memolist.vim/"/>
+    <updated>2012-03-26T09:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/03/26/memolist.vim</id>
+    <content type="html"><![CDATA[<p><a href="http://octopress.org/">Octopress</a>の記事を書くときに<a href="https://blog.glidenote.com/blog/2011/12/23/modify-jekyll.vim-for-octopress/">カスタムしたjekyll.vim</a>を
+利用していて、「新規作成」と「記事の管理」が非常に便利なので、
+同じようなことが出来るメモ用プラグインを作ってみました。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/memolist.vim">glidenote/memolist.vim</a></li>
+</ul>
+
+<h2 id="memolistvim">memolist.vimの概要</h2>
+
+<ul>
+  <li>作成。決まったフォーマット(デフォルトだとmarkdown)のメモを瞬時に作成出来る(:MemoNew)</li>
+  <li>管理。作成したメモの一覧表示が瞬時にできる(:MemoList)</li>
+  <li>検索。メモの検索が瞬時に出来る(:MemoGrep)</li>
+</ul>
+
+<p>どのディレクトリにいても、すぐにメモが呼び出せるので、作業メモや、議事録などを
+残すのに便利です。<code>&lt;日付&gt;-＜記事タイトル&gt;</code>という形でファイルが生成されるので、
+ファイル名から<strong>いつ作成した</strong>か、<strong>何の内容</strong>かも瞬時に判断出来ます。</p>
+
+<h2 id="section">導入方法</h2>
+
+<p>導入には<a href="https://github.com/gmarik/vundle">vundle</a>か、<a href="https://github.com/Shougo/neobundle.vim">NeoBundle</a>
+を利用すると楽です。</p>
+
+<p>vundleの場合は、</p>
+
+<p><code>
+Bundle 'glidenote/memolist.vim'
+</code></p>
+
+<p>NeoBundleの場合は、</p>
+
+<p><code>
+NeoBundle 'glidenote/memolist.vim'
+</code></p>
+
+<p>を.vimrcに記載。</p>
+
+<h2 id="vimrc">.vimrcの設定</h2>
+
+<p>基本的には何も設定がいりませんが、<code>.vimrc</code>に下記マッピングを記載しておくと、
+<code>\mn</code>と入力すると瞬時に新規ファイルの作成が出来ます。<code>&lt;Leader&gt;</code>はデフォルトだと
+キーボードの￥マークになっていると思います。</p>
+
+<p><code>
+map &lt;Leader&gt;mn  :MemoNew&lt;CR&gt;
+map &lt;Leader&gt;ml  :MemoList&lt;CR&gt;
+map &lt;Leader&gt;mg  :MemoGrep&lt;CR&gt;
+</code></p>
+
+<p>memolist.vimではデフォルトで<code>$HOME/memo</code>を利用するため
+別のディレクトリを利用したい場合は、下記のようにmemo用ディレクトリの指定も出来ます。</p>
+
+<p><code>
+let g:memolist_path = "path/to/dir"
+</code></p>
+
+<p>その他に下記のようなオプションがあるので、用途によって変更が可能です。</p>
+
+<p><strong>2012年3月31日 テンプレート機能の追加とブール値をtrue/falseから0/1に仕様変更しました</strong></p>
+
+<p><code>
+let g:memolist_memo_suffix = "txt"
+let g:memolist_memo_date = "%Y-%m-%d %H:%M"
+let g:memolist_memo_date = "epoch"
+let g:memolist_memo_date = "%D %T"
+let g:memolist_prompt_tags = 1
+let g:memolist_prompt_categories = 1
+let g:memolist_qfixgrep = 1
+let g:memolist_vimfiler = 1
+let g:memolist_template_dir_path = "path/to/dir"
+</code></p>
+
+<p>検索には<a href="https://github.com/fuenor/qfixgrep">qfixgrep</a>を導入し、併用すると便利です。
+また私の好みでデフォルトがmarkdwon形式のファイルになっていますが<code>memolist_memo_suffix</code>を
+変更して、拡張子を好きなものに変更可能です。</p>
+
+<h2 id="section-1">使い方</h2>
+
+<h3 id="memonew">メモの作成 (:MemoNew)</h3>
+
+<p><code>
+:MemoNew
+</code>
+入力したメモのタイトル名がそのままファイル名にも利用されます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/memolist1.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/memolist2.png" alt="" /></p>
+
+<h3 id="memolist">メモの一覧表示 (:MemoList)</h3>
+
+<p><code>
+:MemoList
+</code>
+netrwを呼び出し、メモ一覧の表示</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/memolist3.png" alt="" /></p>
+
+<h3 id="memogrep">メモの検索 (:MemoGrep)</h3>
+
+<p><code>
+:MemoGrep
+</code></p>
+
+<p>qfixgrepを利用した際の検索結果。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/memolist4.png" alt="" /></p>
+
+<p><a href="https://github.com/fuenor/qfixgrep">qfixgrep</a>を導入している場合は、
+下記を.vimrcに追記して、デフォルトの<code>vimgrep</code>から<code>qfixgrep</code>に切り替え可能です。</p>
+
+<p><code>
+let g:memolist_qfixgrep = 1
+</code></p>
+
+<p>メモ用のvimプラグインというと<a href="https://github.com/fuenor/qfixhowm">qfixhowm</a>が
+定番でありますが、Vimプラグインの作り方を覚えたかったので、
+普段自分がよく使う機能だけを実装して作成してみました。
+デフォルトのファイル形式をmarkdownにしたのは
+あとからいろんな形式に変換しやすいのと、箇条書きに適しているので。</p>
+
+<p>ちなみに私は下記を.vimrcに記載して利用してます。</p>
+
+<p><code>
+Bundle 'fuenor/qfixgrep.git'
+Bundle 'glidenote/memolist.vim'
+let g:memolist_qfixgrep = 1
+map &lt;Leader&gt;ml  :MemoList&lt;CR&gt;
+map &lt;Leader&gt;mn  :MemoNew&lt;CR&gt;
+map &lt;Leader&gt;mg  :MemoGrep&lt;CR&gt;
+</code></p>
+
+<p>バグや要望などありましたら<a href="https://twitter.com/#!/glidenote">@glidenote</a>かgithubのissueに連絡頂ければと思います。
+MacとLinuxでは動作確認済みですが、<s>普段利用せず検証環境の無いWindowsは...</s><br />
+<strong>2012年3月31日 windows環境でも動作するようになっています</strong></p>
+]]></content>
+  </entry>
+  
+</feed>

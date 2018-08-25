@@ -1,1 +1,1133 @@
-My Octopress Page is coming soon &hellip;
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="Docker/Kubernetes 実践コンテナ開発入門 技術評論社様、著者の山田さんからご恵贈いただきましてありがとうございます。 かなり分厚い本で、内容も濃いので読むのに時間がかかりましたが簡単に感想を書いていきます。 TL;DR &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="Docker/Kubernetes 実践コンテナ開発入門 技術評論社様、著者の山田さんからご恵贈いただきましてありがとうございます。 かなり分厚い本で、内容も濃いので読むのに時間がかかりましたが簡単に感想を書いていきます。 TL;DR Production環境でDockerを利用している人でも学びが多い一冊 Kubernetesに対応したDocker for Mac/ &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/08/24/docker-kubernetes-book/">「Docker/Kubernetes 実践コンテナ開発入門」がProduction環境でDockerを運用している人間にも良書だった</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-08-24T20:00:00+09:00" pubdate data-updated="true">2018年08月24日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+  <li><a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339">Docker/Kubernetes 実践コンテナ開発入門</a>
+<a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339"><img src="https://images-fe.ssl-images-amazon.com/images/I/51d69eJQMyL.jpg" align="right" /></a></li>
+</ul>
+
+<p>技術評論社様、著者の山田さんからご恵贈いただきましてありがとうございます。</p>
+
+<p>かなり分厚い本で、内容も濃いので読むのに時間がかかりましたが簡単に感想を書いていきます。</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li>Production環境でDockerを利用している人でも学びが多い一冊</li>
+  <li>Kubernetesに対応したDocker for Mac/Windowsが2018年07月に正式リリースされ、手軽にKubernetesが動かせるようになったいま、Kubernetesの初学書として最適</li>
+  <li>実際にDockerでサービスを運用してきた著者ならではの視点で語られているコラムが非常に興味深い</li>
+</ul>
+
+<h2 id="section">前提</h2>
+
+<p>書評の前に私のDocker歴について簡単に書いておきます。</p>
+
+<ul>
+  <li>JAWS-UG コンテナ支部で登壇経験あり</li>
+  <li>Dockerに関する基本的な知識は習得済み</li>
+  <li>Amazon ECSを利用して2年ほど前からProduction環境でDocker運用中</li>
+  <li>Kubernetesは理解不足</li>
+  <li>役職が変わってここ1年くらいからDockerと周辺技術の最新情報がキャッチアップ出来てない 😓</li>
+</ul>
+
+<h2 id="section-1">目次</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">1.Dockerの基礎
+</span><span class="line">2.Dockerコンテナのデプロイ
+</span><span class="line">3.実用的なコンテナの構築とデプロイ
+</span><span class="line">4.Swarmによる実践的なアプリケーション構築
+</span><span class="line">5.Kubernetes入門
+</span><span class="line">6.Kubernetesのデプロイ・クラスタ構築
+</span><span class="line">7.Kubernetesの発展的な利用
+</span><span class="line">8.コンテナの運用
+</span><span class="line">9.より軽量なDockerイメージを作る
+</span><span class="line">10.Dockerの様々な活用方法
+</span><span class="line">
+</span><span class="line">Appendix-A セキュリティ
+</span><span class="line">Appendix-B Dockerでの開発を支援するツール・サービス
+</span><span class="line">Appendix-C 主要コマンドまとめ</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">書評</h2>
+
+<h3 id="docker">Docker</h3>
+
+<p>Dockerと周辺技術は変化の速度が非常に早く、情報キャッチアップのコストが高く、Web上にある情報もすぐ陳腐化して大半が役に立たないので、
+私はかねてから<a href="https://docs.docker.com/">公式ドキュメント</a>を読むのが最も良いというスタンスだったのですが、
+本書は公式ドキュメントの内容はもちろんカバーされており、運用周りに関しては公式ドキュメント以上の内容が書かれている。</p>
+
+<h3 id="kubernetes">Kubernetes</h3>
+
+<p>Kubernetesに関しては一番丁寧に手厚く解説されているので、Minikubeで一度挫折したことがある私にとっては、
+サンプルコードを書いてサクサク進めることが出来たので、Kubernetesの採用の足がかりになりそうです。
+先月リリースされたDocker for Mac/Windows(Stable)がKubernetesに対応しており、
+手軽にKubernetes環境が用意出来るようになったので、Kubernetesをこれから始める人にも最適かと。</p>
+
+<h3 id="section-3">コラム</h3>
+
+<p>またコラムが大量にありどれも素晴らしいのですが、特に</p>
+
+<ul>
+  <li>環境変数を積極的に使う</li>
+  <li>認証情報をセキュアに環境変数へ設定する</li>
+  <li>Alpine Linuxベースのイメージを採用するべきか否か</li>
+  <li>DockerはVagrantの代替となるか?</li>
+</ul>
+
+<p>においては、以前エンジニア同士で議論したことがある内容なので大変興味深かった。</p>
+
+<h3 id="section-4">コンテナの運用</h3>
+
+<p>運用部分は普段Amazon ECS上で運用しておりAWSに頼り切っている部分なので、
+ログの保管、障害対策については、他社事例として大変参考になった。</p>
+
+<h2 id="section-5">本書を読むにあたって</h2>
+
+<p>本書のサンプルコマンドを実行するにあたり、BashやZshを事前に設定しておくことをオススメします。これがあるとないとでは効率が段違いです。
+<strong>本当に重要です!!</strong></p>
+
+<ul>
+  <li><a href="https://docs.docker.com/compose/completion/">Command-line completion | Docker Documentation</a></li>
+</ul>
+
+<h2 id="section-6">まとめ</h2>
+
+<p>2018年においては、</p>
+
+<ul>
+  <li><a href="https://docs.docker.com/">公式ドキュメント</a></li>
+  <li><a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339">Docker/Kubernetes 実践コンテナ開発入門</a></li>
+</ul>
+
+<p>を読めば、Docker/Kubernetesに関しては十分なのではないかと思う。</p>
+
+<p>実際私も社内のエンジニアにも「Docker/Kubernetesはこれを読めばOK」と薦めています。</p>
+
+<p>大変オススメです。</p>
+
+<h2 id="section-7">参考</h2>
+
+<ul>
+  <li><a href="https://blog.stormcat.io/post/publish-docker-book/">Docker/Kubernetes 実践コンテナ開発入門 出版に寄せて · tehepero note(・ω&lt;) 2.0</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/12/16/goreplay/">GoReplayを導入して、Production環境へのリクエストを複製し、Staging環境に転送する仕組みを作った</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-12-16T15:25:00+09:00" pubdate data-updated="true">2016年12月16日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>結構前に作っていたんですが、いろいろと忙しくてブログに書くタイミングを失していたので年末のタイミングで紹介。</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://github.com/buger/goreplay">GoReplay</a>を利用して、Production環境のリクエストを複製し、Stagins環境、開発環境に投げる仕組みを作った</li>
+  <li>インフラ構成の大きな変更無しで、手軽にProduction環境の実リクエストを複製し、開発、動作検証ができるようになった</li>
+  <li>2016年の弊社サービスのDocker化や、インフラ構成の大幅な変更、ミドルウェアのアップデート、アプリの改修時のバグ事前検知と事故防止に大いに役に立った</li>
+</ul>
+
+<h2 id="goreplay">GoReplayの説明</h2>
+
+<ul>
+  <li><a href="https://github.com/buger/goreplay">GoReplay</a></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/12/gor0.png" alt="" /></p>
+
+<ul>
+  <li>Goで書かれており、バイナリを設置し、オプションを指定し実行するだけで動作する</li>
+  <li>アプリが稼働しているサーバで動く。(例えばNginx+Railsが稼働しているサーバで一緒にGoReplayを動かす感じ。)</li>
+  <li>libpcap を利用しているので、tpcdumpと同じでデータリンク層(OSI layer2)レベルでパケットを取得しています。</li>
+  <li>GoReplay は <code>gor listen</code> と <code>gor replay</code> の2つが1セットで動作します。
+    <ul>
+      <li><code>gor listen</code> がリクエストを複製し、<code>App</code> と <code>gor replay</code> に渡す。</li>
+      <li><code>gor replay</code> がリクエストを転送したり、ファイルに書き込んだり、再生作業をする。</li>
+    </ul>
+  </li>
+  <li>複製の割合や、複数の転送先、リクエストのフィルタリング設定などがあり高機能。
+    <ul>
+      <li><a href="https://github.com/buger/goreplay/wiki">https://github.com/buger/goreplay/wiki</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>私の理解が正しければ下記のような感じで動作してます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/12/gor1.png" alt="" /></p>
+
+<h2 id="shadow-proxy">Shadow Proxyとの比較</h2>
+
+<ul>
+  <li>アプリサーバで<strong>必要な時に手軽に動かせる</strong>。</li>
+  <li>動作が軽快</li>
+  <li>インフラ構成的に利用時に事故が起こりにくい(サービスの全リクエストを裁くわけではないので)</li>
+</ul>
+
+<p>今回なぜShadow Proxyを利用しなかったのかは後述。</p>
+
+<h2 id="section">実際に稼働している例で説明</h2>
+
+<p>実際に弊社で動かしている環境をざっくり図にして説明。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/12/gor2.png" alt="" /></p>
+
+<ul>
+  <li>Productionリリース予定のコードがデプロイされている、Stagingサーバを用意。</li>
+  <li><code>Production frontend</code>の１台で、GoReplayを動かしリクエストを複製し、ステージングサーバ<code>Staging frontend</code>にリクエストをProductionと同じリクエストを投げる。</li>
+  <li>Productionのデータと一緒にならないように、ステージング用に <code>staging aggregator</code> と データ格納先の <code>staging BigQuery</code> を用意。</li>
+  <li>下記コマンドのような形で動かし、Productionの1台に流れてきたリクエストを10%の割合で複製し、ステージングサーバに転送します。</li>
+  <li>echoサーバを作って、ベンチをとった結果(後述)、リクエストを100%複製し転送すると、パフォーマンスが劣化するので複製・転送の割合10%だけにしてます。</li>
+  <li>実際の運用ではSupervisordを利用して、GoReplayの軌道を管理</li>
+  <li>次期リリース予定のコードやインフラに問題があれば、StagingサーバのbugsnagなどがキャッチしてSlackにPostされる。</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo gor --input-raw :8080 --output-http <span class="s2">&quot;http://stating901.example.com|10%&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="goreplay-1">GoReplay利用時のベンチマーク</h2>
+
+<p>nginx + echo-nginx-module を利用して、GoReplayの複製割合に応じてどれくらいパフォーマンスが劣化するか下記のような形でベンチマークを取得。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">ab -n 10000 -c 100 http://hogemoge.example.com/hello
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>0%はGoReplayの利用無し、100%の場合はGoReplayで全トラフィックを複製して転送する。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>0%</th>
+      <th>10%</th>
+      <th>20%</th>
+      <th>50%</th>
+      <th>100%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>RPS</td>
+      <td>2254.49</td>
+      <td>1944.42</td>
+      <td>1782.10</td>
+      <td>1403.82</td>
+      <td>1023.71</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>GoReplayで転送率を100%にして、全トラフィックを複製かけるとパフォーマンスが劣化するので、インフラを増強しておく必要あり。</p>
+
+<hr />
+
+<p>ここから余談で、どうしてShadow Proxyを導入しなかったのか過去の経験と個人的な意見をちょっと書いてみる。</p>
+
+<h2 id="shadow-proxy-1">リクエストを複製するShadow Proxyの話</h2>
+
+<p>リクエストを複製するShadow Proxyと呼ばれるものは昔から存在します。</p>
+
+<ul>
+  <li><a href="https://github.com/cookpad/kage">cookpad/kage: Kage (kah-geh) is a shadow proxy server to duplex HTTP requests</a></li>
+  <li><a href="https://github.com/lestrrat/p5-Geest">lestrrat/p5-Geest: Port of Kage</a></li>
+  <li><a href="https://github.com/kentaro/delta">kentaro/delta: HTTP shadow proxy server written in Go</a></li>
+</ul>
+
+<p>Shadow Proxy利用時の一般的な構成</p>
+
+<p><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/a/antipop/20131212/20131212195546.png" alt="" /></p>
+
+<h3 id="shadow-proxy1">Shadow Proxyの問題点(※1)</h3>
+
+<ul>
+  <li>構成的にロードバランサの次あたりに存在(リクエスト処理する構成の前段の方に存在)するので非常に高い信頼性が求められる。</li>
+  <li>構成的に全リクエストがShadow Proxyを経由し、backendのサーバに到達するため、Shadow Proxyがボトルネックになりやすい。
+    <ul>
+      <li>各種Shadow Proxyのベンチマーク <a href="http://qiita.com/kentaro/items/17e2c334a902677af995#%E3%83%99%E3%83%B3%E3%83%81%E3%83%9E%E3%83%BC%E3%82%AF%E7%B5%90%E6%9E%9C">Go言語を含む複数種類の言語により実装されたソフトウェアのベンチマーク - Qiita</a></li>
+    </ul>
+  </li>
+  <li>インフラの構成的にサービスの全リクエストを処理する必要があるので、気軽に利用出来ない。稼働中のサービスに後から投入しにくい</li>
+  <li>全リクエストがShadow Proxyを通過する構成になっていると、<strong>Shadow Proxyが落ちるとサービス全部落ちる</strong></li>
+  <li>上記を解消しShadow Proxyを安定的に稼働しようとすると、インフラが複雑化して障害点が増えやすい</li>
+</ul>
+
+<p>※1 2年以上前の経験から得た知見なので、もしかして今は違うかもしれませんが。</p>
+
+<p>この仕組みを作ったおかげで、Production環境のリクエストを利用し事前に動作検証が出来るので、今年は事故も心理的な負担がだいぶ減ったと思う。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/09/02/alb-ecs-docker-hot-deploy/">AWS Application Load Balancer + Amazon ECS でDockerのホットデプロイ環境を構築した</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-09-02T09:00:00+09:00" pubdate data-updated="true">2016年09月02日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://aws.amazon.com/jp/elasticloadbalancing/applicationloadbalancer/">AWS Application Load Balancer(以下ALB)</a> + Amazon ECS でDockerのホットデプロイ環境を構築した</li>
+  <li>ALBのTarget GroupとECSのServiceを紐付けることで、ALB配下のコンテナの入れ替えが自動で行われるようになる</li>
+</ul>
+
+<p>ALBは先日リリースされたばかりで、私もまだ色々と検証している段階なので、内容や認識等に誤りがあるかもしれないのでご容赦下さい。(詳しい人教えてください!!)</p>
+
+<h2 id="section">その他弊社の前提情報</h2>
+
+<ul>
+  <li>GitHub + CircleCIが連携済み</li>
+  <li>Docker RepoにはAmazon EC2 Container Registry(以下ECR)を利用</li>
+  <li>DeployはGitHubのデプロイブランチへのマージを契機にCircleCI経由で、Docker Pushと<a href="https://github.com/silinternational/ecs-deploy">ecs-deploy</a>でDockerデプロイを実施</li>
+</ul>
+
+<h2 id="section-1">準備</h2>
+
+<p>ALBとECSの設定については<a href="https://twitter.com/inokara">@inokara</a>さんのブログが詳しいので、そちらを参照ください。
+今回はALBのDynamic Port Mappingは利用してません。</p>
+
+<ul>
+  <li><a href="http://inokara.hateblo.jp/entry/2016/08/13/095449">Amazon ECS と AWS Application Load Balancer の組み合わせを試しているメモ - ようへいの日々精進XP</a></li>
+  <li><a href="http://inokara.hateblo.jp/entry/2016/08/13/231404">Amazon ECS と AWS Application Load Balancer の組み合わせを試しているメモ（2）〜 AWS CLI で試す 〜 - ようへいの日々精進XP</a></li>
+</ul>
+
+<h2 id="section-2">デプロイフロー</h2>
+
+<p>デプロイフローは下記のような形になってます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs0.png" alt="" /></p>
+
+<h2 id="section-3">デプロイ前の稼働中の状態</h2>
+
+<ul>
+  <li>ALBは80,443ポートで稼働</li>
+  <li>コンテナではnode.jsのアプリが3000ポートで稼働</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs1.png" alt="" /></p>
+
+<h2 id="section-4">デプロイ直後の状態</h2>
+
+<ul>
+  <li>CircleCI経由で、ecs-deployを実行し、新しいコンテナを作成。</li>
+  <li>新しいコンテナが起動すると、自動でALB配下に追加されアクセスを流れる</li>
+  <li>古いコンテナと新しいコンテナが混在する</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs2.png" alt="" /></p>
+
+<p>ecs-deployは下記のような形で実行。CircleCI上では<code>AWS_ACCESS_KEY_ID</code>、<code>AWS_SECRET_ACCESS_KEY</code> を環境変数に設定し、引数に利用しているregionを<code>-r us-west-1</code>を追加して実行してます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">ecs-deploy <span class="se">\</span>
+</span><span class="line">-c クラスター名 <span class="se">\</span>
+</span><span class="line">-n サービス名 <span class="se">\</span>
+</span><span class="line">-i xxxxxxxxxxxx.dkr.ecr.us-west-1.amazonaws.com/kaizenplatform/kaizen-xxxxxxxx:947 <span class="se">\</span>
+</span><span class="line">-t 300
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>デプロイ部分の<code>docker push</code>と<code>ecs-deploy</code>合わせて1分半くらいで完了している。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs5.png" alt="" /></p>
+
+<h2 id="section-5">デプロイ完了後の状態</h2>
+
+<ul>
+  <li>しばらくすると古いコンテナが破棄され、新しいコンテナだけで稼働する</li>
+  <li>一連の作業中にリクエストを流し続けて、サービスが停止しないことも確認</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs3.png" alt="" /></p>
+
+<p>ecs-deployの実行が走ってから、新しいコンテナが起動し、古いコンテナが廃棄されるまで、
+大体6分くらい要している。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs4.png" alt="" /></p>
+
+<p>ALBとECSの初期設定が結構面倒ですが、設定さえ終われば、
+新旧コンテナの入れ替え、ALB配下への追加削除が自動で行われるようになるので大変便利。</p>
+
+<p>引き続きDynamic Port Mappingを利用した構成も検証中。</p>
+
+<h2 id="section-6">参考</h2>
+
+<ul>
+  <li><a href="http://inokara.hateblo.jp/entry/2016/08/13/095449">Amazon ECS と AWS Application Load Balancer の組み合わせを試しているメモ - ようへいの日々精進XP</a></li>
+  <li><a href="http://inokara.hateblo.jp/entry/2016/08/13/231404">Amazon ECS と AWS Application Load Balancer の組み合わせを試しているメモ（2）〜 AWS CLI で試す 〜 - ようへいの日々精進XP</a></li>
+  <li><a href="http://orih.io/2015/12/run-automated-deployment-by-git-push-with-ecs-deploy-script/">Git プッシュから Amazon ECS に自動デプロイする仕組みを構築する | ORIH</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/08/18/docker-alpine-serverspec-with-circleci/">Alpine LinuxなDockerイメージにServerspecを実行する環境を作った</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-08-18T14:00:00+09:00" pubdate data-updated="true">2016年08月18日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://www.alpinelinux.org/">Alpine Linux</a>なDockerイメージにServerspecを実行する環境をMacとCircleCI上に作った</li>
+  <li>CircleCI環境では <code>lxc-attach</code> コマンドが必要なので、<code>spec_helper.rb</code> で環境差を吸収するようにした</li>
+  <li>今後よく利用しそうなので、流用しやすい形でGithubに置いておいた
+    <ul>
+      <li><a href="https://github.com/glidenote/docker-alpine-serverspec-sample">glidenote/docker-alpine-serverspec-sample</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section">前提</h2>
+
+<p>最近<a href="https://kaizenplatform.com/hiring/engineer.html">Kaizen Platform, Inc.</a>で利用している一部Docker ImageをAmazon LinuxベースのものからAlpine Linuxベースのものに置き換え中。
+Alpine Linuxについては<a href="https://twitter.com/stormcat24">@stormcat24</a>さんの<a href="http://blog.stormcat.io/archive/category/Alpine">ブログ</a>が一番参考になります。</p>
+
+<p>今までDockerイメージにServerspecを実行するときには、コンテナ内でsshdを立てて、ssh経由で<code>knife-solo</code>でプロビジョニングを実行し、その後同じくssh経由で<code>Serverspec</code>を流していた。</p>
+
+<p>Alpine Linuxベースに切り替えてから、出来るだけイメージサイズを小さくするために<code>knife-solo</code>は利用せずに、<code>Dockerfile</code> だけで構築している。(<code>Dockerfile</code>だけが良いかは現在検証中)
+<code>knife-solo</code>のためにコンテナ内でsshdを立てる必要はなくなったので、同じくssh経由で実行していた<code>Serverspec</code>は<code>docker-api</code> 経由で実行するようにした。</p>
+
+<h2 id="section-1">実行環境</h2>
+
+<ul>
+  <li>Mac OS X
+    <ul>
+      <li>ProductVersion: 10.11.6</li>
+      <li>Ruby 2.3.0</li>
+      <li>Docker 1.12.0</li>
+    </ul>
+  </li>
+  <li>CircleCI
+    <ul>
+      <li>Ruby 2.3.0</li>
+      <li>Docker 1.9.1-circleci-cp-workaround</li>
+    </ul>
+  </li>
+  <li>serverspec 2.36.0</li>
+  <li>docker-api 1.31.0</li>
+</ul>
+
+<h2 id="section-2">実際の作業</h2>
+
+<h3 id="section-3">ファイル構成</h3>
+
+<p>先に作業後のファイル構成を書いておくと下記のような感じになります。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">.
+</span><span class="line">├── Dockerfile
+</span><span class="line">├── Gemfile
+</span><span class="line">├── Gemfile.lock
+</span><span class="line">├── Rakefile
+</span><span class="line">├── circle.yml
+</span><span class="line">└── spec
+</span><span class="line">    ├── docker
+</span><span class="line">    │   └── package_spec.rb
+</span><span class="line">    └── spec_helper.rb</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="gemfile">Gemfile</h3>
+
+<p>Gemfileを用意して <code>bundle install</code></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">gem</span> <span class="s1">&#39;rake&#39;</span>
+</span><span class="line"><span class="n">gem</span> <span class="s1">&#39;serverspec&#39;</span>
+</span><span class="line"><span class="n">gem</span> <span class="s1">&#39;docker-api&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="dockerfile">Dockerfile</h3>
+
+<p>Dockerfileを用意。debugしやすいようにbashだけ導入</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">FROM</span> <span class="ss">alpine</span><span class="p">:</span><span class="mi">3</span><span class="o">.</span><span class="mi">4</span>
+</span><span class="line">
+</span><span class="line"><span class="no">RUN</span> <span class="n">apk</span> <span class="n">add</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">cache</span> <span class="n">bash</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>tagは <code>docker-alpine-serverspec-sample</code> としてbuild。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">docker build -t docker-alpine-serverspec-sample .
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="serverspec">Serverspec各種ファイル</h3>
+
+<p><code>serverspec-init</code> で各種ファイルを作成</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">⇒  serverspec-init
+</span><span class="line">Select OS <span class="nb">type</span>:
+</span><span class="line">
+</span><span class="line">  1<span class="o">)</span> UN*X
+</span><span class="line">  2<span class="o">)</span> Windows
+</span><span class="line">
+</span><span class="line">Select number: 1
+</span><span class="line">
+</span><span class="line">Select a backend <span class="nb">type</span>:
+</span><span class="line">
+</span><span class="line">  1<span class="o">)</span> SSH
+</span><span class="line">  2<span class="o">)</span> Exec <span class="o">(</span><span class="nb">local</span><span class="o">)</span>
+</span><span class="line">
+</span><span class="line">Select number: 2
+</span><span class="line">
+</span><span class="line"> + spec/
+</span><span class="line"> + spec/localhost/
+</span><span class="line"> + spec/localhost/sample_spec.rb
+</span><span class="line"> + spec/spec_helper.rb
+</span><span class="line"> + Rakefile
+</span><span class="line"> + .rspec
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>生成されるsampleのテストは利用しないので削除</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">rm -rf spec/localhost
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="spechelperrb">ローカル用の spec_helper.rb</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;serverspec&#39;</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;docker&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">set</span> <span class="ss">:backend</span><span class="p">,</span> <span class="ss">:docker</span>
+</span><span class="line"><span class="n">set</span> <span class="ss">:docker_url</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;DOCKER_HOST&quot;</span><span class="o">]</span>
+</span><span class="line"><span class="n">image</span> <span class="o">=</span> <span class="ss">Docker</span><span class="p">:</span><span class="ss">:Image</span><span class="o">.</span><span class="n">build_from_dir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</span><span class="line"><span class="n">set</span> <span class="ss">:docker_image</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">id</span>
+</span><span class="line">
+</span><span class="line"><span class="no">Excon</span><span class="o">.</span><span class="n">defaults</span><span class="o">[</span><span class="ss">:ssl_verify_peer</span><span class="o">]</span> <span class="o">=</span> <span class="kp">false</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-4">テストファイルの追加</h3>
+
+<p>ディレクトリの作成し、Dockerfileのパッケージインストールに対応するテスト <code>spec/docker/package_spec.rb</code> を追加</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">mkdir -p spec/docker/
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">describe</span> <span class="n">package</span><span class="p">(</span><span class="s1">&#39;bash&#39;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">be_installed</span> <span class="p">}</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="serverspec-1">Serverspecの実行</h3>
+<p>テストの準備が整ったので、Serverspecを流してみる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">bundle <span class="nb">exec </span>rake spec
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>問題がなければ下記のようになる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">Package <span class="s2">&quot;bash&quot;</span>
+</span><span class="line">  should be installed
+</span><span class="line">
+</span><span class="line">Finished in 1.61 seconds <span class="o">(</span>files took 0.67509 seconds to load<span class="o">)</span>
+</span><span class="line">1 example, 0 failures
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="circleci">CircleCI上での実行</h2>
+
+<p>ローカルに続いて、CircleCI環境でも動くようにする。</p>
+
+<h3 id="circleyml-">circle.yml の用意</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+</pre></td><td class="code"><pre><code class="yaml"><span class="line"><span class="l-Scalar-Plain">machine</span><span class="p-Indicator">:</span>
+</span><span class="line">  <span class="l-Scalar-Plain">timezone</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">UTC</span>
+</span><span class="line">  <span class="l-Scalar-Plain">ruby</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="l-Scalar-Plain">version</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">2.3.0</span>
+</span><span class="line">  <span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker</span>
+</span><span class="line">
+</span><span class="line"><span class="l-Scalar-Plain">dependencies</span><span class="p-Indicator">:</span>
+</span><span class="line">  <span class="l-Scalar-Plain">pre</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bundle install</span>
+</span><span class="line">
+</span><span class="line"><span class="l-Scalar-Plain">test</span><span class="p-Indicator">:</span>
+</span><span class="line">  <span class="l-Scalar-Plain">pre</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker version</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker info</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker build -t ${CIRCLE_PROJECT_REPONAME} .</span> <span class="p-Indicator">:</span>
+</span><span class="line">        <span class="l-Scalar-Plain">timeout</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1200</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker run ${CIRCLE_PROJECT_REPONAME} &amp;</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sleep 5</span>
+</span><span class="line">  <span class="l-Scalar-Plain">override</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bundle exec rspec</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker ps -a</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker images</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="circleci-spechelperrb">CircleCI でも動くようにspec_helper.rbの修正</h3>
+
+<p><a href="https://circleci.com/docs/docker/#docker-exec">公式ドキュメント</a> に記載されているようにCircleCIのDockerでは <code>docker exec</code> が利用できず、 <code>lxc-attach</code> コマンドを利用しないといけないので、<code>spec_helper.rb</code> でMacとの環境差を吸収し、同じコマンドでServerspecが流せるようにする。</p>
+
+<p>元同僚の<a href="https://twitter.com/ngs">@ngs</a>が<a href="https://ja.ngs.io/2015/09/26/circleci-docker-serverspec/">自身のブログ</a>に書いていたのでそれを利用。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;serverspec&#39;</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;docker&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">set</span> <span class="ss">:backend</span><span class="p">,</span> <span class="ss">:docker</span>
+</span><span class="line"><span class="n">set</span> <span class="ss">:docker_url</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;DOCKER_HOST&quot;</span><span class="o">]</span>
+</span><span class="line"><span class="n">image</span> <span class="o">=</span> <span class="ss">Docker</span><span class="p">:</span><span class="ss">:Image</span><span class="o">.</span><span class="n">build_from_dir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</span><span class="line"><span class="n">set</span> <span class="ss">:docker_image</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">id</span>
+</span><span class="line">
+</span><span class="line"><span class="no">Excon</span><span class="o">.</span><span class="n">defaults</span><span class="o">[</span><span class="ss">:ssl_verify_peer</span><span class="o">]</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class="line">
+</span><span class="line"><span class="c1"># https://circleci.com/docs/docker#docker-exec</span>
+</span><span class="line"><span class="k">if</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;CIRCLECI&#39;</span><span class="o">]</span>
+</span><span class="line">  <span class="k">module</span> <span class="nn">Docker</span>
+</span><span class="line">    <span class="k">class</span> <span class="nc">Container</span>
+</span><span class="line">      <span class="k">def</span> <span class="nf">exec</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">opts</span> <span class="o">=</span> <span class="p">{},</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class="line">        <span class="n">command</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">=</span> <span class="n">command</span><span class="o">[</span><span class="mi">2</span><span class="o">].</span><span class="n">inspect</span> <span class="c1"># [&#39;/bin/sh&#39;, &#39;-c&#39;, &#39;YOUR COMMAND&#39;]</span>
+</span><span class="line">        <span class="n">cmd</span> <span class="o">=</span> <span class="sx">%Q{sudo lxc-attach -n </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="sx"> -- </span><span class="si">#{</span><span class="n">command</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="si">}</span><span class="sx">}</span>
+</span><span class="line">        <span class="n">stdin</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="p">,</span> <span class="n">wait_thread</span> <span class="o">=</span> <span class="no">Open3</span><span class="o">.</span><span class="n">popen3</span> <span class="n">cmd</span>
+</span><span class="line">        <span class="o">[</span><span class="n">stdout</span><span class="o">.</span><span class="n">read</span><span class="p">,</span> <span class="o">[</span><span class="n">stderr</span><span class="o">.</span><span class="n">read</span><span class="o">]</span><span class="p">,</span> <span class="n">wait_thread</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">exitstatus</span><span class="o">]</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">      <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">{})</span>
+</span><span class="line">        <span class="c1"># do not delete container</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">      <span class="n">alias_method</span> <span class="ss">:delete</span><span class="p">,</span> <span class="ss">:remove</span>
+</span><span class="line">      <span class="n">alias_method</span> <span class="ss">:kill</span><span class="p">,</span> <span class="ss">:remove</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>これで、Mac上でもCircleCI上でも同じ</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">bundle <span class="nb">exec </span>rake spec
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>でテストが実行できるようになった。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/08/docker-alpine-serverspec-sample_0.png" alt="" /></p>
+
+<p>↑の画像のように、イメージのサイズが非常に小さいAlpine Linuxに切り替えてからbuildもtestもすぐに完了するので生産性が高くなった。</p>
+
+<h2 id="section-5">参考</h2>
+
+<ul>
+  <li><a href="http://blog.stormcat.io/archive/category/Alpine">Alpine カテゴリーの記事一覧 - tehepero note(・ω&lt;)</a></li>
+  <li><a href="https://circleci.com/docs/docker/#docker-exec">Continuous Integration and Delivery with Docker - CircleCI</a></li>
+  <li><a href="https://ja.ngs.io/2015/09/26/circleci-docker-serverspec/">CircleCI で Docker Container を Serverspec でテストする - Atsushi Nagase</a></li>
+  <li><a href="http://qiita.com/yulii/items/3ae64d6b68d64db7b1a9">Docker + Serverspec を使ってCircleCI 上でインフラのテストを実行する - Qiita</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/03/29/alfred-mackerel-page-workflow/">Mackerelのページを瞬時に開くAlfred Workflowを作った</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-03-29T13:00:00+09:00" pubdate data-updated="true">2016年03月29日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://mackerel.io/">Mackerel</a>を利用していて、</p>
+
+<ul>
+  <li>特定のホストのメトリクス</li>
+  <li>特定のサービスのメトリクス</li>
+  <li>特定のダッシュボード</li>
+</ul>
+
+<p>などを見るときにページにアクセスして探すのに若干手間がかかるので、<a href="https://www.alfredapp.com/">Alfred</a>から瞬時に開けるようにWorkflowを作った。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/alfred-mackerel-page-workflow">glidenote/alfred-mackerel-page-workflow</a></li>
+</ul>
+
+<p>導入方法や使い方は<a href="https://github.com/glidenote/alfred-mackerel-page-workflow">README</a>を参照ください。
+動作は下記のような感じになります。(サービスとダッシュボードを開く動作はキャプチャに秘匿情報が含まれているので割愛してます <img alt="bow" src="/images/emoji/unicode/1f647.png" class="emoji" /> )</p>
+
+<p><img src="https://github.com/glidenote/alfred-mackerel-page-workflow/raw/master/images/alfred-mackerel-page-workflow-animation.gif" alt="" /></p>
+
+<h2 id="section">関連</h2>
+
+<ul>
+  <li><a href="http://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow/">CircleCIのProjectページの移動が簡単になるAlfred Workflowを作った - Glide Note</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

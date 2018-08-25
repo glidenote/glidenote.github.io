@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: growthforecast | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/growthforecast/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GrowthForecast導入&Supervisorで起動を管理]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor/"/>
+    <updated>2012-07-05T00:37:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor</id>
+    <content type="html"><![CDATA[<p>社内に<a href="http://kazeburo.github.com/GrowthForecast/">GrowthForecast</a>ブームが
+来ているので、乗り遅れないように導入。</p>
+
+<p><a href="http://d.hatena.ne.jp/do_aki/20120522/1337665000">@do_akiさんのブログ記事</a>にSupervisorでの起動方法を追加した内容です。
+何回もググっているので自分の作業用メモも兼ねて。同じ事を2回ググったらブログに書く精神で。</p>
+
+<p>導入環境はSL6.2です。作業の流れとしては</p>
+
+<ol>
+  <li>Perlbrewの導入</li>
+  <li>GrowthForecastの導入</li>
+  <li>SupervisordでGrowthForecastを管理</li>
+</ol>
+
+<p>という感じです。</p>
+
+<p>GrowthForecastは下記のように管理します。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/07/gf.png" alt="" /></p>
+
+<h2 id="section">必要パッケージの導入</h2>
+
+<p><code>
+sudo yum -y groupinstall "Development Tools"
+sudo yum -y install pkgconfig glib2-devel gettext libxml2-devel pango-devel cairo-devel
+</code></p>
+
+<h3 id="growthforecast">GrowthForecast用のユーザの作成</h3>
+
+<p>Perlbrewを導入するのでGrowthForecast用にユーザーを作成。パスワードも設定</p>
+
+<p><code>
+sudo useradd growthforecast
+sudo passwd growthforecast
+</code></p>
+
+<h2 id="perlbrewcpanm">Perlbrewとcpanmの導入</h2>
+
+<p>GrowthForecastの利用には<a href="http://perlbrew.pl/">Perlbrew</a>の利用が推奨されているので、perlbrewを導入。
+growthforecastユーザのホームディレクトリ内に導入。</p>
+
+<p><code>
+sudo su - growthforecast
+curl -kL http://install.perlbrew.pl | bash
+echo '[[ -s "$HOME/perl5/perlbrew/etc/bashrc" ]] &amp;&amp; source "$HOME/perl5/perlbrew/etc/bashrc"' &gt;&gt; .bash_profile
+source $HOME/perl5/perlbrew/etc/bashrc
+</code></p>
+
+<p>続いてperl-5.16.0とcpanmの導入。結構時間がかかります。</p>
+
+<p><code>
+perlbrew install perl-5.16.0
+perlbrew switch perl-5.16.0
+perlbrew install-cpanm
+</code></p>
+
+<h3 id="rrdtool">RRDtoolのインストール</h3>
+
+<p><strong>2012年7月5日 10:00 追記</strong></p>
+
+<p><a href="https://twitter.com/#!/kentaro/">antipopさん</a>に教えてもらい、現在はもう不要な手順です。
+Makefile.plに含まれているので別途導入する必要はありません。</p>
+
+<p><a href="https://github.com/kazeburo/GrowthForecast/blob/master/Makefile.PL">GrowthForecast/Makefile.PL at master · kazeburo/GrowthForecast https://github.com/kazeburo/GrowthForecast/blob/master/Makefile.PL</a></p>
+
+<p><code>
+cpanm http://search.cpan.org/CPAN/authors/id/G/GF/GFUJI/Alien-RRDtool-0.03.tar.gz
+</code></p>
+
+<h2 id="growthforecast-1">GrowthForecastのインストール</h2>
+
+<p>引き続き作業はgrowthforecastユーザで。</p>
+
+<p><strong>cpanmでの方法に修正 2012年7月5日 13:00</strong></p>
+
+<p><a href="https://twitter.com/#!/oranie/">@oranieさん</a>からの指摘でcpanmの方法に修正。</p>
+
+<p><code>
+cpanm -n http://cloud.github.com/downloads/kazeburo/GrowthForecast/GrowthForecast-0.30.tar.gz
+</code></p>
+
+<h3 id="growthforecast-2">GrowthForecastの動作確認</h3>
+
+<p>とりあえず起動確認。</p>
+
+<p><code>
+growthforecast.pl --port=5125
+</code></p>
+
+<p><code>hostname:5125</code>にアクセスして表示されるか確認。
+ちゃんと動いていたら<code>ctrl+c</code>で終了。</p>
+
+<h2 id="supervisord">Supervisordで管理</h2>
+
+<p><a href="http://www.glidenote.com/archives/1684">過去の記事</a>を参考にsupervisord経由で
+GrowthForecastを起動する。</p>
+
+<p>ここからはrootかsudoで作業します。</p>
+
+<h3 id="supervisord-1">Supervisordの導入</h3>
+
+<p><code>
+sudo yum -y install python-setuptools
+sudo easy_install pip
+sudo pip install supervisor
+</code></p>
+
+<h3 id="supervisordlogconf">supervisord用のlogとconfディレクトリの用意</h3>
+
+<p><code>
+sudo mkdir /var/log/supervisor
+sudo mkdir /etc/supervisord.d
+</code></p>
+
+<h3 id="etcsupervisordconf-">/etc/supervisord.conf の用意</h3>
+
+<p><div><script src='https://gist.github.com/3047243.js?file=etc_supervisord.conf'></script>
+<noscript><pre><code>[unix_http_server]
+file=/tmp/supervisor.sock   ; (the path to the socket file)
+
+[supervisord]
+logfile=/var/log/supervisor/supervisord.log ; (main log file;default $CWD/supervisord.log)
+logfile_maxbytes=50MB        ; (max main logfile bytes b4 rotation;default 50MB)
+logfile_backups=10           ; (num of main logfile rotation backups;default 10)loglevel=info                ; (log level;default info; others: debug,warn,trace)
+pidfile=/var/run//supervisord.pid ; (supervisord pidfile;default supervisord.pid)
+nodaemon=false               ; (start in foreground if true;default false)
+minfds=1024                  ; (min. avail startup file descriptors;default 1024)
+minprocs=200                 ; (min. avail process descriptors;default 200)
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+serverurl=unix:///tmp/supervisor.sock ; use a unix:// URL  for a unix socket
+
+[include]
+files = supervisord.d/*.ini</code></pre></noscript></div>
+</p>
+
+<h3 id="upstartsupervisor">Upstart経由でSupervisorを起動</h3>
+
+<p>supervisordが落ちたら元も子もないのでUpstart経由で起動。
+<code>/etc/init/supervisord.conf</code>を用意</p>
+
+<p><div><script src='https://gist.github.com/3047243.js?file=init_supervisord.conf'></script>
+<noscript><pre><code>description     &quot;supervisord&quot;
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+respawn
+exec /usr/bin/supervisord -n</code></pre></noscript></div>
+</p>
+
+<p><code>
+sudo initctl start supervisord
+</code></p>
+
+<h3 id="etcsupervisorddgrowthforecastini-">/etc/supervisord.d/growthforecast.ini の用意</h3>
+
+<p>GrowthForecast用の設定を用意。(commandのところもっと上手い書き方知ってる人いたら教えてください!)</p>
+
+<p><div><script src='https://gist.github.com/3047243.js?file=growthforecast.ini'></script>
+<noscript><pre><code>[program:growthforecast]
+command=/home/growthforecast/perl5/perlbrew/perls/perl-5.16.0/bin/perl /home/growthforecast/GrowthForecast/growthforecast.pl --port=5125process_name=%(program_name)s_%(process_num)02d
+stdout_logfile_maxbytes=1MB
+stderr_logfile_maxbytes=1MB
+stdout_logfile=/var/log/supervisor/%(program_name)s.log
+stderr_logfile=/var/log/supervisor/%(program_name)s.log
+user=growthforecast
+autostart=true
+autorestart=true</code></pre></noscript></div>
+</p>
+
+<h3 id="growthforecast-3">GrowthForecastのデータ用ディレクトリの作成</h3>
+
+<p>GrowthForecastデータ用ディレクトリも用意</p>
+
+<p><code>
+sudo mkdir /var/run/growthforecast
+sudo chown -R growthforecast:growthforecast /var/run/growthforecast
+</code></p>
+
+<h3 id="section-1">必要ディレクトリの権限設定</h3>
+
+<p><code>/tmp/.xslate_cache/</code>に書き込み権限がないとエラーが出たので設定</p>
+
+<p><code>
+sudo chown -R growthforecast:growthforecast /tmp/.xslate_cache/
+</code></p>
+
+<h3 id="supervisordgrowthforecast">Supervisord経由でGrowthForecastを起動</h3>
+
+<p><code>
+sudo supervisorctl add growthforecast
+sudo supervisorctl start growthforecast
+sudo supervisorctl status growthforecast
+</code></p>
+
+<p>動作ログでエラーを吐いてないか確認。</p>
+
+<p><code>
+tail /var/log/supervisor/supervisord.log  /var/log/supervisor/growthforecast.log
+</code></p>
+
+<p>正常に動作していれば、GrowthForecastをkillしてみる。</p>
+
+<p><code>
+sudo pkill -u growthforecast
+</code></p>
+
+<p>を実行して、再度起動してくるか確認。<br />
+GrowthForecastがSupervisord経由で管理出来るように。</p>
+
+<p>一通り作業を終えた後に<a href="https://twitter.com/#!/kazeburo/">@kazeburo</a>さんがProcletというsupervisorを出していたことに気づいた。</p>
+
+<ul>
+  <li><a href="http://blog.nomadscafe.jp/2012/06/proclet-supervisor.html">Proclet という supervisor モジュール書いてリリースした - blog.nomadscafe.jp</a></li>
+</ul>
+
+<p>とりあえず常駐化出来たので、fluentdを組み合わせてガンガン使っていこう。</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,776 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="最近追加したステータスバーの通知系アプリで便利なやつを共有。 GitHub Notifications Gitify - GitHub Notifications on your menu bar GitHubのNotifications通知については、Gitifyを利用。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/2">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="最近追加したステータスバーの通知系アプリで便利なやつを共有。 GitHub Notifications Gitify - GitHub Notifications on your menu bar GitHubのNotifications通知については、Gitifyを利用。
+それまでは自分宛の通知はZapier使ってSlackに通知したり、Chrome &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/03/29/notification-apps/">最近導入した開発に役立つ便利なステータスバー通知系アプリ3選</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-03-29T12:00:00+09:00" pubdate data-updated="true">2016年03月29日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近追加したステータスバーの通知系アプリで便利なやつを共有。</p>
+
+<h2 id="github-notifications">GitHub Notifications</h2>
+
+<p><img src="https://gitify.io/static/images/mockup.png" alt="" /></p>
+
+<ul>
+  <li><a href="https://gitify.io/">Gitify - GitHub Notifications on your menu bar</a></li>
+</ul>
+
+<p>GitHubのNotifications通知については、Gitifyを利用。
+それまでは自分宛の通知は<a href="https://zapier.com/">Zapier</a>使ってSlackに通知したり、Chrome Extensionとか使って検知してたんですが、
+ステータスバーに通知するやつが自分にはあっていたので、半年くらい前から利用してます。</p>
+
+<h2 id="circleci-notifications">CircleCI Notifications</h2>
+
+<p><img src="https://blog.glidenote.com/images/2016/03/seaeye.png" alt="" /></p>
+
+<ul>
+  <li><a href="https://github.com/nolaneo/SeaEye">nolaneo/SeaEye: OSX notifications for Circle CI builds</a></li>
+</ul>
+
+<p>CircleCIの通知にはSeaEyeを利用。特定プロジェクトや、自分のビルドだけ通知などが設定ができるのが大変便利。</p>
+
+<h2 id="bitbar--sensu-notifications">BitBar &amp; Sensu Notifications</h2>
+
+<p><img src="https://raw.githubusercontent.com/ripienaar/sensu_bitbar/master/screenshot.png" alt="" /></p>
+
+<ul>
+  <li><a href="https://github.com/ripienaar/sensu_bitbar">ripienaar/sensu_bitbar: BitBar Sensu status plugin</a></li>
+</ul>
+
+<p>rebuild.fm a132で話題に出ていた<a href="https://github.com/matryer/bitbar">BitBar</a>で、KAIZENで利用している監視システム<a href="https://sensuapp.org/">Sensu</a>のPluginがあったので導入。
+Sensuがアラートを検知した場合、Pagerduty経由で、Slack、メール、電話、スマホアプリへの通知などをしてくれるので、無くても良いんですが、ちょっとBitBarを利用してみたかったので導入。</p>
+
+<p>これを機にメールとSlackでの通知も減らしたので作業に集中する時間が増えた(気がする)</p>
+
+<h1 id="section">参考</h1>
+
+<ul>
+  <li><a href="http://rebuild.fm/132a/">Rebuild: Aftershow 132: Math Is Hard, Let’s Go Programming (higepon)</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/03/03/alfred-circleci-project-workflow/">CircleCIのProjectページの移動が簡単になるAlfred Workflowを作った</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-03-03T19:00:00+09:00" pubdate data-updated="true">2016年03月03日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>実は<a href="http://qiita.com/advent-calendar/2015/circleci">CircleCI Advent Calendar 2015 - Qiita</a>にエントリするために、
+結構前にAlfred Workflowを作っていたんですが、当時多忙でブログに書くのを忘れていました <img alt="sweat" src="/images/emoji/unicode/1f613.png" class="emoji" /></p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/alfred-circleci-projects-workflow">glidenote/alfred-circleci-projects-workflow</a></li>
+</ul>
+
+<p><a href="https://circleci.com/">CircleCI</a>で利用するProject数が増えると、それぞれのページに移動するのが
+めちゃくちゃ面倒なので、CircleCIのProject移動が簡単になるAlfred Workflowを作りました。</p>
+
+<p>インストール方法、使い方は<a href="https://github.com/glidenote/alfred-circleci-projects-workflow">README</a>を見ていただくことにして、
+どんな感じで動作するのかgif animationにしてみました。</p>
+
+<h2 id="project">Projectページを開く</h2>
+
+<p>URL情報をcacheしているので、サクサク動作します。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/03/circleci.gif" alt="" /></p>
+
+<h2 id="projectmasterstatus">各Projectのmasterブランチのstatusを確認する</h2>
+
+<p>その都度APIを叩いて確認しているので、レスポンスが遅めです。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/03/circleci-status.gif" alt="" /></p>
+
+<p>CircleCIとAlfredを利用している方は是非ご活用ください。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/02/25/infrastructure-engineer-books-devops/">「サーバ/インフラエンジニア養成読本 DevOps編」にて[CircleCIによる継続的インテグレーション入門]を執筆しました</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-02-25T19:00:00+09:00" pubdate data-updated="true">2016年02月25日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://www.amazon.co.jp/%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E9%A4%8A%E6%88%90%E8%AA%AD%E6%9C%AC-DevOps%E7%B7%A8-Infrastructure-%E3%82%92%E5%AE%9F%E8%B7%B5%E3%81%99%E3%82%8B%E3%83%8E%E3%82%A6%E3%83%8F%E3%82%A6%E3%81%8C%E6%BA%80%E8%BC%89-Software/dp/4774179930?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179930"><img src="https://images-fe.ssl-images-amazon.com/images/I/61P3yaTE0qL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E9%A4%8A%E6%88%90%E8%AA%AD%E6%9C%AC-DevOps%E7%B7%A8-Infrastructure-%E3%82%92%E5%AE%9F%E8%B7%B5%E3%81%99%E3%82%8B%E3%83%8E%E3%82%A6%E3%83%8F%E3%82%A6%E3%81%8C%E6%BA%80%E8%BC%89-Software/dp/4774179930?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179930">サーバ/インフラエンジニア養成読本 DevOps編 [Infrastructure as Code を実践するノウハウが満載! ] (Software Design plus)</a></p>
+
+<p>2016/02/26 に出版される「サーバ/インフラエンジニア養成読本 DevOps編」というムック本にて、特集「CircleCIによる継続的インテグレーション入門」を執筆しました。</p>
+
+<h2 id="circleci">CircleCIによる継続的インテグレーション入門</h2>
+
+<p>私が現在所属する<a href="https://kaizenplatform.com/">Kaizen Platform, Inc.</a>でもCircleCIをヘビーユーズしており、サーバ/インフラ部分においても、</p>
+
+<ol>
+  <li>インフラCI</li>
+  <li>稼働中サーバへのプロビジョニング </li>
+  <li>DNSレコードの管理</li>
+  <li>Terraformを用いたAWSリソースの管理</li>
+  <li>Packerを用いたAMI作成</li>
+  <li>稼働中サーバのセキュリティアップデート</li>
+  <li>メトリクスグラフの取得&amp;slackへの投稿</li>
+</ol>
+
+<p>などにCircleCIを利用しており、今回はその中の<code>インフラCI</code>と<code>稼働中サーバへのプロビジョニング</code> 部分を入門用に噛み砕いて書いてます。</p>
+
+<p>Kaizen Platform, Inc.におけるインフラの継続的デリバリー、インテグレーションについては技術顧問である伊藤直也さんのブログ、@m_doiの昨年JAWS発表資料を合わせて見ていただくと理解が深まるかと思います。</p>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">インフラの継続的デリバリー - naoyaのはてなダイアリー</a></li>
+</ul>
+
+<script async="" class="speakerdeck-embed" data-id="23408aff918a4b0f8483ebf168d5f818" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+
+<h2 id="section">既存環境に組み込みやすいように</h2>
+
+<p>本特集では下記のサービス、ツールを利用しています。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>ツール名</th>
+      <th>役割</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://www.virtualbox.org/">VirtualBox</a></td>
+      <td>ローカル環境にテスト用VMを起動</td>
+    </tr>
+    <tr>
+      <td><a href="https://www.vagrantup.com/">Vagrant</a></td>
+      <td>テスト用VMの管理とssh接続情報の生成</td>
+    </tr>
+    <tr>
+      <td><a href="https://matschaffer.github.io/knife-solo/">knife-solo</a></td>
+      <td>プロビジョニングの実行</td>
+    </tr>
+    <tr>
+      <td><a href="http://serverspec.org/">Serverspec</a></td>
+      <td>テスト用VMのプロビジョン結果のテスト</td>
+    </tr>
+    <tr>
+      <td><a href="https://www.terraform.io/">Terraform</a></td>
+      <td>DigitalOcean上へのテスト用VM作成</td>
+    </tr>
+    <tr>
+      <td><a href="https://circleci.com/">CircleCI</a></td>
+      <td>GitHubと連携しビルド/CIを実行</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/">GitHub</a></td>
+      <td>インフラコードの管理</td>
+    </tr>
+    <tr>
+      <td><a href="https://www.digitalocean.com/">DigitalOcean</a></td>
+      <td>インフラCIのテスト用VMの作成環境</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br />
+特集内でも説明をしていますがそれぞれを疎な状態を保つように利用しているので、組み替えやすく、別のサービス、ツールを利用していても取り入れやすいのでは無いかと思います。</p>
+
+<h2 id="hashicorp-tools">HashiCorp tools</h2>
+
+<p>今回<a href="https://www.vagrantup.com/">Vagrant</a>と<a href="https://www.terraform.io/">Terraform</a>を利用し、ローカルでのテスト環境、インフラCIを実現しています。Vagrantはすでに定番ツールとなっておりますが、Terraformについてはまだまだの印象がありますので、インフラCI用の使い捨てVM管理を通じ、Terraformの感触を掴んでいただければ幸いです。</p>
+
+<h2 id="section-1">目次</h2>
+
+<p>それぞれの特集が独立しており、好きなところから読んで、手を動かして試せる内容となっています。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">巻頭企画 DevOpsとInfrastructure as Codeの概要
+</span><span class="line">吉羽 龍太郎
+</span><span class="line">第1章 DevOpsとは?
+</span><span class="line">第2章 Infrastructure as Codeとは?
+</span><span class="line">
+</span><span class="line">特集1 最速攻略!Ansible 2によるサーバ構築
+</span><span class="line">新原 雅司
+</span><span class="line">第1章 Ansibleの基本
+</span><span class="line">第2章 Playbookの基本
+</span><span class="line">第3章 Ansible[実践]
+</span><span class="line">第4章 Playbookベストプラクティス
+</span><span class="line">
+</span><span class="line">特集2 CircleCIによる継続的インテグレーション入門
+</span><span class="line">前田 章
+</span><span class="line">第1章 インフラのテスト入門
+</span><span class="line">第2章 ローカル上でのテスト駆動インフラ
+</span><span class="line">第3章 インフラCIの準備
+</span><span class="line">第4章 CircleCIを利用した継続的インテグレーション
+</span><span class="line">第5章 継続的インテグレーションから継続的デリバリーへ
+</span><span class="line">
+</span><span class="line">特集3 Dockerによる仮想環境構築とKubernetesによるDockerクラスタ管理
+</span><span class="line">馬場俊彰
+</span><span class="line">第1章 Dockerの基本
+</span><span class="line">第2章 Dockerを使ってみよう[基礎編]
+</span><span class="line">第3章 Dockerを使ってみよう[応用編]
+</span><span class="line">第4章 クラスタ管理ツールとは
+</span><span class="line">第5章 Kubernetesの基本
+</span><span class="line">第6章 Kubernetesクイックスタート
+</span><span class="line">第7章 Kubernetesを詳しく見てみよう</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">正誤表</h2>
+
+<p>TerraformのDownload URLが発売直前のこのタイミングで変更になってしまい(泣)、一部コードがそのままでは動かなくなっております。詳しくは技術評論社様のサイトでご確認ください</p>
+
+<ul>
+  <li><a href="http://gihyo.jp/book/2016/978-4-7741-7993-3/support">http://gihyo.jp/book/2016/978-4-7741-7993-3/support</a></li>
+</ul>
+
+<h2 id="section-3">最後に</h2>
+
+<p>担当した特集で利用している<a href="http://serverspec.org/">Serverspec</a>の作者である<a href="https://twitter.com/gosukenator">mizzy</a>さんの紹介で特集が実現し感謝です。
+担当した特集部分のレビューにご協力頂いた <a href="https://twitter.com/tnmt">@tnmt</a>さん、<a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a>さん、<a href="https://twitter.com/sato_ryu">@satoryu</a>さん、ありがとうございました。</p>
+
+<p>余談ですが今回の執筆にあたり、CircleCIにいろいろと問い合わせをしていたところステッカーとTシャツが送られてきて、CircleCIにも感謝です! / Thanks CircleCI !!</p>
+
+<blockquote class="instagram-media" data-instgrm-version="6" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:8px;"> <div style=" background:#F8F8F8; line-height:0; margin-top:40px; padding:50.0% 0; text-align:center; width:100%;"> <div style=" background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAGFBMVEUiIiI9PT0eHh4gIB4hIBkcHBwcHBwcHBydr+JQAAAACHRSTlMABA4YHyQsM5jtaMwAAADfSURBVDjL7ZVBEgMhCAQBAf//42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB/lQPb79drWOyJVa/DAvg9B/rLB4cC+Nqgdz/TvBbBnr6GBReqn/nRmDgaQEej7WhonozjF+Y2I/fZou/qAAAAAElFTkSuQmCC); display:block; height:44px; margin:0 auto -44px; position:relative; top:-22px; width:44px;"></div></div><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/BAzU3cyCw8N/" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A photo posted by Akira Maeda (@glidenote)</a> on <time style=" font-family:Arial,sans-serif; font-size:14px; line-height:17px;" datetime="2016-01-21T12:59:51+00:00">Jan 21, 2016 at 4:59am PST</time></p></div></blockquote>
+<script async="" defer="" src="//platform.instagram.com/en_US/embeds.js"></script>
+
+<p><br /></p>
+
+<p>本書がビジネスに貢献するITインフラの役に立つ1冊になれば幸いです。</p>
+
+<p><strong>追記 2月26日追記</strong></p>
+
+<p>本日2016年2月26日(金)発売で、今現在カテゴリー別1位になっているようで、ありがとうございます!</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/devops_books0.png" alt="" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/02/16/web-service-development-vol2/">Webサービス開発徹底攻略 Vol.2 を読んだ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-02-16T11:00:00+09:00" pubdate data-updated="true">2016年02月16日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://www.amazon.co.jp/Web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E9%96%8B%E7%99%BA%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-Vol-2-WEB-PRESS-plus/dp/4774179523?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179523"><img src="https://images-fe.ssl-images-amazon.com/images/I/51F56YOP6dL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/Web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E9%96%8B%E7%99%BA%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-Vol-2-WEB-PRESS-plus/dp/4774179523?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179523">Webサービス開発徹底攻略 Vol.2 (WEB+DB PRESS plus)</a></p>
+
+<p>技術評論社様、特別企画「継続的Webサービス改善」執筆陣のGMOペパボのみなさんからご恵贈いただきましてありがとうございます。</p>
+
+<p>『WEB+DB PRESS』の掲載記事をテーマ別に厳選、再編集とのことで、LINE、ドラゴンクエストX、freeeの事例などは
+2015年のものが掲載されており、その他は2013年と3年前の事例なので多少古さがあるが、現在でも有益な情報には変わりない感じ。</p>
+
+<p>LINE、ドラゴンクエストX、DMM.com などの大規模トラフィックを関する知見が参考になるのはもちろんですが、
+特にGMOペパボの特別企画「継続的Webサービス改善ガイド ── 複雑性の増大と環境の変化に対応する」に関しては、
+2013年当時私も在職しており、10年続くサービスをいかに改善していくかということに取り組み始めた頃で、
+それから約3年経過し、最近のGMOペパボのエンジニアの勉強会での発表資料を見ると、
+この本に書かれている通りに、その後サービス改善に取り組んでいることがよくわかって素晴らしい。</p>
+
+<p>特にDB周りは鬼門だったので、それに関する発表資料を見ると、技術力の高さを感じる。</p>
+
+<ul>
+  <li><a href="http://www.slideshare.net/hifumis/mysql-casual-42634961">MySQL 4.0で9年動き続けたサーバを リプレイスしてバージョンアップした話</a></li>
+  <li><a href="http://www.slideshare.net/masatakakono1/mysql4056">Mysqlを4.0から5.0を経由して5.6へバージョンアップした話</a></li>
+</ul>
+
+<p>ほとんどのWEBサービスが10年も続かずにサービスを終了してしまうのを考えると、
+長年続いているサービスの改善に関するGMOペパボの取り組み、知見は非常に希少度が高いし、
+その元となっている考え方の基礎となっている部分が書かれており、2016年も必読の内容かと思います。</p>
+
+<p>p.165のコードレビューの画像は、確か私のコードに対する指摘だなーと思い出して懐かさと汗が。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">■特集1:LINE ── 1日100億メッセージをさばくサービスの裏側
+</span><span class="line">・第1章:LINEの歴史と開発体制
+</span><span class="line">・第2章:LINEのサーバサイドアーキテクチャ
+</span><span class="line">・第3章:LINEのメッセージング基盤
+</span><span class="line">・第4章:LINEのストレージ
+</span><span class="line">・第5章:スタンプショップの舞台裏
+</span><span class="line">
+</span><span class="line">■特集2:ドラゴンクエストX ── 国民的RPGオンライン化へのチャレンジ
+</span><span class="line">・第1章:ドラゴンクエストXとは何か
+</span><span class="line">・第2章:開発・運営体制
+</span><span class="line">・第3章:開発の舞台裏
+</span><span class="line">・第4章:サーバプロセス構成
+</span><span class="line">・第5章:1つの世界
+</span><span class="line">
+</span><span class="line">■特集3:クラウド会計ソフトfreee ── 急成長を支えたコードとプロセスの改善
+</span><span class="line">・第1章:クラウド会計ソフトfreeeの全体像
+</span><span class="line">・第2章:急成長するシステムの課題と処方箋
+</span><span class="line">・第3章:フロントエンド開発の複雑化への取り組み
+</span><span class="line">・第4章:規模の拡大に伴う開発プロセスの変遷
+</span><span class="line">・After That:freeeの現在
+</span><span class="line">
+</span><span class="line">■特集4:DMM.com ── 動画配信に耐えるインフラ、好機を逃さない高速開発
+</span><span class="line">・第1章:システムの全体像
+</span><span class="line">・第2章:変化しつづけるインフラ
+</span><span class="line">・第3章:負荷対策とパフォーマンス改善
+</span><span class="line">・第4章:動画配信の裏側
+</span><span class="line">・第5章:好機を逃さない高速開発
+</span><span class="line">・第6章:多様なサービスはいかに作られるか
+</span><span class="line">・After That:DMM.comの現在
+</span><span class="line">
+</span><span class="line">■特別企画:継続的Webサービス改善ガイド ── 複雑性の増大と環境の変化に対応する
+</span><span class="line">・第1章:なぜ「継続的Webサービス改善」が必要なのか
+</span><span class="line">・第2章:開発環境の改善
+</span><span class="line">・第3章:パフォーマンスの改善
+</span><span class="line">・第4章:インフラ構成管理の改善
+</span><span class="line">・第5章:ビジネス視点の改善
+</span><span class="line">・第6章:これからも続く「改善」へのとりくみ
+</span><span class="line">
+</span><span class="line">■一般記事:社内の情報共有・情報発信 ── クックパッドはいかにして場を築いたか</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/02/05/roost/">Roost Laptop Standで肩こりが解消した</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-02-05T19:00:00+09:00" pubdate data-updated="true">2016年02月05日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="https://blog.glidenote.com/images/2016/02/roost0.jpg" alt="" /></p>
+
+<ul>
+  <li><a href="http://www.therooststand.com/">Roost Laptop Stand: Portable, Lightweight, Adjustable, Ergonomic Stand</a></li>
+</ul>
+
+<p>Kickstarterで注文していた新しいRoost Laptop Standが昨年末に届いて、最近は下のような形で作業している。</p>
+
+<blockquote class="instagram-media" data-instgrm-captioned="" data-instgrm-version="6" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:8px;"> <div style=" background:#F8F8F8; line-height:0; margin-top:40px; padding:50.0% 0; text-align:center; width:100%;"> <div style=" background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAGFBMVEUiIiI9PT0eHh4gIB4hIBkcHBwcHBwcHBydr+JQAAAACHRSTlMABA4YHyQsM5jtaMwAAADfSURBVDjL7ZVBEgMhCAQBAf//42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB/lQPb79drWOyJVa/DAvg9B/rLB4cC+Nqgdz/TvBbBnr6GBReqn/nRmDgaQEej7WhonozjF+Y2I/fZou/qAAAAAElFTkSuQmCC); display:block; height:44px; margin:0 auto -44px; position:relative; top:-22px; width:44px;"></div></div> <p style=" margin:8px 0 0 0; padding:0 4px;"> <a href="https://www.instagram.com/p/_1IWh2Cw47/" style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none; word-wrap:break-word;" target="_blank">2016年に向けた作業環境が整った</a></p> <p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;">A photo posted by Akira Maeda (@glidenote) on <time style=" font-family:Arial,sans-serif; font-size:14px; line-height:17px;" datetime="2015-12-28T09:17:35+00:00">Dec 28, 2015 at 1:17am PST</time></p></div></blockquote>
+<script async="" defer="" src="//platform.instagram.com/en_US/embeds.js"></script>
+
+<p><br />
+1ヶ月半くらい、この状態で過ごしてみての感想は、</p>
+
+<ul>
+  <li>真っ直ぐを向く姿勢になるので、肩こりが解消した</li>
+  <li>姿勢が楽なので集中力が長時間持続する</li>
+  <li>イヤホンを接続するとケーブルが邪魔</li>
+  <li>Roostは持ち運びを想定した設計だが、キーボードとかも一緒に持ち歩かないといけないので、持ち運びには適さない(と思う)</li>
+</ul>
+
+<p>単に目の高さにディスプレイがくるようになれば良いのかと思って、それまで使っていた外部ディスプレイ(27インチ)を目線の高さにくるようにしてみたけど
+外部ディスプレイだと画面が広いせいか、首は動かないけど視線(眼球)がよく動いて、目の疲れは軽減されないことがわかった。</p>
+
+<p>MacBook Pro Retina 15くらいだと視線ほぼ動かないので、目が疲れず、それが肩こり軽減にも一役買っている。</p>
+
+<p>これまで肩こりで集中力が切れることが結構あったが、Roostを使いだしてからそれが無くなって劇的に快適になった。
+作業環境において、ここ数年で一番良い買い物をした感じがする。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://rebuild.fm/71a/">Rebuild: Aftershow 71: Green Grass On GitHub (Naoya Ito)</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/3/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: lvm | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/lvm/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[LVM領域の拡張方法のメモ]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/11/30/extend-lvm-volume/"/>
+    <updated>2011-11-30T14:48:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/11/30/extend-lvm-volume</id>
+    <content type="html"><![CDATA[<p>LVMが個人的にあまり好きじゃいせいか、LVM領域の拡張方法をいつも忘れてググっているのでメモ</p>
+
+<h2 id="section">ディスク構成と容量の確認</h2>
+
+<p>パーティションは下記のような構成</p>
+
+<pre><code>[root@server002 ~]# fdisk -l
+
+Disk /dev/sda: 598.8 GB, 598879502336 bytes
+255 heads, 63 sectors/track, 72809 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *           1         131     1052226   83  Linux
+/dev/sda2             132        4047    31455270   83  Linux
+/dev/sda3            4048        7963    31455270   83  Linux
+/dev/sda4            7964       72809   520875495    5  Extended
+/dev/sda5            7964        8094     1052226   82  Linux swap
+/dev/sda6            8095       72809   519823206   8e  Linux LVM
+</code></pre>
+
+<p>下の例だと/dev/mapper/vg_home-lv_homeってのがLVMを組んでいる領域です。</p>
+
+<pre><code>[root@server002 ~]# df -ah
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/sda2              30G  826M   28G   3% /
+none                     0     0     0   -  /proc
+none                     0     0     0   -  /sys
+none                     0     0     0   -  /dev/pts
+usbfs                    0     0     0   -  /proc/bus/usb
+/dev/sda1            1012M   41M  920M   5% /boot
+none                  3.9G     0  3.9G   0% /dev/shm
+/dev/mapper/vg_home-lv_home
+                      168G   92M  159G   1% /home
+/dev/sda3              30G   88M   28G   1% /var
+none                     0     0     0   -  /proc/sys/fs/binfmt_misc
+sunrpc                   0     0     0   -  /var/lib/nfs/rpc_pipefs
+</code></pre>
+
+<h2 id="section-1">未割り当て領域サイズの確認</h2>
+
+<pre><code>[root@server002 ~]# vgdisplay -v 
+    Finding all volume groups
+    Finding volume group "vg_home"
+  --- Volume group ---
+  VG Name               vg_home
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  2
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               495.72 GB
+  PE Size               32.00 MB
+  Total PE              15863
+  Alloc PE / Size       5435 / 169.84 GB
+  Free  PE / Size       10428 / 325.88 GB
+  VG UUID               jraZSp-lOCp-NDK3-qevx-96Tc-eMvh-1lZdjd
+
+  --- Logical volume ---
+  LV Name                /dev/vg_home/lv_home
+  VG Name                vg_home
+  LV UUID                nZbwzV-acnK-axmN-FDB2-06o7-voXn-e5nHkc
+  LV Write Access        read/write
+  LV Status              available
+  # open                 1
+  LV Size                169.84 GB
+  Current LE             5435
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:0
+
+  --- Physical volumes ---
+  PV Name               /dev/sda6
+  PV UUID               GDG5eD-J1jo-oKmb-Eb7r-TCy6-9cIn-wh5o7Z
+  PV Status             allocatable
+  Total PE / Free PE    15863 / 10428
+</code></pre>
+
+<p>最下行のTotal PEの15863が最大で割り当てたときのサイズで、Free PEの10428が未割当のサイズ</p>
+
+<h2 id="lvm">LVM領域の拡張</h2>
+
+<p>割当可能な領域全部を割り当てる</p>
+
+<pre><code>[root@server000 ~]# lvextend -l 15863 /dev/vg_home/lv_home
+  Extending logical volume lv_home to 495.72 GB
+  Logical volume lv_home successfully resized
+</code></pre>
+
+<p>指定容量だけ増加させるには下記のような感じ</p>
+
+<pre><code>lvextend -L +20G /dev/vg_home/lv_home
+</code></pre>
+
+<h2 id="section-2">割り当てた領域の確認</h2>
+
+<pre><code>[root@server000 ~]# vgdisplay -v
+    Finding all volume groups
+    Finding volume group "vg_home"
+  --- Volume group ---
+  VG Name               vg_home
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  4
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               495.72 GB
+  PE Size               32.00 MB
+  Total PE              15863
+  Alloc PE / Size       15863 / 495.72 GB
+  Free  PE / Size       0 / 0
+  VG UUID               qFAi4b-krCN-N9rN-u34V-euc8-eU1N-gKsD1N
+
+  --- Logical volume ---
+  LV Name                /dev/vg_home/lv_home
+  VG Name                vg_home
+  LV UUID                0QfiuO-MfB4-nyoL-9dQm-L0ps-BkOE-FzaFmZ
+  LV Write Access        read/write
+  LV Status              available
+  # open                 1
+  LV Size                495.72 GB
+  Current LE             15863
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:0
+
+  --- Physical volumes ---
+  PV Name               /dev/sda6
+  PV UUID               5t2Vka-tweo-2AcM-MTGj-pYAq-RfTz-SLJHeY
+  PV Status             allocatable
+  Total PE / Free PE    15863 / 0
+</code></pre>
+
+<p>LV Sizeが495.72GBに増えているのでOK</p>
+
+<h2 id="lvmumount">LVM領域をumount</h2>
+
+<p>fsckとLVMのリサイズをするためにumount</p>
+
+<pre><code>umount /dev/vg_home/lv_home
+</code></pre>
+
+<h2 id="fsck">fsckをかけてファイルシステムのチェックと修復</h2>
+
+<pre><code>[root@server002 ~]# fsck -f /dev/vg_home/lv_home
+fsck 1.35 (28-Feb-2004)
+e2fsck 1.35 (28-Feb-2004)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/vg_home/lv_home: 11/22265856 files (9.1% non-contiguous), 722110/44523520 blocks
+</code></pre>
+
+<h2 id="lvm-1">LVM領域のサイズ変更</h2>
+
+<pre><code>[root@server002 ~]# resize2fs /dev/vg_home/lv_home
+resize2fs 1.35 (28-Feb-2004)
+Resizing the filesystem on /dev/vg_home/lv_home to 129949696 (4k) blocks.
+The filesystem on /dev/vg_home/lv_home is now 129949696 blocks long.
+</code></pre>
+
+<h2 id="lvmmount">LVM領域の再mount</h2>
+
+<pre><code>mount /dev/vg_home/lv_home /home
+</code></pre>
+
+<h2 id="section-3">容量の確認</h2>
+
+<pre><code>[root@server002 ~]# df -ah
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/sda2              30G  826M   28G   3% /
+none                     0     0     0   -  /proc
+none                     0     0     0   -  /sys
+none                     0     0     0   -  /dev/pts
+usbfs                    0     0     0   -  /proc/bus/usb
+/dev/sda1            1012M   41M  920M   5% /boot
+none                  3.9G     0  3.9G   0% /dev/shm
+/dev/sda3              30G   88M   28G   1% /var
+none                     0     0     0   -  /proc/sys/fs/binfmt_misc
+sunrpc                   0     0     0   -  /var/lib/nfs/rpc_pipefs
+/dev/mapper/vg_home-lv_home
+                      488G  102M  464G   1% /home
+</code></pre>
+
+<p>/dev/mapper/vg_home-lv_homeが増えているので完了</p>
+]]></content>
+  </entry>
+  
+</feed>

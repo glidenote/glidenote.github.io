@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: vps | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/vps/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[1時間1円でSSDなVPS(Digital Ocean)にシンガポール リージョンが来ていた]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/02/12/digital-ocean-singapore-region/"/>
+    <updated>2014-02-12T20:31:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/02/12/digital-ocean-singapore-region</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2014/02/digitalocean-logo.png" alt="" /></p>
+
+<ul>
+  <li><a href="https://www.digitalocean.com/?refcode=510a665458a3">https://www.digitalocean.com</a></li>
+  <li><a href="https://digitalocean.com/blog_posts/we-re-excited-to-announce-our-singapore-datacenter-sgp1">We’re Excited To Announce Our Singapore Datacenter (SGP1) | DigitalOcean</a></li>
+</ul>
+
+<p><a href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/">以前紹介した1時間1円でSSDなVPS(DigitalOcean)</a>にシンガポール リージョンが来ていた。</p>
+
+<p><img src="https://assets.digitalocean.com/blog/SGP1_Announcement/2.png" alt="" /></p>
+
+<p>早速インスタンスを立てて、自分の環境から、どのくらいのレスポンスなのか計測</p>
+
+<p>``` sh
+[akira@dev001] $ ping -c 10 128.199.<strong><em>.</em></strong>
+PING 128.199.<strong><em>.</em></strong> (128.199.<strong><em>.</em></strong>) 56(84) bytes of data.
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=1 ttl=53 time=76.7 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=2 ttl=53 time=75.7 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=3 ttl=53 time=73.8 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=4 ttl=53 time=73.7 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=5 ttl=53 time=74.1 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=6 ttl=53 time=76.1 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=7 ttl=53 time=75.8 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=8 ttl=53 time=75.7 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=9 ttl=53 time=76.1 ms
+64 bytes from 128.199.<strong><em>.</em></strong>: icmp_seq=10 ttl=53 time=78.0 ms</p>
+
+<p>— 128.199.<strong><em>.</em></strong> ping statistics —
+10 packets transmitted, 10 received, 0% packet loss, time 9096ms
+rtt min/avg/max/mdev = 73.738/75.623/78.060/1.290 ms
+```</p>
+
+<p>今まで日本から一番レスポンスの良かった<code>San Francisco1</code>へのping応答が<code>105ms</code>くらいなので、<code>30ms</code>くらい早くなった。</p>
+
+<p>さくらVPSが<code>11ms</code>とかなので、比較するとまだまだですが、sshログインして半日触った感じだと
+レスポンスの遅延とか特に感じなくて快適。(たぶんまだあんまり使われてないからだと思うけど)</p>
+
+<p>とりあえずVagrant+DigitalOceanな使い捨てサーバ環境はシンガポールリージョンに移行した。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[VagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/"/>
+    <updated>2013-12-05T20:56:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2013/12/vagrant-digital-ocean.png" alt="" /></p>
+
+<p>今年の初めくらいから個人的な技術検証にはSSDで動作が速く、1時間1円で料金が安いのと
+ロケーションをSan Franciscoにするとsshでもレスポンスが悪くないので、全部<a href="https://www.digitalocean.com/?refcode=510a665458a3">Digital Ocean</a>を使っている。(<a href="http://z.tokumaru.org/2013/10/digitalocean.html">徳丸先生が紹介する</a>前から使っていたんだ！)</p>
+
+<p>Digital Oceanについては<a href="http://rebuild.fm/2/">Rebuild: 2: Rails, Redis, VPS (Kenn Ejima)</a>の42分くらいから言及されてます。必聴です。</p>
+
+<p>使ってる旧型のMacBookAirみたいな貧弱なマシンだとローカルでVM動かすとファン回りまくりとかで泣きたくなるので、Digital Oceanだと泣かずに済んで快適。</p>
+
+<p>そんで今日<a href="http://www.vagrantup.com/">Vagrant</a>経由でDigital Ocean利用すると、コマンドラインから必要なときに新規インスタンス(Droplet)作って、
+検証終わったら削除という手軽な使い捨て高速サーバ環境が利用出来て検証に大変便利ということを知った。(APIの存在は知っていましたが、情弱なのでブラウザから毎回ポチポチやってました…)</p>
+
+<h2 id="digital-oceanapiclientidapikey">Digital Oceanに申し込んでAPIの<code>client_id</code>と<code>api_key</code>を取得する</h2>
+
+<ol>
+  <li><a href="https://www.digitalocean.com/?refcode=510a665458a3">Digital Ocean</a>に申し込む</li>
+  <li><a href="https://cloud.digitalocean.com/ssh_keys">https://cloud.digitalocean.com/ssh_keys</a>で作成したインスタンスに接続するための<code>ssh key</code>を登録</li>
+  <li><a href="https://cloud.digitalocean.com/api_access">https://cloud.digitalocean.com/api_access</a>から<code>client_id</code>と<code>api_key</code>を取得しておく</li>
+</ol>
+
+<p><a href="https://www.digitalocean.com/?refcode=510a665458a3">ここ経由</a>で申し込んで頂けると私の懐が潤います!</p>
+
+<p>2013年12月05日現在の1時間あたりの料金プランは下記のような感じ</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/12/digitalocean-plan.png" alt="" /></p>
+
+<h2 id="vagrant">Vagrantをインストール</h2>
+
+<p><a href="http://www.vagrantup.com/">Vagrant</a>からファイルをダウンロードしてインストール。2013/12/05現在最新の<code>1.3.5</code>を利用してます。</p>
+
+<h2 id="vagrant-digitaloceanhttpsgithubcomsmdahlenvagrant-digitalocean"><a href="https://github.com/smdahlen/vagrant-digitalocean">vagrant-digitalocean</a>のインストール</h2>
+
+<p>vagrantコマンドでvagrant-digitaloceanをインストール。vagrant-digitaloceanは2013/12/05現在最新の<code>0.4.1</code>を利用</p>
+
+<p><code>sh
+vagrant plugin install vagrant-digitalocean
+</code></p>
+
+<h2 id="curl-ca-bundle">curl-ca-bundleのインストール</h2>
+
+<p>apiを叩くのに必要なので、brewで導入</p>
+
+<p><code>sh
+brew install curl-ca-bundle
+</code></p>
+
+<h2 id="vagrantfile">Vagrantfileを作る</h2>
+
+<p>私は下記のようにディレクトリを掘って、Vagrantfileを用意</p>
+
+<p><code>sh
+mkdir -p ~/repos/vagrant-digital-ocean
+cd ~/repos/vagrant-digital-ocean
+touch Vagrantfile
+</code></p>
+
+<p><strong>2013年12月9日 追記</strong><br />
+申込みが増えているのかサンフランシスコで最小プラン(メモリ512MB)がずっと売り切れの状態なので、
+<code>provider.size = '1GB'</code>にするか、<code>provider.region = 'New York 2'</code>など別ロケーションを選択するなどの必要があります。1GBプランだと1時間約2円(0.015ドル)です。</p>
+
+<p>私が使ってるファイルの中身は下記のような感じ。設定した<code>ssh key</code>の名前や、APIページで取得した<code>client_id</code>と<code>api_key</code>はここで設定。
+repoにepelを追加して、起動時に最低限必要なパッケージを入れるためにpuppetを走らせてます。</p>
+
+<p><strong>2014年7月18日 追記</strong><br />
+DigitalOceanのAPIがv2.0になり<a href="https://cloud.digitalocean.com/settings/applications">https://cloud.digitalocean.com/settings/applications</a>で<code>token</code>の生成が必要になりました．
+下記の例だと<code>provider.token = 'xxxxxxxxxxxxxxxxxxxxx'</code>といった形でtokenを設定する必要があります．
+また<code>region</code>の指定方法も<code>San Francisco 1</code>から<code>sfo1</code>という感じで変更になっています．</p>
+
+<p>``` ruby
+Vagrant.configure(‘2’) do |config|
+  config.vm.hostname              = ‘dev003.hogemoge.com’
+  config.vm.provision “shell”, inline: “rpm -Uvh http://ftp-srv2.kddilabs.jp/Linux/distributions/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm –force”
+  config.vm.provision “shell”, inline: “yum -y install puppet”</p>
+
+<p>config.vm.provider :digital_ocean do |provider, override|
+    override.ssh.private_key_path = ‘~/.ssh/id_rsa’
+    override.vm.box               = ‘digital_ocean’
+    override.vm.box_url           = “https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box”</p>
+
+<pre><code>provider.client_id            = 'xxxxxxxxxxxxxxxxxxxxx'
+provider.api_key              = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+provider.token                = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+provider.image                = 'CentOS 6.4 x64'
+provider.region               = 'sfo1'
+provider.size                 = '512MB'
+provider.ca_path              = '/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt'
+provider.ssh_key_name         = 'office mac'   end
+</code></pre>
+
+<p>config.vm.provision “puppet” do |puppet|
+    puppet.options                = “–verbose –debug”
+  end
+end
+```</p>
+
+<p><code>manifests/default.pp</code>は下記のような感じ。</p>
+
+<p><code>ruby
+package {
+  [
+    'vim-enhanced',
+    'zsh',
+    'tmux',
+    'mosh',
+    'git',
+    'tig',
+    'gcc',
+    'dstat',
+    'iftop',
+    'iotop',
+    'nethogs',
+    'ruby',
+    'ruby-devel',
+    'rubygems',
+    'rubygem-json',
+    'tree',
+    'wget',
+    'xinetd',
+    'nc',
+    'fping',
+    'perf',
+    ]:
+      ensure =&gt; present;
+}
+</code></p>
+
+<h2 id="section">インスタンスの作成</h2>
+
+<p><code>vagrant up</code>コマンドを利用して、インスタンスを作成。ドンッ！</p>
+
+<p><code>sh
+vagrant up --provider=digital_ocean
+</code></p>
+
+<p>すると下記のように数分でインスタンスが作成される。</p>
+
+<p><code>sh
+[usr0600093@pmac008s] $ vagrant up --provider=digital_ocean
+Bringing machine 'default' up with 'digital_ocean' provider...
+[default] Using existing SSH key: office mac
+[default] Creating a new droplet...
+[default] Assigned IP address: xxx.xxx.xxx.xxx
+[default] Modifying sudoers file to remove tty requirement...
+[default] Rsyncing folder: /Users/usr0600093/repos/vagrant-digital-ocean/ =&gt; /vagrant...
+</code></p>
+
+<p><code>San Francisco 1</code>だと時間帯によって結構時間かかるので、
+早めに検証したい場合は<code>New York 2</code>とかに変更すると良いかも。</p>
+
+<p>私はpuppet走らせるので、<code>--provision</code>を付けてインスタンス作成してます。</p>
+
+<p><code>sh
+vagrant up --provider=digital_ocean --provision
+</code></p>
+
+<h2 id="ssh">起動したインスタンスにssh接続</h2>
+
+<p><code>vagrant ssh</code>でssh接続するとIPを覚えておく必要がない。</p>
+
+<p><code>sh
+vagrant ssh
+</code></p>
+
+<h2 id="section-1">使い終わったらインスタンスの削除</h2>
+
+<p>Digital Oceanは停止状態(halt)だと課金されるので、使い終わったら、インスタンスを<code>destroy</code>で消す。</p>
+
+<p><code>sh
+vagrant destroy
+</code></p>
+
+<p>なんて便利な時代なんだ！手元のMacBook Airも熱くない!!</p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://rebuild.fm/2/">Rebuild: 2: Rails, Redis, VPS (Kenn Ejima)</a>の42分くらいから</li>
+  <li><a href="http://z.tokumaru.org/2013/10/digitalocean.html">徳丸浩の雑記帳: 試験環境用VPSとして1時間1円から使えるDigitalOceanが安くて便利</a></li>
+  <li><a href="http://blog.uu59.org/2013-06-29-vagrant-digital-ocean.html">uu59のメモ | Digital OceanのVPSをVagrantでupしたりprovisionしたりする</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[さくらVPS 2G+Subsonic+Nginxで自分用ストリーミングサーバを構築]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/03/subsonic-nginx/"/>
+    <updated>2012-04-03T01:18:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/03/subsonic-nginx</id>
+    <content type="html"><![CDATA[<p>先日契約したさくらVPS 2Gのディスク容量がかなりあるので、自分用のストリーミングサーバを
+<a href="http://www.subsonic.org/pages/index.jsp">subsonic</a>と<a href="http://wiki.nginx.org/Main">nginx</a>で立ててみました。 
+subsonic単体でも良いんですが、同僚の天才<a href="https://twitter.com/#!/hiboma">@hiboma</a>が
+<a href="http://d.hatena.ne.jp/hiboma/20110702/1309591830">以前Mac+subsonic+nginxを組み合わせてた</a>のを思い出してパクってみました。</p>
+
+<p>導入環境はCentOS 6です。
+あらかじめAレコードなどは設定している状態です。
+またsubsonicのGUIでのセットアップ手順の説明などは省いてます。</p>
+
+<h2 id="javasdk">javaのSDKのインストール</h2>
+
+<p><code>
+sudo yum install java-1.6.0-openjdk
+</code></p>
+
+<h2 id="subsonic">subsonicのインストール</h2>
+<p><a href="http://www.subsonic.org/pages/download.jsp">Subsonic » Free Music Streamer</a>、からRPMを持ってくる。</p>
+
+<p><code>
+mkdir ~/tmp
+cd ~/tmp
+wget http://downloads.sourceforge.net/project/subsonic/subsonic/4.6/subsonic-4.6.rpm
+sudo rpm -ivh subsonic-4.6.rpm --test
+sudo rpm -ivh subsonic-4.6.rpm
+</code></p>
+
+<p>自動エンコーディング機能を利用するために必要ライブラリを導入</p>
+
+<p><code>
+sudo yum -y install lame flac faad2 vorbis-tools ffmpeg
+</code></p>
+
+<p>音楽ファイル用のディレクトリを用意。</p>
+
+<p><code>
+sudo mkdir /var/music
+sudo mkdir /var/playlists
+sudo chmod 777 /var/music
+sudo chmod 777 /var/playlists
+</code></p>
+
+<p>ローカルPCからVPS上の<code>/var/music/</code>にrsyncでもかけて、音楽ファイルを配置。</p>
+
+<h2 id="nginx">nginxのインストール</h2>
+
+<p><code>
+sudo yum -y nginx
+</code></p>
+
+<h3 id="etcnginxnginxconf">/etc/nginx/nginx.conf</h3>
+
+<p>nginxが80番で待ち受けて、subsonicの4040番に渡しています。 
+<code>server_name</code>の部分はAレコードをあてている自分のドメインに書き換えてください。</p>
+
+<p><div><script src='https://gist.github.com/2281393.js'></script>
+<noscript><pre><code>#######################################################################
+#
+# This is the main Nginx configuration file.  
+#
+# More information about the configuration options is available on 
+#   * the English wiki - http://wiki.nginx.org/Main
+#   * the Russian documentation - http://sysoev.ru/nginx/
+#
+#######################################################################
+
+user              nginx;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    gzip  on;
+    
+    server {
+        listen       80;
+        server_name  foobar.com;
+
+        error_page  404              /404.html;
+        location = /404.html {
+            root   /usr/share/nginx/html;
+        }
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+
+        location / {
+            proxy_pass   http://127.0.0.1:4040;
+            break;
+        }
+    }
+
+    # Load config files from the /etc/nginx/conf.d directory
+    include /etc/nginx/conf.d/*.conf;
+
+}</code></pre></noscript></div>
+</p>
+
+<h2 id="subsonicnginx">subsonicとnginxの起動</h2>
+
+<p><code>
+sudo service subsonic start
+sudo service nginx start
+</code></p>
+
+<p>nginx.confで設定した<code>http://foobar.com/</code>にアクセス</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/subsonic.png" alt="" /></p>
+
+<p>おー、動いた。</p>
+
+<h2 id="url">参考URL</h2>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/hiboma/20110702/1309591830">Subsonic所感 - hibomaのはてなダイアリー</a></li>
+  <li><a href="http://d.hatena.ne.jp/Molokheiya/20110628/p1">さくらのVPSとSubsonicでiTunesをゴミ箱にダンクシュートした - 甘味志向＠はてな</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[DynamicDNSを利用し、iptablesとhosts.allowのルールに自宅IPを自動で追加する]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/12/28/dyndns-iptables-hosts.allow/"/>
+    <updated>2011-12-28T20:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/12/28/dyndns-iptables-hosts.allow</id>
+    <content type="html"><![CDATA[<p>最近急に自宅のIPがころころ変わるようになって、さくらのVPSでhosts.allowとiptablesで接続元のIP制限をかけてると
+ssh接続出来なくなるので自動でルールが変更になるように対応。環境はCentOS 5.7です</p>
+
+<h2 id="section">やりたいこと</h2>
+
+<ul>
+  <li>iptablesとhosts.allowの両方で接続元のIPを制限したい</li>
+  <li>自宅に割り当てられているIPが変更になったら自動でルールを変更</li>
+</ul>
+
+<h2 id="section-1">前提条件</h2>
+
+<p>私はダイナミックDNSを利用して、自宅IPとドメインを紐付けしているので、ISPから割り当てられているIPが変わっても、
+ダイナミックDNSで利用しているドメインは変わりません。以前書いているので、参考にしてください。<br />
+そのほかにsshd.configやiptablesの設定は完了済みです。</p>
+
+<ul>
+  <li><a href="http://www.glidenote.com/archives/1255">ダイナミックDNSを利用して自宅サーバにアクセスする | Glide Note - グライドノート</a></li>
+  <li>sshは鍵認証、rootログイン禁止とか設定済み</li>
+  <li>iptablesの基本ルールは/etc/sysconfig/iptablesで用意済み</li>
+</ul>
+
+<h2 id="etchostsallow-">/etc/hosts.allow の動的変更</h2>
+
+<p><a href="https://twitter.com/#!/tnmt">@tnmt</a>に教えてもらった、hosts.allowのinclude設定を利用して、自宅IPを動的に登録</p>
+
+<ul>
+  <li><a href="http://blog.tnmt.info/2011/11/30/hosts-allow-include/">/etc/hosts.allowで外部ファイルをincludeして使う - blog.tnmt.info</a> </li>
+</ul>
+
+<h3 id="etchostsallow-include">/etc/hosts.allow にinclude設定</h3>
+
+<p>hosts.allowを下記のように設定。hosts.allowを直接変更するのではなく、includeしているファイルに変更をかけます。</p>
+
+<p><div><script src='https://gist.github.com/1524517.js?file=hosts.allow'></script>
+<noscript><pre><code>sshd:    /etc/hosts.allow.d/my_home_ip</code></pre></noscript></div>
+</p>
+
+<p>cronに下記のように設定。hostコマンドで自宅IPを割り出し、ファイルに書き込み。
+hogehoge.comは自分のダイナミックDNSで利用しているドメインを指定</p>
+
+<p><code>
+00 * * * * /usr/bin/host hogehoge.com | awk '{print $4}' &gt; /etc/hosts.allow.d/my_home_ip
+</code></p>
+
+<h2 id="iptables">iptablesのルールを動的に追加</h2>
+
+<p>下記のようなスクリプトを用意し、これもcronに追加</p>
+
+<p><div><script src='https://gist.github.com/1524517.js?file=allow_ip.sh'></script>
+<noscript><pre><code>#!/bin/sh
+
+ALLOW_IP=`host hogehoge.com | awk &#39;{print $4}&#39;`
+
+PORT_LIST=&quot;
+22 
+80 
+443 
+3000 
+4000 
+4949 
+9821
+&quot;
+
+# condrestartで設定をリセット
+/etc/rc.d/init.d/iptables condrestart
+
+for port in ${PORT_LIST}
+do
+echo &quot;/sbin/iptables -I RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp -s ${ALLOW_IP} --dport ${port} -j ACCEPT&quot;
+/sbin/iptables -I RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp -s ${ALLOW_IP} --dport ${port} -j ACCEPT
+done
+
+/sbin/iptables -L -n</code></pre></noscript></div>
+</p>
+
+<p>cronの設定は下記のような感じ</p>
+
+<p><code>
+@reboot    /bin/sh /root/bin/allow_ip.sh
+00 * * * * /bin/sh /root/bin/allow_ip.sh
+</code></p>
+
+<p>これで自宅IPが変わっても、iptablesとhosts.allowで許可されるようになりました。</p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/kazuhooku/20080502/1209704193">Dynamic DNS を使って SSH アクセスを制限する方法 - kazuhoのメモ置き場</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

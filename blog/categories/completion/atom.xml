@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: completion | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/completion/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[githubのhubコマンドを補完するzsh補完関数を作ってみた]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/02/25/hub-zsh-completion/"/>
+    <updated>2012-02-25T03:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/02/25/hub-zsh-completion</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://github.com/defunkt/hub">defunkt/hub - GitHub</a></li>
+</ul>
+
+<p>github用に<code>hub</code>という<code>git</code>のラッパーコマンドがあることを会社で教えてもらって
+使ってみたら、当然の如くzshの補完が効かなくてコマンドの使い方もよく分からなかったので、
+コマンド理解とzsh補完関数の書き方の勉強も兼ねて自分で作ってみた。</p>
+
+<p>最初はhubコマンドの補完関数を作ってたんですが、利用方法としてaliasを充てて
+gitの代わりに使うことが推奨されており、そもそもgitのラッパーで
+gitコマンドの補完も出来ないと意味が無いので、gitの補完関数自体に
+手を入れて、hubのカスタムコマンドも利用出来るようにした。</p>
+
+<p>検証環境は下記</p>
+
+<ul>
+  <li>Mac OSX 10.7.3, Scientific Linux 6.1</li>
+  <li>git version 1.7.7.5</li>
+  <li>hub version 1.8.2</li>
+  <li>zsh 4.3.11, 4.3.12</li>
+</ul>
+
+<p><code>/usr/local/share/zsh/4.3.11/functions/_git</code>を元に修正した内容は下記</p>
+
+<p><div><script src='https://gist.github.com/1898417.js'></script>
+<noscript><pre><code>diff --git a/test_zsh-completion/_git b/test_zsh-completion/_git
+index 8a48c04..b3d53ea 100644
+--- a/test_zsh-completion/_git
++++ b/test_zsh-completion/_git
+@@ -4700,6 +4700,15 @@ _git_commands () {
+     patch-id:&#39;compute unique ID for a patch&#39;
+     stripspace:&#39;filter out empty lines&#39;)
+
++  local -a hub_custom_commands
++  hub_custom_commands=(
++    create:&quot;repo created on GitHub&quot;
++    browse:&quot;open repository&#39;s GitHub page in the system&#39;s default web browser&quot;
++    compare:&quot;open a GitHub compare view page in the system&#39;s default web browser.&quot;
++    fork:&quot;repo forked on GitHub&quot;
++    pull-request:&quot;opens a pull request on GitHub for the project that the &#39;origin&#39; remote points to.&quot;
++        )
++
+   local -a user_commands
+   zstyle -a :completion:$curcontext: user-commands user_commands
+
+@@ -4725,6 +4734,7 @@ _git_commands () {
+        plumbing_sync_commands[(I)$name:*] ||
+        plumbing_sync_helper_commands[(I)$name:*] ||
+        plumbing_internal_helper_commands[(I)$name:*] )) || unique_aliases+=$alias
++       hub_custom_commands[(I)$name:*] ||
+   done
+
+   integer ret=1
+@@ -4743,6 +4753,7 @@ _git_commands () {
+   _describe -t plumbing-sync-commands &#39;plumbing sync command&#39; plumbing_sync_commands &amp;&amp; ret=0
+   _describe -t plumbing-sync-helper-commands &#39;plumbing sync helper command&#39; plumbing_sync_helper_commands &amp;&amp; ret=0
+   _describe -t plumbing-internal-helper-commands &#39;plumbing internal helper command&#39; plumbing_internal_helper_commands &amp;&amp; ret=0
++  _describe -t hub-custom-command &#39;hub custom command&#39; hub_custom_commands  &amp;&amp; ret=0
+
+   return ret
+ }</code></pre></noscript></div>
+</p>
+
+<p>できあがったのがこちら</p>
+
+<p><strong>追記 2012年2月27日 githubに公開しました</strong></p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/hub-zsh-completion">glidenote/hub-zsh-completion - GitHub</a></li>
+</ul>
+
+<h2 id="section">利用方法</h2>
+
+<p>hubをあらかじめ導入しておいて、<code>$fpath</code>配下に上記補完関数を配置。
+もとからある<code>_git</code>と重複しても<code>site-functions</code>配下に置くと
+優先的にそちらが利用されます。</p>
+
+<p><code>
+mkdir ~/src
+cd ~/src
+git clone git://github.com/glidenote/hub-zsh-completion.git
+sudo cp hub-zsh-completion/_git /usr/share/zsh/site-functions/
+</code></p>
+
+<p><code>.zshrc</code>に下記を書いて、</p>
+
+<p><code>
+alias git='hub'
+</code></p>
+
+<p><code>
+exec zsh
+</code></p>
+
+<p>をして、反映させる。</p>
+
+<p>hubをgitのラッパーとして動作させると、<code>git [tab]</code>で下記hubカスタムコマンドが補完されるようになります。</p>
+
+<p><code>
+browse              -- open repository's GitHub page in the system's default web browser
+compare             -- open a GitHub compare view page in the system's default web browser.
+create              -- repo created on GitHub
+fork                -- repo forked on GitHub
+pull-request        -- opens a pull request on GitHub for the project that the 'origin' remote points to.
+</code></p>
+
+<p>それにしてもgitの補完関数6000行超えてて、同じようなのを自分で一から書こうとすると心が折れます。</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/marutanm/20110720/p1">hubコマンドがけっこう使えるっぽい - Meltdown Countdown</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rudixのzsh補完関数を作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/02/23/rudix-zsh-completion/"/>
+    <updated>2012-02-23T02:25:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/02/23/rudix-zsh-completion</id>
+    <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2011/12/29/rudix-on-mac/">以前紹介したMacのパッケージ管理ソフト Rudix</a>のzsh補完関数を作ってみました。<br />
+zsh補完関数は初めて書いたんですが、ウェブに情報が少なくて、
+<a href="https://github.com/mizzy/maglica/blob/master/misc/zsh/functions/_maglica">mizzyさんの書いた補完関数</a>
+と<code>$fpath</code>の下にあるzshの補完関数などを参考に。</p>
+
+<p><strong>2012年2月27日 githubに公開しました</strong></p>
+
+<p><a href="https://github.com/glidenote/rudix-zsh-completion">glidenote/rudix-zsh-completion</a></p>
+
+<p><code>/usr/local/share/zsh/site-functions</code> に置けば、下記のような感じで動作します。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/zsh-rudix1.png" alt="" /></p>
+
+<p>書いてて一番難しかったインストール済みパッケージ情報も補完されるようにしてます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/zsh-rudix2.png" alt="" /></p>
+
+<p>Command Line Tools for Xcodeがリリースされて、今後もRudixを使い続けるか微妙ですが、
+zsh補完関数の書き方が多少理解できたので良しとしよう。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="https://github.com/mizzy/maglica/blob/master/misc/zsh/functions/_maglica">misc/zsh/functions/_maglica at master from mizzy/maglica - GitHub</a></li>
+  <li><a href="http://www.ayu.ics.keio.ac.jp/~mukai/translate/write_zsh_functions.html">zsh補完関数の書き方(訳)</a> </li>
+  <li><a href="http://hakobe932.hatenablog.com/entry/2012/02/13/214934">zsh補完関数を自作すると便利 - はこべブログ♨</a></li>
+  <li><a href="http://www.hexacosa.net/blog/detail/122/">少し前にsupervisord/supervisorctlのZsh補完関数書いた | hexacosa.net</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

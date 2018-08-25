@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: torne | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/torne/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[トルネの外付けHDDがぶっ壊れたのでRAID1化した話]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/02/25/torne-hdd-raid1/"/>
+    <updated>2014-02-25T12:47:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/02/25/torne-hdd-raid1</id>
+    <content type="html"><![CDATA[<p>昨年末nasneの外付けHDDが壊れたのに続いて、先週トルネに接続していた外付けのHDDが壊れて
+録画データが全飛びしたので、RAID1でミラーリングしたものを取り付けるようにした。
+(私はそんなにテレビを観ないし、観たらすぐ消すスタイルなので正直ぶっ壊れてもいいと思っていたのですが、
+奥さんはそうでは無かったので…)</p>
+
+<p><a href="https://www.amazon.co.jp/%E3%83%A9%E3%83%88%E3%83%83%E3%82%AF%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0-USB3-0-RAID%E3%82%B1%E3%83%BC%E3%82%B9-HDD2%E5%8F%B0%E7%94%A8-RS-EC32-U3R/dp/B004CT4K1U?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B004CT4K1U">ラトックシステム USB3.0/2.0 RAIDケース(HDD2台用) RS-EC32-U3R</a>
+<a href="https://www.amazon.co.jp/%E3%83%A9%E3%83%88%E3%83%83%E3%82%AF%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0-USB3-0-RAID%E3%82%B1%E3%83%BC%E3%82%B9-HDD2%E5%8F%B0%E7%94%A8-RS-EC32-U3R/dp/B004CT4K1U?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B004CT4K1U"><img src="https://images-fe.ssl-images-amazon.com/images/I/41YOuscG0EL._SL160_.jpg" align="right" /></a></p>
+
+<p>買ったHDDケースはこれ。7千円ちょっと。Mac用のRAIDユーティリティだと細かい設定が出来ず単にRAID1を組んだだけ。
+RAID組んだ後に、MacのディスクユーティリティでFAT32にフォーマットして終わり。
+デグレードしたら、本体の前面ランプとブザー音で教えてくれる模様。</p>
+
+<p><a href="http://www.ratocsystems.com/services/driver/usb30/raidmanager.html">windows用のユーティリティ</a>だと
+FAN制御とか、メールでアラート飛ばしたりとか設定出来るらしい。</p>
+
+<p><br clear="right" /></p>
+
+<p><a href="https://www.amazon.co.jp/%E6%9D%B1%E8%8A%9D-TOSHIBA-DT01ACA200-SATA600-7200/dp/B009CPDI62?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B009CPDI62">DT01ACA200 [2TB SATA600 7200]</a>
+<a href="https://www.amazon.co.jp/%E6%9D%B1%E8%8A%9D-TOSHIBA-DT01ACA200-SATA600-7200/dp/B009CPDI62?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B009CPDI62"><img src="https://images-fe.ssl-images-amazon.com/images/I/51D4mddrOiL._SL160_.jpg" align="right" /></a></p>
+
+<p>トルネはFAT32で、2TBまでしか利用できないので、東芝のHDDで2TBのものを2個購入で1万6千円弱。
+製造ロットで不具合抱えてたりする可能性を考えると、本当は別メーカーでRAID組んだ方がいいんだろうけど、
+ベンダーからサーバ買ったときとか、HDD同じ型番だしまあ2台同時に死亡するのは過去の経験から
+RAIDコントローラー丸ごとなので、HDD別メーカーにしてても対処出来ない。</p>
+
+<p><br clear="right" /></p>
+
+<p>かかった費用は2万3千円くらい(高い…)。4〜5日使った印象だと音も静かで、録画も特に問題無し。</p>
+
+<p>MacはTime Machine、自宅サーバはetckeeper+bitbucketやrsyncでVPSに毎日バックアップ取ってるから、
+基本的にデータ全飛びみたいなのは基本無いんだけど、トルネはバックアップ意識してなかったので、
+バックアップとかみんなどうしているのか気になる。  </p>
+
+<p>レコトルネ対応のBDレコーダー買って、保存するやつはBDに書き出せばいいだけの話かな-</p>
+]]></content>
+  </entry>
+  
+</feed>

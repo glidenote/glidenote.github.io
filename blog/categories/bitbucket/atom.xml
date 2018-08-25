@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: bitbucket | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/bitbucket/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[コマンドライン上からBitbucketのPrivate Repositoryを作成するgemを作ってみた]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/06/05/pori/"/>
+    <updated>2012-06-05T23:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/06/05/pori</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://rubygems.org/gems/pori">pori | RubyGems.org | your community gem host</a></li>
+</ul>
+
+<p>gitのラッパーコマンド<a href="https://github.com/defunkt/hub">hub</a>が便利で、コマンドライン上で
+<code>hub create -p</code>とかでGitHubにPrivate Repositoryが作成出来て、
+わざわざブラウザを立ち上げずにすみ、めちゃくちゃ便利なので
+<a href="https://bitbucket.org/">Bitbucket</a>でもコマンドライン上から<strong>private repositoryだけ</strong>が作成出来る
+gemを作って公開しました。</p>
+
+<h2 id="section">導入と使い方</h2>
+
+<p><code>pori</code>を利用するには<a href="http://curl.haxx.se/">cURL</a>が必要です</p>
+
+<p><code>
+gem install pori
+exec $SHELL
+cd /path/to/local-git-dir/
+pori
+</code></p>
+
+<ul>
+  <li>アカウント情報の管理は<a href="https://rubygems.org/gems/pit">pit</a>を使っています。</li>
+  <li>初回起動時は、Bitbucketのアカウント名とパスワードの入力が必要です。アカウント情報は<code>~/.pit/default.yaml</code>を編集し直すことで設定が出来ます。</li>
+  <li>アカウント名とパスワードが間違っていても、BitbucketのAPIはエラーを吐かないので、エラー補足出来てません。</li>
+  <li>gitで管理されていないディレクトリでは動作しないので、git管理でない場合は、最初に<code>git init</code>を実行してください。</li>
+</ul>
+
+<h2 id="section-1">やっていること</h2>
+
+<ul>
+  <li>Bitbucketに<strong>private repositoryだけ</strong>が作成</li>
+  <li>git remote add でremote repositoryの登録</li>
+  <li>現在gitのみ対応</li>
+</ul>
+
+<h2 id="todo">TODO</h2>
+
+<ul>
+  <li>オプションでpublicとprivateのrepositoryの切り替え</li>
+  <li>エラーハンドリング</li>
+  <li>mercurial対応</li>
+</ul>
+
+<p>作り始めのツールとか非公開の各種コンフィグとかは、とりあえずBitbucketのPrivate Repositoryに
+Pushしているので、自分が使うために作ったgemです。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[git + etckeeper + BitbucketのPrivate Repositoryで/etcを管理]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/23/etckeeper-bitbucket/"/>
+    <updated>2012-04-23T14:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/23/etckeeper-bitbucket</id>
+    <content type="html"><![CDATA[<p>個人で利用しているさくらのVPSのプラン変更に伴い、サーバの移行作業をしているんですが、
+そのタイミングで、<code>/etc</code>配下のファイルの管理を個人で立ててたgitoliteから
+<a href="https://bitbucket.org/">Bitbucket</a>のprivate repositoryでの管理に変更したのでメモ。</p>
+
+<p>Bitbucketでprivate repositoryを作成する方法は以前紹介したのでそちらを参照下さい。</p>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2012/02/13/manage-private-repository-with-bitbucket/">Private RepositoryをBitbucketで管理し始めた - Glide Note - グライドノート</a></li>
+</ul>
+
+<p>導入環境はCentOS 6.2です。Bitbucketへの鍵登録などは済んでいるものとします。</p>
+
+<h2 id="etckeeper">etckeeperの導入</h2>
+
+<p><code>
+sudo yum -y install git etckeeper
+</code></p>
+
+<p><code>/etc/etckeeper/etckeeper.conf</code>が設定ファイルになり、デフォルトで</p>
+
+<p><code>
+VCS="git"
+HIGHLEVEL_PACKAGE_MANAGER=yum
+LOWLEVEL_PACKAGE_MANAGER=rpm
+</code></p>
+
+<p>などとgitを利用し、CentOSに適した設定になっているので、そのまま利用。</p>
+
+<h2 id="etcgitignore-">/etc/.gitignore に管理したくないファイルを追加</h2>
+
+<p>非公開なリポジトリとはいえ、外部のサーバにファイルを置くので、
+万が一漏洩しても被害を少なくするためセキュリティ上管理しないファイルを
+<code>/etc/.gitignore</code>に記載。<br />
+<code>/etc/passwd</code>とか<code>/etc/shadow</code>は管理しない方がいいかと思います。</p>
+
+<h2 id="etckeeperetccommit">etckeeperを用いて、/etcをcommit</h2>
+
+<p><code>
+sudo etckeeper init
+sudo etckeeper commit
+</code></p>
+
+<p>ちなみにetckeeperがcommitするタイミングは主に下記の2点</p>
+
+<ol>
+  <li>yumを実行したタイミング</li>
+  <li>dailyでのcron</li>
+</ol>
+
+<p>手動でcommitするときは下記のような感じ</p>
+
+<p><code>
+sudo etckeeper commit
+</code></p>
+
+<h2 id="bitbucketpush">Bitbucket上のプライベートリポジトリにpush</h2>
+
+<p><a href="https://bitbucket.org/">Bitbucket</a>上に作成したprivate repositoryにpush。
+下記は<code>foobar</code>というプライベートリポジトリにpushする例。</p>
+
+<p><code>
+cd /etc
+sudo git remote add origin ssh://git@bitbucket.org/glidenote/foobar.git
+sudo git push origin master
+</code></p>
+
+<p>これで/etc配下のファイルのバージョン管理が出来るようになりました。
+検証やpuppetマニフェストの動作確認とかでOSの再インストールを頻繁に行うので、
+/etc配下のファイルを管理していると再構築が楽でいろいろと捗ります。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.udzura.jp/2010/11/22/tutorial-of-etckeeper/">etckeeperのつかいかた（インストール、サブコマンド追加） « blog.udzura.jp</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Private RepositoryをBitbucketで管理し始めた]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/02/13/manage-private-repository-with-bitbucket/"/>
+    <updated>2012-02-13T07:04:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/02/13/manage-private-repository-with-bitbucket</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2012/02/logoBitBucketPNG.png" width="384px" height="125px" align="right" /></p>
+
+<ul>
+  <li><a href="https://bitbucket.org/">Free source code hosting — Bitbucket</a></li>
+</ul>
+
+<p>公開しても良いdotfilesは以前からGithub上で<a href="https://github.com/glidenote/dotfiles">glidenote/dotfiles</a>として
+管理していたんですが、パスワードとかを含むアプリの設定ファイルの管理を
+自前サーバから<a href="https://bitbucket.org/">Bitbucket</a>のprivate repositoryに移行して管理し始めたので作業メモ。 </p>
+
+<p>ちなみに<a href="https://bitbucket.org/">Bitbucket</a>だと無料でprivate repositoryが作成できます。</p>
+
+<p>Bitbucketのアカウント登録と鍵登録とかの説明は省略。</p>
+
+<h2 id="repository">repositoryの作成</h2>
+<p>Dashboardの右上にある「Repositories」から「create repository」を選択  </p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/bitbucket1.png" alt="" /></p>
+
+<p>repository名などを入力して「Create repository」を選択  </p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/bitbucket2.png" alt="" /></p>
+
+<p>clone用のURLが表示されるので、それを元に<code>git clone</code>  </p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/bitbucket3.png" alt="" /></p>
+
+<p>たとえば<code>hogemoge</code>というrepositoryを作成した場合は下記のような感じ</p>
+
+<p><code>
+cd
+git clone git@bitbucket.org:glidenote/hogemoge.git
+echo "# This is my README" &gt;&gt; README.md
+git add README.md
+git commit -m "First Commit. Adding a README."
+git push -u origin master
+</code></p>
+
+<p>あとは作成したprivate repositoryに管理したいファイルを入れていくだけ。<br />
+私はprivate repositoryにファイルを移し、そこからリンクを貼って管理してます。<br />
+weechatの設定ファイルは下記のような感じで管理。</p>
+
+<p><code>
+mv ~/.weechat ~/hogemoge
+ls -s ~/hogemoge/.weechat ~/.weechat
+</code></p>
+
+<p>昨年10月に<a href="http://blog.bitbucket.org/2011/10/03/bitbucket-now-rocks-git/">BitbucketがGitをサポート</a>したので
+private repositoryなら自前サーバよりBitBucketが無料だし良いかなと思ってます。</p>
+
+<h2 id="section">参考サイト</h2>
+
+<ul>
+  <li><a href="http://www.ideaxidea.com/archives/2011/10/bitbucket.html">プライベートリポジトリが無料で作りたい放題の『bitbucket』にGithubからリポジトリをインポートする方法 | IDEA*IDEA</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

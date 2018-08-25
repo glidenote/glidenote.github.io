@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: puppet | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/puppet/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[rbenvの管理にpuppet-rbenvを使うようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/07/10/puppet-rbenv/"/>
+    <updated>2013-07-10T21:50:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/07/10/puppet-rbenv</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://github.com/alup/puppet-rbenv">alup/puppet-rbenv</a></li>
+</ul>
+
+<p>新規でRubyを使うサーバを構築中で、RPMを作らずrbenvで管理しようと思って、
+いろいろ方法を模索していたら、<a href="https://github.com/alup/puppet-rbenv">puppet-rbenv</a>というものを見つけて
+大変便利だったので、導入の作業ログをメモとして残しておく。</p>
+
+<p>他部署はビルドサーバで、rbenvを利用してインストールしたファイルを一式tar.gzで固めて、
+デプロイして、展開ってのをやってて、台数が多い場合はこれが高速で良いんですが、
+今回は2台だけで、ビルドサーバ用意して、<code>tar.gz</code>を一斉配布方式だと
+用意するmanifestとdistのファイルが多くてちょっと非効率だった。</p>
+
+<p>導入環境はpuppetは下記のバージョンを利用</p>
+
+<ul>
+  <li>puppet-server-2.6.18-3.el6.noarch</li>
+  <li>puppet-2.6.18-3.el6.noarch</li>
+</ul>
+
+<h2 id="puppet-rbenv">puppet-rbenvの導入</h2>
+
+<p><code>sh
+cd path/to/puppet-module
+puppet module install alup-rbenv
+</code></p>
+
+<p>使ってるpuppetのバージョンのせいか、構文エラーが出たので、下記の用に修正</p>
+
+<p><div><script src='https://gist.github.com/5963357.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<h2 id="rbenvmanifest">rbenv用のmanifestを用意</h2>
+
+<p>下記のようなmanifestを用意。サービス名だけ伏せて、実際に使ってるmanifestそのままなので、コピペしても動かないのでご注意ください</p>
+
+<p><div><script src='https://gist.github.com/5963371.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p><div><script src='https://gist.github.com/5963376.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<h2 id="puppet">puppetの実行</h2>
+
+<p>これでpuppetを実行すると</p>
+
+<p><code>
+/home/hogemoge-api/.rbenv
+</code></p>
+
+<p>配下に指定したrbenvやらgemがインストールされる。
+便利!!</p>
+
+<p>急ぎで構築しないといけなかったので、rbenvのmanifest作成に時間がかからずに済んで良かった。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://sho.tdiary.net/20130518.html">Puppet ModuleをPuppetで管理する - ただのにっき(2013-05-18)</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PuppetのSyntaxをvim(syntastic)とgit hooks(pre-commit)の2重でチェックするようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/03/16/puppet-syntax-check/"/>
+    <updated>2013-03-16T21:48:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/03/16/puppet-syntax-check</id>
+    <content type="html"><![CDATA[<p>puppetのmanifestを書いていて、我ながらtypo、構文ミスとかヘボいミスが多すぎるので、
+vimとgit hooks(pre-commit)とで2重でsyntax checkをするようにした。</p>
+
+<h2 id="syntax-check">具体的なsyntax checkの方法</h2>
+
+<ul>
+  <li>vimからは<a href="https://github.com/scrooloose/syntastic">syntastic</a>を利用してsyntax check</li>
+  <li>git hooks(pre-commit)から<code>puppet parser validate</code>を利用して、commitのタイミングでsyntax check。問題がある場合はcommitが出来ないようにする</li>
+</ul>
+
+<h2 id="puppetpuppet-lint">puppetとpuppet-lintの導入</h2>
+
+<p>manifestを書いているマシンにpuppetが入っていないとSyntax Checkが出来ないので導入。
+またsyntasticが<code>puppet-lint</code>を利用するので併せて導入。</p>
+
+<p>私は、最近はmac上でmanifestを書いているのでgemで導入</p>
+
+<p><code>sh
+gem install puppet
+gem install puppet-lint
+</code></p>
+
+<p>RHEL系でyumの場合は下記のような感じ。</p>
+
+<p><code>sh
+sudo yum -y install puppet rubygem-puppet-lint
+</code></p>
+
+<h2 id="syntastic">syntasticの導入</h2>
+
+<ul>
+  <li><a href="https://github.com/scrooloose/syntastic">scrooloose/syntastic · GitHub</a></li>
+</ul>
+
+<p>私は<a href="https://github.com/Shougo/neobundle.vim">neobundle</a>を利用しているので、下記を<code>.vimrc</code>に書いて<code>:NeoBundleInstall</code></p>
+
+<p><code>
+NeoBundle 'scrooloose/syntastic'
+</code></p>
+
+<p>puppetのmanifestを編集して、保存したタイミングでsyntaxのcheckが走る。
+エラー部分は<code>:Errors</code>で表示。</p>
+
+<p>構文がおかしい場合は、下記のように表示される。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/03/puppet0.png" alt="" /></p>
+
+<p>これでvimからsyntax checkが出来る。</p>
+
+<h2 id="git-pre-commit">git pre-commitを用意</h2>
+
+<p>Vimだけでも良いんですが、puppetのファイルは全てgitで管理しているので、
+git hooksでもcheckが走るようにする。</p>
+
+<p><code>.git/hooks/pre-commit</code>に下記のようなファイルを用意</p>
+
+<p><div><script src='https://gist.github.com/5174871.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p>puppetのversionが2.7以下の場合は、<code>puppet parser validate</code>というコマンドが無いので、下記コマンドを利用するように変更してください。</p>
+
+<p><code>
+git cat-file blob :0:$indexfile | puppet --color=false --parseonly --ignoreimport &gt; $error_msg ;;
+</code></p>
+
+<p>するとcommitしようとしたタイミングにsyntax checkが走るので、エラーがある場合は下記のようにcommit出来ない。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/03/puppet1.png" alt="" /></p>
+
+<p>これでヘボいミスも減って、commit履歴を汚さずに済むはず。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/items/dfe1ec9d82c0ed5da7c6">Git hooks まとめ #git - Qiita</a></li>
+  <li><a href="https://puppetlabs.com/blog/verifying-puppet-checking-syntax-and-writing-automated-tests/">Verifying Puppet: Checking Syntax and Writing Automated Tests | Puppet Labs</a></li>
+  <li><a href="http://projects.puppetlabs.com/projects/1/wiki/puppet_version_control">Puppet Version Control - Puppet - Puppet Labs</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

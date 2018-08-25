@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: book | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/book/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[「サーバ/インフラエンジニア養成読本 DevOps編」にて[CircleCIによる継続的インテグレーション入門]を執筆しました]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/02/25/infrastructure-engineer-books-devops/"/>
+    <updated>2016-02-25T19:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/02/25/infrastructure-engineer-books-devops</id>
+    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E9%A4%8A%E6%88%90%E8%AA%AD%E6%9C%AC-DevOps%E7%B7%A8-Infrastructure-%E3%82%92%E5%AE%9F%E8%B7%B5%E3%81%99%E3%82%8B%E3%83%8E%E3%82%A6%E3%83%8F%E3%82%A6%E3%81%8C%E6%BA%80%E8%BC%89-Software/dp/4774179930?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179930"><img src="https://images-fe.ssl-images-amazon.com/images/I/61P3yaTE0qL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E9%A4%8A%E6%88%90%E8%AA%AD%E6%9C%AC-DevOps%E7%B7%A8-Infrastructure-%E3%82%92%E5%AE%9F%E8%B7%B5%E3%81%99%E3%82%8B%E3%83%8E%E3%82%A6%E3%83%8F%E3%82%A6%E3%81%8C%E6%BA%80%E8%BC%89-Software/dp/4774179930?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179930">サーバ/インフラエンジニア養成読本 DevOps編 [Infrastructure as Code を実践するノウハウが満載! ] (Software Design plus)</a></p>
+
+<p>2016/02/26 に出版される「サーバ/インフラエンジニア養成読本 DevOps編」というムック本にて、特集「CircleCIによる継続的インテグレーション入門」を執筆しました。</p>
+
+<h2 id="circleci">CircleCIによる継続的インテグレーション入門</h2>
+
+<p>私が現在所属する<a href="https://kaizenplatform.com/">Kaizen Platform, Inc.</a>でもCircleCIをヘビーユーズしており、サーバ/インフラ部分においても、</p>
+
+<ol>
+  <li>インフラCI</li>
+  <li>稼働中サーバへのプロビジョニング </li>
+  <li>DNSレコードの管理</li>
+  <li>Terraformを用いたAWSリソースの管理</li>
+  <li>Packerを用いたAMI作成</li>
+  <li>稼働中サーバのセキュリティアップデート</li>
+  <li>メトリクスグラフの取得&amp;slackへの投稿</li>
+</ol>
+
+<p>などにCircleCIを利用しており、今回はその中の<code>インフラCI</code>と<code>稼働中サーバへのプロビジョニング</code> 部分を入門用に噛み砕いて書いてます。</p>
+
+<p>Kaizen Platform, Inc.におけるインフラの継続的デリバリー、インテグレーションについては技術顧問である伊藤直也さんのブログ、@m_doiの昨年JAWS発表資料を合わせて見ていただくと理解が深まるかと思います。</p>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">インフラの継続的デリバリー - naoyaのはてなダイアリー</a></li>
+</ul>
+
+<script async="" class="speakerdeck-embed" data-id="23408aff918a4b0f8483ebf168d5f818" data-ratio="1.33333333333333" src="https://blog.glidenote.com//speakerdeck.com/assets/embed.js"></script>
+
+<h2 id="section">既存環境に組み込みやすいように</h2>
+
+<p>本特集では下記のサービス、ツールを利用しています。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>ツール名</th>
+      <th>役割</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://www.virtualbox.org/">VirtualBox</a></td>
+      <td>ローカル環境にテスト用VMを起動</td>
+    </tr>
+    <tr>
+      <td><a href="https://www.vagrantup.com/">Vagrant</a></td>
+      <td>テスト用VMの管理とssh接続情報の生成</td>
+    </tr>
+    <tr>
+      <td><a href="https://matschaffer.github.io/knife-solo/">knife-solo</a></td>
+      <td>プロビジョニングの実行</td>
+    </tr>
+    <tr>
+      <td><a href="http://serverspec.org/">Serverspec</a></td>
+      <td>テスト用VMのプロビジョン結果のテスト</td>
+    </tr>
+    <tr>
+      <td><a href="https://www.terraform.io/">Terraform</a></td>
+      <td>DigitalOcean上へのテスト用VM作成</td>
+    </tr>
+    <tr>
+      <td><a href="https://circleci.com/">CircleCI</a></td>
+      <td>GitHubと連携しビルド/CIを実行</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/">GitHub</a></td>
+      <td>インフラコードの管理</td>
+    </tr>
+    <tr>
+      <td><a href="https://www.digitalocean.com/">DigitalOcean</a></td>
+      <td>インフラCIのテスト用VMの作成環境</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br />
+特集内でも説明をしていますがそれぞれを疎な状態を保つように利用しているので、組み替えやすく、別のサービス、ツールを利用していても取り入れやすいのでは無いかと思います。</p>
+
+<h2 id="hashicorp-tools">HashiCorp tools</h2>
+
+<p>今回<a href="https://www.vagrantup.com/">Vagrant</a>と<a href="https://www.terraform.io/">Terraform</a>を利用し、ローカルでのテスト環境、インフラCIを実現しています。Vagrantはすでに定番ツールとなっておりますが、Terraformについてはまだまだの印象がありますので、インフラCI用の使い捨てVM管理を通じ、Terraformの感触を掴んでいただければ幸いです。</p>
+
+<h2 id="section-1">目次</h2>
+
+<p>それぞれの特集が独立しており、好きなところから読んで、手を動かして試せる内容となっています。</p>
+
+<p>```
+巻頭企画 DevOpsとInfrastructure as Codeの概要
+吉羽 龍太郎
+第1章 DevOpsとは?
+第2章 Infrastructure as Codeとは?</p>
+
+<p>特集1 最速攻略!Ansible 2によるサーバ構築
+新原 雅司
+第1章 Ansibleの基本
+第2章 Playbookの基本
+第3章 Ansible[実践]
+第4章 Playbookベストプラクティス</p>
+
+<p>特集2 CircleCIによる継続的インテグレーション入門
+前田 章
+第1章 インフラのテスト入門
+第2章 ローカル上でのテスト駆動インフラ
+第3章 インフラCIの準備
+第4章 CircleCIを利用した継続的インテグレーション
+第5章 継続的インテグレーションから継続的デリバリーへ</p>
+
+<p>特集3 Dockerによる仮想環境構築とKubernetesによるDockerクラスタ管理
+馬場俊彰
+第1章 Dockerの基本
+第2章 Dockerを使ってみよう[基礎編]
+第3章 Dockerを使ってみよう[応用編]
+第4章 クラスタ管理ツールとは
+第5章 Kubernetesの基本
+第6章 Kubernetesクイックスタート
+第7章 Kubernetesを詳しく見てみよう
+```</p>
+
+<h2 id="section-2">正誤表</h2>
+
+<p>TerraformのDownload URLが発売直前のこのタイミングで変更になってしまい(泣)、一部コードがそのままでは動かなくなっております。詳しくは技術評論社様のサイトでご確認ください</p>
+
+<ul>
+  <li><a href="http://gihyo.jp/book/2016/978-4-7741-7993-3/support">http://gihyo.jp/book/2016/978-4-7741-7993-3/support</a></li>
+</ul>
+
+<h2 id="section-3">最後に</h2>
+
+<p>担当した特集で利用している<a href="http://serverspec.org/">Serverspec</a>の作者である<a href="https://twitter.com/gosukenator">mizzy</a>さんの紹介で特集が実現し感謝です。
+担当した特集部分のレビューにご協力頂いた <a href="https://twitter.com/tnmt">@tnmt</a>さん、<a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a>さん、<a href="https://twitter.com/sato_ryu">@satoryu</a>さん、ありがとうございました。</p>
+
+<p>余談ですが今回の執筆にあたり、CircleCIにいろいろと問い合わせをしていたところステッカーとTシャツが送られてきて、CircleCIにも感謝です! / Thanks CircleCI !!</p>
+
+<blockquote class="instagram-media" data-instgrm-version="6" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:8px;"> <div style=" background:#F8F8F8; line-height:0; margin-top:40px; padding:50.0% 0; text-align:center; width:100%;"> <div style=" background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAGFBMVEUiIiI9PT0eHh4gIB4hIBkcHBwcHBwcHBydr+JQAAAACHRSTlMABA4YHyQsM5jtaMwAAADfSURBVDjL7ZVBEgMhCAQBAf//42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB/lQPb79drWOyJVa/DAvg9B/rLB4cC+Nqgdz/TvBbBnr6GBReqn/nRmDgaQEej7WhonozjF+Y2I/fZou/qAAAAAElFTkSuQmCC); display:block; height:44px; margin:0 auto -44px; position:relative; top:-22px; width:44px;"></div></div><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/BAzU3cyCw8N/" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A photo posted by Akira Maeda (@glidenote)</a> on <time style=" font-family:Arial,sans-serif; font-size:14px; line-height:17px;" datetime="2016-01-21T12:59:51+00:00">Jan 21, 2016 at 4:59am PST</time></p></div></blockquote>
+<script async="" defer="" src="https://blog.glidenote.com//platform.instagram.com/en_US/embeds.js"></script>
+
+<p><br /></p>
+
+<p>本書がビジネスに貢献するITインフラの役に立つ1冊になれば幸いです。</p>
+
+<p><strong>追記 2月26日追記</strong></p>
+
+<p>本日2016年2月26日(金)発売で、今現在カテゴリー別1位になっているようで、ありがとうございます!</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/devops_books0.png" alt="" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ワンランク上のGit使いになるために手元に置いておきたい「Gitポケットリファレンス」]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/07/22/git-pocket-reference/"/>
+    <updated>2012-07-22T02:36:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/07/22/git-pocket-reference</id>
+    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/Git%E3%83%9D%E3%82%B1%E3%83%83%E3%83%88%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9-%E5%B2%A1%E6%9C%AC-%E9%9A%86%E5%8F%B2/dp/477415184X?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=477415184X"><img src="https://images-fe.ssl-images-amazon.com/images/I/51I5ZLcWDaL._SL160_.jpg" align="right" /></a></p>
+
+<ul>
+  <li><a href="https://www.amazon.co.jp/Git%E3%83%9D%E3%82%B1%E3%83%83%E3%83%88%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9-%E5%B2%A1%E6%9C%AC-%E9%9A%86%E5%8F%B2/dp/477415184X?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=477415184X">Gitポケットリファレンス</a></li>
+</ul>
+
+<p>下記3つはいずれもcommitの修正ですが、違いが分からない人は
+Gitポケットリファレンスを読むことをオススメします。(答えはGitポケットリファレンスに書いてあります。)</p>
+
+<p><code>
+git reset --hard HEAD^
+git commit --amend
+git revert
+</code></p>
+
+<p>以前書いたとおり<a href="https://blog.glidenote.com/blog/2012/06/16/subversion-to-github/">社内SubversionリポジトリをGitHubへの移行中</a>で
+GitHubへの本格移行する前に、「運用ルール決め」と「意識合わせ」の意味で
+社内のインフラ系エンジニア向けに「Git、GitHub講習会」と銘打って勉強会を開催。</p>
+
+<p>個人的にはGitHubも活用してて、Git自体も理解しているつもりだったんですが、
+人に説明していると、理解があやふやな点が結構あることがわかったので、
+先日発売されて、周りの評判も上々なGitポケットリファレンスを購入。</p>
+
+<p>Gitの概念について説明している書籍は多数発売されていますが、本書はGitの一つ一つのコマンドについて
+見やすく説明されているので、普段からGitをガンガン使っている人ほど手元に置いておくのが良いんじゃないかなーと思ったり。</p>
+
+<p>特に複数人でのGit運用時に遭遇するであろうエラーとその対処方法について、
+一つ一つ書いてあるので、GitHubに移行完了した後にかなり役に立ちそうな予感。</p>
+
+<p>またgit-svnについても書いてあるので、いろいろ事情があってSubversionを使わざるを得ない人も
+読むとある程度ストレスから解放されるんじゃないかと思います。(私がそうだったように)</p>
+
+<p>Gitポケットリファレンスを手元に置いてワンランク上のエンジニアを目指しましょう!!1</p>
+]]></content>
+  </entry>
+  
+</feed>

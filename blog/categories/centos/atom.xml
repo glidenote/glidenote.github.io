@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: centos | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/centos/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ssh接続したリモートサーバの出力を手元Macのクリップボードに送る]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/02/22/remote-pbcopy/"/>
+    <updated>2014-02-22T21:27:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/02/22/remote-pbcopy</id>
+    <content type="html"><![CDATA[<p>今までsshしたリモートサーバ上でコマンド実行したときの結果出力とかは、
+tmuxのコピーモードとかを駆使して、Macのクリップボードに送ってたんですが
+もっと手軽に出来る方法があったのでGitHubにまとめてみた。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/rpbcopy">glidenote/rpbcopy</a></li>
+</ul>
+
+<h2 id="section">仕組みの説明</h2>
+
+<ol>
+  <li>Mac上で、受け取った内容をクリップボード(pbcopy)に渡す<code>LaunchAgent</code>を作って起動</li>
+  <li>リモートサーバ上の出力を受け取るスクリプト<code>rpbcopy(nc)</code>に渡す</li>
+  <li>sshの<code>RemoteForward</code>を利用して、リモートサーバで<code>rpcopy(nc)</code>に渡された内容をMac上の<code>LaunchAgent</code>に渡す</li>
+  <li>Mac上の<code>LaunchAgent</code>が受け取ったデータをMacの<code>pbcopy(クリップボード)</code>に入れる</li>
+  <li><code>pbpaste</code>などで貼り付けが出来る</li>
+</ol>
+
+<p>図にすると下記のような感じ</p>
+
+<p><code>
++ - - - - - - - - -+                       +- - - - - - - - - - - - - - - - -+
+' Remote Server:   '                       ' Mac:                            '
+'                  '                       '                                 '
+' +--------------+ '  ssh(RemoteForward)   ' +--------------+     +--------+ '
+' | rpbcopy(nc)  | ' --------------------&gt; ' | LaunchAgent  | --&gt; | pbcopy | '
+' +--------------+ '                       ' +--------------+     +--------+ '
+'                  '                       '                                 '
++ - - - - - - - - -+                       +- - - - - - - - - - - - - - - - -+
+</code></p>
+
+<h2 id="section-1">導入方法</h2>
+
+<p>動作検証環境</p>
+
+<ul>
+  <li>リモートサーバ CentOS 6.4、Fedora 19</li>
+  <li>ローカルMac OS X 10.9.1</li>
+</ul>
+
+<p><a href="https://github.com/glidenote/rpbcopy">glidenote/rpbcopy</a>に各種ファイルをまとめているので、
+cloneしてくるのが早いです。</p>
+
+<p><code>sh
+git clone https://github.com/glidenote/rpbcopy
+</code></p>
+
+<h3 id="mac">Mac側の設定</h3>
+
+<h4 id="launchagent">LaunchAgentを起動</h4>
+
+<p><code>2224</code>ポートで待ち受けて、受け取った内容をクリップボードに渡すLaunchAgentを用意。
+同梱の<code>pbcopy.plist</code>を<code>~/Library/LaunchAgents/pbcopy.plist</code>に設置して、下記で起動</p>
+
+<p><code>sh
+launchctl load ~/Library/LaunchAgents/pbcopy.plist
+</code></p>
+
+<p>停止する場合は下記</p>
+
+<p><code>sh
+launchctl unload ~/Library/LaunchAgents/pbcopy.plist
+</code></p>
+
+<h4 id="sshconfig"><code>~/.ssh/config</code>の設定</h4>
+
+<p>リモートサーバの<code>2224</code>ポートをフォワーディングするので、
+<code>~/.ssh/config</code>に</p>
+
+<p><code>
+RemoteForward 2224 127.0.0.1:2224
+</code></p>
+
+<p>を追加。</p>
+
+<h4 id="cfusertextencoding"><code>~/.CFUserTextEncoding</code>の設定</h4>
+
+<p>必ず必要な作業ではありませんが、UTF-8の内容を送ると文字化けが発生する場合、転送が上手くされない場合は
+同梱の<code>.CFUserTextEncoding</code>を<code>~/.CFUserTextEncoding</code>に設置することで回避出来ると思います。</p>
+
+<p><code>~/.CFUserTextEncoding</code>を編集することで他に影響が及ぶ場合があるので、
+必ずバックアップを取り、自己責任で編集お願いします。</p>
+
+<h3 id="centos">リモートサーバ(CentOS)側の設定</h3>
+
+<h4 id="nc">ncの導入</h4>
+
+<p><code>nc(netcat)</code>が無いと使えないので<code>nc</code>を導入。(<code>nc</code>のバージョンが古いと<code>-C</code>オプションが存在しない場合があります。)</p>
+
+<p><code>sh
+sudo yum -y install nc
+</code></p>
+
+<h4 id="rpbcopy">rpbcopyスクリプトの設置</h4>
+
+<p>同梱の<code>rpbcopy</code>を<code>~/bin/rpbcopy</code>など<code>PATH</code>が通っている場所に設置して権限を付与</p>
+
+<p><code>sh
+chmod a+x ~/bin/rpbcopy
+</code></p>
+
+<h2 id="section-2">使い方</h2>
+
+<p>リモートサーバにsshログイン。
+手元Macのクリップボードに送りたいファイルやコマンドの出力を、リモートサーバ上で</p>
+
+<p>```
+# 転送が出来るかテスト
+echo “hello” | rpbcopy</p>
+
+<h1 id="mac-cfusertextencoding">日本語が転送が出来るかテスト。駄目な場合はMac側の <code>~/.CFUserTextEncoding</code>を設定する必要あり</h1>
+<p>echo “こんにちは” | rpbcopy</p>
+
+<h1 id="filemac">fileの中身を手元Macのクリップボードにコピー</h1>
+<p>cat fileneme | rpbcopy</p>
+
+<h1 id="historymac">リモートサーバのhistoryの内容を手元Macのクリップボードにコピー</h1>
+<p>history | rpbcopy
+```</p>
+
+<p>という感じでrpbcopyに渡すと、手元のMacのクリップボードに渡されるので
+Mac側で<code>pbpaste</code>や貼り付けが出来る。</p>
+
+<h2 id="section-3">補足</h2>
+
+<p><code>~/.bash_profile</code>や<code>~/.zsh_profile</code>などに</p>
+
+<p><code>
+alias pbcopy='~/bin/rpbcopy'
+</code></p>
+
+<p>とaliasを追加して、<code>pbcopy</code>でも使えるようにしておけば、
+リモートサーバとローカルサーバを意識せずに利用出来る。</p>
+
+<h2 id="section-4">トラブルシューティング</h2>
+
+<p>導入の際にハマったところをまとめておく。</p>
+
+<h3 id="mac-1">Mac側</h3>
+
+<h4 id="launchctl-loadunloadcould-not-open-job-overrides-database-at-privatevardblaunchddbcomapplelaunchdoverridesplist-13-permission-denied"><code>launchctl load/unload</code>を実行すると<code>Could not open job overrides database at: /private/var/db/launchd.db/com.apple.launchd/overrides.plist: 13: Permission denied</code>と出る。</h4>
+
+<p>tmuxを起動している状態で<code>launchctl load/unload</code>を実行するとPermissionのエラーが出てしまうことがあるようです。<a href="https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/">ChrisJohnsen/tmux-MacOSX-pasteboard</a>を利用することで回避出来る模様。</p>
+
+<h4 id="launchagent2224">LaunchAgentは動作しているか、2224ポートは開いているか確認</h4>
+
+<p><code>
+nc -vz 127.0.0.1 2224
+</code></p>
+
+<h4 id="launchagent--pbcopy-"><code>LaunchAgent</code> =&gt; <code>pbcopy</code> とデータが渡っているか。</h4>
+
+<p>Macのncの場合オプションは<code>-c</code>なので注意</p>
+
+<p><code>
+echo "hello" | nc -c 127.0.0.1 2224
+pbpaste
+</code></p>
+
+<h4 id="launchagent--pbcopy--1"><code>LaunchAgent</code> =&gt; <code>pbcopy</code> と日本語のデータが渡っているか。</h4>
+
+<p>Macのncの場合オプションは<code>-c</code>なので注意.</p>
+
+<p><code>
+echo "日本語のテスト" | nc -c 127.0.0.1 2224
+pbpaste
+</code></p>
+
+<p>駄目な場合は、<code>~/.CFUserTextEncoding</code>を同梱のものに入れ替えるてどうか確認。</p>
+
+<h3 id="centos-1">CentOS側</h3>
+
+<h4 id="nc-1">ncが入っているか</h4>
+
+<p><code>sh
+type nc
+</code></p>
+
+<h4 id="ssh-remoteforward">2224ポートと疎通が出来ているか。SSH RemoteForwardが出来ているか</h4>
+
+<p><code>sh
+nc -vz 127.0.0.1 2224
+</code></p>
+
+<h4 id="ssh-remoteforwardmacpbpaste">SSH RemoteForward経由でMacのpbpasteにデータを渡せているか</h4>
+
+<p><code>
+echo "hello" | nc -c 127.0.0.1 2224
+</code></p>
+
+<p>mac側で<code>pbpaste</code>を実行してみてどうか。</p>
+
+<hr />
+
+<p>普段私が常用しているmoshだとこれが利用出来ないので、いい方法がないか思案中。<br />
+とりあえず、<code>ターミナル作業用のmosh接続</code>とは別で<code>rpbcopy専用のssh接続</code>を作っておくことで利用してる。</p>
+
+<h2 id="section-5">参考</h2>
+
+<ul>
+  <li><a href="http://seancoates.com/blogs/remote-pbcopy">Sean Coates blogs: Remote pbcopy</a></li>
+  <li><a href="http://brettterpstra.com/2014/02/19/remote-pbcopy-on-os-x-systems/">Remote pbcopy on OS X systems - BrettTerpstra.com</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CentOS 6.5にupgradeしたらyumが動かなくなったので直した]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/12/04/yum-not-working/"/>
+    <updated>2013-12-04T17:41:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/12/04/yum-not-working</id>
+    <content type="html"><![CDATA[<p>CentOS 6.4から6.5にupgradeかけたあとから
+yum実行したら、下記のエラーが出て動かなくなった。</p>
+
+<p>```
+There was a problem importing one of the Python modules
+required to run yum. The error leading to this problem was:</p>
+
+<p>/usr/lib64/libcurl.so.4: undefined symbol: ldap_init_fd</p>
+
+<p>Please install a package which provides this module, or
+verify that the module is installed correctly.</p>
+
+<p>It’s possible that the above module doesn’t match the
+current version of Python, which is:
+2.6.6 (r266:84292, Nov 22 2013, 12:16:22)
+[GCC 4.4.7 20120313 (Red Hat 4.4.7-4)]</p>
+
+<p>If you cannot solve this problem yourself, please go to
+the yum faq at:
+  http://yum.baseurl.org/wiki/Faq
+```</p>
+
+<p>curlで問題が発生しているようだったので下記でバージョンを落とす</p>
+
+<p><code>sh
+mkdir ~/RPMS/
+wget http://ftp.riken.jp/Linux/centos/6.1/updates/x86_64/Packages/curl-7.19.7-26.el6_1.2.x86_64.rpm
+wget http://ftp.riken.jp/Linux/centos/6.1/updates/x86_64/Packages/libcurl-7.19.7-26.el6_1.2.x86_64.rpm
+sudo rpm -Uvh --oldpackage *.rpm
+</code></p>
+
+<p>元に戻った。</p>
+
+<p>いろいろとrepo追加してるのが原因ぽいけど、6系からこれ系のエラーが多い気がする。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Moshのrpm作成を簡略化した]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/05/15/mosh-rpm/"/>
+    <updated>2012-05-15T09:36:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/05/15/mosh-rpm</id>
+    <content type="html"><![CDATA[<p><a href="http://mosh.mit.edu/">Mosh</a>が便利で、かなり活用しているんですが、
+開発速度が速く、バージョンアップのたびにRPM作成をしていくのが結構だるいので
+多少楽になるように対応。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/mosh-1.2-rpm">glidenote/mosh-1.2-rpm</a></li>
+</ul>
+
+<p>単にGitHub上にspecとbuild用のスクリプトを配置しているだけですが。  </p>
+
+<p>CentOS6とSL6決めうちなのは、私がそれしか使っていないからです。
+もしCentOS5用のを作る場合は<a href="http://www.sssg.org/blogs/naoya/archives/2267">@n0tsさんのサイト</a>が
+参考になります。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.kyanny.me/entry/2012/04/11/233514">mosh-1.1.3-1.el6.x86_64.rpm - 刺身☆ブーメランのブログ</a></li>
+  <li><a href="http://www.sssg.org/blogs/naoya/archives/2267">mosh バージョン 1.2 | Carpe Diem</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Cobbler System addのメモ]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/03/16/cobbler-system-add/"/>
+    <updated>2012-03-16T12:59:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/03/16/cobbler-system-add</id>
+    <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2012/03/15/cobbler-install/">前回</a>の続き</p>
+
+<p><code>cobbler system add</code>コマンドをいつも忘れるのでメモ。</p>
+
+<h2 id="profile">profileの作成(用途ごとの設定)</h2>
+
+<p>WEBサーバ、DBサーバとかの用途ごとの設定はprofileで設定</p>
+
+<p><code>
+cobbler profile add --name=mysql-server --distro=CentOS5.8-x86_64 --kickstart=/var/lib/cobbler/kickstarts/mysql-server.ks
+cobbler sync
+</code></p>
+
+<h2 id="system">systemの作成(サーバ固有の設定)</h2>
+
+<p>下記のようなサーバ固有の設定はsystemで設定。共通の設定はprofileで設定したほうがいいかも。</p>
+
+<ul>
+  <li>ホストネーム</li>
+  <li>インターフェースのMACアドレス</li>
+  <li>ネットワーク設定(IPアドレス、サブネットマスク、ゲートウェイ、DNSサーバ)</li>
+</ul>
+
+<p>```
+cobbler system add  \
+–name=hogemoge001.com \     # system名を指定(addの場合はこの名前でsystemが作成される)
+–hostname=hogemoge001.com \ # Hostnameを設定
+–profile=mysql-server \     # 利用するprofileを指定
+–interface=eth0 \           # 設定するインターフェースを指定
+–mac=xx:xx:xx:xx:xx:xx \    # eth0のMACアドレス
+–static=1 \                 # 固定IP or DHCP (DHCPの場合は0)
+–ip=xxx.xxx.xxx.xxx \       # eth0のIPアドレス
+–subnet=255.255.255.0 \     # eth0のサブネットマスク
+–gateway=xxx.xxx.xxx.xxx \  # eth0のゲートウェイ
+–name-servers=8.8.8.8 \     # 参照するDNSサーバ
+–kopts=’ksdevice=eth1’      # カーネルオプションがある場合はここで指定</p>
+
+<p>cobbler system edit \
+–name=hogemoge001.com \     # system名を指定(editの場合は、この名前のsystemを変更)
+–interface=eth1 \           # 設定するインターフェースを指定
+–mac=xx:xx:xx:xx:xx:xx \    # eth1側のMACアドレス
+–static=1 \                 # 固定IP or DHCP (DHCPの場合は0)
+–ip=xxx.xxx.xxx.xxx \       # eth1のIPアドレス
+–subnet=255.255.255.0       # eth1のサブネットマスク</p>
+
+<p>cobbler sync
+```</p>
+
+<p>設定の確認</p>
+
+<p><code>
+cobbler system report --name=hogemoge001.com
+</code></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Cobblerサーバの構築メモ]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/03/15/cobbler-install/"/>
+    <updated>2012-03-15T23:14:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/03/15/cobbler-install</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="http://cobbler.github.com/">Cobbler - Linux install and update server</a></li>
+</ul>
+
+<p><a href="http://cobbler.github.com/">Cobbler</a>を使って、業務で日常的にOSのインストールを
+しているんですが、Cobblerサーバ自体はチーム内の他の人が構築してくれてて、
+自分で一から立てたことが無く、今回構築してみたのでメモ。</p>
+
+<p>構築環境</p>
+
+<ul>
+  <li>CentOS release 5.8 (Final)</li>
+  <li>cobbler-2.0.11-2.el5</li>
+  <li>CobblerサーバのIP 172.17.8.11</li>
+  <li>PXEブートするIPレンジ 172.17.8.0/24</li>
+</ul>
+
+<h2 id="epel">epelの導入</h2>
+
+<p>Cobblerはepelにあるので、epelをリポジトリに追加</p>
+
+<p><code>
+mkdir ~/src
+cd ~/src
+wget http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
+rpm -ivh epel-release-5-4.noarch.rpm
+</code></p>
+
+<h2 id="cobbler">Cobblerの導入とサービスの起動</h2>
+
+<p>Cobblerと一緒に必要なパッケージが入るんですが、
+dhcpは一緒に入らなかったのでdhcpも導入。</p>
+
+<p><code>
+yum -y install cobbler dhcp
+</code></p>
+
+<p>サービスを起動して、自動で起動するようにも設定</p>
+
+<p>```
+service cobblerd start
+service httpd start
+service xinetd start
+service dhcpd start</p>
+
+<p>chkconfig cobblerd on
+chkconfig httpd on
+chkconfig xinetd on
+chkconfig dhcpd on
+```</p>
+
+<h2 id="cobbler-1">Cobblerの各種設定を用意</h2>
+
+<p>Cobblerを起動したら<code>cobbler check</code>で設定ファイルをチェック。問題がある部分が表示されるので一個ずつ修正していきます。</p>
+
+<p>```
+cobbler check</p>
+
+<p>The following are potential configuration items that you may want to fix:</p>
+
+<p>1 : The ‘server’ field in /etc/cobbler/settings must be set to something other than localhost, or kickstarting features will not work.  This should be a resolvable hostname or IP for the boot server as reachable by all machines that will use it.
+2 : For PXE to be functional, the ‘next_server’ field in /etc/cobbler/settings must be set to something other than 127.0.0.1, and should match the IP of the boot server on the PXE network.
+3 : some network boot-loaders are missing from /var/lib/cobbler/loaders, you may run ‘cobbler get-loaders’ to download them, or, if you only want to handle x86/x86_64 netbooting, you may ensure that you have installed a <em>recent</em> version of the syslinux package installed and can ignore this message entirely.  Files in this directory, should you want to support all architectures, should include pxelinux.0, menu.c32, elilo.efi, and yaboot. The ‘cobbler get-loaders’ command is the easiest way to resolve these requirements.
+4 : change ‘disable’ to ‘no’ in /etc/xinetd.d/tftp
+5 : change ‘disable’ to ‘no’ in /etc/xinetd.d/rsync
+6 : debmirror package is not installed, it will be required to manage debian deployments and repositories
+7 : The default password used by the sample templates for newly installed machines (default_password_crypted in /etc/cobbler/settings) is still set to ‘cobbler’ and should be changed, try: “openssl passwd -1 -salt ‘random-phrase-here’ ‘your-password-here’” to generate new one
+8 : fencing tools were not found, and are required to use the (optional) power management features. install cman or fence-agents to use them</p>
+
+<p>Restart cobblerd and then run ‘cobbler sync’ to apply changes.
+```</p>
+
+<h3 id="etccobblersettings">/etc/cobbler/settings</h3>
+
+<p><div><script src='https://gist.github.com/2042460.js?file=settings.diff'></script>
+<noscript><pre><code>--- settings.dist	2012-03-15 03:08:45.000000000 +0900
++++ settings	2012-03-14 18:39:53.000000000 +0900
+@@ -195,7 +195,7 @@
+ 
+ # set to 1 to enable Cobbler&#39;s DHCP management features.
+ # the choice of DHCP management engine is in /etc/cobbler/modules.conf
+-manage_dhcp: 0
++manage_dhcp: 1
+ 
+ # set to 1 to enable Cobbler&#39;s DNS management features.
+ # the choice of DNS mangement engine is in /etc/cobbler/modules.conf
+@@ -210,7 +210,7 @@
+ # if using cobbler with manage_dhcp, put the IP address
+ # of the cobbler server here so that PXE booting guests can find it
+ # if you do not set this correctly, this will be manifested in TFTP open timeouts.
+-next_server: 127.0.0.1
++next_server: 172.17.8.11
+ 
+ # settings for power management features.  optional.
+ # see https://fedorahosted.org/cobbler/wiki/PowerManagement to learn more
+@@ -322,7 +322,7 @@
+ # if you have a server that appears differently to different subnets
+ # (dual homed, etc), you need to read the --server-override section
+ # of the manpage for how that works.
+-server: 127.0.0.1
++server: 172.17.8.11
+ 
+ # this is a directory of files that cobbler uses to make
+ # templating easier.  See the Wiki for more information.  Changing</code></pre></noscript></div>
+</p>
+
+<h3 id="etcxinetddtftp">/etc/xinetd.d/tftp</h3>
+
+<p><div><script src='https://gist.github.com/2042460.js?file=tftp.diff'></script>
+<noscript><pre><code>--- /etc/xinetd.d/tftp.dist     2012-03-15 03:12:09.000000000 +0900
++++ /etc/xinetd.d/tftp  2012-03-15 03:12:34.000000000 +0900
+@@ -11,7 +11,7 @@
+        user                    = root
+        server                  = /usr/sbin/in.tftpd
+        server_args             = -s /tftpboot
+-       disable                 = yes
++       disable                 = no
+        per_source              = 11
+        cps                     = 100 2
+        flags                   = IPv4</code></pre></noscript></div>
+</p>
+
+<h3 id="etcxinetddrsync">/etc/xinetd.d/rsync</h3>
+
+<p><div><script src='https://gist.github.com/2042460.js?file=rsync.diff'></script>
+<noscript><pre><code>--- /etc/xinetd.d/rsync.dist    2012-03-15 03:13:30.000000000 +0900
++++ /etc/xinetd.d/rsync 2012-03-15 03:13:44.000000000 +0900
+@@ -3,7 +3,7 @@
+ #      allows crc checksumming etc.
+ service rsync
+ {
+-       disable = yes
++       disable = no
+        socket_type     = stream
+        wait            = no
+        user            = root</code></pre></noscript></div>
+</p>
+
+<h3 id="etccobblerdhcptemplate">/etc/cobbler/dhcp.template</h3>
+
+<p>cobblerにdhcpdも管理させるのでdhcp.templateも修正</p>
+
+<p><div><script src='https://gist.github.com/2042460.js?file=dhcp.template.diff'></script>
+<noscript><pre><code>--- /etc/cobbler/dhcp.template.dist     2012-03-14 18:41:17.000000000 +0900
++++ /etc/cobbler/dhcp.template  2012-03-14 18:42:36.000000000 +0900
+@@ -16,14 +16,14 @@
+ ignore client-updates;
+ set vendorclass = option vendor-class-identifier;
+ 
+-subnet 192.168.1.0 netmask 255.255.255.0 {
+-     option routers             192.168.1.5;
+-     option domain-name-servers 192.168.1.1;
++subnet 172.17.8.0 netmask 255.255.255.0 {
++     option routers             172.17.8.11;
++     option domain-name-servers 172.17.8.11;
+      option subnet-mask         255.255.255.0;
+-     range dynamic-bootp        192.168.1.100 192.168.1.254;
++     range dynamic-bootp        172.17.8.250 172.17.8.253;
+      filename                   &quot;/pxelinux.0&quot;;
+-     default-lease-time         21600;
+-     max-lease-time             43200;
++     default-lease-time         600;
++     max-lease-time             600;
+      next-server                $next_server;
+ }
+</code></pre></noscript></div>
+</p>
+
+<h3 id="etchostsallow">/etc/hosts.allow</h3>
+
+<p>hosts.allowにPXEブートするIPレンジを記載</p>
+
+<p><code>
+bootps:         172.17.8.0/255.255.255.0
+tftp:           172.17.8.0/255.255.255.0
+in.tftpd:       172.17.8.0/255.255.255.0
+</code></p>
+
+<h2 id="bootloader">bootloaderの用意</h2>
+
+<p><code>
+cobbler get-loaders
+</code></p>
+
+<h2 id="section">インストール用のディストリビューションを用意</h2>
+
+<p><code>cobbler import</code>でCentOS5.8とScicentifc Linux6.2をimport。だいたい1つに30分〜40分かかります</p>
+
+<p><code>
+cobbler import --path=rsync://ftp.jaist.ac.jp/pub/Linux/CentOS/5.8/os/x86_64/ --name=CentOS5.8-x86_64
+cobbler import --path=rsync://ftp.jaist.ac.jp/pub/Linux/scientific/6.2/x86_64/os/ --name=SL6.2-x86_64
+cobbler sync
+</code></p>
+
+<h2 id="section-1">再度設定をチェック</h2>
+
+<p><code>cobbler check</code>で再度設定をチェック。下記の注意書きが出ますが、関係ないので無視</p>
+
+<p>```
+The following are potential configuration items that you may want to fix:</p>
+
+<p>1 : debmirror package is not installed, it will be required to manage debian deployments and repositories
+2 : The default password used by the sample templates for newly installed machines (default_password_crypted in /etc/cobbler/settings) is still set to ‘cobbler’ and should be changed, try: “openssl passwd -1 -salt ‘random-phrase-here’ ‘your-password-here’” to generate new one
+3 : fencing tools were not found, and are required to use the (optional) power management features. install cman or fence-agents to use them</p>
+
+<p>Restart cobblerd and then run ‘cobbler sync’ to apply changes.
+```</p>
+
+<p>各種設定が出来たので、Cobbler再起動して設定を反映</p>
+
+<p><code>
+service cobblerd restart
+</code></p>
+
+<h2 id="section-2">動作確認</h2>
+
+<p>動作チェックのため、iptablesを一時的に止める</p>
+
+<p><code>
+service iptables stop
+</code></p>
+
+<p>適当なksファイル<code>/var/lib/cobbler/kickstarts/mysql-server.ks</code>などを用意して、profileに登録</p>
+
+<p><code>
+cobbler profile add --name=mysql-server --distro=CentOS5.8-x86_64 --kickstart=/var/lib/cobbler/kickstarts/mysql-server.ks
+cobbler sync
+</code></p>
+
+<p>まっさらなサーバを起動してCobblerの画面が出るか確認</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/cobbler0.png" alt="" /></p>
+
+<p>用意した<code>mysql-server</code>を選択してインストール作業の確認</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/cobbler1.png" alt="" /></p>
+
+<p>うまくいきました。</p>
+
+<p><code>/etc/cobbler/settings</code>を眺めてたら<code>git</code>やら<code>puppet</code>やらの設定項目があって、
+もっと便利に使えそうな予感が。</p>
+
+]]></content>
+  </entry>
+  
+</feed>

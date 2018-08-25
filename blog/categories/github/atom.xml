@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: github | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/github/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Terraform + GitHub + CircleCI + Atlasを利用してAWSの操作を自動化した]]></title>
+    <link href="https://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws/"/>
+    <updated>2015-02-18T19:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://www.terraform.io/">Terraform</a> + <a href="https://github.com/">GitHub</a> + <a href="https://circleci.com/">CircleCI</a> + <a href="https://atlas.hashicorp.com/">Atlas</a> を用いてAWSの操作を自動化した</li>
+  <li>各ツールの役割は下記のような感じ
+    <ul>
+      <li>Terraform =&gt; インフラへの変更ツール </li>
+      <li>GitHub    =&gt; <code>.tf</code>ファイルのバージョン管理</li>
+      <li>CircleCI  =&gt; CI、Terraformをawsに対して実行</li>
+      <li>Atlas     =&gt; インフラの状態を記録する<code>terraform.tfstate</code>の管理</li>
+    </ul>
+  </li>
+  <li><a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">インフラの継続的デリバリー - naoyaのはてなダイアリー</a>にて、言及されていた範囲(Route53の変更、Chefの適用)をAWSの操作全体に拡大した</li>
+</ul>
+
+<h2 id="section">背景</h2>
+
+<h3 id="section-1">今までの問題点</h3>
+
+<ul>
+  <li>AWSの各種操作がブラウザからポチポチ業…</li>
+  <li>手作業なので誤操作に気づきにくい。事故りやすい</li>
+  <li>インフラの実構成がバージョン管理出来ていない</li>
+  <li>ちなみにRoute53に関しては<a href="https://github.com/winebarrel/roadworker">roadworker</a>を用いてコードで管理済みなので、今回はRoute53以外の話です。
+    <ul>
+      <li>refs <a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">インフラの継続的デリバリー - naoyaのはてなダイアリー</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="terraform--github--circleci--atlas-">Terraform + GitHub + CircleCI + Atlas でインフラを管理するメリット</h3>
+
+<ul>
+  <li>ブラウザからのポチポチ業から解放される</li>
+  <li>インフラ構成をコードで管理出来る。バージョン管理が出来る</li>
+  <li>インスタンス追加、EIPの設定などAWSの操作、インフラ構成の変更をGitHubのPR、レビュー、Mergeのプロセスに載せることが出来る</li>
+  <li>自動化が可能になる</li>
+  <li>CircleCI上にインフラ変更のログを保持することが出来る</li>
+  <li>インフラの変更をGitHubのMergeボタンに集約出来る</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/09/c49f738048c64521f7ed981a8d8c9458fdec8347.png" alt="" /></p>
+
+<h2 id="section-2">実装概要</h2>
+
+<p>2015年2月18日現在最新の<code>Terraform v0.3.6</code>を用いて実現している</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/02/terraform001.png" alt="" /></p>
+
+<ol>
+  <li>EC2、EIPなどAWSの変更をコードに書いてGitHubにPush。(Atlasで<code>terraform.tfstate</code>を管理している場合は<code>terraform pull</code>して最新の<code>terraform.tfstate</code>もPush)</li>
+  <li>Pushを契機にCircleCI上で<code>terraform plan --refresh=false</code>を実行してtest。testが通ればPull Requestを作成</li>
+  <li>Pull RequestをmasterにMerge</li>
+  <li>masterへのMergeを契機にCircleCI上からterraformを実行</li>
+  <li><code>terraform apply</code>を実行して、awsに設定を反映</li>
+  <li>Atlasに<code>terraform push</code>して、<code>terraform.tfstate</code>ファイルを管理</li>
+  <li>鮨を食べる</li>
+</ol>
+
+<p>CircleCI上からterraformを実行しているキャプチャ</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/02/terraform002.png" alt="" /></p>
+
+<p>設定ミスやエラーが発生するとFailしてSlackに通知される</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/02/terraform003.png" alt="" /></p>
+
+<h2 id="tf">実際の<code>tf</code>ファイルの感じ</h2>
+
+<ul>
+  <li><a href="https://terraform.io/docs/providers/aws/index.html">Provider: AWS - Terraform by HashiCorp</a></li>
+</ul>
+
+<p>クレデンシャル情報はCircleCI上で暗号化した環境変数を管理していて、Gitリポジトリ内では管理せず、
+CI実行時に生成している。</p>
+
+<p>```
+# credential
+provider “aws” {
+    access_key    = “XXXXXXXXXXXXXXXXXXXX”
+    secret_key    = “XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX”
+    region        = “us-west-1”
+}</p>
+
+<p>provider “atlas” {
+    token         = “XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX”
+}
+```</p>
+
+<p><code>
+# instance
+resource "aws_instance" "dev001_foobar_net" {
+    ami             = "ami-xxxxxxxx"
+    instance_type   = "t2.micro"
+    key_name        = "xxxxxxxxxxxxxxxx"
+    security_groups = ["sg-xxxxxxxx"]
+    subnet_id       = "subnet-xxxxxxxx"
+    tags {
+        Name    = "dev001.foobar.net"
+        Role    = "common"
+        Service = "operator"
+        Env     = "dev"
+    }
+}
+</code></p>
+
+<p><code>
+# eip
+resource "aws_eip" "dev001_foobar_net_eip" {
+    instance = "i-xxxxxxxx"
+    vpc      = true
+}
+</code></p>
+
+<p>などTerraformは同じディレクトリ内にある<code>.tf</code>ファイルを見てくれるので、
+用途毎で<code>.tf</code>ファイルを分けて運用してます。</p>
+
+<h2 id="section-3">その他</h2>
+
+<ul>
+  <li>2014年8月にTerraformがリリース直後にチャレンジしたが、機能が足りずに実現出来なかったが、半年経過して必要機能が揃い実現出来た。</li>
+  <li>今日現在(2015年2月18日)TerraformにはAWS上の既存設定をファイルに落とし込む機能がないので、一から作る必要がある。</li>
+  <li>今回はインスタンスの一斉リプレイスがあったので、そのタイミングを利用して導入した。</li>
+  <li>AtlasとGitHubの連携機能がリリース予定なので、それがリリースされるとさらに便利になるかもしれない(1月リリース予定だったけど)
+    <ul>
+      <li><a href="https://atlas.hashicorp.com/help/guides/version-control">Using Atlas with GitHub</a></li>
+    </ul>
+  </li>
+  <li>今回はAtlasとTerraformだけを組み合わせたが、AtlasはVagrant、Packer、Consulとも連携が出来るので引き続き検証中</li>
+</ul>
+
+<p><img src="https://d250n10lsq5j8r.cloudfront.net/assets/atlas/atlas-how-to@2x-eabe86b956d3b2032c721da7e834f63c.png" alt="" /></p>
+
+<h2 id="section-4">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/zembutsu/items/93e546df765f8b2c4f32">Terraform簡易チュートリアル on AWS - Qiita</a></li>
+  <li><a href="http://blog.cloudpack.jp/2014/12/17/awe-advent-calendar-2014-elastic-ip-adress-eip/">AWS Advent Calendar 2014 〜 Elastic IP アドレス (EIP) のお話 | cloudpack技術情報サイト</a> </li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ChatOpsでOSのセキュリティアップデートを自動化出来るようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/09/12/chatops-security-update/"/>
+    <updated>2014-09-12T20:03:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/09/12/chatops-security-update</id>
+    <content type="html"><![CDATA[<p>先日<a href="https://twitter.com/naoya_ito">@naoya_ito</a>さんが<a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">自身のブログ(インフラの継続的デリバリー)</a>で<a href="http://kaizenplatform.in/">KAIZEN platform Inc.</a>のインフラについて書いていたやつの続編的な内容。</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://slack.com/">Chat(Slack)</a> + <a href="https://hubot.github.com/">Hubot</a> + <a href="https://circleci.com/">CircleCI</a> + <a href="https://github.com/">GitHub</a> を用いてセキュリティアップデートを自動化した</li>
+  <li>GitHubのPull Requestを契機にセキュリティアップデートを実行できるようにした</li>
+  <li>CircleCIが大変便利。インフラ系の作業を自動化するのに非常に合っている気がする</li>
+</ul>
+
+<h2 id="section">背景</h2>
+
+<p><a href="http://kaizenplatform.in/">KAIZEN platform Inc.</a>では、</p>
+
+<ol>
+  <li>ネットワーク脆弱性スキャン</li>
+  <li>アプリケーション脆弱性スキャン</li>
+  <li>セキュリティアップデートの定期実行</li>
+</ol>
+
+<p>の3つをセキュリティ系タスクとして継続的にやっていこうという話になり、今回は私が担当した、「セキュリティアップデートの定期実行」の話。</p>
+
+<p>RHEL系OSにはyumの自動更新機能がありますが、これが稼働していて意図せずミドルウェアがバージョンアップして、
+過去にみんな痛い目に遭遇した経験があるので、これは利用せずにアップデートの内容を事前に確認したいという事情もあります。</p>
+
+<h2 id="section-1">仕組みの詳細</h2>
+
+<p>全体の流れ</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/09/chatops0.png" alt="" /></p>
+
+<ol>
+  <li>定期的にHubot自身が、Chat(Slack)上からHubotにSecurity Checkを指示する(今回はキャプチャを取るために私が召喚してます) 
+   <img src="https://blog.glidenote.com/images/2014/09/chatops1.png" alt="" /></li>
+  <li>Hubot経由でCircleCIのAPIを叩いて、Security Update用リポジトリ上にチェック用ブランチを作成して、GitHubにPush</li>
+  <li>GitHubへのPushを検知して、CircleCIが検証環境であるQA環境のサーバに対して、sshして<code>yum --secuity check-update</code>を実行</li>
+  <li>セキュリティ更新があれば、下記のようなデプロイ用ブランチへのPull Requestを作ってインフラメンバーにmentionを送る。無ければそのまま終了。
+   <img src="https://blog.glidenote.com/images/2014/09/chatops4.png" alt="" /></li>
+  <li>インフラメンバーがPull Request内容を確認して、問題が無ければMerge。</li>
+  <li>デプロイ用ブランチへのMergeを契機に対象サーバについて<code>yum --security -y update</code>がかかり、セキュリティアップデートがかかる</li>
+  <li>アップデート後にCircleCI経由でSlack上のHubotを召還
+   <img src="https://blog.glidenote.com/images/2014/09/chatops7.png" alt="" /></li>
+  <li>Hubot経由でe2eテストが自動で走り、セキュリティアップデートによって、アプリケーションに不具合が発生していないかテストされる</li>
+  <li>e2eテストに問題が無ければ、Production環境のサーバ向けに<code>2-8</code>の手順を繰り返す </li>
+  <li>最終的には下記のように、どのサービス、どのステージでセキュリティアップデートが完了したかが通知される
+   <img src="https://blog.glidenote.com/images/2014/09/chatops10.png" alt="" /></li>
+  <li>寿司を食う</li>
+</ol>
+
+<p>この一連の流れが各ロール(web,log,proxy,batch等々)のサーバ数十台に対して一斉に自動で走ってくれて、
+進捗報告もChat(Slack)に都度通知されるようになっている。</p>
+
+<p><strong>人の手を介するのは<code>5</code>のセキュリティアップデート内容のレビューとMergeボタンを押す部分だけ。</strong></p>
+
+<p>naoyaさんのブログから画像を拝借すると、セキュリティアップデートの適用もMergeボタンに集約された感じ。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/09/c49f738048c64521f7ed981a8d8c9458fdec8347.png" alt="" /></p>
+
+<p>これにより</p>
+
+<ul>
+  <li>定期的なセキュリティアップデートのチェックを自動化</li>
+  <li>セキュリティアップデートをPull Requestでレビュー可能に</li>
+  <li>CircleCI経由で実行することで、CircleCI上に作業ログの保存</li>
+</ul>
+
+<p>が出来るようになった。</p>
+
+<h2 id="circleci">CircleCIについて</h2>
+
+<p><a href="https://circleci.com/">CircleCI</a>には</p>
+
+<ul>
+  <li>ssh鍵やTOKENがセキュアに渡すことが出来る</li>
+  <li>実行ログが残せる</li>
+  <li>Chat系アプリと簡単に連携できる</li>
+  <li>UIが直感的で分かりやすい</li>
+  <li>CircleCI自体にssh出来るので、デバッグが簡単に出来る</li>
+</ul>
+
+<p>という特徴があるので、インフラ系の作業を自動化するのには非常に合っていると思う。(某OSSなCIツールで同じ事をやろうとすると、そこまで行くのにいろいろと設定が必要でyak shavingな感じが…)</p>
+
+<p>私が担当した以外のセキュリティ系タスクも自動化がされているし、
+Chefの適用、セキュリティスキャンなどChatOpsの範囲が広がってきて、最近はサーバにほとんど入らなくなってきているので
+もっと頑張れば寿司だけ食っていれば良い世界が来るかもしれない。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[コミットメッセージを書くときにGitHubのユーザー名が補完されるようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/07/22/gitcommit-dictionary/"/>
+    <updated>2013-07-22T00:56:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/07/22/gitcommit-dictionary</id>
+    <content type="html"><![CDATA[<p>gitでcommit messageを書くときに、関連する人にmentionを送ることが結構あるんですが、
+GitHubとGitHub Enterpriseのユーザ名の覚えが曖昧で、毎回ブラウザでポチポチやって調べていて、
+効率が恐ろしく悪かったので、同僚やmention送るユーザ名は辞書作って補完することにした。</p>
+
+<h2 id="github-username">GitHub Usernameの辞書を作成</h2>
+
+<p><code>sh
+mkdir -p ~/.vim/dictionary/
+touch ~/.vim/dictionary/github_user.dict
+</code></p>
+
+<p><code>~/.vim/dictionary/github_user.dict</code>の中身は下記みたいな感じでユーザー名を列挙。</p>
+
+<p><code>
+mizzy
+lamanotrama
+tnmt
+hiboma
+</code></p>
+
+<h2 id="vimrc">.vimrcの設定</h2>
+
+<p>作った辞書がcommit messageを書くときだけ読み込まれるように<code>.vimrc</code>に下記のように追加。
+<code>git commit</code>したときにfiletypeが<code>gitcommit</code>になってないと辞書が読み込まれないので注意</p>
+
+<p><code>
+autocmd FileType gitcommit :set dictionary=~/.vim/dictionary/github_user.dict
+</code></p>
+
+<p>下記みたいにGitHubのユーザー名が補完されるので、mentionが飛ばしやすくなる。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/07/github_dict0.png" alt="" /></p>
+
+<p>どうやってユーザー名を補完しようか調べてて、<code>git commit</code>でvimを起動するとfiletypeが<code>gitcommit</code>になるのを初めて知った。
+たぶんこれを利用すればもっと便利なことが出来そうな気がする。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://nanasi.jp/articles/howto/config/dictionary.html">辞書ファイルで入力を補完する — 名無しのvim使い</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GitHubのissueやpull reqにcommentが付いたらIRC hoooks経由で通知されるように設定した]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/07/18/github-irc-hooks-event-type/"/>
+    <updated>2013-07-18T20:39:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/07/18/github-irc-hooks-event-type</id>
+    <content type="html"><![CDATA[<p>もともと<a href="https://twitter.com/gosukenator">mizzy</a>さんが作ったプログラムで
+GitHubの業務用Repository上のイベントはIRCに通知されるようになっていたんですが、
+<a href="http://twitter.com/tnmt">@tnmt</a>からGitHubのhooksだけで出来るようになったとの情報をゲットしたので早速設定してみた。</p>
+
+<blockquote class="twitter-tweet"><p>github の irc hook に幾つかの event type が追加されました - <a href="https://twitter.com/soh335">@soh335</a> memo <a href="http://t.co/40g46OxvkC">http://t.co/40g46OxvkC</a> <a href="https://twitter.com/glidenote">@glidenote</a> 先生がアップを始めました</p>&mdash; TSUNEMATSU Shinya (@tnmt) <a href="https://twitter.com/tnmt/statuses/354796424686354432">July 10, 2013</a></blockquote>
+<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p><a href="http://soh335.hatenablog.com/entry/2013/05/21/113049">@soh335さんのブログ</a>
+を見ると、下記のような形で、hooksの設定確認や設定変更が出来る模様。</p>
+
+<p><code>sh
+curl -u username https://api.github.com/repos/:owner/:reponame/hooks
+curl -u username https://api.github.com/repos/:owner/:reponame/hooks/:id -X PATCH -d '{ "add_events": ["issues"] }'
+</code></p>
+
+<p>たとえば私の場合は下記のような感じで、hooksの詳細を確認</p>
+
+<p><code>sh
+curl -u "glidenote" -in https://api.github.com/repos/paperboy-hogemoge/hogemoge-ops/hooks
+</code></p>
+
+<p>下記のような形で返ってくる。</p>
+
+<p><code>
+[
+  {
+    "url": "https://api.github.com/repos/paperboy-hogemoge/hogemoge-puppet/hooks/367xxx",
+    "test_url": "https://api.github.com/repos/paperboy-hogemoge/hogemoge-puppet/hooks/367xxx/test",
+    "id": 367xxx,
+    "name": "irc",
+    "active": true,
+    "events": [
+      "push"
+    ],
+    "config": {
+      "server": "irc.hogemoge.co.jp",
+      "port": "6668",
+      "room": "hogemoge-ops",
+      "nick": "github",
+      "branch_regexes": "",
+      "nickserv_password": "",
+      "password": "*************************",
+      "ssl": "1",
+      "notice": "1"
+    },
+    "last_response": {
+      "code": 504,
+      "status": "timeout",
+      "message": "Service Timeout"
+    },
+    "updated_at": "2013-06-25T07:01:21Z",
+    "created_at": "2012-08-02T06:59:43Z"
+  }
+]
+</code></p>
+
+<p><code>id</code>が分かったので、下記のような形で設定</p>
+
+<p><code>sh
+curl -u "glidenote" -in https://api.github.com/repos/paperboy-hogemoge/hogemoge-ops/hooks/367xxx -X PATCH -d '{ "add_events": ["issues"] }'
+curl -u "glidenote" -in https://api.github.com/repos/paperboy-hogemoge/hogemoge-ops/hooks/367xxx -X PATCH -d '{ "add_events": ["issue_comment"] }'
+curl -u "glidenote" -in https://api.github.com/repos/paperboy-hogemoge/hogemoge-ops/hooks/367xxx -X PATCH -d '{ "add_events": ["commit_comment"] }'
+curl -u "glidenote" -in https://api.github.com/repos/paperboy-hogemoge/hogemoge-ops/hooks/367xxx -X PATCH -d '{ "add_events": ["pull_request_review_comment"] }'
+</code></p>
+
+<p>issueが作られたり、issueにコメントが付くとhooks経由でIRCに通知されるようになった。</p>
+
+<p>GitHub Enterpriseでも同じように設定出来るかと思ったけど、まだ対応してなかった。 
+ちなみにGitHub Enterpriseの場合は下記のような感じで詳細確認が出来た。</p>
+
+<p><code>sh
+curl -u "glidenote" -in https://hostname/api/v3/repos/:owner/:repos/hooks
+</code></p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://soh335.hatenablog.com/entry/2013/05/21/113049">github の irc hook で issue も hook してもらう - @soh335 memo</a></li>
+  <li><a href="http://soh335.hatenablog.com/entry/2013/07/10/100354">github の irc hook に幾つかの event type が追加されました - @soh335 memo</a></li>
+  <li><a href="http://developer.github.com/v3/activity/events/types/">Event types | GitHub API</a></li>
+  <li><a href="https://api.github.com/hooks">https://api.github.com/hooks</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[open-browser-github.vim を  GitHub Enterpriseで使う]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/07/18/open-browser-github.vim-for-github-enterprise/"/>
+    <updated>2013-07-18T01:12:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/07/18/open-browser-github.vim-for-github-enterprise</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://github.com/tyru/open-browser-github.vim">tyru/open-browser-github.vim</a></li>
+</ul>
+
+<p>GitHubから社内のGitHub EnterpriseサーバにRepositoryを移行したときに、
+open-browser-github.vimが動かなくなっていることに気づいた。</p>
+
+<p>READMEを読むとGitHub Enterpriseを普通にサポートしており、
+下記みたいな感じで設定出来るとのこと。</p>
+
+<p><code>sh
+git config --local hub.host my.git.org
+</code></p>
+
+<p>実際に私の環境では下記のように設定。</p>
+
+<p><code>sh
+cd path/to/repo
+git config --local hub.host ghe.tokyo.pb
+</code></p>
+
+<p><code>:OpenGithubFile</code>でファイルが開くようになって再び快適生活に戻った。</p>
+]]></content>
+  </entry>
+  
+</feed>

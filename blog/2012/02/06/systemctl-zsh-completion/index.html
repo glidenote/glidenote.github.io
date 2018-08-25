@@ -1,0 +1,489 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Fedora16 systemctlコマンドのメモ - Glide Note</title>
+  <meta property="og:title" content="Fedora16 systemctlコマンドのメモ - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="自宅サーバはFedora 16で構築してるんですが、systemctlコマンドが全く頭に入ってこないので自分用にメモ。
+2回ググったらブログに書く。 たとえばsquidを管理する場合 起動 1
+sudo systemctl start squid.service 停止 1
+sudo &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2012/02/06/systemctl-zsh-completion/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2012/02/06/systemctl-zsh-completion">
+<meta name="twitter:title" content="Fedora16 systemctlコマンドのメモ">
+<meta name="twitter:description" content="自宅サーバはFedora 16で構築してるんですが、systemctlコマンドが全く頭に入ってこないので自分用にメモ。
+2回ググったらブログに書く。 たとえばsquidを管理する場合 起動 1
+sudo systemctl start squid.service 停止 1
+sudo systemctl stop squid.service 再起動 1
+sudo systemctl restart &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Fedora16 systemctlコマンドのメモ</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-06T00:33:00+09:00" pubdate data-updated="true">2012年02月06日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>自宅サーバはFedora 16で構築してるんですが、systemctlコマンドが全く頭に入ってこないので自分用にメモ。
+2回ググったらブログに書く。</p>
+
+<h2 id="squid">たとえばsquidを管理する場合</h2>
+
+<h3 id="section">起動</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl start squid.service</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-1">停止</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl stop squid.service</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-2">再起動</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl restart squid.service</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-3">自動起動設定</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl enable squid.service</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-4">自動起動の解除</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl disable squid.service</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="status">statusを確認</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[akira@mini9] $ sudo systemctl status squid.service
+</span><span class="line">squid.service - Sqid caching proxy
+</span><span class="line">      Loaded: loaded (/lib/systemd/system/squid.service; enabled)
+</span><span class="line">          Active: active (running) since Mon, 06 Feb 2012 00:41:33 +0900; 3min 53s ago
+</span><span class="line">             Process: 3410 ExecStop=/usr/sbin/squid -k shutdown -f $SQUID_CONF (code=exited, status=0/SUCCESS)
+</span><span class="line">                 Process: 3400 ExecReload=/usr/sbin/squid $SQUID_OPTS -k reconfigure -f $SQUID_CONF (code=exited, status=0/SUCCESS)
+</span><span class="line">                     Process: 3418 ExecStart=/usr/sbin/squid $SQUID_OPTS -f $SQUID_CONF (code=exited, status=0/SUCCESS)
+</span><span class="line">                         Process: 3412 ExecStartPre=/usr/libexec/squid/cache_swap.sh (code=exited, status=0/SUCCESS)
+</span><span class="line">                            Main PID: 3419 (squid)
+</span><span class="line">                                  CGroup: name=systemd:/system/squid.service
+</span><span class="line">                                          ├ 3419 /usr/sbin/squid -f /etc/squid/squid.conf
+</span><span class="line">                                                  ├ 3421 (squid-1) -f /etc/squid/squid.conf
+</span><span class="line">                                                          ├ 3426 (logfile-daemon) /var/log/squid/access.log
+</span><span class="line">                                                                  └ 3427 (unlinkd)</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-5">その他のコマンド</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[akira@mimi9] $ systemctl
+</span><span class="line">systemctl command
+</span><span class="line">cancel                               -- Cancel all, one, or more jobs
+</span><span class="line">daemon-reexec                        -- Reexecute systemd manager
+</span><span class="line">daemon-reload                        -- Reload systemd manager configuration
+</span><span class="line">default                              -- Enter system default mode
+</span><span class="line">delete                               -- Remove one or more snapshots
+</span><span class="line">disable                              -- Disable one or more unit files
+</span><span class="line">dot                                  -- Dump dependency graph for dot(1)
+</span><span class="line">dump                                 -- Dump server status
+</span><span class="line">emergency                            -- Enter system emergency mode
+</span><span class="line">enable                               -- Enable one or more unit files
+</span><span class="line">exit                                 -- Ask for user instance termination
+</span><span class="line">halt                                 -- Shut down and halt the system
+</span><span class="line">is-active                            -- Check whether units are active
+</span><span class="line">is-enabled                           -- Check whether unit files are enabled
+</span><span class="line">isolate                              -- Start one unit and stop all others
+</span><span class="line">kexec                                -- Shut down and reboot the system with kexec
+</span><span class="line">kill                                 -- Send signal to processes of a unit
+</span><span class="line">list-jobs                            -- List jobs
+</span><span class="line">list-units                           -- List units
+</span><span class="line">load                                 -- Load one or more units
+</span><span class="line">monitor                              -- Monitor unit/job changes
+</span><span class="line">poweroff                             -- Shut down and power-off the system
+</span><span class="line">reboot                               -- Shut down and reboot the system
+</span><span class="line">reload                               -- Reload one or more units
+</span><span class="line">reload-or-restart                    -- Reload one or more units is possible, otherwise start or restart
+</span><span class="line">reload-or-try-restart  force-reload  -- Reload one or more units is possible, otherwise restart if active
+</span><span class="line">rescue                               -- Enter system rescue mode
+</span><span class="line">reset-failed                         -- Reset failed state for all, one, or more units
+</span><span class="line">restart                              -- Start or restart one or more units
+</span><span class="line">set-environment                      -- Set one or more environment variables
+</span><span class="line">show                                 -- Show properties of one or more units/jobs or the manager
+</span><span class="line">show-environment                     -- Dump environment
+</span><span class="line">snapshot                             -- Create a snapshot
+</span><span class="line">start                                -- Start (activate) one or more units
+</span><span class="line">status                               -- Show runtime status of one or more units
+</span><span class="line">stop                                 -- Stop (deactivate) one or more units
+</span><span class="line">try-restart            condrestart   -- Restart one or more units if active
+</span><span class="line">unset-environment                    -- Unset one or more environment variables</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>systemdでは<code>/lib/systemd/system</code>に設定ファイルを用意して、
+<code>/etc/systemd/system</code>配下の<code>xxxx.wants</code>へリンクを貼ると自動起動設定となる。</p>
+
+<p>ちなみにzshのバージョンを4.3.15にあげたらsytemctlの補完が効いてくれるようになった</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-06T00:33:00+09:00" pubdate data-updated="true">2012年02月06日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/fedora/'>fedora</a>, <a class='category' href='/blog/categories/zsh/'>zsh</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2012/02/06/systemctl-zsh-completion/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="Fedora16 systemctlコマンドのメモ - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Fedora16 systemctlコマンドのメモ "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2014/02/22/remote-pbcopy/">ssh接続したリモートサーバの出力を手元Macのクリップボードに送る</a></li>
+
+  <li><a href="/blog/2011/12/27/hosts-deny-error/">/etc/hosts.deny, missing newline or line too long</a></li>
+
+  <li><a href="/blog/2011/12/12/upgrade-fedora-15-to-16/">自宅サーバをFedora 15からFedora 16 アップグレード</a></li>
+
+  <li><a href="/blog/2011/12/03/yum-exclude/">tmuxをyumのアップデート対象から外した</a></li>
+
+  <li><a href="/blog/2011/11/25/install-supervisor/">スーパーサーバーSupervisorの導入手順メモ</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/02/03/cobbler-scientific-linux-6.1/" title="Previous Post: CobblerでScientific Linux 6.1を導入">&laquo; CobblerでScientific Linux 6.1を導入</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/02/11/weechat-plugins/" title="next Post: Weegetを利用して、WeeChatのPlugin管理を楽にする">Weegetを利用して、WeeChatのPlugin管理を楽にする &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2012/02/06/systemctl-zsh-completion/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2012/02/06/systemctl-zsh-completion/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: s3 | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/s3/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[S3 Event NotificasionsをAmazon SQSで受け取る]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions/"/>
+    <updated>2014-11-21T11:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions</id>
+    <content type="html"><![CDATA[<p>最近やっている仕事で先日発表された<a href="http://aws.typepad.com/aws_japan/2014/11/s3-event-notification.html">S3 Event Notifications</a>が利用出来そうな感じがしたのでちょっと調査。
+S3にファイルがアップされたらAmazon SQSで通知を受け取るようにしてみた。</p>
+
+<p><code>S3 =&gt; SNS =&gt; SQS</code> への通知は解説しているサイトが結構あるんですが、<code>S3 =&gt; SQS</code> への通知設定の
+情報が見当たらなかったので、動くようになるまで、いろいろと試行錯誤を繰り返した。
+特にSQSのPermission設定が恐ろしく分かりにくくに2日くらいハマったので、自分用にメモしておく。</p>
+
+<h2 id="s3-bucket">S3 Bucketの作成</h2>
+
+<p>S3でBucketを作成。既存Bucketを利用する場合はここはSKIP。
+今回は検証用に<code>glidenote-sqs-test</code>という名前でBucketを作成</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e01.png" alt="" /></p>
+
+<h2 id="sqs">SQSの設定</h2>
+
+<p>S3のイベント通知を受け取るQueueを作成する</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e02.png" alt="" /></p>
+
+<p>Queue名を<code>sqs-test</code>をして作成。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e03.png" alt="" /></p>
+
+<p><code>Add a Permission</code>をクリックして通知の受信元を設定する。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e04.png" alt="" /></p>
+
+<p>下記のように設定して、<code>Add Condition</code>を選択</p>
+
+<ul>
+  <li>Valueには<code>arn:aws:s3:::{S3のBucket名}</code>を設定</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e05.png" alt="" /></p>
+
+<p>Actions部分は<code>SendMessage</code>だけ選択して、<code>Add Permission</code> を選択</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e06.png" alt="" /></p>
+
+<p>こんな感じの設定になっていることを確認</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e07.png" alt="" /></p>
+
+<h2 id="s3-event-notifications">S3 Event Notificationsの設定</h2>
+
+<p>S3のイベント通知をSQSに送るように設定。下記の例では<code>PUT</code>と<code>POST</code>イベントのみSQSに通知するように設定</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e08.png" alt="" /></p>
+
+<p>正しく設定が出来ると下記のようになる。SQSのパーミッション設定が上手くてきていないとエラーになる。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e09.png" alt="" /></p>
+
+<h2 id="s3-eventsqs">実際にS3 EventをSQSで受け取る</h2>
+
+<p>下記のようなrubyのスクリプトを用意してSQSでイベントを受信してみる</p>
+
+<p>```ruby
+#!/usr/bin/env ruby
+# -<em>- coding: utf-8 -</em>-</p>
+
+<p>require ‘aws-sdk’</p>
+
+<p>AWS.config(
+  :access_key_id     =&gt; ‘your_access_key_id’, 
+  :secret_access_key =&gt; ‘your_secret_access_key’,
+  :sss_endpoint      =&gt; ‘sqs.ap-northeast-1.amazonaws.com’
+)</p>
+
+<p>url = ‘https://sqs.ap-northeast-1.amazonaws.com/xxxxxxxxxxxx/sqs-test’</p>
+
+<p>sqs = AWS::SQS.new</p>
+
+<p>while true
+  receive = sqs.queues[url].receive_message()
+  if receive
+    puts receive.body
+    receive.delete
+    sleep 1
+  end
+  puts “Waiting”
+  sleep 1
+end
+```</p>
+
+<p>するとほぼリアルタイムで下記のような感じでイベントを受信出来る</p>
+
+<p><code>
+{"Records":[{"eventVersion":"2.0","eventSource":"aws:s3","awsRegion":"ap-northeast-1","eventTime":"2014-11-20T06:16:39.474Z","eventName":"ObjectCreated:Put","userIdentity":{"principalId":"AWLW0VGTI46AA"},"requestParameters":{"sourceIPAddress":"10.115.144.24"},"responseElements":{"x-amz-request-id":"E1C0A0C1F42CAA54","x-amz-id-2":"0p2FzYuEkiyaZn/n33XJLYjE3cmePkiqEFF5NMYy+c1PSGTNfmUf+Msou4Mejnr0"},"s3":{"s3SchemaVersion":"1.0","configurationId":"S3TestNotification","bucket":{"name":"glidenote-sqs-test","ownerIdentity":{"principalId":"AWLW0VGTI46AA"},"arn":"arn:aws:s3:::glidenote-sqs-test"},"object":{"key":"shindel.png","size":794485,"eTag":"b52627268c0e9071be00c5a38fdbc912"}}}]}
+</code></p>
+
+<p>リアルタイムでS3のイベントを受信するにはSQSと常時通信しているために
+Supervisordなどを用いてスクリプトを動かす必要があり。</p>
+
+<p>これでリアルタイムな処理に対応が出来るようになった。ちょっと現在やってるタスクに適用出来るかしばらく検証してみる。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.cloudpack.jp/2014/11/17/white-belt-22-new-feature-amazon-s3-notification-sns-sqs-and-raspberry-pi/">Amazon S3 Event Notifications</a></li>
+  <li><a href="http://docs.aws.amazon.com/ja_jp/AmazonS3/latest/dev/NotificationHowTo.html">バケットイベントの通知の設定 - Amazon Simple Storage Service</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: yum | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/yum/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[CentOS 6.5にupgradeしたらyumが動かなくなったので直した]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/12/04/yum-not-working/"/>
+    <updated>2013-12-04T17:41:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/12/04/yum-not-working</id>
+    <content type="html"><![CDATA[<p>CentOS 6.4から6.5にupgradeかけたあとから
+yum実行したら、下記のエラーが出て動かなくなった。</p>
+
+<p>```
+There was a problem importing one of the Python modules
+required to run yum. The error leading to this problem was:</p>
+
+<p>/usr/lib64/libcurl.so.4: undefined symbol: ldap_init_fd</p>
+
+<p>Please install a package which provides this module, or
+verify that the module is installed correctly.</p>
+
+<p>It’s possible that the above module doesn’t match the
+current version of Python, which is:
+2.6.6 (r266:84292, Nov 22 2013, 12:16:22)
+[GCC 4.4.7 20120313 (Red Hat 4.4.7-4)]</p>
+
+<p>If you cannot solve this problem yourself, please go to
+the yum faq at:
+  http://yum.baseurl.org/wiki/Faq
+```</p>
+
+<p>curlで問題が発生しているようだったので下記でバージョンを落とす</p>
+
+<p><code>sh
+mkdir ~/RPMS/
+wget http://ftp.riken.jp/Linux/centos/6.1/updates/x86_64/Packages/curl-7.19.7-26.el6_1.2.x86_64.rpm
+wget http://ftp.riken.jp/Linux/centos/6.1/updates/x86_64/Packages/libcurl-7.19.7-26.el6_1.2.x86_64.rpm
+sudo rpm -Uvh --oldpackage *.rpm
+</code></p>
+
+<p>元に戻った。</p>
+
+<p>いろいろとrepo追加してるのが原因ぽいけど、6系からこれ系のエラーが多い気がする。</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: supervisor | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/supervisor/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GrowthForecast導入&Supervisorで起動を管理]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor/"/>
+    <updated>2012-07-05T00:37:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/07/05/growthforecast-supervisor</id>
+    <content type="html"><![CDATA[<p>社内に<a href="http://kazeburo.github.com/GrowthForecast/">GrowthForecast</a>ブームが
+来ているので、乗り遅れないように導入。</p>
+
+<p><a href="http://d.hatena.ne.jp/do_aki/20120522/1337665000">@do_akiさんのブログ記事</a>にSupervisorでの起動方法を追加した内容です。
+何回もググっているので自分の作業用メモも兼ねて。同じ事を2回ググったらブログに書く精神で。</p>
+
+<p>導入環境はSL6.2です。作業の流れとしては</p>
+
+<ol>
+  <li>Perlbrewの導入</li>
+  <li>GrowthForecastの導入</li>
+  <li>SupervisordでGrowthForecastを管理</li>
+</ol>
+
+<p>という感じです。</p>
+
+<p>GrowthForecastは下記のように管理します。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/07/gf.png" alt="" /></p>
+
+<h2 id="section">必要パッケージの導入</h2>
+
+<p><code>
+sudo yum -y groupinstall "Development Tools"
+sudo yum -y install pkgconfig glib2-devel gettext libxml2-devel pango-devel cairo-devel
+</code></p>
+
+<h3 id="growthforecast">GrowthForecast用のユーザの作成</h3>
+
+<p>Perlbrewを導入するのでGrowthForecast用にユーザーを作成。パスワードも設定</p>
+
+<p><code>
+sudo useradd growthforecast
+sudo passwd growthforecast
+</code></p>
+
+<h2 id="perlbrewcpanm">Perlbrewとcpanmの導入</h2>
+
+<p>GrowthForecastの利用には<a href="http://perlbrew.pl/">Perlbrew</a>の利用が推奨されているので、perlbrewを導入。
+growthforecastユーザのホームディレクトリ内に導入。</p>
+
+<p><code>
+sudo su - growthforecast
+curl -kL http://install.perlbrew.pl | bash
+echo '[[ -s "$HOME/perl5/perlbrew/etc/bashrc" ]] &amp;&amp; source "$HOME/perl5/perlbrew/etc/bashrc"' &gt;&gt; .bash_profile
+source $HOME/perl5/perlbrew/etc/bashrc
+</code></p>
+
+<p>続いてperl-5.16.0とcpanmの導入。結構時間がかかります。</p>
+
+<p><code>
+perlbrew install perl-5.16.0
+perlbrew switch perl-5.16.0
+perlbrew install-cpanm
+</code></p>
+
+<h3 id="rrdtool">RRDtoolのインストール</h3>
+
+<p><strong>2012年7月5日 10:00 追記</strong></p>
+
+<p><a href="https://twitter.com/#!/kentaro/">antipopさん</a>に教えてもらい、現在はもう不要な手順です。
+Makefile.plに含まれているので別途導入する必要はありません。</p>
+
+<p><a href="https://github.com/kazeburo/GrowthForecast/blob/master/Makefile.PL">GrowthForecast/Makefile.PL at master · kazeburo/GrowthForecast https://github.com/kazeburo/GrowthForecast/blob/master/Makefile.PL</a></p>
+
+<p><code>
+cpanm http://search.cpan.org/CPAN/authors/id/G/GF/GFUJI/Alien-RRDtool-0.03.tar.gz
+</code></p>
+
+<h2 id="growthforecast-1">GrowthForecastのインストール</h2>
+
+<p>引き続き作業はgrowthforecastユーザで。</p>
+
+<p><strong>cpanmでの方法に修正 2012年7月5日 13:00</strong></p>
+
+<p><a href="https://twitter.com/#!/oranie/">@oranieさん</a>からの指摘でcpanmの方法に修正。</p>
+
+<p><code>
+cpanm -n http://cloud.github.com/downloads/kazeburo/GrowthForecast/GrowthForecast-0.30.tar.gz
+</code></p>
+
+<h3 id="growthforecast-2">GrowthForecastの動作確認</h3>
+
+<p>とりあえず起動確認。</p>
+
+<p><code>
+growthforecast.pl --port=5125
+</code></p>
+
+<p><code>hostname:5125</code>にアクセスして表示されるか確認。
+ちゃんと動いていたら<code>ctrl+c</code>で終了。</p>
+
+<h2 id="supervisord">Supervisordで管理</h2>
+
+<p><a href="http://www.glidenote.com/archives/1684">過去の記事</a>を参考にsupervisord経由で
+GrowthForecastを起動する。</p>
+
+<p>ここからはrootかsudoで作業します。</p>
+
+<h3 id="supervisord-1">Supervisordの導入</h3>
+
+<p><code>
+sudo yum -y install python-setuptools
+sudo easy_install pip
+sudo pip install supervisor
+</code></p>
+
+<h3 id="supervisordlogconf">supervisord用のlogとconfディレクトリの用意</h3>
+
+<p><code>
+sudo mkdir /var/log/supervisor
+sudo mkdir /etc/supervisord.d
+</code></p>
+
+<h3 id="etcsupervisordconf-">/etc/supervisord.conf の用意</h3>
+
+<p><div><script src='https://gist.github.com/3047243.js?file=etc_supervisord.conf'></script>
+<noscript><pre><code>[unix_http_server]
+file=/tmp/supervisor.sock   ; (the path to the socket file)
+
+[supervisord]
+logfile=/var/log/supervisor/supervisord.log ; (main log file;default $CWD/supervisord.log)
+logfile_maxbytes=50MB        ; (max main logfile bytes b4 rotation;default 50MB)
+logfile_backups=10           ; (num of main logfile rotation backups;default 10)loglevel=info                ; (log level;default info; others: debug,warn,trace)
+pidfile=/var/run//supervisord.pid ; (supervisord pidfile;default supervisord.pid)
+nodaemon=false               ; (start in foreground if true;default false)
+minfds=1024                  ; (min. avail startup file descriptors;default 1024)
+minprocs=200                 ; (min. avail process descriptors;default 200)
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+serverurl=unix:///tmp/supervisor.sock ; use a unix:// URL  for a unix socket
+
+[include]
+files = supervisord.d/*.ini</code></pre></noscript></div>
+</p>
+
+<h3 id="upstartsupervisor">Upstart経由でSupervisorを起動</h3>
+
+<p>supervisordが落ちたら元も子もないのでUpstart経由で起動。
+<code>/etc/init/supervisord.conf</code>を用意</p>
+
+<p><div><script src='https://gist.github.com/3047243.js?file=init_supervisord.conf'></script>
+<noscript><pre><code>description     &quot;supervisord&quot;
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+respawn
+exec /usr/bin/supervisord -n</code></pre></noscript></div>
+</p>
+
+<p><code>
+sudo initctl start supervisord
+</code></p>
+
+<h3 id="etcsupervisorddgrowthforecastini-">/etc/supervisord.d/growthforecast.ini の用意</h3>
+
+<p>GrowthForecast用の設定を用意。(commandのところもっと上手い書き方知ってる人いたら教えてください!)</p>
+
+<p><div><script src='https://gist.github.com/3047243.js?file=growthforecast.ini'></script>
+<noscript><pre><code>[program:growthforecast]
+command=/home/growthforecast/perl5/perlbrew/perls/perl-5.16.0/bin/perl /home/growthforecast/GrowthForecast/growthforecast.pl --port=5125process_name=%(program_name)s_%(process_num)02d
+stdout_logfile_maxbytes=1MB
+stderr_logfile_maxbytes=1MB
+stdout_logfile=/var/log/supervisor/%(program_name)s.log
+stderr_logfile=/var/log/supervisor/%(program_name)s.log
+user=growthforecast
+autostart=true
+autorestart=true</code></pre></noscript></div>
+</p>
+
+<h3 id="growthforecast-3">GrowthForecastのデータ用ディレクトリの作成</h3>
+
+<p>GrowthForecastデータ用ディレクトリも用意</p>
+
+<p><code>
+sudo mkdir /var/run/growthforecast
+sudo chown -R growthforecast:growthforecast /var/run/growthforecast
+</code></p>
+
+<h3 id="section-1">必要ディレクトリの権限設定</h3>
+
+<p><code>/tmp/.xslate_cache/</code>に書き込み権限がないとエラーが出たので設定</p>
+
+<p><code>
+sudo chown -R growthforecast:growthforecast /tmp/.xslate_cache/
+</code></p>
+
+<h3 id="supervisordgrowthforecast">Supervisord経由でGrowthForecastを起動</h3>
+
+<p><code>
+sudo supervisorctl add growthforecast
+sudo supervisorctl start growthforecast
+sudo supervisorctl status growthforecast
+</code></p>
+
+<p>動作ログでエラーを吐いてないか確認。</p>
+
+<p><code>
+tail /var/log/supervisor/supervisord.log  /var/log/supervisor/growthforecast.log
+</code></p>
+
+<p>正常に動作していれば、GrowthForecastをkillしてみる。</p>
+
+<p><code>
+sudo pkill -u growthforecast
+</code></p>
+
+<p>を実行して、再度起動してくるか確認。<br />
+GrowthForecastがSupervisord経由で管理出来るように。</p>
+
+<p>一通り作業を終えた後に<a href="https://twitter.com/#!/kazeburo/">@kazeburo</a>さんがProcletというsupervisorを出していたことに気づいた。</p>
+
+<ul>
+  <li><a href="http://blog.nomadscafe.jp/2012/06/proclet-supervisor.html">Proclet という supervisor モジュール書いてリリースした - blog.nomadscafe.jp</a></li>
+</ul>
+
+<p>とりあえず常駐化出来たので、fluentdを組み合わせてガンガン使っていこう。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ログファイル監視スクリプトlogmonをsupervisordで管理]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/12/02/logmon-with-supervisord/"/>
+    <updated>2011-12-02T18:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/12/02/logmon-with-supervisord</id>
+    <content type="html"><![CDATA[<p>ログファイル監視スクリプト<a href="http://www-06.ibm.com/jp/domino01/mkt/cnpages7.nsf/page/default-00057580">logmon</a>の重要度がかなり増してきたので、supervisordで起動、停止を管理するように変更。</p>
+
+<p>supervisordの導入は<a href="http://glidenote.github.com/blog/2011/11/25/install-supervisor/">過去のエントリー</a>を参考にしてください</p>
+
+<p>logmonの起動スクリプトは下記なので、起動方法を確認。</p>
+
+<p><div><script src='https://gist.github.com/1413062.js?file=gistfile1.sh'></script>
+<noscript><pre><code>#!/bin/sh
+
+# chkconfig: 345 13 13
+# description: Log Monitor
+# processname: logmon
+
+LOGMON_CONF=/etc/logmon/logmon.conf
+LOGMON_BIN=/etc/logmon/logmon.pl
+
+logmon_opts=&quot;-f $LOGMON_CONF&quot;
+
+check_start() {
+    $0 status &gt; /dev/null 2&gt;&amp;1
+    if [ $? -eq 0 ]; then
+        echo &quot;Success.&quot;
+        exit 0
+    fi
+    echo &quot;Failed.&quot;
+    exit 1
+}
+
+case &quot;$1&quot; in
+    start)
+        $0 status &gt; /dev/null 2&gt;&amp;1
+        if [ $? -eq 0 ]; then
+            echo &quot;logmon is alredy running.&quot;
+            exit 1
+        fi
+        echo -n $&quot;Starting logmon: &quot;
+        $LOGMON_BIN $logmon_opts &gt;/dev/null 2&gt;&amp;1 &amp;
+        sleep 1
+        check_start
+        ;;
+    stop)
+        echo -n &quot;Stopping logmon: &quot;
+        pkill -TERM -of $LOGMON_BIN
+        echo Done.
+        ;;
+    restart)
+        $0 stop
+        sleep 1
+        $0 start
+        ;;
+    switch)
+        pkill -HUP -of $LOGMON_BIN
+        ;;
+    check)
+        $LOGMON_BIN -c $logmon_opts
+        ;;
+    status)
+        pid=`pgrep -of $LOGMON_BIN`
+        if [ -n &quot;$pid&quot; ]; then
+            echo &quot;logmon (pid $pid) is running...&quot;
+            exit 0
+        fi
+        echo &quot;logmon is stopped&quot;
+        exit 3
+        ;;
+    *)
+        echo &quot;Usage: $0 {start|stop|restart|switch|status|check}&quot;
+        exit 1
+esac</code></pre></noscript></div>
+</p>
+
+<p>下記のようなで形で、logmonを起動しているので</p>
+
+<pre><code>/etc/logmon/logmon.pl -f /etc/logmon/logmon.conf &gt;/dev/null 2&gt;&amp;1 &amp;
+</code></pre>
+
+<p>/etc/supervisord.d/logmon.ini を下記のような感じで用意</p>
+
+<p><div><script src='https://gist.github.com/1413062.js?file=logmon.ini'></script>
+<noscript><pre><code>[program:logmon]
+command=/etc/logmon/logmon.pl -f /etc/logmon/logmon.conf
+stdout_logfile_maxbytes=1MB
+stderr_logfile_maxbytes=1MB
+stdout_logfile=/var/log/%(program_name).log
+stderr_logfile=/var/log/%(program_name).log</code></pre></noscript></div>
+</p>
+
+<p>supervisordで管理するの、chkconfigをoffに</p>
+
+<pre><code>sudo /etc/rc.d/init.d/logmon stop
+sudo chkconfig logmon off
+</code></pre>
+
+<p>新しく監視デーモンとして、logmon.iniを追加したので、supervisordに設定を再読み込みさせる。</p>
+
+<pre><code>sudo supervisorctl reread
+</code></pre>
+
+<p>logmonをsupervisord管理に追加して起動させる</p>
+
+<pre><code>sudo supervisorctl add logmon
+</code></pre>
+
+<p>logmonが起動しているか確認</p>
+
+<pre><code>sudo supervisorctl status
+</code></pre>
+
+<p>logmonをkillしてsupervisordが再起動させるかを確認して問題なければOK牧場</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[スーパーサーバーSupervisorの導入手順メモ]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/11/25/install-supervisor/"/>
+    <updated>2011-11-25T18:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/11/25/install-supervisor</id>
+    <content type="html"><![CDATA[<p>スーパーサーバー<a href="http://supervisord.org/">Supervisor</a>の導入方法をいつも忘れるのでメモ。ほとんど<a href="http://twitter.com/#!/hiboma">@hiboma</a>が
+社内Wikiにまとめてた内容のパクリですが、自宅サーバ構築とかで外から見ようと思っても見えないので。いつもありがとう、<a href="http://twitter.com/#!/hiboma">ひろやん</a>!!</p>
+
+<p>導入環境はScientific Linux 6.1です。(Upstart経由での起動の部分を、init経由での起動にすればCentOS 5系でも動作するかと思います)</p>
+
+<h2 id="supervisor">Supervisorの導入</h2>
+<p>easy_installでも良いんですが、pipで導入</p>
+
+<pre><code>sudo yum -y install python-setuptools
+sudo easy_install pip
+sudo pip install supervisor
+</code></pre>
+
+<h2 id="logconf">log用ディレクトリと、conf用ディレクトリを用意</h2>
+<p>デフォルトだと/tmp配下にログが吐かれるので、log用ディレクトリの作成</p>
+
+<pre><code>sudo mkdir /var/log/supervisor/
+</code></pre>
+
+<p>監視するデーモンごとに設定を分けるので、confディレクトリを用意</p>
+
+<pre><code>sudo mkdir /etc/supervisord.d
+</code></pre>
+
+<h2 id="supervisor-1">Supervisorの設定を用意</h2>
+<p>conf生成用のコマンドで作成</p>
+
+<pre><code>sudo echo_supervisord_conf &gt; /etc/supervisord.conf
+</code></pre>
+
+<p>zshだとエラー(zsh: permission denied: /etc/supervisord.conf)が出てので、下記コマンドで生成。</p>
+
+<pre><code>sudo su - root -c "echo_supervisord_conf &gt; /etc/supervisord.conf" 
+</code></pre>
+
+<p>下記のように修正をしてます。</p>
+
+<p><div><script src='https://gist.github.com/1390777.js?file=etc_supervisord.conf.diff'></script>
+<noscript><pre><code>--- /etc/supervisord.conf.dist  2011-11-24 15:19:15.940609281 +0900
++++ /etc/supervisord.conf       2011-11-24 15:23:12.655620601 +0900
+@@ -13,11 +13,11 @@
+ ;password=123               ; (default is no password (open server))
+
+ [supervisord]
+-logfile=/tmp/supervisord.log ; (main log file;default $CWD/supervisord.log)
++logfile=/var/log/supervisor/supervisord.log ; (main log file;default $CWD/supervisord.log)
+ logfile_maxbytes=50MB       ; (max main logfile bytes b4 rotation;default 50MB)
+ logfile_backups=10          ; (num of main logfile rotation backups;default 10)
+ loglevel=info               ; (log level;default info; others: debug,warn,trace)
+-pidfile=/tmp/supervisord.pid ; (supervisord pidfile;default supervisord.pid)
++pidfile=/var/run/supervisord.pid ; (supervisord pidfile;default supervisord.pid)
+ nodaemon=false              ; (start in foreground if true;default false)
+ minfds=1024                 ; (min. avail startup file descriptors;default 1024)
+ minprocs=200                ; (min. avail process descriptors;default 200)
+@@ -125,5 +125,5 @@
+ ; interpreted as relative to this file.  Included files *cannot*
+ ; include files themselves.
+
+-;[include]
+-;files = relative/directory/*.ini
++[include]
++files = /etc/supervisord.d/*.ini</code></pre></noscript></div>
+</p>
+
+<p>監視するデーモンの設定は</p>
+
+<pre><code>/etc/supervisord.d/hogehoge.ini
+</code></pre>
+
+<p>みたいな感じで用意します。</p>
+
+<p>Hesoを監視するようにした時の設定の/etc/supervisord.d/heso.iniは下記のような感じです。</p>
+
+<p><div><script src='https://gist.github.com/1369137.js?file=heso.ini'></script>
+<noscript><pre><code>[program:heso]
+command=/var/www/heso/bin/server
+stdout_logfile_maxbytes=1MB
+stderr_logfile_maxbytes=1MB
+stdout_logfile=/var/log/%(program_name)s.log
+stderr_logfile=/var/log/%(program_name)s.log</code></pre></noscript></div>
+</p>
+
+<h2 id="upstartsupervisor">Upstart経由でSupervisorを起動</h2>
+<p>Supervisor自体が落ちたら意味がないので、Upstartで経由で起動。Supervisorが落ちたらUpstartが自動で起動。<br />
+etc/init/supervisord.conf を用意</p>
+
+<p><div><script src='https://gist.github.com/1390777.js?file=etc_init_supervisord.conf'></script>
+<noscript><pre><code>description     &quot;supervisord&quot;
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+exec /usr/bin/supervisord -n</code></pre></noscript></div>
+</p>
+
+<p>下記コマンドで起動。</p>
+
+<pre><code>sudo initctl start supervisord
+</code></pre>
+
+<p>psなどでプロセスを確認して起動していればOK。supervisordをkillして自動で起動してくるかも確認。</p>
+
+<p>CentOS 5とかならinittabに下記のような設定をして、init経由で起動させれば良いかと。</p>
+
+<p><div><script src='https://gist.github.com/1390777.js?file=etc_inittab'></script>
+<noscript><pre><code>svd:2345:respawn:/usr/bin/supervisord -n</code></pre></noscript></div>
+</p>
+
+<h2 id="supervisor-2">Supervisorの各種コマンド</h2>
+
+<pre><code>supervisorctl
+add             -- Activates any updates in config for process/group
+avail           -- Display all configured processes
+clear           -- Clear process/multiple-process/all-process log files
+fg              -- Connect to a process in foreground mode
+help            -- Show help
+maintail        -- tail of supervisor main log file
+open            -- Connect to a remote supervisord process. (for UNIX domain socket, use unix:///socket/path)
+pid             -- Get the PID of supervisord.
+quit      exit  -- Exit the supervisor shell.
+reload          -- Restart the remote supervisord.
+remove          -- Removes process/group from active config
+reread          -- Reload the daemon's configuration files
+restart         -- Restart process or group.
+shutdown        -- Shut the remote supervisord down.
+start           -- Start process or groups.
+status          -- Get process status info.
+stop            -- Stop process or group.
+tail            -- tail of process stdout
+update          -- Reload config and add/remove as necessary
+version         -- Show the version of the remote supervisord process
+</code></pre>
+
+<p>たとえばHeso用の設定を変更した場合は下記みたいな感じで設定を再読込</p>
+
+<pre><code>sudo supervisorctl reread heso
+</code></pre>
+
+<h2 id="supervisorctlzsh">supervisorctlをzshで補完</h2>
+<p>supervisorctlコマンドをzshで補完出来るように。
+functionsの下に置くと、自動で読み込まれるようになります。</p>
+
+<pre><code>sudo yum -y install hg
+mkdir ~/tmp
+cd ~/tmp
+hg clone https://bitbucket.org/hhatto/zshcompfunc4supervisor
+cd zshcompfunc4supervisor
+sudo cp _supervisor* /usr/share/zsh/4.3.10/functions/
+</code></pre>
+
+<h2 id="section">参考サイト</h2>
+
+<ul>
+  <li><a href="http://mizzy.org/blog/2011/04/27/SupervisorAProcessControlSystem/">SupervisorAProcessControlSystem - mizzy.org</a></li>
+  <li><a href="http://www.hexacosa.net/blog/detail/122/">少し前にsupervisord/supervisorctlのZsh補完関数書いた | hexacosa.net</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

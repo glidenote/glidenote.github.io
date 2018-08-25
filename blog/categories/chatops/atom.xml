@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: chatops | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/chatops/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ChatOpsでOSのセキュリティアップデートを自動化出来るようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/09/12/chatops-security-update/"/>
+    <updated>2014-09-12T20:03:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/09/12/chatops-security-update</id>
+    <content type="html"><![CDATA[<p>先日<a href="https://twitter.com/naoya_ito">@naoya_ito</a>さんが<a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">自身のブログ(インフラの継続的デリバリー)</a>で<a href="http://kaizenplatform.in/">KAIZEN platform Inc.</a>のインフラについて書いていたやつの続編的な内容。</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://slack.com/">Chat(Slack)</a> + <a href="https://hubot.github.com/">Hubot</a> + <a href="https://circleci.com/">CircleCI</a> + <a href="https://github.com/">GitHub</a> を用いてセキュリティアップデートを自動化した</li>
+  <li>GitHubのPull Requestを契機にセキュリティアップデートを実行できるようにした</li>
+  <li>CircleCIが大変便利。インフラ系の作業を自動化するのに非常に合っている気がする</li>
+</ul>
+
+<h2 id="section">背景</h2>
+
+<p><a href="http://kaizenplatform.in/">KAIZEN platform Inc.</a>では、</p>
+
+<ol>
+  <li>ネットワーク脆弱性スキャン</li>
+  <li>アプリケーション脆弱性スキャン</li>
+  <li>セキュリティアップデートの定期実行</li>
+</ol>
+
+<p>の3つをセキュリティ系タスクとして継続的にやっていこうという話になり、今回は私が担当した、「セキュリティアップデートの定期実行」の話。</p>
+
+<p>RHEL系OSにはyumの自動更新機能がありますが、これが稼働していて意図せずミドルウェアがバージョンアップして、
+過去にみんな痛い目に遭遇した経験があるので、これは利用せずにアップデートの内容を事前に確認したいという事情もあります。</p>
+
+<h2 id="section-1">仕組みの詳細</h2>
+
+<p>全体の流れ</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/09/chatops0.png" alt="" /></p>
+
+<ol>
+  <li>定期的にHubot自身が、Chat(Slack)上からHubotにSecurity Checkを指示する(今回はキャプチャを取るために私が召喚してます) 
+   <img src="https://blog.glidenote.com/images/2014/09/chatops1.png" alt="" /></li>
+  <li>Hubot経由でCircleCIのAPIを叩いて、Security Update用リポジトリ上にチェック用ブランチを作成して、GitHubにPush</li>
+  <li>GitHubへのPushを検知して、CircleCIが検証環境であるQA環境のサーバに対して、sshして<code>yum --secuity check-update</code>を実行</li>
+  <li>セキュリティ更新があれば、下記のようなデプロイ用ブランチへのPull Requestを作ってインフラメンバーにmentionを送る。無ければそのまま終了。
+   <img src="https://blog.glidenote.com/images/2014/09/chatops4.png" alt="" /></li>
+  <li>インフラメンバーがPull Request内容を確認して、問題が無ければMerge。</li>
+  <li>デプロイ用ブランチへのMergeを契機に対象サーバについて<code>yum --security -y update</code>がかかり、セキュリティアップデートがかかる</li>
+  <li>アップデート後にCircleCI経由でSlack上のHubotを召還
+   <img src="https://blog.glidenote.com/images/2014/09/chatops7.png" alt="" /></li>
+  <li>Hubot経由でe2eテストが自動で走り、セキュリティアップデートによって、アプリケーションに不具合が発生していないかテストされる</li>
+  <li>e2eテストに問題が無ければ、Production環境のサーバ向けに<code>2-8</code>の手順を繰り返す </li>
+  <li>最終的には下記のように、どのサービス、どのステージでセキュリティアップデートが完了したかが通知される
+   <img src="https://blog.glidenote.com/images/2014/09/chatops10.png" alt="" /></li>
+  <li>寿司を食う</li>
+</ol>
+
+<p>この一連の流れが各ロール(web,log,proxy,batch等々)のサーバ数十台に対して一斉に自動で走ってくれて、
+進捗報告もChat(Slack)に都度通知されるようになっている。</p>
+
+<p><strong>人の手を介するのは<code>5</code>のセキュリティアップデート内容のレビューとMergeボタンを押す部分だけ。</strong></p>
+
+<p>naoyaさんのブログから画像を拝借すると、セキュリティアップデートの適用もMergeボタンに集約された感じ。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/09/c49f738048c64521f7ed981a8d8c9458fdec8347.png" alt="" /></p>
+
+<p>これにより</p>
+
+<ul>
+  <li>定期的なセキュリティアップデートのチェックを自動化</li>
+  <li>セキュリティアップデートをPull Requestでレビュー可能に</li>
+  <li>CircleCI経由で実行することで、CircleCI上に作業ログの保存</li>
+</ul>
+
+<p>が出来るようになった。</p>
+
+<h2 id="circleci">CircleCIについて</h2>
+
+<p><a href="https://circleci.com/">CircleCI</a>には</p>
+
+<ul>
+  <li>ssh鍵やTOKENがセキュアに渡すことが出来る</li>
+  <li>実行ログが残せる</li>
+  <li>Chat系アプリと簡単に連携できる</li>
+  <li>UIが直感的で分かりやすい</li>
+  <li>CircleCI自体にssh出来るので、デバッグが簡単に出来る</li>
+</ul>
+
+<p>という特徴があるので、インフラ系の作業を自動化するのには非常に合っていると思う。(某OSSなCIツールで同じ事をやろうとすると、そこまで行くのにいろいろと設定が必要でyak shavingな感じが…)</p>
+
+<p>私が担当した以外のセキュリティ系タスクも自動化がされているし、
+Chefの適用、セキュリティスキャンなどChatOpsの範囲が広がってきて、最近はサーバにほとんど入らなくなってきているので
+もっと頑張れば寿司だけ食っていれば良い世界が来るかもしれない。</p>
+]]></content>
+  </entry>
+  
+</feed>

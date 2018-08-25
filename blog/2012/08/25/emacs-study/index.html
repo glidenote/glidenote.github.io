@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Emacs勉強会でLTしてきた #Agile渋谷 - Glide Note</title>
+  <meta property="og:title" content="Emacs勉強会でLTしてきた #Agile渋谷 - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="Emacs勉強会 - Agile渋谷 paperboy.el 最近坊主にして杉作J太郎クリソツのantipopさんに
+そそのかされて参加したのが運の尽き…
+著者の大竹智也さんをはじめ、参加者全員から「Emacs実践入門」で尻を1万回スパンキングされる勉強会でした。 「 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2012/08/25/emacs-study/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2012/08/25/emacs-study">
+<meta name="twitter:title" content="Emacs勉強会でLTしてきた #Agile渋谷">
+<meta name="twitter:description" content="Emacs勉強会 - Agile渋谷 paperboy.el 最近坊主にして杉作J太郎クリソツのantipopさんに
+そそのかされて参加したのが運の尽き…
+著者の大竹智也さんをはじめ、参加者全員から「Emacs実践入門」で尻を1万回スパンキングされる勉強会でした。 「リチャードストールマンにクリソツのAV男優さんいますよねー」とか「あのAV男優さん出てくるとEmacs使いたくなりますよねー」 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Emacs勉強会でLTしてきた #Agile渋谷</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-25T11:00:00+09:00" pubdate data-updated="true">2012年08月25日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="https://blog.glidenote.com/images/2012/08/paperboy-el.png" alt="" /></p>
+
+<ul>
+  <li><a href="http://shibuya.doorkeeper.jp/events/1615">Emacs勉強会 - Agile渋谷</a></li>
+  <li><a href="https://blog.glidenote.com/paperboy.el/">paperboy.el</a></li>
+</ul>
+
+<p>最近坊主にして杉作J太郎クリソツの<a href="https://twitter.com/kentaro">antipop</a>さんに
+そそのかされて参加したのが運の尽き…<br />
+著者の大竹智也さんをはじめ、参加者全員から「<a href="http://www.amazon.co.jp/Emacs%E5%AE%9F%E8%B7%B5%E5%85%A5%E9%96%80-%EF%BD%9E%E6%80%9D%E8%80%83%E3%82%92%E7%9B%B4%E6%84%9F%E7%9A%84%E3%81%AB%E3%82%B3%E3%83%BC%E3%83%89%E5%8C%96%E3%81%97%E3%80%81%E9%96%8B%E7%99%BA%E3%82%92%E5%8A%A0%E9%80%9F%E3%81%99%E3%82%8B-WEB-DB-PRESS-plus/dp/4774150029?SubscriptionId=AKIAI227ELAAME5ZX3JQ&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774150029">Emacs実践入門</a>」で尻を1万回スパンキングされる勉強会でした。</p>
+
+<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="presentation_frame_503781b9c4145e00020695ba" src="//speakerdeck.com/embed/503781b9c4145e00020695ba" width="700" height="601"></iframe>
+
+<p><br /></p>
+
+<p>「<a href="https://www.google.co.jp/search?um=1&amp;hl=ja&amp;safe=off&amp;biw=1316&amp;bih=651&amp;tbm=isch&amp;sa=1&amp;q=%E3%83%AA%E3%83%81%E3%83%A3%E3%83%BC%E3%83%89%E3%80%80%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%83%9E%E3%83%B3&amp;oq=%E3%83%AA%E3%83%81%E3%83%A3%E3%83%BC%E3%83%89%E3%80%80%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%83%9E%E3%83%B3&amp;gs_l=img.3..0.1926.6501.0.6846.22.21.0.0.0.3.127.1552.20j1.21.0...0.0...1c.ndDS7wvSM1o">リチャードストールマン</a>にクリソツのAV男優さんいますよねー」とか「あのAV男優さん出てくるとEmacs使いたくなりますよねー」とかで会場が盛り上がっててEmacs使いの狂気を感じた。<br />
+vim使いの私とは相容れない水と油、もしくは水とローションといった感じだった。</p>
+
+<p>今回paperboy.elのlogoも作ったのでステッカーにしようかと思います。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-25T11:00:00+09:00" pubdate data-updated="true">2012年08月25日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/emacs/'>emacs</a>, <a class='category' href='/blog/categories/vim/'>vim</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2012/08/25/emacs-study/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="Emacs勉強会でLTしてきた #Agile渋谷 - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Emacs勉強会でLTしてきた #Agile渋谷 "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2014/07/09/manage-route53-with-roadworker-and-direnv/">Roadworkerとdirenvを使ってRoute53のDNSレコードを管理する & Roadworker用にVimプラグインとZsh補完関数も作った</a></li>
+
+  <li><a href="/blog/2014/06/19/quickrun-serverspec/">vim-quickrunでServerspecをカーソル行単位でテストして編集効率を10倍にする</a></li>
+
+  <li><a href="/blog/2014/06/17/serverspec-snippets/">Serverspecが超高速で書けるserverspec-snippetsを作った</a></li>
+
+  <li><a href="/blog/2014/05/29/bundle-open-with-vimfiler/">bundle openでVimfilerやCtrlP.vimやFuzzyFinderを起動する</a></li>
+
+  <li><a href="/blog/2014/05/28/vim-rubocop/">rubocop+syntasticでRubyのコーディングルールへの準拠チェックを自動化する</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/08/10/stow/" title="Previous Post: Stowを利用してソースからビルドしたソフトウェアを効率的に管理する">&laquo; Stowを利用してソースからビルドしたソフトウェアを効率的に管理する</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/08/31/2012-summer/" title="next Post: 夏の終わり">夏の終わり &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2012/08/25/emacs-study/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2012/08/25/emacs-study/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

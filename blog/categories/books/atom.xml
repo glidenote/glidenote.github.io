@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: books | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/books/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Webサービス開発徹底攻略 Vol.2 を読んだ]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/02/16/web-service-development-vol2/"/>
+    <updated>2016-02-16T11:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/02/16/web-service-development-vol2</id>
+    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/Web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E9%96%8B%E7%99%BA%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-Vol-2-WEB-PRESS-plus/dp/4774179523?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179523"><img src="https://images-fe.ssl-images-amazon.com/images/I/51F56YOP6dL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/Web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E9%96%8B%E7%99%BA%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-Vol-2-WEB-PRESS-plus/dp/4774179523?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179523">Webサービス開発徹底攻略 Vol.2 (WEB+DB PRESS plus)</a></p>
+
+<p>技術評論社様、特別企画「継続的Webサービス改善」執筆陣のGMOペパボのみなさんからご恵贈いただきましてありがとうございます。</p>
+
+<p>『WEB+DB PRESS』の掲載記事をテーマ別に厳選、再編集とのことで、LINE、ドラゴンクエストX、freeeの事例などは
+2015年のものが掲載されており、その他は2013年と3年前の事例なので多少古さがあるが、現在でも有益な情報には変わりない感じ。</p>
+
+<p>LINE、ドラゴンクエストX、DMM.com などの大規模トラフィックを関する知見が参考になるのはもちろんですが、
+特にGMOペパボの特別企画「継続的Webサービス改善ガイド ── 複雑性の増大と環境の変化に対応する」に関しては、
+2013年当時私も在職しており、10年続くサービスをいかに改善していくかということに取り組み始めた頃で、
+それから約3年経過し、最近のGMOペパボのエンジニアの勉強会での発表資料を見ると、
+この本に書かれている通りに、その後サービス改善に取り組んでいることがよくわかって素晴らしい。</p>
+
+<p>特にDB周りは鬼門だったので、それに関する発表資料を見ると、技術力の高さを感じる。</p>
+
+<ul>
+  <li><a href="http://www.slideshare.net/hifumis/mysql-casual-42634961">MySQL 4.0で9年動き続けたサーバを リプレイスしてバージョンアップした話</a></li>
+  <li><a href="http://www.slideshare.net/masatakakono1/mysql4056">Mysqlを4.0から5.0を経由して5.6へバージョンアップした話</a></li>
+</ul>
+
+<p>ほとんどのWEBサービスが10年も続かずにサービスを終了してしまうのを考えると、
+長年続いているサービスの改善に関するGMOペパボの取り組み、知見は非常に希少度が高いし、
+その元となっている考え方の基礎となっている部分が書かれており、2016年も必読の内容かと思います。</p>
+
+<p>p.165のコードレビューの画像は、確か私のコードに対する指摘だなーと思い出して懐かさと汗が。</p>
+
+<p>```
+■特集1:LINE ── 1日100億メッセージをさばくサービスの裏側
+・第1章:LINEの歴史と開発体制
+・第2章:LINEのサーバサイドアーキテクチャ
+・第3章:LINEのメッセージング基盤
+・第4章:LINEのストレージ
+・第5章:スタンプショップの舞台裏</p>
+
+<p>■特集2:ドラゴンクエストX ── 国民的RPGオンライン化へのチャレンジ
+・第1章:ドラゴンクエストXとは何か
+・第2章:開発・運営体制
+・第3章:開発の舞台裏
+・第4章:サーバプロセス構成
+・第5章:1つの世界</p>
+
+<p>■特集3:クラウド会計ソフトfreee ── 急成長を支えたコードとプロセスの改善
+・第1章:クラウド会計ソフトfreeeの全体像
+・第2章:急成長するシステムの課題と処方箋
+・第3章:フロントエンド開発の複雑化への取り組み
+・第4章:規模の拡大に伴う開発プロセスの変遷
+・After That:freeeの現在</p>
+
+<p>■特集4:DMM.com ── 動画配信に耐えるインフラ、好機を逃さない高速開発
+・第1章:システムの全体像
+・第2章:変化しつづけるインフラ
+・第3章:負荷対策とパフォーマンス改善
+・第4章:動画配信の裏側
+・第5章:好機を逃さない高速開発
+・第6章:多様なサービスはいかに作られるか
+・After That:DMM.comの現在</p>
+
+<p>■特別企画:継続的Webサービス改善ガイド ── 複雑性の増大と環境の変化に対応する
+・第1章:なぜ「継続的Webサービス改善」が必要なのか
+・第2章:開発環境の改善
+・第3章:パフォーマンスの改善
+・第4章:インフラ構成管理の改善
+・第5章:ビジネス視点の改善
+・第6章:これからも続く「改善」へのとりくみ</p>
+
+<p>■一般記事:社内の情報共有・情報発信 ── クックパッドはいかにして場を築いたか
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[「Amazon Web Services パターン別構築・運用ガイド」が良かった]]></title>
+    <link href="https://blog.glidenote.com/blog/2015/05/21/amazon-web-services-books/"/>
+    <updated>2015-05-21T20:16:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2015/05/21/amazon-web-services-books</id>
+    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/Amazon-Web-Services-%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E5%88%A5%E6%A7%8B%E7%AF%89%E3%83%BB%E9%81%8B%E7%94%A8%E3%82%AC%E3%82%A4%E3%83%89-%E4%B8%80%E7%95%AA%E5%A4%A7%E5%88%87%E3%81%AA%E7%9F%A5%E8%AD%98%E3%81%A8%E6%8A%80%E8%A1%93%E3%81%8C%E8%BA%AB%E3%81%AB%E3%81%A4%E3%81%8F/dp/4797382570?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4797382570"><img src="https://images-fe.ssl-images-amazon.com/images/I/61Kzd4gqkYL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/Amazon-Web-Services-%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E5%88%A5%E6%A7%8B%E7%AF%89%E3%83%BB%E9%81%8B%E7%94%A8%E3%82%AC%E3%82%A4%E3%83%89-%E4%B8%80%E7%95%AA%E5%A4%A7%E5%88%87%E3%81%AA%E7%9F%A5%E8%AD%98%E3%81%A8%E6%8A%80%E8%A1%93%E3%81%8C%E8%BA%AB%E3%81%AB%E3%81%A4%E3%81%8F/dp/4797382570?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4797382570">Amazon Web Services パターン別構築・運用ガイド 一番大切な知識と技術が身につく</a></p>
+
+<p>発売日に買っていたんですが、多忙で感想を書くのを忘れていた。。</p>
+
+<p>前職では業務でAWSをほぼ触らず、6年弱ずっとオンプレミス環境でインフラエンジニアをやっていたので、
+昨年KAIZENへの転職を機にはじめてAWSをガッツリ触るようになった。(個人レベルではもちろん触ってましたが)</p>
+
+<p>AWSを実際に触ってみると</p>
+
+<ul>
+  <li>各サービスの特徴</li>
+  <li>それぞれのサービスを組み合わせた構成例</li>
+  <li>各種設定方法</li>
+</ul>
+
+<p>などについて、体系的に学べる書籍などが無く(あっても情報が古い)、
+ウェブ上の断片的な情報をその都度参照して、
+恐ろしく非効率な方法で習得して、苦労していたので、
+本書は体系的にAWSのことが習得出来るので大変ありがたかった。</p>
+
+<p>リファレンス的に利用出来るので、「この設定どうするんだろう」みたいな時に
+役に立ってくれている。</p>
+
+<p>紙書籍は450ページもあり、ちょっと持ち歩くのがツラそうだったので、 
+Kindle版を購入したんですが、ページが画像として処理されているので、
+ページ送りが非常に遅く、また文字検索が出来ないのがちょっと残念な感じだったけど
+非常にわかりやすく、内容的にはすばらしかった。</p>
+
+<p>AWSはサービス開発のスピードが速く、新機能が増えたり、UIが変わったりと
+変化が激しいので、1〜2年後には訳に立たなくなってしまうかもしれないが、
+現時点(2015年5月)でAWSに関しての体系的な知識を習得するのにはオススメだと思う。</p>
+
+<h2 id="section">本書目次</h2>
+
+<p><code>
+Chapter1 AWSの基本
+1-1 AWSとは
+クラウドとは
+物理サーバ(オンプレミス)とAWSの違い
+レンタルサーバ(共有サーバ)とAWSの違い
+プライベートクラウドとAWS
+AWSのサービス全体像
+1-2 AWSのネットワークサービス
+リージョンとアベイラビリティゾーン
+Virtual Private Cloud (VPC)
+Route53
+AWSネットワークとVPCネットワーク
+1-3 コンピュータ基盤としてのAWS
+Amazon Elastic Compute Cloud(EC2)
+Amazon Elastic Block Store(EBS)
+EC2におけるバックアップ
+Amazon Simple Storage Service(Amazon S3)
+Amazon Glacier
+1-4 アプリケーション基盤としてのAWS
+Relational Database Service(RDS)
+Elastic Beanstalk
+ElastiCache
+1-5 サービスとしてのAWS
+AWSのアプリケーションサービスの概念
+SESとSQS
+SNSとCloudWatch
+1-6 AWS利用のコスト
+AWSの料金体系
+AWSの料金計算の仕方
+Chapter2 AWSを利用する
+2-1 AWS利用の準備
+AWSアカウントの作成
+ユーザアカウントの作成(IAM)
+2-2 AWS CLI
+AWS CLIのインストールと設定
+AWS CLIの基本的な使用方法
+2-3 AWS SDK
+サポートされる言語とバージョン
+AWS SDKのインストールと設定
+AWS SDKの基本的な使用方法
+2-4 VPCネットワークの作成
+Default-VPC
+Custom-VPCを作成する
+2-5 仮想コンピュータ(Amazon EC2)の利用
+AWS操作用の公開鍵・秘密鍵の作成(KeyPair)
+Security Groupを作成する
+EC2を起動する
+AMIを作成する
+ElasticIP(EIP)の利用
+2-6 ELB(Elastic Load Balancer)を使用する
+ELBのサービス詳細
+ELBの作成
+Chapter3 パターン別構築例
+3-1 EC2を利用した動的サイトの構築
+WordPressを使ったブログサイトの構築
+ロードバランシングとHTTPSサイトの構築
+Marketplacesを利用して、構築済みのインスタンスを利用する
+3-2 Elastic Beanstalkによる動的サイトのサーバレス構築
+Elastic Beanstalkを利用した再構築
+Elastic Beanstalkを利用したロードバランシングとHTTPSサイトの構築
+3-3 S3による静的サイトのサーバレス構築
+S3による静的サイトの構築
+Route53を利用してDNSを設定する
+Route53へドメインの移管
+CloudFrontとの連携
+3-4 Auto Scalingによる自動スケーリングシステムの構築
+Auto Scalingの設定
+Auto Scalingを利用するためのアプリケーション構成
+Auto Scaling使用時のEC2インスタンスの初期化処理
+Immutable Infrastructure
+3-5 Elastic BeanstalkとLambdaによるバッチサーバの構築
+Elastic Beanstalkによるバッチサーバの冗長化構成
+Lambdaによるサーバレスな処理システムの構築
+3-6 CloudFormationによるテンプレートを利用した自動構築
+CloudFormationの概要
+CloudFormationによるネットワーク構築
+CloudFormationによるサーバ構築
+3-7 SESによるメール送信システムの構築
+SESを使ってメールを送信する
+EC2インスタンスにメールサーバを構築する
+外部のメール送信サービスを利用する
+3-8 AWS上に開発環境を構築する
+開発環境の構築と運用
+継続的インテグレーション(CI)を実施する
+3-9 モバイルアプリからAWS上のリソースを利用する
+Cognitoによるユーザ認証と2-tierアーキテクチャ
+AWSのモバイル開発プラットフォーム
+SNSによるモバイルプッシュ通知
+Chapter4 AWSのセキュリティ
+4-1 AWSのセキュリティへの取り組み
+責任共有モデル
+第三者認証
+4-2 IAM(AWS Identity and Access Management)
+AWSのアカウント種類
+IAMユーザとIAMグループ
+IAMロール
+4-3 データ暗号化
+AWSが提供するデータ暗号化サービス・機能
+4-4 WAF・IDS・IPSによる外部からの攻撃対策
+外部からの攻撃の種類と防御方法
+エージェント型とリバースプロキシ型のサービス導入例
+4-5 VPCでネットワークセキュリティを高める
+VPCによるSubnet構成
+SecurityGroupとNetworkACL
+4-6 AWSと脆弱性診断
+侵入(ペネトレーション)テスト
+侵入(ペネトレーション)テストツール
+Chapter5 管理と運用
+5-1 ジョブ管理
+ジョブ管理システムの概念
+サービス型のジョブ管理システム
+5-2 システムを監視する
+AWSのなかから監視する
+AWSの外から監視する
+5-3 アラートを通知する
+AWSの機能を利用した通知方法
+Twilioを利用した電話通知
+5-4 データをバックアップする
+EBSのデータバックアップ
+S3とGlacierを使ったバックアップと管理
+AMIの運用方法
+5-5 AWSにおけるログ管理
+AWSのサービスログ/操作履歴のログを収集保存する
+EC2インスタンスのログを収集保存する
+5-6 AWSにおけるコスト管理
+AWSにおけるコスト管理
+AWSのコストを節約する
+5-7 AWSの利用を支えるサポートの仕組み
+AWSサポート
+AWS Trusted Advisor
+</code></p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://blog.takuros.net/entry/2015/03/02/070323">『Amazon Web Services パターン別構築・運用ガイド』を書きました - プログラマになりたい</a></li>
+  <li><a href="http://blog.takuros.net/entry/2015/03/18/130326">「Amazon Web Services パターン別構築・運用ガイド」の目次 - プログラマになりたい</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Kindleで読めるオススメの事件･犯罪系ノンフィクションまとめ 2013]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/12/03/recommend-kindle-books/"/>
+    <updated>2013-12-03T08:50:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/12/03/recommend-kindle-books</id>
+    <content type="html"><![CDATA[<p>最近技術ネタばっかだったので、12月だし趣向変えて今年Kindleで
+読んで面白かった事件、犯罪系ノンフィクションをまとめてみる。
+(今年Kindleで発売された作品なので2013というくくりにしてます)</p>
+
+<p>有名な題材ばかりなので、まとめサイトとかで読んだことある人も多いと思いますが、
+ちゃんと取材をもとにして、きっちり書かれたものを読むと結構印象が違う。</p>
+
+<p>タイトルでオススメとか書いてますが、紹介する作品は明るい話ではないので、気分が沈んでるときに読むのはオススメしない。
+でも実際にあった出来事の話なので、知っておいて損は無いと思う。</p>
+
+<h2 id="amazon-text-b00dot57gg-"><a href="https://www.amazon.co.jp/%E5%87%B6%E6%82%AA%E2%80%95%E3%81%82%E3%82%8B%E6%AD%BB%E5%88%91%E5%9B%9A%E3%81%AE%E5%91%8A%E7%99%BA%E2%80%95-%E3%80%8C%E6%96%B0%E6%BD%AE45%E3%80%8D%E7%B7%A8%E9%9B%86%E9%83%A8-ebook/dp/B00DOT57GG?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00DOT57GG">凶悪―ある死刑囚の告発―</a></h2>
+
+<p><a href="https://www.amazon.co.jp/%E5%87%B6%E6%82%AA%E2%80%95%E3%81%82%E3%82%8B%E6%AD%BB%E5%88%91%E5%9B%9A%E3%81%AE%E5%91%8A%E7%99%BA%E2%80%95-%E3%80%8C%E6%96%B0%E6%BD%AE45%E3%80%8D%E7%B7%A8%E9%9B%86%E9%83%A8-ebook/dp/B00DOT57GG?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00DOT57GG"><img src="https://images-fe.ssl-images-amazon.com/images/I/41xGZta8SdL._SL160_.jpg" align="right" /></a></p>
+
+<p><a href="http://www.kyouaku.com/">最近映画にもなっていたやつ</a>。雑誌記者が嘘か本当か分からない殺人犯の証言をもとに、検証をしていき警察を動かしていくさまが読んでいて引き込まれる。
+最後の方に”先生”の写真が載っていて、街中にいそうな見た目ごく普通のおっさんがこんなに恐ろしいことをしてるのかと思ったのと、
+こういう事件ってのは誰にも気づかれてないだけで、現代の日本で発生しているというのが怖い。</p>
+
+<p><blockquote><p>内容紹介</p></p><p><p>人を殺し、その死を巧みに金に換える“先生”と呼ばれる男がいる──雑誌記者が聞いた驚愕の証言。だが、告発者は元ヤクザで、しかも拘置所に収監中の殺人犯だった。信じていいのか? 記者は逡巡しながらも、現場を徹底的に歩き、関係者を訪ね、そして確信する。告発は本物だ! やがて、元ヤクザと記者の追及は警察を動かし、真の“凶悪”を追い詰めてゆく。白熱の犯罪ドキュメント。</p></blockquote></p>
+
+<p><br clear="all" /></p>
+
+<h2 id="amazon-text-b00c186hz6-"><a href="https://www.amazon.co.jp/%E5%85%AB%E7%94%B2%E7%94%B0%E5%B1%B1%E6%AD%BB%E3%81%AE%E5%BD%B7%E5%BE%A8-%E6%96%B0%E7%94%B0%E6%AC%A1%E9%83%8E-ebook/dp/B00C186HZ6?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00C186HZ6">八甲田山死の彷徨</a></h2>
+
+<p><a href="https://www.amazon.co.jp/%E5%85%AB%E7%94%B2%E7%94%B0%E5%B1%B1%E6%AD%BB%E3%81%AE%E5%BD%B7%E5%BE%A8-%E6%96%B0%E7%94%B0%E6%AC%A1%E9%83%8E-ebook/dp/B00C186HZ6?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00C186HZ6"><img src="https://images-fe.ssl-images-amazon.com/images/I/41j4APsYNML._SL160_.jpg" align="right" /></a></p>
+
+<p>高倉健が主演で映画化されている「八甲田山」の原作。日本陸軍の雪中訓練で、参加者210名中199名が死亡した<a href="http://ja.wikipedia.org/wiki/%E5%85%AB%E7%94%B2%E7%94%B0%E9%9B%AA%E4%B8%AD%E8%A1%8C%E8%BB%8D%E9%81%AD%E9%9B%A3%E4%BA%8B%E4%BB%B6">八甲田雪中行軍遭難事件</a>の話。
+リーダーが無能だったのもありますが、当時は雪山に対する怖さとか凍傷に関しての知識が無かったりで、バッタバッタと人が死んでいく描写が強烈。軍隊って言うのは本当に特殊な集団なんだなーと。リーダーシップ論とかの題材にも使われているので、そういった視点で読んでも面白い。</p>
+
+<p><blockquote><p>内容紹介</p></p><p><p>日露戦争前夜、厳寒の八甲田山中で過酷な人体実験が強いられた。神田大尉が率いる青森5聯隊は雪中で進退を協議しているとき、大隊長が突然“前進”の命令を下し、指揮系統の混乱から、ついには199名の死者を出す。少数精鋭の徳島大尉が率いる弘前31聯隊は210余キロ、11日間にわたる全行程を完全に踏破する。両隊を対比して、自然と人間の闘いを迫真の筆で描く長編小説。</p></blockquote></p>
+
+<p><br clear="all" /></p>
+
+<h2 id="amazon-text-b00bixnk4q-"><a href="https://www.amazon.co.jp/%E7%BE%86%E5%B5%90%EF%BC%88%E6%96%B0%E6%BD%AE%E6%96%87%E5%BA%AB%EF%BC%89-%E5%90%89%E6%9D%91%E6%98%AD-ebook/dp/B00BIXNK4Q?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00BIXNK4Q">羆嵐（新潮文庫）</a></h2>
+
+<p><a href="https://www.amazon.co.jp/%E7%BE%86%E5%B5%90%EF%BC%88%E6%96%B0%E6%BD%AE%E6%96%87%E5%BA%AB%EF%BC%89-%E5%90%89%E6%9D%91%E6%98%AD-ebook/dp/B00BIXNK4Q?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00BIXNK4Q">羆嵐（新潮文庫）</a></p>
+
+<p>日本史上最大規模の獣害(じゅうがい)事件、<a href="http://ja.wikipedia.org/wiki/%E4%B8%89%E6%AF%9B%E5%88%A5%E7%BE%86%E4%BA%8B%E4%BB%B6">三毛別羆事件</a>の話。
+これを読むまで熊(クマ)と羆(ヒグマ)について、別段区別して考えていなかったんですが、読んでみるとヒグマは危険度の次元が違うというか、
+狙われたら終わりみたいな絶望感があってヤバい。人間でも頭おかしい人いるのと同じで、ヒグマの中でも頭おかしいのがいるのは当然で、たぶんそういった類いの話だと信じたい。</p>
+
+<p><blockquote><p>内容紹介</p></p><p><p>北海道天塩山麓の開拓村を突然恐怖の渦に巻込んだ一頭の羆の出現! 日本獣害史上最大の惨事は大正4年12月に起った。冬眠の時期を逸した羆が、わずか2日間に6人の男女を殺害したのである。鮮血に染まる雪、羆を潜める闇、人骨を齧る不気味な音……。自然の猛威の前で、なす術のない人間たちと、ただ一人沈着に羆と対決する老練な猟師の姿を浮彫りにする、ドキュメンタリー長編。</p></blockquote></p>
+
+<p><br clear="all" /></p>
+
+<h2 id="amazon-text-b00cl6n0gw-"><a href="https://www.amazon.co.jp/%E6%A1%B6%E5%B7%9D%E3%82%B9%E3%83%88%E3%83%BC%E3%82%AB%E3%83%BC%E6%AE%BA%E4%BA%BA%E4%BA%8B%E4%BB%B6%E2%80%95%E9%81%BA%E8%A8%80%E2%80%95-%E6%B8%85%E6%B0%B4%E6%BD%94-ebook/dp/B00CL6N0GW?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00CL6N0GW">桶川ストーカー殺人事件―遺言―</a></h2>
+
+<p><a href="https://www.amazon.co.jp/%E6%A1%B6%E5%B7%9D%E3%82%B9%E3%83%88%E3%83%BC%E3%82%AB%E3%83%BC%E6%AE%BA%E4%BA%BA%E4%BA%8B%E4%BB%B6%E2%80%95%E9%81%BA%E8%A8%80%E2%80%95-%E6%B8%85%E6%B0%B4%E6%BD%94-ebook/dp/B00CL6N0GW?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00CL6N0GW"><img src="https://images-fe.ssl-images-amazon.com/images/I/512Np5U3-TL._SL160_.jpg" align="right" /></a></p>
+
+<p>ストーカー系の事件が発生すると必ず出てくるストーカー規制法が制定されるもとになった事件の話。
+タイトルと表紙が怖い感じなので、凄い損をしている感があるんですが、警察の腐敗と事件の真相を暴いた内容が素晴らしく是非読んで欲しい一冊。</p>
+
+<p>週刊誌記者が警察よりも早く犯人に辿り着き、真相に迫っていくので緊迫感がかなりあるし、執念が凄い。
+週刊誌記者というと何となくゲスい感じに印象しか持っていなかったが、こういうちゃんとしたことをやっている人もいるんだなーと。</p>
+
+<p><blockquote><p>内容紹介</p></p><p><p>ひとりの週刊誌記者が、殺人犯を捜し当て、警察の腐敗を暴いた……。埼玉県の桶川駅前で白昼起こった女子大生猪野詩織さんの殺人事件。彼女の悲痛な「遺言」は、迷宮入りが囁かれる中、警察とマスコミにより歪められるかに見えた。だがその遺言を信じ、執念の取材を続けた記者が辿り着いた意外な事件の真相、警察の闇とは。「記者の教科書」と絶賛された、事件ノンフィクションの金字塔!</p></blockquote></p>
+
+<p><br clear="all" /></p>
+
+<p><a href="https://www.amazon.co.jp/KindlePaperwhite-%E3%82%AD%E3%83%B3%E3%83%89%E3%83%AB-%E9%9B%BB%E5%AD%90%E6%9B%B8%E7%B1%8D%E3%83%AA%E3%83%BC%E3%83%80%E3%83%BC/dp/B00CTUMNAO?psc=1&amp;SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00CTUMNAO"><img src="https://images-fe.ssl-images-amazon.com/images/I/51NXKygnUkL._SL160_.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/KindlePaperwhite-%E3%82%AD%E3%83%B3%E3%83%89%E3%83%AB-%E9%9B%BB%E5%AD%90%E6%9B%B8%E7%B1%8D%E3%83%AA%E3%83%BC%E3%83%80%E3%83%BC/dp/B00CTUMNAO?psc=1&amp;SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00CTUMNAO">Kindle Paperwhite (第6世代) ―Wi-Fi</a></p>
+
+<p>日本でKindleリリース直後は、作品が少なくて結構不満が多かったですが、最近は作品数も増えてきて、
+上に挙げたようなしっかりした作品が読めるのでもってない人はそろそろ買うといいのではないかと思う。</p>
+
+<p><br clear="all" /></p>
+]]></content>
+  </entry>
+  
+</feed>

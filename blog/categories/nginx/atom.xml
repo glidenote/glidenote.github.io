@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: nginx | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/nginx/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ThumperでSubsonicを聴き続けるためにSubsonicに寄付をした]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/02/20/subsonic-donate/"/>
+    <updated>2013-02-20T23:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/02/20/subsonic-donate</id>
+    <content type="html"><![CDATA[<p>先日から<a href="http://www.thumperapp.com/">Thumper</a>というMacのアプリを利用して
+<a href="http://www.subsonic.org/pages/index.jsp">Subsonic</a>を聞いていたんですが、
+急に曲が再生出来なくなったので、調べたところアプリなどからSubsonicを利用している場合、
+30日間しか利用出来ないらしく、Subsonicに最低10ユーロ寄付をしないといけないらしい。(知らなかった！)</p>
+
+<p>Subsonicに依存していて、今さら離れることが出来ないので、ちゃんと寄付をしようと
+Subsonicの画面からpaypalで支払い試みるもうまく出来ず、
+これも調べたらどうやら日本からの寄付は出来ない模様。</p>
+
+<p>下記サイトを参考に</p>
+
+<ul>
+  <li><a href="http://samurai20000.hatenablog.com/entry/2013/02/16/234633">Subsonicへのdonateでpaypalエラーになる件の解決方法 - 生活。</a></li>
+</ul>
+
+<p>paypalで<code>mail@subsonic.org</code>を指定して10ユーロ支払いをしたら
+すぐにライセンスキーが届いて、Subsonic上でライセンス登録をして、
+Thumperでまた再生出来るようになった。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/02/thumper.png" alt="" /></p>
+
+<p><a href="http://www.summerfondue.com/">SummerFondue.com</a>
+で公開されているHouse Mixのmp3が1個200MBくらいあって、
+iPhoneとかに入れてると容量がかなりきついので、さくらVPSで</p>
+
+<p><code>sh
+wget http://www.summerfondue.com/downloads/sfs166
+</code></p>
+
+<p>みたいな感じで取ってきて、Subsonic経由で聴いてます。
+(ファイル一斉に落とすと先方サーバの負荷になるからsleepとか入れましょう)</p>
+
+<p><a href="https://www.amazon.co.jp/SHURE-Special-%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%82%B9%E3%83%AB%E3%83%BC%E3%82%BB%E3%83%B3%E3%83%88%E3%83%96%E3%83%AB%E3%83%BC-SE215SPE-%E3%80%90%E5%9B%BD%E5%86%85%E6%AD%A3%E8%A6%8F%E5%93%81%E3%80%91/dp/B00A16BT4E?psc=1&amp;SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00A16BT4E"><img src="https://images-fe.ssl-images-amazon.com/images/I/417ivt-VRcL.jpg" align="right" /></a></p>
+
+<ul>
+  <li><a href="https://www.amazon.co.jp/SHURE-Special-%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%82%B9%E3%83%AB%E3%83%BC%E3%82%BB%E3%83%B3%E3%83%88%E3%83%96%E3%83%AB%E3%83%BC-SE215SPE-%E3%80%90%E5%9B%BD%E5%86%85%E6%AD%A3%E8%A6%8F%E5%93%81%E3%80%91/dp/B00A16BT4E?psc=1&amp;SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00A16BT4E">SHURE イヤホン SEシリーズ SE215 カナル型 高遮音性 Special Edition トランススルーセントブルー SE215SPE-A 【国内正規品】</a></li>
+</ul>
+
+<p>最近Shureのイヤホン SE215SPEを買ったんですが、
+ダンス系音楽向けに低音が結構強めなので、ハウスとかを聴くのにかなり良い感じ。
+Shureのイヤホンは高価なイメージがあったんですが、1万円くらいと手頃な値段で
+音質的には好みだったので、良い買い物をしました。<br />
+ただかなり音量を小さくしても周りの音がほとんど聞こえないので、遮音性が高すぎるかも。</p>
+
+<p>あとThumperを利用しているとSubsonic+Nginxのアクセスログが結構流れるので、
+Nginxのログを今流行のLTSV形式にして、Fluentdに流すとかがいろいろと簡単に検証にも使えて一石二鳥。</p>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2012/05/21/fluentd-nginx-mongodb/">Subsonic+Nginxのアクセスログをfluentdを利用してMongoDBに入れてみた - Glide Note - グライドノート</a></li>
+</ul>
+
+<p>最近はMacのiTunesディレクトリをSubsonicのディレクトリにrsyncかけてて、
+SubsonicがiTunesのバックアップも兼ねており重要性が増してきた。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Subsonic+Nginxのアクセスログをfluentdを利用してMongoDBに入れてみた]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/05/21/fluentd-nginx-mongodb/"/>
+    <updated>2012-05-21T00:41:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/05/21/fluentd-nginx-mongodb</id>
+    <content type="html"><![CDATA[<p>                                                                                                                                                                      
+  <a href="https://www.amazon.co.jp/Software-Design-%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2-%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3-2012%E5%B9%B4/dp/B007Y725LE?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B007Y725LE"><img src="https://images-fe.ssl-images-amazon.com/images/I/51i4hIKlScL._SL160_.jpg" align="right" /></a>
+</p>
+
+<p><a href="http://atnd.org/events/27808">Fluentd Casual Talks</a>に参加し、fluentdの使いどころが理解できて、
+意識が高いうちに早速fluentdの導入をしSubsonic+nginxのアクセスログをMongoDBに入れてみたのでメモ。</p>
+
+<p>導入環境はwebサーバCentOS 6、ログ収集サーバがCentOS 5で、fluentdのバージョンは
+<code>td-agent-1.1.5.1-0.x86_64</code>になります。いずれもさくらVPSで稼働させています。
+nginxの導入は以前書いた下記のエントリを参考にして下さい。</p>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2012/04/03/subsonic-nginx/">さくらVPS 2G+Subsonic+Nginxで自分用ストリーミングサーバを構築 - Glide Note - グライドノート</a></li>
+</ul>
+
+<h2 id="section">今回行った作業の流れ</h2>
+
+<p>fluentdを初めて触るので、今回は下記のように順を追って検証と導入を行いました。</p>
+
+<ul>
+  <li>fluentdの導入</li>
+  <li>サーバ1台でwebサーバとログ収集サーバを動かしてみる</li>
+  <li>webサーバとログ収集用サーバをそれぞれ用意して動かして見る</li>
+  <li>ログ収集用サーバにMongoDBを入れて、データを入れてみる</li>
+</ul>
+
+<h2 id="fluentdtd-agent">fluentd(td-agent)の導入</h2>
+
+<p><a href="http://help.treasure-data.com/kb/installing-td-agent-daemon/installing-td-agent-for-redhat-and-centos">Installing td-agent for Redhat and CentOS</a>に
+記載してある方法で、yum経由で導入。webサーバ、ログサーバ双方に導入します。<code>/etc/td-agent/td-agent.conf</code>は用途に合わせ編集します。</p>
+
+<p><div><script src='https://gist.github.com/2726076.js'></script>
+<noscript><pre><code>/bin/cat &lt;&lt;&#39;EOF&#39;&gt; /etc/yum.repos.d/td.repo
+[treasuredata]
+name=TreasureData
+baseurl=http://packages.treasure-data.com/redhat/$basearch
+gpgcheck=0
+EOF
+
+yum -y update
+yum -y install td-agent
+/etc/init.d/td-agent start</code></pre></noscript></div>
+</p>
+
+<h2 id="web">webサーバとログ収集サーバを同じサーバで動かした場合</h2>
+
+<p>とりあえずfluentdの動作検証のために、1台で動かしてみて、ローカルのファイルに書き出してみる。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/fluent-alone.png" alt="" /></p>
+
+<p><code>/etc/td-agent/td-agent.conf</code>は下記のような感じ。</p>
+
+<p><div><script src='https://gist.github.com/2732356.js?file=td-agent.conf'></script>
+<noscript><pre><code># 1台で動かす場合の設定
+&lt;source&gt;
+  type tail
+  path /var/log/nginx/access.log
+  format apache
+  tag nginx.access
+  pos_file /var/log/td-agent/nginx.pos
+&lt;/source&gt;
+
+&lt;match nginx.access&gt;
+  type file
+  path /var/log/td-agent/access_log
+&lt;/match&gt;
+</code></pre></noscript></div>
+</p>
+
+<p>nginxのログローマットをapacheと合わせるために下記のように修正。(これに気づかずかなりハマりました。)</p>
+
+<p><div><script src='https://gist.github.com/2732356.js?file=nginx.conf'></script>
+<noscript><pre><code>    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot;&#39;;</code></pre></noscript></div>
+</p>
+
+<p>設定を反映させて再起動。</p>
+
+<p><code>
+sudo /etc/rc.d/init.d/td-agent restart
+sudo /etc/rc.d/init.d/nginx restart
+</code></p>
+
+<p>実際にnginxのアクセスログが、fluentdに渡って<code>/var/log/td-agent/access_log</code>へ出力されている</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/fluent-log0.png" alt="" /></p>
+
+<h2 id="web2">webサーバ、ログ収集サーバの2台構成で動かした場合</h2>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/fluent-web-log.png" alt="" /></p>
+
+<p>webサーバ側の<code>td-agent.conf</code>を下記のように修正してtd-agentの再起動</p>
+
+<p><div><script src='https://gist.github.com/2732356.js?file=app-td-agent.conf'></script>
+<noscript><pre><code># appサーバ用の設定
+&lt;source&gt;
+  type tail
+  path /var/log/nginx/access.log
+  format apache
+  tag nginx.access
+  pos_file /var/log/td-agent/nginx.pos
+&lt;/source&gt;
+
+&lt;match nginx.access&gt;
+  type forward
+  &lt;server&gt;
+    host xxx.xxx.xxx.xxx
+  &lt;/server&gt;
+&lt;/match&gt;</code></pre></noscript></div>
+</p>
+
+<p>ログサーバ側の<code>td-agent.conf</code>を下記のように修正してtd-agentの再起動</p>
+
+<p><div><script src='https://gist.github.com/2732356.js?file=log-td-agent.conf'></script>
+<noscript><pre><code># log収集用サーバの設定
+&lt;source&gt;
+  type forward
+  port 24224
+&lt;/source&gt;
+
+&lt;match nginx.access&gt;
+  type file
+  path /var/log/td-agent/access_log
+&lt;/match&gt;</code></pre></noscript></div>
+</p>
+
+<p>ログサーバ側のiptablesに追記した内容。webサーバからログサーバの24224portへのアクセスを許可してます。</p>
+
+<p><div><script src='https://gist.github.com/2732356.js?file=iptables'></script>
+<noscript><pre><code># fluentd setting
+-A RH-Firewall-1-INPUT -m state --state NEW -s xxx.xxx.xxx.xxx -m tcp -p tcp --dport 24224 -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -s xxx.xxx.xxx.xxx -m udp -p udp --dport 24224 -j ACCEPT</code></pre></noscript></div>
+</p>
+
+<p>ログサーバの<code>/var/log/td-agent/access_log</code>に出力されていればOK</p>
+
+<h2 id="web2mongodb">webサーバ、ログ収集サーバの2台構成で動かして、MongoDBにデータを入れる</h2>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/fluent-web-log-mongodb.png" alt="" /></p>
+
+<p><code>/var/log/td-agent/access_log</code>への出力から、MongoDBに切り替え</p>
+
+<h3 id="mongodb">MongoDBの導入</h3>
+
+<p>```
+/bin/cat «‘EOF’&gt; /etc/yum.repos.d/10gen.repo
+[10gen]
+name=10gen Repository
+baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64
+gpgcheck=0
+EOF</p>
+
+<p>yum install  mongo-10gen mongo-10gen-server –enablerepo=10gen
+/etc/rc.d/init.d/mongod start
+```</p>
+
+<p>MongoDBにデータを入れられるように、fluent-plugin-mongoの導入。</p>
+
+<p><code>
+/usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-mongo
+</code></p>
+
+<p>ログサーバの<code>td-agent.conf</code>を下記のように修正してtd-agentの再起動。</p>
+
+<p><div><script src='https://gist.github.com/2732356.js?file=log-mongo-td-agent.conf'></script>
+<noscript><pre><code># logサーバ用設定(mongodb)
+&lt;source&gt;
+  type forward
+  port 24224
+&lt;/source&gt;
+
+&lt;match nginx.access&gt;
+  type mongo
+  database nginx
+  collection access
+  host 127.0.0.1
+  port 27017
+  flush_interval 10s
+&lt;/match&gt;</code></pre></noscript></div>
+</p>
+
+<p>実際にnginxのアクセスログが、MongoDBに入っているのを確認。</p>
+
+<p><code>
+[akira@vps001] $ mongo
+MongoDB shell version: 2.0.5
+connecting to: test
+&gt; show dbs
+local   (empty)
+nginx   0.203125GB
+&gt; use nginx
+switched to db nginx
+&gt; show collections
+access
+system.indexes
+&gt; db.access.find();
+{ "_id" : ObjectId("4fb8aa9ae304e43491000001"), "host" : "110.165.232.124", "user" : "-", "method" : "GET", "path" : "/index.view", "code" : "200", "size" : "639", "referer" : "http://music.glidenote.com/", "agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.46 Safari/536.5", "time" : ISODate("2012-05-20T08:25:01Z") }
+{ "_id" : ObjectId("4fb8aa9ae304e43491000002"), "host" : "110.165.232.124", "user" : "-", "method" : "GET", "path" : "/favicon.ico", "code" : "404", "size" : "290", "referer" : "-", "agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.46 Safari/536.5", "time" : ISODate("2012-05-20T08:25:01Z") }
+</code></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/fluent-log1.png" alt="" /></p>
+
+<p>おー、ちゃんとデータが入っている。<br />
+でもMongoDBが全く分からないので、集計は後でやってみる。</p>
+
+<h2 id="section-1">今回の作業ではまった点</h2>
+
+<ul>
+  <li>nginxのlogフォーマットがapache形式と違っていたので、まったく出力されなかった。(fluentdが動いているのか判断出来なかった)</li>
+  <li>fluentdがudpで通信をしていた。<code>sudo tcpdump -i eth0 port 24224 -nn</code>で気づいたのでiptablesで許可</li>
+  <li>動作確認コマンドがよく分からなかった。debugを有効にして<code>echo '{"hoge":"fuga"}' | /usr/lib64/fluent/ruby/bin/fluent-cat debug.test</code>で動いているのを確認。</li>
+  <li>2011年11月頃に書かれたサイトを参考に作業をしていたら、当時からconfの書き方とか変わっていてハマった。(バージョンを確認しましょう)</li>
+</ul>
+
+<h2 id="section-2">参考サイト</h2>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/oranie/20120323/1332498317">#fluentd fluentd（td-agent）構築時に気をつけるポイントについて - iをgに変えるとorangeになることに気づいたoranieの日記</a></li>
+  <li><a href="http://nozaq.hatenablog.com/entry/2012/03/12/002350">EC2インスタンス上でnginxのログをfluentd経由でS3へ飛ばしてみる - nozaq’s diary</a></li>
+  <li><a href="http://d.hatena.ne.jp/fat47/20120426/1335428063">【作業メモ】Apacheログをfluentd+MongoDBで収集しRubyで集計してみたが… - FAT47の底辺インフラ議事録</a></li>
+</ul>
+
+<h2 id="section-3">参考書籍</h2>
+
+<p>fluentdは開発が非常に活発なんですが、ドキュメント類が充実していないので、少し前のウェブ上の情報が使えないことが多かったです。
+2012年5月20日現在は下記のSoftware Designが一番充実しているので<strong>必読</strong>です。</p>
+
+<ul>
+  <li><a href="https://www.amazon.co.jp/Software-Design-%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2-%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3-2012%E5%B9%B4/dp/B007Y725LE?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B007Y725LE">Software Design (ソフトウェア デザイン) 2012年 06月号 [雑誌]</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[nginx.vimを入れてみた]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/08/nginx.vim/"/>
+    <updated>2012-04-08T04:33:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/08/nginx.vim</id>
+    <content type="html"><![CDATA[<p>nginxのconfを書いていて、syntax highlightがきかないので導入してみた。</p>
+
+<ul>
+  <li><a href="https://github.com/vim-scripts/nginx.vim">vim-scripts/nginx.vim</a></li>
+</ul>
+
+<p><code>.vimrc</code>に下記のように記載</p>
+
+<p><div><script src='https://gist.github.com/2331541.js'></script>
+<noscript><pre><code>Bundle &#39;nginx.vim&#39;
+au BufRead,BufNewFile /etc/nginx/* set ft=nginx</code></pre></noscript></div>
+</p>
+
+<p>before</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/nginxvim0.png" alt="" /></p>
+
+<p>after</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/nginxvim1.png" alt="" /></p>
+
+<p>ソースがわかりやすいので、syntax系vim pluginはすぐ自作出来そう。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[さくらVPS 2G+Subsonic+Nginxで自分用ストリーミングサーバを構築]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/03/subsonic-nginx/"/>
+    <updated>2012-04-03T01:18:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/03/subsonic-nginx</id>
+    <content type="html"><![CDATA[<p>先日契約したさくらVPS 2Gのディスク容量がかなりあるので、自分用のストリーミングサーバを
+<a href="http://www.subsonic.org/pages/index.jsp">subsonic</a>と<a href="http://wiki.nginx.org/Main">nginx</a>で立ててみました。 
+subsonic単体でも良いんですが、同僚の天才<a href="https://twitter.com/#!/hiboma">@hiboma</a>が
+<a href="http://d.hatena.ne.jp/hiboma/20110702/1309591830">以前Mac+subsonic+nginxを組み合わせてた</a>のを思い出してパクってみました。</p>
+
+<p>導入環境はCentOS 6です。
+あらかじめAレコードなどは設定している状態です。
+またsubsonicのGUIでのセットアップ手順の説明などは省いてます。</p>
+
+<h2 id="javasdk">javaのSDKのインストール</h2>
+
+<p><code>
+sudo yum install java-1.6.0-openjdk
+</code></p>
+
+<h2 id="subsonic">subsonicのインストール</h2>
+<p><a href="http://www.subsonic.org/pages/download.jsp">Subsonic » Free Music Streamer</a>、からRPMを持ってくる。</p>
+
+<p><code>
+mkdir ~/tmp
+cd ~/tmp
+wget http://downloads.sourceforge.net/project/subsonic/subsonic/4.6/subsonic-4.6.rpm
+sudo rpm -ivh subsonic-4.6.rpm --test
+sudo rpm -ivh subsonic-4.6.rpm
+</code></p>
+
+<p>自動エンコーディング機能を利用するために必要ライブラリを導入</p>
+
+<p><code>
+sudo yum -y install lame flac faad2 vorbis-tools ffmpeg
+</code></p>
+
+<p>音楽ファイル用のディレクトリを用意。</p>
+
+<p><code>
+sudo mkdir /var/music
+sudo mkdir /var/playlists
+sudo chmod 777 /var/music
+sudo chmod 777 /var/playlists
+</code></p>
+
+<p>ローカルPCからVPS上の<code>/var/music/</code>にrsyncでもかけて、音楽ファイルを配置。</p>
+
+<h2 id="nginx">nginxのインストール</h2>
+
+<p><code>
+sudo yum -y nginx
+</code></p>
+
+<h3 id="etcnginxnginxconf">/etc/nginx/nginx.conf</h3>
+
+<p>nginxが80番で待ち受けて、subsonicの4040番に渡しています。 
+<code>server_name</code>の部分はAレコードをあてている自分のドメインに書き換えてください。</p>
+
+<p><div><script src='https://gist.github.com/2281393.js'></script>
+<noscript><pre><code>#######################################################################
+#
+# This is the main Nginx configuration file.  
+#
+# More information about the configuration options is available on 
+#   * the English wiki - http://wiki.nginx.org/Main
+#   * the Russian documentation - http://sysoev.ru/nginx/
+#
+#######################################################################
+
+user              nginx;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    gzip  on;
+    
+    server {
+        listen       80;
+        server_name  foobar.com;
+
+        error_page  404              /404.html;
+        location = /404.html {
+            root   /usr/share/nginx/html;
+        }
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+
+        location / {
+            proxy_pass   http://127.0.0.1:4040;
+            break;
+        }
+    }
+
+    # Load config files from the /etc/nginx/conf.d directory
+    include /etc/nginx/conf.d/*.conf;
+
+}</code></pre></noscript></div>
+</p>
+
+<h2 id="subsonicnginx">subsonicとnginxの起動</h2>
+
+<p><code>
+sudo service subsonic start
+sudo service nginx start
+</code></p>
+
+<p>nginx.confで設定した<code>http://foobar.com/</code>にアクセス</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/subsonic.png" alt="" /></p>
+
+<p>おー、動いた。</p>
+
+<h2 id="url">参考URL</h2>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/hiboma/20110702/1309591830">Subsonic所感 - hibomaのはてなダイアリー</a></li>
+  <li><a href="http://d.hatena.ne.jp/Molokheiya/20110628/p1">さくらのVPSとSubsonicでiTunesをゴミ箱にダンクシュートした - 甘味志向＠はてな</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Shellでヒアドキュメント利用時に変数展開を抑制する]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/01/05/here-document-tips/"/>
+    <updated>2012-01-05T21:43:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/01/05/here-document-tips</id>
+    <content type="html"><![CDATA[<p>zshやbashでヒアドキュメントを利用するときに、いつも忘れてやらかすのでメモ</p>
+
+<h2 id="section">変数展開してしまう例</h2>
+
+<p><code>
+cat &lt;&lt; EOF &gt;/etc/yum.repos.d/nginx.repo
+[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+gpgcheck=0
+enabled=1
+EOF
+</code></p>
+
+<p>```
+cat /etc/yum.repos.d/nginx.repo</p>
+
+<p>[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/centos///
+gpgcheck=0
+enabled=1
+```</p>
+
+<p><code>$releasever</code>と<code>$basearch</code>が変数として展開されてしまう。</p>
+
+<h2 id="section-1">変数展開しない例</h2>
+
+<p>区切りシンボルをシングルクオート<code>'</code>かバッククオート<code>"</code>することで
+変数展開を抑制出来る。</p>
+
+<p><code>
+cat &lt;&lt; 'EOF' &gt;/etc/yum.repos.d/nginx.repo
+[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+gpgcheck=0
+enabled=1
+EOF
+</code></p>
+
+<p>```
+cat /etc/yum.repos.d/nginx.repo</p>
+
+<p>[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+gpgcheck=0
+enabled=1
+```</p>
+
+<h2 id="section-2">参考記事</h2>
+
+<ul>
+  <li><a href="http://shellscript.sunone.me/input_output.html">入力と出力 - UNIX &amp; Linux コマンド・シェルスクリプト リファレンス</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

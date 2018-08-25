@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rubocop | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/rubocop/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[rubocop+syntasticでRubyのコーディングルールへの準拠チェックを自動化する]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/05/28/vim-rubocop/"/>
+    <updated>2014-05-28T10:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/05/28/vim-rubocop</id>
+    <content type="html"><![CDATA[<p>sensuのプラグイン書いてて、<a href="https://github.com/sensu/sensu-community-plugins#rubocop-linting">sensu/sensu-community-plugins</a>を見ていたら
+<a href="https://github.com/bbatsov/rubocop">rubocop</a>でlintかけろ的な事が書いて、導入して使ってみたら便利だったのでメモ。</p>
+
+<h2 id="rubocop">rubocopとは</h2>
+
+<ul>
+  <li><a href="https://github.com/bbatsov/rubocop">bbatsov/rubocop</a></li>
+</ul>
+
+<p>rubocopとは、Rubyのコードが<a href="https://github.com/fortissimo1997/ruby-style-guide/blob/japanese/README.ja.md">ruby-style-guide(日本語訳)</a>に
+沿って書かれているか解析してくれるツール</p>
+
+<h2 id="rubocop-1">rubocopのインストールと使い方</h2>
+
+<p><code>sh
+gem install rubocop
+</code></p>
+
+<p>でコマンドラインから利用する場合は下記みたいな感じ。</p>
+
+<p>単一ファイルに対して実行する場合</p>
+
+<p><code>sh
+rubocop hoge.rb
+</code></p>
+
+<p>配下のファイルに一斉に実行する場合</p>
+
+<p><code>sh
+cd /path/to/ruby-project/
+rubocop
+</code></p>
+
+<p><a href="https://github.com/bbatsov/ruby-style-guide">bbatsov/ruby-style-guide</a>に準拠してない、
+記載方法がある場合は指摘される。
+自分で<code>.rubocop.yml</code>とかを用意することで、自分たち用のコーディングルールに変更も出来る。</p>
+
+<h2 id="section">既存プロジェクトへの適用</h2>
+
+<p>新規に使い始めるときは楽なんですが、既存のプロジェクトやコードに<code>rubocop</code>を走らせると恐らく大量に違反が検出されて
+それを直していくのは結構ツラい。
+なのでとりあえずは下記みたいな感じで現段階での違反をとりあえず無視する。</p>
+
+<p><code>sh
+cd /path/to/ruby-project/
+rubocop --auto-gen-config
+echo 'inherit_from: rubocop-todo.yml' &gt;&gt; .rubocop.yml
+rubocop
+</code></p>
+
+<p>それで、チェックしたいルールを1個ずつ下記のように<code>.rubocop.yml</code>に追加</p>
+
+<p><code>
+LineLength:
+  Max: 80
+</code></p>
+
+<p>再度<code>rubocop</code>を実行すると、追加したルールに違反しているものだけ表示されるので、
+少しずつ直していける。</p>
+
+<p>また一部ルールは<code>-a</code>もしくは<code>--auto-correct</code>を利用することで自動的に変換も出来る。</p>
+
+<p><code>
+rubocop -a
+</code></p>
+
+<h2 id="vim">Vimからの利用</h2>
+
+<p>Vimから使えると便利そうと思っていたら、<a href="https://github.com/scrooloose/syntastic">syntastic</a>が
+rubocopをサポートしているので下記のように設定するだけで、簡単に利用出来た。</p>
+
+<p>私は<a href="https://github.com/Shougo/neobundle.vim">neobundle.vim</a>を使っているので下記のような感じで記載して<code>:NeoBundleInstall</code></p>
+
+<p><code>
+NeoBundle 'scrooloose/syntastic'
+let g:syntastic_ruby_checkers = ['rubocop']
+</code></p>
+
+<p>ファイルを保存したタイミングでsyntastic経由で<code>rubocop</code>が実行され、自動でチェックが走ってくれる。
+指摘内容は<code>:Errors</code>とか実行すると確認が出来る。</p>
+
+<p>vimだけじゃなくzshからも利用出来ると便利そうなので、zsh-completionsにPRを出しておいた。</p>
+
+<ul>
+  <li><a href="https://github.com/zsh-users/zsh-completions/pull/232">add rubocop completion by glidenote · Pull Request #232 · zsh-users/zsh-completions</a></li>
+</ul>
+
+<p>今まで、<a href="https://github.com/fortissimo1997/ruby-style-guide/blob/japanese/README.ja.md">ruby-style-guide(日本語訳)</a>に沿った書き方を
+してなかったので、使ってるとイライラさせられる部分もあるけど、矯正されていく感があってなかなか良い。</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/yaotti/items/4f69a145a22f9c8f8333">Ruby - Rubocopを使ってコーディングルールへの準拠チェックを自動化 - Qiita</a></li>
+  <li><a href="http://qiita.com/yuku_t/items/0ac33cea18e10f14e185">Rubocopをsyntasticを使ってVimから自動実行する - Qiita</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

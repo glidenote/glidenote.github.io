@@ -1,0 +1,717 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: aws | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/aws/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GoReplayを導入して、Production環境へのリクエストを複製し、Staging環境に転送する仕組みを作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/12/16/goreplay/"/>
+    <updated>2016-12-16T15:25:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/12/16/goreplay</id>
+    <content type="html"><![CDATA[<p>結構前に作っていたんですが、いろいろと忙しくてブログに書くタイミングを失していたので年末のタイミングで紹介。</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://github.com/buger/goreplay">GoReplay</a>を利用して、Production環境のリクエストを複製し、Stagins環境、開発環境に投げる仕組みを作った</li>
+  <li>インフラ構成の大きな変更無しで、手軽にProduction環境の実リクエストを複製し、開発、動作検証ができるようになった</li>
+  <li>2016年の弊社サービスのDocker化や、インフラ構成の大幅な変更、ミドルウェアのアップデート、アプリの改修時のバグ事前検知と事故防止に大いに役に立った</li>
+</ul>
+
+<h2 id="goreplay">GoReplayの説明</h2>
+
+<ul>
+  <li><a href="https://github.com/buger/goreplay">GoReplay</a></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/12/gor0.png" alt="" /></p>
+
+<ul>
+  <li>Goで書かれており、バイナリを設置し、オプションを指定し実行するだけで動作する</li>
+  <li>アプリが稼働しているサーバで動く。(例えばNginx+Railsが稼働しているサーバで一緒にGoReplayを動かす感じ。)</li>
+  <li>libpcap を利用しているので、tpcdumpと同じでデータリンク層(OSI layer2)レベルでパケットを取得しています。</li>
+  <li>GoReplay は <code>gor listen</code> と <code>gor replay</code> の2つが1セットで動作します。
+    <ul>
+      <li><code>gor listen</code> がリクエストを複製し、<code>App</code> と <code>gor replay</code> に渡す。</li>
+      <li><code>gor replay</code> がリクエストを転送したり、ファイルに書き込んだり、再生作業をする。</li>
+    </ul>
+  </li>
+  <li>複製の割合や、複数の転送先、リクエストのフィルタリング設定などがあり高機能。
+    <ul>
+      <li><a href="https://github.com/buger/goreplay/wiki">https://github.com/buger/goreplay/wiki</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>私の理解が正しければ下記のような感じで動作してます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/12/gor1.png" alt="" /></p>
+
+<h2 id="shadow-proxy">Shadow Proxyとの比較</h2>
+
+<ul>
+  <li>アプリサーバで<strong>必要な時に手軽に動かせる</strong>。</li>
+  <li>動作が軽快</li>
+  <li>インフラ構成的に利用時に事故が起こりにくい(サービスの全リクエストを裁くわけではないので)</li>
+</ul>
+
+<p>今回なぜShadow Proxyを利用しなかったのかは後述。</p>
+
+<h2 id="section">実際に稼働している例で説明</h2>
+
+<p>実際に弊社で動かしている環境をざっくり図にして説明。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/12/gor2.png" alt="" /></p>
+
+<ul>
+  <li>Productionリリース予定のコードがデプロイされている、Stagingサーバを用意。</li>
+  <li><code>Production frontend</code>の１台で、GoReplayを動かしリクエストを複製し、ステージングサーバ<code>Staging frontend</code>にリクエストをProductionと同じリクエストを投げる。</li>
+  <li>Productionのデータと一緒にならないように、ステージング用に <code>staging aggregator</code> と データ格納先の <code>staging BigQuery</code> を用意。</li>
+  <li>下記コマンドのような形で動かし、Productionの1台に流れてきたリクエストを10%の割合で複製し、ステージングサーバに転送します。</li>
+  <li>echoサーバを作って、ベンチをとった結果(後述)、リクエストを100%複製し転送すると、パフォーマンスが劣化するので複製・転送の割合10%だけにしてます。</li>
+  <li>実際の運用ではSupervisordを利用して、GoReplayの軌道を管理</li>
+  <li>次期リリース予定のコードやインフラに問題があれば、StagingサーバのbugsnagなどがキャッチしてSlackにPostされる。</li>
+</ul>
+
+<p><code>sh
+sudo gor --input-raw :8080 --output-http "http://stating901.example.com|10%"
+</code></p>
+
+<h2 id="goreplay-1">GoReplay利用時のベンチマーク</h2>
+
+<p>nginx + echo-nginx-module を利用して、GoReplayの複製割合に応じてどれくらいパフォーマンスが劣化するか下記のような形でベンチマークを取得。</p>
+
+<p><code>sh
+ab -n 10000 -c 100 http://hogemoge.example.com/hello
+</code></p>
+
+<p>0%はGoReplayの利用無し、100%の場合はGoReplayで全トラフィックを複製して転送する。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>0%</th>
+      <th>10%</th>
+      <th>20%</th>
+      <th>50%</th>
+      <th>100%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>RPS</td>
+      <td>2254.49</td>
+      <td>1944.42</td>
+      <td>1782.10</td>
+      <td>1403.82</td>
+      <td>1023.71</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>GoReplayで転送率を100%にして、全トラフィックを複製かけるとパフォーマンスが劣化するので、インフラを増強しておく必要あり。</p>
+
+<hr />
+
+<p>ここから余談で、どうしてShadow Proxyを導入しなかったのか過去の経験と個人的な意見をちょっと書いてみる。</p>
+
+<h2 id="shadow-proxy-1">リクエストを複製するShadow Proxyの話</h2>
+
+<p>リクエストを複製するShadow Proxyと呼ばれるものは昔から存在します。</p>
+
+<ul>
+  <li><a href="https://github.com/cookpad/kage">cookpad/kage: Kage (kah-geh) is a shadow proxy server to duplex HTTP requests</a></li>
+  <li><a href="https://github.com/lestrrat/p5-Geest">lestrrat/p5-Geest: Port of Kage</a></li>
+  <li><a href="https://github.com/kentaro/delta">kentaro/delta: HTTP shadow proxy server written in Go</a></li>
+</ul>
+
+<p>Shadow Proxy利用時の一般的な構成</p>
+
+<p><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/a/antipop/20131212/20131212195546.png" alt="" /></p>
+
+<h3 id="shadow-proxy1">Shadow Proxyの問題点(※1)</h3>
+
+<ul>
+  <li>構成的にロードバランサの次あたりに存在(リクエスト処理する構成の前段の方に存在)するので非常に高い信頼性が求められる。</li>
+  <li>構成的に全リクエストがShadow Proxyを経由し、backendのサーバに到達するため、Shadow Proxyがボトルネックになりやすい。
+    <ul>
+      <li>各種Shadow Proxyのベンチマーク <a href="http://qiita.com/kentaro/items/17e2c334a902677af995#%E3%83%99%E3%83%B3%E3%83%81%E3%83%9E%E3%83%BC%E3%82%AF%E7%B5%90%E6%9E%9C">Go言語を含む複数種類の言語により実装されたソフトウェアのベンチマーク - Qiita</a></li>
+    </ul>
+  </li>
+  <li>インフラの構成的にサービスの全リクエストを処理する必要があるので、気軽に利用出来ない。稼働中のサービスに後から投入しにくい</li>
+  <li>全リクエストがShadow Proxyを通過する構成になっていると、<strong>Shadow Proxyが落ちるとサービス全部落ちる</strong></li>
+  <li>上記を解消しShadow Proxyを安定的に稼働しようとすると、インフラが複雑化して障害点が増えやすい</li>
+</ul>
+
+<p>※1 2年以上前の経験から得た知見なので、もしかして今は違うかもしれませんが。</p>
+
+<p>この仕組みを作ったおかげで、Production環境のリクエストを利用し事前に動作検証が出来るので、今年は事故も心理的な負担がだいぶ減ったと思う。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[「Amazon Web Services パターン別構築・運用ガイド」が良かった]]></title>
+    <link href="https://blog.glidenote.com/blog/2015/05/21/amazon-web-services-books/"/>
+    <updated>2015-05-21T20:16:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2015/05/21/amazon-web-services-books</id>
+    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/Amazon-Web-Services-%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E5%88%A5%E6%A7%8B%E7%AF%89%E3%83%BB%E9%81%8B%E7%94%A8%E3%82%AC%E3%82%A4%E3%83%89-%E4%B8%80%E7%95%AA%E5%A4%A7%E5%88%87%E3%81%AA%E7%9F%A5%E8%AD%98%E3%81%A8%E6%8A%80%E8%A1%93%E3%81%8C%E8%BA%AB%E3%81%AB%E3%81%A4%E3%81%8F/dp/4797382570?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4797382570"><img src="https://images-fe.ssl-images-amazon.com/images/I/61Kzd4gqkYL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/Amazon-Web-Services-%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E5%88%A5%E6%A7%8B%E7%AF%89%E3%83%BB%E9%81%8B%E7%94%A8%E3%82%AC%E3%82%A4%E3%83%89-%E4%B8%80%E7%95%AA%E5%A4%A7%E5%88%87%E3%81%AA%E7%9F%A5%E8%AD%98%E3%81%A8%E6%8A%80%E8%A1%93%E3%81%8C%E8%BA%AB%E3%81%AB%E3%81%A4%E3%81%8F/dp/4797382570?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4797382570">Amazon Web Services パターン別構築・運用ガイド 一番大切な知識と技術が身につく</a></p>
+
+<p>発売日に買っていたんですが、多忙で感想を書くのを忘れていた。。</p>
+
+<p>前職では業務でAWSをほぼ触らず、6年弱ずっとオンプレミス環境でインフラエンジニアをやっていたので、
+昨年KAIZENへの転職を機にはじめてAWSをガッツリ触るようになった。(個人レベルではもちろん触ってましたが)</p>
+
+<p>AWSを実際に触ってみると</p>
+
+<ul>
+  <li>各サービスの特徴</li>
+  <li>それぞれのサービスを組み合わせた構成例</li>
+  <li>各種設定方法</li>
+</ul>
+
+<p>などについて、体系的に学べる書籍などが無く(あっても情報が古い)、
+ウェブ上の断片的な情報をその都度参照して、
+恐ろしく非効率な方法で習得して、苦労していたので、
+本書は体系的にAWSのことが習得出来るので大変ありがたかった。</p>
+
+<p>リファレンス的に利用出来るので、「この設定どうするんだろう」みたいな時に
+役に立ってくれている。</p>
+
+<p>紙書籍は450ページもあり、ちょっと持ち歩くのがツラそうだったので、 
+Kindle版を購入したんですが、ページが画像として処理されているので、
+ページ送りが非常に遅く、また文字検索が出来ないのがちょっと残念な感じだったけど
+非常にわかりやすく、内容的にはすばらしかった。</p>
+
+<p>AWSはサービス開発のスピードが速く、新機能が増えたり、UIが変わったりと
+変化が激しいので、1〜2年後には訳に立たなくなってしまうかもしれないが、
+現時点(2015年5月)でAWSに関しての体系的な知識を習得するのにはオススメだと思う。</p>
+
+<h2 id="section">本書目次</h2>
+
+<p><code>
+Chapter1 AWSの基本
+1-1 AWSとは
+クラウドとは
+物理サーバ(オンプレミス)とAWSの違い
+レンタルサーバ(共有サーバ)とAWSの違い
+プライベートクラウドとAWS
+AWSのサービス全体像
+1-2 AWSのネットワークサービス
+リージョンとアベイラビリティゾーン
+Virtual Private Cloud (VPC)
+Route53
+AWSネットワークとVPCネットワーク
+1-3 コンピュータ基盤としてのAWS
+Amazon Elastic Compute Cloud(EC2)
+Amazon Elastic Block Store(EBS)
+EC2におけるバックアップ
+Amazon Simple Storage Service(Amazon S3)
+Amazon Glacier
+1-4 アプリケーション基盤としてのAWS
+Relational Database Service(RDS)
+Elastic Beanstalk
+ElastiCache
+1-5 サービスとしてのAWS
+AWSのアプリケーションサービスの概念
+SESとSQS
+SNSとCloudWatch
+1-6 AWS利用のコスト
+AWSの料金体系
+AWSの料金計算の仕方
+Chapter2 AWSを利用する
+2-1 AWS利用の準備
+AWSアカウントの作成
+ユーザアカウントの作成(IAM)
+2-2 AWS CLI
+AWS CLIのインストールと設定
+AWS CLIの基本的な使用方法
+2-3 AWS SDK
+サポートされる言語とバージョン
+AWS SDKのインストールと設定
+AWS SDKの基本的な使用方法
+2-4 VPCネットワークの作成
+Default-VPC
+Custom-VPCを作成する
+2-5 仮想コンピュータ(Amazon EC2)の利用
+AWS操作用の公開鍵・秘密鍵の作成(KeyPair)
+Security Groupを作成する
+EC2を起動する
+AMIを作成する
+ElasticIP(EIP)の利用
+2-6 ELB(Elastic Load Balancer)を使用する
+ELBのサービス詳細
+ELBの作成
+Chapter3 パターン別構築例
+3-1 EC2を利用した動的サイトの構築
+WordPressを使ったブログサイトの構築
+ロードバランシングとHTTPSサイトの構築
+Marketplacesを利用して、構築済みのインスタンスを利用する
+3-2 Elastic Beanstalkによる動的サイトのサーバレス構築
+Elastic Beanstalkを利用した再構築
+Elastic Beanstalkを利用したロードバランシングとHTTPSサイトの構築
+3-3 S3による静的サイトのサーバレス構築
+S3による静的サイトの構築
+Route53を利用してDNSを設定する
+Route53へドメインの移管
+CloudFrontとの連携
+3-4 Auto Scalingによる自動スケーリングシステムの構築
+Auto Scalingの設定
+Auto Scalingを利用するためのアプリケーション構成
+Auto Scaling使用時のEC2インスタンスの初期化処理
+Immutable Infrastructure
+3-5 Elastic BeanstalkとLambdaによるバッチサーバの構築
+Elastic Beanstalkによるバッチサーバの冗長化構成
+Lambdaによるサーバレスな処理システムの構築
+3-6 CloudFormationによるテンプレートを利用した自動構築
+CloudFormationの概要
+CloudFormationによるネットワーク構築
+CloudFormationによるサーバ構築
+3-7 SESによるメール送信システムの構築
+SESを使ってメールを送信する
+EC2インスタンスにメールサーバを構築する
+外部のメール送信サービスを利用する
+3-8 AWS上に開発環境を構築する
+開発環境の構築と運用
+継続的インテグレーション(CI)を実施する
+3-9 モバイルアプリからAWS上のリソースを利用する
+Cognitoによるユーザ認証と2-tierアーキテクチャ
+AWSのモバイル開発プラットフォーム
+SNSによるモバイルプッシュ通知
+Chapter4 AWSのセキュリティ
+4-1 AWSのセキュリティへの取り組み
+責任共有モデル
+第三者認証
+4-2 IAM(AWS Identity and Access Management)
+AWSのアカウント種類
+IAMユーザとIAMグループ
+IAMロール
+4-3 データ暗号化
+AWSが提供するデータ暗号化サービス・機能
+4-4 WAF・IDS・IPSによる外部からの攻撃対策
+外部からの攻撃の種類と防御方法
+エージェント型とリバースプロキシ型のサービス導入例
+4-5 VPCでネットワークセキュリティを高める
+VPCによるSubnet構成
+SecurityGroupとNetworkACL
+4-6 AWSと脆弱性診断
+侵入(ペネトレーション)テスト
+侵入(ペネトレーション)テストツール
+Chapter5 管理と運用
+5-1 ジョブ管理
+ジョブ管理システムの概念
+サービス型のジョブ管理システム
+5-2 システムを監視する
+AWSのなかから監視する
+AWSの外から監視する
+5-3 アラートを通知する
+AWSの機能を利用した通知方法
+Twilioを利用した電話通知
+5-4 データをバックアップする
+EBSのデータバックアップ
+S3とGlacierを使ったバックアップと管理
+AMIの運用方法
+5-5 AWSにおけるログ管理
+AWSのサービスログ/操作履歴のログを収集保存する
+EC2インスタンスのログを収集保存する
+5-6 AWSにおけるコスト管理
+AWSにおけるコスト管理
+AWSのコストを節約する
+5-7 AWSの利用を支えるサポートの仕組み
+AWSサポート
+AWS Trusted Advisor
+</code></p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://blog.takuros.net/entry/2015/03/02/070323">『Amazon Web Services パターン別構築・運用ガイド』を書きました - プログラマになりたい</a></li>
+  <li><a href="http://blog.takuros.net/entry/2015/03/18/130326">「Amazon Web Services パターン別構築・運用ガイド」の目次 - プログラマになりたい</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Terraform + GitHub + CircleCI + Atlasを利用してAWSの操作を自動化した]]></title>
+    <link href="https://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws/"/>
+    <updated>2015-02-18T19:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://www.terraform.io/">Terraform</a> + <a href="https://github.com/">GitHub</a> + <a href="https://circleci.com/">CircleCI</a> + <a href="https://atlas.hashicorp.com/">Atlas</a> を用いてAWSの操作を自動化した</li>
+  <li>各ツールの役割は下記のような感じ
+    <ul>
+      <li>Terraform =&gt; インフラへの変更ツール </li>
+      <li>GitHub    =&gt; <code>.tf</code>ファイルのバージョン管理</li>
+      <li>CircleCI  =&gt; CI、Terraformをawsに対して実行</li>
+      <li>Atlas     =&gt; インフラの状態を記録する<code>terraform.tfstate</code>の管理</li>
+    </ul>
+  </li>
+  <li><a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">インフラの継続的デリバリー - naoyaのはてなダイアリー</a>にて、言及されていた範囲(Route53の変更、Chefの適用)をAWSの操作全体に拡大した</li>
+</ul>
+
+<h2 id="section">背景</h2>
+
+<h3 id="section-1">今までの問題点</h3>
+
+<ul>
+  <li>AWSの各種操作がブラウザからポチポチ業…</li>
+  <li>手作業なので誤操作に気づきにくい。事故りやすい</li>
+  <li>インフラの実構成がバージョン管理出来ていない</li>
+  <li>ちなみにRoute53に関しては<a href="https://github.com/winebarrel/roadworker">roadworker</a>を用いてコードで管理済みなので、今回はRoute53以外の話です。
+    <ul>
+      <li>refs <a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">インフラの継続的デリバリー - naoyaのはてなダイアリー</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="terraform--github--circleci--atlas-">Terraform + GitHub + CircleCI + Atlas でインフラを管理するメリット</h3>
+
+<ul>
+  <li>ブラウザからのポチポチ業から解放される</li>
+  <li>インフラ構成をコードで管理出来る。バージョン管理が出来る</li>
+  <li>インスタンス追加、EIPの設定などAWSの操作、インフラ構成の変更をGitHubのPR、レビュー、Mergeのプロセスに載せることが出来る</li>
+  <li>自動化が可能になる</li>
+  <li>CircleCI上にインフラ変更のログを保持することが出来る</li>
+  <li>インフラの変更をGitHubのMergeボタンに集約出来る</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/09/c49f738048c64521f7ed981a8d8c9458fdec8347.png" alt="" /></p>
+
+<h2 id="section-2">実装概要</h2>
+
+<p>2015年2月18日現在最新の<code>Terraform v0.3.6</code>を用いて実現している</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/02/terraform001.png" alt="" /></p>
+
+<ol>
+  <li>EC2、EIPなどAWSの変更をコードに書いてGitHubにPush。(Atlasで<code>terraform.tfstate</code>を管理している場合は<code>terraform pull</code>して最新の<code>terraform.tfstate</code>もPush)</li>
+  <li>Pushを契機にCircleCI上で<code>terraform plan --refresh=false</code>を実行してtest。testが通ればPull Requestを作成</li>
+  <li>Pull RequestをmasterにMerge</li>
+  <li>masterへのMergeを契機にCircleCI上からterraformを実行</li>
+  <li><code>terraform apply</code>を実行して、awsに設定を反映</li>
+  <li>Atlasに<code>terraform push</code>して、<code>terraform.tfstate</code>ファイルを管理</li>
+  <li>鮨を食べる</li>
+</ol>
+
+<p>CircleCI上からterraformを実行しているキャプチャ</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/02/terraform002.png" alt="" /></p>
+
+<p>設定ミスやエラーが発生するとFailしてSlackに通知される</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/02/terraform003.png" alt="" /></p>
+
+<h2 id="tf">実際の<code>tf</code>ファイルの感じ</h2>
+
+<ul>
+  <li><a href="https://terraform.io/docs/providers/aws/index.html">Provider: AWS - Terraform by HashiCorp</a></li>
+</ul>
+
+<p>クレデンシャル情報はCircleCI上で暗号化した環境変数を管理していて、Gitリポジトリ内では管理せず、
+CI実行時に生成している。</p>
+
+<p>```
+# credential
+provider “aws” {
+    access_key    = “XXXXXXXXXXXXXXXXXXXX”
+    secret_key    = “XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX”
+    region        = “us-west-1”
+}</p>
+
+<p>provider “atlas” {
+    token         = “XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX”
+}
+```</p>
+
+<p><code>
+# instance
+resource "aws_instance" "dev001_foobar_net" {
+    ami             = "ami-xxxxxxxx"
+    instance_type   = "t2.micro"
+    key_name        = "xxxxxxxxxxxxxxxx"
+    security_groups = ["sg-xxxxxxxx"]
+    subnet_id       = "subnet-xxxxxxxx"
+    tags {
+        Name    = "dev001.foobar.net"
+        Role    = "common"
+        Service = "operator"
+        Env     = "dev"
+    }
+}
+</code></p>
+
+<p><code>
+# eip
+resource "aws_eip" "dev001_foobar_net_eip" {
+    instance = "i-xxxxxxxx"
+    vpc      = true
+}
+</code></p>
+
+<p>などTerraformは同じディレクトリ内にある<code>.tf</code>ファイルを見てくれるので、
+用途毎で<code>.tf</code>ファイルを分けて運用してます。</p>
+
+<h2 id="section-3">その他</h2>
+
+<ul>
+  <li>2014年8月にTerraformがリリース直後にチャレンジしたが、機能が足りずに実現出来なかったが、半年経過して必要機能が揃い実現出来た。</li>
+  <li>今日現在(2015年2月18日)TerraformにはAWS上の既存設定をファイルに落とし込む機能がないので、一から作る必要がある。</li>
+  <li>今回はインスタンスの一斉リプレイスがあったので、そのタイミングを利用して導入した。</li>
+  <li>AtlasとGitHubの連携機能がリリース予定なので、それがリリースされるとさらに便利になるかもしれない(1月リリース予定だったけど)
+    <ul>
+      <li><a href="https://atlas.hashicorp.com/help/guides/version-control">Using Atlas with GitHub</a></li>
+    </ul>
+  </li>
+  <li>今回はAtlasとTerraformだけを組み合わせたが、AtlasはVagrant、Packer、Consulとも連携が出来るので引き続き検証中</li>
+</ul>
+
+<p><img src="https://d250n10lsq5j8r.cloudfront.net/assets/atlas/atlas-how-to@2x-eabe86b956d3b2032c721da7e834f63c.png" alt="" /></p>
+
+<h2 id="section-4">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/zembutsu/items/93e546df765f8b2c4f32">Terraform簡易チュートリアル on AWS - Qiita</a></li>
+  <li><a href="http://blog.cloudpack.jp/2014/12/17/awe-advent-calendar-2014-elastic-ip-adress-eip/">AWS Advent Calendar 2014 〜 Elastic IP アドレス (EIP) のお話 | cloudpack技術情報サイト</a> </li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CloudFrontのログをfluent-plugin-bigqueryを利用してBigQueryに入れるようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery/"/>
+    <updated>2014-11-21T14:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li>Amazon CloudFrontのアクセスログをBigQueryに入れるようにした</li>
+  <li>BigQueryへのデータ投入には社内の他プロジェクトでも利用していて実績があり、KAIZENがメンテナになっている<a href="https://github.com/kaizenplatform/fluent-plugin-bigquery">fluent-plugin-bigquery</a>を利用</li>
+</ul>
+
+<h2 id="section">背景</h2>
+
+<p>ここ2ヶ月くらい、あらゆるログをBigQueryに集約しつつあって、今回はAmazon CloudFrontのアクセスログについて作業をした。</p>
+
+<p>Amazon CloudFrontのアクセスログには以下のような特徴がある。</p>
+
+<ul>
+  <li>Amazon CloudFrontのアクセスログは数時間〜1日程度遅れでS3のBucketに追加される。時系列はバラバラ</li>
+  <li>CloudFrontのアクセスログがtsv形式。</li>
+  <li>ベストエフォート型で全てのログがS3に収容される保証は無い</li>
+  <li><code>gz</code>で圧縮されてS3に追加される(BigQueryに入れるにはgz形式から展開する必要がある)</li>
+  <li>ログファイルの数が非常に多い。作業していた環境でだいたい1日に15,000個くらい<code>gz</code>ファイルがあって、全部をダウンロードするのに160分くらいかかる</li>
+</ul>
+
+<p>という感じ。</p>
+
+<h2 id="section-1">仕組みの詳細</h2>
+
+<p>データの流れ</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/cf2bq01.png" alt="" /></p>
+
+<ol>
+  <li>CloudFrontのログが自動でS3に追加される</li>
+  <li>batchサーバから<code>s3cmd sync</code>でcronで定期的にs3からログファイル(<code>gz</code>形式)をローカルに持ってくる</li>
+  <li>batchサーバで、取得したログファイルを<code>zcat ${FILE} &gt;&gt; /var/log/cloudfront/access.log</code> で連結する</li>
+  <li>batchサーバのFluentdで<code>in_tail</code>を用い<code>/var/log/cloudfront/access.log</code>を読み込む</li>
+  <li><code>fluent-plugin-bigquery</code>を用いてBigQueryにデータを投入する(日付毎にデータ投入先のテーブルを分ける)</li>
+</ol>
+
+<p>こんな感じでBigQueryにデータが入っている</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/cf2bq02.png" alt="" /></p>
+
+<p>先日発表された<a href="https://blog.glidenote.com/blog/2014/11/20/s3-event-notificasions/">S3 Event Notificasionsを検証中</a>なので、問題が無ければ、Amazon SQSを利用した処理に切り替え予定。</p>
+
+<h2 id="section-2">この方式を採用した理由</h2>
+
+<ul>
+  <li>私がFluentdの運用に慣れていた。</li>
+  <li>KAIZENがメンテナをしているfluent-plugin-bigqueryを利用したかった</li>
+  <li>BigQueryへのデータ投入部分を自前で実装しなくて良い</li>
+  <li>BigQueryへのデータ投入周りのエラーハンドリング、再送処理をfluent-plugin-bigqueryに任すことが出来る</li>
+  <li>logrotateを利用して、ログの世代管理が出来る。Fluentdがログ切り替えを検知出来る。(nginxのログなど他のアクセスログと同じような感じで扱える)</li>
+  <li>Fluentdを利用しているので、スケールが容易</li>
+  <li><code>/var/log/cloudfront/access.log-YYYYMMDD.gz</code>というように日別でログが分かれているので、障害やトラブル発生時のリカバリーも簡単になっている。(障害が発生した日の15,000個とかのログをS3から持ってきて云々… みたいな面倒な処理が必要ない)</li>
+</ul>
+
+<h2 id="section-3">その他</h2>
+
+<ul>
+  <li>CloudFrontのログがS3に追加されるのが遅い場合1日程度かかるので、翌日のテーブルにデータが入ってしまう。BigQueryからデータを取り出すときに工夫が必要</li>
+  <li>BigQueryにデータ投入先のテーブルが存在しないと死ぬので、別でテーブル作成の仕組みと監視をしておく必要あり。</li>
+  <li>データサイズが大きい場合、テーブルを適切に分割していないとBigQuery破産に。</li>
+  <li>テーブルの自動作成、監視には<a href="https://rubygems.org/gems/bigquery">bigquery</a>を利用</li>
+</ul>
+
+<p>該当部分の<code>td-agent.conf</code>の設定</p>
+
+<p>```</p>
+<source />
+
+<p>type         tail 
+  path         /var/log/cloudfront/access.log
+  pos_file     /var/log/td-agent/cloudfront-access-log.pos
+  tag          extracted.cflog</p>
+
+<p>format       tsv
+  keys         day,time,x_edge_location,sc_bytes,c_ip,cs_method,cs_Host,cs_uri_stem,sc_status,cs_Referer,cs_User_Agent,cs_uri_query,cs_Cookie,x_edge_result_type,x_edge_request_id,x_host_header,cs_protocol,cs_bytes,time_take
+&lt;/source&gt;</p>
+
+<match extracted.cflog="">
+  type                        bigquery
+
+  buffer_type                 file
+  buffer_path                 /var/log/td-agent/cf.bq.*.buffer
+
+  method                      insert
+
+  auth_method                 private_key
+  email                       ''
+  private_key_path            ''
+
+  buffer_chunk_limit          768k
+  buffer_queue_limit          5000
+  flush_interval              1
+  try_flush_interval          0.05 
+  num_threads                 10 
+  queued_chunk_flush_interval 0.01
+
+  project                     ''
+  dataset                     ''
+  table                       %Y%m%d
+
+  fetch_schema                true
+</match>
+<p>```</p>
+
+<p>BigQueryにログを集約したことで集計も調査も非常に簡単になって、本当にBigQuery素晴らしい。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[S3 Event NotificasionsをAmazon SQSで受け取る]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions/"/>
+    <updated>2014-11-21T11:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions</id>
+    <content type="html"><![CDATA[<p>最近やっている仕事で先日発表された<a href="http://aws.typepad.com/aws_japan/2014/11/s3-event-notification.html">S3 Event Notifications</a>が利用出来そうな感じがしたのでちょっと調査。
+S3にファイルがアップされたらAmazon SQSで通知を受け取るようにしてみた。</p>
+
+<p><code>S3 =&gt; SNS =&gt; SQS</code> への通知は解説しているサイトが結構あるんですが、<code>S3 =&gt; SQS</code> への通知設定の
+情報が見当たらなかったので、動くようになるまで、いろいろと試行錯誤を繰り返した。
+特にSQSのPermission設定が恐ろしく分かりにくくに2日くらいハマったので、自分用にメモしておく。</p>
+
+<h2 id="s3-bucket">S3 Bucketの作成</h2>
+
+<p>S3でBucketを作成。既存Bucketを利用する場合はここはSKIP。
+今回は検証用に<code>glidenote-sqs-test</code>という名前でBucketを作成</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e01.png" alt="" /></p>
+
+<h2 id="sqs">SQSの設定</h2>
+
+<p>S3のイベント通知を受け取るQueueを作成する</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e02.png" alt="" /></p>
+
+<p>Queue名を<code>sqs-test</code>をして作成。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e03.png" alt="" /></p>
+
+<p><code>Add a Permission</code>をクリックして通知の受信元を設定する。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e04.png" alt="" /></p>
+
+<p>下記のように設定して、<code>Add Condition</code>を選択</p>
+
+<ul>
+  <li>Valueには<code>arn:aws:s3:::{S3のBucket名}</code>を設定</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e05.png" alt="" /></p>
+
+<p>Actions部分は<code>SendMessage</code>だけ選択して、<code>Add Permission</code> を選択</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e06.png" alt="" /></p>
+
+<p>こんな感じの設定になっていることを確認</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e07.png" alt="" /></p>
+
+<h2 id="s3-event-notifications">S3 Event Notificationsの設定</h2>
+
+<p>S3のイベント通知をSQSに送るように設定。下記の例では<code>PUT</code>と<code>POST</code>イベントのみSQSに通知するように設定</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e08.png" alt="" /></p>
+
+<p>正しく設定が出来ると下記のようになる。SQSのパーミッション設定が上手くてきていないとエラーになる。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e09.png" alt="" /></p>
+
+<h2 id="s3-eventsqs">実際にS3 EventをSQSで受け取る</h2>
+
+<p>下記のようなrubyのスクリプトを用意してSQSでイベントを受信してみる</p>
+
+<p>```ruby
+#!/usr/bin/env ruby
+# -<em>- coding: utf-8 -</em>-</p>
+
+<p>require ‘aws-sdk’</p>
+
+<p>AWS.config(
+  :access_key_id     =&gt; ‘your_access_key_id’, 
+  :secret_access_key =&gt; ‘your_secret_access_key’,
+  :sss_endpoint      =&gt; ‘sqs.ap-northeast-1.amazonaws.com’
+)</p>
+
+<p>url = ‘https://sqs.ap-northeast-1.amazonaws.com/xxxxxxxxxxxx/sqs-test’</p>
+
+<p>sqs = AWS::SQS.new</p>
+
+<p>while true
+  receive = sqs.queues[url].receive_message()
+  if receive
+    puts receive.body
+    receive.delete
+    sleep 1
+  end
+  puts “Waiting”
+  sleep 1
+end
+```</p>
+
+<p>するとほぼリアルタイムで下記のような感じでイベントを受信出来る</p>
+
+<p><code>
+{"Records":[{"eventVersion":"2.0","eventSource":"aws:s3","awsRegion":"ap-northeast-1","eventTime":"2014-11-20T06:16:39.474Z","eventName":"ObjectCreated:Put","userIdentity":{"principalId":"AWLW0VGTI46AA"},"requestParameters":{"sourceIPAddress":"10.115.144.24"},"responseElements":{"x-amz-request-id":"E1C0A0C1F42CAA54","x-amz-id-2":"0p2FzYuEkiyaZn/n33XJLYjE3cmePkiqEFF5NMYy+c1PSGTNfmUf+Msou4Mejnr0"},"s3":{"s3SchemaVersion":"1.0","configurationId":"S3TestNotification","bucket":{"name":"glidenote-sqs-test","ownerIdentity":{"principalId":"AWLW0VGTI46AA"},"arn":"arn:aws:s3:::glidenote-sqs-test"},"object":{"key":"shindel.png","size":794485,"eTag":"b52627268c0e9071be00c5a38fdbc912"}}}]}
+</code></p>
+
+<p>リアルタイムでS3のイベントを受信するにはSQSと常時通信しているために
+Supervisordなどを用いてスクリプトを動かす必要があり。</p>
+
+<p>これでリアルタイムな処理に対応が出来るようになった。ちょっと現在やってるタスクに適用出来るかしばらく検証してみる。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.cloudpack.jp/2014/11/17/white-belt-22-new-feature-amazon-s3-notification-sns-sqs-and-raspberry-pi/">Amazon S3 Event Notifications</a></li>
+  <li><a href="http://docs.aws.amazon.com/ja_jp/AmazonS3/latest/dev/NotificationHowTo.html">バケットイベントの通知の設定 - Amazon Simple Storage Service</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,710 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="プレゼンの資料を公開するのに今回Speaker Deckを
+使ってみたのですが、自分のブログに資料を貼ろうとしても上手く表示されず。 ちょっと工夫が必要だったのでメモ。 結論から言うとEmbedlyを活用すれば出来る。 Embedly | Embed any URL through one &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/25/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/25">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="プレゼンの資料を公開するのに今回Speaker Deckを
+使ってみたのですが、自分のブログに資料を貼ろうとしても上手く表示されず。 ちょっと工夫が必要だったのでメモ。 結論から言うとEmbedlyを活用すれば出来る。 Embedly | Embed any URL through one powerful API Speaker Deck自体のScript Speaker &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/21/speaker-deck/">Speaker Deckを貼れないサイトにEmbedlyを利用して貼る方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-21T06:30:00+09:00" pubdate data-updated="true">2012年04月21日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>プレゼンの資料を公開するのに今回<a href="http://speakerdeck.com/">Speaker Deck</a>を
+使ってみたのですが、自分のブログに資料を貼ろうとしても上手く表示されず。 
+ちょっと工夫が必要だったのでメモ。</p>
+
+<p>結論から言うと<a href="http://embed.ly/">Embedly</a>を活用すれば出来る。</p>
+
+<ul>
+  <li><a href="http://embed.ly/">Embedly | Embed any URL through one powerful API</a></li>
+</ul>
+
+<h2 id="speaker-deckscript">Speaker Deck自体のScript</h2>
+
+<p>Speaker Deck自体で表示されるのは下記のようなscript</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&lt;script async class="speakerdeck-embed" data-id="4f9008a649bc250022016265" data-ratio="1.299492385786802" src="//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>上を貼ってもそのまま表示されてプレゼン資料は表示されず。</p>
+
+<p>いろいろ調べてみると、Speaker Deck自体が貼れないブログサービス、
+CMSが結構あるらしく上手く貼るために別途プラグインが用意されているというのを理解。</p>
+
+<p>やっぱSlideShareに変更しようかと迷いながら、なんとかする方法は無いか調べていたら
+公式のFAQを読んでいたら下記のような記載を発見。</p>
+
+<blockquote><p>Every presentation on Speaker Deck has the oEmbed endpoint as a link tag in the header so it can be automatically detected by sites like Embed.ly.</p><footer><strong>How do I use oEmbed to display a presentation on my site?</strong> <cite><a href="http://speakerdeck.com/faq#oembed">speakerdeck.com/faq#oembed/&hellip;</a></cite></footer></blockquote>
+
+<h2 id="embedly">Embedlyを利用</h2>
+
+<p>下記のように自分の資料のURLを入力</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/embedly0.png" alt="" /></p>
+
+<p>すると下記のように変換される</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/embedly1.png" alt="" /></p>
+
+<p>Embedlyで表示されるiframeを利用した形式</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&lt;iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="presentation_frame_4f9008a649bc250022016265" src="//speakerdeck.com/embed/4f9008a649bc250022016265" width="700" height="601"&gt;&lt;/iframe&gt;  </span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>上を貼るとちゃんと表示されるようになりました。<br />
+これで「2012年にもなってSlideShare使ってんじゃねえよ」とかdisられなくて済みます。たぶん。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/20/mysql-casucal-vol3/">MySQL Casual Talks Vol.3でLTをさせて頂きました</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-20T08:00:00+09:00" pubdate data-updated="true">2012年04月20日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://atnd.org/events/26373">MySQL Casual Talks Vol.3</a>でLTをさせて頂きました。<br />
+登壇の機会を与えてくれた主催の<a href="https://twitter.com/#!/myfinder">@myfinder</a>さん、
+会場を提供していただいた日本オラクルさん、運営に携わった方々ありがとうございました！</p>
+
+<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="presentation_frame_4f9008a649bc250022016265" src="//speakerdeck.com/embed/4f9008a649bc250022016265" width="700" height="601"></iframe>
+
+<p><br clear="all" /></p>
+
+<p>以前blogに書いた内容に、実際の状況などを加えCacualに話させて頂きました。<br />
+詳しい内容は下記エントリをご覧ください</p>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2011/12/01/watch-mysql-replication-error/">logmonとMaatkitでMySQLレプリケーションエラーから自動復旧 - Glide Note - グライドノート</a></li>
+  <li><a href="https://blog.glidenote.com/blog/2011/12/02/logmon-with-supervisord/">ログファイル監視スクリプトlogmonをsupervisordで管理 - Glide Note - グライドノート</a></li>
+</ul>
+
+<p>あと下記のようなエントリを書いておいて、何事も無かったかのようにしれっとkeynoteでCasualにLT。</p>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2012/04/04/presentation-2012/">2012年のプレゼンはgithub pages+markdown2impressで決まり!! - Glide Note - グライドノート</a></li>
+</ul>
+
+<p>私が運悪く担当サービスのメンテ日と重なってしまい、<a href="http://atnd.org/events/28056">懇親会</a>に出れなくて残念でしたが、
+<a href="https://twitter.com/#!/n0ts">@n0ts</a>さん、<a href="https://twitter.com/#!/sugyan">@sugyan</a>さんにお会いできて感激しました。 </p>
+
+<p>またどこかで登壇する機会があれば、そのときは皆様よろしくお願いします。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/16/sheet/">CUIなスニペットツールsheetが便利なのでzshでsheetファイルを補完</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-16T10:25:00+09:00" pubdate data-updated="true">2012年04月16日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>コマンドラインで動作するスニペットツール「<a href="http://oscardelben.github.com/sheet/">sheet</a>」を
+使ってみたらめちゃくちゃ便利だったので、zshでsheetファイルを補完するようにしてみました。</p>
+
+<ul>
+  <li><a href="http://oscardelben.github.com/sheet/">Sheet - Text snippets for the command line</a></li>
+</ul>
+
+<p>ついでにsheetの導入方法と使い方も案内。
+sheetの要件の記載が特に無いですが、恐らくRuby 1.9以上は必要かと。
+導入環境は<code>Lion</code>です。</p>
+
+<h2 id="section">導入方法</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">gem install sheet</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="sheet">sheetの使い方</h2>
+
+<h3 id="sheet-1">sheetの確認</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sheet</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>もしくは</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sheet list</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="sheet-2">sheetの作成</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sheet new シート名</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>たとえば、apacheのログ確認用のスニペットファイルを作成するときは</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sheet apache</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>とかでファイルを開いてエディタで編集。</p>
+
+<h3 id="sheet-3">sheetの編集</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sheet edit シート名</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="sheet-4">sheetのクリップボードへのコピー</h3>
+
+<p>Macの<code>pbcopy</code>でしか動作確認していないですが、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sheet copy シート名</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>でシートの中身をクリップボードにコピー出来ます。
+(linuxも<code>xclip</code>でクリップボードと連携出来るようですが、
+私のFedora16環境では動作しなかったので誰かlinuxでの検証を!!)</p>
+
+<h2 id="sheet-5">sheetの削除</h2>
+
+<p>シートの削除自体が、今のところ実装されていないので
+<code>~/.sheet/</code>内のファイルを<code>rm</code>する感じです。</p>
+
+<h2 id="url">URLを開く</h2>
+
+<p>定型フォーマットでURLを記載しておくとブラウザで開くことが出来ます。</p>
+
+<p>sheetファイルを用意。(<code>google</code>というシートファイルを作成)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sheet new google</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下記のようなフォーマットで用意</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">url: https://www.google.co.jp/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下記コマンドでブラウザにurlを渡されます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sheet google</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">活用方法</h2>
+
+<p>とりあえず私は</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sheet new apache</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>とかで<code>apache</code>,<code>mysql</code>とかでソフトウェアごとに分類して、よく使うコマンドを下記のように登録してます。</p>
+
+<div><script src="https://gist.github.com/2394106.js?file=apache-command.sh"></script>
+<noscript><pre><code># 直近5000アクセス中、アクセスが集中しているURLを調べ、上位4件を表示。 
+tail -5000 /usr/local/apache2/logs/access_log|awk &#39;{print $1}&#39;|sort | uniq -c |sort -gr|head -n 4
+
+# 直近5000アクセス中、アクセス元のIPアドレスを調べ、上位4件を表示。 
+tail -5000 /usr/local/apache2/logs/access_log|awk &#39;{print $2}&#39;|sort | uniq -c |sort -gr|head -n 4
+
+# 直近5000アクセス中アクセスの多いリダイレクト元（アクセス元)を調べ、上位4件を表示。 
+tail -n 5000 /usr/local/apache2/logs/access_log | awk &#39;{print $12}&#39; | sort | uniq -c | sort -gr | head -n 4 
+
+# 直近5000アクセス中アクセスの多いU/Aを調べ、上位4件を表示。 
+tail -n 5000 /usr/local/apache2/logs/access_log | awk &#39;{print $13}&#39; | sort | uniq -c | sort -gr | head -n 4</code></pre></noscript></div>
+
+<div><script src="https://gist.github.com/2394106.js?file=mysql-command.sql"></script>
+<noscript><pre><code># ユーザの確認
+select user,host,password from mysql.user;
+
+# レプリケーションエラー対応用
+stop slave;
+SET GLOBAL SQL_SLAVE_SKIP_COUNTER=1;
+start slave;
+show slave status\G
+
+# mk-slave-restart
+mk-slave-restart -uroot -p --error-numbers 1062 --verbose</code></pre></noscript></div>
+
+<p>そしてzshでsheetファイルが補完されるように<code>.zshrc</code>に下記のような設定を記載</p>
+
+<div><script src="https://gist.github.com/2375020.js"></script>
+<noscript><pre><code># sheet
+function _sheets {
+  _files -W ~/.sheets/ &amp;&amp; return 0;
+  return 1;
+}
+compdef _sheets sheet</code></pre></noscript></div>
+
+<p>sheetで呼び出してterminalやら、tmuxのコピーモードで必要な行だけコピーして利用してます。<br />
+普段あんまり利用しないコマンドとかを一式用意しておくと楽が出来そうです。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/14/mosh-hostname-completion/">zsh+MoshでHostnameを補完出来るようにした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-14T09:58:00+09:00" pubdate data-updated="true">2012年04月14日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://mosh.mit.edu/">Mosh</a>を利用していてHostnameが補完されずに不便だったので、
+下記を<code>.zshrc</code>に書いて、sshと同じように<code>mosh [tab]</code>でhostnameを補完するようにしました。
+ほぼssh補完関数そのままですが。</p>
+
+<div><script src="https://gist.github.com/2381208.js"></script>
+<noscript><pre><code># mosh
+function _mosh_hosts {
+  local -a config_hosts
+  local config
+  integer ind
+
+  # If users-hosts matches, we shouldn&#39;t complete anything else.
+  if [[ &quot;$IPREFIX&quot; == *@ ]]; then
+    _combination -s &#39;[:@]&#39; my-accounts users-hosts &quot;users=${IPREFIX/@}&quot; hosts &quot;$@&quot; &amp;&amp; return
+  else
+    _combination -s &#39;[:@]&#39; my-accounts users-hosts \
+      ${opt_args[-l]:+&quot;users=${opt_args[-l]:q}&quot;} hosts &quot;$@&quot; &amp;&amp; return
+  fi
+  if (( ind = ${words[(I)-F]} )); then
+    config=${~words[ind+1]}
+  else
+    config=&quot;$HOME/.ssh/config&quot;
+  fi
+  if [[ -r $config ]]; then
+    local IFS=$&#39;\t &#39; key hosts host
+    while read key hosts; do
+      if [[ &quot;$key&quot; == (#i)host ]]; then
+	 for host in ${(z)hosts}; do
+	    case $host in
+	    (*[*?]*) ;;
+	    (*) config_hosts+=(&quot;$host&quot;) ;;
+	    esac
+	 done
+      fi
+    done &lt; &quot;$config&quot;
+    if (( ${#config_hosts} )); then
+      _wanted hosts expl &#39;remote host name&#39; \
+	compadd -M &#39;m:{a-zA-Z}={A-Za-z} r:|.=* r:|=*&#39; &quot;$@&quot; $config_hosts
+    fi
+  fi
+}
+
+compdef _mosh_hosts mosh</code></pre></noscript></div>
+
+<p><code>$HOME/.ssh/config</code>と<code>$HOME/.ssh/known_hosts</code>に記載されているものは
+補完されるようになりました。</p>
+
+<p><strong>2012年4月23日 追記</strong></p>
+
+<p><a href="https://twitter.com/#!/n0ts">@n0ts</a>さんがブログで紹介していた方法のほうが楽なので追記。</p>
+
+<ul>
+  <li><a href="http://www.sssg.org/blogs/naoya/archives/2245">mosh コマンドで ssh コマンドと同等の補完をする方法 | Carpe Diem</a></li>
+</ul>
+
+<p><code>.zshrc</code>に下記を1行追加だけでホスト名が補完されるのでこっちの方が楽です。
+(ホスト名だけでなくsshのオプションも補完されてしまいますが)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">compdef mosh=ssh</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ますますMosh生活が快適になりました。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/12/octopress-canonical-problem/">Octopress利用時のrel=&#8217;canonical&#8217;の問題</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-12T23:00:00+09:00" pubdate data-updated="true">2012年04月12日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://octopress.org/">Octopress</a>を利用していて、はてブが分散されてしまう問題があって
+原因がよく分かっていなかったんですが、<a href="https://twitter.com/#!/sugyan">@sugyan</a>さんに
+指摘して頂いて解決しました!!@sugyanさん、ありがとうございます!!</p>
+
+<h2 id="octopress">Octopressのソースで修正した箇所</h2>
+
+<p>結論から言うと、下記のように修正して解決。</p>
+
+<div><script src="https://gist.github.com/2365383.js"></script>
+<noscript><pre><code>diff --git a/source/_includes/head.html b/source/_includes/head.html
+index 0fdc401..198cd0d 100644
+--- a/source/_includes/head.html
++++ b/source/_includes/head.html
+@@ -17,7 +17,7 @@
+   &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+ 
+   {% capture canonical %}{{ site.url }}{% if site.permalink contains &#39;.html&#39; %}{{ page.url }}{% else %}{{ page.url | remove:&#39;index.html&#39; | strip_slash }}{% endif %}{% endcapture %}
+-  &lt;link rel=&quot;canonical&quot; href=&quot;{{ canonical }}&quot;&gt;
++  &lt;link rel=&quot;canonical&quot; href=&quot;{{ canonical }}/&quot;&gt;
+   &lt;link href=&quot;{{ root_url }}/favicon.png&quot; rel=&quot;icon&quot;&gt;
+   &lt;link href=&quot;{{ root_url }}/stylesheets/screen.css&quot; media=&quot;screen, projection&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;
+   &lt;script src=&quot;{{ root_url }}/javascripts/modernizr-2.0.js&quot;&gt;&lt;/script&gt;</code></pre></noscript></div>
+
+<h2 id="section">問題エントリの一例</h2>
+
+<ul>
+  <li><a href="http://b.hatena.ne.jp/entry/blog.glidenote.com/blog/2012/02/29/autojump-zsh/">はてなブックマーク - zsh使いなら効率改善のため知っておきたいAUTOJUMP - Glide Note - グライドノート</a></li>
+  <li><a href="http://b.hatena.ne.jp/entry/blog.glidenote.com/blog/2012/02/29/autojump-zsh">はてなブックマーク - zsh使いなら効率改善のため知っておきたいAUTOJUMP - Glide Note - グライドノート</a></li>
+</ul>
+
+<p>エントリが重複している…</p>
+
+<ul>
+  <li><a href="http://b.hatena.ne.jp/entrylist?url=http%3A%2F%2Fblog.glidenote.com%2F">『Glide Note - グライドノート』 の新着エントリー - はてなブックマーク</a></li>
+</ul>
+
+<h2 id="sugyan">@sugyanさんの指摘</h2>
+
+<blockquote class="twitter-tweet" lang="ja"><p>glidenoteさんスゴいなー 手が早い…このブログ、link rel=&#8221;canonical&#8221;で指定されてるURLが末尾スラッシュ無しなのに目次などからのurlはスラ有りだったりで、はてブが分散されてる気がする</p>&mdash; すぎゃーんさん (@sugyan) <a href="https://twitter.com/sugyan/status/189992754657509376" data-datetime="2012-04-11T08:26:17+00:00">4月 11, 2012</a></blockquote>
+<script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<h2 id="section-1">問題の原因</h2>
+
+<ul>
+  <li>Octopress自体が生成するURLが<code>https://blog.glidenote.com/blog/2012/02/29/autojump-zsh/</code>というような末尾に<code>/</code>有りのURL</li>
+  <li>htmlソースに記載されているcanonicalは<code>https://blog.glidenote.com/blog/2012/02/29/autojump-zsh</code>と末尾に<code>/</code>無しのURL</li>
+</ul>
+
+<p>これにより、別エントリとして解釈されており、よく調べてみたら<a href="https://github.com/imathis/octopress/pull/415">githubでも問題は指摘されていました</a>。</p>
+
+<p>Octopress利用していて残念だった点が解消しました!!<strong>@sugyan++</strong><br />
+感謝の意を表して@sugyanさんの好きな画像を貼って起きますよ</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/momoclo.jpg" alt="" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/26/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/24/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: xen | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/xen/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ERROR Invalid kernel: xc_dom_find_loader: no loader found]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/01/23/invalid-kernel-xc_dom_find_loader-no-loader-found/"/>
+    <updated>2012-01-23T10:15:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/01/23/invalid-kernel-xc_dom_find_loader-no-loader-found</id>
+    <content type="html"><![CDATA[<p>オフィスが入ってるビルの法令停電の関係で、開発サーバのXen母艦のサーバを再起動したら、ゲストOSが起動しなくなって少しハマったのでメモ。</p>
+
+<p>自動起動にしているVMが起動していなかったので、試しに<code>xm create hogehoge</code>とかやったら</p>
+
+<p><code>
+Error: (2, 'Invalid kernel', 'xc_dom_find_loader: no loader found\n')
+</code></p>
+
+<p>続けて、<code>xm create mogemoge</code>と別のVMを起動しても</p>
+
+<p><code>
+Error: (1, 'Internal error', 'xc_dom_do_gunzip: inflate failed (rc=-5)\n')
+</code></p>
+
+<p>とエラーが出て起動しなかった、いろいろググってみて対応してみるも現象変わらず。</p>
+
+<p>xenのログをよく見返してみたら、上のエラーに埋もれて</p>
+
+<p><code>
+IOError: [Errno 28] No space left on device
+</code></p>
+
+<p>が出ており、<code>df</code>を打ってみたら<code>/var</code>が100%になっていたので、
+<code>/var</code>配下の不要なファイルを削除し、<code>xm create hogehoge</code>を再度実行したら正常に起動。</p>
+
+<p>単なる容量不足のエラーなんですが、表示が紛らわしい。</p>
+
+<p>先週の法令停電では問題無かったので、甘く見ててハマりました。<br />
+早めに出社して、始業前に解決したので良かった</p>
+]]></content>
+  </entry>
+  
+</feed>

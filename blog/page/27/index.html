@@ -1,0 +1,1152 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="前回のサーバ編に続いて、今回はクライアント側の設定 クライアント側にもUT-VPNを導入 クライアント全台で同じ作業が必要です。
+サーバ側と同じ手順なので省略。
+導入が終わったらサービスを起動。 1
+utvpnclient start UT-VPNクライアントの設定 VPN &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/27/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/27">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="前回のサーバ編に続いて、今回はクライアント側の設定 クライアント側にもUT-VPNを導入 クライアント全台で同じ作業が必要です。
+サーバ側と同じ手順なので省略。
+導入が終わったらサービスを起動。 1
+utvpnclient start UT-VPNクライアントの設定 VPN Clientの設定なので2を選んで、接続先のホスト名または IP アドレスの部分は空のままEnter 1
+2
+3
+4
+5 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/05/install-ut-vpn-client/">UT-VPNを導入(クライアント側設定編)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-05T22:48:00+09:00" pubdate data-updated="true">2012年04月05日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6/">前回のサーバ編</a>に続いて、今回はクライアント側の設定</p>
+
+<h2 id="ut-vpn">クライアント側にもUT-VPNを導入</h2>
+
+<p>クライアント全台で同じ作業が必要です。
+<a href="https://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6/">サーバ側と同じ手順</a>なので省略。
+導入が終わったらサービスを起動。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">utvpnclient start</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="ut-vpn-1">UT-VPNクライアントの設定</h2>
+
+<p>VPN Clientの設定なので<code>2</code>を選んで、<code>接続先のホスト名または IP アドレス</code>の部分は空のままEnter</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">utvpncmd
+</span><span class="line">
+</span><span class="line">utvpncmd コマンド - SoftEther UT-VPN コマンドライン管理ユーティリティ
+</span><span class="line">SoftEther UT-VPN コマンドライン管理ユーティリティ (utvpncmd コマンド)
+</span><span class="line">Version 1.01 Build 7101   (Japanese)
+</span><span class="line">Compiled 2010/06/27 18:40:28 by yagi at pc25
+</span><span class="line">Copyright (C) 2004-2010 SoftEther Corporation.
+</span><span class="line">Copyright (C) 2004-2010 University of Tsukuba, Japan.
+</span><span class="line">Copyright (C) 2003-2010 Daiyuu Nobori.
+</span><span class="line">All Rights Reserved.
+</span><span class="line">
+</span><span class="line">utvpncmd プログラムを使って以下のことができます。
+</span><span class="line">
+</span><span class="line">1. VPN Server または VPN Bridge の管理
+</span><span class="line">2. VPN Client の管理
+</span><span class="line">3. VPN Tools コマンドの使用 (証明書作成や通信速度測定)
+</span><span class="line">
+</span><span class="line">1 - 3 を選択: 2
+</span><span class="line">
+</span><span class="line">接続先の VPN Client が動作しているコンピュータの IP アドレスまたはホスト名を指定してください。
+</span><span class="line">何も入力せずに Enter を押すと、localhost (このコンピュータ) に接続します。
+</span><span class="line">なお、このコマンドでは SoftEther UT-VPN Client を管理できますが、PacketiX VPN Client は管理できませんのでご注意ください。
+</span><span class="line">接続先のホスト名または IP アドレス:
+</span><span class="line">
+</span><span class="line">VPN Client "localhost" に接続しました。</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="up-vpn">UP-VPNサーバへの接続設定</h3>
+
+<p>接続設定は下記のようにします。接続ユーザはServer側で作成したユーザです。</p>
+
+<ul>
+  <li>接続UT-VPNサーバ: <code>vpn001.hogemoge.com</code></li>
+  <li>利用ポート: <code>5555</code></li>
+  <li>接続仮想HUB: <code>DEFAULT</code></li>
+  <li>接続ユーザ: <code>glidenote</code></li>
+  <li>仮想NIC名: <code>utvpn_vpn</code></li>
+  <li>接続設定名: <code>vpn001</code></li>
+</ul>
+
+<p><code>AccountCreate</code>で接続設定を作成。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">VPN Client&gt;AccountCreate vpn001 /SERVER:vpn001.hogemoge.com:5555 /HUB:DEFAULT /USERNAME:glidenote /NICNAME:utvpn_vpn
+</span><span class="line">AccountCreate コマンド - 新しい接続設定の作成
+</span><span class="line">コマンドは正常に終了しました。</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>AccountPasswordSet</code>でパスワードの設定。このバスワードはServer側でユーザ作成した際に設定したものです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">VPN Client&gt;AccountPasswordSet vpn001
+</span><span class="line">AccountPasswordSet コマンド - 接続設定のユーザー認証の種類をパスワード認証に設定
+</span><span class="line">パスワードを入力してください。キャンセルするには Ctrl+D キーを押してください。
+</span><span class="line">
+</span><span class="line">パスワード: ********
+</span><span class="line">確認入力  : ********
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">standard または radius の指定: standard
+</span><span class="line">
+</span><span class="line">コマンドは正常に終了しました。</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>AccountConnect</code>でUT-VPNサーバへの接続</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">VPN Client&gt;AccountConnect vpn001
+</span><span class="line">AccountConnect コマンド - 接続設定を使用して VPN Server へ接続を開始
+</span><span class="line">コマンドは正常に終了しました。</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>AccountStartupSet</code>でUT-VPN Client起動時に自動で接続するように設定</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">VPN Client&gt;AccountStartupSet vpn001
+</span><span class="line">AccountStartupSet コマンド - 接続設定をスタートアップ接続に設定
+</span><span class="line">コマンドは正常に終了しました。</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>接続状態の確認</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">VPN Client&gt;AccountList
+</span><span class="line">AccountList コマンド - 接続設定一覧の取得
+</span><span class="line">項目               |値
+</span><span class="line">-------------------+-------------------------------------------
+</span><span class="line">接続設定名         |vpn001
+</span><span class="line">状態               |オフライン
+</span><span class="line">接続先 VPN サーバー|vpn001.hogemoge.com:5555 (直接 TCP/IP 接続)
+</span><span class="line">仮想 HUB 名        |DEFAULT
+</span><span class="line">仮想 LAN カード名  |VPN
+</span><span class="line">コマンドは正常に終了しました。</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>Ctrl+D</code>で設定画面を抜けます。</p>
+
+<h2 id="nicip">仮想NICに固定IPを割り当て</h2>
+
+<p>UT-VPNの設定が終わったら、仮想NICが出来ているので、IPを割り当てます。
+仮想NICのIPはクライアントサーバごとに設定します。</p>
+
+<p>サーバA(192.168.100.60)の設定</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ifconfig utvpn_vpn 192.168.100.60 netmask 255.255.255.0</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>サーバB(192.168.100.70)の設定</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ifconfig utvpn_vpn 192.168.100.70 netmask 255.255.255.0</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>設定が終わったらサーバAからサーバBにpingが通るか疎通確認。</p>
+
+<h2 id="section">起動スクリプトの用意</h2>
+
+<p>私は下記のようなスクリプト<code>/etc/rc.d/init.d/utvpnclient</code>を用意しています。</p>
+
+<div><script src="https://gist.github.com/2307698.js?file=utvpnclient.sh"></script>
+<noscript><pre><code>#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:                     vpnclient
+# Required-Start:               $local_fs $remote_fs $network
+# X-UnitedLinux-Should-Start:   $named $time
+# Required-Stop:                $local_fs $remote_fs $network
+# X-UnitedLinux-Should-Stop:
+# Default-Start:                2 3 4 5
+# Default-Stop:                 0 1 6
+# Short-Description:            UT-VPN Client
+# Description:                  Start the utvpnclient daemon UT-VPN Client
+# chkconfig: 2345 99 30
+### END INIT INFO
+
+DAEMON=/usr/bin/utvpnclient
+LOCK=/var/lock/subsys/utvpnclient
+
+test -x $DAEMON || exit 0
+case &quot;$1&quot; in
+    start)
+        $DAEMON start
+        touch $LOCK
+        sleep 3
+        /root/bin/add_route.sh
+        ;;
+    stop)
+        $DAEMON stop
+        rm $LOCK
+        ;;
+    restart)
+        $0 stop
+        sleep 3         # Adjust according to your env
+        $0 start
+        ;;
+    *)
+        echo &quot;Usage: $0 {start|stop|restart}&quot;
+        exit 1
+esac
+exit 0</code></pre></noscript></div>
+
+<p>上記スクリプトに<code>/root/bin/add_route.sh</code>というのを実行させて、固定IPを設定(192.168.100.60サーバの例)</p>
+
+<div><script src="https://gist.github.com/2307698.js?file=add_route.sh"></script>
+<noscript><pre><code>#!/bin/sh
+
+/sbin/ifconfig utvpn_vpn 192.168.100.60 netmask 255.255.255.0</code></pre></noscript></div>
+
+<p>これで、UT-VPNクライアント同士が通信できるようになりました。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/04/presentation-2012/">2012年のプレゼンはgithub pages+markdown2impressで決まり!!</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-04T20:00:00+09:00" pubdate data-updated="true">2012年04月04日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今度<a href="http://atnd.org/events/26373">MySQL Casual Talks Vol.3 : ATND</a>でLTをさせて頂くので
+そろそろ資料作りをしないとなーと思っていて、プレゼン作成で良い方法があったのでメモ。</p>
+
+<h2 id="section">プレゼン作成に使用する環境</h2>
+
+<ul>
+  <li><a href="https://github.com/yoshiki/markdown2impress">yoshiki/markdown2impress</a></li>
+  <li><a href="https://github.com/defunkt/hub">defunkt/hub</a></li>
+  <li><a href="https://github.com/glidenote/hub-zsh-completion">glidenote/hub-zsh-completion</a></li>
+</ul>
+
+<p>拙作の<a href="https://github.com/glidenote/hub-zsh-completion">hub-zsh-completion</a>は無くても
+作業は出来ますが、hubコマンドが補完されるので導入しておくと便利です。
+<code>markdown2impress</code>と<code>hub-zsh-completion</code>の導入方法は以前紹介しているので
+そちらを参照してください。</p>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2012/03/19/markdown2impress/">markdown2impressを導入してみた - Glide Note - グライドノート</a></li>
+  <li><a href="https://blog.glidenote.com/blog/2012/02/25/hub-zsh-completion/">githubのhubコマンドを補完するzsh補完関数を作ってみた - Glide Note - グライドノート</a></li>
+</ul>
+
+<h2 id="section-1">作業用ディレクトリの作成</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir -p ~/work/slide-test
+</span><span class="line">cd ~/work/slide-test</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">プレゼン資料の下書き作成</h2>
+
+<p>markdown2impressを利用するので、プレゼン資料の下書きをmarkdownで記載。
+ここでは<code>slide.markdown</code>とでもします。vimやら好きなエディタで作成してください。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vim ~/work/slide-test/slide.markdown</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="markdown2impressindexhtml">markdown2impressで下書きからindex.htmlの作成</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~/bin/markdown2impress.pl ~/work/slide-test/slide.markdown</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>この状態で該当ディレクトリは下記のようなファイル構成になっています。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[akira@MacBookAir] $ ls -1 ~/work/slide-test
+</span><span class="line">css
+</span><span class="line">index.html
+</span><span class="line">js
+</span><span class="line">slide.markdown</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="hubgithub">hubコマンドでgithubにリポジトリを作成</h2>
+
+<p>githubでブラウザからリポジトリを作成してもいいんですが、
+せっかく<a href="https://github.com/defunkt/hub">hub</a>という便利なコマンドがあるので、
+hubコマンドを用いて、リポジトリを作成します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cd ~/work/slide-test/
+</span><span class="line">git init
+</span><span class="line">hub create</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>hub-zsh-completionを導入していると<code>hub create</code>ではなく、<code>git create</code>でも
+リポジトリの作成が出来ます。</p>
+
+<h2 id="section-3">プレゼンページの作成</h2>
+
+<p>github pagesを作成するには<code>gh-pages</code>というブランチを切ってpushするだけです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cd ~/work/slide-test/
+</span><span class="line">git add .
+</span><span class="line">git commit -a -m "first commt"
+</span><span class="line">git branch gh-pages
+</span><span class="line">git push origin gh-pages</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>gh-pages</code>というブランチを作成してpushすると<a href="http://glidenote.github.com/slide-test">http://glidenote.github.com/slide-test</a>
+という形でgithub pagesが作成されます。</p>
+
+<p>下記にテスト用でスライドを上げてます。
+(Octopress用に、CNAMEをあてているので、<a href="https://blog.glidenote.com/slide-test/">https://blog.glidenote.com/slide-test/</a>
+になっていますが)</p>
+
+<ul>
+  <li><a href="http://glidenote.github.com/slide-test">http://glidenote.github.com/slide-test</a></li>
+</ul>
+
+<h2 id="section-4">プレゼンページの編集、更新方法</h2>
+
+<p><code>gh-pages</code>というブランチで下書きのmarkdownを編集、commit、pushでスライドは更新されます。
+<code>gh-pages</code>はキャッシュが利いているようで、pushしても即反映はされない場合があるので5分程度待ちましょう。</p>
+
+<p>編集、更新作業の流れて気には下記のような感じです</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">git checkout gh-pages
+</span><span class="line">vim ~/work/slide-test/slide.markdown
+</span><span class="line">~/bin/markdown2impress.pl ~/work/slide-test/slide.markdown
+</span><span class="line">git commit -a
+</span><span class="line">git push origin gh-pages</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>スライドごとにリポジトリを作成するのは無駄なので、<code>slides</code>とかでリポジトリを作成し、
+その下に<code>2012/hoge</code>とかディレクトリを切って、管理していくと良いかと思います。  </p>
+
+<p>好きなエディタで資料作成出来るし、表示確認以外はコマンドラインで作業が完結するのでいろいろと捗ります。  </p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/03/subsonic-nginx/">さくらVPS 2G+Subsonic+Nginxで自分用ストリーミングサーバを構築</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-03T01:18:00+09:00" pubdate data-updated="true">2012年04月03日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>先日契約したさくらVPS 2Gのディスク容量がかなりあるので、自分用のストリーミングサーバを
+<a href="http://www.subsonic.org/pages/index.jsp">subsonic</a>と<a href="http://wiki.nginx.org/Main">nginx</a>で立ててみました。 
+subsonic単体でも良いんですが、同僚の天才<a href="https://twitter.com/#!/hiboma">@hiboma</a>が
+<a href="http://d.hatena.ne.jp/hiboma/20110702/1309591830">以前Mac+subsonic+nginxを組み合わせてた</a>のを思い出してパクってみました。</p>
+
+<p>導入環境はCentOS 6です。
+あらかじめAレコードなどは設定している状態です。
+またsubsonicのGUIでのセットアップ手順の説明などは省いてます。</p>
+
+<h2 id="javasdk">javaのSDKのインストール</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo yum install java-1.6.0-openjdk</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="subsonic">subsonicのインストール</h2>
+<p><a href="http://www.subsonic.org/pages/download.jsp">Subsonic » Free Music Streamer</a>、からRPMを持ってくる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir ~/tmp
+</span><span class="line">cd ~/tmp
+</span><span class="line">wget http://downloads.sourceforge.net/project/subsonic/subsonic/4.6/subsonic-4.6.rpm
+</span><span class="line">sudo rpm -ivh subsonic-4.6.rpm --test
+</span><span class="line">sudo rpm -ivh subsonic-4.6.rpm</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>自動エンコーディング機能を利用するために必要ライブラリを導入</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo yum -y install lame flac faad2 vorbis-tools ffmpeg</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>音楽ファイル用のディレクトリを用意。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo mkdir /var/music
+</span><span class="line">sudo mkdir /var/playlists
+</span><span class="line">sudo chmod 777 /var/music
+</span><span class="line">sudo chmod 777 /var/playlists</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ローカルPCからVPS上の<code>/var/music/</code>にrsyncでもかけて、音楽ファイルを配置。</p>
+
+<h2 id="nginx">nginxのインストール</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo yum -y nginx</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="etcnginxnginxconf">/etc/nginx/nginx.conf</h3>
+
+<p>nginxが80番で待ち受けて、subsonicの4040番に渡しています。 
+<code>server_name</code>の部分はAレコードをあてている自分のドメインに書き換えてください。</p>
+
+<div><script src="https://gist.github.com/2281393.js"></script>
+<noscript><pre><code>#######################################################################
+#
+# This is the main Nginx configuration file.  
+#
+# More information about the configuration options is available on 
+#   * the English wiki - http://wiki.nginx.org/Main
+#   * the Russian documentation - http://sysoev.ru/nginx/
+#
+#######################################################################
+
+user              nginx;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    gzip  on;
+    
+    server {
+        listen       80;
+        server_name  foobar.com;
+
+        error_page  404              /404.html;
+        location = /404.html {
+            root   /usr/share/nginx/html;
+        }
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+
+        location / {
+            proxy_pass   http://127.0.0.1:4040;
+            break;
+        }
+    }
+
+    # Load config files from the /etc/nginx/conf.d directory
+    include /etc/nginx/conf.d/*.conf;
+
+}</code></pre></noscript></div>
+
+<h2 id="subsonicnginx">subsonicとnginxの起動</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo service subsonic start
+</span><span class="line">sudo service nginx start</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>nginx.confで設定した<code>http://foobar.com/</code>にアクセス</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/subsonic.png" alt="" /></p>
+
+<p>おー、動いた。</p>
+
+<h2 id="url">参考URL</h2>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/hiboma/20110702/1309591830">Subsonic所感 - hibomaのはてなダイアリー</a></li>
+  <li><a href="http://d.hatena.ne.jp/Molokheiya/20110628/p1">さくらのVPSとSubsonicでiTunesをゴミ箱にダンクシュートした - 甘味志向＠はてな</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/02/octoeditor.vim/">Octopressの記事管理用プラグイン、Octoeditor.vimを作った</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-02T00:49:00+09:00" pubdate data-updated="true">2012年04月02日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://github.com/glidenote/memolist.vim">memolist.vim</a>が非常に使いやすくなり、
+もともと利用していた<a href="https://blog.glidenote.com/blog/2011/12/23/modify-jekyll.vim-for-octopress/">カスタムしたjekyll.vim</a>よりも
+使いやすいのでmemolist.vimの機能を実装した<a href="http://octopress.org/">Octopress</a>の記事管理用
+のvimプラグインを作成しました。<strong>Octo</strong>press-<strong>editor</strong>を略して<strong>Octoeditor[オクトエディタ]</strong>と読みます。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/octoeditor.vim">glidenote/octoeditor.vim</a></li>
+</ul>
+
+<h2 id="octoeditorvim">Octoeditor.vimの概要</h2>
+
+<ul>
+  <li>新規記事の作成。<code>rake new_post[title]</code>の実行(:OctopressNew)</li>
+  <li>記事の管理。(:OctopressList)</li>
+  <li>記事のGrep検索。(:OctopressGrep)</li>
+  <li>プレビューの生成。<code>rake generate</code>の実行(:OctopressGenerate)</li>
+  <li>記事の投稿。<code>rake gen_deploy</code>の実行(:OctopressDeploy)</li>
+</ul>
+
+<p>Octopressでブログを更新する際に必要な機能を一通り実装しました。
+プレビュー確認の<code>rake preview</code>はvimとは別で起動していないと
+いけないので、Octoeditorの機能としては省いています。</p>
+
+<h2 id="section">導入方法</h2>
+
+<p>導入には<a href="https://github.com/gmarik/vundle">vundle</a>か、<a href="https://github.com/Shougo/neobundle.vim">NeoBundle</a>
+を利用すると楽です。</p>
+
+<p>vundleの場合は、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Bundle 'glidenote/octoeditor.vim'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>NeoBundleの場合は、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">NeoBundle 'glidenote/octoeditor.vim'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>を.vimrcに記載。</p>
+
+<h2 id="vimrc">.vimrcの設定</h2>
+
+<p>octoeditor.vimを利用するには、<code>.vimrc</code>にOctopressのディレクトリのパスを
+下記のように設定します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">let g:octopress_path = '~/octopress'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>私はその他に下記マッピングを記載して利用しています。
+<code>\on</code>と入力すると瞬時に新規ファイルの作成が出来、<code>,og</code>と入力して
+記事の確認をしています。
+<code>&lt;Leader&gt;</code>はデフォルトだとキーボードの￥マークになっていると思います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">map &lt;Leader&gt;on  :OctopressNew&lt;CR&gt;
+</span><span class="line">map &lt;Leader&gt;ol  :OctopressList&lt;CR&gt;
+</span><span class="line">map &lt;Leader&gt;og  :OctopressGrep&lt;CR&gt;
+</span><span class="line">nmap ,og  :OctopressGenerate&lt;CR&gt;
+</span><span class="line">nmap ,od  :OctopressDeploy&lt;CR&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>その他に下記のようなオプションがあります。qfixgrepやvimfilerとの連携も出来ます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">let g:octopress_post_suffix = "markdown"
+</span><span class="line">let g:octopress_post_date = "%Y-%m-%d %H:%M"
+</span><span class="line">let g:octopress_post_date = "epoch"
+</span><span class="line">let g:octopress_post_date = "%D %T"
+</span><span class="line">let g:octopress_published = 0
+</span><span class="line">let g:octopress_comments = 0
+</span><span class="line">let g:octopress_prompt_tags = 1
+</span><span class="line">let g:octopress_prompt_categories = 1
+</span><span class="line">let g:octopress_qfixgrep = 1
+</span><span class="line">let g:octopress_vimfiler = 1
+</span><span class="line">let g:octopress_template_dir_path = "path/to/dir"</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">使い方</h2>
+
+<h3 id="octopressnew">新規記事の作成(:OctopressNew)</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">:OctopressNew</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor0.png" alt="" /></p>
+
+<p>Octopress用のフォーマットで記事が作成されます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor1.png" alt="" /></p>
+
+<p>Octopressの仕様で日本語を含むファイル名が利用できないので、
+[Post title]の部分ではアルファベットで入力し、
+記事編集でタイトルを日本語に変更してください。</p>
+
+<h3 id="octopresslist">記事の管理(:OctopressList)</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">:OctopressList</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>デフォルトのnetrwを利用した場合</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor2.png" alt="" /></p>
+
+<p><a href="https://github.com/Shougo/vimfiler">vimfiler</a>連携を利用した場合</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor3.png" alt="" /></p>
+
+<h3 id="grepoctopressgrep">記事のGrep検索(:OctopressGrep)</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">:OctopressGrep</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><a href="https://github.com/fuenor/qfixgrep">qfixgrep</a>連携を利用した場合</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor4.png" alt="" /></p>
+
+<h3 id="rake-generateoctopressgenerate">プレビューの生成 <code>rake generate</code>(:OctopressGenerate)</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">:OctopressGenerate</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>vim上から<code>rake generate</code>を実行します。
+<code>rake preview</code>を別途ターミナル上から実行しておけば、
+プレビューを確認できます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor5.png" alt="" /></p>
+
+<h3 id="rake-gendeployoctopressdeploy">記事の投稿 <code>rake gen_deploy</code>(:OctopressDeploy)</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">:OctopressDeploy</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>vim上から<code>rake gen_deploy</code>を実行し、記事を投稿できます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor6.png" alt="" /></p>
+
+<h2 id="octopress">Octopressの記事更新の流れ</h2>
+
+<ul>
+  <li><code>:OctopressNew</code>で新規記事を作成</li>
+  <li><code>:OctopressGenerate</code>でプレビュー確認</li>
+  <li><code>:OctopressDeploy</code>で記事の投稿</li>
+</ul>
+
+<p>私は下記のように設定をして、<a href="https://github.com/vim-scripts/FuzzyFinder">FuzzyFinder</a>と
+<a href="https://github.com/vim-scripts/ctrlp.vim">ctrlp.vim</a>などと連携をして利用しています。</p>
+
+<div><script src="https://gist.github.com/2276389.js"></script>
+<noscript><pre><code>Bundle &#39;glidenote/octoeditor.vim&#39;
+let g:octopress_path = &#39;~/octopress&#39;
+let g:octopress_prompt_categories = 1
+let g:octopress_qfixgrep = 1
+map &lt;Leader&gt;on  :OctopressNew&lt;CR&gt;
+map &lt;Leader&gt;ol  :OctopressList&lt;CR&gt;
+map &lt;Leader&gt;og  :OctopressGrep&lt;CR&gt;
+nmap ,og  :OctopressGenerate&lt;CR&gt;
+nmap ,od  :OctopressDeploy&lt;CR&gt;
+&quot; For FuzzyFinder
+nmap of  :FufFile &lt;C-r&gt;=expand(g:octopress_path.&quot;/source/_posts/&quot;)&lt;CR&gt;&lt;CR&gt;
+&quot; For ctrlp
+nmap ,of :exe &quot;CtrlP&quot; g:octopress_path . &quot;/source/_posts/&quot;&lt;cr&gt;&lt;f5&gt;</code></pre></noscript></div>
+
+<p>FuzzyFinerを利用したファイル検索</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor7.png" alt="" /></p>
+
+<p>ctrlpを利用したファイル検索</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor8.png" alt="" /></p>
+
+<p>バグや要望などありましたら<a href="https://twitter.com/#!/glidenote">@glidenote</a>かgithubのissueに連絡頂ければと思います。</p>
+
+<p>blogを書く作業が、vim上で完結するようになり快適です。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/01/new-gist.vim/">OAuth2認証に対応して新しくなったGist.vimを導入した</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-01T01:23:00+09:00" pubdate data-updated="true">2012年04月01日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+  <li><a href="http://mattn.kaoriya.net/software/vim/20120331221136.htm">Big Sky :: githubの動作変更で動かなくなっていたGist.vimを修正してリリースした。</a></li>
+</ul>
+
+<p>OAuth2認証に対応したGist.vimがリリースされたので、早速導入してみました。</p>
+
+<h2 id="gistvim">Gist.vimの導入</h2>
+
+<p>今回のリリースから<a href="https://github.com/mattn/webapi-vim">webapi-vim</a>が必要になったので、
+<a href="https://github.com/gmarik/vundle">Vundle</a>で一緒に導入。
+<code>.vimrc</code>に下記を追記して<code>:BundleInstall!</code></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Bundle 'mattn/gist-vim'
+</span><span class="line">Bundle 'mattn/webapi-vim'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="oauth">OAuthアプリの登録</h2>
+
+<p><a href="https://github.com/settings/applications/new">Register a new OAuth application</a>でGist.vimを登録します。</p>
+
+<ul>
+  <li>Application Name: <code>Gist.vim</code></li>
+  <li>Main URL: <code>https://github.com/mattn/gist-vim</code></li>
+  <li>Callback URL: <code>http://mattn.github.com/gist-vim</code></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist0.png" alt="" /></p>
+
+<p>下記のように<code>Client ID</code>と<code>Secret</code>が生成されます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist1.png" alt="" /></p>
+
+<h2 id="gistvim-1">Gist.vimの初期設定</h2>
+
+<p>vimを起動し<code>:Gist -l</code>を実行し、初期設定を行います。<code>oauth2</code>を利用するので<code>2</code>を選択し、
+先ほど生成した<code>Client ID</code>と<code>Secret</code>を入力。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist2.png" alt="" /></p>
+
+<p>ここでおそらく<code>Callback URL</code>が開かれるはずなんですが、私の環境の問題なのか
+<code>g:gist_browser_command</code>を設定しても、ブラウザにURLが渡されず、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">It seems that you don't have general web browser. Open URL below.</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>と表示され、URLも表示されず<code>PIN</code>の取得が出来なかったので、ソースを確認。<br />
+下記のようにpostしていたので、ブラウザのアドレスバーに手動で入力。
+<code>xxxxxxxxxxxxxxxxxxxx</code>は自分の<code>Client ID</code>です。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">https://github.com/login/oauth/authorize?scope=gist&amp;client_id=xxxxxxxxxxxxxxxxxxxx</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>上記URLにアクセスすると承認画面が出るので<code>Allow</code>を選択</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist3.png" alt="" /></p>
+
+<p>下記のように<code>PIN</code>が表示されるのでコピーして、vim上のGist.vimの初期設定に戻り入力</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist4.png" alt="" /></p>
+
+<h2 id="gistvim-2">Gist.vimの動作確認</h2>
+
+<p><code>:Gist</code>でpost出来るようになりました。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist5.png" alt="" /></p>
+
+<h2 id="gist-vim600">~/.gist-vimのパーミッションを600に変更</h2>
+
+<p>初期設定が終わったら、<code>~/.gist-vim</code>を適切なパーミッションに。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">chmod 600 ~/.gist-vim</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>これでまた快適生活が送れるようになります。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/28/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/26/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

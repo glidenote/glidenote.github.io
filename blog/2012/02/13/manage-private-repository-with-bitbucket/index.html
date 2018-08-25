@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Private RepositoryをBitbucketで管理し始めた - Glide Note</title>
+  <meta property="og:title" content="Private RepositoryをBitbucketで管理し始めた - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="Free source code hosting — Bitbucket 公開しても良いdotfilesは以前からGithub上でglidenote/dotfilesとして
+管理していたんですが、パスワードとかを含むアプリの設定ファイルの管理を
+自前サーバからBitbucketのprivate &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2012/02/13/manage-private-repository-with-bitbucket/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2012/02/13/manage-private-repository-with-bitbucket">
+<meta name="twitter:title" content="Private RepositoryをBitbucketで管理し始めた">
+<meta name="twitter:description" content="Free source code hosting — Bitbucket 公開しても良いdotfilesは以前からGithub上でglidenote/dotfilesとして
+管理していたんですが、パスワードとかを含むアプリの設定ファイルの管理を
+自前サーバからBitbucketのprivate repositoryに移行して管理し始めたので作業メモ。 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Private RepositoryをBitbucketで管理し始めた</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-13T07:04:00+09:00" pubdate data-updated="true">2012年02月13日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="https://blog.glidenote.com/images/2012/02/logoBitBucketPNG.png" width="384px" height="125px" align="right" /></p>
+
+<ul>
+  <li><a href="https://bitbucket.org/">Free source code hosting — Bitbucket</a></li>
+</ul>
+
+<p>公開しても良いdotfilesは以前からGithub上で<a href="https://github.com/glidenote/dotfiles">glidenote/dotfiles</a>として
+管理していたんですが、パスワードとかを含むアプリの設定ファイルの管理を
+自前サーバから<a href="https://bitbucket.org/">Bitbucket</a>のprivate repositoryに移行して管理し始めたので作業メモ。 </p>
+
+<p>ちなみに<a href="https://bitbucket.org/">Bitbucket</a>だと無料でprivate repositoryが作成できます。</p>
+
+<p>Bitbucketのアカウント登録と鍵登録とかの説明は省略。</p>
+
+<h2 id="repository">repositoryの作成</h2>
+<p>Dashboardの右上にある「Repositories」から「create repository」を選択  </p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/bitbucket1.png" alt="" /></p>
+
+<p>repository名などを入力して「Create repository」を選択  </p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/bitbucket2.png" alt="" /></p>
+
+<p>clone用のURLが表示されるので、それを元に<code>git clone</code>  </p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/bitbucket3.png" alt="" /></p>
+
+<p>たとえば<code>hogemoge</code>というrepositoryを作成した場合は下記のような感じ</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cd
+</span><span class="line">git clone git@bitbucket.org:glidenote/hogemoge.git
+</span><span class="line">echo "# This is my README" &gt;&gt; README.md
+</span><span class="line">git add README.md
+</span><span class="line">git commit -m "First Commit. Adding a README."
+</span><span class="line">git push -u origin master</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>あとは作成したprivate repositoryに管理したいファイルを入れていくだけ。<br />
+私はprivate repositoryにファイルを移し、そこからリンクを貼って管理してます。<br />
+weechatの設定ファイルは下記のような感じで管理。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mv ~/.weechat ~/hogemoge
+</span><span class="line">ls -s ~/hogemoge/.weechat ~/.weechat</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>昨年10月に<a href="http://blog.bitbucket.org/2011/10/03/bitbucket-now-rocks-git/">BitbucketがGitをサポート</a>したので
+private repositoryなら自前サーバよりBitBucketが無料だし良いかなと思ってます。</p>
+
+<h2 id="section">参考サイト</h2>
+
+<ul>
+  <li><a href="http://www.ideaxidea.com/archives/2011/10/bitbucket.html">プライベートリポジトリが無料で作りたい放題の『bitbucket』にGithubからリポジトリをインポートする方法 | IDEA*IDEA</a></li>
+</ul>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-13T07:04:00+09:00" pubdate data-updated="true">2012年02月13日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/bitbucket/'>bitbucket</a>, <a class='category' href='/blog/categories/git/'>git</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2012/02/13/manage-private-repository-with-bitbucket/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="Private RepositoryをBitbucketで管理し始めた - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Private RepositoryをBitbucketで管理し始めた "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2012/06/05/pori/">コマンドライン上からBitbucketのPrivate Repositoryを作成するgemを作ってみた</a></li>
+
+  <li><a href="/blog/2012/04/23/etckeeper-bitbucket/">git + etckeeper + BitbucketのPrivate Repositoryで/etcを管理</a></li>
+
+  <li><a href="/blog/2014/04/20/change-command-path-priority/">Homebrewで入れたgit,zshを優先的に利用する</a></li>
+
+  <li><a href="/blog/2013/12/04/git-commit-message-template/">gitでcommitメッセージにテンプレートを使う</a></li>
+
+  <li><a href="/blog/2013/07/22/gitcommit-dictionary/">コミットメッセージを書くときにGitHubのユーザー名が補完されるようにした</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/02/11/weechat-plugins/" title="Previous Post: Weegetを利用して、WeeChatのPlugin管理を楽にする">&laquo; Weegetを利用して、WeeChatのPlugin管理を楽にする</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/02/19/ssh-proxycommand/" title="next Post: 多段SSHで4段先のサーバに一発ログイン">多段SSHで4段先のサーバに一発ログイン &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2012/02/13/manage-private-repository-with-bitbucket/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2012/02/13/manage-private-repository-with-bitbucket/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

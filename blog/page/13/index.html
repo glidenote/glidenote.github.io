@@ -1,0 +1,705 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="もともとmizzyさんが作ったプログラムで
+GitHubの業務用Repository上のイベントはIRCに通知されるようになっていたんですが、
+@tnmtからGitHubのhooksだけで出来るようになったとの情報をゲットしたので早速設定してみた。 github の irc hook に幾つかの &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/13/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/13">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="もともとmizzyさんが作ったプログラムで
+GitHubの業務用Repository上のイベントはIRCに通知されるようになっていたんですが、
+@tnmtからGitHubのhooksだけで出来るようになったとの情報をゲットしたので早速設定してみた。 github の irc hook に幾つかの event type が追加されました - @soh335 memo http://t.co/ &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/18/github-irc-hooks-event-type/">GitHubのissueやpull reqにcommentが付いたらIRC hoooks経由で通知されるように設定した</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-18T20:39:00+09:00" pubdate data-updated="true">2013年07月18日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>もともと<a href="https://twitter.com/gosukenator">mizzy</a>さんが作ったプログラムで
+GitHubの業務用Repository上のイベントはIRCに通知されるようになっていたんですが、
+<a href="http://twitter.com/tnmt">@tnmt</a>からGitHubのhooksだけで出来るようになったとの情報をゲットしたので早速設定してみた。</p>
+
+<blockquote class="twitter-tweet"><p>github の irc hook に幾つかの event type が追加されました - <a href="https://twitter.com/soh335">@soh335</a> memo <a href="http://t.co/40g46OxvkC">http://t.co/40g46OxvkC</a> <a href="https://twitter.com/glidenote">@glidenote</a> 先生がアップを始めました</p>&mdash; TSUNEMATSU Shinya (@tnmt) <a href="https://twitter.com/tnmt/statuses/354796424686354432">July 10, 2013</a></blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p><a href="http://soh335.hatenablog.com/entry/2013/05/21/113049">@soh335さんのブログ</a>
+を見ると、下記のような形で、hooksの設定確認や設定変更が出来る模様。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">curl -u username https://api.github.com/repos/:owner/:reponame/hooks
+</span><span class="line">curl -u username https://api.github.com/repos/:owner/:reponame/hooks/:id -X PATCH -d <span class="s1">&#39;{ &quot;add_events&quot;: [&quot;issues&quot;] }&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>たとえば私の場合は下記のような感じで、hooksの詳細を確認</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">curl -u <span class="s2">&quot;glidenote&quot;</span> -in https://api.github.com/repos/paperboy-hogemoge/hogemoge-ops/hooks
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下記のような形で返ってくる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="o">[</span>
+</span><span class="line">  <span class="o">{</span>
+</span><span class="line">    <span class="s2">&quot;url&quot;</span>: <span class="s2">&quot;https://api.github.com/repos/paperboy-hogemoge/hogemoge-puppet/hooks/367xxx&quot;</span>,
+</span><span class="line">    <span class="s2">&quot;test_url&quot;</span>: <span class="s2">&quot;https://api.github.com/repos/paperboy-hogemoge/hogemoge-puppet/hooks/367xxx/test&quot;</span>,
+</span><span class="line">    <span class="s2">&quot;id&quot;</span>: 367xxx,
+</span><span class="line">    <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;irc&quot;</span>,
+</span><span class="line">    <span class="s2">&quot;active&quot;</span>: <span class="nb">true</span>,
+</span><span class="line">    <span class="s2">&quot;events&quot;</span>: <span class="o">[</span>
+</span><span class="line">      <span class="s2">&quot;push&quot;</span>
+</span><span class="line">    <span class="o">]</span>,
+</span><span class="line">    <span class="s2">&quot;config&quot;</span>: <span class="o">{</span>
+</span><span class="line">      <span class="s2">&quot;server&quot;</span>: <span class="s2">&quot;irc.hogemoge.co.jp&quot;</span>,
+</span><span class="line">      <span class="s2">&quot;port&quot;</span>: <span class="s2">&quot;6668&quot;</span>,
+</span><span class="line">      <span class="s2">&quot;room&quot;</span>: <span class="s2">&quot;hogemoge-ops&quot;</span>,
+</span><span class="line">      <span class="s2">&quot;nick&quot;</span>: <span class="s2">&quot;github&quot;</span>,
+</span><span class="line">      <span class="s2">&quot;branch_regexes&quot;</span>: <span class="s2">&quot;&quot;</span>,
+</span><span class="line">      <span class="s2">&quot;nickserv_password&quot;</span>: <span class="s2">&quot;&quot;</span>,
+</span><span class="line">      <span class="s2">&quot;password&quot;</span>: <span class="s2">&quot;*************************&quot;</span>,
+</span><span class="line">      <span class="s2">&quot;ssl&quot;</span>: <span class="s2">&quot;1&quot;</span>,
+</span><span class="line">      <span class="s2">&quot;notice&quot;</span>: <span class="s2">&quot;1&quot;</span>
+</span><span class="line">    <span class="o">}</span>,
+</span><span class="line">    <span class="s2">&quot;last_response&quot;</span>: <span class="o">{</span>
+</span><span class="line">      <span class="s2">&quot;code&quot;</span>: 504,
+</span><span class="line">      <span class="s2">&quot;status&quot;</span>: <span class="s2">&quot;timeout&quot;</span>,
+</span><span class="line">      <span class="s2">&quot;message&quot;</span>: <span class="s2">&quot;Service Timeout&quot;</span>
+</span><span class="line">    <span class="o">}</span>,
+</span><span class="line">    <span class="s2">&quot;updated_at&quot;</span>: <span class="s2">&quot;2013-06-25T07:01:21Z&quot;</span>,
+</span><span class="line">    <span class="s2">&quot;created_at&quot;</span>: <span class="s2">&quot;2012-08-02T06:59:43Z&quot;</span>
+</span><span class="line">  <span class="o">}</span>
+</span><span class="line"><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>id</code>が分かったので、下記のような形で設定</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">curl -u <span class="s2">&quot;glidenote&quot;</span> -in https://api.github.com/repos/paperboy-hogemoge/hogemoge-ops/hooks/367xxx -X PATCH -d <span class="s1">&#39;{ &quot;add_events&quot;: [&quot;issues&quot;] }&#39;</span>
+</span><span class="line">curl -u <span class="s2">&quot;glidenote&quot;</span> -in https://api.github.com/repos/paperboy-hogemoge/hogemoge-ops/hooks/367xxx -X PATCH -d <span class="s1">&#39;{ &quot;add_events&quot;: [&quot;issue_comment&quot;] }&#39;</span>
+</span><span class="line">curl -u <span class="s2">&quot;glidenote&quot;</span> -in https://api.github.com/repos/paperboy-hogemoge/hogemoge-ops/hooks/367xxx -X PATCH -d <span class="s1">&#39;{ &quot;add_events&quot;: [&quot;commit_comment&quot;] }&#39;</span>
+</span><span class="line">curl -u <span class="s2">&quot;glidenote&quot;</span> -in https://api.github.com/repos/paperboy-hogemoge/hogemoge-ops/hooks/367xxx -X PATCH -d <span class="s1">&#39;{ &quot;add_events&quot;: [&quot;pull_request_review_comment&quot;] }&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>issueが作られたり、issueにコメントが付くとhooks経由でIRCに通知されるようになった。</p>
+
+<p>GitHub Enterpriseでも同じように設定出来るかと思ったけど、まだ対応してなかった。 
+ちなみにGitHub Enterpriseの場合は下記のような感じで詳細確認が出来た。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">curl -u <span class="s2">&quot;glidenote&quot;</span> -in https://hostname/api/v3/repos/:owner/:repos/hooks
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://soh335.hatenablog.com/entry/2013/05/21/113049">github の irc hook で issue も hook してもらう - @soh335 memo</a></li>
+  <li><a href="http://soh335.hatenablog.com/entry/2013/07/10/100354">github の irc hook に幾つかの event type が追加されました - @soh335 memo</a></li>
+  <li><a href="http://developer.github.com/v3/activity/events/types/">Event types | GitHub API</a></li>
+  <li><a href="https://api.github.com/hooks">https://api.github.com/hooks</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/18/open-browser-github.vim-for-github-enterprise/">open-browser-github.vim を  GitHub Enterpriseで使う</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-18T01:12:00+09:00" pubdate data-updated="true">2013年07月18日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+  <li><a href="https://github.com/tyru/open-browser-github.vim">tyru/open-browser-github.vim</a></li>
+</ul>
+
+<p>GitHubから社内のGitHub EnterpriseサーバにRepositoryを移行したときに、
+open-browser-github.vimが動かなくなっていることに気づいた。</p>
+
+<p>READMEを読むとGitHub Enterpriseを普通にサポートしており、
+下記みたいな感じで設定出来るとのこと。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">git config --local hub.host my.git.org
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>実際に私の環境では下記のように設定。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">cd </span>path/to/repo
+</span><span class="line">git config --local hub.host ghe.tokyo.pb
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>:OpenGithubFile</code>でファイルが開くようになって再び快適生活に戻った。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/17/learngin-tmux/">新卒研修でtmuxの話をした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-17T16:12:00+09:00" pubdate data-updated="true">2013年07月17日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>新卒研修をした。 
+インフラ関連の話は、他のインフラメンバーが散々していたと思うので、
+趣向を変えて私はターミナルマルチプレクサの話(といいつつtmuxだけ)の話を。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/learning-tmux">glidenote/learning-tmux</a></li>
+</ul>
+
+<p>いつも通りというか、ほとんど実演なので、死霊だけだとあんまり参考にならないかもしれない。
+次回のtmux勉強会は新卒の中から誰かやってくれると思う。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/10/puppet-rbenv/">rbenvの管理にpuppet-rbenvを使うようにした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-10T21:50:00+09:00" pubdate data-updated="true">2013年07月10日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+  <li><a href="https://github.com/alup/puppet-rbenv">alup/puppet-rbenv</a></li>
+</ul>
+
+<p>新規でRubyを使うサーバを構築中で、RPMを作らずrbenvで管理しようと思って、
+いろいろ方法を模索していたら、<a href="https://github.com/alup/puppet-rbenv">puppet-rbenv</a>というものを見つけて
+大変便利だったので、導入の作業ログをメモとして残しておく。</p>
+
+<p>他部署はビルドサーバで、rbenvを利用してインストールしたファイルを一式tar.gzで固めて、
+デプロイして、展開ってのをやってて、台数が多い場合はこれが高速で良いんですが、
+今回は2台だけで、ビルドサーバ用意して、<code>tar.gz</code>を一斉配布方式だと
+用意するmanifestとdistのファイルが多くてちょっと非効率だった。</p>
+
+<p>導入環境はpuppetは下記のバージョンを利用</p>
+
+<ul>
+  <li>puppet-server-2.6.18-3.el6.noarch</li>
+  <li>puppet-2.6.18-3.el6.noarch</li>
+</ul>
+
+<h2 id="puppet-rbenv">puppet-rbenvの導入</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">cd </span>path/to/puppet-module
+</span><span class="line">puppet module install alup-rbenv
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>使ってるpuppetのバージョンのせいか、構文エラーが出たので、下記の用に修正</p>
+
+<div><script src="https://gist.github.com/5963357.js"></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+<h2 id="rbenvmanifest">rbenv用のmanifestを用意</h2>
+
+<p>下記のようなmanifestを用意。サービス名だけ伏せて、実際に使ってるmanifestそのままなので、コピペしても動かないのでご注意ください</p>
+
+<div><script src="https://gist.github.com/5963371.js"></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+<div><script src="https://gist.github.com/5963376.js"></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+<h2 id="puppet">puppetの実行</h2>
+
+<p>これでpuppetを実行すると</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">/home/hogemoge-api/.rbenv
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>配下に指定したrbenvやらgemがインストールされる。
+便利!!</p>
+
+<p>急ぎで構築しないといけなかったので、rbenvのmanifest作成に時間がかからずに済んで良かった。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://sho.tdiary.net/20130518.html">Puppet ModuleをPuppetで管理する - ただのにっき(2013-05-18)</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/10/control-nagios-alert-with-irc-bot/">NagiosのアラートをIRC BOT経由で制御する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-10T21:00:00+09:00" pubdate data-updated="true">2013年06月10日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://blog.glidenote.com/blog/2013/05/20/working-with-irc-bot/">IRC BOTを作って仕事をさせるようにした</a>の続き。
+<a href="https://twitter.com/mikeda">@mikeda</a>さんと<a href="https://twitter.com/hirose31">@hirose31</a>さんのやりとりを見ていて、
+Nagiosアラートをコマンドラインから停止出来ることを知った!!</p>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/mikeda/20130525/1369476059">CLIでNagiosのアラートを停止する - IT 東京 楽しいと思うこと</a></li>
+</ul>
+
+<p>@mikedaさんの上記記事を参考にせっかくなので、下記みたいに書いて、IRC BOTさんに作業をしてもらうことに。
+ブラウザでもちゃんと確認するので、返り値とかチェックしてないけど。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1">#!/usr/bin/env ruby</span>
+</span><span class="line"><span class="c1"># -*- coding: utf-8 -*-</span>
+</span><span class="line">
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;cinch&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">bot</span> <span class="o">=</span> <span class="no">Cinch</span><span class="o">::</span><span class="no">Bot</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class="line">    <span class="n">c</span><span class="o">.</span><span class="n">server</span> <span class="o">=</span> <span class="s2">&quot;xxxxxxxxxxxxxxx&quot;</span>
+</span><span class="line">    <span class="n">c</span><span class="o">.</span><span class="n">ssl</span><span class="o">.</span><span class="n">use</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class="line">    <span class="n">c</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="mi">6668</span>
+</span><span class="line">    <span class="n">c</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="s1">&#39;xxxxxxxxxxxxx&#39;</span>
+</span><span class="line">    <span class="n">c</span><span class="o">.</span><span class="n">channels</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;#xxxxxxxxxxx&quot;</span><span class="o">]</span>
+</span><span class="line">    <span class="n">c</span><span class="o">.</span><span class="n">nick</span> <span class="o">=</span> <span class="s1">&#39;nagios-cli-bot&#39;</span>
+</span><span class="line">    <span class="n">c</span><span class="o">.</span><span class="n">realname</span> <span class="o">=</span> <span class="s1">&#39;nagios-cli-bot&#39;</span>
+</span><span class="line">    <span class="n">c</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;nagios-cli-bot&#39;</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="c1"># disable nagios alert</span>
+</span><span class="line">  <span class="n">on</span> <span class="ss">:message</span><span class="p">,</span> <span class="sr">/^disable (.+)/</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="p">,</span> <span class="n">query</span><span class="o">|</span>
+</span><span class="line">    <span class="nb">system</span><span class="p">(</span><span class="s2">&quot;echo </span><span class="se">\&quot;</span><span class="s2">[$(date +%s)] DISABLE_HOST_SVC_NOTIFICATIONS;</span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">.hogemoge.jp</span><span class="se">\&quot;</span><span class="s2"> &gt; /var/nagios/rw/nagios.cmd&quot;</span><span class="p">)</span>
+</span><span class="line">    <span class="nb">system</span><span class="p">(</span><span class="s2">&quot;echo </span><span class="se">\&quot;</span><span class="s2">[$(date +%s)] DISABLE_HOST_NOTIFICATIONS;</span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">.hogemoge.jp</span><span class="se">\&quot;</span><span class="s2"> &gt; /var/nagios/rw/nagios.cmd&quot;</span><span class="p">)</span>
+</span><span class="line">    <span class="nb">system</span><span class="p">(</span><span class="s2">&quot;echo </span><span class="se">\&quot;</span><span class="s2">[$(date +%s)] DISABLE_HOST_SVC_NOTIFICATIONS;</span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">.hogemoge.lan</span><span class="se">\&quot;</span><span class="s2"> &gt; /var/nagios/rw/nagios.cmd&quot;</span><span class="p">)</span>
+</span><span class="line">    <span class="nb">system</span><span class="p">(</span><span class="s2">&quot;echo </span><span class="se">\&quot;</span><span class="s2">[$(date +%s)] DISABLE_HOST_NOTIFICATIONS;</span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">.hogemoge.lan</span><span class="se">\&quot;</span><span class="s2"> &gt; /var/nagios/rw/nagios.cmd&quot;</span><span class="p">)</span>
+</span><span class="line">    <span class="n">m</span><span class="o">.</span><span class="n">reply</span> <span class="s2">&quot;DISABLE NOTIFICATIONS </span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">.hogemoge.jp and </span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">.hogemoge.lan&quot;</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="c1"># enable nagios alert</span>
+</span><span class="line">  <span class="n">on</span> <span class="ss">:message</span><span class="p">,</span> <span class="sr">/^enable (.+)/</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="p">,</span> <span class="n">query</span><span class="o">|</span>
+</span><span class="line">    <span class="nb">system</span><span class="p">(</span><span class="s2">&quot;echo </span><span class="se">\&quot;</span><span class="s2">[$(date +%s)] ENABLE_HOST_SVC_NOTIFICATIONS;</span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">.hogemoge.jp</span><span class="se">\&quot;</span><span class="s2"> &gt; /var/nagios/rw/nagios.cmd&quot;</span><span class="p">)</span>
+</span><span class="line">    <span class="nb">system</span><span class="p">(</span><span class="s2">&quot;echo </span><span class="se">\&quot;</span><span class="s2">[$(date +%s)] ENABLE_HOST_NOTIFICATIONS;</span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">.hogemoge.jp</span><span class="se">\&quot;</span><span class="s2"> &gt; /var/nagios/rw/nagios.cmd&quot;</span><span class="p">)</span>
+</span><span class="line">    <span class="nb">system</span><span class="p">(</span><span class="s2">&quot;echo </span><span class="se">\&quot;</span><span class="s2">[$(date +%s)] ENABLE_HOST_SVC_NOTIFICATIONS;</span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">.hogemoge.lan</span><span class="se">\&quot;</span><span class="s2"> &gt; /var/nagios/rw/nagios.cmd&quot;</span><span class="p">)</span>
+</span><span class="line">    <span class="nb">system</span><span class="p">(</span><span class="s2">&quot;echo </span><span class="se">\&quot;</span><span class="s2">[$(date +%s)] ENABLE_HOST_NOTIFICATIONS;</span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">.hogemoge.lan</span><span class="se">\&quot;</span><span class="s2"> &gt; /var/nagios/rw/nagios.cmd&quot;</span><span class="p">)</span>
+</span><span class="line">    <span class="n">m</span><span class="o">.</span><span class="n">reply</span> <span class="s2">&quot;ENABLE NOTIFICATIONS </span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">.hogemoge.jp and </span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">.hogemoge.lan&quot;</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="n">bot</span><span class="o">.</span><span class="n">start</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>disable web001</code>でアラートを停止、<code>enable web001</code>でアラートを再開出来るようになった。</p>
+
+<p>稼働してみた後によく考えてみると、気軽に監視を停止出来るのは結構危険なので、
+常駐はさせずにメンテの時にアラートを一斉に停止させたり、再開させる作業があるので、そのときだけ働いてもらうようにした。</p>
+
+<p>ここ2週間くらいメンテで使ってるけどなかなか便利。
+よく使うようなら<code>wakeup nagios-cli-bot</code>とか<code>sleep nagios-cli-bot</code>でIRC BOTの稼働を制御するようにしてみよう。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/14/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/12/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

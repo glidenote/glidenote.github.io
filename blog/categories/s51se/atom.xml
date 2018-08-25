@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: s51se | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/s51se/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Sony Ericsson mini(S51SE)をRootedのまま4.0.2.A.0.61へアップデート]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/12/29/s51se-4.0.2.a.0.61-rooted/"/>
+    <updated>2011-12-29T23:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/12/29/s51se-4.0.2.a.0.61-rooted</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2011/12/s51se_rooted.png" width="240" height="320" align="right" />
+以前、<a href="https://blog.glidenote.com/blog/2011/11/15/ericsson-mini-rooted/">Sony Ericsson mini(S51SE)のroot権限を取得 - Glide Note - グライドノート</a>で
+Sony Ericsson mini（S51SE）のroot権限を取得していたのですが、4.0.2.A.0.61にアップデートしたらroot権限が無くなってしまい、
+再度root権限取得のために作業したのでメモ。毎度のことながら自己責任で。</p>
+
+<p>細かい手順は端折りますが、下記のような流れでうまくいきました。下記の作業はWindowsじゃないと作業が出来ません。    </p>
+
+<ol>
+  <li><a href="http://www.wotanserver.com/en">WotanServer.com</a>に登録</li>
+  <li><a href="http://www.wotanserver.com/en/sony-ericsson/se/xperia-mini-s51se/unlock-tool/debranding-flash">Sony Ericsson Xperia mini S51SE Unlock Tool</a>から下記2ツールをダウンロード
+    <ul>
+      <li>USB Flash Driver</li>
+      <li>WotanClient 3</li>
+    </ul>
+  </li>
+  <li>WotanClient 3を利用して、Sony Ericsson miniを工場出荷時の4.0.2.A.0.58に戻す(当然ですがデータが全部消えます)</li>
+  <li>DooMLoRD’s Easy Rooting Toolkitを用いて<a href="https://blog.glidenote.com/blog/2011/11/15/ericsson-mini-rooted/">以前と同じ手順</a>でroot権限取得</li>
+  <li>root権限取得したら、Sony Ericsson mini単体で4.0.2.A.0.61にアップデートする(輝度調整無効のためにファイル差し替えとかしてるとアップデートが出来なかったので、デフォの状態でアップデートをかける)</li>
+  <li>4.0.2.A.0.61のなってもrootedの状態なのを確認</li>
+  <li>Titanium Backup(要root権限)で取得しておいたバックアップからアプリのデータを復元で以前の以前のRootedの状態に元通り</li>
+</ol>
+
+<p>ちなみにWotanServerからS51SEのファームウェアは登録が必要ですが無料で取得できます。</p>
+
+<h2 id="section">関連記事</h2>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2011/11/15/ericsson-mini-rooted/">Sony Ericsson mini(S51SE)のroot権限を取得 - Glide Note - グライドノート</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[disable camera shutter sound on S51SE]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/11/18/disable-camera-shutter-sound-on-s51se/"/>
+    <updated>2011-11-18T01:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/11/18/disable-camera-shutter-sound-on-s51se</id>
+    <content type="html"><![CDATA[<p>/system/build.propを下記のように修正
+<div><script src='https://gist.github.com/1366282.js'></script>
+<noscript><pre><code>@@ -20,7 +20,7 @@
+ ro.semc.version.cust=1255-6223
+ ro.semc.version.cust_revision=R7D
+ ro.semc.enable.fast_dormancy=true
+-ro.camera.sound.forced=1
++ro.camera.sound.forced=0
+ ro.semc.ecclist.num=3
+ ro.semc.ecclist.type.0=firebrigade ambulance
+ ro.semc.ecclist.number.0=119</code></pre></noscript></div>
+</p>
+
+<p><a href="https://market.android.com/details?id=com.protocol.x.su.fbs&amp;hl=ja">SU File Manager &amp; Terminal</a>かなんかを使って、
+ファイルを差し替えれば完了。</p>
+
+<p><img src="http://www.glidenote.com/wp-content/uploads/2011/11/screenshot_2011-11-17_1338_2.png" alt="" /></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sony Ericsson mini(S51SE)の輝度自動調整を無効にした]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/11/15/disable-lcd-backlight/"/>
+    <updated>2011-11-15T09:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/11/15/disable-lcd-backlight</id>
+    <content type="html"><![CDATA[<p><img src="http://farm7.static.flickr.com/6053/6339838737_a41e4b810e_z.jpg" alt="" /><br />
+Sony Ericsson miniの輝度調整センサーが過敏すぎて、ちょっとした影ですぐ画面が明るくなったり、
+暗くなったりと画面がチラついてウザかったので無効にしました。
+作業には要root権限です。</p>
+
+<p>/system/etc/hw_config.shをSDカードにコピーし、下記のように修正
+<div><script src='https://gist.github.com/1365547.js?file=hw_config.sh.diff'></script>
+<noscript><pre><code>@@ -41,7 +41,7 @@
+ echo 3,2,2,0 &gt; $dev/lcd-backlight/als/params  #[gain],[filter_up],[filter_down],[offset]
+ echo 8000 &gt; $dev/button-backlight-rgb1/max_current
+ echo 8000 &gt; $dev/button-backlight-rgb2/max_current
+-echo 1,30,255,54,52,1,65 &gt; $dev/lcd-backlight/als/curve  # ALS curve display BL [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
++echo 1,30,255,0,0,1,65   &gt; $dev/lcd-backlight/als/curve  # ALS curve display BL [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+ echo 2,48,0,128,128,4,10 &gt; $dev/button-backlight-rgb1/als/curve  # ALS curve key LED 1 [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+ echo 2,48,0,128,128,4,10 &gt; $dev/button-backlight-rgb2/als/curve  # ALS curve key LED 2 [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+ echo 3,71,255,64,32,5,37 &gt; $dev/red/als/curve  # ALS curve RGB(red) [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]</code></pre></noscript></div>
+</p>
+
+<p>最終的な/system/etc/hw_config.shは下記のような感じです。
+<div><script src='https://gist.github.com/1365547.js?file=hw_config.sh'></script>
+<noscript><pre><code># Audio jack configuration
+dev=/sys/devices/platform/simple_remote.0
+echo 0,201,1600 &gt; $dev/accessory_min_vals  # default = 0,200,1600
+echo 200,1599  &gt; $dev/accessory_max_vals  # default = 200,1600
+echo 0,100,280,500,700 &gt; $dev/button_min_vals  # default = 0,100,300,600,700
+echo 99,199,399,699,5000  &gt; $dev/button_max_vals  # default = 99,199,399,699,5000
+echo 512   &gt; $dev/btn_trig_period_freq  # Button Period Freq(Hz) default = 512
+echo 16  &gt; $dev/btn_trig_period_time  # Button Period Time(cycle) default = 16
+echo 512   &gt; $dev/btn_trig_hyst_freq    # Button Hysteresis Freq(Hz) default = 512
+echo 16  &gt; $dev/btn_trig_hyst_time   # Button Hysteresis Time(Cycle) default = 16
+echo 500 &gt; $dev/btn_trig_level  # default = 500
+
+# Proximity sensor configuration
+dev=/sys/bus/i2c/devices/0-0054/
+val_cycle=0
+val_nburst=26
+val_freq=0
+val_threshold=2
+val_filter=0
+
+nv_param_loader 60240 prox_cal
+val_calibrated=$?
+case $val_calibrated in
+ 1)
+  nv_param_loader 60240 threshold
+  val_threshold=$?
+  nv_param_loader 60240 rfilter
+  val_filter=$?
+  ;;
+esac
+
+echo $val_cycle &gt; $dev/cycle    # Duration Cycle. Valid range is 0 - 3.
+echo $val_nburst &gt; $dev/nburst  # Number of pulses in burst. Valid range is 0 - 15. 16 - 31 is a special range for smultron only (SP)
+echo $val_freq &gt; $dev/freq      # Burst frequency. Valid range is 0 - 3.
+echo $val_threshold &gt; $dev/threshold # sensor threshold. Valid range is 0 - 15 (0.12V - 0.87V)
+echo $val_filter &gt; $dev/filter  # RFilter. Valid range is 0 - 3.
+
+# LMU AS3676 Configuration
+dev=/sys/devices/i2c-0/0-0040/leds
+echo 1 &gt; $dev/lcd-backlight/als/enable  #Sensor on/off. 1 = on, reg 90h
+echo 3,2,2,0 &gt; $dev/lcd-backlight/als/params  #[gain],[filter_up],[filter_down],[offset]
+echo 8000 &gt; $dev/button-backlight-rgb1/max_current
+echo 8000 &gt; $dev/button-backlight-rgb2/max_current
+echo 1,30,255,0,0,1,65   &gt; $dev/lcd-backlight/als/curve  # ALS curve display BL [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+echo 2,48,0,128,128,4,10 &gt; $dev/button-backlight-rgb1/als/curve  # ALS curve key LED 1 [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+echo 2,48,0,128,128,4,10 &gt; $dev/button-backlight-rgb2/als/curve  # ALS curve key LED 2 [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+echo 3,71,255,64,32,5,37 &gt; $dev/red/als/curve  # ALS curve RGB(red) [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+echo 3,71,255,64,32,5,37 &gt; $dev/green/als/curve  # ALS curve RGB(green) [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+echo 3,71,255,64,32,5,37 &gt; $dev/blue/als/curve  # ALS curve RGB(blue) [grp],[Y0],[Y3],[K1],[K2],[X1],[X2]
+
+# Touch panel
+dev=/sys/devices/platform/spi_qsd.0/spi0.0
+app_id=`cat  $dev/appid`
+case &quot;$app_id&quot; in
+	&quot;0x0505&quot;)
+		fw=touch_smultron_innolux.hex
+        ;;
+	&quot;0x0105&quot;)
+		fw=touch_smultron_sony.hex
+        ;;
+	&quot;0x0015&quot;)
+		fw=touch_smultron_sony.hex
+        ;;
+	*)
+		fw=touch_smultron_sony.hex
+        ;;
+esac
+cyttsp_fwloader -dev $dev -fw /system/etc/firmware/$fw
+
+# TI BQ275xx firmware loader
+bq275xx_fwloader</code></pre></noscript></div>
+</p>
+
+<p>私は、<a href="https://market.android.com/details?id=com.protocol.x.su.fbs&amp;hl=ja">SU File Manager &amp; Terminal</a>を使って、</p>
+
+<ul>
+  <li>/system/etc をread+writeで再マウント</li>
+  <li>元のファイル(/system/etc/hw_config.sh)をrename</li>
+  <li>修正したhw_config.shをSDカードから/system/etc/にcopy</li>
+  <li>/system/etc をread-onlyで再マウント</li>
+</ul>
+
+<p>でファイルの差し替え。再起動すると設定が反映されてました。<br />
+輝度調整センサーを無効にすると画面が若干暗くなりましたが、画面のチラつきは解消しました。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sony Ericsson mini(S51SE)のroot権限を取得]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/11/15/ericsson-mini-rooted/"/>
+    <updated>2011-11-15T00:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/11/15/ericsson-mini-rooted</id>
+    <content type="html"><![CDATA[<p>Sony Ericsson miniのroot権限を取得した際の作業メモ。root権限取得にはリスクを伴うので、自己責任で作業。</p>
+
+<h2 id="root">root権限取得作業の前に</h2>
+<p>root権限取得については下記の記事が参考になるので、作業前に目を通しておくと良いです。  </p>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/ppppnryu/20110529/1306657534">※必見！！！Xperia arc root化前の必須作業 - 初心者のためのXperia arc (rooted)</a></li>
+  <li><a href="http://d.hatena.ne.jp/ppppnryu/20110509/1304934270">Xperia arcが正常に起動できなくなったら… ～SEUSの使い方～ - 初心者のためのXperia arc (rooted)</a></li>
+</ul>
+
+<p>文鎮化しても元に戻せるようにPC companionとSEUSの導入。これはWindows機でないと作業ができませんでした。  </p>
+
+<ol>
+  <li><a href="http://www.sonyericsson.co.jp/support/software/pcc/2.1/">PC コンパニオン（PC Companion）の導入</a></li>
+  <li><a href="http://www.sonyericsson.co.jp/support/software/updateservice/">SEUS(Sony Ericsson Update service)の導入</a></li>
+</ol>
+
+<p>SEUSを起動してS51SE(Sony Ericsson miniの製品名)があるのを確認して、S51SEでも工場出荷時に戻せるのを念のため確認。</p>
+
+<p><img src="http://www.glidenote.com/wp-content/uploads/2011/11/133ba3868f6f2688b88a2e47fca96995.png" alt="" /></p>
+
+<h2 id="root-1">root権限取得</h2>
+<p>root権限の取得には下記ページを参考に。<br />
+<a href="http://plus.appgiga.jp/ky777/2011/11/02/7556/">ワンクリックで簡単root化！Xperia arc\/acro\/ray\/playやGalaxy S2対応「DooMLoRD’s Easy Rooting Toolkit」 | APPGIGA!!（アプギガ）</a></p>
+
+<p><blockquote><p>DooMLoRD’s Easy Rooting Toolkitのダウンロード</p></p><p><p>http://forum.xda-developers.com/showthread.php?t=1321582</p></p><p><p>手順は以下のやり方を参照して欲しい。端末本体とWindowsパソコンを使って行う。</p></p><p><ol><br/>  <li>上記リンクからファイルをパソコンにダウンロードして解凍（[Download link]の項目）</li><br/>  <li>端末の設定で”USBデバッグ”を有効にする（設定→アプリケーション→開発）</li><br/>  <li>パソコンと端末をUSBケーブルで接続</li><br/>  <li>解凍後のフォルダ内に「runme.bat」というファイルがあるので実行</li><br/></ol></p><p><p></p></blockquote></p>
+
+<p>これでroot権限が取得できました。</p>
+
+<h2 id="section">追記 2011年12月29日</h2>
+<p><a href="https://blog.glidenote.com/blog/2011/12/29/s51se-4.0.2.a.0.61-rooted/">Sony Ericsson mini(S51SE)でRootedのまま4.0.2.A.0.61へアップデート - Glide Note - グライドノート</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[HTC AriaからSony Ericsson miniに機種変更した]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/11/14/get-erricson-mini/"/>
+    <updated>2011-11-14T10:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/11/14/get-erricson-mini</id>
+    <content type="html"><![CDATA[<p><img src="http://farm7.static.flickr.com/6053/6339838737_a41e4b810e_z.jpg" alt="" /><br />
+昨年12月に契約した<a href="http://emobile.jp/products/ht/s31ht/">HTC Aria</a>を、<a href="http://emobile.jp/products/se/s51se/">Sony Ericsson mini</a>に機種変更しました。
+HTC ariaには特に不満は無かったんですが、店頭でSony Ericsson miniを触ってみて、そのヌルヌル動作に感動して思わず機種変。</p>
+
+<p>2週間ほど利用してみての感想を書いてみます。
+HTC Ariaとの比較でも良いんですが、iPhone4との比較の方がわかりやすいかと思いますので、iPhone4との比較を中心に。</p>
+
+<ul>
+  <li><a href="http://www.apple.com/jp/iphone/compare-iphones/">iPhone4のスペック</a></li>
+  <li><a href="http://emobile.jp/products/se/s51se/spec.html">Sony Ericsson miniのスペック</a></li>
+</ul>
+
+<h2 id="section">外観</h2>
+<p>日本最小スマートフォンを謳っているだけあって、とにかく小さくて軽いです。<br />
+iPhone4と比べると、その小ささがよくわかります。
+購入した黒モデルはカバー素材がマット系で持ちやすいため
+重量はiPhone4とは40g程度の違いですが、驚くほど軽く感じます。<br />
+携帯電話というよりおもちゃを触っているような感覚です。</p>
+
+<p><img src="http://farm7.static.flickr.com/6059/6340588952_2a5bc05267_z.jpg" alt="" />  </p>
+
+<h2 id="section-1">画面表示</h2>
+<p>iPhone4が960x640に対し、Sony Ericsson miniは480x320と表示面積は1/4です。<br />
+数値で見るとかなり劣るような印象ですが、実際利用していて
+劣っているような感じではないです。
+表示面積が少ない分、画面の描画は早い印象を受けます。
+またブラビアエンジンというのを搭載しており、特にYoutubeなどの動画再生はおいては
+色鮮やかでiPhone4を上回る綺麗さです。
+明るさ調整のセンサーが敏感過ぎて、ちょっとした影ですぐに画面が暗くなってしまうので、若干イライラします。iPhone4と比べると液晶が結構暗いです。</p>
+
+<p>左がSony Ericsson mini、右がiPhone4の画面キャプチャ<br />
+<a href="http://www.glidenote.com/wp-content/uploads/2011/11/screenshot_2011-11-14_0053.png"><img src="http://www.glidenote.com/wp-content/uploads/2011/11/screenshot_2011-11-14_0053-200x300.png" alt="" title="screenshot_2011-11-14_0053" width="200" height="300" class="size-medium wp-image-1593" /></a> <a href="http://www.glidenote.com/wp-content/uploads/2011/11/37e3808047553cedb34daa9b1d7ab2a3.png"><img src="http://www.glidenote.com/wp-content/uploads/2011/11/37e3808047553cedb34daa9b1d7ab2a3-200x300.png" alt="" title="写真" width="200" height="300" class="size-medium wp-image-1594" /></a><br clear="all" /></p>
+
+<h2 id="section-2">操作感覚</h2>
+<p>タッチパネルの感度、精度や、スクロールのなめらかさはiPhoneの方が優秀です。
+タッチしたところと微妙にずれて反応するので、文字入力の時に誤入力が結構発生します。
+画面が小さいのもあって、メール入力などはストレスを感じます。<br />
+タッチ精度はHTC Ariaでも同じだったので、Sony Ericsson mini固有の問題ではなく、
+Android全般に言えるのような気がします。<br />
+ただ音量ボタンが本体の右にあるので、右手で持って音量ボタンで
+画面スクロールということが可能なので、それに慣れるとかなり快適です。
+（音量ボタンでのスクロールを実装していないアプリもかなりありますが）</p>
+
+<h2 id="section-3">動作速度</h2>
+<p>アプリの起動、ブラウジングなどの動作速度はiPhone4と遜色のないレベルでかなり早いです。<br />
+ブラウジングに関しては同じ無線LAN利用時のiPhone4を上回るのではないかというくらい早いです。
+特に3G回線利用時は渋谷、新宿などソフトバンク回線がものすごく遅いので、
+イーモバイル回線であるSony Ericsson miniはめちゃくちゃ早く感じます。
+これはかなり満足度が高いです。</p>
+
+<h2 id="section-4">音質</h2>
+<p>購入時にまったく気にしていなかった部分ですが、音質がかなり良いです。
+スピーカー、ヘッドフォン双方ともに良い音が出るので、音楽プレーヤーと
+しても満足度が高いです。音楽プレーヤーとしてはiPhone4から完全に切り替えました。</p>
+
+<h2 id="section-5">バッテリの持ち</h2>
+<p>iPhone4と比べるまでもなく、バッテリの持ちはかなり悪いです。
+Automatic Task KillerやAdvanced Task Killerなどで常駐するアプリはないので、
+待ち受け時はバッテリ消費がありませんが、ブラウジングなどをすると
+見る見る減っていきます。テザリングをしていると一気に減るので、
+モバイルブースターは必須ですね。</p>
+
+<h2 id="section-6">カメラ</h2>
+<p>他のアプリは問題ないのですが、カメラアプリだけは起動は遅いです。<br />
+シャッターチャンスは確実に逃すと思います。画質もiPhone4には劣りそれなりです。</p>
+
+<h2 id="section-7">通話</h2>
+<p>利用していないので、わかりません。</p>
+
+<h2 id="section-8">テザリング</h2>
+<p>テザリングに関してはHTC Ariaとの比較になりますが、HTC Ariaより電波の感度が良く、
+Ariaでは圏外になるような場所でも、ちゃんと動作してくれて
+PocketWifiの役目を果たしてくれます。<br />
+速度も3〜4Mpbsはコンスタントに出るので、ソフトバンク回線がめちゃくちゃ遅い、渋谷などではかなり重宝します。
+iPhone4もSony Ericsson mini経由の方が早いので、街中で利用するときは
+ソフトバンク回線ではなく、イーモバイル回線を利用するようにしてます。</p>
+
+<h2 id="section-9">総合評価</h2>
+<p>テザリング用途、iPhone4のサブ機として購入したSony Ericsson miniですが、
+タッチの精度とバッテリの持ちなどの問題がありますが、
+本体のサイズと軽さ、ブラウジングの速さ、音質の良さなどから
+iPhone4より利用頻度は高くなってきてかなり満足度の高い買い物でした。</p>
+
+<p><img src="http://farm7.static.flickr.com/6120/6339837783_d5924bcb40_z.jpg" alt="" /></p>
+
+]]></content>
+  </entry>
+  
+</feed>

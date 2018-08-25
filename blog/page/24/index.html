@@ -1,0 +1,712 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="GitHubのfeedをfacebookのtimeline風に表示してくれるgitspectiveという
+サービスがリリースされていたので、早速試してみました。 http://zmoazeni.github.com/gitspective/にアクセスすると下記のような画面。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/24/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/24">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="GitHubのfeedをfacebookのtimeline風に表示してくれるgitspectiveという
+サービスがリリースされていたので、早速試してみました。 http://zmoazeni.github.com/gitspective/にアクセスすると下記のような画面。 私のtimelineを表示させた場合 [Push],[Fork],[Gist],[Branch],[Tags],[ &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/10/gitspective/">GitHubのfeedをfacebookのtimeline風に表示するgitspectiveがシャレオツ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-10T02:00:00+09:00" pubdate data-updated="true">2012年05月10日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>GitHubのfeedをfacebookのtimeline風に表示してくれる<a href="http://zmoazeni.github.com/gitspective/">gitspective</a>という
+サービスがリリースされていたので、早速試してみました。</p>
+
+<p><a href="http://zmoazeni.github.com/gitspective/">http://zmoazeni.github.com/gitspective/</a>にアクセスすると下記のような画面。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/gitspective0.png" alt="" /></p>
+
+<p>私のtimelineを表示させた場合</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/gitspective1.png" alt="" /></p>
+
+<p>[Push],[Fork],[Gist],[Branch],[Tags],[Follows],[Comments]などで表示、非表示が
+出来るので、必要な情報だけ絞り込むことが出来ます。</p>
+
+<p>Gistだけを表示させると下記のような感じ</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/gitspective2.png" alt="" /></p>
+
+<p>またソース自体も公開されているので、ローカルに<code>git clone</code>して</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">git clone git://github.com/zmoazeni/gitspective.git</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>同じディレクトリに下記のような<code>server.rb</code>スクリプトを配置し、</p>
+
+<div><script src="https://gist.github.com/2646654.js"></script>
+<noscript><pre><code>#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+
+require &#39;webrick&#39;
+include WEBrick
+
+server = HTTPServer.new(
+    :DocumentRoot  =&gt; File.join(Dir.pwd, &quot;.&quot;),
+    :Port  =&gt; 10080
+)
+
+trap(&quot;INT&quot;) { server.shutdown }
+server.start</code></pre></noscript></div>
+
+<p><code>ruby server.rb</code>して、<code>http://localhost:10080/</code>にアクセスすれば
+ローカルですぐに動作もします。</p>
+
+<p>憧れの技術者が「今何を作ってるんだろう」とか「何に注目しているんだろうとか」
+ネットストークする際に活躍しそうです。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/03/zsh-completion/">zshでサブコマンドとファイル名を手抜き補完する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-03T23:00:00+09:00" pubdate data-updated="true">2012年05月03日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>結婚祝いで先日<a href="https://twitter.com/#!/gosukenator">mizzy</a>さんから頂いた<a href="http://pragprog.com/book/dccar/build-awesome-command-line-applications-in-ruby">Build Awesome Command-Line Applications in Ruby</a>
+を読んで自作コマンドを作っているんですが、zshで補完されず不便だったので手抜きで対応。<br />
+最初はzshの補完関数も一緒に作っていたのですが、あまりに非効率だったので、<code>.zshrc</code>に書いて対応。</p>
+
+<p>たとえば<code>hoge</code>というコマンドを自作していて、下記のようなサブコマンドがあった場合</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">hoge init
+</span><span class="line">hoge update
+</span><span class="line">hoge upgrade
+</span><span class="line">hoge commit</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>hoge[tab]</code>でサブコマンドが補完され、</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/zsh-completion1.png" alt="" /></p>
+
+<p>サブコマンドの後はファイル、ディレクトリが補完されるように。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/zsh-completion2.png" alt="" /></p>
+
+<h2 id="section">サブコマンドとファイル名を補完する</h2>
+
+<p>下記を<code>.zshrc</code>に記載して<code>exec $SHELL</code></p>
+
+<div><script src="https://gist.github.com/2574327.js"></script>
+<noscript><pre><code>compdef _hogecmd hoge
+function _hogecmd {
+  local -a cmds
+  if (( CURRENT == 2 ));then
+    cmds=(&#39;init&#39; &#39;update&#39; &#39;upgrade&#39; &#39;commit&#39;)
+    _describe -t commands &quot;subcommand&quot; cmds
+  else
+    _files
+  fi
+
+  return 1;
+}</code></pre></noscript></div>
+
+<p>やっていることは</p>
+
+<ol>
+  <li><code>compdef</code>で<code>_hogecmd</code>という補完用functionを定義し、<code>hoge</code>コマンドを実行したときに呼び出されるように。</li>
+  <li>function内の<code>cmds</code>で補完したいサブコマンドを列挙</li>
+  <li><code>CURRENT == 2</code>で<code>hoge</code>のあとに補完されるのはサブコマンドだけと指定</li>
+  <li><code>_describe</code>で補完候補で表示されるときに<code>subcommand</code>というグループになるようにしている</li>
+  <li>サブコマンドのあとは<code>_files</code>でファイルとディレクトリが補完されるように</li>
+</ol>
+
+<h2 id="section-1">参考になるサイト</h2>
+
+<p>zshの補完関数の書き方がまとまっているところがほとんど無いので下記が非常参考になります。</p>
+
+<ul>
+  <li><a href="http://hakobe932.hatenablog.com/entry/2012/02/13/214934">zsh補完関数を自作すると便利 - はこべブログ♨</a> </li>
+  <li><a href="http://www.ayu.ics.keio.ac.jp/~mukai/translate/write_zsh_functions.html">zsh補完関数の書き方(訳)</a></li>
+  <li><a href="http://linux.die.net/man/1/zshcompsys">zshcompsys(1): zsh completion system - Linux man page</a></li>
+  <li><a href="http://linux.die.net/man/1/zshcompwid">zshcompwid(1): zsh completion widgets - Linux man page</a></li>
+</ul>
+
+<p>特に<a href="http://hakobe932.hatenablog.com/entry/2012/02/13/214934">はこべブログ♨ </a>さんの記事は、
+補完の際に用いる、<code>compadd</code>,<code>_files</code>,<code>_describe</code>などについて詳しく書いてあるのでオススメです。</p>
+
+<p>自作コマンドに限らず、新しいツールなどを利用していたりするとサブコマンドが補完されず
+ガッカリすることがありますが、ほんの数行でサクッと出来る対応なのでオススメです。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/30/terminal-study-vol-2/">社内でターミナル勉強会を開催した</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-30T03:14:00+09:00" pubdate data-updated="true">2012年04月30日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>月一回のペースで社内勉強会を主催しているんですが、
+資料をspeckerdeckに置くようにしたので、
+先日社内で開催したターミナル勉強会の資料を公開。  </p>
+
+<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="presentation_frame_4f9a6a2b78ef2a0021034baa" src="//speakerdeck.com/embed/4f9a6a2b78ef2a0021034baa" width="700" height="601"></iframe>
+
+<p>去年にも同じテーマで勉強会をやっていて、
+今回は実際のターミナル操作8割、説明2割みたいな感じでやったので
+資料だけみても正直あんまり役に立たないかと思いますが。  </p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/24/bash-it/">Bash版oh-my-zsh、Bash framework「bash-it」を試してみた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-24T18:00:00+09:00" pubdate data-updated="true">2012年04月24日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>久しく利用していないBashですが、Bash版<a href="https://github.com/robbyrussell/oh-my-zsh">oh-my-zsh</a>といえる
+<a href="https://github.com/revans/bash-it">bash-it</a>という面白そうなツールがあったので試してみました。</p>
+
+<ul>
+  <li><a href="https://github.com/revans/bash-it">revans/bash-it</a></li>
+</ul>
+
+<h2 id="bash-it">bash-itの導入</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cd ~
+</span><span class="line">git clone http://github.com/revans/bash-it.git ~/.bash_it
+</span><span class="line">sh ~/.bash_it/install.sh
+</span><span class="line">
+</span><span class="line">Your original .bash_profile has been backed up to .bash_profile.bak
+</span><span class="line">Copied the template .bash_profile into ~/.bash_profile, edit this file to customize bash-it
+</span><span class="line">Do you use Jekyll? (If you don't know what Jekyll is, answer 'n') [Y/N] Y
+</span><span class="line">Copied the template .jekyllconfig into your home directory. Edit this file to customize bash-it for using the Jekyll plugins
+</span><span class="line">Would you like to enable all, some, or no aliases? Some of these may make bash slower to start up (especially completion). (all/some/none) all
+</span><span class="line">Would you like to enable all, some, or no plugins? Some of these may make bash slower to start up (especially completion). (all/some/none) all
+</span><span class="line">Would you like to enable all, some, or no completion? Some of these may make bash slower to start up (especially completion). (all/some/none) all</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>私はOctoperssを利用していて、<a href="https://github.com/mojombo/jekyll">jekyll</a>拡張もあると便利そうなので一緒に導入しました。</p>
+
+<h2 id="bash-it-1">bash-itの利用</h2>
+
+<p><code>~/.bash_profile</code>がbash-it用に変更されているのでsourceで読み込む</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">source ~/.bash_profile</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section">自分用のカスタム設定を記載</h2>
+
+<p>自分用のaliaseなどのカスタム設定は下記のファイルに記載。
+<code>custom</code>ディレクトリ中に拡張子を<code>.bash</code>で用意。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">~/.bash_it/aliases/custom.aliases.bash
+</span><span class="line">~/.bash_it/lib/custom.bash
+</span><span class="line">~/.bash_it/plugins/custom.plugins.bash
+</span><span class="line">~/.bash_it/custom/*.bash</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">テーマの変更</h2>
+
+<p>2012年4月24日現在下記のテーマがあるので、
+<code>.bash_profile</code>に記載してsourceで再読み込ませすると反映されます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">bobby
+</span><span class="line">candy
+</span><span class="line">clean
+</span><span class="line">demula
+</span><span class="line">dos
+</span><span class="line">doubletime
+</span><span class="line">doubletime_multiline
+</span><span class="line">doubletime_multiline_pyonly
+</span><span class="line">envy
+</span><span class="line">hawaii50
+</span><span class="line">mbriggs
+</span><span class="line">minimal
+</span><span class="line">modern
+</span><span class="line">modern-t
+</span><span class="line">n0qorg
+</span><span class="line">pete
+</span><span class="line">rainbowbrite
+</span><span class="line">rjorgenson
+</span><span class="line">simple
+</span><span class="line">sirup
+</span><span class="line">standard
+</span><span class="line">tonka
+</span><span class="line">tylenol
+</span><span class="line">zitron
+</span><span class="line">zork</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/bashit.png" alt="" /></p>
+
+<p>うーん、自分でカスタムしまくったzshに慣れすぎてしまっているせいか
+正直今はあんまり便利な感じがしない。<br />
+oh-my-zshの出始めはこんな感じだったようか気がするのでもうすこしテーマとか
+補完関数がそろってくると便利になるかもしれない。</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/23/etckeeper-bitbucket/">git + etckeeper + BitbucketのPrivate Repositoryで/etcを管理</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-23T14:00:00+09:00" pubdate data-updated="true">2012年04月23日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>個人で利用しているさくらのVPSのプラン変更に伴い、サーバの移行作業をしているんですが、
+そのタイミングで、<code>/etc</code>配下のファイルの管理を個人で立ててたgitoliteから
+<a href="https://bitbucket.org/">Bitbucket</a>のprivate repositoryでの管理に変更したのでメモ。</p>
+
+<p>Bitbucketでprivate repositoryを作成する方法は以前紹介したのでそちらを参照下さい。</p>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2012/02/13/manage-private-repository-with-bitbucket/">Private RepositoryをBitbucketで管理し始めた - Glide Note - グライドノート</a></li>
+</ul>
+
+<p>導入環境はCentOS 6.2です。Bitbucketへの鍵登録などは済んでいるものとします。</p>
+
+<h2 id="etckeeper">etckeeperの導入</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo yum -y install git etckeeper</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>/etc/etckeeper/etckeeper.conf</code>が設定ファイルになり、デフォルトで</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">VCS="git"
+</span><span class="line">HIGHLEVEL_PACKAGE_MANAGER=yum
+</span><span class="line">LOWLEVEL_PACKAGE_MANAGER=rpm</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>などとgitを利用し、CentOSに適した設定になっているので、そのまま利用。</p>
+
+<h2 id="etcgitignore-">/etc/.gitignore に管理したくないファイルを追加</h2>
+
+<p>非公開なリポジトリとはいえ、外部のサーバにファイルを置くので、
+万が一漏洩しても被害を少なくするためセキュリティ上管理しないファイルを
+<code>/etc/.gitignore</code>に記載。<br />
+<code>/etc/passwd</code>とか<code>/etc/shadow</code>は管理しない方がいいかと思います。</p>
+
+<h2 id="etckeeperetccommit">etckeeperを用いて、/etcをcommit</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo etckeeper init
+</span><span class="line">sudo etckeeper commit</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ちなみにetckeeperがcommitするタイミングは主に下記の2点</p>
+
+<ol>
+  <li>yumを実行したタイミング</li>
+  <li>dailyでのcron</li>
+</ol>
+
+<p>手動でcommitするときは下記のような感じ</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo etckeeper commit</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="bitbucketpush">Bitbucket上のプライベートリポジトリにpush</h2>
+
+<p><a href="https://bitbucket.org/">Bitbucket</a>上に作成したprivate repositoryにpush。
+下記は<code>foobar</code>というプライベートリポジトリにpushする例。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cd /etc
+</span><span class="line">sudo git remote add origin ssh://git@bitbucket.org/glidenote/foobar.git
+</span><span class="line">sudo git push origin master</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>これで/etc配下のファイルのバージョン管理が出来るようになりました。
+検証やpuppetマニフェストの動作確認とかでOSの再インストールを頻繁に行うので、
+/etc配下のファイルを管理していると再構築が楽でいろいろと捗ります。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.udzura.jp/2010/11/22/tutorial-of-etckeeper/">etckeeperのつかいかた（インストール、サブコマンド追加） « blog.udzura.jp</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/25/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/23/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

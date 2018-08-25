@@ -1,0 +1,652 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>serf-muninを導入してmunin-nodeの監視追加、削除を自動化した - Glide Note</title>
+  <meta property="og:title" content="serf-muninを導入してmunin-nodeの監視追加、削除を自動化した - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="前回の続きでSerfを触ってる。前回のエントリを見て、@zembutsuさんが作ってくれたserf-muninが素晴らしかったので、弊社仕様に若干修正して導入した。 serf-muninでmunin-nodeの監視自動追加/削除 | Pocketstudio.jp log3 Serf- &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2013/11/06/serf-munin/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2013/11/06/serf-munin">
+<meta name="twitter:title" content="serf-muninを導入してmunin-nodeの監視追加、削除を自動化した">
+<meta name="twitter:description" content="前回の続きでSerfを触ってる。前回のエントリを見て、@zembutsuさんが作ってくれたserf-muninが素晴らしかったので、弊社仕様に若干修正して導入した。 serf-muninでmunin-nodeの監視自動追加/削除 | Pocketstudio.jp log3 Serf-muninが自動生成、削除するファイルは/etc/munin/conf.d/配下で、
+既存のmunin環境(/ &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">serf-muninを導入してmunin-nodeの監視追加、削除を自動化した</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-06T20:12:00+09:00" pubdate data-updated="true">2013年11月06日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="https://blog.glidenote.com/blog/2013/10/30/serf-haproxy/">前回の続き</a>で<a href="http://www.serfdom.io/">Serf</a>を触ってる。前回のエントリを見て、<a href="https://twitter.com/zembutsu">@zembutsuさん</a>が作ってくれた<a href="https://github.com/zembutsu/serf-munin">serf-munin</a>が素晴らしかったので、弊社仕様に若干修正して導入した。</p>
+
+<ul>
+  <li><a href="http://pocketstudio.jp/log3/2013/11/01/serf-munin-eventhander-auto-monitorin/">serf-muninでmunin-nodeの監視自動追加/削除 | Pocketstudio.jp log3</a></li>
+</ul>
+
+<p>Serf-muninが自動生成、削除するファイルは<code>/etc/munin/conf.d/</code>配下で、
+既存のmunin環境(<code>/etc/munin/munin.conf</code>とか)を壊すことがないと思うので、すぐに試すことが出来ると思う。</p>
+
+<p>導入環境は</p>
+
+<ul>
+  <li>CentOS 6.4</li>
+  <li>Serf 0.2.0</li>
+  <li>munin-2.0.17</li>
+</ul>
+
+<p>で、Serfの起動コマンドや生成されるmuninのconfの関係上、Serf 0.2.0とmunin 2.0以上は必須条件になります。</p>
+
+<h2 id="serf-munin">serf-muninの仕組みの説明</h2>
+
+<h3 id="web-server1muninserf-join">1. web server1がmuninサーバと同じクラスタにserf joinしてくる</h3>
+
+<p><img src="https://blog.glidenote.com/images/2013/11/serfmunin0.png" alt="" /></p>
+
+<h3 id="web-server1joinmember-join">2. Web server1がクラスタにjoinしてきたので、member-joinイベントが発生</h3>
+<p><img src="https://blog.glidenote.com/images/2013/11/serfmunin1.png" alt="" /></p>
+
+<ol>
+  <li>muninサーバで<code>member-join</code>イベントで指定しているスクリプトが実行される</li>
+  <li>muninサーバの<code>/etc/munin/conf.d/web001.foobar.conf</code>という設定ファイルが追加され、ポーリング対象のサーバが追加される。</li>
+  <li>Web Serve1がmuninのグラフに追加される</li>
+</ol>
+
+<h3 id="db-server1joinmember-join">3. DB server1がクラスタにjoinしてきたので、member-joinイベントが発生</h3>
+<p><img src="https://blog.glidenote.com/images/2013/11/serfmunin2.png" alt="" /></p>
+
+<ol>
+  <li>muninサーバで<code>member-join</code>イベントで指定しているスクリプトが実行される</li>
+  <li>muninサーバの<code>/etc/munin/conf.d/db001.foobar.conf</code>という設定ファイルが追加され、ポーリング対象のサーバが追加される。</li>
+  <li>DB Serve1がmuninのグラフに追加される</li>
+</ol>
+
+<h3 id="web-server1member-leave">4. Web server1が突然の死。member-leaveイベントが発生</h3>
+<p><img src="https://blog.glidenote.com/images/2013/11/serfmunin3.png" alt="" /></p>
+
+<ol>
+  <li>muninサーバで<code>member-leave</code>イベントで指定しているスクリプトが実行される</li>
+  <li>muninサーバの<code>/etc/munin/conf.d/web001.foobar.conf</code>という設定ファイルが削除され、ポーリング対象のサーバから削除される。</li>
+  <li>Web Server1がmuninのグラフから削除される</li>
+</ol>
+
+<p>もしWeb Server1が復活したら、勝手にクラスタに参加してくるので、再度ポーリング先に自動追加される。</p>
+
+<h2 id="section">実際の設定</h2>
+
+<h3 id="munin">muninサーバ側の設定</h3>
+
+<p><code>SERF_ROLE</code>はmuninのconf内でgroupに利用するために設定してます。
+muninサーバには<code>manage</code>というroleを設定してます。</p>
+
+<p>作業の流れは</p>
+
+<ol>
+  <li>Serfをダウンロードして、<code>/usr/local/bin/serf</code>に設置</li>
+  <li>自動生成されるconf用ディレクトリ<code>/etc/munin/conf.d</code>を作成</li>
+  <li>serf join/leaveイベント発生時に実行されるスクリプト<code>serf-munin.sh</code>を作成し、設置</li>
+  <li>Serfの起動スクリプトを作成</li>
+  <li>Serfの起動</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">export </span><span class="nv">SERF_ROLE</span><span class="o">=</span>manage
+</span><span class="line">sudo yum install -y unzip
+</span><span class="line">
+</span><span class="line"><span class="nb">cd</span> /tmp/
+</span><span class="line"><span class="k">until </span>wget -O serf.zip https://dl.bintray.com/mitchellh/serf/0.2.0_linux_amd64.zip; <span class="k">do</span>
+</span><span class="line"><span class="k">  </span>sleep 1
+</span><span class="line"><span class="k">done</span>
+</span><span class="line">unzip serf.zip
+</span><span class="line">sudo mv serf /usr/local/bin/serf
+</span><span class="line">rm serf.zip
+</span><span class="line">
+</span><span class="line">sudo mkdir -p /etc/munin/conf.d/
+</span><span class="line">
+</span><span class="line"><span class="c"># create serf-munin.sh</span>
+</span><span class="line">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt;/tmp/serf-munin.sh</span>
+</span><span class="line"><span class="s">#!/bin/sh</span>
+</span><span class="line">
+</span><span class="line"><span class="s">while read line</span>
+</span><span class="line"><span class="s">do</span>
+</span><span class="line"><span class="s">  echo ${line}</span>
+</span><span class="line"><span class="s">    HOSTNAME=`echo ${line} | cut -d &#39; &#39; -f 1`</span>
+</span><span class="line"><span class="s">    ADDRESS=`echo ${line} | cut -d &#39; &#39; -f 2`</span>
+</span><span class="line"><span class="s">    GROUP=`echo ${line} | cut -d &#39; &#39; -f 3`</span>
+</span><span class="line">
+</span><span class="line"><span class="s">    case ${SERF_EVENT} in</span>
+</span><span class="line"><span class="s">    &quot;member-join&quot;)</span>
+</span><span class="line"><span class="s">      cat &lt;&lt; __EOF</span>__ &gt; <span class="s2">&quot;/etc/munin/conf.d/${HOSTNAME}.conf&quot;</span>
+</span><span class="line"><span class="o">[</span><span class="k">${</span><span class="nv">GROUP</span><span class="k">}</span>;<span class="k">${</span><span class="nv">HOSTNAME</span><span class="k">}</span><span class="o">]</span>
+</span><span class="line">    address <span class="k">${</span><span class="nv">ADDRESS</span><span class="k">}</span>
+</span><span class="line">    use_node_name yes
+</span><span class="line">__EOF__
+</span><span class="line">;;
+</span><span class="line">    <span class="s2">&quot;member-leave&quot;</span> | <span class="s2">&quot;member-failed&quot;</span><span class="o">)</span>
+</span><span class="line">      rm -f /etc/munin/conf.d/<span class="k">${</span><span class="nv">HOSTNAME</span><span class="k">}</span>.conf;;
+</span><span class="line">    <span class="se">\?</span><span class="o">)</span>
+</span><span class="line">      <span class="nb">echo</span> <span class="s2">&quot;other&quot;</span>;;
+</span><span class="line">    <span class="k">esac</span>
+</span><span class="line"><span class="k">    </span><span class="nb">break</span>
+</span><span class="line"><span class="k">done </span>
+</span><span class="line">
+</span><span class="line"><span class="nb">exit </span>0
+</span><span class="line">EOF
+</span><span class="line">
+</span><span class="line">sudo mv /tmp/serf-munin.sh /usr/local/bin/serf-munin.sh
+</span><span class="line">sudo chmod 755 /usr/local/bin/serf-munin.sh
+</span><span class="line">
+</span><span class="line"><span class="c"># Configure the agent</span>
+</span><span class="line">cat <span class="s">&lt;&lt;EOF &gt;/tmp/agent.conf</span>
+</span><span class="line"><span class="s">description &quot;Serf agent&quot;</span>
+</span><span class="line">
+</span><span class="line"><span class="s">start on runlevel [2345]</span>
+</span><span class="line"><span class="s">stop on runlevel [!2345]</span>
+</span><span class="line">
+</span><span class="line"><span class="s">exec /usr/local/bin/serf agent \\</span>
+</span><span class="line"><span class="s">  -event-handler=&quot;/usr/local/bin/serf-munin.sh&quot; \\</span>
+</span><span class="line"><span class="s">  -role=${SERF_ROLE} &gt;&gt;/var/log/serf.log 2&gt;&amp;1</span>
+</span><span class="line"><span class="s">EOF</span>
+</span><span class="line">sudo mv /tmp/agent.conf /etc/init/serf.conf
+</span><span class="line">
+</span><span class="line"><span class="c"># Start the agent!</span>
+</span><span class="line">sudo start serf
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>この状態で既に<code>/etc/munin/conf.d/${HOSTNAME}.conf</code>というファイルが出来上がって、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="o">[</span>manage;manage001.foobar.com<span class="o">]</span>
+</span><span class="line">    address 127.0.0.1
+</span><span class="line">    use_node_name yes
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>というような内容になっている。</p>
+
+<h3 id="munin-node">munin-node側の設定</h3>
+
+<p><code>MUNIN_SERVER</code>にmuninサーバのIPもしくはfqdnを設定。<code>MUNIN_SERVER</code>で指定したサーバに
+<code>serf join</code>しに行きます。
+<code>SERF_ROLE</code>はmuninのconf内でgroupに利用するために設定してます。
+例では<code>web</code>というroleを設定しており、実環境でも<code>web</code>、<code>db</code>、<code>backup</code>などとroleを設定してます。</p>
+
+<p>作業の流れは</p>
+
+<ol>
+  <li>Serfをダウンロードして、<code>/usr/local/bin/serf</code>に設置</li>
+  <li>Serfの起動スクリプトを作成</li>
+  <li>Serfの起動</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">export </span><span class="nv">MUNIN_SERVER</span><span class="o">=</span>192.168.100.100
+</span><span class="line"><span class="nb">export </span><span class="nv">SERF_ROLE</span><span class="o">=</span>web
+</span><span class="line">
+</span><span class="line">sudo yum install -y unzip
+</span><span class="line">
+</span><span class="line"><span class="c"># Download and install Serf</span>
+</span><span class="line"><span class="nb">cd</span> /tmp
+</span><span class="line"><span class="k">until </span>wget -O serf.zip https://dl.bintray.com/mitchellh/serf/0.2.0_linux_amd64.zip; <span class="k">do</span>
+</span><span class="line"><span class="k">  </span>sleep 1
+</span><span class="line"><span class="k">done</span>
+</span><span class="line">unzip serf.zip
+</span><span class="line">sudo mv serf /usr/local/bin/serf
+</span><span class="line">rm serf.zip
+</span><span class="line">
+</span><span class="line"><span class="c"># Configure the agent</span>
+</span><span class="line">cat <span class="s">&lt;&lt;EOF &gt;/tmp/agent.conf</span>
+</span><span class="line"><span class="s">description &quot;Serf agent&quot;</span>
+</span><span class="line">
+</span><span class="line"><span class="s">start on runlevel [2345]</span>
+</span><span class="line"><span class="s">stop on runlevel [!2345]</span>
+</span><span class="line">
+</span><span class="line"><span class="s">exec /usr/local/bin/serf agent \\</span>
+</span><span class="line"><span class="s">  -join=${MUNIN_SERVER} \\</span>
+</span><span class="line"><span class="s">  -role=${SERF_ROLE} &gt;&gt;/var/log/serf.log 2&gt;&amp;1</span>
+</span><span class="line"><span class="s">EOF</span>
+</span><span class="line">sudo mv /tmp/agent.conf /etc/init/serf.conf
+</span><span class="line">
+</span><span class="line"><span class="c"># Start the agent!</span>
+</span><span class="line">sudo start serf
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>この状態で既に<code>/etc/munin/conf.d/${HOSTNAME}.conf</code>というファイルが出来上がって、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="o">[</span>web;web001.foobar.com<span class="o">]</span>
+</span><span class="line">    address 172.18.100.109
+</span><span class="line">    use_node_name yes
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>というような内容になっていて、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo stop serf
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>でSerfと止めると、confが削除されるのが分かる。</p>
+
+<p>Serf 0.2.0になって、<code>serf agent join="IP"</code>みたいなことが出来るようになっていて起動スクリプトもシンプルになった。
+やってることは非常に単純でSerfの設置、スクリプト設置だけなのでpuppet化も非常に楽。</p>
+
+<p>Serf 0.2.0の変更点は@zembutsuさんのブログが非常に参考になります。素晴らしいエントリ!!</p>
+
+<ul>
+  <li><a href="http://pocketstudio.jp/log3/2013/11/02/serf-version-0-2-0/">【Serf】v0.2.0 へのバージョンアップと、変わった所を確認してみた | Pocketstudio.jp log3</a></li>
+</ul>
+
+<p>担当しているサービス用にインストール用のwrapperスクリプトを公開しているので、参考にどうぞ。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/serf-munin-setup">glidenote/serf-munin-setup</a></li>
+</ul>
+
+<p>Serf 0.2.0から暗号化も可能になったので、これでサーバ起動して、Puppet流せば、
+新規サーバのmuninグラフが勝手に出来上がる仕組みが出来上がった。</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://pocketstudio.jp/log3/2013/11/01/serf-munin-eventhander-auto-monitorin/">serf-muninでmunin-nodeの監視自動追加/削除 | Pocketstudio.jp log3</a></li>
+  <li><a href="http://pocketstudio.jp/log3/2013/11/02/serf-version-0-2-0/">【Serf】v0.2.0 へのバージョンアップと、変わった所を確認してみた | Pocketstudio.jp log3</a></li>
+</ul>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-06T20:12:00+09:00" pubdate data-updated="true">2013年11月06日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/munin/'>munin</a>, <a class='category' href='/blog/categories/serf/'>serf</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2013/11/06/serf-munin/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="serf-muninを導入してmunin-nodeの監視追加、削除を自動化した - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=serf-muninを導入してmunin-nodeの監視追加、削除を自動化した "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2013/05/07/httping-munin/">httpingとmuninでWebサーバのレスポンスをグラフ化した</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/10/30/serf-haproxy/" title="Previous Post: Serf+HAProxyで作るAutomatic Load Balancer">&laquo; Serf+HAProxyで作るAutomatic Load Balancer</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/11/13/commands-for-trouble/" title="next Post: Webサーバのメンテナンス、トラブル調査に役に立つコマンド3選">Webサーバのメンテナンス、トラブル調査に役に立つコマンド3選 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2013/11/06/serf-munin/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2013/11/06/serf-munin/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

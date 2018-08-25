@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: terminal | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/terminal/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[TotalTerminalとiTerm2のカラースキーマをSolarizedにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/04/22/terminal-solarized/"/>
+    <updated>2013-04-22T20:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/04/22/terminal-solarized</id>
+    <content type="html"><![CDATA[<p><a href="http://totalterminal.binaryage.com/">TotalTerminal</a>というかTerminal.app上でコピペをすると改行が無くなる問題が結構発生して
+いろいろ調べて見たんですが、原因の特定も解決方法も分からなかったので、<a href="http://www.iterm2.com/#/section/home">iTerm2</a>に切り替え中。</p>
+
+<p>TotalTerminalの設定を結構いじってて、iterm2のカラー設定をTotalTerminalと同じにカスタムするのが結構面倒だったので、
+この際両方のカラースキーマを<a href="http://ethanschoonover.com/solarized">Solarized</a>に変更した。
+というかターミナルにカラースキーマという概念があることを初めて知ったし、Solarizedはエディタ専用の配色だと勝手に思ってた…</p>
+
+<p>導入方法は下記サイトのそのままなので割愛</p>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/ebc_2in2crc/20121103/1351928064">Solarized に染まる - Vim (Terminal) 編 - 全力で怠けたい</a></li>
+</ul>
+
+<p>Vim上だとSolarizedはあんまり好きなカラースキーマでなくて、<a href="https://github.com/tomasr/molokai">molokai</a>を
+常用してたんですが、ターミナルだと目が疲れなくてかなり良い。</p>
+
+<p>ターミナルと合わせてvimでも、<a href="https://github.com/altercation/vim-colors-solarized">vim-colors-solarized</a>で
+<code>.vimrc</code>に下記をしたら結構良い感じに思えてきた。</p>
+
+<p><div><script src='https://gist.github.com/5418240.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p>vim画面ですが、左がsolarizedで、右がmolokai。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/04/solarized.png" alt="" /></p>
+
+<p>ターミナルの色が変わると新鮮な感じがして良い感じ。</p>
+
+<p>調べて見ると<code>dircolors</code>用や<code>tmux</code>用のsolarizedがあってそれぞれ設定が出来る模様。</p>
+
+<ul>
+  <li><a href="https://github.com/seebi/tmux-colors-solarized">seebi/tmux-colors-solarized · GitHub</a></li>
+  <li><a href="https://github.com/seebi/dircolors-solarized">seebi/dircolors-solarized · GitHub</a></li>
+</ul>
+
+<p>dircolorsに関してはすでにsolarized化されてて、昔自分で設定してたらしい</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/ebc_2in2crc/20121103/1351928064">Solarized に染まる - Vim (Terminal) 編 - 全力で怠けたい</a></li>
+  <li><a href="http://fixture.jp/blog/2013/02/solarized-termtrans-option/">tmux+vim+solarizedの人はsolarized_termtransオプションを使おう | fixture.jp</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ターミナルからPinboardのお気に入りを検索できるpblというツールを作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/10/04/pbl/"/>
+    <updated>2012-10-04T23:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/10/04/pbl</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://rubygems.org/gems/pbl">pbl</a></li>
+</ul>
+
+<p>お気に入りの登録先として<a href="http://pinboard.in/">Pinboard</a>を絶賛フル活用しているんですが、
+ターミナル上で作業していて、自分のブックマークを探すときに</p>
+
+<ol>
+  <li>ブラウザで<a href="http://pinboard.in/">Pinboard</a>を開く</li>
+  <li>検索窓の検索キーワードを入れる</li>
+  <li>目的のページを探してクリックして開く</li>
+</ol>
+
+<p>という流れが、地味に集中力を削ぐのでターミナル上からPinboardのブックマークが検索出来る
+<a href="https://rubygems.org/gems/pbl">pbl</a>というツールを作った。</p>
+
+<h2 id="section">導入方法</h2>
+
+<p>gem一発で入ります。</p>
+
+<p><code>
+gem install pbl
+</code></p>
+
+<h2 id="section-1">使い方</h2>
+
+<p>たとえば<code>fluentd</code>とタグ付けされた自分ブックマークを探すときは下記のような感じ。
+<a href="https://rubygems.org/gems/pit">pit</a>を利用しているので、
+初回起動時はPinboardのアカウント情報を登録のためエディタが起動するかと思います。</p>
+
+<p><code>
+pbl fluentd
+</code></p>
+
+<p>こんな感じで表示される。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/10/pbl.png" alt="" /></p>
+
+<p>ターミナルの設定で、URLをクリックしてブラウザが開くようにしておけば、
+わざわざブラウザでPinboard開いて検索する作業の手間が省ける。  </p>
+
+<p><a href="https://chrome.google.com/webstore/detail/pinboard-fu/ggaonngfgojmeifboajphnhkkhgfefpb">pinboard-fu</a>の作者の
+<a href="https://twitter.com/banyan">@banyan</a>さんがテストを書いてくれたおかげで、Githubにpushするたびに
+<a href="https://travis-ci.org/#!/glidenote/pbl">Travis-ci</a>でビルドが走ってくれていろいろと捗る。</p>
+
+<p>@banyan++</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[社内でターミナル勉強会を開催した]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/30/terminal-study-vol-2/"/>
+    <updated>2012-04-30T03:14:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/30/terminal-study-vol-2</id>
+    <content type="html"><![CDATA[<p>月一回のペースで社内勉強会を主催しているんですが、
+資料をspeckerdeckに置くようにしたので、
+先日社内で開催したターミナル勉強会の資料を公開。  </p>
+
+<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="presentation_frame_4f9a6a2b78ef2a0021034baa" src="https://blog.glidenote.com//speakerdeck.com/embed/4f9a6a2b78ef2a0021034baa" width="700" height="601"></iframe>
+
+<p>去年にも同じテーマで勉強会をやっていて、
+今回は実際のターミナル操作8割、説明2割みたいな感じでやったので
+資料だけみても正直あんまり役に立たないかと思いますが。  </p>
+
+]]></content>
+  </entry>
+  
+</feed>

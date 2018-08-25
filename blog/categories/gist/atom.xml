@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: gist | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/gist/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[gistコマンドが便利だったのでzsh補完関数を書いた]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/09/20/gist-and-gist-zsh-completion/"/>
+    <updated>2013-09-20T20:05:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/09/20/gist-and-gist-zsh-completion</id>
+    <content type="html"><![CDATA[<p><a href="https://gist.github.com/">Gist</a>使ってますか！</p>
+
+<p>普段はmattnさんの<a href="https://github.com/mattn/gist-vim">gist-vim</a>経由でGistにpostしているんですが、
+コマンドの結果とかをパイプとかで渡して、Gistにpost出来ないものかと思ってたら、
+GitHub開発者のdefunkt氏が作ってた。全然知らなくて情弱丸出しだった。</p>
+
+<ul>
+  <li><a href="https://github.com/defunkt/gist">defunkt/gist</a></li>
+</ul>
+
+<p>メンテもちゃんとされてて、ver4.1.1以降なら2段階認証にも対応してる。</p>
+
+<h2 id="section">導入方法</h2>
+
+<p><code>sh
+gem install gist
+</code></p>
+
+<p>Macなら</p>
+
+<p><code>sh
+brew install gist
+</code></p>
+
+<h2 id="section-1">初期設定</h2>
+
+<p><code>
+gist --login
+</code></p>
+
+<p>GH:E使ってる場合は、下記のような感じでURLを
+<code>.bashrc</code>とか<code>.zshrc</code>に書いておく</p>
+
+<p><code>
+export GITHUB_URL=http://ghe.tokyo.pb/
+</code></p>
+
+<h2 id="section-2">使い方</h2>
+
+<p><code>a.rb</code>をPOST。これが一般的な使い方</p>
+
+<p><code>sh
+gist a.rb
+</code></p>
+
+<p>複数を一気にPOST</p>
+
+<p><code>sh
+gist a b c
+gist *.rb
+</code></p>
+
+<p><code>-f</code>でファイル名を設定して、<code>a.rb</code>をPOST</p>
+
+<p><code>sh
+gist -f test.rb &lt;a.rb
+</code></p>
+
+<p>などなど。</p>
+
+<p>そのほかの使い方は公式ページを見てもらうのが良いかと思います。</p>
+
+<p>https://github.com/defunkt/gist#command</p>
+
+<h2 id="section-3">私の実際の使い方</h2>
+
+<p>私はコマンドの結果を直接GistにPOSTしたいとき使ってるんですが、
+SSL証明書を入れ替えして、opensslコマンドで確認したり</p>
+
+<p><code>sh
+openssl s_client -connect github.com:443 -showcerts &lt;&lt; EOF | gist
+HEAD / HTTP/1.0
+EOF
+</code></p>
+
+<p>GistにPostされている内容</p>
+
+<p><div><script src='https://gist.github.com/6633357.js'></script>
+<noscript><pre><code>&lt;html&gt;&lt;body&gt;You are being &lt;a href=&quot;https://github.com/gist/6633357&quot;&gt;redirected&lt;/a&gt;.&lt;/body&gt;&lt;/html&gt;</code></pre></noscript></div>
+</p>
+
+<p>とかみたいに、使ってます。</p>
+
+<h2 id="section-4">その他の便利設定</h2>
+
+<p>下記のように<code>.zshrc</code>とかにaliasを設定しておくと、Gistにpostした後に
+ブラウザが開いて、GistのURLがクリップボードに自動で入ってくれるようになってます。</p>
+
+<p><code>
+alias gist='gist -c -o -p'
+</code></p>
+
+<p>あと用途的にコマンドとかの結果を直接POSTしてるので、思わぬ事故を防止するために<code>-p</code>を付けて、
+デフォルト非公開でPOSTしてます。
+社用MacはPOST先が社内GH:Eサーバなので、インターネット上に公開されるわけで無いんですが、念のため。
+Gistは非公開設定でもURL知ってれば閲覧出来るので、誰かに伝えるときはURL渡して
+デフォルト非公開でも運用的に問題も無い感じです。</p>
+
+<p>公開するものは基本的に見やすいようにvimで整形するので、
+gist-vim経由でPOSTとgistと使い分けをしてます。</p>
+
+<h2 id="zsh">zshでの利用</h2>
+
+<p>zshで補完されないと不便だったので、<a href="https://github.com/zsh-users/zsh-completions/pull/172">zsh補完関数を書いて、zsh-completionsにmergeされている</a>ので、
+zsh-completionsを利用していれば、gistコマンドが下記のように補完されるようになってます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/09/gist0.png" alt="" /></p>
+
+<h2 id="section-5">参考</h2>
+
+<ul>
+  <li><a href="http://marutanm.hatenablog.com/entry/20110428/p1">もっと身近に、gistコマンド - Meltdown Countdown rev.</a></li>
+  <li><a href="https://blog.glidenote.com/blog/2012/04/01/new-gist.vim/">OAuth2認証に対応して新しくなったGist.vimを導入した - Glide Note - グライドノート</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopressのgist tag pluginが修正されていた]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/12/19/octopress-gist-tag-plugin-fixed/"/>
+    <updated>2012-12-19T23:03:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/12/19/octopress-gist-tag-plugin-fixed</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/blog/1276-welcome-to-a-new-gist">先日のgistリニューアル</a>以降、
+Octopressに貼ったgist表示の不具合の修正が出ていた。</p>
+
+<ul>
+  <li><a href="https://github.com/imathis/octopress/commit/72b4e8d5621dbb3c110fe2c273bcc3ac408ffc32">gist tag plugin now works with the latest changes GitHub gists and does … · 72b4e8d · imathis/octopress</a></li>
+</ul>
+
+<p>私は<a href="http://twitter.com/chiastolite">@chiastolite</a>さんに指摘されるまで
+不具合に全く気づいておりませんでした!!</p>
+
+<blockquote class="twitter-tweet"><p>@<a href="https://twitter.com/glidenote">glidenote</a> <a href="http://t.co/MNZHleGn" title="http://bit.ly/Xk3Y2a">bit.ly/Xk3Y2a</a> 前にお世話になったエントリ見ようとしたらGistの部分が消えちゃってますね。Gistの仕様変更にOctpressが追い付いてないんでしょうか…</p>&mdash; Hiroyuki Morita (@chiastolite) <a href="https://twitter.com/chiastolite/status/279465595106390016" data-datetime="2012-12-14T05:59:24+00:00">December 14, 2012</a></blockquote>
+<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Octopressを利用している人は要修正ですね。</p>
+
+<p>当ブログも上記修正をしたんですが、CSSが全く反映されず、原因を追っていたら
+CDNとして利用している<a href="http://jp.cloudflare.com/">CloudFlare</a>のキャッシュが原因だったので、
+CloudFlareのコンパネからキャッシュをpurgeして不具合も直った。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[OAuth2認証に対応して新しくなったGist.vimを導入した]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/01/new-gist.vim/"/>
+    <updated>2012-04-01T01:23:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/01/new-gist.vim</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="http://mattn.kaoriya.net/software/vim/20120331221136.htm">Big Sky :: githubの動作変更で動かなくなっていたGist.vimを修正してリリースした。</a></li>
+</ul>
+
+<p>OAuth2認証に対応したGist.vimがリリースされたので、早速導入してみました。</p>
+
+<h2 id="gistvim">Gist.vimの導入</h2>
+
+<p>今回のリリースから<a href="https://github.com/mattn/webapi-vim">webapi-vim</a>が必要になったので、
+<a href="https://github.com/gmarik/vundle">Vundle</a>で一緒に導入。
+<code>.vimrc</code>に下記を追記して<code>:BundleInstall!</code></p>
+
+<p><code>
+Bundle 'mattn/gist-vim'
+Bundle 'mattn/webapi-vim'
+</code></p>
+
+<h2 id="oauth">OAuthアプリの登録</h2>
+
+<p><a href="https://github.com/settings/applications/new">Register a new OAuth application</a>でGist.vimを登録します。</p>
+
+<ul>
+  <li>Application Name: <code>Gist.vim</code></li>
+  <li>Main URL: <code>https://github.com/mattn/gist-vim</code></li>
+  <li>Callback URL: <code>http://mattn.github.com/gist-vim</code></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist0.png" alt="" /></p>
+
+<p>下記のように<code>Client ID</code>と<code>Secret</code>が生成されます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist1.png" alt="" /></p>
+
+<h2 id="gistvim-1">Gist.vimの初期設定</h2>
+
+<p>vimを起動し<code>:Gist -l</code>を実行し、初期設定を行います。<code>oauth2</code>を利用するので<code>2</code>を選択し、
+先ほど生成した<code>Client ID</code>と<code>Secret</code>を入力。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist2.png" alt="" /></p>
+
+<p>ここでおそらく<code>Callback URL</code>が開かれるはずなんですが、私の環境の問題なのか
+<code>g:gist_browser_command</code>を設定しても、ブラウザにURLが渡されず、</p>
+
+<p><code>
+It seems that you don't have general web browser. Open URL below.
+</code></p>
+
+<p>と表示され、URLも表示されず<code>PIN</code>の取得が出来なかったので、ソースを確認。<br />
+下記のようにpostしていたので、ブラウザのアドレスバーに手動で入力。
+<code>xxxxxxxxxxxxxxxxxxxx</code>は自分の<code>Client ID</code>です。</p>
+
+<p><code>
+https://github.com/login/oauth/authorize?scope=gist&amp;client_id=xxxxxxxxxxxxxxxxxxxx
+</code></p>
+
+<p>上記URLにアクセスすると承認画面が出るので<code>Allow</code>を選択</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist3.png" alt="" /></p>
+
+<p>下記のように<code>PIN</code>が表示されるのでコピーして、vim上のGist.vimの初期設定に戻り入力</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist4.png" alt="" /></p>
+
+<h2 id="gistvim-2">Gist.vimの動作確認</h2>
+
+<p><code>:Gist</code>でpost出来るようになりました。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist5.png" alt="" /></p>
+
+<h2 id="gist-vim600">~/.gist-vimのパーミッションを600に変更</h2>
+
+<p>初期設定が終わったら、<code>~/.gist-vim</code>を適切なパーミッションに。</p>
+
+<p><code>
+chmod 600 ~/.gist-vim
+</code></p>
+
+<p>これでまた快適生活が送れるようになります。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GistクローンのHesoを導入して試してみた]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/11/16/install-heso/"/>
+    <updated>2011-11-16T23:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/11/16/install-heso</id>
+    <content type="html"><![CDATA[<p>Gistクローンが社内にあったら便利だなーと思って、探していたら</p>
+
+<ul>
+  <li><a href="https://github.com/lanius/heso">lanius/heso - GitHub</a></li>
+  <li><a href="https://bitbucket.org/troter/memocurial">troter / memocurial / overview — Bitbucket</a></li>
+</ul>
+
+<p>の二つが見つかったので、<a href="http://twitter.com/#!/lanius">@laniusさん</a>のHesoを試してみました。</p>
+
+<p>導入環境はScientific Linux 6.1です。</p>
+
+<pre><code>yum -y git gcc
+mkdir -p /var/www/
+cd /var/www
+git clone git://github.com/lanius/heso.git
+cd heso
+bootstrap.py -d
+</code></pre>
+
+<p>で必要に応じてbuildout.cfgのhostとportを修正。私は下記のように設定。</p>
+
+<p><div><script src='https://gist.github.com/1369137.js?file=buildout.cfg'></script>
+<noscript><pre><code>[buildout]
+develop = .
+parts =
+    app
+    mkdirs
+    mksetting
+    mkini
+    server
+    test
+
+[settings]
+host = heso001.tokyo.pb
+port = 80
+repo_root = ${buildout:directory}/var/repo
+
+[app]
+recipe = zc.recipe.egg
+eggs =
+    heso
+    PasteScript
+    PasteDeploy
+
+[mkdirs]
+recipe = z3c.recipe.mkdir
+paths =
+    ${settings:repo_root}
+
+[mksetting]
+recipe = collective.recipe.template
+input = inline:
+    # This file is generated by buildout. See buildout.cfg.
+    REPO_ROOT = &#39;${settings:repo_root}&#39;
+    RUN_ON_HEROKU = False
+    if RUN_ON_HEROKU: REPO_ROOT = &#39;/app/repos/&#39;
+output = ${buildout:directory}/src/heso/setting.py
+
+[mkini]
+recipe = collective.recipe.template
+filename = deploy.ini
+input = inline:
+    # This file is generated by buildout. See buildout.cfg.
+    [server:main]
+    use = egg:Paste#http
+    host = ${settings:host}
+    port = ${settings:port}
+    [app:main]
+    use = egg:heso
+output = ${buildout:directory}/${:filename}
+
+[server]
+recipe = zc.recipe.egg:scripts
+eggs = ${app:eggs}
+entry-points = server=paste.script.command:run
+arguments = [&#39;serve&#39;, &#39;${mkini:filename}&#39;]
+
+[test]
+recipe = zc.recipe.testrunner
+eggs = heso
+defaults = [&#39;--tests-pattern&#39;, &#39;^f?tests$&#39;, &#39;-v&#39;]</code></pre></noscript></div>
+</p>
+
+<p>修正したら下記を実行して起動。</p>
+
+<pre><code>bin/buildout
+bin/server
+</code></pre>
+
+<p>設定したURLにアクセス。</p>
+
+<p><img src="http://www.glidenote.com/wp-content/uploads/2011/11/bfea7ecc29734f19c62064076f9b3165.png" alt="" /></p>
+
+<p>ちゃんとアクセスできました。</p>
+
+<pre><code>/var/www/heso/bin/server
+</code></pre>
+
+<p>で起動するとエラーになるので、heso/bin/serverを下記のように修正</p>
+
+<p><div><script src='https://gist.github.com/1369137.js?file=server.diff'></script>
+<noscript><pre><code>@@ -20,4 +20,4 @@
+ import paste.script.command
+
+ if __name__ == &#39;__main__&#39;:
+-    paste.script.command.run([&#39;serve&#39;, &#39;deploy.ini&#39;])
++    paste.script.command.run([&#39;serve&#39;, &#39;/var/www/heso/deploy.ini&#39;])</code></pre></noscript></div>
+</p>
+
+<p>起動、停止は<a href="http://supervisord.org/">Supervisor</a>を利用して、/etc/supervisord.d/heso.iniに</p>
+
+<p><div><script src='https://gist.github.com/1369137.js?file=heso.ini'></script>
+<noscript><pre><code>[program:heso]
+command=/var/www/heso/bin/server
+stdout_logfile_maxbytes=1MB
+stderr_logfile_maxbytes=1MB
+stdout_logfile=/var/log/%(program_name)s.log
+stderr_logfile=/var/log/%(program_name)s.log</code></pre></noscript></div>
+</p>
+
+<p>みたいな感じのを用意して管理。</p>
+
+<p>まだ開発途上のようで2011年11月16日時点で</p>
+
+<ul>
+  <li>構文で色分けされる対応filetypeが少ない。(src/heso/static/script.jsを確認する限り、javascript,python,ruby,php,css,html,xml,ymlは認識する模様)</li>
+  <li>POSTしたコードの削除</li>
+  <li>複数人での利用(POSTした人の名前だけでも入力出来れば誰が投稿したかわかって便利)</li>
+  <li>編集の履歴表示</li>
+</ul>
+
+<p>などが未実装のようですが、<a href="https://github.com/lanius/heso/blob/master/TODO">TODO</a>を読んでいたら書いてあったので、今後の対応に期待したいと思います。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Gist.vimを導入してGistを便利に活用する]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/11/16/install-gist-vim/"/>
+    <updated>2011-11-16T01:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/11/16/install-gist-vim</id>
+    <content type="html"><![CDATA[<p><a href="http://octopress.org/">Octopress</a>を利用するようになって、今更ながら<a href="https://gist.github.com/">Gist</a>がめちゃくちゃ便利なことに気づきました。<br />
+今までWordPressを利用していてSyntax highlight系のプラグインを使っては、チマチマコードを載せていたんですが、
+Gistに書いてそれを貼れば、filetypeによって勝手に色分けされるし、<a href="https://github.com/mattn/gist-vim">Gist.vim</a>を使えば、
+VimからGistにコードをポスト出来るしと便利な事だらけ。 
+今までの面倒な手間はなんだったのか。</p>
+
+<h2 id="gistvim">Gist.vimの導入と設定</h2>
+<p>プラグインの管理はVundleを利用しているので、.vimrcか.vimrc.localに下記のような感じで設定して:BundleInstallで導入。</p>
+
+<p><div><script src='https://gist.github.com/1365751.js'></script>
+<noscript><pre><code>Bundle &#39;Gist.vim&#39;
+let g:gist_detect_filetype = 1
+let g:github_user  = &#39;glidenote&#39;
+let g:github_token = &#39;******************************&#39;</code></pre></noscript></div>
+</p>
+
+<p>設定している内容の説明としては下記のような感じ。</p>
+
+<pre><code>Bundle 'Gist.vim'                                     # Vindleを利用して導入
+let g:gist_detect_filetype = 1                        # ファイルタイプを自動で認識して、Gistにポスト
+let g:github_user  = 'glidenote'                      # githubのuser名
+let g:github_token = '******************************' # githubのtoken
+</code></pre>
+
+<h2 id="section">使い方</h2>
+<p>詳しい使い方については<a href="https://github.com/mattn/gist-vim">mattn/gist-vim - GitHub</a>を見てもらうのがいいかと思いますが、
+普段私が利用するのは</p>
+
+<p><div><script src='https://gist.github.com/1365836.js'></script>
+<noscript><pre><code>:Gist             # gistにpost
+:&#39;&lt;,&#39;&gt;Gist        # 選択した部分だけgistにpost 
+:Gist xxxxxxx     # post済みのものを編集
+:Gist -l          # postしたものの一覧表示
+</code></pre></noscript></div>
+</p>
+
+<p>といった感じです。素晴らしいプラグインです。</p>
+
+<h2 id="gistoctopresswordpress">GistをOctopressとWordPressで使う</h2>
+
+<p>Octopressなら</p>
+
+<p><div><script src='https://gist.github.com/1366627.js?file=gisttag'></script>
+<noscript><pre><code>{% gist 1365751 %}</code></pre></noscript></div>
+</p>
+
+<p>で簡単に貼り付けができます。  </p>
+
+<p>WordPressなら<a href="http://wordpress.org/extend/plugins/embed-github-gist/">Embed GitHub Gist</a>を利用して</p>
+
+<p><div><script src='https://gist.github.com/1366627.js?file=wordpresstag'></script>
+<noscript><pre><code>[gist id=1365751]
+</code></pre></noscript></div>
+</p>
+
+<p>とかで、Gistから簡単にコードを呼び出して貼れるのでさらに幸せになれます。</p>
+
+<p>なんだか3年くらい遅れてるんだなぁーと痛感。</p>
+
+<h2 id="section-1">参考サイト</h2>
+<ul>
+  <li><a href="http://mattn.kaoriya.net/software/vim/20081106153534.htm">Big Sky :: Gistを便利に扱えるvimscript、「Gist.vim」書いた。</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

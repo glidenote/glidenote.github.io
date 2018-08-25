@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: command | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/command/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Webサーバのメンテナンス、トラブル調査に役に立つコマンド3選]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/11/13/commands-for-trouble/"/>
+    <updated>2013-11-13T09:01:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/11/13/commands-for-trouble</id>
+    <content type="html"><![CDATA[<p>メンテナンス、サーバのミドルウェア設定、障害対応のときに私がよく使っているコマンド。
+先週Webサーバを16台ほどリプレイスした際にも、使って挙動、確認作業をしてました。</p>
+
+<p>コレ系のコマンドは各人の秘伝のタレみたいになってて、他の人が教えてくれることが少ない気がして、
+新卒氏のインフラOJT用に専用の資料作ろうかと思ったけど、新卒氏以外でも知ってれば
+「よく分からんけど、動かないからインフラ担当者に聞く」みたいなことが
+減って自分で解決出来るのではないかと思うので書いておく。</p>
+
+<p>手元のmac、linuxから該当サーバに対して実行するコマンドで
+ちゃんと該当サーバが外部に向けてサービスが提供出来ているのか、
+要は外から確認するためのコマンドです。</p>
+
+<p>調査系のコマンドは</p>
+
+<ul>
+  <li><em>オプション、使い方が覚えやすい</em></li>
+  <li><em>手軽に使える</em></li>
+  <li><em>結果が見やすい、理解しやすい</em></li>
+</ul>
+
+<p>というのが重要だと思う。</p>
+
+<p>サーバの中で調査するなら</p>
+
+<ul>
+  <li><a href="http://blog.father.gedow.net/2012/10/23/linux-command-for-trouble/">原因調査用Linuxコマンド | 外道父の匠</a></li>
+</ul>
+
+<p>のコマンドを見た方が良いです。</p>
+
+<h3 id="ncnetcat">nc(netcat)</h3>
+
+<p>ポートが開いているか、デーモンが起動してリクエスト応答しているか確認。</p>
+
+<p><code>sh
+nc -vz github.com 80
+</code></p>
+
+<p><code>sh
+nc -vz github.com 443
+Connection to github.com 443 port [tcp/https] succeeded!
+</code></p>
+
+<p>今よく触ってるSerfは7946ポートを使うので、他のサーバから下記で接続確認。</p>
+
+<p><code>sh
+nc -vz manage001.hogemoge.lan 7946
+</code></p>
+
+<p>アラートが来たら、とりあえずnc叩けば
+接続過多で駄目なのか、そもそもミドルウェアが落ちてるのかとか
+サーバ入る前にだいたい検討付くので初動を間違えずに済む。</p>
+
+<p>普段やること無いですが、一応下記みたいな感じでポートスキャンも出来る。</p>
+
+<p><code>sh
+nc -vz hogemoge.com 1-1023
+</code></p>
+
+<p>最近はtelnetをサーバに入れてないことが多いけど、ncが入ってれば
+telnetと同様な感じでも利用出来るので、ヘッダをリクエストしたり</p>
+
+<p>``` sh
+nc www.google.com 80 « EOF
+HEAD / HTTP/1.0</p>
+
+<p>EOF
+```</p>
+
+<p>たとえばmunin-nodeが動作しているか確認する場合は、下記みたいに出来る。</p>
+
+<p><code>sh
+[root@manage001 ~]# nc manage001.hogemoge.jp 4949
+# munin node at manage001.hogemoge.jp
+list
+cpu df df_abs df_inode entropy forks fw_conntrack fw_forwarded_local fw_packets if_err_eth0 if_err_eth1 if_eth0 if_eth1 interrupts irqstats load memory munin_stats netstat ntp_kernel_err ntp_kernel_pll_freq ntp_kernel_pll_off ntp_offset ntp_states open_files open_inodes postfix_mailqueue postfix_mailvolume proc_pri processes swap threads uptime users vmstat
+fetch memory
+slab.value 189231104
+swap_cache.value 0
+page_tables.value 6995968
+vmalloc_used.value 119119872
+apps.value 936333312
+free.value 676610048
+buffers.value 247578624
+cached.value 1336840192
+swap.value 0
+committed.value 885620736
+mapped.value 31141888
+active.value 1401610240
+inactive.value 658358272
+.
+quit
+</code></p>
+
+<p>通常は接続元IPを制限してると思うので、許可されているIPと許可されていないIPの二つから確認して、
+設定がちゃんと出来てるとかの確認もしてます。</p>
+
+<h2 id="host">host</h2>
+
+<p>サーバの<code>/etc/resolv.conf</code>で設定して参照しているDNSサーバ、Google Public DNSとかとの結果を比較をして、
+おかしなDNS情報を持ってないか確認したりするのに使ってます。</p>
+
+<p>DNSサーバを指定しない場合は、<code>/etc/resolv.conf</code>に設定してあるDNSサーバを利用。</p>
+
+<p><code>sh
+host -a github.com
+</code></p>
+
+<p>Google Public DNSを参照</p>
+
+<p><code>sh
+host -a github.com 8.8.8.8
+</code></p>
+
+<p>dnsmasqとか使ってると古い情報をキャッシュしてたりするので、<code>host</code>コマンドを使うとすぐ分かる。</p>
+
+<p><a href="https://www.amazon.co.jp/%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AE%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86%E8%A1%93-Thomas-Limoncelli/dp/4873113075?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4873113075">エンジニアのための時間管理術</a> から引用で</p>
+
+<blockquote>
+  <ul>
+    <li>奇妙な問題は DNS の設定ミスが原因していることが多い</li>
+  </ul>
+
+  <p>DNS は多くのサブシステムにとって致命的な影響を与え、しばしば、問題を 別の問題であるかのように見せかけ、その問題を覆い隠してしまう傾向がある。 これに該当するのは、DNS サーバーにアクセスできないクライアント、無効 な DNS データが設定されたホスト、または無効な DNS データが設定された ホストにアクセスしようとするクライアントである。</p>
+</blockquote>
+
+<p>私の経験上でも、意味不明なトラブルはDNS周りが起因していることが多いので、早めに<code>host</code>と<code>dig</code>でDNS周りの調査をします。</p>
+
+<h2 id="http-httpie">http (httpie)</h2>
+
+<p>最近はnginxのプロキシ、リプロシキ、ngx_luaの設定ばっか触ってるので、httpieで挙動確認、設定確認をしてます。</p>
+
+<p>CentOS6では下記のように導入。</p>
+
+<p><code>sh
+yum -y install python-pip
+pip install httpie
+</code></p>
+
+<p>Macの場合はhomebrew利用して<a href="https://gist.github.com/BlakeGardner/5586954">ここ</a>を参考に下記みたいな感じで導入。</p>
+
+<p><code>sh
+brew install python
+export PATH=/usr/local/share/python:$PATH
+pip install httpie
+</code></p>
+
+<p><code>curl</code>でも同じ事が出来るんですが、<code>curl</code>は人間に優しくないというか
+私がオプションを全く覚えることが出来ないので、こちらを多用してます。
+httpieだけでは足りないので、もちろん<code>curl</code>も重宝してます。</p>
+
+<p>下記の例はヘッダを見てるだけだけど、色が付くだけで見やすくなる。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/11/httpie0.jpg" alt="" /></p>
+
+<p>ヘッダの確認</p>
+
+<p><code>sh
+http -h httpbin.org
+</code></p>
+
+<p>basic認証の確認</p>
+
+<p><code>sh
+http -a hoge https://httpbin.org/basic-auth
+</code></p>
+
+<p>リダイレクトの確認</p>
+
+<p><code>sh
+http --follow google.co.jp
+</code></p>
+
+<p>GETのテスト。defaultがGETなので、GETの場合はmethod指定しなくても良い。</p>
+
+<p><code>
+http GET httpbin.org/get
+</code></p>
+
+<p>PUTのテスト</p>
+
+<p><code>sh
+http PUT httpbin.org/put name=hoge key=value
+</code></p>
+
+<p>と例を挙げたらキリがないんですが、ApacheやNginxの動作、設定確認なので、
+普段はだいたい上記みたいな感じで使ってます。</p>
+
+<p>ちなみに<a href="http://httpbin.org/">http://httpbin.org/</a>を利用するとhttpieの使い方が覚えるのに便利で、
+<a href="https://httpbin.org">https://httpbin.org/</a>もあるので、ssl系のテストも出来る。</p>
+
+<p>httpieのzsh補完関数は先日pull req出して、zsh-completionsにmergeされているので、httpieご利用の方はご活用ください。</p>
+
+<p><a href="https://github.com/zsh-users/zsh-completions/pull/184">add httpie completion by glidenote · Pull Request #184 · zsh-users/zsh-completions</a></p>
+
+<p>他にも調査用のコマンドはありますが、<code>nc</code>,<code>host</code>,<code>httpie</code>を使いこなせれば、
+サーバ入る前にある程度の事が判断ついて、いろいろと捗ると思う。</p>
+]]></content>
+  </entry>
+  
+</feed>

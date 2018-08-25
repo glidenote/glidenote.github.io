@@ -1,0 +1,473 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>CloudFrontのログをfluent-plugin-bigqueryを利用してBigQueryに入れるようにした - Glide Note</title>
+  <meta property="og:title" content="CloudFrontのログをfluent-plugin-bigqueryを利用してBigQueryに入れるようにした - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="TL;DR Amazon CloudFrontのアクセスログをBigQueryに入れるようにした BigQueryへのデータ投入には社内の他プロジェクトでも利用していて実績があり、KAIZENがメンテナになっているfluent-plugin-bigqueryを利用 背景 ここ2ヶ月くらい、 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery">
+<meta name="twitter:title" content="CloudFrontのログをfluent-plugin-bigqueryを利用してBigQueryに入れるようにした">
+<meta name="twitter:description" content="TL;DR Amazon CloudFrontのアクセスログをBigQueryに入れるようにした BigQueryへのデータ投入には社内の他プロジェクトでも利用していて実績があり、KAIZENがメンテナになっているfluent-plugin-bigqueryを利用 背景 ここ2ヶ月くらい、あらゆるログをBigQueryに集約しつつあって、今回はAmazon &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">CloudFrontのログをfluent-plugin-bigqueryを利用してBigQueryに入れるようにした</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-21T14:00:00+09:00" pubdate data-updated="true">2014年11月21日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li>Amazon CloudFrontのアクセスログをBigQueryに入れるようにした</li>
+  <li>BigQueryへのデータ投入には社内の他プロジェクトでも利用していて実績があり、KAIZENがメンテナになっている<a href="https://github.com/kaizenplatform/fluent-plugin-bigquery">fluent-plugin-bigquery</a>を利用</li>
+</ul>
+
+<h2 id="section">背景</h2>
+
+<p>ここ2ヶ月くらい、あらゆるログをBigQueryに集約しつつあって、今回はAmazon CloudFrontのアクセスログについて作業をした。</p>
+
+<p>Amazon CloudFrontのアクセスログには以下のような特徴がある。</p>
+
+<ul>
+  <li>Amazon CloudFrontのアクセスログは数時間〜1日程度遅れでS3のBucketに追加される。時系列はバラバラ</li>
+  <li>CloudFrontのアクセスログがtsv形式。</li>
+  <li>ベストエフォート型で全てのログがS3に収容される保証は無い</li>
+  <li><code>gz</code>で圧縮されてS3に追加される(BigQueryに入れるにはgz形式から展開する必要がある)</li>
+  <li>ログファイルの数が非常に多い。作業していた環境でだいたい1日に15,000個くらい<code>gz</code>ファイルがあって、全部をダウンロードするのに160分くらいかかる</li>
+</ul>
+
+<p>という感じ。</p>
+
+<h2 id="section-1">仕組みの詳細</h2>
+
+<p>データの流れ</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/cf2bq01.png" alt="" /></p>
+
+<ol>
+  <li>CloudFrontのログが自動でS3に追加される</li>
+  <li>batchサーバから<code>s3cmd sync</code>でcronで定期的にs3からログファイル(<code>gz</code>形式)をローカルに持ってくる</li>
+  <li>batchサーバで、取得したログファイルを<code>zcat ${FILE} &gt;&gt; /var/log/cloudfront/access.log</code> で連結する</li>
+  <li>batchサーバのFluentdで<code>in_tail</code>を用い<code>/var/log/cloudfront/access.log</code>を読み込む</li>
+  <li><code>fluent-plugin-bigquery</code>を用いてBigQueryにデータを投入する(日付毎にデータ投入先のテーブルを分ける)</li>
+</ol>
+
+<p>こんな感じでBigQueryにデータが入っている</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/cf2bq02.png" alt="" /></p>
+
+<p>先日発表された<a href="https://blog.glidenote.com/blog/2014/11/20/s3-event-notificasions/">S3 Event Notificasionsを検証中</a>なので、問題が無ければ、Amazon SQSを利用した処理に切り替え予定。</p>
+
+<h2 id="section-2">この方式を採用した理由</h2>
+
+<ul>
+  <li>私がFluentdの運用に慣れていた。</li>
+  <li>KAIZENがメンテナをしているfluent-plugin-bigqueryを利用したかった</li>
+  <li>BigQueryへのデータ投入部分を自前で実装しなくて良い</li>
+  <li>BigQueryへのデータ投入周りのエラーハンドリング、再送処理をfluent-plugin-bigqueryに任すことが出来る</li>
+  <li>logrotateを利用して、ログの世代管理が出来る。Fluentdがログ切り替えを検知出来る。(nginxのログなど他のアクセスログと同じような感じで扱える)</li>
+  <li>Fluentdを利用しているので、スケールが容易</li>
+  <li><code>/var/log/cloudfront/access.log-YYYYMMDD.gz</code>というように日別でログが分かれているので、障害やトラブル発生時のリカバリーも簡単になっている。(障害が発生した日の15,000個とかのログをS3から持ってきて云々… みたいな面倒な処理が必要ない)</li>
+</ul>
+
+<h2 id="section-3">その他</h2>
+
+<ul>
+  <li>CloudFrontのログがS3に追加されるのが遅い場合1日程度かかるので、翌日のテーブルにデータが入ってしまう。BigQueryからデータを取り出すときに工夫が必要</li>
+  <li>BigQueryにデータ投入先のテーブルが存在しないと死ぬので、別でテーブル作成の仕組みと監視をしておく必要あり。</li>
+  <li>データサイズが大きい場合、テーブルを適切に分割していないとBigQuery破産に。</li>
+  <li>テーブルの自動作成、監視には<a href="https://rubygems.org/gems/bigquery">bigquery</a>を利用</li>
+</ul>
+
+<p>該当部分の<code>td-agent.conf</code>の設定</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&lt;source&gt; 
+</span><span class="line">  type         tail 
+</span><span class="line">  path         /var/log/cloudfront/access.log
+</span><span class="line">  pos_file     /var/log/td-agent/cloudfront-access-log.pos
+</span><span class="line">  tag          extracted.cflog
+</span><span class="line">
+</span><span class="line">  format       tsv
+</span><span class="line">  keys         day,time,x_edge_location,sc_bytes,c_ip,cs_method,cs_Host,cs_uri_stem,sc_status,cs_Referer,cs_User_Agent,cs_uri_query,cs_Cookie,x_edge_result_type,x_edge_request_id,x_host_header,cs_protocol,cs_bytes,time_take
+</span><span class="line">&lt;/source&gt;
+</span><span class="line">
+</span><span class="line">&lt;match extracted.cflog&gt;
+</span><span class="line">  type                        bigquery
+</span><span class="line">
+</span><span class="line">  buffer_type                 file
+</span><span class="line">  buffer_path                 /var/log/td-agent/cf.bq.*.buffer
+</span><span class="line">
+</span><span class="line">  method                      insert
+</span><span class="line">
+</span><span class="line">  auth_method                 private_key
+</span><span class="line">  email                       ''
+</span><span class="line">  private_key_path            ''
+</span><span class="line">
+</span><span class="line">  buffer_chunk_limit          768k
+</span><span class="line">  buffer_queue_limit          5000
+</span><span class="line">  flush_interval              1
+</span><span class="line">  try_flush_interval          0.05 
+</span><span class="line">  num_threads                 10 
+</span><span class="line">  queued_chunk_flush_interval 0.01
+</span><span class="line">
+</span><span class="line">  project                     ''
+</span><span class="line">  dataset                     ''
+</span><span class="line">  table                       %Y%m%d
+</span><span class="line">
+</span><span class="line">  fetch_schema                true
+</span><span class="line">&lt;/match&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>BigQueryにログを集約したことで集計も調査も非常に簡単になって、本当にBigQuery素晴らしい。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-21T14:00:00+09:00" pubdate data-updated="true">2014年11月21日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/aws/'>aws</a>, <a class='category' href='/blog/categories/bigquery/'>bigquery</a>, <a class='category' href='/blog/categories/fluentd/'>fluentd</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="CloudFrontのログをfluent-plugin-bigqueryを利用してBigQueryに入れるようにした - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=CloudFrontのログをfluent-plugin-bigqueryを利用してBigQueryに入れるようにした "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2016/12/16/goreplay/">GoReplayを導入して、Production環境へのリクエストを複製し、Staging環境に転送する仕組みを作った</a></li>
+
+  <li><a href="/blog/2015/05/21/amazon-web-services-books/">「Amazon Web Services パターン別構築・運用ガイド」が良かった</a></li>
+
+  <li><a href="/blog/2015/02/18/terraform-github-circleci-atlas-aws/">Terraform + GitHub + CircleCI + Atlasを利用してAWSの操作を自動化した</a></li>
+
+  <li><a href="/blog/2014/11/21/s3-event-notificasions/">S3 Event NotificasionsをAmazon SQSで受け取る</a></li>
+
+  <li><a href="/blog/2014/07/09/manage-route53-with-roadworker-and-direnv/">Roadworkerとdirenvを使ってRoute53のDNSレコードを管理する & Roadworker用にVimプラグインとZsh補完関数も作った</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/11/21/s3-event-notificasions/" title="Previous Post: S3 Event NotificasionsをAmazon SQSで受け取る">&laquo; S3 Event NotificasionsをAmazon SQSで受け取る</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/12/02/using-netcat-for-file-transfers-with-pv/" title="next Post: ncコマンドでファイル転送するときにpvコマンドで進捗を表示する">ncコマンドでファイル転送するときにpvコマンドで進捗を表示する &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

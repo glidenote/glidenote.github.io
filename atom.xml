@@ -1,0 +1,2832 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Glide Note]]></title>
+  <link href="https://blog.glidenote.com/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[「Docker/Kubernetes 実践コンテナ開発入門」がProduction環境でDockerを運用している人間にも良書だった]]></title>
+    <link href="https://blog.glidenote.com/blog/2018/08/24/docker-kubernetes-book/"/>
+    <updated>2018-08-24T20:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2018/08/24/docker-kubernetes-book</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339">Docker/Kubernetes 実践コンテナ開発入門</a>
+<a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339"><img src="https://images-fe.ssl-images-amazon.com/images/I/51d69eJQMyL.jpg" align="right" /></a></li>
+</ul>
+
+<p>技術評論社様、著者の山田さんからご恵贈いただきましてありがとうございます。</p>
+
+<p>かなり分厚い本で、内容も濃いので読むのに時間がかかりましたが簡単に感想を書いていきます。</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li>Production環境でDockerを利用している人でも学びが多い一冊</li>
+  <li>Kubernetesに対応したDocker for Mac/Windowsが2018年07月に正式リリースされ、手軽にKubernetesが動かせるようになったいま、Kubernetesの初学書として最適</li>
+  <li>実際にDockerでサービスを運用してきた著者ならではの視点で語られているコラムが非常に興味深い</li>
+</ul>
+
+<h2 id="section">前提</h2>
+
+<p>書評の前に私のDocker歴について簡単に書いておきます。</p>
+
+<ul>
+  <li>JAWS-UG コンテナ支部で登壇経験あり</li>
+  <li>Dockerに関する基本的な知識は習得済み</li>
+  <li>Amazon ECSを利用して2年ほど前からProduction環境でDocker運用中</li>
+  <li>Kubernetesは理解不足</li>
+  <li>役職が変わってここ1年くらいからDockerと周辺技術の最新情報がキャッチアップ出来てない 😓</li>
+</ul>
+
+<h2 id="section-1">目次</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">1.Dockerの基礎
+</span><span class="line">2.Dockerコンテナのデプロイ
+</span><span class="line">3.実用的なコンテナの構築とデプロイ
+</span><span class="line">4.Swarmによる実践的なアプリケーション構築
+</span><span class="line">5.Kubernetes入門
+</span><span class="line">6.Kubernetesのデプロイ・クラスタ構築
+</span><span class="line">7.Kubernetesの発展的な利用
+</span><span class="line">8.コンテナの運用
+</span><span class="line">9.より軽量なDockerイメージを作る
+</span><span class="line">10.Dockerの様々な活用方法
+</span><span class="line">
+</span><span class="line">Appendix-A セキュリティ
+</span><span class="line">Appendix-B Dockerでの開発を支援するツール・サービス
+</span><span class="line">Appendix-C 主要コマンドまとめ</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">書評</h2>
+
+<h3 id="docker">Docker</h3>
+
+<p>Dockerと周辺技術は変化の速度が非常に早く、情報キャッチアップのコストが高く、Web上にある情報もすぐ陳腐化して大半が役に立たないので、
+私はかねてから<a href="https://docs.docker.com/">公式ドキュメント</a>を読むのが最も良いというスタンスだったのですが、
+本書は公式ドキュメントの内容はもちろんカバーされており、運用周りに関しては公式ドキュメント以上の内容が書かれている。</p>
+
+<h3 id="kubernetes">Kubernetes</h3>
+
+<p>Kubernetesに関しては一番丁寧に手厚く解説されているので、Minikubeで一度挫折したことがある私にとっては、
+サンプルコードを書いてサクサク進めることが出来たので、Kubernetesの採用の足がかりになりそうです。
+先月リリースされたDocker for Mac/Windows(Stable)がKubernetesに対応しており、
+手軽にKubernetes環境が用意出来るようになったので、Kubernetesをこれから始める人にも最適かと。</p>
+
+<h3 id="section-3">コラム</h3>
+
+<p>またコラムが大量にありどれも素晴らしいのですが、特に</p>
+
+<ul>
+  <li>環境変数を積極的に使う</li>
+  <li>認証情報をセキュアに環境変数へ設定する</li>
+  <li>Alpine Linuxベースのイメージを採用するべきか否か</li>
+  <li>DockerはVagrantの代替となるか?</li>
+</ul>
+
+<p>においては、以前エンジニア同士で議論したことがある内容なので大変興味深かった。</p>
+
+<h3 id="section-4">コンテナの運用</h3>
+
+<p>運用部分は普段Amazon ECS上で運用しておりAWSに頼り切っている部分なので、
+ログの保管、障害対策については、他社事例として大変参考になった。</p>
+
+<h2 id="section-5">本書を読むにあたって</h2>
+
+<p>本書のサンプルコマンドを実行するにあたり、BashやZshを事前に設定しておくことをオススメします。これがあるとないとでは効率が段違いです。
+<strong>本当に重要です!!</strong></p>
+
+<ul>
+  <li><a href="https://docs.docker.com/compose/completion/">Command-line completion | Docker Documentation</a></li>
+</ul>
+
+<h2 id="section-6">まとめ</h2>
+
+<p>2018年においては、</p>
+
+<ul>
+  <li><a href="https://docs.docker.com/">公式ドキュメント</a></li>
+  <li><a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339">Docker/Kubernetes 実践コンテナ開発入門</a></li>
+</ul>
+
+<p>を読めば、Docker/Kubernetesに関しては十分なのではないかと思う。</p>
+
+<p>実際私も社内のエンジニアにも「Docker/Kubernetesはこれを読めばOK」と薦めています。</p>
+
+<p>大変オススメです。</p>
+
+<h2 id="section-7">参考</h2>
+
+<ul>
+  <li><a href="https://blog.stormcat.io/post/publish-docker-book/">Docker/Kubernetes 実践コンテナ開発入門 出版に寄せて · tehepero note(・ω&lt;) 2.0</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GoReplayを導入して、Production環境へのリクエストを複製し、Staging環境に転送する仕組みを作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/12/16/goreplay/"/>
+    <updated>2016-12-16T15:25:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/12/16/goreplay</id>
+    <content type="html"><![CDATA[<p>結構前に作っていたんですが、いろいろと忙しくてブログに書くタイミングを失していたので年末のタイミングで紹介。</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://github.com/buger/goreplay">GoReplay</a>を利用して、Production環境のリクエストを複製し、Stagins環境、開発環境に投げる仕組みを作った</li>
+  <li>インフラ構成の大きな変更無しで、手軽にProduction環境の実リクエストを複製し、開発、動作検証ができるようになった</li>
+  <li>2016年の弊社サービスのDocker化や、インフラ構成の大幅な変更、ミドルウェアのアップデート、アプリの改修時のバグ事前検知と事故防止に大いに役に立った</li>
+</ul>
+
+<h2 id="goreplay">GoReplayの説明</h2>
+
+<ul>
+  <li><a href="https://github.com/buger/goreplay">GoReplay</a></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/12/gor0.png" alt="" /></p>
+
+<ul>
+  <li>Goで書かれており、バイナリを設置し、オプションを指定し実行するだけで動作する</li>
+  <li>アプリが稼働しているサーバで動く。(例えばNginx+Railsが稼働しているサーバで一緒にGoReplayを動かす感じ。)</li>
+  <li>libpcap を利用しているので、tpcdumpと同じでデータリンク層(OSI layer2)レベルでパケットを取得しています。</li>
+  <li>GoReplay は <code>gor listen</code> と <code>gor replay</code> の2つが1セットで動作します。
+    <ul>
+      <li><code>gor listen</code> がリクエストを複製し、<code>App</code> と <code>gor replay</code> に渡す。</li>
+      <li><code>gor replay</code> がリクエストを転送したり、ファイルに書き込んだり、再生作業をする。</li>
+    </ul>
+  </li>
+  <li>複製の割合や、複数の転送先、リクエストのフィルタリング設定などがあり高機能。
+    <ul>
+      <li><a href="https://github.com/buger/goreplay/wiki">https://github.com/buger/goreplay/wiki</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>私の理解が正しければ下記のような感じで動作してます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/12/gor1.png" alt="" /></p>
+
+<h2 id="shadow-proxy">Shadow Proxyとの比較</h2>
+
+<ul>
+  <li>アプリサーバで<strong>必要な時に手軽に動かせる</strong>。</li>
+  <li>動作が軽快</li>
+  <li>インフラ構成的に利用時に事故が起こりにくい(サービスの全リクエストを裁くわけではないので)</li>
+</ul>
+
+<p>今回なぜShadow Proxyを利用しなかったのかは後述。</p>
+
+<h2 id="section">実際に稼働している例で説明</h2>
+
+<p>実際に弊社で動かしている環境をざっくり図にして説明。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/12/gor2.png" alt="" /></p>
+
+<ul>
+  <li>Productionリリース予定のコードがデプロイされている、Stagingサーバを用意。</li>
+  <li><code>Production frontend</code>の１台で、GoReplayを動かしリクエストを複製し、ステージングサーバ<code>Staging frontend</code>にリクエストをProductionと同じリクエストを投げる。</li>
+  <li>Productionのデータと一緒にならないように、ステージング用に <code>staging aggregator</code> と データ格納先の <code>staging BigQuery</code> を用意。</li>
+  <li>下記コマンドのような形で動かし、Productionの1台に流れてきたリクエストを10%の割合で複製し、ステージングサーバに転送します。</li>
+  <li>echoサーバを作って、ベンチをとった結果(後述)、リクエストを100%複製し転送すると、パフォーマンスが劣化するので複製・転送の割合10%だけにしてます。</li>
+  <li>実際の運用ではSupervisordを利用して、GoReplayの軌道を管理</li>
+  <li>次期リリース予定のコードやインフラに問題があれば、StagingサーバのbugsnagなどがキャッチしてSlackにPostされる。</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo gor --input-raw :8080 --output-http <span class="s2">&quot;http://stating901.example.com|10%&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="goreplay-1">GoReplay利用時のベンチマーク</h2>
+
+<p>nginx + echo-nginx-module を利用して、GoReplayの複製割合に応じてどれくらいパフォーマンスが劣化するか下記のような形でベンチマークを取得。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">ab -n 10000 -c 100 http://hogemoge.example.com/hello
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>0%はGoReplayの利用無し、100%の場合はGoReplayで全トラフィックを複製して転送する。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>0%</th>
+      <th>10%</th>
+      <th>20%</th>
+      <th>50%</th>
+      <th>100%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>RPS</td>
+      <td>2254.49</td>
+      <td>1944.42</td>
+      <td>1782.10</td>
+      <td>1403.82</td>
+      <td>1023.71</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>GoReplayで転送率を100%にして、全トラフィックを複製かけるとパフォーマンスが劣化するので、インフラを増強しておく必要あり。</p>
+
+<hr />
+
+<p>ここから余談で、どうしてShadow Proxyを導入しなかったのか過去の経験と個人的な意見をちょっと書いてみる。</p>
+
+<h2 id="shadow-proxy-1">リクエストを複製するShadow Proxyの話</h2>
+
+<p>リクエストを複製するShadow Proxyと呼ばれるものは昔から存在します。</p>
+
+<ul>
+  <li><a href="https://github.com/cookpad/kage">cookpad/kage: Kage (kah-geh) is a shadow proxy server to duplex HTTP requests</a></li>
+  <li><a href="https://github.com/lestrrat/p5-Geest">lestrrat/p5-Geest: Port of Kage</a></li>
+  <li><a href="https://github.com/kentaro/delta">kentaro/delta: HTTP shadow proxy server written in Go</a></li>
+</ul>
+
+<p>Shadow Proxy利用時の一般的な構成</p>
+
+<p><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/a/antipop/20131212/20131212195546.png" alt="" /></p>
+
+<h3 id="shadow-proxy1">Shadow Proxyの問題点(※1)</h3>
+
+<ul>
+  <li>構成的にロードバランサの次あたりに存在(リクエスト処理する構成の前段の方に存在)するので非常に高い信頼性が求められる。</li>
+  <li>構成的に全リクエストがShadow Proxyを経由し、backendのサーバに到達するため、Shadow Proxyがボトルネックになりやすい。
+    <ul>
+      <li>各種Shadow Proxyのベンチマーク <a href="http://qiita.com/kentaro/items/17e2c334a902677af995#%E3%83%99%E3%83%B3%E3%83%81%E3%83%9E%E3%83%BC%E3%82%AF%E7%B5%90%E6%9E%9C">Go言語を含む複数種類の言語により実装されたソフトウェアのベンチマーク - Qiita</a></li>
+    </ul>
+  </li>
+  <li>インフラの構成的にサービスの全リクエストを処理する必要があるので、気軽に利用出来ない。稼働中のサービスに後から投入しにくい</li>
+  <li>全リクエストがShadow Proxyを通過する構成になっていると、<strong>Shadow Proxyが落ちるとサービス全部落ちる</strong></li>
+  <li>上記を解消しShadow Proxyを安定的に稼働しようとすると、インフラが複雑化して障害点が増えやすい</li>
+</ul>
+
+<p>※1 2年以上前の経験から得た知見なので、もしかして今は違うかもしれませんが。</p>
+
+<p>この仕組みを作ったおかげで、Production環境のリクエストを利用し事前に動作検証が出来るので、今年は事故も心理的な負担がだいぶ減ったと思う。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AWS Application Load Balancer + Amazon ECS でDockerのホットデプロイ環境を構築した]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/09/02/alb-ecs-docker-hot-deploy/"/>
+    <updated>2016-09-02T09:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/09/02/alb-ecs-docker-hot-deploy</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://aws.amazon.com/jp/elasticloadbalancing/applicationloadbalancer/">AWS Application Load Balancer(以下ALB)</a> + Amazon ECS でDockerのホットデプロイ環境を構築した</li>
+  <li>ALBのTarget GroupとECSのServiceを紐付けることで、ALB配下のコンテナの入れ替えが自動で行われるようになる</li>
+</ul>
+
+<p>ALBは先日リリースされたばかりで、私もまだ色々と検証している段階なので、内容や認識等に誤りがあるかもしれないのでご容赦下さい。(詳しい人教えてください!!)</p>
+
+<h2 id="section">その他弊社の前提情報</h2>
+
+<ul>
+  <li>GitHub + CircleCIが連携済み</li>
+  <li>Docker RepoにはAmazon EC2 Container Registry(以下ECR)を利用</li>
+  <li>DeployはGitHubのデプロイブランチへのマージを契機にCircleCI経由で、Docker Pushと<a href="https://github.com/silinternational/ecs-deploy">ecs-deploy</a>でDockerデプロイを実施</li>
+</ul>
+
+<h2 id="section-1">準備</h2>
+
+<p>ALBとECSの設定については<a href="https://twitter.com/inokara">@inokara</a>さんのブログが詳しいので、そちらを参照ください。
+今回はALBのDynamic Port Mappingは利用してません。</p>
+
+<ul>
+  <li><a href="http://inokara.hateblo.jp/entry/2016/08/13/095449">Amazon ECS と AWS Application Load Balancer の組み合わせを試しているメモ - ようへいの日々精進XP</a></li>
+  <li><a href="http://inokara.hateblo.jp/entry/2016/08/13/231404">Amazon ECS と AWS Application Load Balancer の組み合わせを試しているメモ（2）〜 AWS CLI で試す 〜 - ようへいの日々精進XP</a></li>
+</ul>
+
+<h2 id="section-2">デプロイフロー</h2>
+
+<p>デプロイフローは下記のような形になってます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs0.png" alt="" /></p>
+
+<h2 id="section-3">デプロイ前の稼働中の状態</h2>
+
+<ul>
+  <li>ALBは80,443ポートで稼働</li>
+  <li>コンテナではnode.jsのアプリが3000ポートで稼働</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs1.png" alt="" /></p>
+
+<h2 id="section-4">デプロイ直後の状態</h2>
+
+<ul>
+  <li>CircleCI経由で、ecs-deployを実行し、新しいコンテナを作成。</li>
+  <li>新しいコンテナが起動すると、自動でALB配下に追加されアクセスを流れる</li>
+  <li>古いコンテナと新しいコンテナが混在する</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs2.png" alt="" /></p>
+
+<p>ecs-deployは下記のような形で実行。CircleCI上では<code>AWS_ACCESS_KEY_ID</code>、<code>AWS_SECRET_ACCESS_KEY</code> を環境変数に設定し、引数に利用しているregionを<code>-r us-west-1</code>を追加して実行してます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">ecs-deploy <span class="se">\</span>
+</span><span class="line">-c クラスター名 <span class="se">\</span>
+</span><span class="line">-n サービス名 <span class="se">\</span>
+</span><span class="line">-i xxxxxxxxxxxx.dkr.ecr.us-west-1.amazonaws.com/kaizenplatform/kaizen-xxxxxxxx:947 <span class="se">\</span>
+</span><span class="line">-t 300
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>デプロイ部分の<code>docker push</code>と<code>ecs-deploy</code>合わせて1分半くらいで完了している。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs5.png" alt="" /></p>
+
+<h2 id="section-5">デプロイ完了後の状態</h2>
+
+<ul>
+  <li>しばらくすると古いコンテナが破棄され、新しいコンテナだけで稼働する</li>
+  <li>一連の作業中にリクエストを流し続けて、サービスが停止しないことも確認</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs3.png" alt="" /></p>
+
+<p>ecs-deployの実行が走ってから、新しいコンテナが起動し、古いコンテナが廃棄されるまで、
+大体6分くらい要している。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/09/alb-ecs4.png" alt="" /></p>
+
+<p>ALBとECSの初期設定が結構面倒ですが、設定さえ終われば、
+新旧コンテナの入れ替え、ALB配下への追加削除が自動で行われるようになるので大変便利。</p>
+
+<p>引き続きDynamic Port Mappingを利用した構成も検証中。</p>
+
+<h2 id="section-6">参考</h2>
+
+<ul>
+  <li><a href="http://inokara.hateblo.jp/entry/2016/08/13/095449">Amazon ECS と AWS Application Load Balancer の組み合わせを試しているメモ - ようへいの日々精進XP</a></li>
+  <li><a href="http://inokara.hateblo.jp/entry/2016/08/13/231404">Amazon ECS と AWS Application Load Balancer の組み合わせを試しているメモ（2）〜 AWS CLI で試す 〜 - ようへいの日々精進XP</a></li>
+  <li><a href="http://orih.io/2015/12/run-automated-deployment-by-git-push-with-ecs-deploy-script/">Git プッシュから Amazon ECS に自動デプロイする仕組みを構築する | ORIH</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Alpine LinuxなDockerイメージにServerspecを実行する環境を作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/08/18/docker-alpine-serverspec-with-circleci/"/>
+    <updated>2016-08-18T14:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/08/18/docker-alpine-serverspec-with-circleci</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://www.alpinelinux.org/">Alpine Linux</a>なDockerイメージにServerspecを実行する環境をMacとCircleCI上に作った</li>
+  <li>CircleCI環境では <code>lxc-attach</code> コマンドが必要なので、<code>spec_helper.rb</code> で環境差を吸収するようにした</li>
+  <li>今後よく利用しそうなので、流用しやすい形でGithubに置いておいた
+    <ul>
+      <li><a href="https://github.com/glidenote/docker-alpine-serverspec-sample">glidenote/docker-alpine-serverspec-sample</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section">前提</h2>
+
+<p>最近<a href="https://kaizenplatform.com/hiring/engineer.html">Kaizen Platform, Inc.</a>で利用している一部Docker ImageをAmazon LinuxベースのものからAlpine Linuxベースのものに置き換え中。
+Alpine Linuxについては<a href="https://twitter.com/stormcat24">@stormcat24</a>さんの<a href="http://blog.stormcat.io/archive/category/Alpine">ブログ</a>が一番参考になります。</p>
+
+<p>今までDockerイメージにServerspecを実行するときには、コンテナ内でsshdを立てて、ssh経由で<code>knife-solo</code>でプロビジョニングを実行し、その後同じくssh経由で<code>Serverspec</code>を流していた。</p>
+
+<p>Alpine Linuxベースに切り替えてから、出来るだけイメージサイズを小さくするために<code>knife-solo</code>は利用せずに、<code>Dockerfile</code> だけで構築している。(<code>Dockerfile</code>だけが良いかは現在検証中)
+<code>knife-solo</code>のためにコンテナ内でsshdを立てる必要はなくなったので、同じくssh経由で実行していた<code>Serverspec</code>は<code>docker-api</code> 経由で実行するようにした。</p>
+
+<h2 id="section-1">実行環境</h2>
+
+<ul>
+  <li>Mac OS X
+    <ul>
+      <li>ProductVersion: 10.11.6</li>
+      <li>Ruby 2.3.0</li>
+      <li>Docker 1.12.0</li>
+    </ul>
+  </li>
+  <li>CircleCI
+    <ul>
+      <li>Ruby 2.3.0</li>
+      <li>Docker 1.9.1-circleci-cp-workaround</li>
+    </ul>
+  </li>
+  <li>serverspec 2.36.0</li>
+  <li>docker-api 1.31.0</li>
+</ul>
+
+<h2 id="section-2">実際の作業</h2>
+
+<h3 id="section-3">ファイル構成</h3>
+
+<p>先に作業後のファイル構成を書いておくと下記のような感じになります。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">.
+</span><span class="line">├── Dockerfile
+</span><span class="line">├── Gemfile
+</span><span class="line">├── Gemfile.lock
+</span><span class="line">├── Rakefile
+</span><span class="line">├── circle.yml
+</span><span class="line">└── spec
+</span><span class="line">    ├── docker
+</span><span class="line">    │   └── package_spec.rb
+</span><span class="line">    └── spec_helper.rb</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="gemfile">Gemfile</h3>
+
+<p>Gemfileを用意して <code>bundle install</code></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">gem</span> <span class="s1">&#39;rake&#39;</span>
+</span><span class="line"><span class="n">gem</span> <span class="s1">&#39;serverspec&#39;</span>
+</span><span class="line"><span class="n">gem</span> <span class="s1">&#39;docker-api&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="dockerfile">Dockerfile</h3>
+
+<p>Dockerfileを用意。debugしやすいようにbashだけ導入</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">FROM</span> <span class="ss">alpine</span><span class="p">:</span><span class="mi">3</span><span class="o">.</span><span class="mi">4</span>
+</span><span class="line">
+</span><span class="line"><span class="no">RUN</span> <span class="n">apk</span> <span class="n">add</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">cache</span> <span class="n">bash</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>tagは <code>docker-alpine-serverspec-sample</code> としてbuild。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">docker build -t docker-alpine-serverspec-sample .
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="serverspec">Serverspec各種ファイル</h3>
+
+<p><code>serverspec-init</code> で各種ファイルを作成</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">⇒  serverspec-init
+</span><span class="line">Select OS <span class="nb">type</span>:
+</span><span class="line">
+</span><span class="line">  1<span class="o">)</span> UN*X
+</span><span class="line">  2<span class="o">)</span> Windows
+</span><span class="line">
+</span><span class="line">Select number: 1
+</span><span class="line">
+</span><span class="line">Select a backend <span class="nb">type</span>:
+</span><span class="line">
+</span><span class="line">  1<span class="o">)</span> SSH
+</span><span class="line">  2<span class="o">)</span> Exec <span class="o">(</span><span class="nb">local</span><span class="o">)</span>
+</span><span class="line">
+</span><span class="line">Select number: 2
+</span><span class="line">
+</span><span class="line"> + spec/
+</span><span class="line"> + spec/localhost/
+</span><span class="line"> + spec/localhost/sample_spec.rb
+</span><span class="line"> + spec/spec_helper.rb
+</span><span class="line"> + Rakefile
+</span><span class="line"> + .rspec
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>生成されるsampleのテストは利用しないので削除</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">rm -rf spec/localhost
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="spechelperrb">ローカル用の spec_helper.rb</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;serverspec&#39;</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;docker&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">set</span> <span class="ss">:backend</span><span class="p">,</span> <span class="ss">:docker</span>
+</span><span class="line"><span class="n">set</span> <span class="ss">:docker_url</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;DOCKER_HOST&quot;</span><span class="o">]</span>
+</span><span class="line"><span class="n">image</span> <span class="o">=</span> <span class="ss">Docker</span><span class="p">:</span><span class="ss">:Image</span><span class="o">.</span><span class="n">build_from_dir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</span><span class="line"><span class="n">set</span> <span class="ss">:docker_image</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">id</span>
+</span><span class="line">
+</span><span class="line"><span class="no">Excon</span><span class="o">.</span><span class="n">defaults</span><span class="o">[</span><span class="ss">:ssl_verify_peer</span><span class="o">]</span> <span class="o">=</span> <span class="kp">false</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-4">テストファイルの追加</h3>
+
+<p>ディレクトリの作成し、Dockerfileのパッケージインストールに対応するテスト <code>spec/docker/package_spec.rb</code> を追加</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">mkdir -p spec/docker/
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">describe</span> <span class="n">package</span><span class="p">(</span><span class="s1">&#39;bash&#39;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">be_installed</span> <span class="p">}</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="serverspec-1">Serverspecの実行</h3>
+<p>テストの準備が整ったので、Serverspecを流してみる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">bundle <span class="nb">exec </span>rake spec
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>問題がなければ下記のようになる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">Package <span class="s2">&quot;bash&quot;</span>
+</span><span class="line">  should be installed
+</span><span class="line">
+</span><span class="line">Finished in 1.61 seconds <span class="o">(</span>files took 0.67509 seconds to load<span class="o">)</span>
+</span><span class="line">1 example, 0 failures
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="circleci">CircleCI上での実行</h2>
+
+<p>ローカルに続いて、CircleCI環境でも動くようにする。</p>
+
+<h3 id="circleyml-">circle.yml の用意</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+</pre></td><td class="code"><pre><code class="yaml"><span class="line"><span class="l-Scalar-Plain">machine</span><span class="p-Indicator">:</span>
+</span><span class="line">  <span class="l-Scalar-Plain">timezone</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">UTC</span>
+</span><span class="line">  <span class="l-Scalar-Plain">ruby</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="l-Scalar-Plain">version</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">2.3.0</span>
+</span><span class="line">  <span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker</span>
+</span><span class="line">
+</span><span class="line"><span class="l-Scalar-Plain">dependencies</span><span class="p-Indicator">:</span>
+</span><span class="line">  <span class="l-Scalar-Plain">pre</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bundle install</span>
+</span><span class="line">
+</span><span class="line"><span class="l-Scalar-Plain">test</span><span class="p-Indicator">:</span>
+</span><span class="line">  <span class="l-Scalar-Plain">pre</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker version</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker info</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker build -t ${CIRCLE_PROJECT_REPONAME} .</span> <span class="p-Indicator">:</span>
+</span><span class="line">        <span class="l-Scalar-Plain">timeout</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1200</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker run ${CIRCLE_PROJECT_REPONAME} &amp;</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sleep 5</span>
+</span><span class="line">  <span class="l-Scalar-Plain">override</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bundle exec rspec</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker ps -a</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker images</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="circleci-spechelperrb">CircleCI でも動くようにspec_helper.rbの修正</h3>
+
+<p><a href="https://circleci.com/docs/docker/#docker-exec">公式ドキュメント</a> に記載されているようにCircleCIのDockerでは <code>docker exec</code> が利用できず、 <code>lxc-attach</code> コマンドを利用しないといけないので、<code>spec_helper.rb</code> でMacとの環境差を吸収し、同じコマンドでServerspecが流せるようにする。</p>
+
+<p>元同僚の<a href="https://twitter.com/ngs">@ngs</a>が<a href="https://ja.ngs.io/2015/09/26/circleci-docker-serverspec/">自身のブログ</a>に書いていたのでそれを利用。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;serverspec&#39;</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;docker&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">set</span> <span class="ss">:backend</span><span class="p">,</span> <span class="ss">:docker</span>
+</span><span class="line"><span class="n">set</span> <span class="ss">:docker_url</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;DOCKER_HOST&quot;</span><span class="o">]</span>
+</span><span class="line"><span class="n">image</span> <span class="o">=</span> <span class="ss">Docker</span><span class="p">:</span><span class="ss">:Image</span><span class="o">.</span><span class="n">build_from_dir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</span><span class="line"><span class="n">set</span> <span class="ss">:docker_image</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">id</span>
+</span><span class="line">
+</span><span class="line"><span class="no">Excon</span><span class="o">.</span><span class="n">defaults</span><span class="o">[</span><span class="ss">:ssl_verify_peer</span><span class="o">]</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class="line">
+</span><span class="line"><span class="c1"># https://circleci.com/docs/docker#docker-exec</span>
+</span><span class="line"><span class="k">if</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;CIRCLECI&#39;</span><span class="o">]</span>
+</span><span class="line">  <span class="k">module</span> <span class="nn">Docker</span>
+</span><span class="line">    <span class="k">class</span> <span class="nc">Container</span>
+</span><span class="line">      <span class="k">def</span> <span class="nf">exec</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">opts</span> <span class="o">=</span> <span class="p">{},</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class="line">        <span class="n">command</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">=</span> <span class="n">command</span><span class="o">[</span><span class="mi">2</span><span class="o">].</span><span class="n">inspect</span> <span class="c1"># [&#39;/bin/sh&#39;, &#39;-c&#39;, &#39;YOUR COMMAND&#39;]</span>
+</span><span class="line">        <span class="n">cmd</span> <span class="o">=</span> <span class="sx">%Q{sudo lxc-attach -n </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="sx"> -- </span><span class="si">#{</span><span class="n">command</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="si">}</span><span class="sx">}</span>
+</span><span class="line">        <span class="n">stdin</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="p">,</span> <span class="n">wait_thread</span> <span class="o">=</span> <span class="no">Open3</span><span class="o">.</span><span class="n">popen3</span> <span class="n">cmd</span>
+</span><span class="line">        <span class="o">[</span><span class="n">stdout</span><span class="o">.</span><span class="n">read</span><span class="p">,</span> <span class="o">[</span><span class="n">stderr</span><span class="o">.</span><span class="n">read</span><span class="o">]</span><span class="p">,</span> <span class="n">wait_thread</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">exitstatus</span><span class="o">]</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">      <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">{})</span>
+</span><span class="line">        <span class="c1"># do not delete container</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">      <span class="n">alias_method</span> <span class="ss">:delete</span><span class="p">,</span> <span class="ss">:remove</span>
+</span><span class="line">      <span class="n">alias_method</span> <span class="ss">:kill</span><span class="p">,</span> <span class="ss">:remove</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>これで、Mac上でもCircleCI上でも同じ</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">bundle <span class="nb">exec </span>rake spec
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>でテストが実行できるようになった。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/08/docker-alpine-serverspec-sample_0.png" alt="" /></p>
+
+<p>↑の画像のように、イメージのサイズが非常に小さいAlpine Linuxに切り替えてからbuildもtestもすぐに完了するので生産性が高くなった。</p>
+
+<h2 id="section-5">参考</h2>
+
+<ul>
+  <li><a href="http://blog.stormcat.io/archive/category/Alpine">Alpine カテゴリーの記事一覧 - tehepero note(・ω&lt;)</a></li>
+  <li><a href="https://circleci.com/docs/docker/#docker-exec">Continuous Integration and Delivery with Docker - CircleCI</a></li>
+  <li><a href="https://ja.ngs.io/2015/09/26/circleci-docker-serverspec/">CircleCI で Docker Container を Serverspec でテストする - Atsushi Nagase</a></li>
+  <li><a href="http://qiita.com/yulii/items/3ae64d6b68d64db7b1a9">Docker + Serverspec を使ってCircleCI 上でインフラのテストを実行する - Qiita</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mackerelのページを瞬時に開くAlfred Workflowを作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/03/29/alfred-mackerel-page-workflow/"/>
+    <updated>2016-03-29T13:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/03/29/alfred-mackerel-page-workflow</id>
+    <content type="html"><![CDATA[<p><a href="https://mackerel.io/">Mackerel</a>を利用していて、</p>
+
+<ul>
+  <li>特定のホストのメトリクス</li>
+  <li>特定のサービスのメトリクス</li>
+  <li>特定のダッシュボード</li>
+</ul>
+
+<p>などを見るときにページにアクセスして探すのに若干手間がかかるので、<a href="https://www.alfredapp.com/">Alfred</a>から瞬時に開けるようにWorkflowを作った。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/alfred-mackerel-page-workflow">glidenote/alfred-mackerel-page-workflow</a></li>
+</ul>
+
+<p>導入方法や使い方は<a href="https://github.com/glidenote/alfred-mackerel-page-workflow">README</a>を参照ください。
+動作は下記のような感じになります。(サービスとダッシュボードを開く動作はキャプチャに秘匿情報が含まれているので割愛してます <img alt="bow" src="https://blog.glidenote.com/images/emoji/unicode/1f647.png" class="emoji" /> )</p>
+
+<p><img src="https://github.com/glidenote/alfred-mackerel-page-workflow/raw/master/images/alfred-mackerel-page-workflow-animation.gif" alt="" /></p>
+
+<h2 id="section">関連</h2>
+
+<ul>
+  <li><a href="http://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow/">CircleCIのProjectページの移動が簡単になるAlfred Workflowを作った - Glide Note</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[最近導入した開発に役立つ便利なステータスバー通知系アプリ3選]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/03/29/notification-apps/"/>
+    <updated>2016-03-29T12:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/03/29/notification-apps</id>
+    <content type="html"><![CDATA[<p>最近追加したステータスバーの通知系アプリで便利なやつを共有。</p>
+
+<h2 id="github-notifications">GitHub Notifications</h2>
+
+<p><img src="https://gitify.io/static/images/mockup.png" alt="" /></p>
+
+<ul>
+  <li><a href="https://gitify.io/">Gitify - GitHub Notifications on your menu bar</a></li>
+</ul>
+
+<p>GitHubのNotifications通知については、Gitifyを利用。
+それまでは自分宛の通知は<a href="https://zapier.com/">Zapier</a>使ってSlackに通知したり、Chrome Extensionとか使って検知してたんですが、
+ステータスバーに通知するやつが自分にはあっていたので、半年くらい前から利用してます。</p>
+
+<h2 id="circleci-notifications">CircleCI Notifications</h2>
+
+<p><img src="https://blog.glidenote.com/images/2016/03/seaeye.png" alt="" /></p>
+
+<ul>
+  <li><a href="https://github.com/nolaneo/SeaEye">nolaneo/SeaEye: OSX notifications for Circle CI builds</a></li>
+</ul>
+
+<p>CircleCIの通知にはSeaEyeを利用。特定プロジェクトや、自分のビルドだけ通知などが設定ができるのが大変便利。</p>
+
+<h2 id="bitbar--sensu-notifications">BitBar &amp; Sensu Notifications</h2>
+
+<p><img src="https://raw.githubusercontent.com/ripienaar/sensu_bitbar/master/screenshot.png" alt="" /></p>
+
+<ul>
+  <li><a href="https://github.com/ripienaar/sensu_bitbar">ripienaar/sensu_bitbar: BitBar Sensu status plugin</a></li>
+</ul>
+
+<p>rebuild.fm a132で話題に出ていた<a href="https://github.com/matryer/bitbar">BitBar</a>で、KAIZENで利用している監視システム<a href="https://sensuapp.org/">Sensu</a>のPluginがあったので導入。
+Sensuがアラートを検知した場合、Pagerduty経由で、Slack、メール、電話、スマホアプリへの通知などをしてくれるので、無くても良いんですが、ちょっとBitBarを利用してみたかったので導入。</p>
+
+<p>これを機にメールとSlackでの通知も減らしたので作業に集中する時間が増えた(気がする)</p>
+
+<h1 id="section">参考</h1>
+
+<ul>
+  <li><a href="http://rebuild.fm/132a/">Rebuild: Aftershow 132: Math Is Hard, Let’s Go Programming (higepon)</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CircleCIのProjectページの移動が簡単になるAlfred Workflowを作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow/"/>
+    <updated>2016-03-03T19:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/03/03/alfred-circleci-project-workflow</id>
+    <content type="html"><![CDATA[<p>実は<a href="http://qiita.com/advent-calendar/2015/circleci">CircleCI Advent Calendar 2015 - Qiita</a>にエントリするために、
+結構前にAlfred Workflowを作っていたんですが、当時多忙でブログに書くのを忘れていました <img alt="sweat" src="https://blog.glidenote.com/images/emoji/unicode/1f613.png" class="emoji" /></p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/alfred-circleci-projects-workflow">glidenote/alfred-circleci-projects-workflow</a></li>
+</ul>
+
+<p><a href="https://circleci.com/">CircleCI</a>で利用するProject数が増えると、それぞれのページに移動するのが
+めちゃくちゃ面倒なので、CircleCIのProject移動が簡単になるAlfred Workflowを作りました。</p>
+
+<p>インストール方法、使い方は<a href="https://github.com/glidenote/alfred-circleci-projects-workflow">README</a>を見ていただくことにして、
+どんな感じで動作するのかgif animationにしてみました。</p>
+
+<h2 id="project">Projectページを開く</h2>
+
+<p>URL情報をcacheしているので、サクサク動作します。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/03/circleci.gif" alt="" /></p>
+
+<h2 id="projectmasterstatus">各Projectのmasterブランチのstatusを確認する</h2>
+
+<p>その都度APIを叩いて確認しているので、レスポンスが遅めです。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/03/circleci-status.gif" alt="" /></p>
+
+<p>CircleCIとAlfredを利用している方は是非ご活用ください。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[「サーバ/インフラエンジニア養成読本 DevOps編」にて[CircleCIによる継続的インテグレーション入門]を執筆しました]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/02/25/infrastructure-engineer-books-devops/"/>
+    <updated>2016-02-25T19:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/02/25/infrastructure-engineer-books-devops</id>
+    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E9%A4%8A%E6%88%90%E8%AA%AD%E6%9C%AC-DevOps%E7%B7%A8-Infrastructure-%E3%82%92%E5%AE%9F%E8%B7%B5%E3%81%99%E3%82%8B%E3%83%8E%E3%82%A6%E3%83%8F%E3%82%A6%E3%81%8C%E6%BA%80%E8%BC%89-Software/dp/4774179930?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179930"><img src="https://images-fe.ssl-images-amazon.com/images/I/61P3yaTE0qL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E9%A4%8A%E6%88%90%E8%AA%AD%E6%9C%AC-DevOps%E7%B7%A8-Infrastructure-%E3%82%92%E5%AE%9F%E8%B7%B5%E3%81%99%E3%82%8B%E3%83%8E%E3%82%A6%E3%83%8F%E3%82%A6%E3%81%8C%E6%BA%80%E8%BC%89-Software/dp/4774179930?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179930">サーバ/インフラエンジニア養成読本 DevOps編 [Infrastructure as Code を実践するノウハウが満載! ] (Software Design plus)</a></p>
+
+<p>2016/02/26 に出版される「サーバ/インフラエンジニア養成読本 DevOps編」というムック本にて、特集「CircleCIによる継続的インテグレーション入門」を執筆しました。</p>
+
+<h2 id="circleci">CircleCIによる継続的インテグレーション入門</h2>
+
+<p>私が現在所属する<a href="https://kaizenplatform.com/">Kaizen Platform, Inc.</a>でもCircleCIをヘビーユーズしており、サーバ/インフラ部分においても、</p>
+
+<ol>
+  <li>インフラCI</li>
+  <li>稼働中サーバへのプロビジョニング </li>
+  <li>DNSレコードの管理</li>
+  <li>Terraformを用いたAWSリソースの管理</li>
+  <li>Packerを用いたAMI作成</li>
+  <li>稼働中サーバのセキュリティアップデート</li>
+  <li>メトリクスグラフの取得&amp;slackへの投稿</li>
+</ol>
+
+<p>などにCircleCIを利用しており、今回はその中の<code>インフラCI</code>と<code>稼働中サーバへのプロビジョニング</code> 部分を入門用に噛み砕いて書いてます。</p>
+
+<p>Kaizen Platform, Inc.におけるインフラの継続的デリバリー、インテグレーションについては技術顧問である伊藤直也さんのブログ、@m_doiの昨年JAWS発表資料を合わせて見ていただくと理解が深まるかと思います。</p>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">インフラの継続的デリバリー - naoyaのはてなダイアリー</a></li>
+</ul>
+
+<script async="" class="speakerdeck-embed" data-id="23408aff918a4b0f8483ebf168d5f818" data-ratio="1.33333333333333" src="https://blog.glidenote.com//speakerdeck.com/assets/embed.js"></script>
+
+<h2 id="section">既存環境に組み込みやすいように</h2>
+
+<p>本特集では下記のサービス、ツールを利用しています。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>ツール名</th>
+      <th>役割</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://www.virtualbox.org/">VirtualBox</a></td>
+      <td>ローカル環境にテスト用VMを起動</td>
+    </tr>
+    <tr>
+      <td><a href="https://www.vagrantup.com/">Vagrant</a></td>
+      <td>テスト用VMの管理とssh接続情報の生成</td>
+    </tr>
+    <tr>
+      <td><a href="https://matschaffer.github.io/knife-solo/">knife-solo</a></td>
+      <td>プロビジョニングの実行</td>
+    </tr>
+    <tr>
+      <td><a href="http://serverspec.org/">Serverspec</a></td>
+      <td>テスト用VMのプロビジョン結果のテスト</td>
+    </tr>
+    <tr>
+      <td><a href="https://www.terraform.io/">Terraform</a></td>
+      <td>DigitalOcean上へのテスト用VM作成</td>
+    </tr>
+    <tr>
+      <td><a href="https://circleci.com/">CircleCI</a></td>
+      <td>GitHubと連携しビルド/CIを実行</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/">GitHub</a></td>
+      <td>インフラコードの管理</td>
+    </tr>
+    <tr>
+      <td><a href="https://www.digitalocean.com/">DigitalOcean</a></td>
+      <td>インフラCIのテスト用VMの作成環境</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br />
+特集内でも説明をしていますがそれぞれを疎な状態を保つように利用しているので、組み替えやすく、別のサービス、ツールを利用していても取り入れやすいのでは無いかと思います。</p>
+
+<h2 id="hashicorp-tools">HashiCorp tools</h2>
+
+<p>今回<a href="https://www.vagrantup.com/">Vagrant</a>と<a href="https://www.terraform.io/">Terraform</a>を利用し、ローカルでのテスト環境、インフラCIを実現しています。Vagrantはすでに定番ツールとなっておりますが、Terraformについてはまだまだの印象がありますので、インフラCI用の使い捨てVM管理を通じ、Terraformの感触を掴んでいただければ幸いです。</p>
+
+<h2 id="section-1">目次</h2>
+
+<p>それぞれの特集が独立しており、好きなところから読んで、手を動かして試せる内容となっています。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">巻頭企画 DevOpsとInfrastructure as Codeの概要
+</span><span class="line">吉羽 龍太郎
+</span><span class="line">第1章 DevOpsとは?
+</span><span class="line">第2章 Infrastructure as Codeとは?
+</span><span class="line">
+</span><span class="line">特集1 最速攻略!Ansible 2によるサーバ構築
+</span><span class="line">新原 雅司
+</span><span class="line">第1章 Ansibleの基本
+</span><span class="line">第2章 Playbookの基本
+</span><span class="line">第3章 Ansible[実践]
+</span><span class="line">第4章 Playbookベストプラクティス
+</span><span class="line">
+</span><span class="line">特集2 CircleCIによる継続的インテグレーション入門
+</span><span class="line">前田 章
+</span><span class="line">第1章 インフラのテスト入門
+</span><span class="line">第2章 ローカル上でのテスト駆動インフラ
+</span><span class="line">第3章 インフラCIの準備
+</span><span class="line">第4章 CircleCIを利用した継続的インテグレーション
+</span><span class="line">第5章 継続的インテグレーションから継続的デリバリーへ
+</span><span class="line">
+</span><span class="line">特集3 Dockerによる仮想環境構築とKubernetesによるDockerクラスタ管理
+</span><span class="line">馬場俊彰
+</span><span class="line">第1章 Dockerの基本
+</span><span class="line">第2章 Dockerを使ってみよう[基礎編]
+</span><span class="line">第3章 Dockerを使ってみよう[応用編]
+</span><span class="line">第4章 クラスタ管理ツールとは
+</span><span class="line">第5章 Kubernetesの基本
+</span><span class="line">第6章 Kubernetesクイックスタート
+</span><span class="line">第7章 Kubernetesを詳しく見てみよう</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">正誤表</h2>
+
+<p>TerraformのDownload URLが発売直前のこのタイミングで変更になってしまい(泣)、一部コードがそのままでは動かなくなっております。詳しくは技術評論社様のサイトでご確認ください</p>
+
+<ul>
+  <li><a href="http://gihyo.jp/book/2016/978-4-7741-7993-3/support">http://gihyo.jp/book/2016/978-4-7741-7993-3/support</a></li>
+</ul>
+
+<h2 id="section-3">最後に</h2>
+
+<p>担当した特集で利用している<a href="http://serverspec.org/">Serverspec</a>の作者である<a href="https://twitter.com/gosukenator">mizzy</a>さんの紹介で特集が実現し感謝です。
+担当した特集部分のレビューにご協力頂いた <a href="https://twitter.com/tnmt">@tnmt</a>さん、<a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a>さん、<a href="https://twitter.com/sato_ryu">@satoryu</a>さん、ありがとうございました。</p>
+
+<p>余談ですが今回の執筆にあたり、CircleCIにいろいろと問い合わせをしていたところステッカーとTシャツが送られてきて、CircleCIにも感謝です! / Thanks CircleCI !!</p>
+
+<blockquote class="instagram-media" data-instgrm-version="6" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:8px;"> <div style=" background:#F8F8F8; line-height:0; margin-top:40px; padding:50.0% 0; text-align:center; width:100%;"> <div style=" background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAGFBMVEUiIiI9PT0eHh4gIB4hIBkcHBwcHBwcHBydr+JQAAAACHRSTlMABA4YHyQsM5jtaMwAAADfSURBVDjL7ZVBEgMhCAQBAf//42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB/lQPb79drWOyJVa/DAvg9B/rLB4cC+Nqgdz/TvBbBnr6GBReqn/nRmDgaQEej7WhonozjF+Y2I/fZou/qAAAAAElFTkSuQmCC); display:block; height:44px; margin:0 auto -44px; position:relative; top:-22px; width:44px;"></div></div><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/BAzU3cyCw8N/" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A photo posted by Akira Maeda (@glidenote)</a> on <time style=" font-family:Arial,sans-serif; font-size:14px; line-height:17px;" datetime="2016-01-21T12:59:51+00:00">Jan 21, 2016 at 4:59am PST</time></p></div></blockquote>
+<script async="" defer="" src="https://blog.glidenote.com//platform.instagram.com/en_US/embeds.js"></script>
+
+<p><br /></p>
+
+<p>本書がビジネスに貢献するITインフラの役に立つ1冊になれば幸いです。</p>
+
+<p><strong>追記 2月26日追記</strong></p>
+
+<p>本日2016年2月26日(金)発売で、今現在カテゴリー別1位になっているようで、ありがとうございます!</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/devops_books0.png" alt="" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Webサービス開発徹底攻略 Vol.2 を読んだ]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/02/16/web-service-development-vol2/"/>
+    <updated>2016-02-16T11:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/02/16/web-service-development-vol2</id>
+    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/Web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E9%96%8B%E7%99%BA%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-Vol-2-WEB-PRESS-plus/dp/4774179523?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179523"><img src="https://images-fe.ssl-images-amazon.com/images/I/51F56YOP6dL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/Web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E9%96%8B%E7%99%BA%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-Vol-2-WEB-PRESS-plus/dp/4774179523?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774179523">Webサービス開発徹底攻略 Vol.2 (WEB+DB PRESS plus)</a></p>
+
+<p>技術評論社様、特別企画「継続的Webサービス改善」執筆陣のGMOペパボのみなさんからご恵贈いただきましてありがとうございます。</p>
+
+<p>『WEB+DB PRESS』の掲載記事をテーマ別に厳選、再編集とのことで、LINE、ドラゴンクエストX、freeeの事例などは
+2015年のものが掲載されており、その他は2013年と3年前の事例なので多少古さがあるが、現在でも有益な情報には変わりない感じ。</p>
+
+<p>LINE、ドラゴンクエストX、DMM.com などの大規模トラフィックを関する知見が参考になるのはもちろんですが、
+特にGMOペパボの特別企画「継続的Webサービス改善ガイド ── 複雑性の増大と環境の変化に対応する」に関しては、
+2013年当時私も在職しており、10年続くサービスをいかに改善していくかということに取り組み始めた頃で、
+それから約3年経過し、最近のGMOペパボのエンジニアの勉強会での発表資料を見ると、
+この本に書かれている通りに、その後サービス改善に取り組んでいることがよくわかって素晴らしい。</p>
+
+<p>特にDB周りは鬼門だったので、それに関する発表資料を見ると、技術力の高さを感じる。</p>
+
+<ul>
+  <li><a href="http://www.slideshare.net/hifumis/mysql-casual-42634961">MySQL 4.0で9年動き続けたサーバを リプレイスしてバージョンアップした話</a></li>
+  <li><a href="http://www.slideshare.net/masatakakono1/mysql4056">Mysqlを4.0から5.0を経由して5.6へバージョンアップした話</a></li>
+</ul>
+
+<p>ほとんどのWEBサービスが10年も続かずにサービスを終了してしまうのを考えると、
+長年続いているサービスの改善に関するGMOペパボの取り組み、知見は非常に希少度が高いし、
+その元となっている考え方の基礎となっている部分が書かれており、2016年も必読の内容かと思います。</p>
+
+<p>p.165のコードレビューの画像は、確か私のコードに対する指摘だなーと思い出して懐かさと汗が。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">■特集1:LINE ── 1日100億メッセージをさばくサービスの裏側
+</span><span class="line">・第1章:LINEの歴史と開発体制
+</span><span class="line">・第2章:LINEのサーバサイドアーキテクチャ
+</span><span class="line">・第3章:LINEのメッセージング基盤
+</span><span class="line">・第4章:LINEのストレージ
+</span><span class="line">・第5章:スタンプショップの舞台裏
+</span><span class="line">
+</span><span class="line">■特集2:ドラゴンクエストX ── 国民的RPGオンライン化へのチャレンジ
+</span><span class="line">・第1章:ドラゴンクエストXとは何か
+</span><span class="line">・第2章:開発・運営体制
+</span><span class="line">・第3章:開発の舞台裏
+</span><span class="line">・第4章:サーバプロセス構成
+</span><span class="line">・第5章:1つの世界
+</span><span class="line">
+</span><span class="line">■特集3:クラウド会計ソフトfreee ── 急成長を支えたコードとプロセスの改善
+</span><span class="line">・第1章:クラウド会計ソフトfreeeの全体像
+</span><span class="line">・第2章:急成長するシステムの課題と処方箋
+</span><span class="line">・第3章:フロントエンド開発の複雑化への取り組み
+</span><span class="line">・第4章:規模の拡大に伴う開発プロセスの変遷
+</span><span class="line">・After That:freeeの現在
+</span><span class="line">
+</span><span class="line">■特集4:DMM.com ── 動画配信に耐えるインフラ、好機を逃さない高速開発
+</span><span class="line">・第1章:システムの全体像
+</span><span class="line">・第2章:変化しつづけるインフラ
+</span><span class="line">・第3章:負荷対策とパフォーマンス改善
+</span><span class="line">・第4章:動画配信の裏側
+</span><span class="line">・第5章:好機を逃さない高速開発
+</span><span class="line">・第6章:多様なサービスはいかに作られるか
+</span><span class="line">・After That:DMM.comの現在
+</span><span class="line">
+</span><span class="line">■特別企画:継続的Webサービス改善ガイド ── 複雑性の増大と環境の変化に対応する
+</span><span class="line">・第1章:なぜ「継続的Webサービス改善」が必要なのか
+</span><span class="line">・第2章:開発環境の改善
+</span><span class="line">・第3章:パフォーマンスの改善
+</span><span class="line">・第4章:インフラ構成管理の改善
+</span><span class="line">・第5章:ビジネス視点の改善
+</span><span class="line">・第6章:これからも続く「改善」へのとりくみ
+</span><span class="line">
+</span><span class="line">■一般記事:社内の情報共有・情報発信 ── クックパッドはいかにして場を築いたか</span></code></pre></td></tr></table></div></figure></notextile></div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Roost Laptop Standで肩こりが解消した]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/02/05/roost/"/>
+    <updated>2016-02-05T19:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/02/05/roost</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2016/02/roost0.jpg" alt="" /></p>
+
+<ul>
+  <li><a href="http://www.therooststand.com/">Roost Laptop Stand: Portable, Lightweight, Adjustable, Ergonomic Stand</a></li>
+</ul>
+
+<p>Kickstarterで注文していた新しいRoost Laptop Standが昨年末に届いて、最近は下のような形で作業している。</p>
+
+<blockquote class="instagram-media" data-instgrm-captioned="" data-instgrm-version="6" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:8px;"> <div style=" background:#F8F8F8; line-height:0; margin-top:40px; padding:50.0% 0; text-align:center; width:100%;"> <div style=" background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAGFBMVEUiIiI9PT0eHh4gIB4hIBkcHBwcHBwcHBydr+JQAAAACHRSTlMABA4YHyQsM5jtaMwAAADfSURBVDjL7ZVBEgMhCAQBAf//42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB/lQPb79drWOyJVa/DAvg9B/rLB4cC+Nqgdz/TvBbBnr6GBReqn/nRmDgaQEej7WhonozjF+Y2I/fZou/qAAAAAElFTkSuQmCC); display:block; height:44px; margin:0 auto -44px; position:relative; top:-22px; width:44px;"></div></div> <p style=" margin:8px 0 0 0; padding:0 4px;"> <a href="https://www.instagram.com/p/_1IWh2Cw47/" style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none; word-wrap:break-word;" target="_blank">2016年に向けた作業環境が整った</a></p> <p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;">A photo posted by Akira Maeda (@glidenote) on <time style=" font-family:Arial,sans-serif; font-size:14px; line-height:17px;" datetime="2015-12-28T09:17:35+00:00">Dec 28, 2015 at 1:17am PST</time></p></div></blockquote>
+<script async="" defer="" src="https://blog.glidenote.com//platform.instagram.com/en_US/embeds.js"></script>
+
+<p><br />
+1ヶ月半くらい、この状態で過ごしてみての感想は、</p>
+
+<ul>
+  <li>真っ直ぐを向く姿勢になるので、肩こりが解消した</li>
+  <li>姿勢が楽なので集中力が長時間持続する</li>
+  <li>イヤホンを接続するとケーブルが邪魔</li>
+  <li>Roostは持ち運びを想定した設計だが、キーボードとかも一緒に持ち歩かないといけないので、持ち運びには適さない(と思う)</li>
+</ul>
+
+<p>単に目の高さにディスプレイがくるようになれば良いのかと思って、それまで使っていた外部ディスプレイ(27インチ)を目線の高さにくるようにしてみたけど
+外部ディスプレイだと画面が広いせいか、首は動かないけど視線(眼球)がよく動いて、目の疲れは軽減されないことがわかった。</p>
+
+<p>MacBook Pro Retina 15くらいだと視線ほぼ動かないので、目が疲れず、それが肩こり軽減にも一役買っている。</p>
+
+<p>これまで肩こりで集中力が切れることが結構あったが、Roostを使いだしてからそれが無くなって劇的に快適になった。
+作業環境において、ここ数年で一番良い買い物をした感じがする。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://rebuild.fm/71a/">Rebuild: Aftershow 71: Green Grass On GitHub (Naoya Ito)</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Let’s Encryptで証明書を作ってみた]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/02/04/lets-encrypt/"/>
+    <updated>2016-02-04T18:18:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/02/04/lets-encrypt</id>
+    <content type="html"><![CDATA[<p>社内向けのリバースプロキシを構築中に、まだ証明書を用意していないドメインで、Let’s Encryptを試す機会があったのでメモ。</p>
+
+<p>去年アメリカに行ったタイミングから完全にブログ書く習慣がなくなってしまったので、リハビリも兼ねて。</p>
+
+<ul>
+  <li><a href="https://letsencrypt.org/">Let’s Encrypt - Free SSL/TLS Certificates</a></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/letsencrypt0.png" alt="" /></p>
+
+<h2 id="section">前提</h2>
+
+<ul>
+  <li>Port 80が空いている。外部からアクセスできる。</li>
+  <li>DNSが引けて、名前解決ができるようになっている</li>
+</ul>
+
+<h2 id="section-1">作業環境</h2>
+
+<ul>
+  <li>CentOS 7.0, Amazon Linux</li>
+  <li>Nginx 1.9.10</li>
+</ul>
+
+<h2 id="lets-encrypt">Let’s Encryptのインストール</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">git clone https://github.com/letsencrypt/letsencrypt
+</span><span class="line"><span class="nb">cd </span>letsencrypt/
+</span><span class="line">./letsencrypt-auto --help --debug
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>./letsencrypt-auto --help --debug</code> のタイミングで依存パッケージがインストールされる。
+無事インストールが完了するとヘルプが表示される。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">Updating letsencrypt and virtual environment dependencies......
+</span><span class="line">Requesting root privileges to run with virtualenv: /root/.local/share/letsencrypt/bin/letsencrypt --help
+</span><span class="line">
+</span><span class="line">  letsencrypt-auto <span class="o">[</span>SUBCOMMAND<span class="o">]</span> <span class="o">[</span>options<span class="o">]</span> <span class="o">[</span>-d domain<span class="o">]</span> <span class="o">[</span>-d domain<span class="o">]</span> ...
+</span><span class="line">
+</span><span class="line">The Let<span class="s1">&#39;s Encrypt agent can obtain and install HTTPS/TLS/SSL certificates.  By</span>
+</span><span class="line"><span class="s1">default, it will attempt to use a webserver both for obtaining and installing</span>
+</span><span class="line"><span class="s1">the cert. Major SUBCOMMANDS are:</span>
+</span><span class="line">
+</span><span class="line"><span class="s1">  (default) run        Obtain &amp; install a cert in your current webserver</span>
+</span><span class="line"><span class="s1">  certonly             Obtain cert, but do not install it (aka &quot;auth&quot;)</span>
+</span><span class="line"><span class="s1">  install              Install a previously obtained cert in a server</span>
+</span><span class="line"><span class="s1">  revoke               Revoke a previously obtained certificate</span>
+</span><span class="line"><span class="s1">  rollback             Rollback server configuration changes made during install</span>
+</span><span class="line"><span class="s1">  config_changes       Show changes made to server config during installation</span>
+</span><span class="line"><span class="s1">  plugins              Display information about installed plugins</span>
+</span><span class="line">
+</span><span class="line"><span class="s1">Choice of server plugins for obtaining and installing cert:</span>
+</span><span class="line">
+</span><span class="line"><span class="s1">  --apache          Use the Apache plugin for authentication &amp; installation</span>
+</span><span class="line"><span class="s1">  --standalone      Run a standalone webserver for authentication</span>
+</span><span class="line"><span class="s1">  (nginx support is experimental, buggy, and not installed by default)</span>
+</span><span class="line"><span class="s1">  --webroot         Place files in a server&#39;</span>s webroot folder <span class="k">for </span>authentication
+</span><span class="line">
+</span><span class="line">OR use different plugins to obtain <span class="o">(</span>authenticate<span class="o">)</span> the cert and <span class="k">then </span>install it:
+</span><span class="line">
+</span><span class="line">  --authenticator standalone --installer apache
+</span><span class="line">
+</span><span class="line">More detailed <span class="nb">help</span>:
+</span><span class="line">
+</span><span class="line">  -h, --help <span class="o">[</span>topic<span class="o">]</span>    print this message, or detailed <span class="nb">help </span>on a topic;
+</span><span class="line">                        the available topics are:
+</span><span class="line">
+</span><span class="line">   all, automation, paths, security, testing, or any of the subcommands or
+</span><span class="line">   plugins <span class="o">(</span>certonly, install, nginx, apache, standalone, webroot, etc<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>証明書を作る際に、letsencryptが80番を利用するので、nginxを一時的に落とす</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo service nginx stop
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下記コマンドを実行して証明書を作成する。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">./letsencrypt-auto certonly --standalone -d webapp.glidenote.com
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>キー紛失時の復元用のメールアドレスを入力</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/letsencrypt1.png" alt="" /></p>
+
+<p>規約の同意画面</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/letsencrypt2.png" alt="" /></p>
+
+<p>完了すると下記のようにメッセージが表示される。証明書の期限は90日。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">IMPORTANT NOTES:
+</span><span class="line"> - If you lose your account credentials, you can recover through
+</span><span class="line">   e-mails sent to xxxxxx@xxxxxxxxxxxxxxxx.
+</span><span class="line"> - Congratulations! Your certificate and chain have been saved at
+</span><span class="line">   /etc/letsencrypt/live/webapp.glidenote.com/fullchain.pem. Your cert
+</span><span class="line">   will expire on 2016-05-02. To obtain a new version of the
+</span><span class="line">   certificate in the future, simply run Let<span class="s1">&#39;s Encrypt again.</span>
+</span><span class="line"><span class="s1"> - Your account credentials have been saved in your Let&#39;</span>s Encrypt
+</span><span class="line">   configuration directory at /etc/letsencrypt. You should make a
+</span><span class="line">   secure backup of this folder now. This configuration directory will
+</span><span class="line">   also contain certificates and private keys obtained by Let<span class="s1">&#39;s</span>
+</span><span class="line"><span class="s1">   Encrypt so making regular backups of this folder is ideal.</span>
+</span><span class="line"><span class="s1"> - If you like Let&#39;</span>s Encrypt, please consider supporting our work by:
+</span><span class="line">
+</span><span class="line">   Donating to ISRG / Let<span class="err">&#39;</span>s Encrypt:   https://letsencrypt.org/donate
+</span><span class="line">   Donating to EFF:                    https://eff.org/donate-le
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下記のような感じでファイルが出来上がる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">/etc/letsencrypt/live/webapp.glidenote.com/fullchain.pem
+</span><span class="line">/etc/letsencrypt/live/webapp.glidenote.com/cert.pem
+</span><span class="line">/etc/letsencrypt/live/webapp.glidenote.com/chain.pem
+</span><span class="line">/etc/letsencrypt/live/webapp.glidenote.com/privkey.pem
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>nginxで利用するのは <code>fullchain.pem</code> と <code>privkey.pem</code> なので、nginxのconfを修正。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">server <span class="o">{</span>
+</span><span class="line">  listen 443 ssl http2;
+</span><span class="line">
+</span><span class="line">  server_name         webapp.glidenote.com;
+</span><span class="line">
+</span><span class="line">  ssl_certificate     /etc/letsencrypt/live/webapp.glidenote.com/fullchain.pem;
+</span><span class="line">  ssl_certificate_key /etc/letsencrypt/live/webapp.glidenote.com/privkey.pem;
+</span><span class="line">
+</span><span class="line">  ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:ECDHE-RSA-DES-CBC3-SHA:ECDHE-ECDSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA;
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">~ snip ~~
+</span><span class="line">
+</span><span class="line"><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>nginxを起動させてみる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo nginx -t
+</span><span class="line">sudo service nginx start
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ちゃんとエラーが出ない証明書が出来上がっている。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/letsencrypt3.png" alt="" /></p>
+
+<p>更新については<a href="https://letsencrypt.org/howitworks/">公式ドキュメント</a>にあるように、下記のようのあスクリプトを用意してcronで回しておけばOKの模様。(検証用途でしか利用していないので、更新作業はまだやってないです)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="c">#!/bin/sh</span>
+</span><span class="line">service nginx stop  <span class="c"># or whatever your webserver is</span>
+</span><span class="line"><span class="k">if</span> ! /path/to/letsencrypt-auto certonly -tvv --standalone --keep -d webapp.glidenote.com &gt; /var/log/letsencrypt/renew.log 2&gt;&amp;1 ; <span class="k">then</span>
+</span><span class="line"><span class="k">    </span><span class="nb">echo </span>Automated renewal failed:
+</span><span class="line">    cat /var/log/letsencrypt/renew.log
+</span><span class="line">    <span class="nb">exit </span>1
+</span><span class="line"><span class="k">fi</span>
+</span><span class="line">service nginx start <span class="c"># or whatever your webserver is</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="https://letsencrypt.jp/usage/">Let’s Encrypt の使い方 - Let’s Encrypt 総合ポータル</a></li>
+  <li><a href="http://inside.pixiv.net/entry/2015/12/10/153114">Let’s EncryptとnginxでHTTP/2サーバを立てる - pixiv inside</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ChatOps + NightmareでメトリクスグラフとBIレポートをSlackに投げるようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2015/10/01/nightmare-screenshots/"/>
+    <updated>2015-10-01T20:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2015/10/01/nightmare-screenshots</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2015/09/nightmare_0.png" alt="" /></p>
+
+<ul>
+  <li><a href="http://www.nightmarejs.org/">Nightmare</a></li>
+</ul>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li>Slack + Hubot + Nightmare + CircleCI を利用してSlackにNewRelicのメトリクスグラフやBIレポートを投げるようにした</li>
+  <li>Slackなどチャットツールとのintegrationが無いツールでもグラフを投稿出来るようにした</li>
+  <li>会社のKPIやサービスの状態をSlack上からhubotを利用して誰でも簡単に確認が出来るようになった</li>
+</ul>
+
+<h2 id="section">仕組み</h2>
+
+<p><img src="https://blog.glidenote.com/images/2015/09/nightmare_1.png" alt="" /></p>
+
+<ol>
+  <li>Slack上でHubotを呼び出す(hubot-cronで自動で稼働する)</li>
+  <li>HubotがCircleCIのAPIを叩いて、rebuid</li>
+  <li>CircleCI上でNightmareを利用し、NewRelicやBIツールのスクリーンショットを取得し、s3にアップロード</li>
+  <li>SlackのIncoming webhooksを利用してグラフを投稿する</li>
+</ol>
+
+<h3 id="newrelic">NewRelicにログインしてスクリーンショットを取るスクリプトサンプル</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+</pre></td><td class="code"><pre><code class="js"><span class="line"><span class="kd">var</span> <span class="nx">Nightmare</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;nightmare&#39;</span><span class="p">);</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="nx">urls</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class="line"><span class="nx">urls</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;https://rpm.newrelic.com/accounts/xxxxxxxxxxxxxxxxxxxxxxxxxxx&#39;</span><span class="p">);</span>
+</span><span class="line"><span class="nx">urls</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;https://rpm.newrelic.com/accounts/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#39;</span><span class="p">);</span>
+</span><span class="line"><span class="nx">urls</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;https://rpm.newrelic.com/accounts/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#39;</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="k">for</span><span class="p">(</span><span class="nx">u</span> <span class="k">in</span> <span class="nx">urls</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">urls</span><span class="p">[</span><span class="nx">u</span><span class="p">];</span>
+</span><span class="line">    <span class="kd">var</span> <span class="nx">filename</span> <span class="o">=</span> <span class="s1">&#39;/tmp/tmp&#39;</span> <span class="o">+</span> <span class="nx">i</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span><span class="p">;</span>
+</span><span class="line">    <span class="nx">fs</span><span class="p">.</span><span class="nx">appendFile</span><span class="p">(</span><span class="s1">&#39;/tmp/urls.txt&#39;</span><span class="p">,</span><span class="nx">url</span><span class="o">+</span><span class="s1">&#39;\n&#39;</span><span class="p">);</span>
+</span><span class="line">    <span class="k">new</span> <span class="nx">Nightmare</span><span class="p">()</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">viewport</span><span class="p">(</span><span class="mi">1600</span><span class="p">,</span> <span class="mi">900</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">useragent</span><span class="p">(</span><span class="s2">&quot;Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36&quot;</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="kr">goto</span><span class="p">(</span><span class="s1">&#39;https://login.newrelic.com/login&#39;</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">type</span><span class="p">(</span><span class="s1">&#39;#login_email&#39;</span><span class="p">,</span> <span class="s1">&#39;foobar@sample.com&#39;</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">type</span><span class="p">(</span><span class="s1">&#39;#login_password&#39;</span><span class="p">,</span> <span class="s1">&#39;foobarpass&#39;</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="s1">&#39;#login_submit&#39;</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">wait</span><span class="p">()</span>
+</span><span class="line">      <span class="p">.</span><span class="kr">goto</span><span class="p">(</span><span class="s2">&quot;https://rpm.newrelic.com/set_time_window?tw%5Bdur%5D=last_3_days&quot;</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="kr">goto</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">wait</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">screenshot</span><span class="p">(</span><span class="nx">filename</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">nightmare</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span><span class="line">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Done!&#39;</span><span class="p">);</span>
+</span><span class="line">     <span class="p">});</span>
+</span><span class="line">    <span class="nx">i</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="circleyml"><code>circle.yml</code></h3>
+
+<ul>
+  <li>CircleCI上のphantomjsが古くグラフが正常に表示されないので、<code>2.0.1</code>にバージョンアップしてます。</li>
+  <li>ブランチ毎で処理を変更</li>
+  <li>スクリーンショットをs3にアップロードして、slackにpostするスクリプトはいろいろとハードコードされているので割愛…</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+</pre></td><td class="code"><pre><code class="yaml"><span class="line"><span class="l-Scalar-Plain">dependencies</span><span class="p-Indicator">:</span>
+</span><span class="line">  <span class="l-Scalar-Plain">pre</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bundle install</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">npm install</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sudo apt-get update; sudo apt-get install libicu52</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">curl --output /home/ubuntu/bin/phantomjs-2.0.1-linux-x86_64-dynamic https://s3.amazonaws.com/circle-support-bucket/phantomjs/phantomjs-2.0.1-linux-x86_64-dynamic</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">chmod a+x /home/ubuntu/bin/phantomjs-2.0.1-linux-x86_64-dynamic</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sudo ln -s --force /home/ubuntu/bin/phantomjs-2.0.1-linux-x86_64-dynamic /usr/local/bin/phantomjs</span>
+</span><span class="line">
+</span><span class="line"><span class="l-Scalar-Plain">test</span><span class="p-Indicator">:</span>
+</span><span class="line">  <span class="l-Scalar-Plain">pre</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">phantomjs --version</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">npm test</span>
+</span><span class="line">
+</span><span class="line"><span class="l-Scalar-Plain">deployment</span><span class="p-Indicator">:</span>
+</span><span class="line">  <span class="l-Scalar-Plain">master</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="l-Scalar-Plain">branch</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">master</span>
+</span><span class="line">    <span class="l-Scalar-Plain">commands</span><span class="p-Indicator">:</span>
+</span><span class="line">      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node ./scripts/foobar.js</span>
+</span><span class="line">      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">./bin/post_image_to_slack -c \#bot-test -t &quot;post title&quot; -u &quot;kaizenbot&quot;</span>
+</span><span class="line">
+</span><span class="line">  <span class="l-Scalar-Plain">newrelic-webapp-overview</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="l-Scalar-Plain">branch</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">newrelic/webapp-overview</span>
+</span><span class="line">    <span class="l-Scalar-Plain">commands</span><span class="p-Indicator">:</span>
+</span><span class="line">      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node ./scripts/newrelic-webapp-overview.js</span>
+</span><span class="line">      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">./bin/post_image_to_slack -c \#engineering -t &quot;New Relic Webapp Overview&quot; -u &quot;New Relic Report Bot&quot;</span>
+</span><span class="line">
+</span><span class="line">  <span class="l-Scalar-Plain">newrelic-external-services</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="l-Scalar-Plain">branch</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">newrelic/external-services</span>
+</span><span class="line">    <span class="l-Scalar-Plain">commands</span><span class="p-Indicator">:</span>
+</span><span class="line">      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node ./scripts/newrelic-external-services.js</span>
+</span><span class="line">      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">./bin/post_image_to_slack -c \#engineering -t &quot;New Relic External Services&quot; -u &quot;New Relic Report Bot&quot;</span>
+</span><span class="line">
+</span><span class="line">  <span class="l-Scalar-Plain">domo-variations</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="l-Scalar-Plain">branch</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">domo/variations</span>
+</span><span class="line">    <span class="l-Scalar-Plain">commands</span><span class="p-Indicator">:</span>
+</span><span class="line">      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node ./scripts/domo-variations.js</span>
+</span><span class="line">      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">./bin/post_image_to_slack -c \#general -t &quot;K2 &amp; BP Variations&quot; -u &quot;BI Report Bot&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">実際の動作</h2>
+
+<ul>
+  <li>実際にはhubot-cronを用いて自動で動くようになっています。</li>
+  <li>BIレポートは日替わりで内容を変えるようにしてます。</li>
+  <li>hubotを利用して、誰でも任意のタイミングで実行出来るようにしてます。</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2015/09/nightmare_2.png" alt="" />
+<img src="https://blog.glidenote.com/images/2015/09/nightmare_4.png" alt="" />
+<img src="https://blog.glidenote.com/images/2015/09/nightmare_3.png" alt="" /></p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://blog.kyanny.me/entry/2014/11/15/180032">New Relic のグラフを毎時チャットに貼り付ける - @kyanny’s blog</a></li>
+  <li><a href="http://qiita.com/mizchi/items/04c53e17ed5c4ec7e8d7">NightmareでE2Eテストしつつスクリーンショットとってgifに結合したら目視チェックが最高に楽になった - Qiita</a></li>
+  <li><a href="http://liginc.co.jp/web/programming/node-js/139045">nightmare.jsとgmを使ってnode.jsでLIGブログの更新をSlackでゲットだぜ | 株式会社LIG</a></li>
+  <li><a href="http://www.muratayusuke.com/2015/07/30/test_reactjs_app_with_phantomjs_on_circleci/">Circleci上でPhantomjsを使ってReactアプリをテストする</a></li>
+</ul>
+
+<p>私が悪戦苦闘しているのを横目に、技術顧問が寿司情報を収集するのにサラッと使いこなしていた有益プレゼン死霊</p>
+
+<script async="" class="speakerdeck-embed" data-id="23356e934da04f499b8fe0f7c1f87299" data-ratio="1.33333333333333" src="https://blog.glidenote.com//speakerdeck.com/assets/embed.js"></script>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CDNをAkamaiに切り替えた]]></title>
+    <link href="https://blog.glidenote.com/blog/2015/08/17/move-to-akamai/"/>
+    <updated>2015-08-17T19:10:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2015/08/17/move-to-akamai</id>
+    <content type="html"><![CDATA[<p>2ヶ月くらい前にCDNをAkamaiに切り替えたので、知見を公開。 (<strong>追記 2015年8月18日 私個人の認識不足で用語の使い方に問題があったので一部修正しました</strong> <code>s/SLA 100%/高可用性構成/g</code>)</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://kaizenplatform.com/ja/">Kaizen Platform, Inc.</a>で利用しているCDNをAkamaiに切り替えた</li>
+  <li>Akamaiはスタートアップでも利用出来るコスト感</li>
+  <li>高可用性構成のAkamaiを利用することでCDNの可用性というインフラエンジニア的に頭の痛い問題が減った</li>
+</ul>
+
+<h2 id="cdn-aws-cloudfront-cdn--20151">CDN第一世代 AWS CloudFront CDN (-2015年1月)</h2>
+
+<ul>
+  <li>CDNにCloudFrontを利用</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-1.png" alt="" /></p>
+
+<p>サービスで利用しているインフラのほとんどがAWSで稼働しており、
+その関係でCDNもCloudFrontを選択。</p>
+
+<h2 id="cdn-cloudfront--cdn77-20151-5">CDN第二世代 CloudFront + CDN77 (2015年1月-5月)</h2>
+
+<ul>
+  <li>AWS CloudFrontにおいて、2014年11月、12月と立て続けに障害が発生し、 CloudFrontの障害がサービス提供に与える影響が大きいため、対策を実施。</li>
+  <li>Route53のDNSフェイルオーバーとCloudFront + CDN77を利用し、CDNを冗長構成</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-2.png" alt="" /></p>
+
+<p>対策を講じるにあたりヌーラボさんの下記のブログが大変参考になった。</p>
+
+<ul>
+  <li><a href="https://nulab-inc.com/ja/blog/nulab/how-to-overcome-cloudfront-failure/">実践！ヌーラボサービスでの CloudFront の障害対策 - ヌーラボ [Nulab Inc.]</a></li>
+</ul>
+
+<p>ヌーラボさんの記事を参考に予備系CDNの調査と選定</p>
+
+<h3 id="cdn">当時のCDNの必須要件</h3>
+
+<ul>
+  <li>専用 IP 独自 (SSL Dedicated IP Custom SSL) が利用出来る。</li>
+  <li>Amazon S3をバックエンドに利用出来る</li>
+  <li>日本とUSにエッジがある</li>
+  <li>予備系なので従量課金が良い</li>
+  <li>AWSとは別の独自ネットワーク上に構成されている</li>
+</ul>
+
+<p>当時6社くらいのCDN検証と問い合わせを行い、上記条件を満たすCDNとして<a href="https://www.cdn77.com/">CDN77.com</a>が最適だったので、
+Route53のDNSフェイルオーバーとCloudFront + CDN77を利用し、CDNを冗長構成にした。(ヌーラボさんで利用していたKeyCDNは当時調査していたときSNI Custom SSLしか提供しておらず要件を満たさず)。
+余談ですがCDN77は結構込み入った技術的な質問にも1時間以内で返信してきて、
+サポート体制が素晴らしかったのも選定要因になりました。</p>
+
+<p>CDNの冗長構成を構築したんですが、幸か不幸か、CloudFrontに障害が発生しなかったため、
+予備系のCDN77が稼働することは無かった。</p>
+
+<h2 id="cdn-akamai20156-">CDN第三世代 Akamai(2015年6月-)</h2>
+
+<ul>
+  <li>CDNにAkamaiを利用</li>
+  <li>Akamaiは<del>SLA100%なので利用することはないと思いますが</del>高可用性構成のため利用することはほぼ無さそうですが、予備系としてそれまで稼働していたCloudFrontを残す(<strong>追記 2015年8月18日 誤解を招く表現なので修正しました</strong>)</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-3.png" alt="" /></p>
+
+<h3 id="cloudfront--cnd77">CloudFront + CND77の冗長構成の懸念点</h3>
+
+<ul>
+  <li>検証としてCloudFrontを<code>Disable</code>にしたときには自動でCDN切り替わったが、CloudFrontが実際に障害になったときの挙動が検証不可のため、自動で切り替わるか確認出来ず
+    <ul>
+      <li>Route53のDNSフェイルオーバーに10〜20分程度要する(CloudFrontが完全に反応無くなるまでコンテンツが返ってくるためフェイルオーバーが実行されない)</li>
+    </ul>
+  </li>
+  <li>CloudFrontの障害発生頻度として、年に1〜2回程度なので、そこで正常に冗長構成が稼働するか不安がある</li>
+</ul>
+
+<h3 id="akamai">Akamaiを選択した理由</h3>
+
+<ul>
+  <li>高可用性構成</li>
+  <li>私を含めインフラのメンバー全員前職などでAkamaiを利用していたので、特徴などを把握している</li>
+  <li>数年間Akamaiを利用した経験の中で障害無し</li>
+  <li>担当営業の方の頑張り＆ボリュームディスカウントがあり、スタートアップでも利用できる、財布に優しいコスト感</li>
+</ul>
+
+<h3 id="akamai-with-chatops">Akamai With ChatOps</h3>
+
+<p><a href="https://github.com/ngs/hubot-cloudfront">ngs/hubot-cloudfront</a> で、SlackからCloudFrontのInvalidateを実行していた部分を <a href="https://www.npmjs.com/package/hubot-akamai-ccu">hubot-akamai-ccu</a> を導入し、
+SlackからAkamaiのキャッシュのInvalidateを実行出来るようにもした。</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-4.png" alt="" /></p>
+
+<hr />
+
+<p>この手の話はあまり外に出すような話じゃないかと思うんですが、
+Kaizen Platform, Inc.のエンジニア行動指針というのが、社内Qiita Teamにあって、
+冒頭にCEO <a href="https://twitter.com/sudoken">@sudoken</a>のmessageが載っていて、
+その中に</p>
+
+<blockquote>
+  <p>様々な国や地域で多くの人が前向きに協力したくなるようなオープンな組織や事業でいよう</p>
+</blockquote>
+
+<p>というのがあり、この情報が役に立つ人達もいると思うので公開しました。
+CDNの可用性はインフラエンジニア的にかなり頭の痛い問題だと思いますし、
+参考になれば幸いです。</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-0.png" alt="" /></p>
+
+<p>先日<a href="http://engineer.wantedly.com/2015/08/06/hashicorp-product-meetup.html">Hashicorp Product Meetup</a>に
+参加したときに、KAIZENのエンジニア行動指針を見たいとの意見を頂いたので、
+その他の行動指針を一部公開すると下記のような感じになってます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-5.png" alt="" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[「Amazon Web Services パターン別構築・運用ガイド」が良かった]]></title>
+    <link href="https://blog.glidenote.com/blog/2015/05/21/amazon-web-services-books/"/>
+    <updated>2015-05-21T20:16:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2015/05/21/amazon-web-services-books</id>
+    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/Amazon-Web-Services-%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E5%88%A5%E6%A7%8B%E7%AF%89%E3%83%BB%E9%81%8B%E7%94%A8%E3%82%AC%E3%82%A4%E3%83%89-%E4%B8%80%E7%95%AA%E5%A4%A7%E5%88%87%E3%81%AA%E7%9F%A5%E8%AD%98%E3%81%A8%E6%8A%80%E8%A1%93%E3%81%8C%E8%BA%AB%E3%81%AB%E3%81%A4%E3%81%8F/dp/4797382570?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4797382570"><img src="https://images-fe.ssl-images-amazon.com/images/I/61Kzd4gqkYL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/Amazon-Web-Services-%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E5%88%A5%E6%A7%8B%E7%AF%89%E3%83%BB%E9%81%8B%E7%94%A8%E3%82%AC%E3%82%A4%E3%83%89-%E4%B8%80%E7%95%AA%E5%A4%A7%E5%88%87%E3%81%AA%E7%9F%A5%E8%AD%98%E3%81%A8%E6%8A%80%E8%A1%93%E3%81%8C%E8%BA%AB%E3%81%AB%E3%81%A4%E3%81%8F/dp/4797382570?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4797382570">Amazon Web Services パターン別構築・運用ガイド 一番大切な知識と技術が身につく</a></p>
+
+<p>発売日に買っていたんですが、多忙で感想を書くのを忘れていた。。</p>
+
+<p>前職では業務でAWSをほぼ触らず、6年弱ずっとオンプレミス環境でインフラエンジニアをやっていたので、
+昨年KAIZENへの転職を機にはじめてAWSをガッツリ触るようになった。(個人レベルではもちろん触ってましたが)</p>
+
+<p>AWSを実際に触ってみると</p>
+
+<ul>
+  <li>各サービスの特徴</li>
+  <li>それぞれのサービスを組み合わせた構成例</li>
+  <li>各種設定方法</li>
+</ul>
+
+<p>などについて、体系的に学べる書籍などが無く(あっても情報が古い)、
+ウェブ上の断片的な情報をその都度参照して、
+恐ろしく非効率な方法で習得して、苦労していたので、
+本書は体系的にAWSのことが習得出来るので大変ありがたかった。</p>
+
+<p>リファレンス的に利用出来るので、「この設定どうするんだろう」みたいな時に
+役に立ってくれている。</p>
+
+<p>紙書籍は450ページもあり、ちょっと持ち歩くのがツラそうだったので、 
+Kindle版を購入したんですが、ページが画像として処理されているので、
+ページ送りが非常に遅く、また文字検索が出来ないのがちょっと残念な感じだったけど
+非常にわかりやすく、内容的にはすばらしかった。</p>
+
+<p>AWSはサービス開発のスピードが速く、新機能が増えたり、UIが変わったりと
+変化が激しいので、1〜2年後には訳に立たなくなってしまうかもしれないが、
+現時点(2015年5月)でAWSに関しての体系的な知識を習得するのにはオススメだと思う。</p>
+
+<h2 id="section">本書目次</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+<span class="line-number">74</span>
+<span class="line-number">75</span>
+<span class="line-number">76</span>
+<span class="line-number">77</span>
+<span class="line-number">78</span>
+<span class="line-number">79</span>
+<span class="line-number">80</span>
+<span class="line-number">81</span>
+<span class="line-number">82</span>
+<span class="line-number">83</span>
+<span class="line-number">84</span>
+<span class="line-number">85</span>
+<span class="line-number">86</span>
+<span class="line-number">87</span>
+<span class="line-number">88</span>
+<span class="line-number">89</span>
+<span class="line-number">90</span>
+<span class="line-number">91</span>
+<span class="line-number">92</span>
+<span class="line-number">93</span>
+<span class="line-number">94</span>
+<span class="line-number">95</span>
+<span class="line-number">96</span>
+<span class="line-number">97</span>
+<span class="line-number">98</span>
+<span class="line-number">99</span>
+<span class="line-number">100</span>
+<span class="line-number">101</span>
+<span class="line-number">102</span>
+<span class="line-number">103</span>
+<span class="line-number">104</span>
+<span class="line-number">105</span>
+<span class="line-number">106</span>
+<span class="line-number">107</span>
+<span class="line-number">108</span>
+<span class="line-number">109</span>
+<span class="line-number">110</span>
+<span class="line-number">111</span>
+<span class="line-number">112</span>
+<span class="line-number">113</span>
+<span class="line-number">114</span>
+<span class="line-number">115</span>
+<span class="line-number">116</span>
+<span class="line-number">117</span>
+<span class="line-number">118</span>
+<span class="line-number">119</span>
+<span class="line-number">120</span>
+<span class="line-number">121</span>
+<span class="line-number">122</span>
+<span class="line-number">123</span>
+<span class="line-number">124</span>
+<span class="line-number">125</span>
+<span class="line-number">126</span>
+<span class="line-number">127</span>
+<span class="line-number">128</span>
+<span class="line-number">129</span>
+<span class="line-number">130</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Chapter1 AWSの基本
+</span><span class="line">1-1 AWSとは
+</span><span class="line">クラウドとは
+</span><span class="line">物理サーバ(オンプレミス)とAWSの違い
+</span><span class="line">レンタルサーバ(共有サーバ)とAWSの違い
+</span><span class="line">プライベートクラウドとAWS
+</span><span class="line">AWSのサービス全体像
+</span><span class="line">1-2 AWSのネットワークサービス
+</span><span class="line">リージョンとアベイラビリティゾーン
+</span><span class="line">Virtual Private Cloud (VPC)
+</span><span class="line">Route53
+</span><span class="line">AWSネットワークとVPCネットワーク
+</span><span class="line">1-3 コンピュータ基盤としてのAWS
+</span><span class="line">Amazon Elastic Compute Cloud(EC2)
+</span><span class="line">Amazon Elastic Block Store(EBS)
+</span><span class="line">EC2におけるバックアップ
+</span><span class="line">Amazon Simple Storage Service(Amazon S3)
+</span><span class="line">Amazon Glacier
+</span><span class="line">1-4 アプリケーション基盤としてのAWS
+</span><span class="line">Relational Database Service(RDS)
+</span><span class="line">Elastic Beanstalk
+</span><span class="line">ElastiCache
+</span><span class="line">1-5 サービスとしてのAWS
+</span><span class="line">AWSのアプリケーションサービスの概念
+</span><span class="line">SESとSQS
+</span><span class="line">SNSとCloudWatch
+</span><span class="line">1-6 AWS利用のコスト
+</span><span class="line">AWSの料金体系
+</span><span class="line">AWSの料金計算の仕方
+</span><span class="line">Chapter2 AWSを利用する
+</span><span class="line">2-1 AWS利用の準備
+</span><span class="line">AWSアカウントの作成
+</span><span class="line">ユーザアカウントの作成(IAM)
+</span><span class="line">2-2 AWS CLI
+</span><span class="line">AWS CLIのインストールと設定
+</span><span class="line">AWS CLIの基本的な使用方法
+</span><span class="line">2-3 AWS SDK
+</span><span class="line">サポートされる言語とバージョン
+</span><span class="line">AWS SDKのインストールと設定
+</span><span class="line">AWS SDKの基本的な使用方法
+</span><span class="line">2-4 VPCネットワークの作成
+</span><span class="line">Default-VPC
+</span><span class="line">Custom-VPCを作成する
+</span><span class="line">2-5 仮想コンピュータ(Amazon EC2)の利用
+</span><span class="line">AWS操作用の公開鍵・秘密鍵の作成(KeyPair)
+</span><span class="line">Security Groupを作成する
+</span><span class="line">EC2を起動する
+</span><span class="line">AMIを作成する
+</span><span class="line">ElasticIP(EIP)の利用
+</span><span class="line">2-6 ELB(Elastic Load Balancer)を使用する
+</span><span class="line">ELBのサービス詳細
+</span><span class="line">ELBの作成
+</span><span class="line">Chapter3 パターン別構築例
+</span><span class="line">3-1 EC2を利用した動的サイトの構築
+</span><span class="line">WordPressを使ったブログサイトの構築
+</span><span class="line">ロードバランシングとHTTPSサイトの構築
+</span><span class="line">Marketplacesを利用して、構築済みのインスタンスを利用する
+</span><span class="line">3-2 Elastic Beanstalkによる動的サイトのサーバレス構築
+</span><span class="line">Elastic Beanstalkを利用した再構築
+</span><span class="line">Elastic Beanstalkを利用したロードバランシングとHTTPSサイトの構築
+</span><span class="line">3-3 S3による静的サイトのサーバレス構築
+</span><span class="line">S3による静的サイトの構築
+</span><span class="line">Route53を利用してDNSを設定する
+</span><span class="line">Route53へドメインの移管
+</span><span class="line">CloudFrontとの連携
+</span><span class="line">3-4 Auto Scalingによる自動スケーリングシステムの構築
+</span><span class="line">Auto Scalingの設定
+</span><span class="line">Auto Scalingを利用するためのアプリケーション構成
+</span><span class="line">Auto Scaling使用時のEC2インスタンスの初期化処理
+</span><span class="line">Immutable Infrastructure
+</span><span class="line">3-5 Elastic BeanstalkとLambdaによるバッチサーバの構築
+</span><span class="line">Elastic Beanstalkによるバッチサーバの冗長化構成
+</span><span class="line">Lambdaによるサーバレスな処理システムの構築
+</span><span class="line">3-6 CloudFormationによるテンプレートを利用した自動構築
+</span><span class="line">CloudFormationの概要
+</span><span class="line">CloudFormationによるネットワーク構築
+</span><span class="line">CloudFormationによるサーバ構築
+</span><span class="line">3-7 SESによるメール送信システムの構築
+</span><span class="line">SESを使ってメールを送信する
+</span><span class="line">EC2インスタンスにメールサーバを構築する
+</span><span class="line">外部のメール送信サービスを利用する
+</span><span class="line">3-8 AWS上に開発環境を構築する
+</span><span class="line">開発環境の構築と運用
+</span><span class="line">継続的インテグレーション(CI)を実施する
+</span><span class="line">3-9 モバイルアプリからAWS上のリソースを利用する
+</span><span class="line">Cognitoによるユーザ認証と2-tierアーキテクチャ
+</span><span class="line">AWSのモバイル開発プラットフォーム
+</span><span class="line">SNSによるモバイルプッシュ通知
+</span><span class="line">Chapter4 AWSのセキュリティ
+</span><span class="line">4-1 AWSのセキュリティへの取り組み
+</span><span class="line">責任共有モデル
+</span><span class="line">第三者認証
+</span><span class="line">4-2 IAM(AWS Identity and Access Management)
+</span><span class="line">AWSのアカウント種類
+</span><span class="line">IAMユーザとIAMグループ
+</span><span class="line">IAMロール
+</span><span class="line">4-3 データ暗号化
+</span><span class="line">AWSが提供するデータ暗号化サービス・機能
+</span><span class="line">4-4 WAF・IDS・IPSによる外部からの攻撃対策
+</span><span class="line">外部からの攻撃の種類と防御方法
+</span><span class="line">エージェント型とリバースプロキシ型のサービス導入例
+</span><span class="line">4-5 VPCでネットワークセキュリティを高める
+</span><span class="line">VPCによるSubnet構成
+</span><span class="line">SecurityGroupとNetworkACL
+</span><span class="line">4-6 AWSと脆弱性診断
+</span><span class="line">侵入(ペネトレーション)テスト
+</span><span class="line">侵入(ペネトレーション)テストツール
+</span><span class="line">Chapter5 管理と運用
+</span><span class="line">5-1 ジョブ管理
+</span><span class="line">ジョブ管理システムの概念
+</span><span class="line">サービス型のジョブ管理システム
+</span><span class="line">5-2 システムを監視する
+</span><span class="line">AWSのなかから監視する
+</span><span class="line">AWSの外から監視する
+</span><span class="line">5-3 アラートを通知する
+</span><span class="line">AWSの機能を利用した通知方法
+</span><span class="line">Twilioを利用した電話通知
+</span><span class="line">5-4 データをバックアップする
+</span><span class="line">EBSのデータバックアップ
+</span><span class="line">S3とGlacierを使ったバックアップと管理
+</span><span class="line">AMIの運用方法
+</span><span class="line">5-5 AWSにおけるログ管理
+</span><span class="line">AWSのサービスログ/操作履歴のログを収集保存する
+</span><span class="line">EC2インスタンスのログを収集保存する
+</span><span class="line">5-6 AWSにおけるコスト管理
+</span><span class="line">AWSにおけるコスト管理
+</span><span class="line">AWSのコストを節約する
+</span><span class="line">5-7 AWSの利用を支えるサポートの仕組み
+</span><span class="line">AWSサポート
+</span><span class="line">AWS Trusted Advisor</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://blog.takuros.net/entry/2015/03/02/070323">『Amazon Web Services パターン別構築・運用ガイド』を書きました - プログラマになりたい</a></li>
+  <li><a href="http://blog.takuros.net/entry/2015/03/18/130326">「Amazon Web Services パターン別構築・運用ガイド」の目次 - プログラマになりたい</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Terraform + GitHub + CircleCI + Atlasを利用してAWSの操作を自動化した]]></title>
+    <link href="https://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws/"/>
+    <updated>2015-02-18T19:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://www.terraform.io/">Terraform</a> + <a href="https://github.com/">GitHub</a> + <a href="https://circleci.com/">CircleCI</a> + <a href="https://atlas.hashicorp.com/">Atlas</a> を用いてAWSの操作を自動化した</li>
+  <li>各ツールの役割は下記のような感じ
+    <ul>
+      <li>Terraform =&gt; インフラへの変更ツール </li>
+      <li>GitHub    =&gt; <code>.tf</code>ファイルのバージョン管理</li>
+      <li>CircleCI  =&gt; CI、Terraformをawsに対して実行</li>
+      <li>Atlas     =&gt; インフラの状態を記録する<code>terraform.tfstate</code>の管理</li>
+    </ul>
+  </li>
+  <li><a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">インフラの継続的デリバリー - naoyaのはてなダイアリー</a>にて、言及されていた範囲(Route53の変更、Chefの適用)をAWSの操作全体に拡大した</li>
+</ul>
+
+<h2 id="section">背景</h2>
+
+<h3 id="section-1">今までの問題点</h3>
+
+<ul>
+  <li>AWSの各種操作がブラウザからポチポチ業…</li>
+  <li>手作業なので誤操作に気づきにくい。事故りやすい</li>
+  <li>インフラの実構成がバージョン管理出来ていない</li>
+  <li>ちなみにRoute53に関しては<a href="https://github.com/winebarrel/roadworker">roadworker</a>を用いてコードで管理済みなので、今回はRoute53以外の話です。
+    <ul>
+      <li>refs <a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">インフラの継続的デリバリー - naoyaのはてなダイアリー</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="terraform--github--circleci--atlas-">Terraform + GitHub + CircleCI + Atlas でインフラを管理するメリット</h3>
+
+<ul>
+  <li>ブラウザからのポチポチ業から解放される</li>
+  <li>インフラ構成をコードで管理出来る。バージョン管理が出来る</li>
+  <li>インスタンス追加、EIPの設定などAWSの操作、インフラ構成の変更をGitHubのPR、レビュー、Mergeのプロセスに載せることが出来る</li>
+  <li>自動化が可能になる</li>
+  <li>CircleCI上にインフラ変更のログを保持することが出来る</li>
+  <li>インフラの変更をGitHubのMergeボタンに集約出来る</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/09/c49f738048c64521f7ed981a8d8c9458fdec8347.png" alt="" /></p>
+
+<h2 id="section-2">実装概要</h2>
+
+<p>2015年2月18日現在最新の<code>Terraform v0.3.6</code>を用いて実現している</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/02/terraform001.png" alt="" /></p>
+
+<ol>
+  <li>EC2、EIPなどAWSの変更をコードに書いてGitHubにPush。(Atlasで<code>terraform.tfstate</code>を管理している場合は<code>terraform pull</code>して最新の<code>terraform.tfstate</code>もPush)</li>
+  <li>Pushを契機にCircleCI上で<code>terraform plan --refresh=false</code>を実行してtest。testが通ればPull Requestを作成</li>
+  <li>Pull RequestをmasterにMerge</li>
+  <li>masterへのMergeを契機にCircleCI上からterraformを実行</li>
+  <li><code>terraform apply</code>を実行して、awsに設定を反映</li>
+  <li>Atlasに<code>terraform push</code>して、<code>terraform.tfstate</code>ファイルを管理</li>
+  <li>鮨を食べる</li>
+</ol>
+
+<p>CircleCI上からterraformを実行しているキャプチャ</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/02/terraform002.png" alt="" /></p>
+
+<p>設定ミスやエラーが発生するとFailしてSlackに通知される</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/02/terraform003.png" alt="" /></p>
+
+<h2 id="tf">実際の<code>tf</code>ファイルの感じ</h2>
+
+<ul>
+  <li><a href="https://terraform.io/docs/providers/aws/index.html">Provider: AWS - Terraform by HashiCorp</a></li>
+</ul>
+
+<p>クレデンシャル情報はCircleCI上で暗号化した環境変数を管理していて、Gitリポジトリ内では管理せず、
+CI実行時に生成している。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># credential
+</span><span class="line">provider "aws" {
+</span><span class="line">    access_key    = "XXXXXXXXXXXXXXXXXXXX"
+</span><span class="line">    secret_key    = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+</span><span class="line">    region        = "us-west-1"
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">provider "atlas" {
+</span><span class="line">    token         = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># instance
+</span><span class="line">resource "aws_instance" "dev001_foobar_net" {
+</span><span class="line">    ami             = "ami-xxxxxxxx"
+</span><span class="line">    instance_type   = "t2.micro"
+</span><span class="line">    key_name        = "xxxxxxxxxxxxxxxx"
+</span><span class="line">    security_groups = ["sg-xxxxxxxx"]
+</span><span class="line">    subnet_id       = "subnet-xxxxxxxx"
+</span><span class="line">    tags {
+</span><span class="line">        Name    = "dev001.foobar.net"
+</span><span class="line">        Role    = "common"
+</span><span class="line">        Service = "operator"
+</span><span class="line">        Env     = "dev"
+</span><span class="line">    }
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># eip
+</span><span class="line">resource "aws_eip" "dev001_foobar_net_eip" {
+</span><span class="line">    instance = "i-xxxxxxxx"
+</span><span class="line">    vpc      = true
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>などTerraformは同じディレクトリ内にある<code>.tf</code>ファイルを見てくれるので、
+用途毎で<code>.tf</code>ファイルを分けて運用してます。</p>
+
+<h2 id="section-3">その他</h2>
+
+<ul>
+  <li>2014年8月にTerraformがリリース直後にチャレンジしたが、機能が足りずに実現出来なかったが、半年経過して必要機能が揃い実現出来た。</li>
+  <li>今日現在(2015年2月18日)TerraformにはAWS上の既存設定をファイルに落とし込む機能がないので、一から作る必要がある。</li>
+  <li>今回はインスタンスの一斉リプレイスがあったので、そのタイミングを利用して導入した。</li>
+  <li>AtlasとGitHubの連携機能がリリース予定なので、それがリリースされるとさらに便利になるかもしれない(1月リリース予定だったけど)
+    <ul>
+      <li><a href="https://atlas.hashicorp.com/help/guides/version-control">Using Atlas with GitHub</a></li>
+    </ul>
+  </li>
+  <li>今回はAtlasとTerraformだけを組み合わせたが、AtlasはVagrant、Packer、Consulとも連携が出来るので引き続き検証中</li>
+</ul>
+
+<p><img src="https://d250n10lsq5j8r.cloudfront.net/assets/atlas/atlas-how-to@2x-eabe86b956d3b2032c721da7e834f63c.png" alt="" /></p>
+
+<h2 id="section-4">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/zembutsu/items/93e546df765f8b2c4f32">Terraform簡易チュートリアル on AWS - Qiita</a></li>
+  <li><a href="http://blog.cloudpack.jp/2014/12/17/awe-advent-calendar-2014-elastic-ip-adress-eip/">AWS Advent Calendar 2014 〜 Elastic IP アドレス (EIP) のお話 | cloudpack技術情報サイト</a> </li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Serverspec本を読んで、先鋭化されつつあるWeb系インフラエンジニアを知る]]></title>
+    <link href="https://blog.glidenote.com/blog/2015/01/22/serverspec-book/"/>
+    <updated>2015-01-22T17:46:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2015/01/22/serverspec-book</id>
+    <content type="html"><![CDATA[<p><a href="https://www.amazon.co.jp/Serverspec-%E5%AE%AE%E4%B8%8B-%E5%89%9B%E8%BC%94/dp/4873117097?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4873117097"><img src="https://images-fe.ssl-images-amazon.com/images/I/51P6qVOPALL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/Serverspec-%E5%AE%AE%E4%B8%8B-%E5%89%9B%E8%BC%94/dp/4873117097?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4873117097">Serverspec</a></p>
+
+<p>Serverspecを執筆された<a href="https://twitter.com/gosukenator">mizzyさん</a>からご恵贈頂きました。ありがとうございます。</p>
+
+<p>本書の詳細な紹介はあんちぽさんのブログと、mizzyさんが出演したRebuildがオススメです。</p>
+
+<ul>
+  <li><a href="http://blog.kentarok.org/entry/2015/01/20/010506">Serverspecの作者がつくる、あるひとつのOSS文化 - 書評『Serverspec』 - delirious thoughts</a></li>
+  <li><a href="http://rebuild.fm/75/">Rebuild: 75: Book Driven Development (gosukenator)</a></li>
+</ul>
+
+<p>事前に断っておくと私がここで記載している「インフラエンジニア」はITインフラエンジニアの話です。</p>
+
+<p>以前<a href="https://blog.glidenote.com/blog/2014/10/31/infrastructure-engineer-grows-old/">サーバ/インフラ徹底攻略を本ブログで紹介した</a>あとに、
+書内のある特集を執筆担当された方と話していて、</p>
+
+<blockquote>
+  <p>Web系インフラエンジニアがどんどん先鋭化されつつあって、この本の内容を理解出来る人ってどれくらいいるんだろうね</p>
+</blockquote>
+
+<p>という事を仰っていたのが非常に印象的であった。</p>
+
+<p>先鋭化という言葉を聞いて、昨今のWebインフラエンジニア界隈の技術を思い起こすと、
+Serverspecの登場以前、以後でその先鋭化具合が顕著になったと個人的に思っている。</p>
+
+<h2 id="serverspec">サーバのテスト標準ツールとなったServerspec</h2>
+
+<p>ServerspecはWeb系インフラエンジニアに待望されていたものであり、
+その登場により現在のサーバ構築において</p>
+
+<ol>
+  <li>PuppetやChefなどでインフラのコードを書く</li>
+  <li>適用する</li>
+  <li>Serverspecでテストを実行する</li>
+</ol>
+
+<p>という一連の作業がスタンダードになった。</p>
+
+<p>サーバ構築の一連の作業において一番面倒な確認作業をコードに出来ることで、
+自動化、属人性の排除、CIはもちろん、何が設定されていて、何が動いているのかなどインフラの透明性を高める事が可能になった。</p>
+
+<p>また<a href="https://github.com/serverspec/serverspec">serverspec/serverspec</a>のcontributorsを見ると、
+Web系インフラエンジニアが非常に多いことから分かるように、作者のmizzyさんを中心に、
+Web系インフラエンジニアが自分たちで使うためにPRを送り、それが取り込まれ機能拡張され進化したツールだと思っている。</p>
+
+<h2 id="kaizen-platform-incserverspec">Kaizen Platform, Inc.でのServerspec利用</h2>
+
+<p>私の現在勤める<a href="https://kaizenplatform.com/">Kaizen Platform, Inc.</a>においても、技術顧問であり本書の前書きを担当した<a href="https://twitter.com/naoya_ito">伊藤直也さん</a>によって
+Serverspecは導入され、インフラエンジニアのyoshiakisudo、<a href="https://twitter.com/m_doi">@m_doi</a>により<code>Chef</code> + <code>Serverspec</code> + <code>GitHub</code> + <code>CircleCI</code> + <code>Docker</code> を組み合わせる形に進化し、</p>
+
+<ol>
+  <li>Chefのレシピを書く。Serverspecのテストを書く</li>
+  <li>GitHubにPushする</li>
+  <li>GitHubへのPushを契機にCircleCI上に新規にDockerコンテナを立て、Chefを適用</li>
+  <li>DockerコンテナにServerspecを流してテストを実行する</li>
+</ol>
+
+<p>というサイクルを1日に十数回まわして、インフラの継続的な改善を行っている。</p>
+
+<h3 id="chef">サーバへのChef適用</h3>
+
+<p>余談であるが、サーバへのChef適用は@m_doiのより昨年夏からChatOps化されており、</p>
+
+<p>チャット(Slack)上からhubot経由でGitHub上にデプロイ用PRを作成</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/01/serverspec2.png" alt="" /></p>
+
+<p>作成されたPRのmerge</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/01/serverspec3.png" alt="" /></p>
+
+<p>mergeを契機にCircleCI経由でサーバにChefを適用</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/01/serverspec4.png" alt="" /></p>
+
+<p>というようになっていて、手元やサーバからコマンドラインを操作して実行することはない。</p>
+
+<p>これが可能なのもServerspecにより、インフラコードのテストが行われているためであり、Serverspecの功績は非常に大きい。</p>
+
+<p>Serverspec本を読むことは、Serverspecという強力な武器を手にして、飛躍的に進化し続けているWeb系インフラエンジニアを知るために
+最も有用な手段である。</p>
+
+<p>最近1週間くらいずっとAmazonでベストセラー1位になっているので、もう既にみんな読んでいると思いますが傑作です。</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/01/serverspec0.png" alt="" /></p>
+
+<p>本書内で拙作の</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/serverspec-snippets">glidenote/serverspec-snippets</a></li>
+  <li><a href="https://blog.glidenote.com/blog/2014/06/19/quickrun-serverspec/">vim-quickrunでServerspecをカーソル行単位でテストして編集効率を10倍にする - Glide Note - グライドノート</a></li>
+</ul>
+
+<p>を紹介して頂いて、期せずしてオライリー本デビューをさせていただきました。ありがとうございます</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/01/serverspec1.png" alt="" /></p>
+
+<div class="embed-video-container"><iframe src="https://player.vimeo.com/video/98406679 "></iframe></div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[監視アーキテクチャ(Sensu,Pingdom,Mackerel,StatusPage.io,PagerDuty)についてまとめてみる(2014年12月版)]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014/"/>
+    <updated>2014-12-03T19:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014</id>
+    <content type="html"><![CDATA[<p><a href="http://qiita.com/advent-calendar/2014/sensu">Sensu Advent Calendar</a>に便乗して、<a href="https://kaizenplatform.com/">Kaizen Platform, Inc.</a>の2014年12月現在の監視アーキテクチャの話をちょっとしてみようと思う。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent00.png" alt="" /></p>
+
+<h2 id="section">モニタリング領域</h2>
+
+<p>サービスを監視している領域</p>
+
+<h3 id="pingdom">Pingdom</h3>
+
+<ul>
+  <li><a href="https://www.pingdom.com/">Pingdom - Website Monitoring</a></li>
+  <li>外部ネットワークからのサービスの死活監視。アメリカ、ヨーロッパ、アジアなどの拠点からサービスの死活監視が出来るため、特定の地域からアクセス出来ない場合なのが検知出来る。</li>
+  <li>後述するstatuspage.ioとの連携で、障害を検知すると、サービスのステータス状況が自動で変わるようになっている</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent01.png" alt="" /></p>
+
+<h3 id="sensu">Sensu</h3>
+
+<ul>
+  <li><a href="http://sensuapp.org/">Sensu | The open source monitoring framework.</a></li>
+  <li>監視フレームワーク</li>
+  <li>サーバを内部ネットワークから監視するために利用</li>
+  <li>サーバのプロセス監視、サーバ間の疎通監視、エラー監視など一般的な監視はSensuが担当</li>
+  <li>自作の監視プラグインなども利用して監視</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent02.png" alt="" /></p>
+
+<h3 id="mackerel">Mackerel</h3>
+
+<ul>
+  <li><a href="https://mackerel.io/">Mackerel: A Revolutionary New Kind of Application Performance Management</a></li>
+  <li>メトリクス監視。</li>
+  <li>CPU、メモリ、LA監視などグラフと一緒に確認したいものはMackerelが担当</li>
+  <li>CPUアラートが来たら、Mackerelの画面を見て、いつから現象が発生しているかなどすぐに確認が出来る。</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent03.png" alt="" /></p>
+
+<h2 id="incident-management">Incident Management領域</h2>
+
+<p>アラート通知先や障害情報の自動更新を管理している領域</p>
+
+<h3 id="statuspageio">StatusPage.io</h3>
+
+<ul>
+  <li><a href="https://www.statuspage.io/">StatusPage.io - Hosted Status Pages for Your Company</a></li>
+  <li>サービスのステータスを外部に公開、障害情報の公開に利用。 <a href="http://status.kaizenplatform.net/">Kaizen Platform Inc Status</a></li>
+  <li>Pingdomと連携しているので、サービスに障害があった場合は自動でお知らせが出る。</li>
+  <li>Twitter連携しているので障害情報を公開すると、Twitterアカウントにもお知らせが出せる。</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent04.png" alt="" /></p>
+
+<h3 id="pagerduty">PagerDuty</h3>
+
+<ul>
+  <li><a href="http://www.pagerduty.com/">Incident Management System for IT Monitoring Tools | PagerDuty</a></li>
+  <li>アラートのハンドリングに利用</li>
+  <li>各監視サービスのアラートは全てPagerDutyに集約</li>
+  <li>アラートの通知先をSMS、電話、スマホアプリ、チャットなどに設定出来る。</li>
+  <li>通知スケジュールも細かく設定出来るので、日替わりでエスカレーション先のエンジニアを切り替えている</li>
+  <li>スマホアプリの出来が良い。</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent05.png" alt="" /></p>
+
+<h2 id="infomation--escalation">Infomation / Escalation領域</h2>
+
+<p>お知らせ、エスカレーション領域</p>
+
+<h3 id="twitter">Twitter</h3>
+
+<ul>
+  <li>前述のstatuspage.ioと連携。</li>
+  <li>statuspage.io上で障害情報を掲載するとTwitterにも投稿されるので、障害情報の更新において二度手間が無い。</li>
+</ul>
+
+<h3 id="slack">Slack</h3>
+
+<ul>
+  <li><a href="https://slack.com/">Slack: Be less busy</a></li>
+  <li>各種アラートがPagerDuty経由でSlackに通知される</li>
+  <li>Slackに逐一通知されるんので、アラートの履歴や対応状況などが一目で分かるようになっている</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent06.png" alt="" /></p>
+
+<h3 id="smspush">電話、SMS、メール、アプリへのPush通知など</h3>
+
+<ul>
+  <li>PagerDutyが通知をハンドリングしてくれるので、「最初はSMSにアラートを送って、反応が無ければ○○分後電話する」など通知設定をして運用している。</li>
+  <li>監視担当の人がその日都合が悪かったりした場合など、通知先の変更が簡単にできる。</li>
+</ul>
+
+<h2 id="section-1">その他</h2>
+
+<ul>
+  <li>Mackerelの部分には、<a href="https://www.datadoghq.com/">Datadog</a>も検証。非常に素晴らしいサービスだった。</li>
+  <li>現時点ではDatadogの方が高機能なんですが、MackerelがDatadogの超えてくれるのを期待してMackerelを採用</li>
+</ul>
+
+<p>なぜ複数のサービスを組み合わせて監視しているかは技術顧問の伊藤直也さんのスライドを見ると分かるかと思います。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent07.png" alt="" /></p>
+
+<script async="" class="speakerdeck-embed" data-id="617b55a011990132168932d3f2247bb6" data-ratio="1.33333333333333" src="https://blog.glidenote.com//speakerdeck.com/assets/embed.js"></script>
+
+<p>来年にはガラッと変わっているかもしれないけど、各コンポーネントがAPIで疎結合化されているのでアーキテクチャの変更も容易。</p>
+
+<p>些細な障害、兆候も検知して見逃さないように、いろいろと試行錯誤を繰り返している。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ncコマンドでファイル転送するときにpvコマンドで進捗を表示する]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv/"/>
+    <updated>2014-12-02T10:50:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv</id>
+    <content type="html"><![CDATA[<p>ファイルを送受信するときに暗号化する必要が無い場合は
+高速なので<code>nc</code>コマンドを多用しているんですが、進捗表示の方法を毎回忘れてググっているので自分用にメモ。</p>
+
+<h2 id="section">送信側</h2>
+
+<p><code>3000</code>ポートを転送に使う場合。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">pv hogemoge.zip | nc -l 3000
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">受信側</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">nc foobar.com 3000 | pv &gt; hogemoge.zip
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ファイル転送中は下記みたいな感じで転送済みデータサイズ、転送速度、残り時間、プログレスバーなど進捗が確認出来る</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/nc_pv0.png" alt="" /></p>
+
+<p>簡易的な回線速度の測定にも使えるので、大変便利。</p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/hogem/20101115/1289827270">nc(netcat)で超簡易ファイル転送 - うまいぼうblog</a></li>
+  <li><a href="http://apatheia.info/blog/2011/12/17/pv/">プログレスバーを簡単に表示できるコマンド pv - apatheia.info</a></li>
+  <li><a href="http://www.g-loaded.eu/2006/11/06/netcat-a-couple-of-useful-examples/">Netcat – a couple of useful examples | G-Loaded Journal</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CloudFrontのログをfluent-plugin-bigqueryを利用してBigQueryに入れるようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery/"/>
+    <updated>2014-11-21T14:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li>Amazon CloudFrontのアクセスログをBigQueryに入れるようにした</li>
+  <li>BigQueryへのデータ投入には社内の他プロジェクトでも利用していて実績があり、KAIZENがメンテナになっている<a href="https://github.com/kaizenplatform/fluent-plugin-bigquery">fluent-plugin-bigquery</a>を利用</li>
+</ul>
+
+<h2 id="section">背景</h2>
+
+<p>ここ2ヶ月くらい、あらゆるログをBigQueryに集約しつつあって、今回はAmazon CloudFrontのアクセスログについて作業をした。</p>
+
+<p>Amazon CloudFrontのアクセスログには以下のような特徴がある。</p>
+
+<ul>
+  <li>Amazon CloudFrontのアクセスログは数時間〜1日程度遅れでS3のBucketに追加される。時系列はバラバラ</li>
+  <li>CloudFrontのアクセスログがtsv形式。</li>
+  <li>ベストエフォート型で全てのログがS3に収容される保証は無い</li>
+  <li><code>gz</code>で圧縮されてS3に追加される(BigQueryに入れるにはgz形式から展開する必要がある)</li>
+  <li>ログファイルの数が非常に多い。作業していた環境でだいたい1日に15,000個くらい<code>gz</code>ファイルがあって、全部をダウンロードするのに160分くらいかかる</li>
+</ul>
+
+<p>という感じ。</p>
+
+<h2 id="section-1">仕組みの詳細</h2>
+
+<p>データの流れ</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/cf2bq01.png" alt="" /></p>
+
+<ol>
+  <li>CloudFrontのログが自動でS3に追加される</li>
+  <li>batchサーバから<code>s3cmd sync</code>でcronで定期的にs3からログファイル(<code>gz</code>形式)をローカルに持ってくる</li>
+  <li>batchサーバで、取得したログファイルを<code>zcat ${FILE} &gt;&gt; /var/log/cloudfront/access.log</code> で連結する</li>
+  <li>batchサーバのFluentdで<code>in_tail</code>を用い<code>/var/log/cloudfront/access.log</code>を読み込む</li>
+  <li><code>fluent-plugin-bigquery</code>を用いてBigQueryにデータを投入する(日付毎にデータ投入先のテーブルを分ける)</li>
+</ol>
+
+<p>こんな感じでBigQueryにデータが入っている</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/cf2bq02.png" alt="" /></p>
+
+<p>先日発表された<a href="https://blog.glidenote.com/blog/2014/11/20/s3-event-notificasions/">S3 Event Notificasionsを検証中</a>なので、問題が無ければ、Amazon SQSを利用した処理に切り替え予定。</p>
+
+<h2 id="section-2">この方式を採用した理由</h2>
+
+<ul>
+  <li>私がFluentdの運用に慣れていた。</li>
+  <li>KAIZENがメンテナをしているfluent-plugin-bigqueryを利用したかった</li>
+  <li>BigQueryへのデータ投入部分を自前で実装しなくて良い</li>
+  <li>BigQueryへのデータ投入周りのエラーハンドリング、再送処理をfluent-plugin-bigqueryに任すことが出来る</li>
+  <li>logrotateを利用して、ログの世代管理が出来る。Fluentdがログ切り替えを検知出来る。(nginxのログなど他のアクセスログと同じような感じで扱える)</li>
+  <li>Fluentdを利用しているので、スケールが容易</li>
+  <li><code>/var/log/cloudfront/access.log-YYYYMMDD.gz</code>というように日別でログが分かれているので、障害やトラブル発生時のリカバリーも簡単になっている。(障害が発生した日の15,000個とかのログをS3から持ってきて云々… みたいな面倒な処理が必要ない)</li>
+</ul>
+
+<h2 id="section-3">その他</h2>
+
+<ul>
+  <li>CloudFrontのログがS3に追加されるのが遅い場合1日程度かかるので、翌日のテーブルにデータが入ってしまう。BigQueryからデータを取り出すときに工夫が必要</li>
+  <li>BigQueryにデータ投入先のテーブルが存在しないと死ぬので、別でテーブル作成の仕組みと監視をしておく必要あり。</li>
+  <li>データサイズが大きい場合、テーブルを適切に分割していないとBigQuery破産に。</li>
+  <li>テーブルの自動作成、監視には<a href="https://rubygems.org/gems/bigquery">bigquery</a>を利用</li>
+</ul>
+
+<p>該当部分の<code>td-agent.conf</code>の設定</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&lt;source&gt; 
+</span><span class="line">  type         tail 
+</span><span class="line">  path         /var/log/cloudfront/access.log
+</span><span class="line">  pos_file     /var/log/td-agent/cloudfront-access-log.pos
+</span><span class="line">  tag          extracted.cflog
+</span><span class="line">
+</span><span class="line">  format       tsv
+</span><span class="line">  keys         day,time,x_edge_location,sc_bytes,c_ip,cs_method,cs_Host,cs_uri_stem,sc_status,cs_Referer,cs_User_Agent,cs_uri_query,cs_Cookie,x_edge_result_type,x_edge_request_id,x_host_header,cs_protocol,cs_bytes,time_take
+</span><span class="line">&lt;/source&gt;
+</span><span class="line">
+</span><span class="line">&lt;match extracted.cflog&gt;
+</span><span class="line">  type                        bigquery
+</span><span class="line">
+</span><span class="line">  buffer_type                 file
+</span><span class="line">  buffer_path                 /var/log/td-agent/cf.bq.*.buffer
+</span><span class="line">
+</span><span class="line">  method                      insert
+</span><span class="line">
+</span><span class="line">  auth_method                 private_key
+</span><span class="line">  email                       ''
+</span><span class="line">  private_key_path            ''
+</span><span class="line">
+</span><span class="line">  buffer_chunk_limit          768k
+</span><span class="line">  buffer_queue_limit          5000
+</span><span class="line">  flush_interval              1
+</span><span class="line">  try_flush_interval          0.05 
+</span><span class="line">  num_threads                 10 
+</span><span class="line">  queued_chunk_flush_interval 0.01
+</span><span class="line">
+</span><span class="line">  project                     ''
+</span><span class="line">  dataset                     ''
+</span><span class="line">  table                       %Y%m%d
+</span><span class="line">
+</span><span class="line">  fetch_schema                true
+</span><span class="line">&lt;/match&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>BigQueryにログを集約したことで集計も調査も非常に簡単になって、本当にBigQuery素晴らしい。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[S3 Event NotificasionsをAmazon SQSで受け取る]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions/"/>
+    <updated>2014-11-21T11:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/11/21/s3-event-notificasions</id>
+    <content type="html"><![CDATA[<p>最近やっている仕事で先日発表された<a href="http://aws.typepad.com/aws_japan/2014/11/s3-event-notification.html">S3 Event Notifications</a>が利用出来そうな感じがしたのでちょっと調査。
+S3にファイルがアップされたらAmazon SQSで通知を受け取るようにしてみた。</p>
+
+<p><code>S3 =&gt; SNS =&gt; SQS</code> への通知は解説しているサイトが結構あるんですが、<code>S3 =&gt; SQS</code> への通知設定の
+情報が見当たらなかったので、動くようになるまで、いろいろと試行錯誤を繰り返した。
+特にSQSのPermission設定が恐ろしく分かりにくくに2日くらいハマったので、自分用にメモしておく。</p>
+
+<h2 id="s3-bucket">S3 Bucketの作成</h2>
+
+<p>S3でBucketを作成。既存Bucketを利用する場合はここはSKIP。
+今回は検証用に<code>glidenote-sqs-test</code>という名前でBucketを作成</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e01.png" alt="" /></p>
+
+<h2 id="sqs">SQSの設定</h2>
+
+<p>S3のイベント通知を受け取るQueueを作成する</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e02.png" alt="" /></p>
+
+<p>Queue名を<code>sqs-test</code>をして作成。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e03.png" alt="" /></p>
+
+<p><code>Add a Permission</code>をクリックして通知の受信元を設定する。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e04.png" alt="" /></p>
+
+<p>下記のように設定して、<code>Add Condition</code>を選択</p>
+
+<ul>
+  <li>Valueには<code>arn:aws:s3:::{S3のBucket名}</code>を設定</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e05.png" alt="" /></p>
+
+<p>Actions部分は<code>SendMessage</code>だけ選択して、<code>Add Permission</code> を選択</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e06.png" alt="" /></p>
+
+<p>こんな感じの設定になっていることを確認</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e07.png" alt="" /></p>
+
+<h2 id="s3-event-notifications">S3 Event Notificationsの設定</h2>
+
+<p>S3のイベント通知をSQSに送るように設定。下記の例では<code>PUT</code>と<code>POST</code>イベントのみSQSに通知するように設定</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e08.png" alt="" /></p>
+
+<p>正しく設定が出来ると下記のようになる。SQSのパーミッション設定が上手くてきていないとエラーになる。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/s3e09.png" alt="" /></p>
+
+<h2 id="s3-eventsqs">実際にS3 EventをSQSで受け取る</h2>
+
+<p>下記のようなrubyのスクリプトを用意してSQSでイベントを受信してみる</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1">#!/usr/bin/env ruby</span>
+</span><span class="line"><span class="c1"># -*- coding: utf-8 -*-</span>
+</span><span class="line">
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;aws-sdk&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="no">AWS</span><span class="o">.</span><span class="n">config</span><span class="p">(</span>
+</span><span class="line">  <span class="ss">:access_key_id</span>     <span class="o">=&gt;</span> <span class="s1">&#39;your_access_key_id&#39;</span><span class="p">,</span>
+</span><span class="line">  <span class="ss">:secret_access_key</span> <span class="o">=&gt;</span> <span class="s1">&#39;your_secret_access_key&#39;</span><span class="p">,</span>
+</span><span class="line">  <span class="ss">:sss_endpoint</span>      <span class="o">=&gt;</span> <span class="s1">&#39;sqs.ap-northeast-1.amazonaws.com&#39;</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://sqs.ap-northeast-1.amazonaws.com/xxxxxxxxxxxx/sqs-test&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">sqs</span> <span class="o">=</span> <span class="ss">AWS</span><span class="p">:</span><span class="ss">:SQS</span><span class="o">.</span><span class="n">new</span>
+</span><span class="line">
+</span><span class="line"><span class="k">while</span> <span class="kp">true</span>
+</span><span class="line">  <span class="n">receive</span> <span class="o">=</span> <span class="n">sqs</span><span class="o">.</span><span class="n">queues</span><span class="o">[</span><span class="n">url</span><span class="o">].</span><span class="n">receive_message</span><span class="p">()</span>
+</span><span class="line">  <span class="k">if</span> <span class="n">receive</span>
+</span><span class="line">    <span class="nb">puts</span> <span class="n">receive</span><span class="o">.</span><span class="n">body</span>
+</span><span class="line">    <span class="n">receive</span><span class="o">.</span><span class="n">delete</span>
+</span><span class="line">    <span class="nb">sleep</span> <span class="mi">1</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">  <span class="nb">puts</span> <span class="s2">&quot;Waiting&quot;</span>
+</span><span class="line">  <span class="nb">sleep</span> <span class="mi">1</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>するとほぼリアルタイムで下記のような感じでイベントを受信出来る</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="p">{</span><span class="s2">&quot;Records&quot;</span><span class="p">:</span><span class="o">[</span><span class="p">{</span><span class="s2">&quot;eventVersion&quot;</span><span class="ss">:&quot;2.0&quot;</span><span class="p">,</span><span class="s2">&quot;eventSource&quot;</span><span class="ss">:&quot;aws:s3&quot;</span><span class="p">,</span><span class="s2">&quot;awsRegion&quot;</span><span class="ss">:&quot;ap-northeast-1&quot;</span><span class="p">,</span><span class="s2">&quot;eventTime&quot;</span><span class="ss">:&quot;2014-11-20T06:16:39.474Z&quot;</span><span class="p">,</span><span class="s2">&quot;eventName&quot;</span><span class="ss">:&quot;ObjectCreated:Put&quot;</span><span class="p">,</span><span class="s2">&quot;userIdentity&quot;</span><span class="p">:{</span><span class="s2">&quot;principalId&quot;</span><span class="ss">:&quot;AWLW0VGTI46AA&quot;</span><span class="p">},</span><span class="s2">&quot;requestParameters&quot;</span><span class="p">:{</span><span class="s2">&quot;sourceIPAddress&quot;</span><span class="ss">:&quot;10.115.144.24&quot;</span><span class="p">},</span><span class="s2">&quot;responseElements&quot;</span><span class="p">:{</span><span class="s2">&quot;x-amz-request-id&quot;</span><span class="ss">:&quot;E1C0A0C1F42CAA54&quot;</span><span class="p">,</span><span class="s2">&quot;x-amz-id-2&quot;</span><span class="ss">:&quot;0p2FzYuEkiyaZn/n33XJLYjE3cmePkiqEFF5NMYy+c1PSGTNfmUf+Msou4Mejnr0&quot;</span><span class="p">},</span><span class="s2">&quot;s3&quot;</span><span class="p">:{</span><span class="s2">&quot;s3SchemaVersion&quot;</span><span class="ss">:&quot;1.0&quot;</span><span class="p">,</span><span class="s2">&quot;configurationId&quot;</span><span class="ss">:&quot;S3TestNotification&quot;</span><span class="p">,</span><span class="s2">&quot;bucket&quot;</span><span class="p">:{</span><span class="s2">&quot;name&quot;</span><span class="ss">:&quot;glidenote-sqs-test&quot;</span><span class="p">,</span><span class="s2">&quot;ownerIdentity&quot;</span><span class="p">:{</span><span class="s2">&quot;principalId&quot;</span><span class="ss">:&quot;AWLW0VGTI46AA&quot;</span><span class="p">},</span><span class="s2">&quot;arn&quot;</span><span class="ss">:&quot;arn:aws:s3:::glidenote-sqs-test&quot;</span><span class="p">},</span><span class="s2">&quot;object&quot;</span><span class="p">:{</span><span class="s2">&quot;key&quot;</span><span class="ss">:&quot;shindel.png&quot;</span><span class="p">,</span><span class="s2">&quot;size&quot;</span><span class="p">:</span><span class="mi">794485</span><span class="p">,</span><span class="s2">&quot;eTag&quot;</span><span class="ss">:&quot;b52627268c0e9071be00c5a38fdbc912&quot;</span><span class="p">}}}</span><span class="o">]</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>リアルタイムでS3のイベントを受信するにはSQSと常時通信しているために
+Supervisordなどを用いてスクリプトを動かす必要があり。</p>
+
+<p>これでリアルタイムな処理に対応が出来るようになった。ちょっと現在やってるタスクに適用出来るかしばらく検証してみる。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.cloudpack.jp/2014/11/17/white-belt-22-new-feature-amazon-s3-notification-sns-sqs-and-raspberry-pi/">Amazon S3 Event Notifications</a></li>
+  <li><a href="http://docs.aws.amazon.com/ja_jp/AmazonS3/latest/dev/NotificationHowTo.html">バケットイベントの通知の設定 - Amazon Simple Storage Service</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

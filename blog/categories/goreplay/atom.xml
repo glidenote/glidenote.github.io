@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: goreplay | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/goreplay/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GoReplayを導入して、Production環境へのリクエストを複製し、Staging環境に転送する仕組みを作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/12/16/goreplay/"/>
+    <updated>2016-12-16T15:25:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/12/16/goreplay</id>
+    <content type="html"><![CDATA[<p>結構前に作っていたんですが、いろいろと忙しくてブログに書くタイミングを失していたので年末のタイミングで紹介。</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://github.com/buger/goreplay">GoReplay</a>を利用して、Production環境のリクエストを複製し、Stagins環境、開発環境に投げる仕組みを作った</li>
+  <li>インフラ構成の大きな変更無しで、手軽にProduction環境の実リクエストを複製し、開発、動作検証ができるようになった</li>
+  <li>2016年の弊社サービスのDocker化や、インフラ構成の大幅な変更、ミドルウェアのアップデート、アプリの改修時のバグ事前検知と事故防止に大いに役に立った</li>
+</ul>
+
+<h2 id="goreplay">GoReplayの説明</h2>
+
+<ul>
+  <li><a href="https://github.com/buger/goreplay">GoReplay</a></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/12/gor0.png" alt="" /></p>
+
+<ul>
+  <li>Goで書かれており、バイナリを設置し、オプションを指定し実行するだけで動作する</li>
+  <li>アプリが稼働しているサーバで動く。(例えばNginx+Railsが稼働しているサーバで一緒にGoReplayを動かす感じ。)</li>
+  <li>libpcap を利用しているので、tpcdumpと同じでデータリンク層(OSI layer2)レベルでパケットを取得しています。</li>
+  <li>GoReplay は <code>gor listen</code> と <code>gor replay</code> の2つが1セットで動作します。
+    <ul>
+      <li><code>gor listen</code> がリクエストを複製し、<code>App</code> と <code>gor replay</code> に渡す。</li>
+      <li><code>gor replay</code> がリクエストを転送したり、ファイルに書き込んだり、再生作業をする。</li>
+    </ul>
+  </li>
+  <li>複製の割合や、複数の転送先、リクエストのフィルタリング設定などがあり高機能。
+    <ul>
+      <li><a href="https://github.com/buger/goreplay/wiki">https://github.com/buger/goreplay/wiki</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>私の理解が正しければ下記のような感じで動作してます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/12/gor1.png" alt="" /></p>
+
+<h2 id="shadow-proxy">Shadow Proxyとの比較</h2>
+
+<ul>
+  <li>アプリサーバで<strong>必要な時に手軽に動かせる</strong>。</li>
+  <li>動作が軽快</li>
+  <li>インフラ構成的に利用時に事故が起こりにくい(サービスの全リクエストを裁くわけではないので)</li>
+</ul>
+
+<p>今回なぜShadow Proxyを利用しなかったのかは後述。</p>
+
+<h2 id="section">実際に稼働している例で説明</h2>
+
+<p>実際に弊社で動かしている環境をざっくり図にして説明。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/12/gor2.png" alt="" /></p>
+
+<ul>
+  <li>Productionリリース予定のコードがデプロイされている、Stagingサーバを用意。</li>
+  <li><code>Production frontend</code>の１台で、GoReplayを動かしリクエストを複製し、ステージングサーバ<code>Staging frontend</code>にリクエストをProductionと同じリクエストを投げる。</li>
+  <li>Productionのデータと一緒にならないように、ステージング用に <code>staging aggregator</code> と データ格納先の <code>staging BigQuery</code> を用意。</li>
+  <li>下記コマンドのような形で動かし、Productionの1台に流れてきたリクエストを10%の割合で複製し、ステージングサーバに転送します。</li>
+  <li>echoサーバを作って、ベンチをとった結果(後述)、リクエストを100%複製し転送すると、パフォーマンスが劣化するので複製・転送の割合10%だけにしてます。</li>
+  <li>実際の運用ではSupervisordを利用して、GoReplayの軌道を管理</li>
+  <li>次期リリース予定のコードやインフラに問題があれば、StagingサーバのbugsnagなどがキャッチしてSlackにPostされる。</li>
+</ul>
+
+<p><code>sh
+sudo gor --input-raw :8080 --output-http "http://stating901.example.com|10%"
+</code></p>
+
+<h2 id="goreplay-1">GoReplay利用時のベンチマーク</h2>
+
+<p>nginx + echo-nginx-module を利用して、GoReplayの複製割合に応じてどれくらいパフォーマンスが劣化するか下記のような形でベンチマークを取得。</p>
+
+<p><code>sh
+ab -n 10000 -c 100 http://hogemoge.example.com/hello
+</code></p>
+
+<p>0%はGoReplayの利用無し、100%の場合はGoReplayで全トラフィックを複製して転送する。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>0%</th>
+      <th>10%</th>
+      <th>20%</th>
+      <th>50%</th>
+      <th>100%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>RPS</td>
+      <td>2254.49</td>
+      <td>1944.42</td>
+      <td>1782.10</td>
+      <td>1403.82</td>
+      <td>1023.71</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>GoReplayで転送率を100%にして、全トラフィックを複製かけるとパフォーマンスが劣化するので、インフラを増強しておく必要あり。</p>
+
+<hr />
+
+<p>ここから余談で、どうしてShadow Proxyを導入しなかったのか過去の経験と個人的な意見をちょっと書いてみる。</p>
+
+<h2 id="shadow-proxy-1">リクエストを複製するShadow Proxyの話</h2>
+
+<p>リクエストを複製するShadow Proxyと呼ばれるものは昔から存在します。</p>
+
+<ul>
+  <li><a href="https://github.com/cookpad/kage">cookpad/kage: Kage (kah-geh) is a shadow proxy server to duplex HTTP requests</a></li>
+  <li><a href="https://github.com/lestrrat/p5-Geest">lestrrat/p5-Geest: Port of Kage</a></li>
+  <li><a href="https://github.com/kentaro/delta">kentaro/delta: HTTP shadow proxy server written in Go</a></li>
+</ul>
+
+<p>Shadow Proxy利用時の一般的な構成</p>
+
+<p><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/a/antipop/20131212/20131212195546.png" alt="" /></p>
+
+<h3 id="shadow-proxy1">Shadow Proxyの問題点(※1)</h3>
+
+<ul>
+  <li>構成的にロードバランサの次あたりに存在(リクエスト処理する構成の前段の方に存在)するので非常に高い信頼性が求められる。</li>
+  <li>構成的に全リクエストがShadow Proxyを経由し、backendのサーバに到達するため、Shadow Proxyがボトルネックになりやすい。
+    <ul>
+      <li>各種Shadow Proxyのベンチマーク <a href="http://qiita.com/kentaro/items/17e2c334a902677af995#%E3%83%99%E3%83%B3%E3%83%81%E3%83%9E%E3%83%BC%E3%82%AF%E7%B5%90%E6%9E%9C">Go言語を含む複数種類の言語により実装されたソフトウェアのベンチマーク - Qiita</a></li>
+    </ul>
+  </li>
+  <li>インフラの構成的にサービスの全リクエストを処理する必要があるので、気軽に利用出来ない。稼働中のサービスに後から投入しにくい</li>
+  <li>全リクエストがShadow Proxyを通過する構成になっていると、<strong>Shadow Proxyが落ちるとサービス全部落ちる</strong></li>
+  <li>上記を解消しShadow Proxyを安定的に稼働しようとすると、インフラが複雑化して障害点が増えやすい</li>
+</ul>
+
+<p>※1 2年以上前の経験から得た知見なので、もしかして今は違うかもしれませんが。</p>
+
+<p>この仕組みを作ったおかげで、Production環境のリクエストを利用し事前に動作検証が出来るので、今年は事故も心理的な負担がだいぶ減ったと思う。</p>
+]]></content>
+  </entry>
+  
+</feed>

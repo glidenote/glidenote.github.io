@@ -1,0 +1,728 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="社内ファイルサーバの共有ディレクトリをautofsを使って自動NFSマウントするようにしたので作業メモ. 作業環境 Lion(10.7.3) やりたいこと MacBookAirの~/mnt/hogeに共有サーバpos002.tokyo.pbの/data/sites/hogeを自動マウントしたい / &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/30/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/30">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="社内ファイルサーバの共有ディレクトリをautofsを使って自動NFSマウントするようにしたので作業メモ. 作業環境 Lion(10.7.3) やりたいこと MacBookAirの~/mnt/hogeに共有サーバpos002.tokyo.pbの/data/sites/hogeを自動マウントしたい /etc/auto_master の修正 auto_masterに下記を追加 1
+/Users/ &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/13/lion-autofs-nfs/">Lionでautofsを使って、ファイルサーバを自動マウント</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-13T19:00:00+09:00" pubdate data-updated="true">2012年03月13日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>社内ファイルサーバの共有ディレクトリをautofsを使って自動NFSマウントするようにしたので作業メモ.</p>
+
+<p>作業環境 Lion(10.7.3)</p>
+
+<h2 id="section">やりたいこと</h2>
+
+<p>MacBookAirの<code>~/mnt/hoge</code>に共有サーバ<code>pos002.tokyo.pb</code>の<code>/data/sites/hoge</code>を自動マウントしたい</p>
+
+<h2 id="etcautomaster-">/etc/auto_master の修正</h2>
+
+<p><code>auto_master</code>に下記を追加</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/Users/maeda/mnt    /etc/auto_nfs</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="etcautonfs-">/etc/auto_nfs を新規作成</h2>
+
+<p>NFSマウント用の設定を新規に用意</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">hoge -fstype=nfs pos002.tokyo.pb:/data/sites/hoge</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="autofsd">autofsdの再起動</h2>
+
+<p>autofsdはlaunchd経由で起動しているので、下記コマンドで再起動</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo launchctl stop com.apple.autofsd
+</span><span class="line">sudo launchctl start com.apple.autofsd</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">自動マウントされているか確認</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">df -ah
+</span><span class="line">
+</span><span class="line">Filesystem                                Size   Used  Avail Capacity  Mounted on
+</span><span class="line">/dev/disk0s2                             112Gi   36Gi   76Gi    33%    /
+</span><span class="line">devfs                                    183Ki  183Ki    0Bi   100%    /dev
+</span><span class="line">map -hosts                                 0Bi    0Bi    0Bi   100%    /net
+</span><span class="line">map auto_home                              0Bi    0Bi    0Bi   100%    /home
+</span><span class="line">map /etc/auto_nfs                          0Bi    0Bi    0Bi   100%    /Users/maeda/mnt
+</span><span class="line">pos002.tokyo.pb:/data/sites/hoge  997Gi   53Gi  944Gi     6%    /Users/usr0600093/mnt/hoge</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>うまく自動マウントしてくれました。<br />
+これでマシンを再起動しても自動で共有ディレクトリをマウントしてくれます。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/05/bijogoyomi/">bijogoyomi</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-05T02:50:00+09:00" pubdate data-updated="true">2012年03月05日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+  <li><a href="http://www.bijogoyomi.com/bijo3/index.php/2012/03/05">美女暦（BIJO ごよみ）| bijogoyomi.com</a></li>
+  <li><a href="http://ameblo.jp/minka-ri/">☆ミンカ・リーの☆民家２階の障子の隙間からこんにちは</a></li>
+  <li><a href="http://www.bijogoyomi.com/bijo3/search.php?name=%E3%83%9F%E3%83%B3%E3%82%AB%E3%83%BB%E3%83%AA%E3%83%BC&amp;x=0&amp;y=0">その他の美女暦</a></li>
+</ul>
+
+<p><a href="http://www.bijogoyomi.com/bijo3/index.php/2012/03/05"><img src="https://blog.glidenote.com/images/2012/03/bijogoyomicom.png" /></a></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir ~/tmp
+</span><span class="line">cd ~/tmp
+</span><span class="line">curl -o image#1.jpg 'http://www.bijogoyomi.com/bijo/img2.php?m=if&amp;i=20120305_d3ebbd_pc_[01-20].jpg'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/bijogoyomicom2.png" alt="" /></p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/29/autojump-zsh/">zsh使いなら効率改善のため知っておきたいAUTOJUMP</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-29T10:00:00+09:00" pubdate data-updated="true">2012年02月29日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+  <li><a href="https://github.com/joelthelion/autojump">joelthelion/autojump - GitHub</a></li>
+</ul>
+
+<p>zsh補完関数の書き方をいろいろ調べていたら、<code>autojump-zsh</code>というパッケージを発見。
+気になって使ってみたらめちゃくちゃ便利で、久々に感動したので紹介。</p>
+
+<p><code>autojump</code>は<code>cd</code>コマンドの拡張的なコマンドで、移動したディレクトリを記録し、
+ディレクトリ間を行ったり来たりするときに絶大な効果を発揮します。</p>
+
+<p><a href="https://github.com/joelthelion/autojump/wiki/">公式wiki</a>に書いてあるよう
+コマンドライン作業の10〜20%は<code>cd</code>コマンドのため、ディレクトリ移動の動作が
+改善すると必然的に作業効率も向上するということです。<br />
+実際私もautojumpを使い出してから、作業効率が上がりました。</p>
+
+<p>それでは早速autojumpの説明を。動作検証環境は下記です。</p>
+
+<ul>
+  <li>Mac OSX 10.7.3</li>
+  <li>Fedora 16</li>
+  <li>Scientifix Linux 6.1</li>
+</ul>
+
+<h2 id="section">導入方法</h2>
+
+<p>autojumpを利用するにはpython2.6か3.0以上が必要です。<br />
+yumやbrewでも導入可能ですが、その場合はzsh補完関数<code>_j</code>ファイルを
+自分で配置するあげる必要があります。</p>
+
+<p>私は下記のようにソースから入れました。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir ~/src
+</span><span class="line">cd ~/src
+</span><span class="line">git clone git://github.com/joelthelion/autojump.git
+</span><span class="line">cd autojump
+</span><span class="line">sudo sh ./install.sh --zsh</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><strong>2012年3月3日追記 MacでBrewを使って導入する方法</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">brew install autojump</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>.zshrcに下記を追記。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">alias j="autojump"
+</span><span class="line">if [ -f `brew --prefix`/etc/autojump ]; then
+</span><span class="line">  . `brew --prefix`/etc/autojump
+</span><span class="line">fi</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>j</code>でautojumpが動かない場合があるようなので、その場合はalias設定も追加。</p>
+
+<h2 id="autojumpzsh">autojumpのzsh補完関数の配置</h2>
+
+<p>autojumpは同梱されているzshの補完関数<code>_j</code>で<strong>真価を発揮する</strong>ので、
+補完関数を<code>$fpath</code>に配置。</p>
+
+<p>$fpathの調べ方は下記のような感じで</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">echo $fpath
+</span><span class="line">/usr/local/share/zsh/site-functions /usr/local/share/zsh/4.3.12/functions</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>通常は
+<code>/usr/share/zsh/site-functions/</code>や<code>/usr/local/share/zsh/site-functions/</code>
+などになるかと思います。</p>
+
+<p>私は下記のような感じで配置。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo cp ~/src/autojump/_j /usr/local/share/zsh/site-functions/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>exec zsh</code>では、なぜかautojumpが有効にならないので、ログインし直した方が良いです。</p>
+
+<h2 id="section-1">利用方法</h2>
+
+<p><code>cd</code>コマンドで移動するたび<code>~/.local/share/autojump/autojump.txt</code>にディレクトリ名と回数が記録され、
+次回そのディレクトリに移動する際は<code>j</code>コマンドを用いて</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">j ディレクトリ名の一部[tab]</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>という感じで移動出来ます。</p>
+
+<p>たとえば<code>~/misc/hogehoge</code>というディレクトリの場合、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">j h[tab]
+</span><span class="line">または
+</span><span class="line">j ge[tab]</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>などディレクトリの一部だけ入力して移動でき、<strong>キー入力の回数が激減</strong>です。</p>
+
+<p>ちなみにautojump出来るディレクトリのリストは</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">jumpstat</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>で確認が出来ます。</p>
+
+<p>使い始めは「<code>ctrl+r ディレクトリ名</code>とかで十分じゃん」とか「zshのディレクトリスタック使えば良いじゃん」
+とか思ってたんですが、使い込むうちにautojumpだとカレントディレクトリとか移動先のディレクトリの
+相対パスと絶対パスを意識しなくて良いことがわかり、何より<strong>キー入力の数が格段に減る</strong>ので、
+今ではautojump無しの生活は考えられなくなりました。</p>
+
+<p>autojumpを活用して作業効率を改善させましょう。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/25/hub-zsh-completion/">githubのhubコマンドを補完するzsh補完関数を作ってみた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-25T03:00:00+09:00" pubdate data-updated="true">2012年02月25日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+  <li><a href="https://github.com/defunkt/hub">defunkt/hub - GitHub</a></li>
+</ul>
+
+<p>github用に<code>hub</code>という<code>git</code>のラッパーコマンドがあることを会社で教えてもらって
+使ってみたら、当然の如くzshの補完が効かなくてコマンドの使い方もよく分からなかったので、
+コマンド理解とzsh補完関数の書き方の勉強も兼ねて自分で作ってみた。</p>
+
+<p>最初はhubコマンドの補完関数を作ってたんですが、利用方法としてaliasを充てて
+gitの代わりに使うことが推奨されており、そもそもgitのラッパーで
+gitコマンドの補完も出来ないと意味が無いので、gitの補完関数自体に
+手を入れて、hubのカスタムコマンドも利用出来るようにした。</p>
+
+<p>検証環境は下記</p>
+
+<ul>
+  <li>Mac OSX 10.7.3, Scientific Linux 6.1</li>
+  <li>git version 1.7.7.5</li>
+  <li>hub version 1.8.2</li>
+  <li>zsh 4.3.11, 4.3.12</li>
+</ul>
+
+<p><code>/usr/local/share/zsh/4.3.11/functions/_git</code>を元に修正した内容は下記</p>
+
+<div><script src="https://gist.github.com/1898417.js"></script>
+<noscript><pre><code>diff --git a/test_zsh-completion/_git b/test_zsh-completion/_git
+index 8a48c04..b3d53ea 100644
+--- a/test_zsh-completion/_git
++++ b/test_zsh-completion/_git
+@@ -4700,6 +4700,15 @@ _git_commands () {
+     patch-id:&#39;compute unique ID for a patch&#39;
+     stripspace:&#39;filter out empty lines&#39;)
+
++  local -a hub_custom_commands
++  hub_custom_commands=(
++    create:&quot;repo created on GitHub&quot;
++    browse:&quot;open repository&#39;s GitHub page in the system&#39;s default web browser&quot;
++    compare:&quot;open a GitHub compare view page in the system&#39;s default web browser.&quot;
++    fork:&quot;repo forked on GitHub&quot;
++    pull-request:&quot;opens a pull request on GitHub for the project that the &#39;origin&#39; remote points to.&quot;
++        )
++
+   local -a user_commands
+   zstyle -a :completion:$curcontext: user-commands user_commands
+
+@@ -4725,6 +4734,7 @@ _git_commands () {
+        plumbing_sync_commands[(I)$name:*] ||
+        plumbing_sync_helper_commands[(I)$name:*] ||
+        plumbing_internal_helper_commands[(I)$name:*] )) || unique_aliases+=$alias
++       hub_custom_commands[(I)$name:*] ||
+   done
+
+   integer ret=1
+@@ -4743,6 +4753,7 @@ _git_commands () {
+   _describe -t plumbing-sync-commands &#39;plumbing sync command&#39; plumbing_sync_commands &amp;&amp; ret=0
+   _describe -t plumbing-sync-helper-commands &#39;plumbing sync helper command&#39; plumbing_sync_helper_commands &amp;&amp; ret=0
+   _describe -t plumbing-internal-helper-commands &#39;plumbing internal helper command&#39; plumbing_internal_helper_commands &amp;&amp; ret=0
++  _describe -t hub-custom-command &#39;hub custom command&#39; hub_custom_commands  &amp;&amp; ret=0
+
+   return ret
+ }</code></pre></noscript></div>
+
+<p>できあがったのがこちら</p>
+
+<p><strong>追記 2012年2月27日 githubに公開しました</strong></p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/hub-zsh-completion">glidenote/hub-zsh-completion - GitHub</a></li>
+</ul>
+
+<h2 id="section">利用方法</h2>
+
+<p>hubをあらかじめ導入しておいて、<code>$fpath</code>配下に上記補完関数を配置。
+もとからある<code>_git</code>と重複しても<code>site-functions</code>配下に置くと
+優先的にそちらが利用されます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir ~/src
+</span><span class="line">cd ~/src
+</span><span class="line">git clone git://github.com/glidenote/hub-zsh-completion.git
+</span><span class="line">sudo cp hub-zsh-completion/_git /usr/share/zsh/site-functions/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>.zshrc</code>に下記を書いて、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">alias git='hub'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">exec zsh</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>をして、反映させる。</p>
+
+<p>hubをgitのラッパーとして動作させると、<code>git [tab]</code>で下記hubカスタムコマンドが補完されるようになります。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">browse              -- open repository's GitHub page in the system's default web browser
+</span><span class="line">compare             -- open a GitHub compare view page in the system's default web browser.
+</span><span class="line">create              -- repo created on GitHub
+</span><span class="line">fork                -- repo forked on GitHub
+</span><span class="line">pull-request        -- opens a pull request on GitHub for the project that the 'origin' remote points to.</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>それにしてもgitの補完関数6000行超えてて、同じようなのを自分で一から書こうとすると心が折れます。</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/marutanm/20110720/p1">hubコマンドがけっこう使えるっぽい - Meltdown Countdown</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/23/rudix-zsh-completion/">Rudixのzsh補完関数を作った</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-23T02:25:00+09:00" pubdate data-updated="true">2012年02月23日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://blog.glidenote.com/blog/2011/12/29/rudix-on-mac/">以前紹介したMacのパッケージ管理ソフト Rudix</a>のzsh補完関数を作ってみました。<br />
+zsh補完関数は初めて書いたんですが、ウェブに情報が少なくて、
+<a href="https://github.com/mizzy/maglica/blob/master/misc/zsh/functions/_maglica">mizzyさんの書いた補完関数</a>
+と<code>$fpath</code>の下にあるzshの補完関数などを参考に。</p>
+
+<p><strong>2012年2月27日 githubに公開しました</strong></p>
+
+<p><a href="https://github.com/glidenote/rudix-zsh-completion">glidenote/rudix-zsh-completion</a></p>
+
+<p><code>/usr/local/share/zsh/site-functions</code> に置けば、下記のような感じで動作します。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/zsh-rudix1.png" alt="" /></p>
+
+<p>書いてて一番難しかったインストール済みパッケージ情報も補完されるようにしてます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/zsh-rudix2.png" alt="" /></p>
+
+<p>Command Line Tools for Xcodeがリリースされて、今後もRudixを使い続けるか微妙ですが、
+zsh補完関数の書き方が多少理解できたので良しとしよう。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="https://github.com/mizzy/maglica/blob/master/misc/zsh/functions/_maglica">misc/zsh/functions/_maglica at master from mizzy/maglica - GitHub</a></li>
+  <li><a href="http://www.ayu.ics.keio.ac.jp/~mukai/translate/write_zsh_functions.html">zsh補完関数の書き方(訳)</a> </li>
+  <li><a href="http://hakobe932.hatenablog.com/entry/2012/02/13/214934">zsh補完関数を自作すると便利 - はこべブログ♨</a></li>
+  <li><a href="http://www.hexacosa.net/blog/detail/122/">少し前にsupervisord/supervisorctlのZsh補完関数書いた | hexacosa.net</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/31/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/29/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

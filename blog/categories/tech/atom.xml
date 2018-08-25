@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tech | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/tech/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[CDNをAkamaiに切り替えた]]></title>
+    <link href="https://blog.glidenote.com/blog/2015/08/17/move-to-akamai/"/>
+    <updated>2015-08-17T19:10:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2015/08/17/move-to-akamai</id>
+    <content type="html"><![CDATA[<p>2ヶ月くらい前にCDNをAkamaiに切り替えたので、知見を公開。 (<strong>追記 2015年8月18日 私個人の認識不足で用語の使い方に問題があったので一部修正しました</strong> <code>s/SLA 100%/高可用性構成/g</code>)</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://kaizenplatform.com/ja/">Kaizen Platform, Inc.</a>で利用しているCDNをAkamaiに切り替えた</li>
+  <li>Akamaiはスタートアップでも利用出来るコスト感</li>
+  <li>高可用性構成のAkamaiを利用することでCDNの可用性というインフラエンジニア的に頭の痛い問題が減った</li>
+</ul>
+
+<h2 id="cdn-aws-cloudfront-cdn--20151">CDN第一世代 AWS CloudFront CDN (-2015年1月)</h2>
+
+<ul>
+  <li>CDNにCloudFrontを利用</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-1.png" alt="" /></p>
+
+<p>サービスで利用しているインフラのほとんどがAWSで稼働しており、
+その関係でCDNもCloudFrontを選択。</p>
+
+<h2 id="cdn-cloudfront--cdn77-20151-5">CDN第二世代 CloudFront + CDN77 (2015年1月-5月)</h2>
+
+<ul>
+  <li>AWS CloudFrontにおいて、2014年11月、12月と立て続けに障害が発生し、 CloudFrontの障害がサービス提供に与える影響が大きいため、対策を実施。</li>
+  <li>Route53のDNSフェイルオーバーとCloudFront + CDN77を利用し、CDNを冗長構成</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-2.png" alt="" /></p>
+
+<p>対策を講じるにあたりヌーラボさんの下記のブログが大変参考になった。</p>
+
+<ul>
+  <li><a href="https://nulab-inc.com/ja/blog/nulab/how-to-overcome-cloudfront-failure/">実践！ヌーラボサービスでの CloudFront の障害対策 - ヌーラボ [Nulab Inc.]</a></li>
+</ul>
+
+<p>ヌーラボさんの記事を参考に予備系CDNの調査と選定</p>
+
+<h3 id="cdn">当時のCDNの必須要件</h3>
+
+<ul>
+  <li>専用 IP 独自 (SSL Dedicated IP Custom SSL) が利用出来る。</li>
+  <li>Amazon S3をバックエンドに利用出来る</li>
+  <li>日本とUSにエッジがある</li>
+  <li>予備系なので従量課金が良い</li>
+  <li>AWSとは別の独自ネットワーク上に構成されている</li>
+</ul>
+
+<p>当時6社くらいのCDN検証と問い合わせを行い、上記条件を満たすCDNとして<a href="https://www.cdn77.com/">CDN77.com</a>が最適だったので、
+Route53のDNSフェイルオーバーとCloudFront + CDN77を利用し、CDNを冗長構成にした。(ヌーラボさんで利用していたKeyCDNは当時調査していたときSNI Custom SSLしか提供しておらず要件を満たさず)。
+余談ですがCDN77は結構込み入った技術的な質問にも1時間以内で返信してきて、
+サポート体制が素晴らしかったのも選定要因になりました。</p>
+
+<p>CDNの冗長構成を構築したんですが、幸か不幸か、CloudFrontに障害が発生しなかったため、
+予備系のCDN77が稼働することは無かった。</p>
+
+<h2 id="cdn-akamai20156-">CDN第三世代 Akamai(2015年6月-)</h2>
+
+<ul>
+  <li>CDNにAkamaiを利用</li>
+  <li>Akamaiは<del>SLA100%なので利用することはないと思いますが</del>高可用性構成のため利用することはほぼ無さそうですが、予備系としてそれまで稼働していたCloudFrontを残す(<strong>追記 2015年8月18日 誤解を招く表現なので修正しました</strong>)</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-3.png" alt="" /></p>
+
+<h3 id="cloudfront--cnd77">CloudFront + CND77の冗長構成の懸念点</h3>
+
+<ul>
+  <li>検証としてCloudFrontを<code>Disable</code>にしたときには自動でCDN切り替わったが、CloudFrontが実際に障害になったときの挙動が検証不可のため、自動で切り替わるか確認出来ず
+    <ul>
+      <li>Route53のDNSフェイルオーバーに10〜20分程度要する(CloudFrontが完全に反応無くなるまでコンテンツが返ってくるためフェイルオーバーが実行されない)</li>
+    </ul>
+  </li>
+  <li>CloudFrontの障害発生頻度として、年に1〜2回程度なので、そこで正常に冗長構成が稼働するか不安がある</li>
+</ul>
+
+<h3 id="akamai">Akamaiを選択した理由</h3>
+
+<ul>
+  <li>高可用性構成</li>
+  <li>私を含めインフラのメンバー全員前職などでAkamaiを利用していたので、特徴などを把握している</li>
+  <li>数年間Akamaiを利用した経験の中で障害無し</li>
+  <li>担当営業の方の頑張り＆ボリュームディスカウントがあり、スタートアップでも利用できる、財布に優しいコスト感</li>
+</ul>
+
+<h3 id="akamai-with-chatops">Akamai With ChatOps</h3>
+
+<p><a href="https://github.com/ngs/hubot-cloudfront">ngs/hubot-cloudfront</a> で、SlackからCloudFrontのInvalidateを実行していた部分を <a href="https://www.npmjs.com/package/hubot-akamai-ccu">hubot-akamai-ccu</a> を導入し、
+SlackからAkamaiのキャッシュのInvalidateを実行出来るようにもした。</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-4.png" alt="" /></p>
+
+<hr />
+
+<p>この手の話はあまり外に出すような話じゃないかと思うんですが、
+Kaizen Platform, Inc.のエンジニア行動指針というのが、社内Qiita Teamにあって、
+冒頭にCEO <a href="https://twitter.com/sudoken">@sudoken</a>のmessageが載っていて、
+その中に</p>
+
+<blockquote>
+  <p>様々な国や地域で多くの人が前向きに協力したくなるようなオープンな組織や事業でいよう</p>
+</blockquote>
+
+<p>というのがあり、この情報が役に立つ人達もいると思うので公開しました。
+CDNの可用性はインフラエンジニア的にかなり頭の痛い問題だと思いますし、
+参考になれば幸いです。</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-0.png" alt="" /></p>
+
+<p>先日<a href="http://engineer.wantedly.com/2015/08/06/hashicorp-product-meetup.html">Hashicorp Product Meetup</a>に
+参加したときに、KAIZENのエンジニア行動指針を見たいとの意見を頂いたので、
+その他の行動指針を一部公開すると下記のような感じになってます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-5.png" alt="" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Slackのチャンネル移動をキーボードで簡単に出来るようKarabinerのprivate.xmlを書いた]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack/"/>
+    <updated>2014-08-06T18:32:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2014/08/slack-logo.png" alt="" /></p>
+
+<p>仕事で<a href="https://slack.com/">Slack</a>を使っているんですが、
+<a href="https://slack.zendesk.com/hc/en-us/articles/201374536-Keyboard-Shortcuts">キーボードショートカット</a>があんまり使いやすくなくて、
+特にチャンネル移動が致命的に使いにくくてストレスフルなので、、<a href="https://pqrs.org/osx/karabiner/index.html.ja">Karabiner(旧keyremap2makbook)</a>のprivate.xmlを書いた。
+(Slackのメニューにチャンネル移動の項目がないので、Macの環境設定からキーバインドの設定が出来ないのでKarabinerで実現してます)</p>
+
+<p>今までWeechatというIRCクライアントを使っていたので、そのキーバインドに合わせた。
+具体的には</p>
+
+<ul>
+  <li><code>Ctrl + N</code>で次のチャンネル or DMに移動</li>
+  <li><code>Ctrl + P</code>で前のチャンネル or DMに移動</li>
+  <li><code>Alt + A</code>で未読チャンネル or DMに移動</li>
+</ul>
+
+<h2 id="section">導入方法</h2>
+
+<p><code>~/Library/Application\ Support/Karabiner/private.xml</code> に下記のように設定を追加</p>
+
+<p>``` xml
+<?xml version="1.0"?></p>
+<root>
+
+    <appdef>
+        <appname>SLACK</appname>
+        <equal>com.tinyspeck.slackmacgap</equal>
+    </appdef>
+    <item>
+        <name>For Slack CTRL+N=move next channel, CTRL+P=move previous channel, ALT+A=move unread channel</name>
+        <identifier>private.app_slack_move_channel_with_ctrln_ctrlp</identifier>
+        <only>SLACK</only>
+        <autogen>__KeyToKey__ KeyCode::N, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN, ModifierFlag::OPTION_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::P, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP, ModifierFlag::OPTION_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::A, ModifierFlag::OPTION_L, KeyCode::CURSOR_DOWN, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L</autogen>
+    </item>
+
+</root>
+<p>```</p>
+
+<p>これでKarabinerの設定画面から<code>ReloadXML</code>をして、設定にチェックを入れれば動くようになる。</p>
+
+<p>これでホームポジションから動かずにSlackがだいたい操作できるようになって快適になった。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[開発環境の情報共有会でDash,SourceTree,Alfredの話をした]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/03/30/tech-tool-knowledge/"/>
+    <updated>2014-03-30T22:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/03/30/tech-tool-knowledge</id>
+    <content type="html"><![CDATA[<p>社内で開発環境についての情報を共有する会を開催した。
+参加者全員が発表のスタイルで、ただ聞いてるだけの人がいないようにしたら
+いろいろな情報を共有出来て大変参考になった。</p>
+
+<p>私は1日のほとんどをターミナル上で過ごすので、ここ数年GUIアプリにはあんまり関心が
+無かったんですが、最近導入して便利だったやつを共有したら好評だったのでまとめておく。</p>
+
+<h2 id="dash">Dash</h2>
+
+<ul>
+  <li><a href="http://kapeli.com/dash">Dash - Documentation Browser, Snippet Manager - Kapeli</a></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/03/dash0.png" alt="" /></p>
+
+<p>ドキュメントブラウザ、スニペット管理ツール。ドキュメントをローカルにダウンロードして
+利用するので高速。今日(2014/03/29)時点で130以上のドキュメントとAPIに対応していて、
+プログラミング言語に加えて、MySQL、MongoDB、Puppet、Vagrantなどのドキュメントもある。
+自作ドキュメントを追加することも可能。</p>
+
+<p>有償アプリですが、一部機能制限のかかった無料版でも特に問題なし。
+単独でももちろん便利なんですが、後述するAlfredと組み合わせると大変便利。</p>
+
+<p>Alfredだけでなく下記のように様々なアプリと連携出来るようになっている。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/03/dash1.png" alt="" /></p>
+
+<p>私はスニペット管理には<a href="https://github.com/oscardelben/sheet">oscardelben/sheet</a>を使っているので、
+ドキュメントブラウザとしてだけ使ってます。</p>
+
+<h2 id="sourcetree">SourceTree</h2>
+
+<ul>
+  <li><a href="http://www.sourcetreeapp.com/">Free Mercurial and Git Client for Windows and Mac | Atlassian SourceTree</a></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/03/sourcetree0.png" alt="" /></p>
+
+<p>MercurialとGitのGUIクライアント。普段gitはコマンドラインからしか使わないし、コミット履歴も<a href="https://github.com/jonas/tig">tig</a>で
+見ているので、GUIのクライアントは不要だと思っていたんですが、使ってみると画面が見やすくて、
+1日の終わりにSourceTreeでコミット履歴を眺めてると、どういう変更が入ったか把握出来て良い。</p>
+
+<p>1日の終わりに自分の関わっているプロジェクトのコミット履歴を見返す習慣が付いたのも良かった。</p>
+
+<h2 id="alfred">Alfred</h2>
+
+<ul>
+  <li><a href="http://www.alfredapp.com/">Alfred App - Productivity App for Mac OS X</a></li>
+</ul>
+
+<p>ランチャーはずっと<a href="http://www.obdev.at/products/launchbar/index.html">LaunchBar 5</a>を使っていて、
+Alfredと併用していたんですが、Workflowが大変便利なので、昨年完全に乗り換えた。</p>
+
+<p>情報共有会ではAlfredをランチャーとして使っている人は結構いたんですが、
+有償版で利用出来るWorkflowを使っている人がいなかったので、どんな感じで使っているのか実演してみた。</p>
+
+<p>やってることを簡単に説明すると下記のような感じ。早送りしている訳でなく実際もこのくらい軽快に動いてます。</p>
+
+<ol>
+  <li>Puppetの<code>hiera</code>のドキュメント呼び出し</li>
+  <li>Rubyの<code>FileUtils</code>のドキュメント呼び出し</li>
+  <li>Vagrantの<code>ssh</code>のドキュメントを呼び出し</li>
+</ol>
+
+<p><div class="embed-video-container"><iframe src="https://player.vimeo.com/video/90291640 "></iframe></div></p>
+
+<p>今回の共有会はAlfred + Dashの布教のためにやったような感じ。</p>
+
+<h2 id="alfred-workflow">便利なAlfred workflow</h2>
+
+<p>他にも便利なWorkflowがあるので一部紹介。</p>
+
+<ul>
+  <li><a href="https://github.com/Kapeli/Dash-Alfred-Workflow">Kapeli/Dash-Alfred-Workflow</a></li>
+  <li><a href="https://github.com/zhaocai/alfred2-sourcetree-workflow">zhaocai/alfred2-sourcetree-workflow</a></li>
+  <li><a href="https://github.com/gharlan/alfred-github-workflow">gharlan/alfred-github-workflow</a></li>
+  <li><a href="https://github.com/eknkc/alfred-pinboard">eknkc/alfred-pinboard</a></li>
+</ul>
+
+<p>私は<a href="https://pinboard.in/">Pinboard</a>のヘビーユーザなので、alfred+pinboardも下記のような感じで多用してます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/03/pinboard0.png" alt="" /></p>
+
+<h2 id="section">情報共有会で出てきた情報を列挙</h2>
+
+<p>出てきた情報をメモった順で箇条書き</p>
+
+<ul>
+  <li><a href="http://ca.storyboards.jp/">Casto :: Live coding in browse, using text editor.</a></li>
+  <li>tmuxの<code>if-shell</code>のtips</li>
+  <li>tmux on tmux(tmux多重起動時)のtips</li>
+  <li><a href="http://totalspaces.binaryage.com/">TotalSpaces</a></li>
+  <li><a href="http://www.clipmenu.com/ja/">ClipMenu</a></li>
+  <li><a href="https://mizage.com/divvy/">Divvy</a></li>
+  <li><a href="https://itunes.apple.com/jp/app/bettersnaptool/id417375580?mt=12">BetterSnapTool</a></li>
+  <li>tmuxの画面分割のtips</li>
+  <li>vimの画面分割のtips</li>
+  <li><a href="http://kien.github.io/ctrlp.vim/">ctrlp.vim</a>のtips</li>
+  <li><a href="https://code.google.com/p/parallel-ssh/">pssh</a></li>
+  <li><a href="https://code.google.com/p/csshx/">csshx</a></li>
+  <li>tmuxの<code>synchronize-panes</code>のtips</li>
+  <li><a href="https://www.atlassian.com/ja/software/confluence">Confluence</a></li>
+  <li><a href="https://github.com/phinze/homebrew-cask">phinze/homebrew-cask</a></li>
+  <li><a href="http://boxen.github.com/">BOXEN</a></li>
+  <li><a href="https://github.com/tmuxinator/tmuxinator">tmuxinator/tmuxinator</a></li>
+  <li>tmuxの<code>run-shell</code>のtips</li>
+  <li><a href="https://github.com/glidenote/rpbcopy">glidenote/rpbcopy</a></li>
+  <li><a href="https://github.com/oscardelben/sheet">oscardelben/sheet</a></li>
+  <li><a href="https://github.com/defunkt/gist">defunkt/gist</a></li>
+  <li><a href="https://github.com/mattn/gist-vim">mattn/gist-vim</a></li>
+  <li><a href="https://github.com/glidenote/pbl">glidenote/pbl</a></li>
+  <li><a href="http://justgetflux.com/">f.lux</a></li>
+  <li><a href="http://www.macbartender.com/">Bartender</a></li>
+</ul>
+
+<p>当日参加していた同僚が作った<a href="http://ca.storyboards.jp/">Casto</a>が非常に素晴らしかった。</p>
+
+<p>便利なアプリでも有料アプリだと買う価値があるのか迷うと思うので、
+こういう情報の共有をすると良いと思う。</p>
+
+<p>余談になりますが、今回スクリーンキャストの録画には<a href="http://quickcast.io/">QuickCast</a>を使ってみたけど、かなり使い勝手が良かった。</p>
+
+<ul>
+  <li><a href="http://quickcast.io/">QuickCast. Make. Publish. Share. 3 Minute Screencasts - Free screencasting software for the Apple Mac.</a></li>
+</ul>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="https://github.com/zenorocha/alfred-workflows">zenorocha/alfred-workflows</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[エンジニアのための時間管理術、自動化に関するまとめ]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/03/23/automation/"/>
+    <updated>2012-03-23T00:08:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/03/23/automation</id>
+    <content type="html"><![CDATA[<p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4873113075/glidenote-22/ref=nosim/" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51jWtxU0sAL._SL160_.jpg" alt="エンジニアのための時間管理術" align="right" /></a></p>
+
+<p>2006年の発売当時に紙書籍で購入し、最近PDFで買い直してKindleに突っ込んでいた
+<a href="http://www.amazon.co.jp/exec/obidos/ASIN/4873113075/glidenote-22/ref=nosim/">エンジニアのための時間管理術</a>を
+読み直していて、自動化について記載されていたので自戒をこめてまとめておく。<br />
+古い本ですが、エンジニア(特にインフラエンジニア)の時間管理術に関しては今でもこれが一番かと思います。</p>
+
+<p><br clear="all" /></p>
+
+<h2 id="section">自動化の目的</h2>
+
+<ul>
+  <li>自分の仕事を減らす。作業時間の短縮や勝手に処理が実行される。 </li>
+  <li>他の人に作業を委任する。委任出来るようにする。</li>
+</ul>
+
+<h2 id="section-1">自動化すべきものと自動化すべきでないもの</h2>
+
+<ul>
+  <li>一度だけ行う単純な作業は<strong>自動化すべきでない</strong>。(自動化することのほうが時間がかかる)</li>
+  <li>一度だけ行う難しい作業は<strong>自動化すべき</strong>。(作業の記録を残すことができる。再びその作業に出会うときに役に立つ。一度あったことは再びあることが多い)</li>
+  <li>頻繁に行う単純な作業は<strong>自動化すべき</strong>。(自動化の効果が最も高い。自動化に投資した時間はすぐに報われる)</li>
+  <li>頻繁に行う難しい作業は<strong>自動化すべきでない</strong>。（無理をして行き詰まる作業が含まれるため、問題解決の時間と資金を補充すべき)</li>
+</ul>
+
+<p>まとめるの下記のようになる。(本書から図引用)</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/automation.png" alt="自動化" /></p>
+
+<h2 id="section-2">自動化によってもたらされるメリット</h2>
+
+<ul>
+  <li>再現性(何かを何度でも一貫した方法で行える)</li>
+  <li>自動化によって、めったに行わない複雑な作業を覚えておかずに済む(本書の例ではMacのhdiutilコマンド)</li>
+  <li>スケーラビリティ(サーバが10台だろうが10000台だろうが同じ手続きを利用出来る)</li>
+  <li>ミスの可能性を排除</li>
+</ul>
+
+<h2 id="section-3">自動化へのステップ</h2>
+
+<ol>
+  <li>手動で行う(すべての手順を洗い出し、wikiにまとめたり、入力したコマンドを記録しておく)</li>
+  <li>各手順をコードにする(手順をコマンドラインで実行出来るものや簡単なプログラムで実行できるものに変換。動作検証もここで行う)</li>
+  <li>手順を1つにまとめる(各手順をまとめて1つの大きなスクリプトにまとめる。1つずつの手順をテストをしながらスクリプトを結合していく)</li>
+  <li>全体をテストする(上記手順で作成していれば、一発でうまくいくはず)</li>
+</ol>
+
+<p>2006年に発売された本なので、makeを利用した自動化が紹介されているんですが、
+今はrubyのRakeを使ったりして自動化するのがいいのかなーと。</p>
+
+<p>久々に読み返すと、普段実践しているつもりでも、
+全然出来て無いなーと思うことと新しい発見もあったりして良いですね。
+日頃何となくやっている自動化への手順と意識を見直そうと思いました。</p>
+]]></content>
+  </entry>
+  
+</feed>

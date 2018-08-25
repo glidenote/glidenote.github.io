@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: openssl | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/openssl/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[opensslコマンドで証明書情報を確認する]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/12/22/show-certs-with-openssl/"/>
+    <updated>2011-12-22T14:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/12/22/show-certs-with-openssl</id>
+    <content type="html"><![CDATA[<p>SSL証明書の更新作業をした際などに利用する、opensslコマンドで証明書情報を確認する方法をいつも忘れて、
+自分で書いた社内wikiを見直しているのでいつでも参照出来るようにメモ</p>
+
+<p>ブラウザからだと中間証明書の確認が出来ないので、私はいつもopensslコマンドで確認してます。</p>
+
+<p>たとえばtwitterの証明書を確認する場合は下記のような感じ</p>
+
+<p><code>
+openssl s_client -connect twitter.com:443 -showcerts &lt;&lt; EOF
+HEAD / HTTP/1.0
+EOF
+</code></p>
+
+<p>すると下記のような感じで応答が。</p>
+
+<p><code>
+CONNECTED(00000003)
+depth=2 /C=US/O=VeriSign, Inc./OU=VeriSign Trust Network/OU=(c) 2006 VeriSign, Inc. - For authorized use only/CN=VeriSign Class 3 Public Primary Certification Authority - G5
+verify return:1
+depth=1 /C=US/O=VeriSign, Inc./OU=VeriSign Trust Network/OU=Terms of use at https://www.verisign.com/rpa (c)06/CN=VeriSign Class 3 Extended Validation SSL CA
+verify return:1
+depth=0 /1.3.6.1.4.1.311.60.2.1.3=US/1.3.6.1.4.1.311.60.2.1.2=Delaware/2.5.4.15=Private Organization/serialNumber=4337446/C=US/postalCode=94107/ST=California/L=San Francisco/streetAddress=795 Folsom St, Suite 600/O=Twitter, Inc./OU=Twitter Operations
+verify return:1
+---
+Certificate chain
+ 0 s:/1.3.6.1.4.1.311.60.2.1.3=US/1.3.6.1.4.1.311.60.2.1.2=Delaware/2.5.4.15=Private Organization/serialNumber=4337446/C=US/postalCode=94107/ST=California/L=San Francisco/streetAddress=795 Folsom St, Suite 600/O=Twitter, Inc./OU=Twitter Operations/CN=twitter.com
+   i:/C=US/O=VeriSign, Inc./OU=VeriSign Trust Network/OU=Terms of use at https://www.verisign.com/rpa (c)06/CN=VeriSign Class 3 Extended Validation SSL CA
+-----BEGIN CERTIFICATE-----
+MIIGfjCCBWagAwIBAgIQFyfdZD5CNvh/ebsEa8GYAjANBgkqhkiG9w0BAQUFADCB
+ujELMAkGA1UEBhMCVVMxFzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMR8wHQYDVQQL
+ExZWZXJpU2lnbiBUcnVzdCBOZXR3b3JrMTswOQYDVQQLEzJUZXJtcyBvZiB1c2Ug
+YXQgaHR0cHM6Ly93d3cudmVyaXNpZ24uY29tL3JwYSAoYykwNjE0MDIGA1UEAxMr
+VmVyaVNpZ24gQ2xhc3MgMyBFeHRlbmRlZCBWYWxpZGF0aW9uIFNTTCBDQTAeFw0x
+MTA3MDcwMDAwMDBaFw0xMjA3MjcyMzU5NTlaMIIBGTETMBEGCysGAQQBgjc8AgED
+EwJVUzEZMBcGCysGAQQBgjc8AgECEwhEZWxhd2FyZTEdMBsGA1UEDxMUUHJpdmF0
+ZSBPcmdhbml6YXRpb24xEDAOBgNVBAUTBzQzMzc0NDYxCzAJBgNVBAYTAlVTMQ4w
+DAYDVQQRFAU5NDEwNzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxQNU2Fu
+IEZyYW5jaXNjbzEhMB8GA1UECRQYNzk1IEZvbHNvbSBTdCwgU3VpdGUgNjAwMRYw
+FAYDVQQKFA1Ud2l0dGVyLCBJbmMuMRswGQYDVQQLFBJUd2l0dGVyIE9wZXJhdGlv
+bnMxFDASBgNVBAMUC3R3aXR0ZXIuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A
+MIIBCgKCAQEAmiGqkw9ArpnvvWnom/W+HxNDKXf0cFCrjErr0tfFs10UzA12xxOE
+gI0WmWM5B/0W8f5ueEY3/ziPO3i+jJvHDJUQqQaH8LJAhOyEr6EpVWncfaMK2Ufd
+y1s+iQzcQLZqpB3W/J+5mf7dhy1F/tUWyP2cvxC7dWJQjv3RY2ca/PDzy7a4bcqT
+Bg9bx42t4c5LmjkpOsckevS9lpuwBc0I1+1Nshm+sdfJKKIWwQ4+ylshom/d0S2a
+e+pRxoRiPbjXkqEcOAQjmHaz4U5gavPjVq5Uk0Sw96z90gGo/WxtOvJ584NJtiiQ
+erP9fbAefJGqCgcsE3x+IjrJymlvVUgs0QIDAQABo4ICHDCCAhgwJwYDVR0RBCAw
+HoIPd3d3LnR3aXR0ZXIuY29tggt0d2l0dGVyLmNvbTAJBgNVHRMEAjAAMB0GA1Ud
+DgQWBBToMED2PZslwbExjhP13omUFc0GPzALBgNVHQ8EBAMCBaAwQgYDVR0fBDsw
+OTA3oDWgM4YxaHR0cDovL0VWU2VjdXJlLWNybC52ZXJpc2lnbi5jb20vRVZTZWN1
+cmUyMDA2LmNybDBEBgNVHSAEPTA7MDkGC2CGSAGG+EUBBxcGMCowKAYIKwYBBQUH
+AgEWHGh0dHBzOi8vd3d3LnZlcmlzaWduLmNvbS9ycGEwHQYDVR0lBBYwFAYIKwYB
+BQUHAwEGCCsGAQUFBwMCMB8GA1UdIwQYMBaAFPyKULqeuSVae1WFT5UAY4/pWGtD
+MHwGCCsGAQUFBwEBBHAwbjAtBggrBgEFBQcwAYYhaHR0cDovL0VWU2VjdXJlLW9j
+c3AudmVyaXNpZ24uY29tMD0GCCsGAQUFBzAChjFodHRwOi8vRVZTZWN1cmUtYWlh
+LnZlcmlzaWduLmNvbS9FVlNlY3VyZTIwMDYuY2VyMG4GCCsGAQUFBwEMBGIwYKFe
+oFwwWjBYMFYWCWltYWdlL2dpZjAhMB8wBwYFKw4DAhoEFEtruSiWBgy70FI4myms
+SweLIQUYMCYWJGh0dHA6Ly9sb2dvLnZlcmlzaWduLmNvbS92c2xvZ28xLmdpZjAN
+BgkqhkiG9w0BAQUFAAOCAQEACNvSG4VmJCidoFDNgMmsqJ5HAfXkoEuED7wBJcGQ
+eLtQ8G/FLVrbsbXRiyxa/ytYWKqX1hkPrhgx9P9DlBlQvOl2/VHBznTqczhgxKnT
+OXJeGwnr7IgCsgyd6vJ2g27Crv9954NRmrG0GttPbTHNkeEmQUJsgVEOkOdiQm+J
+mVwTctfQe0W6WKdgIid+x5XvkfdYgYOrZTYBUUCz0eqZaSGliTiestyMnluZRBRG
+hkOPeahGh/IWonrwil4hWDIx1Yas0pR/9Pzr4BeW0LlQqbvrFif2mdsJcqKSPQ4I
+O4XIL3vqiJiv9GWRRIZl5DJAwjlPZ6W2X0KUeFAYGwvDDw==
+-----END CERTIFICATE-----
+ 1 s:/C=US/O=VeriSign, Inc./OU=VeriSign Trust Network/OU=Terms of use at https://www.verisign.com/rpa (c)06/CN=VeriSign Class 3 Extended Validation SSL CA
+   i:/C=US/O=VeriSign, Inc./OU=VeriSign Trust Network/OU=(c) 2006 VeriSign, Inc. - For authorized use only/CN=VeriSign Class 3 Public Primary Certification Authority - G5
+-----BEGIN CERTIFICATE-----
+MIIF5DCCBMygAwIBAgIQW3dZxheE4V7HJ8AylSkoazANBgkqhkiG9w0BAQUFADCB
+yjELMAkGA1UEBhMCVVMxFzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMR8wHQYDVQQL
+ExZWZXJpU2lnbiBUcnVzdCBOZXR3b3JrMTowOAYDVQQLEzEoYykgMjAwNiBWZXJp
+U2lnbiwgSW5jLiAtIEZvciBhdXRob3JpemVkIHVzZSBvbmx5MUUwQwYDVQQDEzxW
+ZXJpU2lnbiBDbGFzcyAzIFB1YmxpYyBQcmltYXJ5IENlcnRpZmljYXRpb24gQXV0
+aG9yaXR5IC0gRzUwHhcNMDYxMTA4MDAwMDAwWhcNMTYxMTA3MjM1OTU5WjCBujEL
+MAkGA1UEBhMCVVMxFzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMR8wHQYDVQQLExZW
+ZXJpU2lnbiBUcnVzdCBOZXR3b3JrMTswOQYDVQQLEzJUZXJtcyBvZiB1c2UgYXQg
+aHR0cHM6Ly93d3cudmVyaXNpZ24uY29tL3JwYSAoYykwNjE0MDIGA1UEAxMrVmVy
+aVNpZ24gQ2xhc3MgMyBFeHRlbmRlZCBWYWxpZGF0aW9uIFNTTCBDQTCCASIwDQYJ
+KoZIhvcNAQEBBQADggEPADCCAQoCggEBAJjboFXrnP0XeeOabhQdsVuYI4cWbod2
+nLU4O7WgerQHYwkZ5iqISKnnnbYwWgiXDOyq5BZpcmIjmvt6VCiYxQwtt9citsj5
+OBfH3doxRpqUFI6e7nigtyLUSVSXTeV0W5K87Gws3+fBthsaVWtmCAN/Ra+aM/EQ
+wGyZSpIkMQht3QI+YXZ4eLbtfjeubPOJ4bfh3BXMt1afgKCxBX9ONxX/ty8ejwY4
+P1C3aSijtWZfNhpSSENmUt+ikk/TGGC+4+peGXEFv54cbGhyJW+ze3PJbb0S/5tB
+Ml706H7FC6NMZNFOvCYIZfsZl1h44TO/7Wg+sSdFb8Di7Jdp91zT91ECAwEAAaOC
+AdIwggHOMB0GA1UdDgQWBBT8ilC6nrklWntVhU+VAGOP6VhrQzASBgNVHRMBAf8E
+CDAGAQH/AgEAMD0GA1UdIAQ2MDQwMgYEVR0gADAqMCgGCCsGAQUFBwIBFhxodHRw
+czovL3d3dy52ZXJpc2lnbi5jb20vY3BzMD0GA1UdHwQ2MDQwMqAwoC6GLGh0dHA6
+Ly9FVlNlY3VyZS1jcmwudmVyaXNpZ24uY29tL3BjYTMtZzUuY3JsMA4GA1UdDwEB
+/wQEAwIBBjARBglghkgBhvhCAQEEBAMCAQYwbQYIKwYBBQUHAQwEYTBfoV2gWzBZ
+MFcwVRYJaW1hZ2UvZ2lmMCEwHzAHBgUrDgMCGgQUj+XTGoasjY5rw8+AatRIGCx7
+GS4wJRYjaHR0cDovL2xvZ28udmVyaXNpZ24uY29tL3ZzbG9nby5naWYwKQYDVR0R
+BCIwIKQeMBwxGjAYBgNVBAMTEUNsYXNzM0NBMjA0OC0xLTQ3MD0GCCsGAQUFBwEB
+BDEwLzAtBggrBgEFBQcwAYYhaHR0cDovL0VWU2VjdXJlLW9jc3AudmVyaXNpZ24u
+Y29tMB8GA1UdIwQYMBaAFH/TZafC3ey78DAJ80M5+gKvMzEzMA0GCSqGSIb3DQEB
+BQUAA4IBAQCWovp/5j3t1CvOtxU/wHIDX4u6FpAl98KD2Md1NGNoElMMU4l7yVYJ
+p8M2RE4O0GJis4b66KGbNGeNUyIXPv2s7mcuQ+JdfzOE8qJwwG6Cl8A0/SXGI3/t
+5rDFV0OEst4t8dD2SB8UcVeyrDHhlyQjyRNddOVG7wl8nuGZMQoIeRuPcZ8XZsg4
+z+6Ml7YGuXNG5NOUweVgtSV1LdlpMezNlsOjdv3odESsErlNv1HoudRETifLriDR
+fip8tmNHnna6l9AW5wtsbfdDbzMLKTB3+p359U64drPNGLT5IO892+bKrZvQTtKH
+qQ2mRHNQ3XBb7a1+Srwi1agm5MKFIA3Z
+-----END CERTIFICATE-----
+---
+Server certificate
+subject=/1.3.6.1.4.1.311.60.2.1.3=US/1.3.6.1.4.1.311.60.2.1.2=Delaware/2.5.4.15=Private Organization/serialNumber=4337446/C=US/postalCode=94107/ST=California/L=San Francisco/streetAddress=795 Folsom St, Suite 600/O=Twitter, Inc./OU=Twitter Operations/CN=twitter.com
+issuer=/C=US/O=VeriSign, Inc./OU=VeriSign Trust Network/OU=Terms of use at https://www.verisign.com/rpa (c)06/CN=VeriSign Class 3 Extended Validation SSL CA
+---
+No client certificate CA names sent
+---
+SSL handshake has read 3338 bytes and written 435 bytes
+---
+New, TLSv1/SSLv3, Cipher is RC4-SHA
+Server public key is 2048 bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+SSL-Session:
+    Protocol  : TLSv1
+    Cipher    : RC4-SHA
+    Session-ID: 6FDCD1481628FC839F16FD0AB956CA824BA1CBA68F17F58AA94CB0AFB9E1DE83
+    Session-ID-ctx:
+    Master-Key: A6E88340BBFE03D628B62103B4EF41551025DEC50408AF2B7728A8C581C0BF0ABE044D10B0EE93192C7BD58896EBA0E4
+    Key-Arg   : None
+    Krb5 Principal: None
+    Start Time: 1324523394
+    Timeout   : 300 (sec)
+    Verify return code: 0 (ok)
+---
+DONE
+</code></p>
+
+<p>証明書の期限が切れてると下記のような表示が出ます。お目にかからないように注意しましょう</p>
+
+<p><code>
+Verify return code: 10 (Certificate has expired)
+</code></p>
+
+<p>ポート番号を変えれば、POPSやSMTPSで利用されてる証明書の確認も出来ます</p>
+
+<ul>
+  <li>HTTPS 443</li>
+  <li>POP over SSL 995</li>
+  <li>SMTP over SSL 465</li>
+  <li>IMAPS 993</li>
+</ul>
+
+<h2 id="section">参考サイト</h2>
+
+<ul>
+  <li><a href="http://www.openssl.org/docs/apps/s_client.html">OpenSSL: Documents, s_client(1)</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

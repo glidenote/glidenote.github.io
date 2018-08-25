@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ag | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/ag/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ackを捨てて、より高速なag(The Silver Searcher)に切り替えた]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/02/28/the-silver-searcher-better-than-ack/"/>
+    <updated>2013-02-28T23:30:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/02/28/the-silver-searcher-better-than-ack</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="http://geoff.greer.fm/2011/12/27/the-silver-searcher-better-than-ack/">Geoff’s site: The Silver Searcher: Better than Ack</a></li>
+  <li><a href="https://github.com/ggreer/the_silver_searcher">ggreer/the_silver_searcher · GitHub</a></li>
+</ul>
+
+<p>パターン検索には<a href="http://betterthangrep.com/">ack</a>を利用していて、通常利用時には特に不満は無かったんですが、
+ファイル数が多いディレクトリだと遅かったので、もっと他の方法が無いかと調べていたら
+ackの3〜5倍速いという<a href="https://github.com/ggreer/the_silver_searcher">The Silver Searcher</a>というものが
+あったので導入。</p>
+
+<h2 id="the-silver-searcher">The Silver Searcherの特徴</h2>
+
+<p>公式に書いてあるThe Silver Searcherの特徴</p>
+
+<ul>
+  <li><code>ack</code>の3〜5倍高速</li>
+  <li><code>.gitignore</code>、<code>.hgignore</code>に記載されているものを検索対象から除外</li>
+  <li>検索対象から除外したいファイルは<code>.agignore</code>に記載</li>
+  <li><code>ag</code>というコマンド名で、<code>ack</code>と比べてコマンドが短い(33%減!)</li>
+</ul>
+
+<p>なぜ高速なのかは
+<a href="https://github.com/ggreer/the_silver_searcher#how-is-it-so-fast">https://github.com/ggreer/the_silver_searcher#how-is-it-so-fast</a>
+に記載されています。(要約しにくいので、原文を読んでください!)</p>
+
+<h2 id="the-silver-searcher-1">The Silver Searcherの導入</h2>
+
+<p>Macの場合はhomebrewで導入</p>
+
+<p><code>sh
+brew install the_silver_searcher
+</code></p>
+
+<p><em>2013/10/31 最近は下記でいけると新卒氏に教えてもらったので追記</em></p>
+
+<p><code>sh
+brew install ag
+</code></p>
+
+<p>CentOS6、SL6はRPMが用意されているので、下記を利用</p>
+
+<p><code>sh
+sudo rpm -ivh http://swiftsignal.com/packages/centos/6/x86_64/the-silver-searcher-0.13.1-1.el6.x86_64.rpm --test
+sudo rpm -ivh http://swiftsignal.com/packages/centos/6/x86_64/the-silver-searcher-0.13.1-1.el6.x86_64.rpm
+</code></p>
+
+<p>ソースから導入する場合（コンパイルに<code>automake</code>とか<code>pcre-devel</code>が必要だと思いますので適時入れてください）</p>
+
+<p><code>sh
+git clone https://github.com/ggreer/the_silver_searcher
+cd the_silver_searcher &amp;&amp; ./build.sh &amp;&amp; install
+</code></p>
+
+<p>RHEL6系以外での利用も、<code>spec</code>ファイルが含まれているのでRPM作成も簡単に出来た。</p>
+
+<h2 id="the-silver-searcher-2">The Silver Searcherの利用方法</h2>
+
+<p>The Silver Searcherは<code>ag</code>というコマンドを用い、</p>
+
+<p><code>
+ag [options] {pattern} [{directory}]
+</code></p>
+
+<p>という感じで利用し、ほぼackと同じ。</p>
+
+<p>実際に私の環境(MacBook Air)で、<code>ack</code>と<code>ag</code>で実行時間を計測した結果。</p>
+
+<p>``` sh
+# ファイル数
+[akira@dev001] $ find ~/repos -type f | wc -l
+    3518</p>
+
+<h1 id="section">ディレクトリ容量</h1>
+<p>[akira@dev001] $ du -sh ~/repos
+894M    .</p>
+
+<h1 id="ack">ackの実行時間</h1>
+<p>[akira@dev001] $ time ack package ~/repos |wc -l
+    1475
+    ack package ~/repos  0.84s user 0.26s system 81% cpu 1.341 total</p>
+
+<h1 id="ag">agの実行時間</h1>
+<p>[akira@dev001] $ time ag package ~/repos |wc -l
+    1668
+    ag package ~/repos  0.23s user 0.18s system 172% cpu 0.235 total
+```</p>
+
+<p>3500個くらいのファイル検索でも<code>ack</code>と比べて、<code>ag</code>が高速なのがわかる。
+多分ファイル数がディレクトリだとさらに効果がありそう。</p>
+
+<p>実際にいろいろなディレクトリで何回か検索を実行してみても、<code>ag</code>の方が高速でした。</p>
+
+<h2 id="vimthe-silver-searcher">VimからThe Silver Searcherを利用する</h2>
+
+<p>ackと同じで、Vimから使うことが多いと思うので、Vimから使えるようにする。
+<a href="https://github.com/rking/ag.vim">ag.vim</a>というプラグインがあるので、それを利用。</p>
+
+<p>Vundleを利用している場合は<code>.vimrc</code>に下記を記載して<code>BundleInstall</code></p>
+
+<p><code>
+Bundle 'rking/ag.vim'
+</code></p>
+
+<p>NeoBundleの場合は下記を記載して<code>NeoBundleInstall</code></p>
+
+<p><code>
+NeoBundle 'rking/ag.vim'
+</code></p>
+
+<p>Vim上から下記のような形で利用</p>
+
+<p><code>
+:Ag [options] {pattern} [{directory}]
+</code></p>
+
+<p>Vim上からも高速にパターン検索が出来るようになって素晴らしい。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/02/agvim.png" alt="" /></p>
+
+<h2 id="zshthe-silver-searcher">ZshからのThe Silver Searcherを利用する</h2>
+
+<p>当然zshの補完が効かないと話にならないので、zshの補完関数を書いた。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/ag-zsh-completion">glidenote/ag-zsh-completion · GitHub</a></li>
+</ul>
+
+<p>下記のように補完されます。</p>
+
+<p><strong>追記</strong></p>
+
+<p><a href="https://github.com/zsh-users/zsh-completions">zsh-completions</a>に出していたpull requestがmergeされたので、zsh-completionsからでも利用可能です。</p>
+
+<ul>
+  <li><a href="https://github.com/zsh-users/zsh-completions/pull/127">Add ag(the silver search) completion. by glidenote · Pull Request #127 · zsh-users/zsh-completions · GitHub</a></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2013/02/ag.png" alt="" /></p>
+
+<p>ackと比較して動作もかなり高速だし、vim、zshから快適に使えるようになったので完全に切り替え。</p>
+]]></content>
+  </entry>
+  
+</feed>

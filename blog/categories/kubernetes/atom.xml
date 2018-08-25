@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: kubernetes | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/kubernetes/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[「Docker/Kubernetes 実践コンテナ開発入門」がProduction環境でDockerを運用している人間にも良書だった]]></title>
+    <link href="https://blog.glidenote.com/blog/2018/08/24/docker-kubernetes-book/"/>
+    <updated>2018-08-24T20:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2018/08/24/docker-kubernetes-book</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339">Docker/Kubernetes 実践コンテナ開発入門</a>
+<a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339"><img src="https://images-fe.ssl-images-amazon.com/images/I/51d69eJQMyL.jpg" align="right" /></a></li>
+</ul>
+
+<p>技術評論社様、著者の山田さんからご恵贈いただきましてありがとうございます。</p>
+
+<p>かなり分厚い本で、内容も濃いので読むのに時間がかかりましたが簡単に感想を書いていきます。</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li>Production環境でDockerを利用している人でも学びが多い一冊</li>
+  <li>Kubernetesに対応したDocker for Mac/Windowsが2018年07月に正式リリースされ、手軽にKubernetesが動かせるようになったいま、Kubernetesの初学書として最適</li>
+  <li>実際にDockerでサービスを運用してきた著者ならではの視点で語られているコラムが非常に興味深い</li>
+</ul>
+
+<h2 id="section">前提</h2>
+
+<p>書評の前に私のDocker歴について簡単に書いておきます。</p>
+
+<ul>
+  <li>JAWS-UG コンテナ支部で登壇経験あり</li>
+  <li>Dockerに関する基本的な知識は習得済み</li>
+  <li>Amazon ECSを利用して2年ほど前からProduction環境でDocker運用中</li>
+  <li>Kubernetesは理解不足</li>
+  <li>役職が変わってここ1年くらいからDockerと周辺技術の最新情報がキャッチアップ出来てない 😓</li>
+</ul>
+
+<h2 id="section-1">目次</h2>
+
+<p>```
+1.Dockerの基礎
+2.Dockerコンテナのデプロイ
+3.実用的なコンテナの構築とデプロイ
+4.Swarmによる実践的なアプリケーション構築
+5.Kubernetes入門
+6.Kubernetesのデプロイ・クラスタ構築
+7.Kubernetesの発展的な利用
+8.コンテナの運用
+9.より軽量なDockerイメージを作る
+10.Dockerの様々な活用方法</p>
+
+<p>Appendix-A セキュリティ
+Appendix-B Dockerでの開発を支援するツール・サービス
+Appendix-C 主要コマンドまとめ
+```</p>
+
+<h2 id="section-2">書評</h2>
+
+<h3 id="docker">Docker</h3>
+
+<p>Dockerと周辺技術は変化の速度が非常に早く、情報キャッチアップのコストが高く、Web上にある情報もすぐ陳腐化して大半が役に立たないので、
+私はかねてから<a href="https://docs.docker.com/">公式ドキュメント</a>を読むのが最も良いというスタンスだったのですが、
+本書は公式ドキュメントの内容はもちろんカバーされており、運用周りに関しては公式ドキュメント以上の内容が書かれている。</p>
+
+<h3 id="kubernetes">Kubernetes</h3>
+
+<p>Kubernetesに関しては一番丁寧に手厚く解説されているので、Minikubeで一度挫折したことがある私にとっては、
+サンプルコードを書いてサクサク進めることが出来たので、Kubernetesの採用の足がかりになりそうです。
+先月リリースされたDocker for Mac/Windows(Stable)がKubernetesに対応しており、
+手軽にKubernetes環境が用意出来るようになったので、Kubernetesをこれから始める人にも最適かと。</p>
+
+<h3 id="section-3">コラム</h3>
+
+<p>またコラムが大量にありどれも素晴らしいのですが、特に</p>
+
+<ul>
+  <li>環境変数を積極的に使う</li>
+  <li>認証情報をセキュアに環境変数へ設定する</li>
+  <li>Alpine Linuxベースのイメージを採用するべきか否か</li>
+  <li>DockerはVagrantの代替となるか?</li>
+</ul>
+
+<p>においては、以前エンジニア同士で議論したことがある内容なので大変興味深かった。</p>
+
+<h3 id="section-4">コンテナの運用</h3>
+
+<p>運用部分は普段Amazon ECS上で運用しておりAWSに頼り切っている部分なので、
+ログの保管、障害対策については、他社事例として大変参考になった。</p>
+
+<h2 id="section-5">本書を読むにあたって</h2>
+
+<p>本書のサンプルコマンドを実行するにあたり、BashやZshを事前に設定しておくことをオススメします。これがあるとないとでは効率が段違いです。
+<strong>本当に重要です!!</strong></p>
+
+<ul>
+  <li><a href="https://docs.docker.com/compose/completion/">Command-line completion | Docker Documentation</a></li>
+</ul>
+
+<h2 id="section-6">まとめ</h2>
+
+<p>2018年においては、</p>
+
+<ul>
+  <li><a href="https://docs.docker.com/">公式ドキュメント</a></li>
+  <li><a href="https://www.amazon.co.jp/Docker-Kubernetes-%E5%AE%9F%E8%B7%B5%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%B1%B1%E7%94%B0-%E6%98%8E%E6%86%B2/dp/4297100339?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4297100339">Docker/Kubernetes 実践コンテナ開発入門</a></li>
+</ul>
+
+<p>を読めば、Docker/Kubernetesに関しては十分なのではないかと思う。</p>
+
+<p>実際私も社内のエンジニアにも「Docker/Kubernetesはこれを読めばOK」と薦めています。</p>
+
+<p>大変オススメです。</p>
+
+<h2 id="section-7">参考</h2>
+
+<ul>
+  <li><a href="https://blog.stormcat.io/post/publish-docker-book/">Docker/Kubernetes 実践コンテナ開発入門 出版に寄せて · tehepero note(・ω&lt;) 2.0</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

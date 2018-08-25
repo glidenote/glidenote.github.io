@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: bundle | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/bundle/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[bundle openでVimfilerやCtrlP.vimやFuzzyFinderを起動する]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/05/29/bundle-open-with-vimfiler/"/>
+    <updated>2014-05-29T13:30:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/05/29/bundle-open-with-vimfiler</id>
+    <content type="html"><![CDATA[<p>今朝社内IRCで<a href="https://twitter.com/hsbt">@hsbt</a>さんと<a href="https://twitter.com/udzura">@udzuraさん</a>が
+<a href="https://gist.github.com/kakutani/43b9f42197ab002fcdf8">IdobataのGemfile</a>の話をしていて、</p>
+
+<p><code>
+10:54:44      hsbt | この Gemfile を持って来て、bundle install &amp;&amp; bundle open が
+10:54:58      hsbt | 一番、これ何だを見るのが楽だった
+10:56:28    udzura | bundler benri
+</code></p>
+
+<p>その中で上のようなbundlerの便利情報を話していて、そういえば<a href="http://rebuild.fm/41/">rebuild.fm vol.41</a>で
+同じようなこと言ってたなーと思い出して、vim使って便利に出来ないかなーと思ってやってみたら簡単にできたのでメモ。</p>
+
+<p>各種Vimプラグインのインストール方法は割愛。(<a href="https://github.com/Shougo/neobundle.vim">neobundle.vim</a>とかを使ってください)</p>
+
+<p>単に<code>BUNDLER_EDITOR</code>という環境変数を設定するだけのお手軽TIPS</p>
+
+<h2 id="vimfilerhttpsgithubcomshougovimfilervim"><a href="https://github.com/Shougo/vimfiler.vim">VimFiler</a>を利用する場合</h2>
+
+<p><code>sh
+export BUNDLER_EDITOR="vim +VimFiler"
+</code></p>
+
+<h2 id="ctrlpvimhttpsgithubcomkienctrlpvim"><a href="https://github.com/kien/ctrlp.vim">ctrlp.vim</a>を利用する場合</h2>
+
+<p><code>sh
+export BUNDLER_EDITOR="vim +CtrlP"
+</code></p>
+
+<h2 id="fuzzyfinderhttpsgithubcomvim-scriptsfuzzyfinder"><a href="https://github.com/vim-scripts/FuzzyFinder">FuzzyFinder</a>を利用する場合</h2>
+
+<p><code>sh
+export BUNDLER_EDITOR="vim +FufFile"
+</code></p>
+
+<h2 id="bundle-opengem">bundle openでgemの中身を確認</h2>
+
+<p><code>
+bundle open gemname
+</code></p>
+
+<p>私はVimfiler使うように設定。</p>
+
+<p>たとえば、<code>bundle open rubocop</code>とかやると下記のような感じでVimfilerで
+該当gemの中身を見れるようになった。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/05/bundler_open0.png" alt="" /></p>
+
+<p>便利〜</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://xoyip.hatenablog.com/entry/2014/04/24/200613">bundle openで使うBUNDLER_EDITORをカスタマイズする - PILOG</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

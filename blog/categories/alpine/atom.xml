@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: alpine | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/alpine/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Alpine LinuxなDockerイメージにServerspecを実行する環境を作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/08/18/docker-alpine-serverspec-with-circleci/"/>
+    <updated>2016-08-18T14:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/08/18/docker-alpine-serverspec-with-circleci</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://www.alpinelinux.org/">Alpine Linux</a>なDockerイメージにServerspecを実行する環境をMacとCircleCI上に作った</li>
+  <li>CircleCI環境では <code>lxc-attach</code> コマンドが必要なので、<code>spec_helper.rb</code> で環境差を吸収するようにした</li>
+  <li>今後よく利用しそうなので、流用しやすい形でGithubに置いておいた
+    <ul>
+      <li><a href="https://github.com/glidenote/docker-alpine-serverspec-sample">glidenote/docker-alpine-serverspec-sample</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section">前提</h2>
+
+<p>最近<a href="https://kaizenplatform.com/hiring/engineer.html">Kaizen Platform, Inc.</a>で利用している一部Docker ImageをAmazon LinuxベースのものからAlpine Linuxベースのものに置き換え中。
+Alpine Linuxについては<a href="https://twitter.com/stormcat24">@stormcat24</a>さんの<a href="http://blog.stormcat.io/archive/category/Alpine">ブログ</a>が一番参考になります。</p>
+
+<p>今までDockerイメージにServerspecを実行するときには、コンテナ内でsshdを立てて、ssh経由で<code>knife-solo</code>でプロビジョニングを実行し、その後同じくssh経由で<code>Serverspec</code>を流していた。</p>
+
+<p>Alpine Linuxベースに切り替えてから、出来るだけイメージサイズを小さくするために<code>knife-solo</code>は利用せずに、<code>Dockerfile</code> だけで構築している。(<code>Dockerfile</code>だけが良いかは現在検証中)
+<code>knife-solo</code>のためにコンテナ内でsshdを立てる必要はなくなったので、同じくssh経由で実行していた<code>Serverspec</code>は<code>docker-api</code> 経由で実行するようにした。</p>
+
+<h2 id="section-1">実行環境</h2>
+
+<ul>
+  <li>Mac OS X
+    <ul>
+      <li>ProductVersion: 10.11.6</li>
+      <li>Ruby 2.3.0</li>
+      <li>Docker 1.12.0</li>
+    </ul>
+  </li>
+  <li>CircleCI
+    <ul>
+      <li>Ruby 2.3.0</li>
+      <li>Docker 1.9.1-circleci-cp-workaround</li>
+    </ul>
+  </li>
+  <li>serverspec 2.36.0</li>
+  <li>docker-api 1.31.0</li>
+</ul>
+
+<h2 id="section-2">実際の作業</h2>
+
+<h3 id="section-3">ファイル構成</h3>
+
+<p>先に作業後のファイル構成を書いておくと下記のような感じになります。</p>
+
+<p><code>
+.
+├── Dockerfile
+├── Gemfile
+├── Gemfile.lock
+├── Rakefile
+├── circle.yml
+└── spec
+    ├── docker
+    │   └── package_spec.rb
+    └── spec_helper.rb
+</code></p>
+
+<h3 id="gemfile">Gemfile</h3>
+
+<p>Gemfileを用意して <code>bundle install</code></p>
+
+<p>```ruby
+source ‘https://rubygems.org’</p>
+
+<p>gem ‘rake’
+gem ‘serverspec’
+gem ‘docker-api’
+```</p>
+
+<h3 id="dockerfile">Dockerfile</h3>
+
+<p>Dockerfileを用意。debugしやすいようにbashだけ導入</p>
+
+<p>```
+FROM alpine:3.4</p>
+
+<p>RUN apk add –no-cache bash
+```</p>
+
+<p>tagは <code>docker-alpine-serverspec-sample</code> としてbuild。</p>
+
+<p><code>sh
+docker build -t docker-alpine-serverspec-sample .
+</code></p>
+
+<h3 id="serverspec">Serverspec各種ファイル</h3>
+
+<p><code>serverspec-init</code> で各種ファイルを作成</p>
+
+<p>```sh
+⇒  serverspec-init
+Select OS type:</p>
+
+<p>1) UN*X
+  2) Windows</p>
+
+<p>Select number: 1</p>
+
+<p>Select a backend type:</p>
+
+<p>1) SSH
+  2) Exec (local)</p>
+
+<p>Select number: 2</p>
+
+<ul>
+  <li>spec/</li>
+  <li>spec/localhost/</li>
+  <li>spec/localhost/sample_spec.rb</li>
+  <li>spec/spec_helper.rb</li>
+  <li>Rakefile</li>
+  <li>.rspec
+```</li>
+</ul>
+
+<p>生成されるsampleのテストは利用しないので削除</p>
+
+<p><code>sh
+rm -rf spec/localhost
+</code></p>
+
+<h3 id="spechelperrb">ローカル用の spec_helper.rb</h3>
+
+<p>```ruby
+require ‘serverspec’
+require ‘docker’</p>
+
+<p>set :backend, :docker
+set :docker_url, ENV[“DOCKER_HOST”]
+image = Docker::Image.build_from_dir(‘.’)
+set :docker_image, image.id</p>
+
+<p>Excon.defaults[:ssl_verify_peer] = false
+```</p>
+
+<h3 id="section-4">テストファイルの追加</h3>
+
+<p>ディレクトリの作成し、Dockerfileのパッケージインストールに対応するテスト <code>spec/docker/package_spec.rb</code> を追加</p>
+
+<p><code>sh
+mkdir -p spec/docker/
+</code></p>
+
+<p>```ruby
+require ‘spec_helper’</p>
+
+<p>describe package(‘bash’) do
+  it { should be_installed }
+end
+```</p>
+
+<h3 id="serverspec-1">Serverspecの実行</h3>
+<p>テストの準備が整ったので、Serverspecを流してみる。</p>
+
+<p><code>sh
+bundle exec rake spec
+</code></p>
+
+<p>問題がなければ下記のようになる。</p>
+
+<p>```
+Package “bash”
+  should be installed</p>
+
+<p>Finished in 1.61 seconds (files took 0.67509 seconds to load)
+1 example, 0 failures
+```</p>
+
+<h2 id="circleci">CircleCI上での実行</h2>
+
+<p>ローカルに続いて、CircleCI環境でも動くようにする。</p>
+
+<h3 id="circleyml-">circle.yml の用意</h3>
+
+<p>```yml
+machine:
+  timezone: UTC
+  ruby:
+    version: 2.3.0
+  services:
+    - docker</p>
+
+<p>dependencies:
+  pre:
+    - bundle install</p>
+
+<p>test:
+  pre:
+    - docker version
+    - docker info
+    - docker build -t ${CIRCLE_PROJECT_REPONAME} . :
+        timeout: 1200
+    - docker run ${CIRCLE_PROJECT_REPONAME} &amp;
+    - sleep 5
+  override:
+    - bundle exec rspec
+    - docker ps -a
+    - docker images
+```</p>
+
+<h3 id="circleci-spechelperrb">CircleCI でも動くようにspec_helper.rbの修正</h3>
+
+<p><a href="https://circleci.com/docs/docker/#docker-exec">公式ドキュメント</a> に記載されているようにCircleCIのDockerでは <code>docker exec</code> が利用できず、 <code>lxc-attach</code> コマンドを利用しないといけないので、<code>spec_helper.rb</code> でMacとの環境差を吸収し、同じコマンドでServerspecが流せるようにする。</p>
+
+<p>元同僚の<a href="https://twitter.com/ngs">@ngs</a>が<a href="https://ja.ngs.io/2015/09/26/circleci-docker-serverspec/">自身のブログ</a>に書いていたのでそれを利用。</p>
+
+<p>```ruby
+require ‘serverspec’
+require ‘docker’</p>
+
+<p>set :backend, :docker
+set :docker_url, ENV[“DOCKER_HOST”]
+image = Docker::Image.build_from_dir(‘.’)
+set :docker_image, image.id</p>
+
+<p>Excon.defaults[:ssl_verify_peer] = false</p>
+
+<h1 id="httpscirclecicomdocsdockerdocker-exec">https://circleci.com/docs/docker#docker-exec</h1>
+<p>if ENV[‘CIRCLECI’]
+  module Docker
+    class Container
+      def exec(command, opts = {}, &amp;block)
+        command[2] = command[2].inspect # [‘/bin/sh’, ‘-c’, ‘YOUR COMMAND’]
+        cmd = %Q{sudo lxc-attach -n #{self.id} – #{command.join(‘ ‘)}}
+        stdin, stdout, stderr, wait_thread = Open3.popen3 cmd
+        [stdout.read, [stderr.read], wait_thread.value.exitstatus]
+      end
+      def remove(options={})
+        # do not delete container
+      end
+      alias_method :delete, :remove
+      alias_method :kill, :remove
+    end
+  end
+end
+```</p>
+
+<p>これで、Mac上でもCircleCI上でも同じ</p>
+
+<p><code>sh
+bundle exec rake spec
+</code></p>
+
+<p>でテストが実行できるようになった。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/08/docker-alpine-serverspec-sample_0.png" alt="" /></p>
+
+<p>↑の画像のように、イメージのサイズが非常に小さいAlpine Linuxに切り替えてからbuildもtestもすぐに完了するので生産性が高くなった。</p>
+
+<h2 id="section-5">参考</h2>
+
+<ul>
+  <li><a href="http://blog.stormcat.io/archive/category/Alpine">Alpine カテゴリーの記事一覧 - tehepero note(・ω&lt;)</a></li>
+  <li><a href="https://circleci.com/docs/docker/#docker-exec">Continuous Integration and Delivery with Docker - CircleCI</a></li>
+  <li><a href="https://ja.ngs.io/2015/09/26/circleci-docker-serverspec/">CircleCI で Docker Container を Serverspec でテストする - Atsushi Nagase</a></li>
+  <li><a href="http://qiita.com/yulii/items/3ae64d6b68d64db7b1a9">Docker + Serverspec を使ってCircleCI 上でインフラのテストを実行する - Qiita</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

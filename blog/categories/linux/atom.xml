@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: linux | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GoReplayを導入して、Production環境へのリクエストを複製し、Staging環境に転送する仕組みを作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/12/16/goreplay/"/>
+    <updated>2016-12-16T15:25:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/12/16/goreplay</id>
+    <content type="html"><![CDATA[<p>結構前に作っていたんですが、いろいろと忙しくてブログに書くタイミングを失していたので年末のタイミングで紹介。</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://github.com/buger/goreplay">GoReplay</a>を利用して、Production環境のリクエストを複製し、Stagins環境、開発環境に投げる仕組みを作った</li>
+  <li>インフラ構成の大きな変更無しで、手軽にProduction環境の実リクエストを複製し、開発、動作検証ができるようになった</li>
+  <li>2016年の弊社サービスのDocker化や、インフラ構成の大幅な変更、ミドルウェアのアップデート、アプリの改修時のバグ事前検知と事故防止に大いに役に立った</li>
+</ul>
+
+<h2 id="goreplay">GoReplayの説明</h2>
+
+<ul>
+  <li><a href="https://github.com/buger/goreplay">GoReplay</a></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/12/gor0.png" alt="" /></p>
+
+<ul>
+  <li>Goで書かれており、バイナリを設置し、オプションを指定し実行するだけで動作する</li>
+  <li>アプリが稼働しているサーバで動く。(例えばNginx+Railsが稼働しているサーバで一緒にGoReplayを動かす感じ。)</li>
+  <li>libpcap を利用しているので、tpcdumpと同じでデータリンク層(OSI layer2)レベルでパケットを取得しています。</li>
+  <li>GoReplay は <code>gor listen</code> と <code>gor replay</code> の2つが1セットで動作します。
+    <ul>
+      <li><code>gor listen</code> がリクエストを複製し、<code>App</code> と <code>gor replay</code> に渡す。</li>
+      <li><code>gor replay</code> がリクエストを転送したり、ファイルに書き込んだり、再生作業をする。</li>
+    </ul>
+  </li>
+  <li>複製の割合や、複数の転送先、リクエストのフィルタリング設定などがあり高機能。
+    <ul>
+      <li><a href="https://github.com/buger/goreplay/wiki">https://github.com/buger/goreplay/wiki</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>私の理解が正しければ下記のような感じで動作してます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/12/gor1.png" alt="" /></p>
+
+<h2 id="shadow-proxy">Shadow Proxyとの比較</h2>
+
+<ul>
+  <li>アプリサーバで<strong>必要な時に手軽に動かせる</strong>。</li>
+  <li>動作が軽快</li>
+  <li>インフラ構成的に利用時に事故が起こりにくい(サービスの全リクエストを裁くわけではないので)</li>
+</ul>
+
+<p>今回なぜShadow Proxyを利用しなかったのかは後述。</p>
+
+<h2 id="section">実際に稼働している例で説明</h2>
+
+<p>実際に弊社で動かしている環境をざっくり図にして説明。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/12/gor2.png" alt="" /></p>
+
+<ul>
+  <li>Productionリリース予定のコードがデプロイされている、Stagingサーバを用意。</li>
+  <li><code>Production frontend</code>の１台で、GoReplayを動かしリクエストを複製し、ステージングサーバ<code>Staging frontend</code>にリクエストをProductionと同じリクエストを投げる。</li>
+  <li>Productionのデータと一緒にならないように、ステージング用に <code>staging aggregator</code> と データ格納先の <code>staging BigQuery</code> を用意。</li>
+  <li>下記コマンドのような形で動かし、Productionの1台に流れてきたリクエストを10%の割合で複製し、ステージングサーバに転送します。</li>
+  <li>echoサーバを作って、ベンチをとった結果(後述)、リクエストを100%複製し転送すると、パフォーマンスが劣化するので複製・転送の割合10%だけにしてます。</li>
+  <li>実際の運用ではSupervisordを利用して、GoReplayの軌道を管理</li>
+  <li>次期リリース予定のコードやインフラに問題があれば、StagingサーバのbugsnagなどがキャッチしてSlackにPostされる。</li>
+</ul>
+
+<p><code>sh
+sudo gor --input-raw :8080 --output-http "http://stating901.example.com|10%"
+</code></p>
+
+<h2 id="goreplay-1">GoReplay利用時のベンチマーク</h2>
+
+<p>nginx + echo-nginx-module を利用して、GoReplayの複製割合に応じてどれくらいパフォーマンスが劣化するか下記のような形でベンチマークを取得。</p>
+
+<p><code>sh
+ab -n 10000 -c 100 http://hogemoge.example.com/hello
+</code></p>
+
+<p>0%はGoReplayの利用無し、100%の場合はGoReplayで全トラフィックを複製して転送する。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>0%</th>
+      <th>10%</th>
+      <th>20%</th>
+      <th>50%</th>
+      <th>100%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>RPS</td>
+      <td>2254.49</td>
+      <td>1944.42</td>
+      <td>1782.10</td>
+      <td>1403.82</td>
+      <td>1023.71</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>GoReplayで転送率を100%にして、全トラフィックを複製かけるとパフォーマンスが劣化するので、インフラを増強しておく必要あり。</p>
+
+<hr />
+
+<p>ここから余談で、どうしてShadow Proxyを導入しなかったのか過去の経験と個人的な意見をちょっと書いてみる。</p>
+
+<h2 id="shadow-proxy-1">リクエストを複製するShadow Proxyの話</h2>
+
+<p>リクエストを複製するShadow Proxyと呼ばれるものは昔から存在します。</p>
+
+<ul>
+  <li><a href="https://github.com/cookpad/kage">cookpad/kage: Kage (kah-geh) is a shadow proxy server to duplex HTTP requests</a></li>
+  <li><a href="https://github.com/lestrrat/p5-Geest">lestrrat/p5-Geest: Port of Kage</a></li>
+  <li><a href="https://github.com/kentaro/delta">kentaro/delta: HTTP shadow proxy server written in Go</a></li>
+</ul>
+
+<p>Shadow Proxy利用時の一般的な構成</p>
+
+<p><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/a/antipop/20131212/20131212195546.png" alt="" /></p>
+
+<h3 id="shadow-proxy1">Shadow Proxyの問題点(※1)</h3>
+
+<ul>
+  <li>構成的にロードバランサの次あたりに存在(リクエスト処理する構成の前段の方に存在)するので非常に高い信頼性が求められる。</li>
+  <li>構成的に全リクエストがShadow Proxyを経由し、backendのサーバに到達するため、Shadow Proxyがボトルネックになりやすい。
+    <ul>
+      <li>各種Shadow Proxyのベンチマーク <a href="http://qiita.com/kentaro/items/17e2c334a902677af995#%E3%83%99%E3%83%B3%E3%83%81%E3%83%9E%E3%83%BC%E3%82%AF%E7%B5%90%E6%9E%9C">Go言語を含む複数種類の言語により実装されたソフトウェアのベンチマーク - Qiita</a></li>
+    </ul>
+  </li>
+  <li>インフラの構成的にサービスの全リクエストを処理する必要があるので、気軽に利用出来ない。稼働中のサービスに後から投入しにくい</li>
+  <li>全リクエストがShadow Proxyを通過する構成になっていると、<strong>Shadow Proxyが落ちるとサービス全部落ちる</strong></li>
+  <li>上記を解消しShadow Proxyを安定的に稼働しようとすると、インフラが複雑化して障害点が増えやすい</li>
+</ul>
+
+<p>※1 2年以上前の経験から得た知見なので、もしかして今は違うかもしれませんが。</p>
+
+<p>この仕組みを作ったおかげで、Production環境のリクエストを利用し事前に動作検証が出来るので、今年は事故も心理的な負担がだいぶ減ったと思う。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Let’s Encryptで証明書を作ってみた]]></title>
+    <link href="https://blog.glidenote.com/blog/2016/02/04/lets-encrypt/"/>
+    <updated>2016-02-04T18:18:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2016/02/04/lets-encrypt</id>
+    <content type="html"><![CDATA[<p>社内向けのリバースプロキシを構築中に、まだ証明書を用意していないドメインで、Let’s Encryptを試す機会があったのでメモ。</p>
+
+<p>去年アメリカに行ったタイミングから完全にブログ書く習慣がなくなってしまったので、リハビリも兼ねて。</p>
+
+<ul>
+  <li><a href="https://letsencrypt.org/">Let’s Encrypt - Free SSL/TLS Certificates</a></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/letsencrypt0.png" alt="" /></p>
+
+<h2 id="section">前提</h2>
+
+<ul>
+  <li>Port 80が空いている。外部からアクセスできる。</li>
+  <li>DNSが引けて、名前解決ができるようになっている</li>
+</ul>
+
+<h2 id="section-1">作業環境</h2>
+
+<ul>
+  <li>CentOS 7.0, Amazon Linux</li>
+  <li>Nginx 1.9.10</li>
+</ul>
+
+<h2 id="lets-encrypt">Let’s Encryptのインストール</h2>
+
+<p><code>sh
+git clone https://github.com/letsencrypt/letsencrypt
+cd letsencrypt/
+./letsencrypt-auto --help --debug
+</code></p>
+
+<p><code>./letsencrypt-auto --help --debug</code> のタイミングで依存パッケージがインストールされる。
+無事インストールが完了するとヘルプが表示される。</p>
+
+<p>```
+Updating letsencrypt and virtual environment dependencies……
+Requesting root privileges to run with virtualenv: /root/.local/share/letsencrypt/bin/letsencrypt –help</p>
+
+<p>letsencrypt-auto [SUBCOMMAND] [options] [-d domain] [-d domain] …</p>
+
+<p>The Let’s Encrypt agent can obtain and install HTTPS/TLS/SSL certificates.  By
+default, it will attempt to use a webserver both for obtaining and installing
+the cert. Major SUBCOMMANDS are:</p>
+
+<p>(default) run        Obtain &amp; install a cert in your current webserver
+  certonly             Obtain cert, but do not install it (aka “auth”)
+  install              Install a previously obtained cert in a server
+  revoke               Revoke a previously obtained certificate
+  rollback             Rollback server configuration changes made during install
+  config_changes       Show changes made to server config during installation
+  plugins              Display information about installed plugins</p>
+
+<p>Choice of server plugins for obtaining and installing cert:</p>
+
+<p>–apache          Use the Apache plugin for authentication &amp; installation
+  –standalone      Run a standalone webserver for authentication
+  (nginx support is experimental, buggy, and not installed by default)
+  –webroot         Place files in a server’s webroot folder for authentication</p>
+
+<p>OR use different plugins to obtain (authenticate) the cert and then install it:</p>
+
+<p>–authenticator standalone –installer apache</p>
+
+<p>More detailed help:</p>
+
+<p>-h, –help [topic]    print this message, or detailed help on a topic;
+                        the available topics are:</p>
+
+<p>all, automation, paths, security, testing, or any of the subcommands or
+   plugins (certonly, install, nginx, apache, standalone, webroot, etc)
+```</p>
+
+<p>証明書を作る際に、letsencryptが80番を利用するので、nginxを一時的に落とす</p>
+
+<p><code>sh
+sudo service nginx stop
+</code></p>
+
+<p>下記コマンドを実行して証明書を作成する。</p>
+
+<p><code>sh
+./letsencrypt-auto certonly --standalone -d webapp.glidenote.com
+</code></p>
+
+<p>キー紛失時の復元用のメールアドレスを入力</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/letsencrypt1.png" alt="" /></p>
+
+<p>規約の同意画面</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/letsencrypt2.png" alt="" /></p>
+
+<p>完了すると下記のようにメッセージが表示される。証明書の期限は90日。</p>
+
+<p>```
+IMPORTANT NOTES:
+ - If you lose your account credentials, you can recover through
+   e-mails sent to xxxxxx@xxxxxxxxxxxxxxxx.
+ - Congratulations! Your certificate and chain have been saved at
+   /etc/letsencrypt/live/webapp.glidenote.com/fullchain.pem. Your cert
+   will expire on 2016-05-02. To obtain a new version of the
+   certificate in the future, simply run Let’s Encrypt again.
+ - Your account credentials have been saved in your Let’s Encrypt
+   configuration directory at /etc/letsencrypt. You should make a
+   secure backup of this folder now. This configuration directory will
+   also contain certificates and private keys obtained by Let’s
+   Encrypt so making regular backups of this folder is ideal.
+ - If you like Let’s Encrypt, please consider supporting our work by:</p>
+
+<p>Donating to ISRG / Let’s Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+```</p>
+
+<p>下記のような感じでファイルが出来上がる。</p>
+
+<p><code>
+/etc/letsencrypt/live/webapp.glidenote.com/fullchain.pem
+/etc/letsencrypt/live/webapp.glidenote.com/cert.pem
+/etc/letsencrypt/live/webapp.glidenote.com/chain.pem
+/etc/letsencrypt/live/webapp.glidenote.com/privkey.pem
+</code></p>
+
+<p>nginxで利用するのは <code>fullchain.pem</code> と <code>privkey.pem</code> なので、nginxのconfを修正。</p>
+
+<p>```
+server {
+  listen 443 ssl http2;</p>
+
+<p>server_name         webapp.glidenote.com;</p>
+
+<p>ssl_certificate     /etc/letsencrypt/live/webapp.glidenote.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/webapp.glidenote.com/privkey.pem;</p>
+
+<p>ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:ECDHE-RSA-DES-CBC3-SHA:ECDHE-ECDSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA;</p>
+
+<p>~ snip ~~</p>
+
+<p>}
+```</p>
+
+<p>nginxを起動させてみる。</p>
+
+<p><code>sh
+sudo nginx -t
+sudo service nginx start
+</code></p>
+
+<p>ちゃんとエラーが出ない証明書が出来上がっている。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/letsencrypt3.png" alt="" /></p>
+
+<p>更新については<a href="https://letsencrypt.org/howitworks/">公式ドキュメント</a>にあるように、下記のようのあスクリプトを用意してcronで回しておけばOKの模様。(検証用途でしか利用していないので、更新作業はまだやってないです)</p>
+
+<p><code>sh
+#!/bin/sh
+service nginx stop  # or whatever your webserver is
+if ! /path/to/letsencrypt-auto certonly -tvv --standalone --keep -d webapp.glidenote.com &gt; /var/log/letsencrypt/renew.log 2&gt;&amp;1 ; then
+    echo Automated renewal failed:
+    cat /var/log/letsencrypt/renew.log
+    exit 1
+fi
+service nginx start # or whatever your webserver is
+</code></p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="https://letsencrypt.jp/usage/">Let’s Encrypt の使い方 - Let’s Encrypt 総合ポータル</a></li>
+  <li><a href="http://inside.pixiv.net/entry/2015/12/10/153114">Let’s EncryptとnginxでHTTP/2サーバを立てる - pixiv inside</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ncコマンドでファイル転送するときにpvコマンドで進捗を表示する]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv/"/>
+    <updated>2014-12-02T10:50:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/12/02/using-netcat-for-file-transfers-with-pv</id>
+    <content type="html"><![CDATA[<p>ファイルを送受信するときに暗号化する必要が無い場合は
+高速なので<code>nc</code>コマンドを多用しているんですが、進捗表示の方法を毎回忘れてググっているので自分用にメモ。</p>
+
+<h2 id="section">送信側</h2>
+
+<p><code>3000</code>ポートを転送に使う場合。</p>
+
+<p><code>sh
+pv hogemoge.zip | nc -l 3000
+</code></p>
+
+<h2 id="section-1">受信側</h2>
+
+<p><code>sh
+nc foobar.com 3000 | pv &gt; hogemoge.zip
+</code></p>
+
+<p>ファイル転送中は下記みたいな感じで転送済みデータサイズ、転送速度、残り時間、プログレスバーなど進捗が確認出来る</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/nc_pv0.png" alt="" /></p>
+
+<p>簡易的な回線速度の測定にも使えるので、大変便利。</p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/hogem/20101115/1289827270">nc(netcat)で超簡易ファイル転送 - うまいぼうblog</a></li>
+  <li><a href="http://apatheia.info/blog/2011/12/17/pv/">プログレスバーを簡単に表示できるコマンド pv - apatheia.info</a></li>
+  <li><a href="http://www.g-loaded.eu/2006/11/06/netcat-a-couple-of-useful-examples/">Netcat – a couple of useful examples | G-Loaded Journal</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ssh接続したリモートサーバの出力を手元Macのクリップボードに送る]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/02/22/remote-pbcopy/"/>
+    <updated>2014-02-22T21:27:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/02/22/remote-pbcopy</id>
+    <content type="html"><![CDATA[<p>今までsshしたリモートサーバ上でコマンド実行したときの結果出力とかは、
+tmuxのコピーモードとかを駆使して、Macのクリップボードに送ってたんですが
+もっと手軽に出来る方法があったのでGitHubにまとめてみた。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/rpbcopy">glidenote/rpbcopy</a></li>
+</ul>
+
+<h2 id="section">仕組みの説明</h2>
+
+<ol>
+  <li>Mac上で、受け取った内容をクリップボード(pbcopy)に渡す<code>LaunchAgent</code>を作って起動</li>
+  <li>リモートサーバ上の出力を受け取るスクリプト<code>rpbcopy(nc)</code>に渡す</li>
+  <li>sshの<code>RemoteForward</code>を利用して、リモートサーバで<code>rpcopy(nc)</code>に渡された内容をMac上の<code>LaunchAgent</code>に渡す</li>
+  <li>Mac上の<code>LaunchAgent</code>が受け取ったデータをMacの<code>pbcopy(クリップボード)</code>に入れる</li>
+  <li><code>pbpaste</code>などで貼り付けが出来る</li>
+</ol>
+
+<p>図にすると下記のような感じ</p>
+
+<p><code>
++ - - - - - - - - -+                       +- - - - - - - - - - - - - - - - -+
+' Remote Server:   '                       ' Mac:                            '
+'                  '                       '                                 '
+' +--------------+ '  ssh(RemoteForward)   ' +--------------+     +--------+ '
+' | rpbcopy(nc)  | ' --------------------&gt; ' | LaunchAgent  | --&gt; | pbcopy | '
+' +--------------+ '                       ' +--------------+     +--------+ '
+'                  '                       '                                 '
++ - - - - - - - - -+                       +- - - - - - - - - - - - - - - - -+
+</code></p>
+
+<h2 id="section-1">導入方法</h2>
+
+<p>動作検証環境</p>
+
+<ul>
+  <li>リモートサーバ CentOS 6.4、Fedora 19</li>
+  <li>ローカルMac OS X 10.9.1</li>
+</ul>
+
+<p><a href="https://github.com/glidenote/rpbcopy">glidenote/rpbcopy</a>に各種ファイルをまとめているので、
+cloneしてくるのが早いです。</p>
+
+<p><code>sh
+git clone https://github.com/glidenote/rpbcopy
+</code></p>
+
+<h3 id="mac">Mac側の設定</h3>
+
+<h4 id="launchagent">LaunchAgentを起動</h4>
+
+<p><code>2224</code>ポートで待ち受けて、受け取った内容をクリップボードに渡すLaunchAgentを用意。
+同梱の<code>pbcopy.plist</code>を<code>~/Library/LaunchAgents/pbcopy.plist</code>に設置して、下記で起動</p>
+
+<p><code>sh
+launchctl load ~/Library/LaunchAgents/pbcopy.plist
+</code></p>
+
+<p>停止する場合は下記</p>
+
+<p><code>sh
+launchctl unload ~/Library/LaunchAgents/pbcopy.plist
+</code></p>
+
+<h4 id="sshconfig"><code>~/.ssh/config</code>の設定</h4>
+
+<p>リモートサーバの<code>2224</code>ポートをフォワーディングするので、
+<code>~/.ssh/config</code>に</p>
+
+<p><code>
+RemoteForward 2224 127.0.0.1:2224
+</code></p>
+
+<p>を追加。</p>
+
+<h4 id="cfusertextencoding"><code>~/.CFUserTextEncoding</code>の設定</h4>
+
+<p>必ず必要な作業ではありませんが、UTF-8の内容を送ると文字化けが発生する場合、転送が上手くされない場合は
+同梱の<code>.CFUserTextEncoding</code>を<code>~/.CFUserTextEncoding</code>に設置することで回避出来ると思います。</p>
+
+<p><code>~/.CFUserTextEncoding</code>を編集することで他に影響が及ぶ場合があるので、
+必ずバックアップを取り、自己責任で編集お願いします。</p>
+
+<h3 id="centos">リモートサーバ(CentOS)側の設定</h3>
+
+<h4 id="nc">ncの導入</h4>
+
+<p><code>nc(netcat)</code>が無いと使えないので<code>nc</code>を導入。(<code>nc</code>のバージョンが古いと<code>-C</code>オプションが存在しない場合があります。)</p>
+
+<p><code>sh
+sudo yum -y install nc
+</code></p>
+
+<h4 id="rpbcopy">rpbcopyスクリプトの設置</h4>
+
+<p>同梱の<code>rpbcopy</code>を<code>~/bin/rpbcopy</code>など<code>PATH</code>が通っている場所に設置して権限を付与</p>
+
+<p><code>sh
+chmod a+x ~/bin/rpbcopy
+</code></p>
+
+<h2 id="section-2">使い方</h2>
+
+<p>リモートサーバにsshログイン。
+手元Macのクリップボードに送りたいファイルやコマンドの出力を、リモートサーバ上で</p>
+
+<p>```
+# 転送が出来るかテスト
+echo “hello” | rpbcopy</p>
+
+<h1 id="mac-cfusertextencoding">日本語が転送が出来るかテスト。駄目な場合はMac側の <code>~/.CFUserTextEncoding</code>を設定する必要あり</h1>
+<p>echo “こんにちは” | rpbcopy</p>
+
+<h1 id="filemac">fileの中身を手元Macのクリップボードにコピー</h1>
+<p>cat fileneme | rpbcopy</p>
+
+<h1 id="historymac">リモートサーバのhistoryの内容を手元Macのクリップボードにコピー</h1>
+<p>history | rpbcopy
+```</p>
+
+<p>という感じでrpbcopyに渡すと、手元のMacのクリップボードに渡されるので
+Mac側で<code>pbpaste</code>や貼り付けが出来る。</p>
+
+<h2 id="section-3">補足</h2>
+
+<p><code>~/.bash_profile</code>や<code>~/.zsh_profile</code>などに</p>
+
+<p><code>
+alias pbcopy='~/bin/rpbcopy'
+</code></p>
+
+<p>とaliasを追加して、<code>pbcopy</code>でも使えるようにしておけば、
+リモートサーバとローカルサーバを意識せずに利用出来る。</p>
+
+<h2 id="section-4">トラブルシューティング</h2>
+
+<p>導入の際にハマったところをまとめておく。</p>
+
+<h3 id="mac-1">Mac側</h3>
+
+<h4 id="launchctl-loadunloadcould-not-open-job-overrides-database-at-privatevardblaunchddbcomapplelaunchdoverridesplist-13-permission-denied"><code>launchctl load/unload</code>を実行すると<code>Could not open job overrides database at: /private/var/db/launchd.db/com.apple.launchd/overrides.plist: 13: Permission denied</code>と出る。</h4>
+
+<p>tmuxを起動している状態で<code>launchctl load/unload</code>を実行するとPermissionのエラーが出てしまうことがあるようです。<a href="https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/">ChrisJohnsen/tmux-MacOSX-pasteboard</a>を利用することで回避出来る模様。</p>
+
+<h4 id="launchagent2224">LaunchAgentは動作しているか、2224ポートは開いているか確認</h4>
+
+<p><code>
+nc -vz 127.0.0.1 2224
+</code></p>
+
+<h4 id="launchagent--pbcopy-"><code>LaunchAgent</code> =&gt; <code>pbcopy</code> とデータが渡っているか。</h4>
+
+<p>Macのncの場合オプションは<code>-c</code>なので注意</p>
+
+<p><code>
+echo "hello" | nc -c 127.0.0.1 2224
+pbpaste
+</code></p>
+
+<h4 id="launchagent--pbcopy--1"><code>LaunchAgent</code> =&gt; <code>pbcopy</code> と日本語のデータが渡っているか。</h4>
+
+<p>Macのncの場合オプションは<code>-c</code>なので注意.</p>
+
+<p><code>
+echo "日本語のテスト" | nc -c 127.0.0.1 2224
+pbpaste
+</code></p>
+
+<p>駄目な場合は、<code>~/.CFUserTextEncoding</code>を同梱のものに入れ替えるてどうか確認。</p>
+
+<h3 id="centos-1">CentOS側</h3>
+
+<h4 id="nc-1">ncが入っているか</h4>
+
+<p><code>sh
+type nc
+</code></p>
+
+<h4 id="ssh-remoteforward">2224ポートと疎通が出来ているか。SSH RemoteForwardが出来ているか</h4>
+
+<p><code>sh
+nc -vz 127.0.0.1 2224
+</code></p>
+
+<h4 id="ssh-remoteforwardmacpbpaste">SSH RemoteForward経由でMacのpbpasteにデータを渡せているか</h4>
+
+<p><code>
+echo "hello" | nc -c 127.0.0.1 2224
+</code></p>
+
+<p>mac側で<code>pbpaste</code>を実行してみてどうか。</p>
+
+<hr />
+
+<p>普段私が常用しているmoshだとこれが利用出来ないので、いい方法がないか思案中。<br />
+とりあえず、<code>ターミナル作業用のmosh接続</code>とは別で<code>rpbcopy専用のssh接続</code>を作っておくことで利用してる。</p>
+
+<h2 id="section-5">参考</h2>
+
+<ul>
+  <li><a href="http://seancoates.com/blogs/remote-pbcopy">Sean Coates blogs: Remote pbcopy</a></li>
+  <li><a href="http://brettterpstra.com/2014/02/19/remote-pbcopy-on-os-x-systems/">Remote pbcopy on OS X systems - BrettTerpstra.com</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[重要なメールが届いたらIRCにメールの件名を通知するようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/01/29/post-to-irc-important-mail-subject/"/>
+    <updated>2014-01-29T22:57:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/01/29/post-to-irc-important-mail-subject</id>
+    <content type="html"><![CDATA[<p>自分がTO,CC,BCCに入ってたり、本文に自分の名前が入ってるメールはちゃんとメーラで振り分けしてチェックしているんですが、
+自分が参加しているML宛てに重要なメールが届いたときにを見逃してしまう事が多い。</p>
+
+<p>IRCは基本的に常時起動していて、キーワードには反応するようにしているので、参加しているML宛てにメールが届いたらメールのsubjectをIRCに通知して気づけるようにした。</p>
+
+<p>これをやる前置きとして、弊社では<a href="https://github.com/yappo/p5-App-Ikachan">Ikachan</a>が導入されてるので、
+curl叩けばIRC通知されるようになっており、IRCへの通知は大変手軽に出来るようになってる。</p>
+
+<h2 id="section">仕組み</h2>
+
+<ul>
+  <li>サーバ上でfetchmailをcronで回して、メールを定期受信</li>
+  <li>procmailで条件に一致する場合を判定し、コマンド(curl)を叩いてIRCに通知する</li>
+</ul>
+
+<p>たとえば、特定の人(From)からメールが届いたらIRCに通知するよう場合の <code>.procmailrc</code>の内容は下記のような感じ</p>
+
+<p>```
+SUBJECT=<code>formail -c -xSubject:</code>
+IRC_POST_SUBJECT=<code>echo $SUBJECT | nkf -w</code></p>
+
+<p>:0
+* ^(From).*hogemoge@ml.hogemoge.com
+{</p>
+
+<p>:0 c
+  | /usr/bin/curl -F channel=’#maeda_test’ http://ikachan.hogemoge.com:4979/privmsg -F message=”メールが届いてるよ!  件名:${IRC_POST_SUBJECT}”</p>
+
+<p>:0
+  ~/Maildir/
+}
+```</p>
+
+<p>「2014年にfetchmailとかprocmailなんて…」という感じかもしれないけど、
+軽量だし、技術的には枯れてて非常に安定しているので、こういうことをやるのには適してると思う。</p>
+]]></content>
+  </entry>
+  
+</feed>

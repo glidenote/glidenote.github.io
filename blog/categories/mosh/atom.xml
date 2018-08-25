@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: mosh | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/mosh/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Moshのrpm作成を簡略化した]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/05/15/mosh-rpm/"/>
+    <updated>2012-05-15T09:36:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/05/15/mosh-rpm</id>
+    <content type="html"><![CDATA[<p><a href="http://mosh.mit.edu/">Mosh</a>が便利で、かなり活用しているんですが、
+開発速度が速く、バージョンアップのたびにRPM作成をしていくのが結構だるいので
+多少楽になるように対応。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/mosh-1.2-rpm">glidenote/mosh-1.2-rpm</a></li>
+</ul>
+
+<p>単にGitHub上にspecとbuild用のスクリプトを配置しているだけですが。  </p>
+
+<p>CentOS6とSL6決めうちなのは、私がそれしか使っていないからです。
+もしCentOS5用のを作る場合は<a href="http://www.sssg.org/blogs/naoya/archives/2267">@n0tsさんのサイト</a>が
+参考になります。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.kyanny.me/entry/2012/04/11/233514">mosh-1.1.3-1.el6.x86_64.rpm - 刺身☆ブーメランのブログ</a></li>
+  <li><a href="http://www.sssg.org/blogs/naoya/archives/2267">mosh バージョン 1.2 | Carpe Diem</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[zsh+MoshでHostnameを補完出来るようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/14/mosh-hostname-completion/"/>
+    <updated>2012-04-14T09:58:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/14/mosh-hostname-completion</id>
+    <content type="html"><![CDATA[<p><a href="http://mosh.mit.edu/">Mosh</a>を利用していてHostnameが補完されずに不便だったので、
+下記を<code>.zshrc</code>に書いて、sshと同じように<code>mosh [tab]</code>でhostnameを補完するようにしました。
+ほぼssh補完関数そのままですが。</p>
+
+<p><div><script src='https://gist.github.com/2381208.js'></script>
+<noscript><pre><code># mosh
+function _mosh_hosts {
+  local -a config_hosts
+  local config
+  integer ind
+
+  # If users-hosts matches, we shouldn&#39;t complete anything else.
+  if [[ &quot;$IPREFIX&quot; == *@ ]]; then
+    _combination -s &#39;[:@]&#39; my-accounts users-hosts &quot;users=${IPREFIX/@}&quot; hosts &quot;$@&quot; &amp;&amp; return
+  else
+    _combination -s &#39;[:@]&#39; my-accounts users-hosts \
+      ${opt_args[-l]:+&quot;users=${opt_args[-l]:q}&quot;} hosts &quot;$@&quot; &amp;&amp; return
+  fi
+  if (( ind = ${words[(I)-F]} )); then
+    config=${~words[ind+1]}
+  else
+    config=&quot;$HOME/.ssh/config&quot;
+  fi
+  if [[ -r $config ]]; then
+    local IFS=$&#39;\t &#39; key hosts host
+    while read key hosts; do
+      if [[ &quot;$key&quot; == (#i)host ]]; then
+	 for host in ${(z)hosts}; do
+	    case $host in
+	    (*[*?]*) ;;
+	    (*) config_hosts+=(&quot;$host&quot;) ;;
+	    esac
+	 done
+      fi
+    done &lt; &quot;$config&quot;
+    if (( ${#config_hosts} )); then
+      _wanted hosts expl &#39;remote host name&#39; \
+	compadd -M &#39;m:{a-zA-Z}={A-Za-z} r:|.=* r:|=*&#39; &quot;$@&quot; $config_hosts
+    fi
+  fi
+}
+
+compdef _mosh_hosts mosh</code></pre></noscript></div>
+</p>
+
+<p><code>$HOME/.ssh/config</code>と<code>$HOME/.ssh/known_hosts</code>に記載されているものは
+補完されるようになりました。</p>
+
+<p><strong>2012年4月23日 追記</strong></p>
+
+<p><a href="https://twitter.com/#!/n0ts">@n0ts</a>さんがブログで紹介していた方法のほうが楽なので追記。</p>
+
+<ul>
+  <li><a href="http://www.sssg.org/blogs/naoya/archives/2245">mosh コマンドで ssh コマンドと同等の補完をする方法 | Carpe Diem</a></li>
+</ul>
+
+<p><code>.zshrc</code>に下記を1行追加だけでホスト名が補完されるのでこっちの方が楽です。
+(ホスト名だけでなくsshのオプションも補完されてしまいますが)</p>
+
+<p><code>
+compdef mosh=ssh
+</code></p>
+
+<p>ますますMosh生活が快適になりました。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[tmux上でmosh接続したときに新しいウィンドウを生成する]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/11/mosh-with-tmux/"/>
+    <updated>2012-04-11T23:12:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/11/mosh-with-tmux</id>
+    <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2012/04/11/mosh-on-sakura-vps/">前回の記事</a>で
+<a href="http://mosh.mit.edu/">Mosh</a>を導入してあまりに快適なので、zsh+tmux+moshの環境を整え中。</p>
+
+<p>tmuxを利用中に、moshでリモートホストに接続したら、新規ウィンドウを生成するように
+<code>.zshrc</code>に下記のように記載。</p>
+
+<p><div><script src='https://gist.github.com/2359525.js'></script>
+<noscript><pre><code>if [ $TERM = screen ]; then
+function mosh_tmux() {
+    eval server=\${$#}
+    tmux new-window -n $@ &quot;exec ssh $@&quot;
+}
+alias mosh=mosh_tmux
+fi</code></pre></noscript></div>
+</p>
+
+<p>下記のように、新規にmoshでリモートホストに接続すると
+hostnameの入ったウィンドウが生成されるようになりました。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/mosh-tmux.png" alt="" /></p>
+
+<p>スリープから復帰してもリモートホストに接続しているターミナルが
+生きているので、tmux+moshで新境地が開拓出来そうな予感。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[さくらVPSにSSH代替品のMoshを入れてみた]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/11/mosh-on-sakura-vps/"/>
+    <updated>2012-04-11T11:42:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/11/mosh-on-sakura-vps</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="http://mosh.mit.edu/">Mosh: the mobile shell</a></li>
+</ul>
+
+<p>話題の<a href="http://mosh.mit.edu/">Mosh</a>をMacBook Airと自宅サーバのFedora16に入れて、
+あまりのレスポンスの良さに感動して、早速さくらVPS(CentOS6)にも入れてみました。<br />
+moshの解説は<a href="http://d.hatena.ne.jp/karasuyamatengu/20120411/1334092521">karasuyamatenguさんのサイト</a>に非常によくまとまっています。</p>
+
+<p>ssh鍵の登録などのsshの設定は完了しているものとして作業します。(認証部分はsshに依存しているので)</p>
+
+<h2 id="vpsmosh">さくらVPSにMoshを導入</h2>
+
+<p><code>
+sudo yum -y install boost-devel zlib-devel ncurses-devel protobuf-devel paco
+exec $SHELL
+</code></p>
+
+<p>yumで導入出来なかったので、githubからソースを持ってきて導入。
+ソースから導入する場合は、<a href="http://paco.sourceforge.net/">paco</a>で
+管理した方が楽なので、<code>paco</code>を利用します。<br />
+<code>IO::Pty</code>も必要のようなことが書いてありますが検証した<code>Lion</code>、<code>Fedora16</code>、<code>SL6.2</code>、<code>CentOS6.2</code>では導入しなくても大丈夫でした。</p>
+
+<p><code>
+mkdir ~/tmp
+cd ~/tmp
+git clone git://github.com/keithw/mosh.git
+cd mosh
+./autogen.sh
+./configure
+make
+sudo paco -D make install
+sudo paco -ua
+exec $SHELL
+</code></p>
+
+<p>さくらVPS側では、UDPの60000-61000番ポートを開放する必要があります。<br />
+私は<code>/etc/sysconfig/iptables</code>に下記を設定しました。適時変更してください。<br />
+検証時は接続元を絞った方がいいかと思います。</p>
+
+<p><code>
+# mosh
+-A RH-Firewall-1-INPUT -m state --state NEW -m udp -p udp --dport 60000:61000 -j ACCEPT
+</code></p>
+
+<h2 id="macmosh">MacにMoshを導入</h2>
+
+<p>Homebrewを利用して導入</p>
+
+<p><code>
+brew install mobile-shell
+</code></p>
+
+<h2 id="macvpsmosh">MacからさくらVPSにMosh接続</h2>
+
+<p><code>
+mosh hostname
+</code></p>
+
+<p>という感じで接続出来ます。sshdのように常時デーモンが起動しているわけでなく、
+mosh接続した際に、リモートホストでmosh-serverが起動される感じです。</p>
+
+<p>sshに慣れきっていたので、Moshのレスポンスの良さは驚きです。
+とりあえずローカル環境に関してはsshじゃなくmoshでいいような。</p>
+
+<p>自分の開発環境には全台導入しました。</p>
+]]></content>
+  </entry>
+  
+</feed>

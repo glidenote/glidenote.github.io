@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: iphone | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/iphone/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[モバイルバッテリーを大容量から小容量に切り替えたら生活が快適になった話]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/05/12/eneloop-mobile-booster/"/>
+    <updated>2012-05-12T22:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/05/12/eneloop-mobile-booster</id>
+    <content type="html"><![CDATA[<p>
+<a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L54D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V5400mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMNSE?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMNSE"><img src="https://images-fe.ssl-images-amazon.com/images/I/4183wp7N5bL._SL160_.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L27D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V2700mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMOMY?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMOMY"><img src="https://images-fe.ssl-images-amazon.com/images/I/41oqWuqmL5L._SL160_.jpg" align="right" /></a>
+</p>
+
+<ul>
+<li><a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L27D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V2700mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMOMY?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMOMY">SANYO USB出力付きリチウムイオンバッテリー (高容量リチウムイオン3.7V2700mAh電池使用) KBC-L27D</a></li>
+<li><a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L54D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V5400mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMNSE?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMNSE">SANYO USB出力付きリチウムイオンバッテリー (高容量リチウムイオン3.7V5400mAh電池使用) KBC-L54D</a></li>
+</ul>
+
+<p>最近iPhoneとSony Ericsson mini用に使っているモバイルバッテリーを電池容量の小さいものに
+変えたら生活が快適になったので、ちょっと書こうかと思います。</p>
+
+<p>KBC-L54DとKBC-L27Dは同じ日に発売された同世代のモバイルバッテリーなので、
+本体サイズ、電池容量、給電ポート数以外の性能は同じです。<br />
+ランプで残容量が分かったり、 マイクロUSBで充電が出来るタイプのものです。</p>
+
+<h2 id="kbc-l54d">大容量KBC-L54Dを利用していて不便に感じていた点</h2>
+
+<ul>
+  <li>サイズが大きい 62(幅)×70(高さ)×22(奥行)mm</li>
+  <li>重い 142g</li>
+  <li>片手でiPhoneと一緒に持つと操作しにくい。疲れる</li>
+  <li>充電しながらズボンのポケットに入れて持ち歩くことが難しいサイズ感</li>
+  <li>上記理由から充電するときはカバンに入れざるを得ない</li>
+  <li>給電ポート2個を同時に利用することがほとんど無い</li>
+  <li>電池容量(5400mAh)が大きいので充電時間が長い</li>
+</ul>
+
+<p><img src="http://farm6.staticflickr.com/5337/7180207570_8f60285ee1_c.jpg" alt="" /></p>
+
+<h2 id="kbc-l27d">小容量KBC-L27Dに切り替えて良かった点</h2>
+
+<ul>
+  <li>サイズが小さい 寸法:70(幅)×39(高さ)×22(奥行)mm</li>
+  <li>軽い 78g</li>
+  <li>iPhoneを充電しながらポケットに入れて持ち歩けるサイズ感</li>
+  <li>片手でiPhoneと一緒に持っても操作問題なし</li>
+  <li>電池容量(2700mAh)が小さいので充電が早い</li>
+  <li>iPhone4へのフル充電が1回半出来るので、1日過ごすには十分</li>
+</ul>
+
+<p><img src="http://farm8.staticflickr.com/7103/7180206696_ce96fc41d6_c.jpg" alt="" /></p>
+
+<p>KBC-L54DとKBC-L27Dはいずれも2011年9月に発売され、コストパフォーマンスが良かったので
+何も考えず大容量のKBC-L54Dを購入して利用していたのですが、5400mAhという容量は使い切ることがなく
+1回給電したら充電という利用方法で、大容量のメリットを生かし切れておらず
+上に挙げたような不便さだけが際立ってきていたので、小容量のKBC-L27Dに切り替えて快適になりました。</p>
+
+<p>KBC-L27Dは値段が安定していないので、同等性能のPanasonic製品の方が安いケースがありますので、 
+購入前に両方の値段をチェックすることをお勧めします。</p>
+
+<p>
+<a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-400mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL201-K/dp/B0051R4EYU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EYU"><img src="https://images-fe.ssl-images-amazon.com/images/I/21otpm0VfNL._SL160_.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-700mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL101/dp/B0051R4EJU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EJU"><img src="https://images-fe.ssl-images-amazon.com/images/I/31P4Z3LsIaL._SL160_.jpg" align="right" /></a>
+</p>
+
+<ul>
+<li><a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-700mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL101/dp/B0051R4EJU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EJU">パナソニック モバイルバッテリー 2,700mAh 無接点充電(Qi) 対応 USBモバイル電源 QE-PL101</a></li>
+<li><a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-400mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL201-K/dp/B0051R4EYU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EYU">パナソニック モバイルバッテリー 5,400mAh 無接点充電(Qi) 対応 USBモバイル電源 ブラック QE-PL201-K</a></li>
+</ul>
+
+<p><br clear="all" /></p>
+
+<p>iPhone4のバッテリもへたってきたのか、最近バッテリ持ちが悪くなってきたので買い換え時かな…</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ホームボタンビーンズでiPhone4のボタンの効きが良くなった]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/11/30/iphone-home-bottun/"/>
+    <updated>2011-11-30T00:41:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/11/30/iphone-home-bottun</id>
+    <content type="html"><![CDATA[<p><a href="http://hb.afl.rakuten.co.jp/hgc/0ed4c892.839c81ab.0ed4c893.8cc2fe39/?pc=http%3a%2f%2fitem.rakuten.co.jp%2fspecdirect%2fsp239%2f%3fscid%3daf_ich_link_txt&amp;m=http%3a%2f%2fm.rakuten.co.jp%2fspecdirect%2fi%2f10000146%2f" target="_blank">ホームボタンビーンズ</a></p>
+
+<p>これを貼ったらiPhone4のホームボタンの効きが良くなりました。私の貼り方が悪いのか、透明なのと周辺からほこりが入りやすい構造で汚れが目立って若干アレな感じですが、とりあえず快適です。</p>
+
+<p><a href="http://hb.afl.rakuten.co.jp/hgc/0ed4c892.839c81ab.0ed4c893.8cc2fe39/?pc=http%3a%2f%2fitem.rakuten.co.jp%2fspecdirect%2fsp239%2f%3fscid%3daf_ich_link_img&amp;m=http%3a%2f%2fm.rakuten.co.jp%2fspecdirect%2fi%2f10000146%2f" target="_blank"><img src="http://image.rakuten.co.jp/specdirect/cabinet/sp239/08.jpg" border="0" /></a></p>
+]]></content>
+  </entry>
+  
+</feed>

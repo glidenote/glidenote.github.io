@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: curl | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/curl/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Bijogoyomi 2012-05-25]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/05/25/bijogoyomi-2012-05-25/"/>
+    <updated>2012-05-25T00:32:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/05/25/bijogoyomi-2012-05-25</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="http://www.bijogoyomi.com/bijo3/search.php?name=%E3%83%9F%E3%83%B3%E3%82%AB%E3%83%BB%E3%83%AA%E3%83%BC&amp;x=0&amp;y=0">美女暦（BIJO ごよみ）| bijogoyomi.com</a></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/bijogoyomi0.png" alt="" /></p>
+
+<p><code>
+mkdir ~/tmp
+cd ~/tmp
+curl -o image#1.jpg 'http://www.bijogoyomi.com/bijo/img2.php?m=if&amp;i=20120525_ec91de_pc_[01-15].jpg'
+</code></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/bijogoyomi1.png" alt="" /></p>
+
+<h2 id="section">関連リンク</h2>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2012/03/05/bijogoyomi/">bijogoyomi - Glide Note - グライドノート</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[bijogoyomi]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/03/05/bijogoyomi/"/>
+    <updated>2012-03-05T02:50:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/03/05/bijogoyomi</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="http://www.bijogoyomi.com/bijo3/index.php/2012/03/05">美女暦（BIJO ごよみ）| bijogoyomi.com</a></li>
+  <li><a href="http://ameblo.jp/minka-ri/">☆ミンカ・リーの☆民家２階の障子の隙間からこんにちは</a></li>
+  <li><a href="http://www.bijogoyomi.com/bijo3/search.php?name=%E3%83%9F%E3%83%B3%E3%82%AB%E3%83%BB%E3%83%AA%E3%83%BC&amp;x=0&amp;y=0">その他の美女暦</a></li>
+</ul>
+
+<p><a href="http://www.bijogoyomi.com/bijo3/index.php/2012/03/05"><img src="https://blog.glidenote.com/images/2012/03/bijogoyomicom.png" /></a></p>
+
+<p><code>
+mkdir ~/tmp
+cd ~/tmp
+curl -o image#1.jpg 'http://www.bijogoyomi.com/bijo/img2.php?m=if&amp;i=20120305_d3ebbd_pc_[01-20].jpg'
+</code></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/03/bijogoyomicom2.png" alt="" /></p>
+
+]]></content>
+  </entry>
+  
+</feed>

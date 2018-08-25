@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: bigquery | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/bigquery/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[CloudFrontのログをfluent-plugin-bigqueryを利用してBigQueryに入れるようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery/"/>
+    <updated>2014-11-21T14:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/11/21/cloudfront-logs-to-bigquery</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li>Amazon CloudFrontのアクセスログをBigQueryに入れるようにした</li>
+  <li>BigQueryへのデータ投入には社内の他プロジェクトでも利用していて実績があり、KAIZENがメンテナになっている<a href="https://github.com/kaizenplatform/fluent-plugin-bigquery">fluent-plugin-bigquery</a>を利用</li>
+</ul>
+
+<h2 id="section">背景</h2>
+
+<p>ここ2ヶ月くらい、あらゆるログをBigQueryに集約しつつあって、今回はAmazon CloudFrontのアクセスログについて作業をした。</p>
+
+<p>Amazon CloudFrontのアクセスログには以下のような特徴がある。</p>
+
+<ul>
+  <li>Amazon CloudFrontのアクセスログは数時間〜1日程度遅れでS3のBucketに追加される。時系列はバラバラ</li>
+  <li>CloudFrontのアクセスログがtsv形式。</li>
+  <li>ベストエフォート型で全てのログがS3に収容される保証は無い</li>
+  <li><code>gz</code>で圧縮されてS3に追加される(BigQueryに入れるにはgz形式から展開する必要がある)</li>
+  <li>ログファイルの数が非常に多い。作業していた環境でだいたい1日に15,000個くらい<code>gz</code>ファイルがあって、全部をダウンロードするのに160分くらいかかる</li>
+</ul>
+
+<p>という感じ。</p>
+
+<h2 id="section-1">仕組みの詳細</h2>
+
+<p>データの流れ</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/cf2bq01.png" alt="" /></p>
+
+<ol>
+  <li>CloudFrontのログが自動でS3に追加される</li>
+  <li>batchサーバから<code>s3cmd sync</code>でcronで定期的にs3からログファイル(<code>gz</code>形式)をローカルに持ってくる</li>
+  <li>batchサーバで、取得したログファイルを<code>zcat ${FILE} &gt;&gt; /var/log/cloudfront/access.log</code> で連結する</li>
+  <li>batchサーバのFluentdで<code>in_tail</code>を用い<code>/var/log/cloudfront/access.log</code>を読み込む</li>
+  <li><code>fluent-plugin-bigquery</code>を用いてBigQueryにデータを投入する(日付毎にデータ投入先のテーブルを分ける)</li>
+</ol>
+
+<p>こんな感じでBigQueryにデータが入っている</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/11/cf2bq02.png" alt="" /></p>
+
+<p>先日発表された<a href="https://blog.glidenote.com/blog/2014/11/20/s3-event-notificasions/">S3 Event Notificasionsを検証中</a>なので、問題が無ければ、Amazon SQSを利用した処理に切り替え予定。</p>
+
+<h2 id="section-2">この方式を採用した理由</h2>
+
+<ul>
+  <li>私がFluentdの運用に慣れていた。</li>
+  <li>KAIZENがメンテナをしているfluent-plugin-bigqueryを利用したかった</li>
+  <li>BigQueryへのデータ投入部分を自前で実装しなくて良い</li>
+  <li>BigQueryへのデータ投入周りのエラーハンドリング、再送処理をfluent-plugin-bigqueryに任すことが出来る</li>
+  <li>logrotateを利用して、ログの世代管理が出来る。Fluentdがログ切り替えを検知出来る。(nginxのログなど他のアクセスログと同じような感じで扱える)</li>
+  <li>Fluentdを利用しているので、スケールが容易</li>
+  <li><code>/var/log/cloudfront/access.log-YYYYMMDD.gz</code>というように日別でログが分かれているので、障害やトラブル発生時のリカバリーも簡単になっている。(障害が発生した日の15,000個とかのログをS3から持ってきて云々… みたいな面倒な処理が必要ない)</li>
+</ul>
+
+<h2 id="section-3">その他</h2>
+
+<ul>
+  <li>CloudFrontのログがS3に追加されるのが遅い場合1日程度かかるので、翌日のテーブルにデータが入ってしまう。BigQueryからデータを取り出すときに工夫が必要</li>
+  <li>BigQueryにデータ投入先のテーブルが存在しないと死ぬので、別でテーブル作成の仕組みと監視をしておく必要あり。</li>
+  <li>データサイズが大きい場合、テーブルを適切に分割していないとBigQuery破産に。</li>
+  <li>テーブルの自動作成、監視には<a href="https://rubygems.org/gems/bigquery">bigquery</a>を利用</li>
+</ul>
+
+<p>該当部分の<code>td-agent.conf</code>の設定</p>
+
+<p>```</p>
+<source />
+
+<p>type         tail 
+  path         /var/log/cloudfront/access.log
+  pos_file     /var/log/td-agent/cloudfront-access-log.pos
+  tag          extracted.cflog</p>
+
+<p>format       tsv
+  keys         day,time,x_edge_location,sc_bytes,c_ip,cs_method,cs_Host,cs_uri_stem,sc_status,cs_Referer,cs_User_Agent,cs_uri_query,cs_Cookie,x_edge_result_type,x_edge_request_id,x_host_header,cs_protocol,cs_bytes,time_take
+&lt;/source&gt;</p>
+
+<match extracted.cflog="">
+  type                        bigquery
+
+  buffer_type                 file
+  buffer_path                 /var/log/td-agent/cf.bq.*.buffer
+
+  method                      insert
+
+  auth_method                 private_key
+  email                       ''
+  private_key_path            ''
+
+  buffer_chunk_limit          768k
+  buffer_queue_limit          5000
+  flush_interval              1
+  try_flush_interval          0.05 
+  num_threads                 10 
+  queued_chunk_flush_interval 0.01
+
+  project                     ''
+  dataset                     ''
+  table                       %Y%m%d
+
+  fetch_schema                true
+</match>
+<p>```</p>
+
+<p>BigQueryにログを集約したことで集計も調査も非常に簡単になって、本当にBigQuery素晴らしい。</p>
+]]></content>
+  </entry>
+  
+</feed>

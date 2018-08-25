@@ -1,0 +1,396 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Slackのチャンネル移動をキーボードで簡単に出来るようKarabinerのprivate.xmlを書いた - Glide Note</title>
+  <meta property="og:title" content="Slackのチャンネル移動をキーボードで簡単に出来るようKarabinerのprivate.xmlを書いた - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="仕事でSlackを使っているんですが、
+キーボードショートカットがあんまり使いやすくなくて、
+特にチャンネル移動が致命的に使いにくくてストレスフルなので、、Karabiner(旧keyremap2makbook)のprivate.xmlを書いた。
+( &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack">
+<meta name="twitter:title" content="Slackのチャンネル移動をキーボードで簡単に出来るようKarabinerのprivate.xmlを書いた">
+<meta name="twitter:description" content="仕事でSlackを使っているんですが、
+キーボードショートカットがあんまり使いやすくなくて、
+特にチャンネル移動が致命的に使いにくくてストレスフルなので、、Karabiner(旧keyremap2makbook)のprivate.xmlを書いた。
+(Slackのメニューにチャンネル移動の項目がないので、Macの環境設定からキーバインドの設定が出来ないのでKarabinerで実現してます) &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Slackのチャンネル移動をキーボードで簡単に出来るようKarabinerのprivate.xmlを書いた</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-06T18:32:00+09:00" pubdate data-updated="true">2014年08月06日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="https://blog.glidenote.com/images/2014/08/slack-logo.png" alt="" /></p>
+
+<p>仕事で<a href="https://slack.com/">Slack</a>を使っているんですが、
+<a href="https://slack.zendesk.com/hc/en-us/articles/201374536-Keyboard-Shortcuts">キーボードショートカット</a>があんまり使いやすくなくて、
+特にチャンネル移動が致命的に使いにくくてストレスフルなので、、<a href="https://pqrs.org/osx/karabiner/index.html.ja">Karabiner(旧keyremap2makbook)</a>のprivate.xmlを書いた。
+(Slackのメニューにチャンネル移動の項目がないので、Macの環境設定からキーバインドの設定が出来ないのでKarabinerで実現してます)</p>
+
+<p>今までWeechatというIRCクライアントを使っていたので、そのキーバインドに合わせた。
+具体的には</p>
+
+<ul>
+  <li><code>Ctrl + N</code>で次のチャンネル or DMに移動</li>
+  <li><code>Ctrl + P</code>で前のチャンネル or DMに移動</li>
+  <li><code>Alt + A</code>で未読チャンネル or DMに移動</li>
+</ul>
+
+<h2 id="section">導入方法</h2>
+
+<p><code>~/Library/Application\ Support/Karabiner/private.xml</code> に下記のように設定を追加</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class="xml"><span class="line"><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+</span><span class="line"><span class="nt">&lt;root&gt;</span>
+</span><span class="line">
+</span><span class="line">    <span class="nt">&lt;appdef&gt;</span>
+</span><span class="line">        <span class="nt">&lt;appname&gt;</span>SLACK<span class="nt">&lt;/appname&gt;</span>
+</span><span class="line">        <span class="nt">&lt;equal&gt;</span>com.tinyspeck.slackmacgap<span class="nt">&lt;/equal&gt;</span>
+</span><span class="line">    <span class="nt">&lt;/appdef&gt;</span>
+</span><span class="line">    <span class="nt">&lt;item&gt;</span>
+</span><span class="line">        <span class="nt">&lt;name&gt;</span>For Slack CTRL+N=move next channel, CTRL+P=move previous channel, ALT+A=move unread channel<span class="nt">&lt;/name&gt;</span>
+</span><span class="line">        <span class="nt">&lt;identifier&gt;</span>private.app_slack_move_channel_with_ctrln_ctrlp<span class="nt">&lt;/identifier&gt;</span>
+</span><span class="line">        <span class="nt">&lt;only&gt;</span>SLACK<span class="nt">&lt;/only&gt;</span>
+</span><span class="line">        <span class="nt">&lt;autogen&gt;</span>__KeyToKey__ KeyCode::N, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN, ModifierFlag::OPTION_L<span class="nt">&lt;/autogen&gt;</span>
+</span><span class="line">        <span class="nt">&lt;autogen&gt;</span>__KeyToKey__ KeyCode::P, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP, ModifierFlag::OPTION_L<span class="nt">&lt;/autogen&gt;</span>
+</span><span class="line">        <span class="nt">&lt;autogen&gt;</span>__KeyToKey__ KeyCode::A, ModifierFlag::OPTION_L, KeyCode::CURSOR_DOWN, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L<span class="nt">&lt;/autogen&gt;</span>
+</span><span class="line">    <span class="nt">&lt;/item&gt;</span>
+</span><span class="line">
+</span><span class="line"><span class="nt">&lt;/root&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>これでKarabinerの設定画面から<code>ReloadXML</code>をして、設定にチェックを入れれば動くようになる。</p>
+
+<p>これでホームポジションから動かずにSlackがだいたい操作できるようになって快適になった。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-06T18:32:00+09:00" pubdate data-updated="true">2014年08月06日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/slack/'>slack</a>, <a class='category' href='/blog/categories/tech/'>tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="Slackのチャンネル移動をキーボードで簡単に出来るようKarabinerのprivate.xmlを書いた - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Slackのチャンネル移動をキーボードで簡単に出来るようKarabinerのprivate.xmlを書いた "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2015/08/17/move-to-akamai/">CDNをAkamaiに切り替えた</a></li>
+
+  <li><a href="/blog/2014/03/30/tech-tool-knowledge/">開発環境の情報共有会でDash,SourceTree,Alfredの話をした</a></li>
+
+  <li><a href="/blog/2012/03/23/automation/">エンジニアのための時間管理術、自動化に関するまとめ</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/08/01/join-to-kaizen-platform-inc/" title="Previous Post: KAIZEN platform Inc.に入社した">&laquo; KAIZEN platform Inc.に入社した</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/09/12/chatops-security-update/" title="next Post: ChatOpsでOSのセキュリティアップデートを自動化出来るようにした">ChatOpsでOSのセキュリティアップデートを自動化出来るようにした &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2014/08/06/custom-keybind-for-slack/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

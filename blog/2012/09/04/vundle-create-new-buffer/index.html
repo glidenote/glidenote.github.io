@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>VundleでBundleInstall時に新規バッファが生成されるようになっていた - Glide Note</title>
+  <meta property="og:title" content="VundleでBundleInstall時に新規バッファが生成されるようになっていた - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="新規サーバや新規開発環境で利用しているvimの初期セットアップ用の
+スクリプトがこけていて、調べたら 1
+vim +BundleInstall! +q というコマンドの+qでvimが終了しない状態だったので、
+下記のようなつぶやきをしたら vim +BundleInstall! +q &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2012/09/04/vundle-create-new-buffer/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2012/09/04/vundle-create-new-buffer">
+<meta name="twitter:title" content="VundleでBundleInstall時に新規バッファが生成されるようになっていた">
+<meta name="twitter:description" content="新規サーバや新規開発環境で利用しているvimの初期セットアップ用の
+スクリプトがこけていて、調べたら 1
+vim +BundleInstall! +q というコマンドの+qでvimが終了しない状態だったので、
+下記のようなつぶやきをしたら vim +BundleInstall! +q でvimが終了しなくなってるな。vim +BundleInstall! +q +q だと終了する&mdash; &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">VundleでBundleInstall時に新規バッファが生成されるようになっていた</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-04T23:55:00+09:00" pubdate data-updated="true">2012年09月04日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>新規サーバや新規開発環境で利用しているvimの初期セットアップ用の
+スクリプトがこけていて、調べたら</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vim +BundleInstall! +q</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>というコマンドの<code>+q</code>でvimが終了しない状態だったので、
+下記のようなつぶやきをしたら</p>
+
+<blockquote class="twitter-tweet" lang="ja"><p>vim +BundleInstall! +q でvimが終了しなくなってるな。vim +BundleInstall! +q +q だと終了する</p>&mdash; Akira MAEDAさん (@glidenote) <a href="https://twitter.com/glidenote/status/240680356464951296" data-datetime="2012-08-29T05:20:43+00:00">8月 29, 2012</a></blockquote>
+<script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p><a href="https://twitter.com/mattn_jp">@mattn_jp</a>さんから</p>
+
+<blockquote class="twitter-tweet" data-in-reply-to="240680356464951296" lang="ja"><p>@<a href="https://twitter.com/glidenote">glidenote</a> 終了後にバッファが開いているのかもしれませんね。 +qall でどうでしょ</p>&mdash; mattnさん (@mattn_jp) <a href="https://twitter.com/mattn_jp/status/240683894138097664" data-datetime="2012-08-29T05:34:46+00:00">8月 29, 2012</a></blockquote>
+<script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>との助言を頂き、早速下記にコマンドを修正。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">vim +BundleInstall! +qall</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ちゃんと初期セットアップのスクリプトが走るようになった。
+<a href="https://github.com/gmarik/vundle">vundle</a>がいつのバージョンからか
+<code>BundleInstall</code>時に新規Bufferを作るようになったのが原因だった模様。</p>
+
+<p><a href="https://twitter.com/mattn_jp">@mattn_jp</a>さん、いつもありがとうございます!!</p>
+
+<p>同じ問題を最近チェックし始めた<a href="https://github.com/spf13/spf13-vim">spf13/spf13-vim</a>の
+インストールスクリプトでも見つけたので、下記のようなPull Requestを送ってmergeされた。</p>
+
+<p><a href="https://github.com/spf13/spf13-vim/pull/117">Pull Request #117: after bundle install, close all buffers. by glidenote · spf13/spf13-vim</a></p>
+
+<p>vundle利用している人は、同じようなスクリプトを利用していると思うので要修正ですね。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-04T23:55:00+09:00" pubdate data-updated="true">2012年09月04日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/vim/'>vim</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2012/09/04/vundle-create-new-buffer/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="VundleでBundleInstall時に新規バッファが生成されるようになっていた - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=VundleでBundleInstall時に新規バッファが生成されるようになっていた "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2014/07/09/manage-route53-with-roadworker-and-direnv/">Roadworkerとdirenvを使ってRoute53のDNSレコードを管理する & Roadworker用にVimプラグインとZsh補完関数も作った</a></li>
+
+  <li><a href="/blog/2014/06/19/quickrun-serverspec/">vim-quickrunでServerspecをカーソル行単位でテストして編集効率を10倍にする</a></li>
+
+  <li><a href="/blog/2014/06/17/serverspec-snippets/">Serverspecが超高速で書けるserverspec-snippetsを作った</a></li>
+
+  <li><a href="/blog/2014/05/29/bundle-open-with-vimfiler/">bundle openでVimfilerやCtrlP.vimやFuzzyFinderを起動する</a></li>
+
+  <li><a href="/blog/2014/05/28/vim-rubocop/">rubocop+syntasticでRubyのコーディングルールへの準拠チェックを自動化する</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/08/31/2012-summer/" title="Previous Post: 夏の終わり">&laquo; 夏の終わり</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/09/16/pslurp/" title="next Post: 複数のサーバから一斉にファイルを収集するのにpslurpが便利">複数のサーバから一斉にファイルを収集するのにpslurpが便利 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2012/09/04/vundle-create-new-buffer/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2012/09/04/vundle-create-new-buffer/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

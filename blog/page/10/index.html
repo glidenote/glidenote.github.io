@@ -1,0 +1,929 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="前回のVagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する - Glide Note - グライドノートの続き。 Vagtant+DigitalOceanだけでも十分便利なんですが、先日CentOS6.5がリリースされ、 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/10/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/10">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="前回のVagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する - Glide Note - グライドノートの続き。 Vagtant+DigitalOceanだけでも十分便利なんですが、先日CentOS6.5がリリースされ、正式にDockerがサポートされたので、DigitalOcean上にCentOS 6.5+Dockerな環境を用意してみる &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/20/vagrant-docker-digitalocean/">MacからVagrantコマンド一発でSSDなVPS(DigitalOcean)上にCentOS6.5+Docker環境を構築する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-20T13:00:00+09:00" pubdate data-updated="true">2013年12月20日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="https://blog.glidenote.com/images/2013/12/vagrant-docker-digital-ocean.png" alt="" /></p>
+
+<p>前回の<a href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/">VagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する - Glide Note - グライドノート</a><a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/"><img src="http://b.hatena.ne.jp/entry/image/https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/" /></a>の続き。</p>
+
+<p>Vagtant+DigitalOceanだけでも十分便利なんですが、先日<code>CentOS6.5</code>がリリースされ、正式に<a href="https://www.docker.io/">Docker</a>がサポートされたので、<a href="https://www.digitalocean.com/?refcode=510a665458a3">DigitalOcean</a>上に<code>CentOS 6.5</code>+<code>Docker</code>な環境を用意してみる。<br />
+といっても、2013年12月20日現在DigitalOceanでは<code>CentOS 6.5</code>なimageが提供されていないので、選択出来る<code>CentOS 6.4</code>のイメージを使いながら、Vagrantを利用してコマンド一発で<code>CentOS 6.5</code>+<code>Docker</code>環境が作れるようにした。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/vagrant-docker-digitalocean">glidenote/vagrant-docker-digitalocean</a></li>
+</ul>
+
+<h2 id="section">これは何</h2>
+
+<ul>
+  <li><a href="http://www.vagrantup.com/">Vagrant</a>を利用して、<a href="https://www.digitalocean.com/?refcode=510a665458a3">DigitalOcean</a>上にCentOS 6.5 + Dockerな環境をコマンド一発(<code>vagrant up --provider=digital_ocean --provision</code>)で構築します。</li>
+  <li>CentOS 6.5より<a href="https://www.docker.io/">Docker</a>がサポートされていますが、2013年12月19日現在DigitalOceanではCentOS 6.5のimageが提供されていません。これを利用することで簡単にCentOS6.5+Dockerが利用可能になります。</li>
+  <li>安く、SSDで高速な開発環境を簡単に構築できます。時間単位での課金なので財布に大変優しい</li>
+</ul>
+
+<h2 id="section-1">事前準備</h2>
+
+<p>Macでの利用を想定した手順になっています。</p>
+
+<p><strong>2014年7月18日 追記</strong><br />
+DigitalOceanのAPIがv2.0になり<a href="https://cloud.digitalocean.com/settings/applications">https://cloud.digitalocean.com/settings/applications</a>で<code>token</code>の生成が必要になりました．
+Vagrantfileに<code>provider.token = 'xxxxxxxxxxxxxxxxxxxxx'</code>といった形でtokenを設定する必要があります．
+また<code>region</code>の指定方法も<code>San Francisco 1</code>から<code>sfo1</code>という感じで変更になっています．</p>
+
+<h3 id="digitaloceanapiclientidapikey">DigitalOceanに申し込んでAPIの<code>client_id</code>と<code>api_key</code>を取得する</h3>
+
+<ol>
+  <li><a href="https://www.digitalocean.com/?refcode=510a665458a3">DigitalOcean</a>に申し込む</li>
+  <li><a href="https://cloud.digitalocean.com/ssh_keys">https://cloud.digitalocean.com/ssh_keys</a>で作成したインスタンスに接続するための<code>ssh key</code>を登録</li>
+  <li><a href="https://cloud.digitalocean.com/api_access">https://cloud.digitalocean.com/api_access</a>から<code>client_id</code>と<code>api_key</code>を取得しておく</li>
+</ol>
+
+<p>前回同様に<a href="https://www.digitalocean.com/?refcode=510a665458a3">ここ経由</a>で申し込んで頂けると私の懐が潤います!</p>
+
+<p>2013年12月20日現在の1時間あたりの料金プランは下記のような感じでホントに安い。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/12/digitalocean-plan.png" alt="" /></p>
+
+<h3 id="vagrant">Vagrantをインストール</h3>
+
+<p><a href="http://www.vagrantup.com/">Vagrant</a>からファイルをダウンロードしてインストール。2013/12/19現在最新の<code>1.4.1</code>を利用してます。</p>
+
+<h3 id="vagrant-digitaloceanhttpsgithubcomsmdahlenvagrant-digitalocean"><a href="https://github.com/smdahlen/vagrant-digitalocean">vagrant-digitalocean</a>のインストール</h3>
+
+<p>vagrantコマンドでvagrant-digitaloceanをインストール。vagrant-digitaloceanは2013/12/19現在最新の<code>0.5.1</code>を利用</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">vagrant plugin install vagrant-digitalocean
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="curl-ca-bundle">curl-ca-bundleのインストール</h3>
+
+<p>apiを叩くのに必要なので、brewで導入</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">brew install curl-ca-bundle
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">使い方</h2>
+
+<h3 id="clone">リポジトリをclone</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">git clone https://github.com/glidenote/vagrant-docker-digitalocean.git
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="vagrantfile"><code>Vagrantfile</code>を下記部分を自分の環境に合わせて修正</h3>
+
+<ul>
+  <li><code>config.vm.hostname</code>には付けたいホスト名を設定</li>
+  <li><code>provider.client_id</code>には準備で作成した<code>client_id</code>を設定</li>
+  <li><code>provider.api_key</code>には準備で作成した<code>api_key</code>を設定</li>
+  <li><code>provider.ssh_key_name</code>には準備で作成したssh鍵名を指定</li>
+  <li>regionは日本からのレスポンスが良い<code>San Francisco 1</code>、sizeはDockerを利用するのに快適な<code>1GB</code>に設定しています。2013/12/19現在size<code>1GB</code>のインスタンス(Droplet)は1時間2円弱(0.015ドル)です。売り切れの場合などは必要に応じて適時変更してください</li>
+</ul>
+
+<h3 id="centos65dockerdroplet">CentOS6.5+Dockerなインスタンス(Droplet)の作成</h3>
+
+<p>コマンド一発でインスタンスを作成。ドンッ!! 4〜5分でCentOS6.5+Dockerな環境が出来上がる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">vagrant up --provider<span class="o">=</span>digital_ocean --provision
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="dropletssh">インスタンス(Droplet)にsshログイン</h3>
+
+<p><code>vagrant ssh</code>でssh接続するとIPを覚えておく必要がない。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">vagrant ssh
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="digitaloceandocker">DigitalOcean上でDockerを動かしてみる</h3>
+
+<p>インスタンス作成時にDockerを自動起動させているので、すぐに使えるようになってます。
+たとえば下記でfedoraで立ち上げてみる。どーん！</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo docker run -i -t mattdm/fedora /bin/bash
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>すると1〜2分くらいで、下記みたいな感じでfedoraが使える。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="o">[</span>root@test001 ~<span class="o">]</span><span class="c"># sudo docker run -i -t mattdm/fedora /bin/bash</span>
+</span><span class="line">Unable to find image <span class="s1">&#39;mattdm/fedora&#39;</span> <span class="o">(</span>tag: latest<span class="o">)</span> locally
+</span><span class="line">Pulling repository mattdm/fedora
+</span><span class="line">373dc830edcd: Download <span class="nb">complete</span>
+</span><span class="line">871613fadf3d: Download <span class="nb">complete</span>
+</span><span class="line">7c8cf65e1efa: Download <span class="nb">complete</span>
+</span><span class="line">bash-4.2# cat /etc/redhat-release
+</span><span class="line">Fedora release 20 <span class="o">(</span>Heisenbug<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="droplet">使い終わったらインスタンス(Droplet)を削除</h3>
+
+<p>DigitalOceanは停止状態(halt)だと課金されるので、使い終わったら、インスタンスをdestroyで消す。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">vagrant destroy
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>前回も思ったけど、なんて便利な時代なんだ!!<br />
+時間課金で安いし、SSDで早いし、手元のマシンはファン回りっぱなしとかならないしDigitalOcean最高。</p>
+
+<h2 id="section-3">参考</h2>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2013/12/05/digital-ocean-with-vagrant/">VagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する - Glide Note - グライドノート</a></li>
+  <li><a href="http://docs.docker.io/en/latest/installation/rhel/">Requirements and Installation on Red Hat Enterprise Linux - Docker Documentation</a></li>
+  <li><a href="http://www.1x1.jp/blog/2013/12/docker_on_centos65.html">CentOS 6.5 に Docker をインストールしてみた - Shin x blog</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/05/digital-ocean-with-vagrant/">VagrantとSSDなVPS(Digital Ocean)で1時間1円の使い捨て高速サーバ環境を構築する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-05T20:56:00+09:00" pubdate data-updated="true">2013年12月05日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="https://blog.glidenote.com/images/2013/12/vagrant-digital-ocean.png" alt="" /></p>
+
+<p>今年の初めくらいから個人的な技術検証にはSSDで動作が速く、1時間1円で料金が安いのと
+ロケーションをSan Franciscoにするとsshでもレスポンスが悪くないので、全部<a href="https://www.digitalocean.com/?refcode=510a665458a3">Digital Ocean</a>を使っている。(<a href="http://z.tokumaru.org/2013/10/digitalocean.html">徳丸先生が紹介する</a>前から使っていたんだ！)</p>
+
+<p>Digital Oceanについては<a href="http://rebuild.fm/2/">Rebuild: 2: Rails, Redis, VPS (Kenn Ejima)</a>の42分くらいから言及されてます。必聴です。</p>
+
+<p>使ってる旧型のMacBookAirみたいな貧弱なマシンだとローカルでVM動かすとファン回りまくりとかで泣きたくなるので、Digital Oceanだと泣かずに済んで快適。</p>
+
+<p>そんで今日<a href="http://www.vagrantup.com/">Vagrant</a>経由でDigital Ocean利用すると、コマンドラインから必要なときに新規インスタンス(Droplet)作って、
+検証終わったら削除という手軽な使い捨て高速サーバ環境が利用出来て検証に大変便利ということを知った。(APIの存在は知っていましたが、情弱なのでブラウザから毎回ポチポチやってました…)</p>
+
+<h2 id="digital-oceanapiclientidapikey">Digital Oceanに申し込んでAPIの<code>client_id</code>と<code>api_key</code>を取得する</h2>
+
+<ol>
+  <li><a href="https://www.digitalocean.com/?refcode=510a665458a3">Digital Ocean</a>に申し込む</li>
+  <li><a href="https://cloud.digitalocean.com/ssh_keys">https://cloud.digitalocean.com/ssh_keys</a>で作成したインスタンスに接続するための<code>ssh key</code>を登録</li>
+  <li><a href="https://cloud.digitalocean.com/api_access">https://cloud.digitalocean.com/api_access</a>から<code>client_id</code>と<code>api_key</code>を取得しておく</li>
+</ol>
+
+<p><a href="https://www.digitalocean.com/?refcode=510a665458a3">ここ経由</a>で申し込んで頂けると私の懐が潤います!</p>
+
+<p>2013年12月05日現在の1時間あたりの料金プランは下記のような感じ</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/12/digitalocean-plan.png" alt="" /></p>
+
+<h2 id="vagrant">Vagrantをインストール</h2>
+
+<p><a href="http://www.vagrantup.com/">Vagrant</a>からファイルをダウンロードしてインストール。2013/12/05現在最新の<code>1.3.5</code>を利用してます。</p>
+
+<h2 id="vagrant-digitaloceanhttpsgithubcomsmdahlenvagrant-digitalocean"><a href="https://github.com/smdahlen/vagrant-digitalocean">vagrant-digitalocean</a>のインストール</h2>
+
+<p>vagrantコマンドでvagrant-digitaloceanをインストール。vagrant-digitaloceanは2013/12/05現在最新の<code>0.4.1</code>を利用</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">vagrant plugin install vagrant-digitalocean
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="curl-ca-bundle">curl-ca-bundleのインストール</h2>
+
+<p>apiを叩くのに必要なので、brewで導入</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">brew install curl-ca-bundle
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="vagrantfile">Vagrantfileを作る</h2>
+
+<p>私は下記のようにディレクトリを掘って、Vagrantfileを用意</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">mkdir -p ~/repos/vagrant-digital-ocean
+</span><span class="line"><span class="nb">cd</span> ~/repos/vagrant-digital-ocean
+</span><span class="line">touch Vagrantfile
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><strong>2013年12月9日 追記</strong><br />
+申込みが増えているのかサンフランシスコで最小プラン(メモリ512MB)がずっと売り切れの状態なので、
+<code>provider.size = '1GB'</code>にするか、<code>provider.region = 'New York 2'</code>など別ロケーションを選択するなどの必要があります。1GBプランだと1時間約2円(0.015ドル)です。</p>
+
+<p>私が使ってるファイルの中身は下記のような感じ。設定した<code>ssh key</code>の名前や、APIページで取得した<code>client_id</code>と<code>api_key</code>はここで設定。
+repoにepelを追加して、起動時に最低限必要なパッケージを入れるためにpuppetを走らせてます。</p>
+
+<p><strong>2014年7月18日 追記</strong><br />
+DigitalOceanのAPIがv2.0になり<a href="https://cloud.digitalocean.com/settings/applications">https://cloud.digitalocean.com/settings/applications</a>で<code>token</code>の生成が必要になりました．
+下記の例だと<code>provider.token = 'xxxxxxxxxxxxxxxxxxxxx'</code>といった形でtokenを設定する必要があります．
+また<code>region</code>の指定方法も<code>San Francisco 1</code>から<code>sfo1</code>という感じで変更になっています．</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class="line">  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">hostname</span>              <span class="o">=</span> <span class="s1">&#39;dev003.hogemoge.com&#39;</span>
+</span><span class="line">  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="s2">&quot;shell&quot;</span><span class="p">,</span> <span class="ss">inline</span><span class="p">:</span> <span class="s2">&quot;rpm -Uvh http://ftp-srv2.kddilabs.jp/Linux/distributions/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm --force&quot;</span>
+</span><span class="line">  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="s2">&quot;shell&quot;</span><span class="p">,</span> <span class="ss">inline</span><span class="p">:</span> <span class="s2">&quot;yum -y install puppet&quot;</span>
+</span><span class="line">
+</span><span class="line">  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provider</span> <span class="ss">:digital_ocean</span> <span class="k">do</span> <span class="o">|</span><span class="n">provider</span><span class="p">,</span> <span class="n">override</span><span class="o">|</span>
+</span><span class="line">    <span class="n">override</span><span class="o">.</span><span class="n">ssh</span><span class="o">.</span><span class="n">private_key_path</span> <span class="o">=</span> <span class="s1">&#39;~/.ssh/id_rsa&#39;</span>
+</span><span class="line">    <span class="n">override</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span>               <span class="o">=</span> <span class="s1">&#39;digital_ocean&#39;</span>
+</span><span class="line">    <span class="n">override</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_url</span>           <span class="o">=</span> <span class="s2">&quot;https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box&quot;</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">provider</span><span class="o">.</span><span class="n">client_id</span>            <span class="o">=</span> <span class="s1">&#39;xxxxxxxxxxxxxxxxxxxxx&#39;</span>
+</span><span class="line">    <span class="n">provider</span><span class="o">.</span><span class="n">api_key</span>              <span class="o">=</span> <span class="s1">&#39;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#39;</span>
+</span><span class="line">    <span class="n">provider</span><span class="o">.</span><span class="n">token</span>                <span class="o">=</span> <span class="s1">&#39;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#39;</span>
+</span><span class="line">    <span class="n">provider</span><span class="o">.</span><span class="n">image</span>                <span class="o">=</span> <span class="s1">&#39;CentOS 6.4 x64&#39;</span>
+</span><span class="line">    <span class="n">provider</span><span class="o">.</span><span class="n">region</span>               <span class="o">=</span> <span class="s1">&#39;sfo1&#39;</span>
+</span><span class="line">    <span class="n">provider</span><span class="o">.</span><span class="n">size</span>                 <span class="o">=</span> <span class="s1">&#39;512MB&#39;</span>
+</span><span class="line">    <span class="n">provider</span><span class="o">.</span><span class="n">ca_path</span>              <span class="o">=</span> <span class="s1">&#39;/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt&#39;</span>
+</span><span class="line">    <span class="n">provider</span><span class="o">.</span><span class="n">ssh_key_name</span>         <span class="o">=</span> <span class="s1">&#39;office mac&#39;</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="s2">&quot;puppet&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">puppet</span><span class="o">|</span>
+</span><span class="line">    <span class="n">puppet</span><span class="o">.</span><span class="n">options</span>                <span class="o">=</span> <span class="s2">&quot;--verbose --debug&quot;</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>manifests/default.pp</code>は下記のような感じ。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">package</span> <span class="p">{</span>
+</span><span class="line">  <span class="o">[</span>
+</span><span class="line">    <span class="s1">&#39;vim-enhanced&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;zsh&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;tmux&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;mosh&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;git&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;tig&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;gcc&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;dstat&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;iftop&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;iotop&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;nethogs&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;ruby&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;ruby-devel&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;rubygems&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;rubygem-json&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;tree&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;wget&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;xinetd&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;nc&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;fping&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="s1">&#39;perf&#39;</span><span class="p">,</span>
+</span><span class="line">    <span class="o">]</span><span class="p">:</span>
+</span><span class="line">      <span class="k">ensure</span> <span class="o">=&gt;</span> <span class="n">present</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section">インスタンスの作成</h2>
+
+<p><code>vagrant up</code>コマンドを利用して、インスタンスを作成。ドンッ！</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">vagrant up --provider<span class="o">=</span>digital_ocean
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>すると下記のように数分でインスタンスが作成される。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="o">[</span>usr0600093@pmac008s<span class="o">]</span> <span class="nv">$ </span>vagrant up --provider<span class="o">=</span>digital_ocean
+</span><span class="line">Bringing machine <span class="s1">&#39;default&#39;</span> up with <span class="s1">&#39;digital_ocean&#39;</span> provider...
+</span><span class="line"><span class="o">[</span>default<span class="o">]</span> Using existing SSH key: office mac
+</span><span class="line"><span class="o">[</span>default<span class="o">]</span> Creating a new droplet...
+</span><span class="line"><span class="o">[</span>default<span class="o">]</span> Assigned IP address: xxx.xxx.xxx.xxx
+</span><span class="line"><span class="o">[</span>default<span class="o">]</span> Modifying sudoers file to remove tty requirement...
+</span><span class="line"><span class="o">[</span>default<span class="o">]</span> Rsyncing folder: /Users/usr0600093/repos/vagrant-digital-ocean/ <span class="o">=</span>&gt; /vagrant...
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>San Francisco 1</code>だと時間帯によって結構時間かかるので、
+早めに検証したい場合は<code>New York 2</code>とかに変更すると良いかも。</p>
+
+<p>私はpuppet走らせるので、<code>--provision</code>を付けてインスタンス作成してます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">vagrant up --provider<span class="o">=</span>digital_ocean --provision
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="ssh">起動したインスタンスにssh接続</h2>
+
+<p><code>vagrant ssh</code>でssh接続するとIPを覚えておく必要がない。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">vagrant ssh
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">使い終わったらインスタンスの削除</h2>
+
+<p>Digital Oceanは停止状態(halt)だと課金されるので、使い終わったら、インスタンスを<code>destroy</code>で消す。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">vagrant destroy
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>なんて便利な時代なんだ！手元のMacBook Airも熱くない!!</p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://rebuild.fm/2/">Rebuild: 2: Rails, Redis, VPS (Kenn Ejima)</a>の42分くらいから</li>
+  <li><a href="http://z.tokumaru.org/2013/10/digitalocean.html">徳丸浩の雑記帳: 試験環境用VPSとして1時間1円から使えるDigitalOceanが安くて便利</a></li>
+  <li><a href="http://blog.uu59.org/2013-06-29-vagrant-digital-ocean.html">uu59のメモ | Digital OceanのVPSをVagrantでupしたりprovisionしたりする</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/04/git-commit-message-template/">gitでcommitメッセージにテンプレートを使う</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-04T19:00:00+09:00" pubdate data-updated="true">2013年12月04日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>GitHub(GH:E)でプロジェクトをまたぐことが多くて、
+commitメッセージとissueをリンクさせるのに毎回</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ファイル間違ってたので修正 refs paperboy-all/hogemoge#1000</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>みたいに<code>organaization/repo</code>を書いてて、
+いい加減ウザくなってきて自動挿入みたいなのが出来ないのか調べてたら、
+<code>commit.template</code>を利用すると実現出来てる模様。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">git config --global commit.template <span class="nv">$HOME</span>/.gitmessage.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>という感じで設定出来る。</p>
+
+<p>下記みたいなテンプレートファイルを用意しておきえば、commitメッセージと<code>xxx</code>のissue番号の変更だけでok</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"> refs paperboy-all/puppet#xxx
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>プロジェクト毎で利用するテンプレートを変更する場合は
+<code>--global</code>を外して、それぞれのテンプレを用意して設定すれば良い。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">git config commit.template <span class="nv">$HOME</span>/.gitmessage_puppet.txt
+</span><span class="line">git config commit.template <span class="nv">$HOME</span>/.gitmessage_ops.txt
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>これで煩わしい手間が1個減った。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://git-scm.com/book/ja/Git-%E3%81%AE%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%9E%E3%82%A4%E3%82%BA">Git - Git のカスタマイズ</a>のcommit.templateの部分</li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/04/yum-not-working/">CentOS 6.5にupgradeしたらyumが動かなくなったので直した</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-04T17:41:00+09:00" pubdate data-updated="true">2013年12月04日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>CentOS 6.4から6.5にupgradeかけたあとから
+yum実行したら、下記のエラーが出て動かなくなった。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">There was a problem importing one of the Python modules
+</span><span class="line">required to run yum. The error leading to this problem was:
+</span><span class="line">
+</span><span class="line">   /usr/lib64/libcurl.so.4: undefined symbol: ldap_init_fd
+</span><span class="line">
+</span><span class="line">Please install a package which provides this module, or
+</span><span class="line">verify that the module is installed correctly.
+</span><span class="line">
+</span><span class="line">It's possible that the above module doesn't match the
+</span><span class="line">current version of Python, which is:
+</span><span class="line">2.6.6 (r266:84292, Nov 22 2013, 12:16:22)
+</span><span class="line">[GCC 4.4.7 20120313 (Red Hat 4.4.7-4)]
+</span><span class="line">
+</span><span class="line">If you cannot solve this problem yourself, please go to
+</span><span class="line">the yum faq at:
+</span><span class="line">  http://yum.baseurl.org/wiki/Faq</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>curlで問題が発生しているようだったので下記でバージョンを落とす</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">mkdir ~/RPMS/
+</span><span class="line">wget http://ftp.riken.jp/Linux/centos/6.1/updates/x86_64/Packages/curl-7.19.7-26.el6_1.2.x86_64.rpm
+</span><span class="line">wget http://ftp.riken.jp/Linux/centos/6.1/updates/x86_64/Packages/libcurl-7.19.7-26.el6_1.2.x86_64.rpm
+</span><span class="line">sudo rpm -Uvh --oldpackage *.rpm
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>元に戻った。</p>
+
+<p>いろいろとrepo追加してるのが原因ぽいけど、6系からこれ系のエラーが多い気がする。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/03/recommend-kindle-books/">Kindleで読めるオススメの事件･犯罪系ノンフィクションまとめ 2013</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-03T08:50:00+09:00" pubdate data-updated="true">2013年12月03日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近技術ネタばっかだったので、12月だし趣向変えて今年Kindleで
+読んで面白かった事件、犯罪系ノンフィクションをまとめてみる。
+(今年Kindleで発売された作品なので2013というくくりにしてます)</p>
+
+<p>有名な題材ばかりなので、まとめサイトとかで読んだことある人も多いと思いますが、
+ちゃんと取材をもとにして、きっちり書かれたものを読むと結構印象が違う。</p>
+
+<p>タイトルでオススメとか書いてますが、紹介する作品は明るい話ではないので、気分が沈んでるときに読むのはオススメしない。
+でも実際にあった出来事の話なので、知っておいて損は無いと思う。</p>
+
+<h2 id="a-hrefhttpswwwamazoncojpe587b6e682aae28095e38182e3828be6adbbe58891e59b9ae381aee5918ae799bae28095-e3808ce696b0e6bdae45e3808de7b7a8e99b86e983a8-ebookdpb00dot57ggsubscriptionidakiajvwwftevixzxzlwaamptagglidenote-22amplinkcodexm2ampcamp2025ampcreative165953ampcreativeasinb00dot57gga"><a href="https://www.amazon.co.jp/%E5%87%B6%E6%82%AA%E2%80%95%E3%81%82%E3%82%8B%E6%AD%BB%E5%88%91%E5%9B%9A%E3%81%AE%E5%91%8A%E7%99%BA%E2%80%95-%E3%80%8C%E6%96%B0%E6%BD%AE45%E3%80%8D%E7%B7%A8%E9%9B%86%E9%83%A8-ebook/dp/B00DOT57GG?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00DOT57GG">凶悪―ある死刑囚の告発―</a></h2>
+
+<p><a href="https://www.amazon.co.jp/%E5%87%B6%E6%82%AA%E2%80%95%E3%81%82%E3%82%8B%E6%AD%BB%E5%88%91%E5%9B%9A%E3%81%AE%E5%91%8A%E7%99%BA%E2%80%95-%E3%80%8C%E6%96%B0%E6%BD%AE45%E3%80%8D%E7%B7%A8%E9%9B%86%E9%83%A8-ebook/dp/B00DOT57GG?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00DOT57GG"><img src="https://images-fe.ssl-images-amazon.com/images/I/41xGZta8SdL._SL160_.jpg" align="right" /></a></p>
+
+<p><a href="http://www.kyouaku.com/">最近映画にもなっていたやつ</a>。雑誌記者が嘘か本当か分からない殺人犯の証言をもとに、検証をしていき警察を動かしていくさまが読んでいて引き込まれる。
+最後の方に”先生”の写真が載っていて、街中にいそうな見た目ごく普通のおっさんがこんなに恐ろしいことをしてるのかと思ったのと、
+こういう事件ってのは誰にも気づかれてないだけで、現代の日本で発生しているというのが怖い。</p>
+
+<blockquote><p>内容紹介</p><p>人を殺し、その死を巧みに金に換える“先生”と呼ばれる男がいる──雑誌記者が聞いた驚愕の証言。だが、告発者は元ヤクザで、しかも拘置所に収監中の殺人犯だった。信じていいのか? 記者は逡巡しながらも、現場を徹底的に歩き、関係者を訪ね、そして確信する。告発は本物だ! やがて、元ヤクザと記者の追及は警察を動かし、真の“凶悪”を追い詰めてゆく。白熱の犯罪ドキュメント。</p></blockquote>
+
+<p><br clear="all" /></p>
+
+<h2 id="a-hrefhttpswwwamazoncojpe585abe794b2e794b0e5b1b1e6adbbe381aee5bdb7e5bea8-e696b0e794b0e6aca1e9838e-ebookdpb00c186hz6subscriptionidakiajvwwftevixzxzlwaamptagglidenote-22amplinkcodexm2ampcamp2025ampcreative165953ampcreativeasinb00c186hz6a"><a href="https://www.amazon.co.jp/%E5%85%AB%E7%94%B2%E7%94%B0%E5%B1%B1%E6%AD%BB%E3%81%AE%E5%BD%B7%E5%BE%A8-%E6%96%B0%E7%94%B0%E6%AC%A1%E9%83%8E-ebook/dp/B00C186HZ6?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00C186HZ6">八甲田山死の彷徨</a></h2>
+
+<p><a href="https://www.amazon.co.jp/%E5%85%AB%E7%94%B2%E7%94%B0%E5%B1%B1%E6%AD%BB%E3%81%AE%E5%BD%B7%E5%BE%A8-%E6%96%B0%E7%94%B0%E6%AC%A1%E9%83%8E-ebook/dp/B00C186HZ6?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00C186HZ6"><img src="https://images-fe.ssl-images-amazon.com/images/I/41j4APsYNML._SL160_.jpg" align="right" /></a></p>
+
+<p>高倉健が主演で映画化されている「八甲田山」の原作。日本陸軍の雪中訓練で、参加者210名中199名が死亡した<a href="http://ja.wikipedia.org/wiki/%E5%85%AB%E7%94%B2%E7%94%B0%E9%9B%AA%E4%B8%AD%E8%A1%8C%E8%BB%8D%E9%81%AD%E9%9B%A3%E4%BA%8B%E4%BB%B6">八甲田雪中行軍遭難事件</a>の話。
+リーダーが無能だったのもありますが、当時は雪山に対する怖さとか凍傷に関しての知識が無かったりで、バッタバッタと人が死んでいく描写が強烈。軍隊って言うのは本当に特殊な集団なんだなーと。リーダーシップ論とかの題材にも使われているので、そういった視点で読んでも面白い。</p>
+
+<blockquote><p>内容紹介</p><p>日露戦争前夜、厳寒の八甲田山中で過酷な人体実験が強いられた。神田大尉が率いる青森5聯隊は雪中で進退を協議しているとき、大隊長が突然“前進”の命令を下し、指揮系統の混乱から、ついには199名の死者を出す。少数精鋭の徳島大尉が率いる弘前31聯隊は210余キロ、11日間にわたる全行程を完全に踏破する。両隊を対比して、自然と人間の闘いを迫真の筆で描く長編小説。</p></blockquote>
+
+<p><br clear="all" /></p>
+
+<h2 id="a-hrefhttpswwwamazoncojpe7be86e5b590efbc88e696b0e6bdaee69687e5baabefbc89-e59089e69d91e698ad-ebookdpb00bixnk4qsubscriptionidakiajvwwftevixzxzlwaamptagglidenote-22amplinkcodexm2ampcamp2025ampcreative165953ampcreativeasinb00bixnk4qa"><a href="https://www.amazon.co.jp/%E7%BE%86%E5%B5%90%EF%BC%88%E6%96%B0%E6%BD%AE%E6%96%87%E5%BA%AB%EF%BC%89-%E5%90%89%E6%9D%91%E6%98%AD-ebook/dp/B00BIXNK4Q?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00BIXNK4Q">羆嵐（新潮文庫）</a></h2>
+
+<p><a href="https://www.amazon.co.jp/%E7%BE%86%E5%B5%90%EF%BC%88%E6%96%B0%E6%BD%AE%E6%96%87%E5%BA%AB%EF%BC%89-%E5%90%89%E6%9D%91%E6%98%AD-ebook/dp/B00BIXNK4Q?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00BIXNK4Q">羆嵐（新潮文庫）</a></p>
+
+<p>日本史上最大規模の獣害(じゅうがい)事件、<a href="http://ja.wikipedia.org/wiki/%E4%B8%89%E6%AF%9B%E5%88%A5%E7%BE%86%E4%BA%8B%E4%BB%B6">三毛別羆事件</a>の話。
+これを読むまで熊(クマ)と羆(ヒグマ)について、別段区別して考えていなかったんですが、読んでみるとヒグマは危険度の次元が違うというか、
+狙われたら終わりみたいな絶望感があってヤバい。人間でも頭おかしい人いるのと同じで、ヒグマの中でも頭おかしいのがいるのは当然で、たぶんそういった類いの話だと信じたい。</p>
+
+<blockquote><p>内容紹介</p><p>北海道天塩山麓の開拓村を突然恐怖の渦に巻込んだ一頭の羆の出現! 日本獣害史上最大の惨事は大正4年12月に起った。冬眠の時期を逸した羆が、わずか2日間に6人の男女を殺害したのである。鮮血に染まる雪、羆を潜める闇、人骨を齧る不気味な音……。自然の猛威の前で、なす術のない人間たちと、ただ一人沈着に羆と対決する老練な猟師の姿を浮彫りにする、ドキュメンタリー長編。</p></blockquote>
+
+<p><br clear="all" /></p>
+
+<h2 id="a-hrefhttpswwwamazoncojpe6a1b6e5b79de382b9e38388e383bce382abe383bce6aebae4babae4ba8be4bbb6e28095e981bae8a880e28095-e6b885e6b0b4e6bd94-ebookdpb00cl6n0gwsubscriptionidakiajvwwftevixzxzlwaamptagglidenote-22amplinkcodexm2ampcamp2025ampcreative165953ampcreativeasinb00cl6n0gwa"><a href="https://www.amazon.co.jp/%E6%A1%B6%E5%B7%9D%E3%82%B9%E3%83%88%E3%83%BC%E3%82%AB%E3%83%BC%E6%AE%BA%E4%BA%BA%E4%BA%8B%E4%BB%B6%E2%80%95%E9%81%BA%E8%A8%80%E2%80%95-%E6%B8%85%E6%B0%B4%E6%BD%94-ebook/dp/B00CL6N0GW?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00CL6N0GW">桶川ストーカー殺人事件―遺言―</a></h2>
+
+<p><a href="https://www.amazon.co.jp/%E6%A1%B6%E5%B7%9D%E3%82%B9%E3%83%88%E3%83%BC%E3%82%AB%E3%83%BC%E6%AE%BA%E4%BA%BA%E4%BA%8B%E4%BB%B6%E2%80%95%E9%81%BA%E8%A8%80%E2%80%95-%E6%B8%85%E6%B0%B4%E6%BD%94-ebook/dp/B00CL6N0GW?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00CL6N0GW"><img src="https://images-fe.ssl-images-amazon.com/images/I/512Np5U3-TL._SL160_.jpg" align="right" /></a></p>
+
+<p>ストーカー系の事件が発生すると必ず出てくるストーカー規制法が制定されるもとになった事件の話。
+タイトルと表紙が怖い感じなので、凄い損をしている感があるんですが、警察の腐敗と事件の真相を暴いた内容が素晴らしく是非読んで欲しい一冊。</p>
+
+<p>週刊誌記者が警察よりも早く犯人に辿り着き、真相に迫っていくので緊迫感がかなりあるし、執念が凄い。
+週刊誌記者というと何となくゲスい感じに印象しか持っていなかったが、こういうちゃんとしたことをやっている人もいるんだなーと。</p>
+
+<blockquote><p>内容紹介</p><p>ひとりの週刊誌記者が、殺人犯を捜し当て、警察の腐敗を暴いた……。埼玉県の桶川駅前で白昼起こった女子大生猪野詩織さんの殺人事件。彼女の悲痛な「遺言」は、迷宮入りが囁かれる中、警察とマスコミにより歪められるかに見えた。だがその遺言を信じ、執念の取材を続けた記者が辿り着いた意外な事件の真相、警察の闇とは。「記者の教科書」と絶賛された、事件ノンフィクションの金字塔!</p></blockquote>
+
+<p><br clear="all" /></p>
+
+<p><a href="https://www.amazon.co.jp/KindlePaperwhite-%E3%82%AD%E3%83%B3%E3%83%89%E3%83%AB-%E9%9B%BB%E5%AD%90%E6%9B%B8%E7%B1%8D%E3%83%AA%E3%83%BC%E3%83%80%E3%83%BC/dp/B00CTUMNAO?psc=1&amp;SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00CTUMNAO"><img src="https://images-fe.ssl-images-amazon.com/images/I/51NXKygnUkL._SL160_.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/KindlePaperwhite-%E3%82%AD%E3%83%B3%E3%83%89%E3%83%AB-%E9%9B%BB%E5%AD%90%E6%9B%B8%E7%B1%8D%E3%83%AA%E3%83%BC%E3%83%80%E3%83%BC/dp/B00CTUMNAO?psc=1&amp;SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B00CTUMNAO">Kindle Paperwhite (第6世代) ―Wi-Fi</a></p>
+
+<p>日本でKindleリリース直後は、作品が少なくて結構不満が多かったですが、最近は作品数も増えてきて、
+上に挙げたようなしっかりした作品が読めるのでもってない人はそろそろ買うといいのではないかと思う。</p>
+
+<p><br clear="all" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/11/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/9/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

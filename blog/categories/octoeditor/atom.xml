@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: octoeditor | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/octoeditor/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Octopressの記事管理用プラグイン、Octoeditor.vimを作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/02/octoeditor.vim/"/>
+    <updated>2012-04-02T00:49:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/02/octoeditor.vim</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/glidenote/memolist.vim">memolist.vim</a>が非常に使いやすくなり、
+もともと利用していた<a href="https://blog.glidenote.com/blog/2011/12/23/modify-jekyll.vim-for-octopress/">カスタムしたjekyll.vim</a>よりも
+使いやすいのでmemolist.vimの機能を実装した<a href="http://octopress.org/">Octopress</a>の記事管理用
+のvimプラグインを作成しました。<strong>Octo</strong>press-<strong>editor</strong>を略して<strong>Octoeditor[オクトエディタ]</strong>と読みます。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/octoeditor.vim">glidenote/octoeditor.vim</a></li>
+</ul>
+
+<h2 id="octoeditorvim">Octoeditor.vimの概要</h2>
+
+<ul>
+  <li>新規記事の作成。<code>rake new_post[title]</code>の実行(:OctopressNew)</li>
+  <li>記事の管理。(:OctopressList)</li>
+  <li>記事のGrep検索。(:OctopressGrep)</li>
+  <li>プレビューの生成。<code>rake generate</code>の実行(:OctopressGenerate)</li>
+  <li>記事の投稿。<code>rake gen_deploy</code>の実行(:OctopressDeploy)</li>
+</ul>
+
+<p>Octopressでブログを更新する際に必要な機能を一通り実装しました。
+プレビュー確認の<code>rake preview</code>はvimとは別で起動していないと
+いけないので、Octoeditorの機能としては省いています。</p>
+
+<h2 id="section">導入方法</h2>
+
+<p>導入には<a href="https://github.com/gmarik/vundle">vundle</a>か、<a href="https://github.com/Shougo/neobundle.vim">NeoBundle</a>
+を利用すると楽です。</p>
+
+<p>vundleの場合は、</p>
+
+<p><code>
+Bundle 'glidenote/octoeditor.vim'
+</code></p>
+
+<p>NeoBundleの場合は、</p>
+
+<p><code>
+NeoBundle 'glidenote/octoeditor.vim'
+</code></p>
+
+<p>を.vimrcに記載。</p>
+
+<h2 id="vimrc">.vimrcの設定</h2>
+
+<p>octoeditor.vimを利用するには、<code>.vimrc</code>にOctopressのディレクトリのパスを
+下記のように設定します。</p>
+
+<p><code>
+let g:octopress_path = '~/octopress'
+</code></p>
+
+<p>私はその他に下記マッピングを記載して利用しています。
+<code>\on</code>と入力すると瞬時に新規ファイルの作成が出来、<code>,og</code>と入力して
+記事の確認をしています。
+<code>&lt;Leader&gt;</code>はデフォルトだとキーボードの￥マークになっていると思います。</p>
+
+<p><code>
+map &lt;Leader&gt;on  :OctopressNew&lt;CR&gt;
+map &lt;Leader&gt;ol  :OctopressList&lt;CR&gt;
+map &lt;Leader&gt;og  :OctopressGrep&lt;CR&gt;
+nmap ,og  :OctopressGenerate&lt;CR&gt;
+nmap ,od  :OctopressDeploy&lt;CR&gt;
+</code></p>
+
+<p>その他に下記のようなオプションがあります。qfixgrepやvimfilerとの連携も出来ます。</p>
+
+<p><code>
+let g:octopress_post_suffix = "markdown"
+let g:octopress_post_date = "%Y-%m-%d %H:%M"
+let g:octopress_post_date = "epoch"
+let g:octopress_post_date = "%D %T"
+let g:octopress_published = 0
+let g:octopress_comments = 0
+let g:octopress_prompt_tags = 1
+let g:octopress_prompt_categories = 1
+let g:octopress_qfixgrep = 1
+let g:octopress_vimfiler = 1
+let g:octopress_template_dir_path = "path/to/dir"
+</code></p>
+
+<h2 id="section-1">使い方</h2>
+
+<h3 id="octopressnew">新規記事の作成(:OctopressNew)</h3>
+
+<p><code>
+:OctopressNew
+</code></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor0.png" alt="" /></p>
+
+<p>Octopress用のフォーマットで記事が作成されます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor1.png" alt="" /></p>
+
+<p>Octopressの仕様で日本語を含むファイル名が利用できないので、
+[Post title]の部分ではアルファベットで入力し、
+記事編集でタイトルを日本語に変更してください。</p>
+
+<h3 id="octopresslist">記事の管理(:OctopressList)</h3>
+
+<p><code>
+:OctopressList
+</code></p>
+
+<p>デフォルトのnetrwを利用した場合</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor2.png" alt="" /></p>
+
+<p><a href="https://github.com/Shougo/vimfiler">vimfiler</a>連携を利用した場合</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor3.png" alt="" /></p>
+
+<h3 id="grepoctopressgrep">記事のGrep検索(:OctopressGrep)</h3>
+
+<p><code>
+:OctopressGrep
+</code></p>
+
+<p><a href="https://github.com/fuenor/qfixgrep">qfixgrep</a>連携を利用した場合</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor4.png" alt="" /></p>
+
+<h3 id="rake-generateoctopressgenerate">プレビューの生成 <code>rake generate</code>(:OctopressGenerate)</h3>
+
+<p><code>
+:OctopressGenerate
+</code></p>
+
+<p>vim上から<code>rake generate</code>を実行します。
+<code>rake preview</code>を別途ターミナル上から実行しておけば、
+プレビューを確認できます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor5.png" alt="" /></p>
+
+<h3 id="rake-gendeployoctopressdeploy">記事の投稿 <code>rake gen_deploy</code>(:OctopressDeploy)</h3>
+
+<p><code>
+:OctopressDeploy
+</code></p>
+
+<p>vim上から<code>rake gen_deploy</code>を実行し、記事を投稿できます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor6.png" alt="" /></p>
+
+<h2 id="octopress">Octopressの記事更新の流れ</h2>
+
+<ul>
+  <li><code>:OctopressNew</code>で新規記事を作成</li>
+  <li><code>:OctopressGenerate</code>でプレビュー確認</li>
+  <li><code>:OctopressDeploy</code>で記事の投稿</li>
+</ul>
+
+<p>私は下記のように設定をして、<a href="https://github.com/vim-scripts/FuzzyFinder">FuzzyFinder</a>と
+<a href="https://github.com/vim-scripts/ctrlp.vim">ctrlp.vim</a>などと連携をして利用しています。</p>
+
+<p><div><script src='https://gist.github.com/2276389.js'></script>
+<noscript><pre><code>Bundle &#39;glidenote/octoeditor.vim&#39;
+let g:octopress_path = &#39;~/octopress&#39;
+let g:octopress_prompt_categories = 1
+let g:octopress_qfixgrep = 1
+map &lt;Leader&gt;on  :OctopressNew&lt;CR&gt;
+map &lt;Leader&gt;ol  :OctopressList&lt;CR&gt;
+map &lt;Leader&gt;og  :OctopressGrep&lt;CR&gt;
+nmap ,og  :OctopressGenerate&lt;CR&gt;
+nmap ,od  :OctopressDeploy&lt;CR&gt;
+&quot; For FuzzyFinder
+nmap of  :FufFile &lt;C-r&gt;=expand(g:octopress_path.&quot;/source/_posts/&quot;)&lt;CR&gt;&lt;CR&gt;
+&quot; For ctrlp
+nmap ,of :exe &quot;CtrlP&quot; g:octopress_path . &quot;/source/_posts/&quot;&lt;cr&gt;&lt;f5&gt;</code></pre></noscript></div>
+</p>
+
+<p>FuzzyFinerを利用したファイル検索</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor7.png" alt="" /></p>
+
+<p>ctrlpを利用したファイル検索</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/octoeditor8.png" alt="" /></p>
+
+<p>バグや要望などありましたら<a href="https://twitter.com/#!/glidenote">@glidenote</a>かgithubのissueに連絡頂ければと思います。</p>
+
+<p>blogを書く作業が、vim上で完結するようになり快適です。</p>
+]]></content>
+  </entry>
+  
+</feed>

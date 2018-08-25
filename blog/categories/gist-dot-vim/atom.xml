@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: gist.vim | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/gist-dot-vim/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[OAuth2認証に対応して新しくなったGist.vimを導入した]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/01/new-gist.vim/"/>
+    <updated>2012-04-01T01:23:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/01/new-gist.vim</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="http://mattn.kaoriya.net/software/vim/20120331221136.htm">Big Sky :: githubの動作変更で動かなくなっていたGist.vimを修正してリリースした。</a></li>
+</ul>
+
+<p>OAuth2認証に対応したGist.vimがリリースされたので、早速導入してみました。</p>
+
+<h2 id="gistvim">Gist.vimの導入</h2>
+
+<p>今回のリリースから<a href="https://github.com/mattn/webapi-vim">webapi-vim</a>が必要になったので、
+<a href="https://github.com/gmarik/vundle">Vundle</a>で一緒に導入。
+<code>.vimrc</code>に下記を追記して<code>:BundleInstall!</code></p>
+
+<p><code>
+Bundle 'mattn/gist-vim'
+Bundle 'mattn/webapi-vim'
+</code></p>
+
+<h2 id="oauth">OAuthアプリの登録</h2>
+
+<p><a href="https://github.com/settings/applications/new">Register a new OAuth application</a>でGist.vimを登録します。</p>
+
+<ul>
+  <li>Application Name: <code>Gist.vim</code></li>
+  <li>Main URL: <code>https://github.com/mattn/gist-vim</code></li>
+  <li>Callback URL: <code>http://mattn.github.com/gist-vim</code></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist0.png" alt="" /></p>
+
+<p>下記のように<code>Client ID</code>と<code>Secret</code>が生成されます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist1.png" alt="" /></p>
+
+<h2 id="gistvim-1">Gist.vimの初期設定</h2>
+
+<p>vimを起動し<code>:Gist -l</code>を実行し、初期設定を行います。<code>oauth2</code>を利用するので<code>2</code>を選択し、
+先ほど生成した<code>Client ID</code>と<code>Secret</code>を入力。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist2.png" alt="" /></p>
+
+<p>ここでおそらく<code>Callback URL</code>が開かれるはずなんですが、私の環境の問題なのか
+<code>g:gist_browser_command</code>を設定しても、ブラウザにURLが渡されず、</p>
+
+<p><code>
+It seems that you don't have general web browser. Open URL below.
+</code></p>
+
+<p>と表示され、URLも表示されず<code>PIN</code>の取得が出来なかったので、ソースを確認。<br />
+下記のようにpostしていたので、ブラウザのアドレスバーに手動で入力。
+<code>xxxxxxxxxxxxxxxxxxxx</code>は自分の<code>Client ID</code>です。</p>
+
+<p><code>
+https://github.com/login/oauth/authorize?scope=gist&amp;client_id=xxxxxxxxxxxxxxxxxxxx
+</code></p>
+
+<p>上記URLにアクセスすると承認画面が出るので<code>Allow</code>を選択</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist3.png" alt="" /></p>
+
+<p>下記のように<code>PIN</code>が表示されるのでコピーして、vim上のGist.vimの初期設定に戻り入力</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist4.png" alt="" /></p>
+
+<h2 id="gistvim-2">Gist.vimの動作確認</h2>
+
+<p><code>:Gist</code>でpost出来るようになりました。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/gist5.png" alt="" /></p>
+
+<h2 id="gist-vim600">~/.gist-vimのパーミッションを600に変更</h2>
+
+<p>初期設定が終わったら、<code>~/.gist-vim</code>を適切なパーミッションに。</p>
+
+<p><code>
+chmod 600 ~/.gist-vim
+</code></p>
+
+<p>これでまた快適生活が送れるようになります。</p>
+]]></content>
+  </entry>
+  
+</feed>

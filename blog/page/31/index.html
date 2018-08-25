@@ -1,0 +1,822 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="homebrewしか使わないのに、Xcodeに8GBくらいHDDの容量を消費されてて
+MacBook AirとかにはXcodeを入れていなかったんですが、
+先日SDKなどを抜いたCommand Line Tools for Xcodeという200MB程度の
+軽量版Xcode(?) &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/31/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/31">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="homebrewしか使わないのに、Xcodeに8GBくらいHDDの容量を消費されてて
+MacBook AirとかにはXcodeを入れていなかったんですが、
+先日SDKなどを抜いたCommand Line Tools for Xcodeという200MB程度の
+軽量版Xcode(?)がリリースされていたので早速導入。 Command Line Tools for &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/20/command-line-tools-for-xcode/">XcodeからCommand Line Tools for Xcodeに切り替えたらHDD使用容量が7GB減った</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-20T00:29:00+09:00" pubdate data-updated="true">2012年02月20日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>homebrewしか使わないのに、Xcodeに8GBくらいHDDの容量を消費されてて
+MacBook AirとかにはXcodeを入れていなかったんですが、
+先日SDKなどを抜いた<code>Command Line Tools for Xcode</code>という200MB程度の
+軽量版Xcode(?)がリリースされていたので早速導入。</p>
+
+<p>Command Line Tools for Xcodeが利用出来るのはLionだけです。</p>
+
+<p>どれだけ容量削減になるのか知りたかったので、既にXcode導入済みの
+Mac miniで作業を行いました。</p>
+
+<h2 id="xcode">既存のXcodeを削除</h2>
+
+<p>下記コマンドでXcodeを削除</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo /Developer/Library/uninstall-devtools --mode=all /thx</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="command-line-tools-for-xcode">Command Line Tools for Xcodeの導入</h2>
+
+<p><a href="http://developer.apple.com/downloads">Apple Developer</a>のページから
+<code>Command Line Tools for Xcode</code>をダウンロードしてきてインストール。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode.png" alt="" /></p>
+
+<p>ダウンロードしてきた<code>command_line_tools_for_xcode_.dmg</code>をマウントして、
+インストーラーを起動させて下記のような感じでインストール。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode0.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode1.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode2.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode3.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode4.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/xcode5.png" alt="" /></p>
+
+<p>ちなみにCommand Line Tools for Xcodeに含まれるソフトは下記コマンドで確認できます。
+Git関連のツールもちらほら入ってます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cd /Volumes/Command\ Line\ Tools/Packages/
+</span><span class="line">pkgutil --payload-files DeveloperToolsCLI.pkg</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="hdd">HDDの使用量の変化</h2>
+
+<p>SDK込みのXcode利用時のHDD容量</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[akira@macmini] $ df -ah /
+</span><span class="line">Filesystem      Size   Used  Avail Capacity  Mounted on
+</span><span class="line">/dev/disk0s2   148Gi  122Gi   26Gi    83%    /</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Command Line Tools for Xcode導入後のHDD容量</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[akira@macmini] $ df -ah /
+</span><span class="line">Filesystem      Size   Used  Avail Capacity  Mounted on
+</span><span class="line">/dev/disk0s2   148Gi  115Gi   33Gi    78%    /</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>なんと7GBも容量減!!素晴らしい。</p>
+
+<p>homebrewも普通に使えているので、しばらくこれで使ってみて
+問題が無ければMacBook Airにも入れてみたいと思います。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://d.karashi.org/20120217.html#p01">Command Line Tools for Xcodeでディスク容量が大幅に減った！</a></li>
+  <li><a href="http://kennethreitz.com/xcode-gcc-and-homebrew.html">Xcode, GCC, and Homebrew</a></li>
+  <li><a href="http://www.hsbt.org/diary/20120218.html">Xcode 4.3 または CLI tools を入れた話 , デブサミ2012 の写真 - HsbtDiary(2012-02-18)</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/19/ssh-proxycommand/">多段SSHで4段先のサーバに一発ログイン</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-19T17:08:00+09:00" pubdate data-updated="true">2012年02月19日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>先日にルータの不具合で、東京本社から福岡支社内の一部開発サーバに直接ssh出来なくなったので、
+ProxyCommandを利用して、3個のサーバを経由して目的のサーバにsshしたので、設定のメモ。</p>
+
+<h2 id="section">やりたいこと</h2>
+
+<p>ProxyCommandを利用してcolinuxから複数のサーバを経由して、支社内のサーバに入りたい。
+経由するサーバは下記のような感じで中継サーバ3個。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">+---------+     +------------+     +--------------+     +----------------+     +---------------+
+</span><span class="line">| colinux | ==&gt; | dev server | ==&gt; | tokyo server | ==&gt; | fukuoka server | ==&gt; | backup server |
+</span><span class="line">+---------+     +------------+     +--------------+     +----------------+     +---------------+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="sshconfig">~/.ssh/configの設定確認</h2>
+
+<p>自PC内colinuxの<code>~/.ssh/config</code> に下記のように記載。各サーバはssh鍵は通してあります。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Host *
+</span><span class="line">   User maeda
+</span><span class="line">
+</span><span class="line">Host dev000
+</span><span class="line">   Hostname 192.168.45.17
+</span><span class="line">
+</span><span class="line">Host tokyo
+</span><span class="line">   Hostname manage001.tokyo.pb
+</span><span class="line">   ProxyCommand ssh dev000 nc %h %p
+</span><span class="line">
+</span><span class="line">Host fukuoka
+</span><span class="line">   Hostname manage001.fukuoka.pb
+</span><span class="line">   ProxyCommand ssh tokyo nc %h %p
+</span><span class="line">
+</span><span class="line">Host backup
+</span><span class="line">   Hostname 192.168.72.51
+</span><span class="line">   ProxyCommand ssh fukuoka nc %h %p</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="ssh">実際にssh接続してみる</h2>
+
+<p><code>~/.ssh/config</code> に設定がしてあるので、下記コマンドだけで3個の中継サーバを経由して、目的のサーバにsshしてくれます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ssh backup</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>うまく該当サーバに接続出来ました。  </p>
+
+<p>ProxyCommandを利用して2段先くらいは日常的にやってますが、
+設定さえすれば今回のように何段先でも一発でsshログイン出来ることを理解。
+便利すね。</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://openlab.dino.co.jp/2009/05/28/235026555.html">続・$HOME/.ssh/configを活用していますか？ — ディノオープンラボラトリ</a></li>
+  <li><a href="http://d.hatena.ne.jp/tkng/20110225/1298596697">サルでも分かる多段ssh - 射撃しつつ前転</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/13/manage-private-repository-with-bitbucket/">Private RepositoryをBitbucketで管理し始めた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-13T07:04:00+09:00" pubdate data-updated="true">2012年02月13日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="https://blog.glidenote.com/images/2012/02/logoBitBucketPNG.png" width="384px" height="125px" align="right" /></p>
+
+<ul>
+  <li><a href="https://bitbucket.org/">Free source code hosting — Bitbucket</a></li>
+</ul>
+
+<p>公開しても良いdotfilesは以前からGithub上で<a href="https://github.com/glidenote/dotfiles">glidenote/dotfiles</a>として
+管理していたんですが、パスワードとかを含むアプリの設定ファイルの管理を
+自前サーバから<a href="https://bitbucket.org/">Bitbucket</a>のprivate repositoryに移行して管理し始めたので作業メモ。 </p>
+
+<p>ちなみに<a href="https://bitbucket.org/">Bitbucket</a>だと無料でprivate repositoryが作成できます。</p>
+
+<p>Bitbucketのアカウント登録と鍵登録とかの説明は省略。</p>
+
+<h2 id="repository">repositoryの作成</h2>
+<p>Dashboardの右上にある「Repositories」から「create repository」を選択  </p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/bitbucket1.png" alt="" /></p>
+
+<p>repository名などを入力して「Create repository」を選択  </p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/bitbucket2.png" alt="" /></p>
+
+<p>clone用のURLが表示されるので、それを元に<code>git clone</code>  </p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/bitbucket3.png" alt="" /></p>
+
+<p>たとえば<code>hogemoge</code>というrepositoryを作成した場合は下記のような感じ</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cd
+</span><span class="line">git clone git@bitbucket.org:glidenote/hogemoge.git
+</span><span class="line">echo "# This is my README" &gt;&gt; README.md
+</span><span class="line">git add README.md
+</span><span class="line">git commit -m "First Commit. Adding a README."
+</span><span class="line">git push -u origin master</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>あとは作成したprivate repositoryに管理したいファイルを入れていくだけ。<br />
+私はprivate repositoryにファイルを移し、そこからリンクを貼って管理してます。<br />
+weechatの設定ファイルは下記のような感じで管理。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mv ~/.weechat ~/hogemoge
+</span><span class="line">ls -s ~/hogemoge/.weechat ~/.weechat</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>昨年10月に<a href="http://blog.bitbucket.org/2011/10/03/bitbucket-now-rocks-git/">BitbucketがGitをサポート</a>したので
+private repositoryなら自前サーバよりBitBucketが無料だし良いかなと思ってます。</p>
+
+<h2 id="section">参考サイト</h2>
+
+<ul>
+  <li><a href="http://www.ideaxidea.com/archives/2011/10/bitbucket.html">プライベートリポジトリが無料で作りたい放題の『bitbucket』にGithubからリポジトリをインポートする方法 | IDEA*IDEA</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/11/weechat-plugins/">Weegetを利用して、WeeChatのPlugin管理を楽にする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-11T13:27:00+09:00" pubdate data-updated="true">2012年02月11日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="http://www.weechat.org/media/images/screenshots/medium/weechat_2009-08-03_kron4eg.png" alt="" /></p>
+
+<p>最近IRCクライアントで<a href="http://limechat.net/">LimeChat</a>を捨てて、<a href="http://www.weechat.org/">WeeChat</a>を使い始めた人が
+周りに増えてきたので、Pluginの導入方法を共有。
+私の環境はScientific Linux 6.1ですが、他のOSでもそのまま使えると思います。</p>
+
+<h2 id="weegetplugin">weegetを利用してPluginを管理</h2>
+
+<p>WeeChatにはWeegetという「Pluginを管理するためのPlugin」があるので一番最初に導入しましょう。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cd ~/.weechat/python/autoload/
+</span><span class="line">wget http://www.weechat.org/files/scripts/weeget.py</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ファイルの配置が終わったらWeeChatから</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/python autoload</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>をして、利用出来るようにします。</p>
+
+<h2 id="weeget">weegetのコマンド</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/help weeget
+</span><span class="line">
+</span><span class="line">weechat     |          list: list scripts (search text if given)
+</span><span class="line">weechat     | listinstalled: list installed scripts (search text if given)   
+</span><span class="line">weechat     |          show: show detailed information about a script (in repository)
+</span><span class="line">weechat     |       install: install/upgrade script(s)
+</span><span class="line">weechat     |         check: check if local scripts needs upgrade
+</span><span class="line">weechat     |        update: update local scripts cache
+</span><span class="line">weechat     |       upgrade: upgrade all local scripts if they are obsolete
+</span><span class="line">weechat     |        remove: remove script(s)</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>たとえばめちゃくちゃ便利なbuffers.plを導入する場合は下記のような感じ</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/weeget install buffers</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="plugin">私の使っているPlugin</h2>
+
+<ul>
+  <li><code>buffers</code> Sidebar with list of buffers.</li>
+  <li><code>go</code> Quick jump to buffers.</li>
+  <li><code>grep</code> Search regular expression in buffers or log files.</li>
+  <li><code>growl</code> Send Growl notifications upon events.</li>
+  <li><code>highmon</code> Adds a highlight monitor buffer.</li>
+  <li><code>im_kayac_com_notify</code> Push notification to im.kayac.com.</li>
+  <li><code>weeget</code> Scripts manager.</li>
+</ul>
+
+<p>WeeChatを使いこなして、CUI生活を快適にしていきましょう</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/06/systemctl-zsh-completion/">Fedora16 systemctlコマンドのメモ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-06T00:33:00+09:00" pubdate data-updated="true">2012年02月06日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>自宅サーバはFedora 16で構築してるんですが、systemctlコマンドが全く頭に入ってこないので自分用にメモ。
+2回ググったらブログに書く。</p>
+
+<h2 id="squid">たとえばsquidを管理する場合</h2>
+
+<h3 id="section">起動</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl start squid.service</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-1">停止</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl stop squid.service</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-2">再起動</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl restart squid.service</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-3">自動起動設定</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl enable squid.service</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-4">自動起動の解除</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo systemctl disable squid.service</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="status">statusを確認</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[akira@mini9] $ sudo systemctl status squid.service
+</span><span class="line">squid.service - Sqid caching proxy
+</span><span class="line">      Loaded: loaded (/lib/systemd/system/squid.service; enabled)
+</span><span class="line">          Active: active (running) since Mon, 06 Feb 2012 00:41:33 +0900; 3min 53s ago
+</span><span class="line">             Process: 3410 ExecStop=/usr/sbin/squid -k shutdown -f $SQUID_CONF (code=exited, status=0/SUCCESS)
+</span><span class="line">                 Process: 3400 ExecReload=/usr/sbin/squid $SQUID_OPTS -k reconfigure -f $SQUID_CONF (code=exited, status=0/SUCCESS)
+</span><span class="line">                     Process: 3418 ExecStart=/usr/sbin/squid $SQUID_OPTS -f $SQUID_CONF (code=exited, status=0/SUCCESS)
+</span><span class="line">                         Process: 3412 ExecStartPre=/usr/libexec/squid/cache_swap.sh (code=exited, status=0/SUCCESS)
+</span><span class="line">                            Main PID: 3419 (squid)
+</span><span class="line">                                  CGroup: name=systemd:/system/squid.service
+</span><span class="line">                                          ├ 3419 /usr/sbin/squid -f /etc/squid/squid.conf
+</span><span class="line">                                                  ├ 3421 (squid-1) -f /etc/squid/squid.conf
+</span><span class="line">                                                          ├ 3426 (logfile-daemon) /var/log/squid/access.log
+</span><span class="line">                                                                  └ 3427 (unlinkd)</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-5">その他のコマンド</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[akira@mimi9] $ systemctl
+</span><span class="line">systemctl command
+</span><span class="line">cancel                               -- Cancel all, one, or more jobs
+</span><span class="line">daemon-reexec                        -- Reexecute systemd manager
+</span><span class="line">daemon-reload                        -- Reload systemd manager configuration
+</span><span class="line">default                              -- Enter system default mode
+</span><span class="line">delete                               -- Remove one or more snapshots
+</span><span class="line">disable                              -- Disable one or more unit files
+</span><span class="line">dot                                  -- Dump dependency graph for dot(1)
+</span><span class="line">dump                                 -- Dump server status
+</span><span class="line">emergency                            -- Enter system emergency mode
+</span><span class="line">enable                               -- Enable one or more unit files
+</span><span class="line">exit                                 -- Ask for user instance termination
+</span><span class="line">halt                                 -- Shut down and halt the system
+</span><span class="line">is-active                            -- Check whether units are active
+</span><span class="line">is-enabled                           -- Check whether unit files are enabled
+</span><span class="line">isolate                              -- Start one unit and stop all others
+</span><span class="line">kexec                                -- Shut down and reboot the system with kexec
+</span><span class="line">kill                                 -- Send signal to processes of a unit
+</span><span class="line">list-jobs                            -- List jobs
+</span><span class="line">list-units                           -- List units
+</span><span class="line">load                                 -- Load one or more units
+</span><span class="line">monitor                              -- Monitor unit/job changes
+</span><span class="line">poweroff                             -- Shut down and power-off the system
+</span><span class="line">reboot                               -- Shut down and reboot the system
+</span><span class="line">reload                               -- Reload one or more units
+</span><span class="line">reload-or-restart                    -- Reload one or more units is possible, otherwise start or restart
+</span><span class="line">reload-or-try-restart  force-reload  -- Reload one or more units is possible, otherwise restart if active
+</span><span class="line">rescue                               -- Enter system rescue mode
+</span><span class="line">reset-failed                         -- Reset failed state for all, one, or more units
+</span><span class="line">restart                              -- Start or restart one or more units
+</span><span class="line">set-environment                      -- Set one or more environment variables
+</span><span class="line">show                                 -- Show properties of one or more units/jobs or the manager
+</span><span class="line">show-environment                     -- Dump environment
+</span><span class="line">snapshot                             -- Create a snapshot
+</span><span class="line">start                                -- Start (activate) one or more units
+</span><span class="line">status                               -- Show runtime status of one or more units
+</span><span class="line">stop                                 -- Stop (deactivate) one or more units
+</span><span class="line">try-restart            condrestart   -- Restart one or more units if active
+</span><span class="line">unset-environment                    -- Unset one or more environment variables</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>systemdでは<code>/lib/systemd/system</code>に設定ファイルを用意して、
+<code>/etc/systemd/system</code>配下の<code>xxxx.wants</code>へリンクを貼ると自動起動設定となる。</p>
+
+<p>ちなみにzshのバージョンを4.3.15にあげたらsytemctlの補完が効いてくれるようになった</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/32/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/30/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

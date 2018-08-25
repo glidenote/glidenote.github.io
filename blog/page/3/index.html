@@ -1,0 +1,1424 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="社内向けのリバースプロキシを構築中に、まだ証明書を用意していないドメインで、Let’s Encryptを試す機会があったのでメモ。 去年アメリカに行ったタイミングから完全にブログ書く習慣がなくなってしまったので、リハビリも兼ねて。 Let’s Encrypt - Free SSL/TLS &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/3/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/3">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="社内向けのリバースプロキシを構築中に、まだ証明書を用意していないドメインで、Let’s Encryptを試す機会があったのでメモ。 去年アメリカに行ったタイミングから完全にブログ書く習慣がなくなってしまったので、リハビリも兼ねて。 Let’s Encrypt - Free SSL/TLS Certificates 前提 Port 80が空いている。外部からアクセスできる。 DNSが引けて、 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/02/04/lets-encrypt/">Let’s Encryptで証明書を作ってみた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-02-04T18:18:00+09:00" pubdate data-updated="true">2016年02月04日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>社内向けのリバースプロキシを構築中に、まだ証明書を用意していないドメインで、Let’s Encryptを試す機会があったのでメモ。</p>
+
+<p>去年アメリカに行ったタイミングから完全にブログ書く習慣がなくなってしまったので、リハビリも兼ねて。</p>
+
+<ul>
+  <li><a href="https://letsencrypt.org/">Let’s Encrypt - Free SSL/TLS Certificates</a></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/letsencrypt0.png" alt="" /></p>
+
+<h2 id="section">前提</h2>
+
+<ul>
+  <li>Port 80が空いている。外部からアクセスできる。</li>
+  <li>DNSが引けて、名前解決ができるようになっている</li>
+</ul>
+
+<h2 id="section-1">作業環境</h2>
+
+<ul>
+  <li>CentOS 7.0, Amazon Linux</li>
+  <li>Nginx 1.9.10</li>
+</ul>
+
+<h2 id="lets-encrypt">Let’s Encryptのインストール</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">git clone https://github.com/letsencrypt/letsencrypt
+</span><span class="line"><span class="nb">cd </span>letsencrypt/
+</span><span class="line">./letsencrypt-auto --help --debug
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>./letsencrypt-auto --help --debug</code> のタイミングで依存パッケージがインストールされる。
+無事インストールが完了するとヘルプが表示される。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">Updating letsencrypt and virtual environment dependencies......
+</span><span class="line">Requesting root privileges to run with virtualenv: /root/.local/share/letsencrypt/bin/letsencrypt --help
+</span><span class="line">
+</span><span class="line">  letsencrypt-auto <span class="o">[</span>SUBCOMMAND<span class="o">]</span> <span class="o">[</span>options<span class="o">]</span> <span class="o">[</span>-d domain<span class="o">]</span> <span class="o">[</span>-d domain<span class="o">]</span> ...
+</span><span class="line">
+</span><span class="line">The Let<span class="s1">&#39;s Encrypt agent can obtain and install HTTPS/TLS/SSL certificates.  By</span>
+</span><span class="line"><span class="s1">default, it will attempt to use a webserver both for obtaining and installing</span>
+</span><span class="line"><span class="s1">the cert. Major SUBCOMMANDS are:</span>
+</span><span class="line">
+</span><span class="line"><span class="s1">  (default) run        Obtain &amp; install a cert in your current webserver</span>
+</span><span class="line"><span class="s1">  certonly             Obtain cert, but do not install it (aka &quot;auth&quot;)</span>
+</span><span class="line"><span class="s1">  install              Install a previously obtained cert in a server</span>
+</span><span class="line"><span class="s1">  revoke               Revoke a previously obtained certificate</span>
+</span><span class="line"><span class="s1">  rollback             Rollback server configuration changes made during install</span>
+</span><span class="line"><span class="s1">  config_changes       Show changes made to server config during installation</span>
+</span><span class="line"><span class="s1">  plugins              Display information about installed plugins</span>
+</span><span class="line">
+</span><span class="line"><span class="s1">Choice of server plugins for obtaining and installing cert:</span>
+</span><span class="line">
+</span><span class="line"><span class="s1">  --apache          Use the Apache plugin for authentication &amp; installation</span>
+</span><span class="line"><span class="s1">  --standalone      Run a standalone webserver for authentication</span>
+</span><span class="line"><span class="s1">  (nginx support is experimental, buggy, and not installed by default)</span>
+</span><span class="line"><span class="s1">  --webroot         Place files in a server&#39;</span>s webroot folder <span class="k">for </span>authentication
+</span><span class="line">
+</span><span class="line">OR use different plugins to obtain <span class="o">(</span>authenticate<span class="o">)</span> the cert and <span class="k">then </span>install it:
+</span><span class="line">
+</span><span class="line">  --authenticator standalone --installer apache
+</span><span class="line">
+</span><span class="line">More detailed <span class="nb">help</span>:
+</span><span class="line">
+</span><span class="line">  -h, --help <span class="o">[</span>topic<span class="o">]</span>    print this message, or detailed <span class="nb">help </span>on a topic;
+</span><span class="line">                        the available topics are:
+</span><span class="line">
+</span><span class="line">   all, automation, paths, security, testing, or any of the subcommands or
+</span><span class="line">   plugins <span class="o">(</span>certonly, install, nginx, apache, standalone, webroot, etc<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>証明書を作る際に、letsencryptが80番を利用するので、nginxを一時的に落とす</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo service nginx stop
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下記コマンドを実行して証明書を作成する。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">./letsencrypt-auto certonly --standalone -d webapp.glidenote.com
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>キー紛失時の復元用のメールアドレスを入力</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/letsencrypt1.png" alt="" /></p>
+
+<p>規約の同意画面</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/letsencrypt2.png" alt="" /></p>
+
+<p>完了すると下記のようにメッセージが表示される。証明書の期限は90日。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">IMPORTANT NOTES:
+</span><span class="line"> - If you lose your account credentials, you can recover through
+</span><span class="line">   e-mails sent to xxxxxx@xxxxxxxxxxxxxxxx.
+</span><span class="line"> - Congratulations! Your certificate and chain have been saved at
+</span><span class="line">   /etc/letsencrypt/live/webapp.glidenote.com/fullchain.pem. Your cert
+</span><span class="line">   will expire on 2016-05-02. To obtain a new version of the
+</span><span class="line">   certificate in the future, simply run Let<span class="s1">&#39;s Encrypt again.</span>
+</span><span class="line"><span class="s1"> - Your account credentials have been saved in your Let&#39;</span>s Encrypt
+</span><span class="line">   configuration directory at /etc/letsencrypt. You should make a
+</span><span class="line">   secure backup of this folder now. This configuration directory will
+</span><span class="line">   also contain certificates and private keys obtained by Let<span class="s1">&#39;s</span>
+</span><span class="line"><span class="s1">   Encrypt so making regular backups of this folder is ideal.</span>
+</span><span class="line"><span class="s1"> - If you like Let&#39;</span>s Encrypt, please consider supporting our work by:
+</span><span class="line">
+</span><span class="line">   Donating to ISRG / Let<span class="err">&#39;</span>s Encrypt:   https://letsencrypt.org/donate
+</span><span class="line">   Donating to EFF:                    https://eff.org/donate-le
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下記のような感じでファイルが出来上がる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">/etc/letsencrypt/live/webapp.glidenote.com/fullchain.pem
+</span><span class="line">/etc/letsencrypt/live/webapp.glidenote.com/cert.pem
+</span><span class="line">/etc/letsencrypt/live/webapp.glidenote.com/chain.pem
+</span><span class="line">/etc/letsencrypt/live/webapp.glidenote.com/privkey.pem
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>nginxで利用するのは <code>fullchain.pem</code> と <code>privkey.pem</code> なので、nginxのconfを修正。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">server <span class="o">{</span>
+</span><span class="line">  listen 443 ssl http2;
+</span><span class="line">
+</span><span class="line">  server_name         webapp.glidenote.com;
+</span><span class="line">
+</span><span class="line">  ssl_certificate     /etc/letsencrypt/live/webapp.glidenote.com/fullchain.pem;
+</span><span class="line">  ssl_certificate_key /etc/letsencrypt/live/webapp.glidenote.com/privkey.pem;
+</span><span class="line">
+</span><span class="line">  ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:ECDHE-RSA-DES-CBC3-SHA:ECDHE-ECDSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA;
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">~ snip ~~
+</span><span class="line">
+</span><span class="line"><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>nginxを起動させてみる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo nginx -t
+</span><span class="line">sudo service nginx start
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ちゃんとエラーが出ない証明書が出来上がっている。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/letsencrypt3.png" alt="" /></p>
+
+<p>更新については<a href="https://letsencrypt.org/howitworks/">公式ドキュメント</a>にあるように、下記のようのあスクリプトを用意してcronで回しておけばOKの模様。(検証用途でしか利用していないので、更新作業はまだやってないです)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="c">#!/bin/sh</span>
+</span><span class="line">service nginx stop  <span class="c"># or whatever your webserver is</span>
+</span><span class="line"><span class="k">if</span> ! /path/to/letsencrypt-auto certonly -tvv --standalone --keep -d webapp.glidenote.com &gt; /var/log/letsencrypt/renew.log 2&gt;&amp;1 ; <span class="k">then</span>
+</span><span class="line"><span class="k">    </span><span class="nb">echo </span>Automated renewal failed:
+</span><span class="line">    cat /var/log/letsencrypt/renew.log
+</span><span class="line">    <span class="nb">exit </span>1
+</span><span class="line"><span class="k">fi</span>
+</span><span class="line">service nginx start <span class="c"># or whatever your webserver is</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="https://letsencrypt.jp/usage/">Let’s Encrypt の使い方 - Let’s Encrypt 総合ポータル</a></li>
+  <li><a href="http://inside.pixiv.net/entry/2015/12/10/153114">Let’s EncryptとnginxでHTTP/2サーバを立てる - pixiv inside</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/10/01/nightmare-screenshots/">ChatOps + NightmareでメトリクスグラフとBIレポートをSlackに投げるようにした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-01T20:00:00+09:00" pubdate data-updated="true">2015年10月01日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="https://blog.glidenote.com/images/2015/09/nightmare_0.png" alt="" /></p>
+
+<ul>
+  <li><a href="http://www.nightmarejs.org/">Nightmare</a></li>
+</ul>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li>Slack + Hubot + Nightmare + CircleCI を利用してSlackにNewRelicのメトリクスグラフやBIレポートを投げるようにした</li>
+  <li>Slackなどチャットツールとのintegrationが無いツールでもグラフを投稿出来るようにした</li>
+  <li>会社のKPIやサービスの状態をSlack上からhubotを利用して誰でも簡単に確認が出来るようになった</li>
+</ul>
+
+<h2 id="section">仕組み</h2>
+
+<p><img src="https://blog.glidenote.com/images/2015/09/nightmare_1.png" alt="" /></p>
+
+<ol>
+  <li>Slack上でHubotを呼び出す(hubot-cronで自動で稼働する)</li>
+  <li>HubotがCircleCIのAPIを叩いて、rebuid</li>
+  <li>CircleCI上でNightmareを利用し、NewRelicやBIツールのスクリーンショットを取得し、s3にアップロード</li>
+  <li>SlackのIncoming webhooksを利用してグラフを投稿する</li>
+</ol>
+
+<h3 id="newrelic">NewRelicにログインしてスクリーンショットを取るスクリプトサンプル</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+</pre></td><td class="code"><pre><code class="js"><span class="line"><span class="kd">var</span> <span class="nx">Nightmare</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;nightmare&#39;</span><span class="p">);</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="nx">urls</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class="line"><span class="nx">urls</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;https://rpm.newrelic.com/accounts/xxxxxxxxxxxxxxxxxxxxxxxxxxx&#39;</span><span class="p">);</span>
+</span><span class="line"><span class="nx">urls</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;https://rpm.newrelic.com/accounts/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#39;</span><span class="p">);</span>
+</span><span class="line"><span class="nx">urls</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;https://rpm.newrelic.com/accounts/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#39;</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="k">for</span><span class="p">(</span><span class="nx">u</span> <span class="k">in</span> <span class="nx">urls</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">urls</span><span class="p">[</span><span class="nx">u</span><span class="p">];</span>
+</span><span class="line">    <span class="kd">var</span> <span class="nx">filename</span> <span class="o">=</span> <span class="s1">&#39;/tmp/tmp&#39;</span> <span class="o">+</span> <span class="nx">i</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span><span class="p">;</span>
+</span><span class="line">    <span class="nx">fs</span><span class="p">.</span><span class="nx">appendFile</span><span class="p">(</span><span class="s1">&#39;/tmp/urls.txt&#39;</span><span class="p">,</span><span class="nx">url</span><span class="o">+</span><span class="s1">&#39;\n&#39;</span><span class="p">);</span>
+</span><span class="line">    <span class="k">new</span> <span class="nx">Nightmare</span><span class="p">()</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">viewport</span><span class="p">(</span><span class="mi">1600</span><span class="p">,</span> <span class="mi">900</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">useragent</span><span class="p">(</span><span class="s2">&quot;Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36&quot;</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="kr">goto</span><span class="p">(</span><span class="s1">&#39;https://login.newrelic.com/login&#39;</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">type</span><span class="p">(</span><span class="s1">&#39;#login_email&#39;</span><span class="p">,</span> <span class="s1">&#39;foobar@sample.com&#39;</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">type</span><span class="p">(</span><span class="s1">&#39;#login_password&#39;</span><span class="p">,</span> <span class="s1">&#39;foobarpass&#39;</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="s1">&#39;#login_submit&#39;</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">wait</span><span class="p">()</span>
+</span><span class="line">      <span class="p">.</span><span class="kr">goto</span><span class="p">(</span><span class="s2">&quot;https://rpm.newrelic.com/set_time_window?tw%5Bdur%5D=last_3_days&quot;</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="kr">goto</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">wait</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">screenshot</span><span class="p">(</span><span class="nx">filename</span><span class="p">)</span>
+</span><span class="line">      <span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">nightmare</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span><span class="line">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Done!&#39;</span><span class="p">);</span>
+</span><span class="line">     <span class="p">});</span>
+</span><span class="line">    <span class="nx">i</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="circleyml"><code>circle.yml</code></h3>
+
+<ul>
+  <li>CircleCI上のphantomjsが古くグラフが正常に表示されないので、<code>2.0.1</code>にバージョンアップしてます。</li>
+  <li>ブランチ毎で処理を変更</li>
+  <li>スクリーンショットをs3にアップロードして、slackにpostするスクリプトはいろいろとハードコードされているので割愛…</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+</pre></td><td class="code"><pre><code class="yaml"><span class="line"><span class="l-Scalar-Plain">dependencies</span><span class="p-Indicator">:</span>
+</span><span class="line">  <span class="l-Scalar-Plain">pre</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bundle install</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">npm install</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sudo apt-get update; sudo apt-get install libicu52</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">curl --output /home/ubuntu/bin/phantomjs-2.0.1-linux-x86_64-dynamic https://s3.amazonaws.com/circle-support-bucket/phantomjs/phantomjs-2.0.1-linux-x86_64-dynamic</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">chmod a+x /home/ubuntu/bin/phantomjs-2.0.1-linux-x86_64-dynamic</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sudo ln -s --force /home/ubuntu/bin/phantomjs-2.0.1-linux-x86_64-dynamic /usr/local/bin/phantomjs</span>
+</span><span class="line">
+</span><span class="line"><span class="l-Scalar-Plain">test</span><span class="p-Indicator">:</span>
+</span><span class="line">  <span class="l-Scalar-Plain">pre</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">phantomjs --version</span>
+</span><span class="line">    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">npm test</span>
+</span><span class="line">
+</span><span class="line"><span class="l-Scalar-Plain">deployment</span><span class="p-Indicator">:</span>
+</span><span class="line">  <span class="l-Scalar-Plain">master</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="l-Scalar-Plain">branch</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">master</span>
+</span><span class="line">    <span class="l-Scalar-Plain">commands</span><span class="p-Indicator">:</span>
+</span><span class="line">      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node ./scripts/foobar.js</span>
+</span><span class="line">      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">./bin/post_image_to_slack -c \#bot-test -t &quot;post title&quot; -u &quot;kaizenbot&quot;</span>
+</span><span class="line">
+</span><span class="line">  <span class="l-Scalar-Plain">newrelic-webapp-overview</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="l-Scalar-Plain">branch</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">newrelic/webapp-overview</span>
+</span><span class="line">    <span class="l-Scalar-Plain">commands</span><span class="p-Indicator">:</span>
+</span><span class="line">      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node ./scripts/newrelic-webapp-overview.js</span>
+</span><span class="line">      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">./bin/post_image_to_slack -c \#engineering -t &quot;New Relic Webapp Overview&quot; -u &quot;New Relic Report Bot&quot;</span>
+</span><span class="line">
+</span><span class="line">  <span class="l-Scalar-Plain">newrelic-external-services</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="l-Scalar-Plain">branch</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">newrelic/external-services</span>
+</span><span class="line">    <span class="l-Scalar-Plain">commands</span><span class="p-Indicator">:</span>
+</span><span class="line">      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node ./scripts/newrelic-external-services.js</span>
+</span><span class="line">      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">./bin/post_image_to_slack -c \#engineering -t &quot;New Relic External Services&quot; -u &quot;New Relic Report Bot&quot;</span>
+</span><span class="line">
+</span><span class="line">  <span class="l-Scalar-Plain">domo-variations</span><span class="p-Indicator">:</span>
+</span><span class="line">    <span class="l-Scalar-Plain">branch</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">domo/variations</span>
+</span><span class="line">    <span class="l-Scalar-Plain">commands</span><span class="p-Indicator">:</span>
+</span><span class="line">      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node ./scripts/domo-variations.js</span>
+</span><span class="line">      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">./bin/post_image_to_slack -c \#general -t &quot;K2 &amp; BP Variations&quot; -u &quot;BI Report Bot&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">実際の動作</h2>
+
+<ul>
+  <li>実際にはhubot-cronを用いて自動で動くようになっています。</li>
+  <li>BIレポートは日替わりで内容を変えるようにしてます。</li>
+  <li>hubotを利用して、誰でも任意のタイミングで実行出来るようにしてます。</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2015/09/nightmare_2.png" alt="" />
+<img src="https://blog.glidenote.com/images/2015/09/nightmare_4.png" alt="" />
+<img src="https://blog.glidenote.com/images/2015/09/nightmare_3.png" alt="" /></p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://blog.kyanny.me/entry/2014/11/15/180032">New Relic のグラフを毎時チャットに貼り付ける - @kyanny’s blog</a></li>
+  <li><a href="http://qiita.com/mizchi/items/04c53e17ed5c4ec7e8d7">NightmareでE2Eテストしつつスクリーンショットとってgifに結合したら目視チェックが最高に楽になった - Qiita</a></li>
+  <li><a href="http://liginc.co.jp/web/programming/node-js/139045">nightmare.jsとgmを使ってnode.jsでLIGブログの更新をSlackでゲットだぜ | 株式会社LIG</a></li>
+  <li><a href="http://www.muratayusuke.com/2015/07/30/test_reactjs_app_with_phantomjs_on_circleci/">Circleci上でPhantomjsを使ってReactアプリをテストする</a></li>
+</ul>
+
+<p>私が悪戦苦闘しているのを横目に、技術顧問が寿司情報を収集するのにサラッと使いこなしていた有益プレゼン死霊</p>
+
+<script async="" class="speakerdeck-embed" data-id="23356e934da04f499b8fe0f7c1f87299" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/17/move-to-akamai/">CDNをAkamaiに切り替えた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-17T19:10:00+09:00" pubdate data-updated="true">2015年08月17日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>2ヶ月くらい前にCDNをAkamaiに切り替えたので、知見を公開。 (<strong>追記 2015年8月18日 私個人の認識不足で用語の使い方に問題があったので一部修正しました</strong> <code>s/SLA 100%/高可用性構成/g</code>)</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://kaizenplatform.com/ja/">Kaizen Platform, Inc.</a>で利用しているCDNをAkamaiに切り替えた</li>
+  <li>Akamaiはスタートアップでも利用出来るコスト感</li>
+  <li>高可用性構成のAkamaiを利用することでCDNの可用性というインフラエンジニア的に頭の痛い問題が減った</li>
+</ul>
+
+<h2 id="cdn-aws-cloudfront-cdn--20151">CDN第一世代 AWS CloudFront CDN (-2015年1月)</h2>
+
+<ul>
+  <li>CDNにCloudFrontを利用</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-1.png" alt="" /></p>
+
+<p>サービスで利用しているインフラのほとんどがAWSで稼働しており、
+その関係でCDNもCloudFrontを選択。</p>
+
+<h2 id="cdn-cloudfront--cdn77-20151-5">CDN第二世代 CloudFront + CDN77 (2015年1月-5月)</h2>
+
+<ul>
+  <li>AWS CloudFrontにおいて、2014年11月、12月と立て続けに障害が発生し、 CloudFrontの障害がサービス提供に与える影響が大きいため、対策を実施。</li>
+  <li>Route53のDNSフェイルオーバーとCloudFront + CDN77を利用し、CDNを冗長構成</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-2.png" alt="" /></p>
+
+<p>対策を講じるにあたりヌーラボさんの下記のブログが大変参考になった。</p>
+
+<ul>
+  <li><a href="https://nulab-inc.com/ja/blog/nulab/how-to-overcome-cloudfront-failure/">実践！ヌーラボサービスでの CloudFront の障害対策 - ヌーラボ [Nulab Inc.]</a></li>
+</ul>
+
+<p>ヌーラボさんの記事を参考に予備系CDNの調査と選定</p>
+
+<h3 id="cdn">当時のCDNの必須要件</h3>
+
+<ul>
+  <li>専用 IP 独自 (SSL Dedicated IP Custom SSL) が利用出来る。</li>
+  <li>Amazon S3をバックエンドに利用出来る</li>
+  <li>日本とUSにエッジがある</li>
+  <li>予備系なので従量課金が良い</li>
+  <li>AWSとは別の独自ネットワーク上に構成されている</li>
+</ul>
+
+<p>当時6社くらいのCDN検証と問い合わせを行い、上記条件を満たすCDNとして<a href="https://www.cdn77.com/">CDN77.com</a>が最適だったので、
+Route53のDNSフェイルオーバーとCloudFront + CDN77を利用し、CDNを冗長構成にした。(ヌーラボさんで利用していたKeyCDNは当時調査していたときSNI Custom SSLしか提供しておらず要件を満たさず)。
+余談ですがCDN77は結構込み入った技術的な質問にも1時間以内で返信してきて、
+サポート体制が素晴らしかったのも選定要因になりました。</p>
+
+<p>CDNの冗長構成を構築したんですが、幸か不幸か、CloudFrontに障害が発生しなかったため、
+予備系のCDN77が稼働することは無かった。</p>
+
+<h2 id="cdn-akamai20156-">CDN第三世代 Akamai(2015年6月-)</h2>
+
+<ul>
+  <li>CDNにAkamaiを利用</li>
+  <li>Akamaiは<del>SLA100%なので利用することはないと思いますが</del>高可用性構成のため利用することはほぼ無さそうですが、予備系としてそれまで稼働していたCloudFrontを残す(<strong>追記 2015年8月18日 誤解を招く表現なので修正しました</strong>)</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-3.png" alt="" /></p>
+
+<h3 id="cloudfront--cnd77">CloudFront + CND77の冗長構成の懸念点</h3>
+
+<ul>
+  <li>検証としてCloudFrontを<code>Disable</code>にしたときには自動でCDN切り替わったが、CloudFrontが実際に障害になったときの挙動が検証不可のため、自動で切り替わるか確認出来ず
+    <ul>
+      <li>Route53のDNSフェイルオーバーに10〜20分程度要する(CloudFrontが完全に反応無くなるまでコンテンツが返ってくるためフェイルオーバーが実行されない)</li>
+    </ul>
+  </li>
+  <li>CloudFrontの障害発生頻度として、年に1〜2回程度なので、そこで正常に冗長構成が稼働するか不安がある</li>
+</ul>
+
+<h3 id="akamai">Akamaiを選択した理由</h3>
+
+<ul>
+  <li>高可用性構成</li>
+  <li>私を含めインフラのメンバー全員前職などでAkamaiを利用していたので、特徴などを把握している</li>
+  <li>数年間Akamaiを利用した経験の中で障害無し</li>
+  <li>担当営業の方の頑張り＆ボリュームディスカウントがあり、スタートアップでも利用できる、財布に優しいコスト感</li>
+</ul>
+
+<h3 id="akamai-with-chatops">Akamai With ChatOps</h3>
+
+<p><a href="https://github.com/ngs/hubot-cloudfront">ngs/hubot-cloudfront</a> で、SlackからCloudFrontのInvalidateを実行していた部分を <a href="https://www.npmjs.com/package/hubot-akamai-ccu">hubot-akamai-ccu</a> を導入し、
+SlackからAkamaiのキャッシュのInvalidateを実行出来るようにもした。</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-4.png" alt="" /></p>
+
+<hr />
+
+<p>この手の話はあまり外に出すような話じゃないかと思うんですが、
+Kaizen Platform, Inc.のエンジニア行動指針というのが、社内Qiita Teamにあって、
+冒頭にCEO <a href="https://twitter.com/sudoken">@sudoken</a>のmessageが載っていて、
+その中に</p>
+
+<blockquote>
+  <p>様々な国や地域で多くの人が前向きに協力したくなるようなオープンな組織や事業でいよう</p>
+</blockquote>
+
+<p>というのがあり、この情報が役に立つ人達もいると思うので公開しました。
+CDNの可用性はインフラエンジニア的にかなり頭の痛い問題だと思いますし、
+参考になれば幸いです。</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-0.png" alt="" /></p>
+
+<p>先日<a href="http://engineer.wantedly.com/2015/08/06/hashicorp-product-meetup.html">Hashicorp Product Meetup</a>に
+参加したときに、KAIZENのエンジニア行動指針を見たいとの意見を頂いたので、
+その他の行動指針を一部公開すると下記のような感じになってます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/08/move-to-akamai-5.png" alt="" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/21/amazon-web-services-books/">「Amazon Web Services パターン別構築・運用ガイド」が良かった</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-21T20:16:00+09:00" pubdate data-updated="true">2015年05月21日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://www.amazon.co.jp/Amazon-Web-Services-%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E5%88%A5%E6%A7%8B%E7%AF%89%E3%83%BB%E9%81%8B%E7%94%A8%E3%82%AC%E3%82%A4%E3%83%89-%E4%B8%80%E7%95%AA%E5%A4%A7%E5%88%87%E3%81%AA%E7%9F%A5%E8%AD%98%E3%81%A8%E6%8A%80%E8%A1%93%E3%81%8C%E8%BA%AB%E3%81%AB%E3%81%A4%E3%81%8F/dp/4797382570?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4797382570"><img src="https://images-fe.ssl-images-amazon.com/images/I/61Kzd4gqkYL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/Amazon-Web-Services-%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E5%88%A5%E6%A7%8B%E7%AF%89%E3%83%BB%E9%81%8B%E7%94%A8%E3%82%AC%E3%82%A4%E3%83%89-%E4%B8%80%E7%95%AA%E5%A4%A7%E5%88%87%E3%81%AA%E7%9F%A5%E8%AD%98%E3%81%A8%E6%8A%80%E8%A1%93%E3%81%8C%E8%BA%AB%E3%81%AB%E3%81%A4%E3%81%8F/dp/4797382570?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4797382570">Amazon Web Services パターン別構築・運用ガイド 一番大切な知識と技術が身につく</a></p>
+
+<p>発売日に買っていたんですが、多忙で感想を書くのを忘れていた。。</p>
+
+<p>前職では業務でAWSをほぼ触らず、6年弱ずっとオンプレミス環境でインフラエンジニアをやっていたので、
+昨年KAIZENへの転職を機にはじめてAWSをガッツリ触るようになった。(個人レベルではもちろん触ってましたが)</p>
+
+<p>AWSを実際に触ってみると</p>
+
+<ul>
+  <li>各サービスの特徴</li>
+  <li>それぞれのサービスを組み合わせた構成例</li>
+  <li>各種設定方法</li>
+</ul>
+
+<p>などについて、体系的に学べる書籍などが無く(あっても情報が古い)、
+ウェブ上の断片的な情報をその都度参照して、
+恐ろしく非効率な方法で習得して、苦労していたので、
+本書は体系的にAWSのことが習得出来るので大変ありがたかった。</p>
+
+<p>リファレンス的に利用出来るので、「この設定どうするんだろう」みたいな時に
+役に立ってくれている。</p>
+
+<p>紙書籍は450ページもあり、ちょっと持ち歩くのがツラそうだったので、 
+Kindle版を購入したんですが、ページが画像として処理されているので、
+ページ送りが非常に遅く、また文字検索が出来ないのがちょっと残念な感じだったけど
+非常にわかりやすく、内容的にはすばらしかった。</p>
+
+<p>AWSはサービス開発のスピードが速く、新機能が増えたり、UIが変わったりと
+変化が激しいので、1〜2年後には訳に立たなくなってしまうかもしれないが、
+現時点(2015年5月)でAWSに関しての体系的な知識を習得するのにはオススメだと思う。</p>
+
+<h2 id="section">本書目次</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+<span class="line-number">74</span>
+<span class="line-number">75</span>
+<span class="line-number">76</span>
+<span class="line-number">77</span>
+<span class="line-number">78</span>
+<span class="line-number">79</span>
+<span class="line-number">80</span>
+<span class="line-number">81</span>
+<span class="line-number">82</span>
+<span class="line-number">83</span>
+<span class="line-number">84</span>
+<span class="line-number">85</span>
+<span class="line-number">86</span>
+<span class="line-number">87</span>
+<span class="line-number">88</span>
+<span class="line-number">89</span>
+<span class="line-number">90</span>
+<span class="line-number">91</span>
+<span class="line-number">92</span>
+<span class="line-number">93</span>
+<span class="line-number">94</span>
+<span class="line-number">95</span>
+<span class="line-number">96</span>
+<span class="line-number">97</span>
+<span class="line-number">98</span>
+<span class="line-number">99</span>
+<span class="line-number">100</span>
+<span class="line-number">101</span>
+<span class="line-number">102</span>
+<span class="line-number">103</span>
+<span class="line-number">104</span>
+<span class="line-number">105</span>
+<span class="line-number">106</span>
+<span class="line-number">107</span>
+<span class="line-number">108</span>
+<span class="line-number">109</span>
+<span class="line-number">110</span>
+<span class="line-number">111</span>
+<span class="line-number">112</span>
+<span class="line-number">113</span>
+<span class="line-number">114</span>
+<span class="line-number">115</span>
+<span class="line-number">116</span>
+<span class="line-number">117</span>
+<span class="line-number">118</span>
+<span class="line-number">119</span>
+<span class="line-number">120</span>
+<span class="line-number">121</span>
+<span class="line-number">122</span>
+<span class="line-number">123</span>
+<span class="line-number">124</span>
+<span class="line-number">125</span>
+<span class="line-number">126</span>
+<span class="line-number">127</span>
+<span class="line-number">128</span>
+<span class="line-number">129</span>
+<span class="line-number">130</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Chapter1 AWSの基本
+</span><span class="line">1-1 AWSとは
+</span><span class="line">クラウドとは
+</span><span class="line">物理サーバ(オンプレミス)とAWSの違い
+</span><span class="line">レンタルサーバ(共有サーバ)とAWSの違い
+</span><span class="line">プライベートクラウドとAWS
+</span><span class="line">AWSのサービス全体像
+</span><span class="line">1-2 AWSのネットワークサービス
+</span><span class="line">リージョンとアベイラビリティゾーン
+</span><span class="line">Virtual Private Cloud (VPC)
+</span><span class="line">Route53
+</span><span class="line">AWSネットワークとVPCネットワーク
+</span><span class="line">1-3 コンピュータ基盤としてのAWS
+</span><span class="line">Amazon Elastic Compute Cloud(EC2)
+</span><span class="line">Amazon Elastic Block Store(EBS)
+</span><span class="line">EC2におけるバックアップ
+</span><span class="line">Amazon Simple Storage Service(Amazon S3)
+</span><span class="line">Amazon Glacier
+</span><span class="line">1-4 アプリケーション基盤としてのAWS
+</span><span class="line">Relational Database Service(RDS)
+</span><span class="line">Elastic Beanstalk
+</span><span class="line">ElastiCache
+</span><span class="line">1-5 サービスとしてのAWS
+</span><span class="line">AWSのアプリケーションサービスの概念
+</span><span class="line">SESとSQS
+</span><span class="line">SNSとCloudWatch
+</span><span class="line">1-6 AWS利用のコスト
+</span><span class="line">AWSの料金体系
+</span><span class="line">AWSの料金計算の仕方
+</span><span class="line">Chapter2 AWSを利用する
+</span><span class="line">2-1 AWS利用の準備
+</span><span class="line">AWSアカウントの作成
+</span><span class="line">ユーザアカウントの作成(IAM)
+</span><span class="line">2-2 AWS CLI
+</span><span class="line">AWS CLIのインストールと設定
+</span><span class="line">AWS CLIの基本的な使用方法
+</span><span class="line">2-3 AWS SDK
+</span><span class="line">サポートされる言語とバージョン
+</span><span class="line">AWS SDKのインストールと設定
+</span><span class="line">AWS SDKの基本的な使用方法
+</span><span class="line">2-4 VPCネットワークの作成
+</span><span class="line">Default-VPC
+</span><span class="line">Custom-VPCを作成する
+</span><span class="line">2-5 仮想コンピュータ(Amazon EC2)の利用
+</span><span class="line">AWS操作用の公開鍵・秘密鍵の作成(KeyPair)
+</span><span class="line">Security Groupを作成する
+</span><span class="line">EC2を起動する
+</span><span class="line">AMIを作成する
+</span><span class="line">ElasticIP(EIP)の利用
+</span><span class="line">2-6 ELB(Elastic Load Balancer)を使用する
+</span><span class="line">ELBのサービス詳細
+</span><span class="line">ELBの作成
+</span><span class="line">Chapter3 パターン別構築例
+</span><span class="line">3-1 EC2を利用した動的サイトの構築
+</span><span class="line">WordPressを使ったブログサイトの構築
+</span><span class="line">ロードバランシングとHTTPSサイトの構築
+</span><span class="line">Marketplacesを利用して、構築済みのインスタンスを利用する
+</span><span class="line">3-2 Elastic Beanstalkによる動的サイトのサーバレス構築
+</span><span class="line">Elastic Beanstalkを利用した再構築
+</span><span class="line">Elastic Beanstalkを利用したロードバランシングとHTTPSサイトの構築
+</span><span class="line">3-3 S3による静的サイトのサーバレス構築
+</span><span class="line">S3による静的サイトの構築
+</span><span class="line">Route53を利用してDNSを設定する
+</span><span class="line">Route53へドメインの移管
+</span><span class="line">CloudFrontとの連携
+</span><span class="line">3-4 Auto Scalingによる自動スケーリングシステムの構築
+</span><span class="line">Auto Scalingの設定
+</span><span class="line">Auto Scalingを利用するためのアプリケーション構成
+</span><span class="line">Auto Scaling使用時のEC2インスタンスの初期化処理
+</span><span class="line">Immutable Infrastructure
+</span><span class="line">3-5 Elastic BeanstalkとLambdaによるバッチサーバの構築
+</span><span class="line">Elastic Beanstalkによるバッチサーバの冗長化構成
+</span><span class="line">Lambdaによるサーバレスな処理システムの構築
+</span><span class="line">3-6 CloudFormationによるテンプレートを利用した自動構築
+</span><span class="line">CloudFormationの概要
+</span><span class="line">CloudFormationによるネットワーク構築
+</span><span class="line">CloudFormationによるサーバ構築
+</span><span class="line">3-7 SESによるメール送信システムの構築
+</span><span class="line">SESを使ってメールを送信する
+</span><span class="line">EC2インスタンスにメールサーバを構築する
+</span><span class="line">外部のメール送信サービスを利用する
+</span><span class="line">3-8 AWS上に開発環境を構築する
+</span><span class="line">開発環境の構築と運用
+</span><span class="line">継続的インテグレーション(CI)を実施する
+</span><span class="line">3-9 モバイルアプリからAWS上のリソースを利用する
+</span><span class="line">Cognitoによるユーザ認証と2-tierアーキテクチャ
+</span><span class="line">AWSのモバイル開発プラットフォーム
+</span><span class="line">SNSによるモバイルプッシュ通知
+</span><span class="line">Chapter4 AWSのセキュリティ
+</span><span class="line">4-1 AWSのセキュリティへの取り組み
+</span><span class="line">責任共有モデル
+</span><span class="line">第三者認証
+</span><span class="line">4-2 IAM(AWS Identity and Access Management)
+</span><span class="line">AWSのアカウント種類
+</span><span class="line">IAMユーザとIAMグループ
+</span><span class="line">IAMロール
+</span><span class="line">4-3 データ暗号化
+</span><span class="line">AWSが提供するデータ暗号化サービス・機能
+</span><span class="line">4-4 WAF・IDS・IPSによる外部からの攻撃対策
+</span><span class="line">外部からの攻撃の種類と防御方法
+</span><span class="line">エージェント型とリバースプロキシ型のサービス導入例
+</span><span class="line">4-5 VPCでネットワークセキュリティを高める
+</span><span class="line">VPCによるSubnet構成
+</span><span class="line">SecurityGroupとNetworkACL
+</span><span class="line">4-6 AWSと脆弱性診断
+</span><span class="line">侵入(ペネトレーション)テスト
+</span><span class="line">侵入(ペネトレーション)テストツール
+</span><span class="line">Chapter5 管理と運用
+</span><span class="line">5-1 ジョブ管理
+</span><span class="line">ジョブ管理システムの概念
+</span><span class="line">サービス型のジョブ管理システム
+</span><span class="line">5-2 システムを監視する
+</span><span class="line">AWSのなかから監視する
+</span><span class="line">AWSの外から監視する
+</span><span class="line">5-3 アラートを通知する
+</span><span class="line">AWSの機能を利用した通知方法
+</span><span class="line">Twilioを利用した電話通知
+</span><span class="line">5-4 データをバックアップする
+</span><span class="line">EBSのデータバックアップ
+</span><span class="line">S3とGlacierを使ったバックアップと管理
+</span><span class="line">AMIの運用方法
+</span><span class="line">5-5 AWSにおけるログ管理
+</span><span class="line">AWSのサービスログ/操作履歴のログを収集保存する
+</span><span class="line">EC2インスタンスのログを収集保存する
+</span><span class="line">5-6 AWSにおけるコスト管理
+</span><span class="line">AWSにおけるコスト管理
+</span><span class="line">AWSのコストを節約する
+</span><span class="line">5-7 AWSの利用を支えるサポートの仕組み
+</span><span class="line">AWSサポート
+</span><span class="line">AWS Trusted Advisor</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://blog.takuros.net/entry/2015/03/02/070323">『Amazon Web Services パターン別構築・運用ガイド』を書きました - プログラマになりたい</a></li>
+  <li><a href="http://blog.takuros.net/entry/2015/03/18/130326">「Amazon Web Services パターン別構築・運用ガイド」の目次 - プログラマになりたい</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/02/18/terraform-github-circleci-atlas-aws/">Terraform + GitHub + CircleCI + Atlasを利用してAWSの操作を自動化した</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-18T19:00:00+09:00" pubdate data-updated="true">2015年02月18日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2 id="tldr">TL;DR</h2>
+
+<ul>
+  <li><a href="https://www.terraform.io/">Terraform</a> + <a href="https://github.com/">GitHub</a> + <a href="https://circleci.com/">CircleCI</a> + <a href="https://atlas.hashicorp.com/">Atlas</a> を用いてAWSの操作を自動化した</li>
+  <li>各ツールの役割は下記のような感じ
+    <ul>
+      <li>Terraform =&gt; インフラへの変更ツール </li>
+      <li>GitHub    =&gt; <code>.tf</code>ファイルのバージョン管理</li>
+      <li>CircleCI  =&gt; CI、Terraformをawsに対して実行</li>
+      <li>Atlas     =&gt; インフラの状態を記録する<code>terraform.tfstate</code>の管理</li>
+    </ul>
+  </li>
+  <li><a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">インフラの継続的デリバリー - naoyaのはてなダイアリー</a>にて、言及されていた範囲(Route53の変更、Chefの適用)をAWSの操作全体に拡大した</li>
+</ul>
+
+<h2 id="section">背景</h2>
+
+<h3 id="section-1">今までの問題点</h3>
+
+<ul>
+  <li>AWSの各種操作がブラウザからポチポチ業…</li>
+  <li>手作業なので誤操作に気づきにくい。事故りやすい</li>
+  <li>インフラの実構成がバージョン管理出来ていない</li>
+  <li>ちなみにRoute53に関しては<a href="https://github.com/winebarrel/roadworker">roadworker</a>を用いてコードで管理済みなので、今回はRoute53以外の話です。
+    <ul>
+      <li>refs <a href="http://d.hatena.ne.jp/naoya/20140821/1408577976">インフラの継続的デリバリー - naoyaのはてなダイアリー</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="terraform--github--circleci--atlas-">Terraform + GitHub + CircleCI + Atlas でインフラを管理するメリット</h3>
+
+<ul>
+  <li>ブラウザからのポチポチ業から解放される</li>
+  <li>インフラ構成をコードで管理出来る。バージョン管理が出来る</li>
+  <li>インスタンス追加、EIPの設定などAWSの操作、インフラ構成の変更をGitHubのPR、レビュー、Mergeのプロセスに載せることが出来る</li>
+  <li>自動化が可能になる</li>
+  <li>CircleCI上にインフラ変更のログを保持することが出来る</li>
+  <li>インフラの変更をGitHubのMergeボタンに集約出来る</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/09/c49f738048c64521f7ed981a8d8c9458fdec8347.png" alt="" /></p>
+
+<h2 id="section-2">実装概要</h2>
+
+<p>2015年2月18日現在最新の<code>Terraform v0.3.6</code>を用いて実現している</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/02/terraform001.png" alt="" /></p>
+
+<ol>
+  <li>EC2、EIPなどAWSの変更をコードに書いてGitHubにPush。(Atlasで<code>terraform.tfstate</code>を管理している場合は<code>terraform pull</code>して最新の<code>terraform.tfstate</code>もPush)</li>
+  <li>Pushを契機にCircleCI上で<code>terraform plan --refresh=false</code>を実行してtest。testが通ればPull Requestを作成</li>
+  <li>Pull RequestをmasterにMerge</li>
+  <li>masterへのMergeを契機にCircleCI上からterraformを実行</li>
+  <li><code>terraform apply</code>を実行して、awsに設定を反映</li>
+  <li>Atlasに<code>terraform push</code>して、<code>terraform.tfstate</code>ファイルを管理</li>
+  <li>鮨を食べる</li>
+</ol>
+
+<p>CircleCI上からterraformを実行しているキャプチャ</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/02/terraform002.png" alt="" /></p>
+
+<p>設定ミスやエラーが発生するとFailしてSlackに通知される</p>
+
+<p><img src="https://blog.glidenote.com/images/2015/02/terraform003.png" alt="" /></p>
+
+<h2 id="tf">実際の<code>tf</code>ファイルの感じ</h2>
+
+<ul>
+  <li><a href="https://terraform.io/docs/providers/aws/index.html">Provider: AWS - Terraform by HashiCorp</a></li>
+</ul>
+
+<p>クレデンシャル情報はCircleCI上で暗号化した環境変数を管理していて、Gitリポジトリ内では管理せず、
+CI実行時に生成している。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># credential
+</span><span class="line">provider "aws" {
+</span><span class="line">    access_key    = "XXXXXXXXXXXXXXXXXXXX"
+</span><span class="line">    secret_key    = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+</span><span class="line">    region        = "us-west-1"
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">provider "atlas" {
+</span><span class="line">    token         = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># instance
+</span><span class="line">resource "aws_instance" "dev001_foobar_net" {
+</span><span class="line">    ami             = "ami-xxxxxxxx"
+</span><span class="line">    instance_type   = "t2.micro"
+</span><span class="line">    key_name        = "xxxxxxxxxxxxxxxx"
+</span><span class="line">    security_groups = ["sg-xxxxxxxx"]
+</span><span class="line">    subnet_id       = "subnet-xxxxxxxx"
+</span><span class="line">    tags {
+</span><span class="line">        Name    = "dev001.foobar.net"
+</span><span class="line">        Role    = "common"
+</span><span class="line">        Service = "operator"
+</span><span class="line">        Env     = "dev"
+</span><span class="line">    }
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># eip
+</span><span class="line">resource "aws_eip" "dev001_foobar_net_eip" {
+</span><span class="line">    instance = "i-xxxxxxxx"
+</span><span class="line">    vpc      = true
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>などTerraformは同じディレクトリ内にある<code>.tf</code>ファイルを見てくれるので、
+用途毎で<code>.tf</code>ファイルを分けて運用してます。</p>
+
+<h2 id="section-3">その他</h2>
+
+<ul>
+  <li>2014年8月にTerraformがリリース直後にチャレンジしたが、機能が足りずに実現出来なかったが、半年経過して必要機能が揃い実現出来た。</li>
+  <li>今日現在(2015年2月18日)TerraformにはAWS上の既存設定をファイルに落とし込む機能がないので、一から作る必要がある。</li>
+  <li>今回はインスタンスの一斉リプレイスがあったので、そのタイミングを利用して導入した。</li>
+  <li>AtlasとGitHubの連携機能がリリース予定なので、それがリリースされるとさらに便利になるかもしれない(1月リリース予定だったけど)
+    <ul>
+      <li><a href="https://atlas.hashicorp.com/help/guides/version-control">Using Atlas with GitHub</a></li>
+    </ul>
+  </li>
+  <li>今回はAtlasとTerraformだけを組み合わせたが、AtlasはVagrant、Packer、Consulとも連携が出来るので引き続き検証中</li>
+</ul>
+
+<p><img src="https://d250n10lsq5j8r.cloudfront.net/assets/atlas/atlas-how-to@2x-eabe86b956d3b2032c721da7e834f63c.png" alt="" /></p>
+
+<h2 id="section-4">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/zembutsu/items/93e546df765f8b2c4f32">Terraform簡易チュートリアル on AWS - Qiita</a></li>
+  <li><a href="http://blog.cloudpack.jp/2014/12/17/awe-advent-calendar-2014-elastic-ip-adress-eip/">AWS Advent Calendar 2014 〜 Elastic IP アドレス (EIP) のお話 | cloudpack技術情報サイト</a> </li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/4/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/2/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

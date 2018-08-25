@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>sensu-puppetがよく理解出来るかもしれないsensu-puppet-sampleを作った - Glide Note</title>
+  <meta property="og:title" content="sensu-puppetがよく理解出来るかもしれないsensu-puppet-sampleを作った - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="前に監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた - Glide Note - グライドノート を書いて、
+さらに半年近く経過し、約8ヶ月間Sensuを本番環境で運用しているけど、非常に安定していて監視もちゃんと機能していて1回もsensu自体は止まったことはない &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2014/05/19/sensu-puppet-sample/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2014/05/19/sensu-puppet-sample">
+<meta name="twitter:title" content="sensu-puppetがよく理解出来るかもしれないsensu-puppet-sampleを作った">
+<meta name="twitter:description" content="前に監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた - Glide Note - グライドノート を書いて、
+さらに半年近く経過し、約8ヶ月間Sensuを本番環境で運用しているけど、非常に安定していて監視もちゃんと機能していて1回もsensu自体は止まったことはない。 某誌からSensuについて執筆の依頼が来てたんですが、企画が流れてしまったので、 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">sensu-puppetがよく理解出来るかもしれないsensu-puppet-sampleを作った</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-19T22:00:00+09:00" pubdate data-updated="true">2014年05月19日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="https://raw.github.com/sensu/sensu/master/sensu-logo.png" alt="" /></p>
+
+<p>前に<a href="https://blog.glidenote.com/blog/2013/11/26/sensu/">監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた - Glide Note - グライドノート</a> を書いて、
+さらに半年近く経過し、<strong>約8ヶ月間Sensuを本番環境で運用しているけど、非常に安定していて監視もちゃんと機能していて1回もsensu自体は止まったことはない。</strong></p>
+
+<p>某誌からSensuについて執筆の依頼が来てたんですが、企画が流れてしまったので、
+企画段階で書いたり、作ったりしたものをせっかくなので公開しようと思う。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/sensu-puppet-sample">glidenote/sensu-puppet-sample</a></li>
+</ul>
+
+<p>sensu-puppet-sampleを利用すると下記のような構成が出来上がります。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/05/sensu-puppet-sample0.png" alt="" /></p>
+
+<p>sensu-puppet-sampleではsensu用のマニフェストは1つのファイルで完結してて、
+<code>puppet apply</code>だけで適用出来るようになっているので、</p>
+
+<ul>
+  <li>puppetを使ってない環境への組み込みが簡単</li>
+  <li>すでにpuppet使っている場合は既存puppet環境との共存が簡単</li>
+</ul>
+
+<p>というふうに作ってあります。</p>
+
+<p>社内の開発サーバの死活監視が必要になったときもこれを使ってサクッと構築。</p>
+
+<h2 id="section">はじめに</h2>
+
+<ul>
+  <li>簡単に<a href="http://sensuapp.org/">Sensu</a>を試してみたい人を対象としている</li>
+  <li>Sensu導入にはChef/Puppetの利用が推奨されているため、今回はSensu公式の<a href="https://github.com/sensu/sensu-puppet">sensu-puppet</a>を利用してSensuを導入するが、Puppetにおける前提知識を必要としない</li>
+  <li>sensu-chefと比較して、sensu-puppetは情報が少なく利用の敷居が高いため、利用方法やマニフェストの記載例として用意</li>
+  <li>Puppetの<code>puppet apply</code>コマンドだけを利用する(agent/master構成を取らない) ( refs <a href="http://tatsu-zine.com/books/puppet">入門Puppet - Automate Your Infrastructure - 達人出版会</a>)</li>
+  <li>Puppetモジュールを積極的に活用してPuppetマニフェストが簡潔にする</li>
+  <li>CentOS 6.xでの作業を想定してます</li>
+</ul>
+
+<h2 id="sensu-puppet-sample">sensu-puppet-sampleの利用方法</h2>
+
+<ul>
+  <li><a href="https://github.com/glidenote/sensu-puppet-sample">https://github.com/glidenote/sensu-puppet-sample</a>を参照ください。</li>
+</ul>
+
+<h2 id="sensu-puppet">sensu-puppetに関してのまとめ</h2>
+
+<p><a href="https://github.com/sensu/sensu-puppet">sensu/sensu-puppet</a>もsensuを本番投入前から触っていて、
+9ヶ月くらい運用しているので、ちょっとまとめてみる。</p>
+
+<h3 id="sensu-puppet-1">sensu-puppetを利用するメリット</h3>
+
+<ul>
+  <li>サーバ構築時にpuppetを実行するだけで、構築作業と監視設定が完了して監視もその時点から始まる。</li>
+  <li>sensuの各種設定を、puppetマニフェストを通じて生成、管理出来る。</li>
+  <li>sensu-puppetが、マニフェストからSensuのjson形式の設定ファイル(json形式)を生成してくれるので、Sensuの設定ファイルの記載方法を覚えなくても良い</li>
+  <li>監視設定を追加、変更する場合はpuppetマニフェストを用意して、<code>puppet apply</code>すれば反映される</li>
+</ul>
+
+<h3 id="sensu-puppet-2">sensu-puppetを利用するデメリット</h3>
+
+<ul>
+  <li>sensu-puppet用のマニフェストの書き方をしないといけない</li>
+  <li>ドキュメントがほぼ無いので、変わったことをやろうとするとソースを読まないといけない</li>
+</ul>
+
+<p>sensu-puppetを使ってる人があんまりいないので、参考になれば幸いです。
+Sensuが普及してきたら、特集してくれるようになので、流行ってくれるといいな-</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://inokara.hateblo.jp/entry/2014/01/16/064456">docker + puppet + sensu で構築するセンス香る監視環境（1） - ようへいの日々精進 XP</a></li>
+  <li><a href="http://inokara.hateblo.jp/entry/2014/01/18/170644">docker + puppet + sensu で構築するセンス香る監視環境（2） - ようへいの日々精進 XP</a></li>
+</ul>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-19T22:00:00+09:00" pubdate data-updated="true">2014年05月19日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/sensu/'>sensu</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2014/05/19/sensu-puppet-sample/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="sensu-puppetがよく理解出来るかもしれないsensu-puppet-sampleを作った - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=sensu-puppetがよく理解出来るかもしれないsensu-puppet-sampleを作った "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2014/12/03/monitoring-system-version-dec-2014/">監視アーキテクチャ(Sensu,Pingdom,Mackerel,StatusPage.io,PagerDuty)についてまとめてみる(2014年12月版)</a></li>
+
+  <li><a href="/blog/2014/05/22/sensu-casual-freenode/">ゆるふわなかんじで Sensu の話題をするためのIRCチャンネルをつくってみた</a></li>
+
+  <li><a href="/blog/2013/11/26/sensu/">監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/05/15/zsh-bd/" title="Previous Post: zsh-bdで親ディレクトリへの移動を便利にする">&laquo; zsh-bdで親ディレクトリへの移動を便利にする</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/05/22/sensu-casual-freenode/" title="next Post: ゆるふわなかんじで Sensu の話題をするためのIRCチャンネルをつくってみた">ゆるふわなかんじで Sensu の話題をするためのIRCチャンネルをつくってみた &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2014/05/19/sensu-puppet-sample/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2014/05/19/sensu-puppet-sample/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

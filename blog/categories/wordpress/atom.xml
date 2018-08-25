@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: wordpress | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/wordpress/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ブログをWordpressからOctopressに完全に切り替えた]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/12/19/wordpress-to-octopress/"/>
+    <updated>2011-12-19T23:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/12/19/wordpress-to-octopress</id>
+    <content type="html"><![CDATA[<p><a href="http://octopress.org/"><img src="http://www.glidenote.com/wp-content/uploads/2011/11/octopress.png" /></a>
+<br clear="all" /></p>
+
+<p>ブログをWordpressから<a href="http://octopress.org/">Octopress</a>に完全に切り替えました。<br />
+以前<a href="https://blog.glidenote.com/blog/2011/11/07/install-octopress-on-github/">「GithubとOctopressでモダンな技術系ブログを作ってみる - Glide Note」</a>で導入してから
+Wordpressと併用していたんですが、技術系のブログを運用するのにOctopressの方が遙かに使いやすいので切り替え。</p>
+
+<p><a href="http://www.glidenote.com/">旧ブログ</a>の記事をOctopressに持ってこようと思ったんですが、
+記事のレイアウト崩れが酷かったので、 旧記事の移行はせず、サブドメインを変更して完全に切り替えという形にしました。</p>
+
+<p>WoredpressとOctopressを2ヶ月程度同時に運用していて、Octopressの良い点、悪い点をまとめたいと思います。</p>
+
+<h2 id="section">良い点</h2>
+
+<ul>
+  <li>記事の更新などの作業がコマンドラインで完結する。(vimで編集、rakeコマンドでサーバにアップロード)</li>
+  <li>書式がMarkdown形式なので、htmlよりも書きやすい</li>
+  <li>[A blogging framework for hackers.] と謳ってるだけあって、コードを載せるのが簡単。</li>
+  <li>静的ファイルなのでめちゃくちゃ軽い</li>
+  <li><a href="http://pages.github.com/">GitHub Pages</a>で運用できる(当ブログもGitHub Pagesにカスタムドメインを充てて運用してます)</li>
+  <li>デフォでスマホ対応</li>
+</ul>
+
+<h2 id="section-1">悪い点</h2>
+
+<ul>
+  <li>導入と運用の敷居が高い。高いと言ってもエンジニアには楽勝のレベルです</li>
+  <li>
+    <s>画像ファイルの管理が面倒。(外部サーバに置いて、URLを持ってくるのが一番楽)</s>
+    <p>私の画像ファイルの管理方法の問題でした</p>
+  </li>
+  <li>日本語の情報が少ない</li>
+  <li>テーマが1種類。カスタムしないとみんな同じ見た目</li>
+  <li>プラグインが少ない。(必要なら自分で書けばいいと思います!!)</li>
+</ul>
+
+<p>feedは旧ブログからリダイレクトをかけているので、RSS Readerの登録し直しをしなくても良いようになってます。</p>
+]]></content>
+  </entry>
+  
+</feed>

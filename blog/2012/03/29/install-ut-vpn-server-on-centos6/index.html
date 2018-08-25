@@ -1,0 +1,731 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>さくらVPS 2G(CentOS6)にUT-VPNを導入(サーバ側設定編) - Glide Note</title>
+  <meta property="og:title" content="さくらVPS 2G(CentOS6)にUT-VPNを導入(サーバ側設定編) - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="さくらVPSを2Gにプラン移行して、UT-VPNも
+移行したんですが、再セットアップが結構面倒だったのでメモ。 UT-VPNの導入 必要パッケージの導入 1
+yum -y install readline-devel ncurses-devel openssl-devel &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6">
+<meta name="twitter:title" content="さくらVPS 2G(CentOS6)にUT-VPNを導入(サーバ側設定編)">
+<meta name="twitter:description" content="さくらVPSを2Gにプラン移行して、UT-VPNも
+移行したんですが、再セットアップが結構面倒だったのでメモ。 UT-VPNの導入 必要パッケージの導入 1
+yum -y install readline-devel ncurses-devel openssl-devel CentOS6で利用出来るようにする &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">さくらVPS 2G(CentOS6)にUT-VPNを導入(サーバ側設定編)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-29T17:43:00+09:00" pubdate data-updated="true">2012年03月29日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>さくらVPSを2Gにプラン移行して、<a href="http://utvpn.tsukuba.ac.jp/ja/">UT-VPN</a>も
+移行したんですが、再セットアップが結構面倒だったのでメモ。</p>
+
+<h2 id="ut-vpn">UT-VPNの導入</h2>
+
+<h3 id="section">必要パッケージの導入</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">yum -y install readline-devel ncurses-devel openssl-devel</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="centos6">CentOS6で利用出来るようにする</h3>
+
+<p>OpenSSLのバージョンの問題でCentOS6もFedora15と同様にすんなり入らなかったので、
+<a href="http://www.glidenote.com/archives/1305">昔書いた自分のブログの記事</a>を参考に作業</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir ~/src
+</span><span class="line">cd ~/src
+</span><span class="line">wget "http://utvpn.tsukuba.ac.jp/files/utvpn/v1.01-7101-public-2010.06.27/Source%20Code%20(Win32%20and%20Unix)/utvpn-src-unix-v101-7101-public-2010.06.27.tar.gz"
+</span><span class="line">tar zxvf utvpn-src-unix-v101-7101-public-2010.06.27.tar.gz
+</span><span class="line">cd utvpn-unix-v101-7101-public
+</span><span class="line">cp /usr/include/openssl/* ~/src/utvpn-unix-v101-7101-public/src/Mayaqua/openssl/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="configure">configure</h3>
+
+<p><code>1: Linux</code>、<code>2: 64-bit</code>を選択</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">./configure
+</span><span class="line">-------------------------------------------------------------
+</span><span class="line">SoftEther UT-VPN for Unix
+</span><span class="line">
+</span><span class="line">Copyright (C) 2004-2010 SoftEther Corporation.
+</span><span class="line">Copyright (C) 2004-2010 University of Tsukuba, Japan.
+</span><span class="line">Copyright (C) 2003-2010 Daiyuu Nobori. All Rights Reserved.
+</span><span class="line">
+</span><span class="line">This program is free software; you can redistribute it and/or
+</span><span class="line">modify it under the terms of the GNU General Public License
+</span><span class="line">version 2 as published by the Free Software Foundation.
+</span><span class="line">-------------------------------------------------------------
+</span><span class="line">
+</span><span class="line">Please select your Operating System below:
+</span><span class="line"> 1: Linux
+</span><span class="line"> 2: FreeBSD
+</span><span class="line"> 3: Solaris
+</span><span class="line"> 4: Mac OS X
+</span><span class="line">
+</span><span class="line">Which is your operating system (1-4):
+</span><span class="line">1
+</span><span class="line">
+</span><span class="line">Please select your CPU Bits below:
+</span><span class="line"> 1: 32-bit
+</span><span class="line"> 2: 64-bit
+</span><span class="line">
+</span><span class="line">Which is the bits of your CPU (1-2):
+</span><span class="line">2
+</span><span class="line">
+</span><span class="line">Makefile is generated. Please execute 'make' to build UT-VPN.</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="make--make-install">make &amp;&amp; make install</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">make
+</span><span class="line">make install
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">--------------------------------------------------------------------
+</span><span class="line">Installation completed successfully.
+</span><span class="line">
+</span><span class="line">Please execute 'utvpnserver start' to run UT-VPN Server Background Service.
+</span><span class="line">Or please execute 'utvpnclient start' to run UT-VPN Client Background Service.
+</span><span class="line">And please execute 'utvpncmd' to run UT-VPN Command-Line Utility to configure UT-Server or UT-VPN Client.
+</span><span class="line">--------------------------------------------------------------------</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="etcrcdinitdutvpnserver-">起動スクリプトの用意 (/etc/rc.d/init.d/utvpnserver) と起動</h3>
+
+<div><script src="https://gist.github.com/2235174.js"></script>
+<noscript><pre><code>#!/bin/sh
+# chkconfig: 2345 99 01
+# description: UT-VPN Server
+DAEMON=/usr/bin/utvpnserver
+LOCK=/var/lock/subsys/utvpnserver
+
+test -x $DAEMON || exit 0
+
+case &quot;$1&quot; in
+start)
+    $DAEMON start
+    touch $LOCK
+    ;;
+stop)
+    $DAEMON stop
+    rm $LOCK
+    ;;
+restart)
+    $DAEMON stop
+    sleep 3
+    $DAEMON start
+    ;;
+*)
+    echo &quot;Usage: $0 {start|stop|restart}&quot;
+    exit 1
+esac
+exit 0</code></pre></noscript></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">chmod +x /etc/rc.d/init.d/utvpnserver
+</span><span class="line">chkconfig --add utvpnserver
+</span><span class="line">chkconfig utvpnserver on
+</span><span class="line">service utpvnserver start</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>落ちると困るのでsupervisordで管理した方が良いですが、ちゃんと移行出来てから対応します。</p>
+
+<h2 id="ut-vpn-1">UT-VPNサーバ側の初期設定</h2>
+
+<p>私は全部CUIで設定をしていますが、windows環境であれば、下記のサイトを参考にGUIを使った方が簡単かもしれません。<br />
+<a href="http://oku2006.blog43.fc2.com/blog-entry-1598.html">VPN の素人が UT-VPN を使ってみた K.O.K.Blog</a></p>
+
+<h3 id="section-1">管理ユーティリティに接続</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">utvpncmd
+</span><span class="line">
+</span><span class="line">utvpncmd コマンド - SoftEther UT-VPN コマンドライン管理ユーティリティ
+</span><span class="line">SoftEther UT-VPN コマンドライン管理ユーティリティ (utvpncmd コマンド)
+</span><span class="line">Version 1.01 Build 7101   (Japanese)
+</span><span class="line">Compiled 2010/06/27 18:40:28 by yagi at pc25
+</span><span class="line">Copyright (C) 2004-2010 SoftEther Corporation.
+</span><span class="line">Copyright (C) 2004-2010 University of Tsukuba, Japan.
+</span><span class="line">Copyright (C) 2003-2010 Daiyuu Nobori.
+</span><span class="line">All Rights Reserved.
+</span><span class="line">
+</span><span class="line">utvpncmd プログラムを使って以下のことができます。
+</span><span class="line">
+</span><span class="line">1. VPN Server または VPN Bridge の管理
+</span><span class="line">2. VPN Client の管理
+</span><span class="line">3. VPN Tools コマンドの使用 (証明書作成や通信速度測定)
+</span><span class="line">
+</span><span class="line">1 - 3 を選択: 1
+</span><span class="line">
+</span><span class="line">接続先の VPN Server または VPN Bridge が動作しているコンピュータの IP アドレスまたはホスト名を指定してください。
+</span><span class="line">'ホスト名:ポート番号' の形式で指定すると、ポート番号も指定できます。
+</span><span class="line">(ポート番号を指定しない場合は 443 が使用されます。)
+</span><span class="line">何も入力せずに Enter を押すと、localhost (このコンピュータ) のポート 443 に接続します。
+</span><span class="line">接続先のホスト名または IP アドレス:localhost:5555
+</span><span class="line">
+</span><span class="line">サーバーに仮想 HUB 管理モードで接続する場合は、仮想 HUB 名を入力してください。
+</span><span class="line">サーバー管理モードで接続する場合は、何も入力せずに Enter を押してください。
+</span><span class="line">接続先の仮想 HUB 名を入力:
+</span><span class="line">VPN Server "localhost" (ポート 5555) に接続しました。
+</span><span class="line">
+</span><span class="line">VPN Server 全体の管理権限があります。
+</span><span class="line">
+</span><span class="line">VPN Server&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-2">管理パスワードの設定</h3>
+
+<p>UT-VPN Serverの管理者用のパスワードを設定します。これをしないとサーバにアクセス出来る人が誰でも設定変更出来てしまいます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">VPN Server&gt;ServerPasswordSet
+</span><span class="line">ServerPasswordSet コマンド - VPN Server の管理者パスワードの設定
+</span><span class="line">パスワードを入力してください。キャンセルするには Ctrl+D キーを押してください。
+</span><span class="line">
+</span><span class="line">パスワード: ********************
+</span><span class="line">確認入力  : ********************
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">コマンドは正常に終了しました。</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-3">不要ポートを閉じる</h3>
+
+<p>UT-VPN serverを起動すると管理用443,992,5555のポートが開きます。どのポートでも利用できますが、今回5555以外の不要ポートは閉じます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">VPN Server&gt;ListenerList
+</span><span class="line">ListenerList コマンド - TCP リスナー一覧の取得
+</span><span class="line">ポート番号|状態
+</span><span class="line">----------+------
+</span><span class="line">TCP 443   |動作中
+</span><span class="line">TCP 992   |動作中
+</span><span class="line">TCP 5555  |動作中
+</span><span class="line">コマンドは正常に終了しました。
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">VPN Server&gt;ListenerDelete
+</span><span class="line">ListenerDelete コマンド - TCP リスナーの削除
+</span><span class="line">削除する TCP/IP リスナーのポート番号: 443
+</span><span class="line">
+</span><span class="line">コマンドは正常に終了しました。
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">VPN Server&gt;ListenerDelete
+</span><span class="line">ListenerDelete コマンド - TCP リスナーの削除
+</span><span class="line">削除する TCP/IP リスナーのポート番号: 992
+</span><span class="line">
+</span><span class="line">コマンドは正常に終了しました。
+</span><span class="line">
+</span><span class="line">VPN Server&gt;ListenerList
+</span><span class="line">ListenerList コマンド - TCP リスナー一覧の取得
+</span><span class="line">ポート番号|状態
+</span><span class="line">----------+------
+</span><span class="line">TCP 5555  |動作中
+</span><span class="line">コマンドは正常に終了しました。</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="hub">仮想HUBの設定と接続ユーザの作成</h3>
+
+<p>導入直後からDEFAULTという仮想HUBがあるので、それを利用します。サービスで本格運用する場合は新しい仮想HUBを作成しましょう</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">VPN Server&gt;Hub DEFAULT
+</span><span class="line">
+</span><span class="line">VPN Server/DEFAULT&gt;UserCreate
+</span><span class="line">UserCreate コマンド - ユーザーの作成
+</span><span class="line">ユーザー名: glidenote
+</span><span class="line">
+</span><span class="line">参加するグループ名:
+</span><span class="line">
+</span><span class="line">ユーザーの本名: 
+</span><span class="line">
+</span><span class="line">ユーザーの説明: 
+</span><span class="line">
+</span><span class="line">コマンドは正常に終了しました。</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-4">接続ユーザのパスワード設定</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">VPN Server/DEFAULT&gt;UserPasswordSet
+</span><span class="line">UserPasswordSet コマンド - ユーザーの認証方法をパスワード認証に設定しパスワードを設定
+</span><span class="line">ユーザー名: glidenote
+</span><span class="line">
+</span><span class="line">パスワードを入力してください。キャンセルするには Ctrl+D キーを押してください。
+</span><span class="line">
+</span><span class="line">パスワード: ****************
+</span><span class="line">確認入力  : ****************</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ここで設定したパスワードは、UT-VPN Clientの接続設定時に利用します。</p>
+
+<h3 id="section-5">作成した接続ユーザの確認</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">VPN Server/DEFAULT&gt;UserList
+</span><span class="line">UserList コマンド - ユーザー一覧の取得
+</span><span class="line">項目            |値
+</span><span class="line">----------------+--------------
+</span><span class="line">ユーザー名      |glidenote
+</span><span class="line">本名            |
+</span><span class="line">所属グループ    |
+</span><span class="line">説明            |
+</span><span class="line">認証方法        |パスワード認証
+</span><span class="line">ログイン回数    |0
+</span><span class="line">最終ログイン日時|(なし)
+</span><span class="line">コマンドは正常に終了しました。</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>これで、サーバ側の設定は完了。クライアント側の設定は別エントリーで書きます。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-29T17:43:00+09:00" pubdate data-updated="true">2012年03月29日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ut-vpn/'>ut-vpn</a>, <a class='category' href='/blog/categories/vpn/'>vpn</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="さくらVPS 2G(CentOS6)にUT-VPNを導入(サーバ側設定編) - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=さくらVPS 2G(CentOS6)にUT-VPNを導入(サーバ側設定編) "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2012/04/05/install-ut-vpn-client/">UT-VPNを導入(クライアント側設定編)</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/26/memolist-fuzyfinder/" title="Previous Post: FuzzyFinderでmemolist.vimが進化した！">&laquo; FuzzyFinderでmemolist.vimが進化した！</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/03/31/update-memolist.vim/" title="next Post: memolist.vimの機能追加と仕様変更のお知らせ(Ver 0.0.5)">memolist.vimの機能追加と仕様変更のお知らせ(Ver 0.0.5) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

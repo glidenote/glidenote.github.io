@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: weechat | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/weechat/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Weegetを利用して、WeeChatのPlugin管理を楽にする]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/02/11/weechat-plugins/"/>
+    <updated>2012-02-11T13:27:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/02/11/weechat-plugins</id>
+    <content type="html"><![CDATA[<p><img src="http://www.weechat.org/media/images/screenshots/medium/weechat_2009-08-03_kron4eg.png" alt="" /></p>
+
+<p>最近IRCクライアントで<a href="http://limechat.net/">LimeChat</a>を捨てて、<a href="http://www.weechat.org/">WeeChat</a>を使い始めた人が
+周りに増えてきたので、Pluginの導入方法を共有。
+私の環境はScientific Linux 6.1ですが、他のOSでもそのまま使えると思います。</p>
+
+<h2 id="weegetplugin">weegetを利用してPluginを管理</h2>
+
+<p>WeeChatにはWeegetという「Pluginを管理するためのPlugin」があるので一番最初に導入しましょう。</p>
+
+<p><code>
+cd ~/.weechat/python/autoload/
+wget http://www.weechat.org/files/scripts/weeget.py
+</code></p>
+
+<p>ファイルの配置が終わったらWeeChatから</p>
+
+<p><code>
+/python autoload
+</code></p>
+
+<p>をして、利用出来るようにします。</p>
+
+<h2 id="weeget">weegetのコマンド</h2>
+
+<p>```
+/help weeget</p>
+
+<p>weechat     |          list: list scripts (search text if given)
+weechat     | listinstalled: list installed scripts (search text if given) <br />
+weechat     |          show: show detailed information about a script (in repository)
+weechat     |       install: install/upgrade script(s)
+weechat     |         check: check if local scripts needs upgrade
+weechat     |        update: update local scripts cache
+weechat     |       upgrade: upgrade all local scripts if they are obsolete
+weechat     |        remove: remove script(s)
+```</p>
+
+<p>たとえばめちゃくちゃ便利なbuffers.plを導入する場合は下記のような感じ</p>
+
+<p><code>
+/weeget install buffers
+</code></p>
+
+<h2 id="plugin">私の使っているPlugin</h2>
+
+<ul>
+  <li><code>buffers</code> Sidebar with list of buffers.</li>
+  <li><code>go</code> Quick jump to buffers.</li>
+  <li><code>grep</code> Search regular expression in buffers or log files.</li>
+  <li><code>growl</code> Send Growl notifications upon events.</li>
+  <li><code>highmon</code> Adds a highlight monitor buffer.</li>
+  <li><code>im_kayac_com_notify</code> Push notification to im.kayac.com.</li>
+  <li><code>weeget</code> Scripts manager.</li>
+</ul>
+
+<p>WeeChatを使いこなして、CUI生活を快適にしていきましょう</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: bash | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/bash/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Bash版oh-my-zsh、Bash framework「bash-it」を試してみた]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/24/bash-it/"/>
+    <updated>2012-04-24T18:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/24/bash-it</id>
+    <content type="html"><![CDATA[<p>久しく利用していないBashですが、Bash版<a href="https://github.com/robbyrussell/oh-my-zsh">oh-my-zsh</a>といえる
+<a href="https://github.com/revans/bash-it">bash-it</a>という面白そうなツールがあったので試してみました。</p>
+
+<ul>
+  <li><a href="https://github.com/revans/bash-it">revans/bash-it</a></li>
+</ul>
+
+<h2 id="bash-it">bash-itの導入</h2>
+
+<p>```
+cd ~
+git clone http://github.com/revans/bash-it.git ~/.bash_it
+sh ~/.bash_it/install.sh</p>
+
+<p>Your original .bash_profile has been backed up to .bash_profile.bak
+Copied the template .bash_profile into ~/.bash_profile, edit this file to customize bash-it
+Do you use Jekyll? (If you don’t know what Jekyll is, answer ‘n’) [Y/N] Y
+Copied the template .jekyllconfig into your home directory. Edit this file to customize bash-it for using the Jekyll plugins
+Would you like to enable all, some, or no aliases? Some of these may make bash slower to start up (especially completion). (all/some/none) all
+Would you like to enable all, some, or no plugins? Some of these may make bash slower to start up (especially completion). (all/some/none) all
+Would you like to enable all, some, or no completion? Some of these may make bash slower to start up (especially completion). (all/some/none) all
+```</p>
+
+<p>私はOctoperssを利用していて、<a href="https://github.com/mojombo/jekyll">jekyll</a>拡張もあると便利そうなので一緒に導入しました。</p>
+
+<h2 id="bash-it-1">bash-itの利用</h2>
+
+<p><code>~/.bash_profile</code>がbash-it用に変更されているのでsourceで読み込む</p>
+
+<p><code>
+source ~/.bash_profile
+</code></p>
+
+<h2 id="section">自分用のカスタム設定を記載</h2>
+
+<p>自分用のaliaseなどのカスタム設定は下記のファイルに記載。
+<code>custom</code>ディレクトリ中に拡張子を<code>.bash</code>で用意。</p>
+
+<p><code>
+~/.bash_it/aliases/custom.aliases.bash
+~/.bash_it/lib/custom.bash
+~/.bash_it/plugins/custom.plugins.bash
+~/.bash_it/custom/*.bash
+</code></p>
+
+<h2 id="section-1">テーマの変更</h2>
+
+<p>2012年4月24日現在下記のテーマがあるので、
+<code>.bash_profile</code>に記載してsourceで再読み込ませすると反映されます。</p>
+
+<p><code>
+bobby
+candy
+clean
+demula
+dos
+doubletime
+doubletime_multiline
+doubletime_multiline_pyonly
+envy
+hawaii50
+mbriggs
+minimal
+modern
+modern-t
+n0qorg
+pete
+rainbowbrite
+rjorgenson
+simple
+sirup
+standard
+tonka
+tylenol
+zitron
+zork
+</code></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/bashit.png" alt="" /></p>
+
+<p>うーん、自分でカスタムしまくったzshに慣れすぎてしまっているせいか
+正直今はあんまり便利な感じがしない。<br />
+oh-my-zshの出始めはこんな感じだったようか気がするのでもうすこしテーマとか
+補完関数がそろってくると便利になるかもしれない。</p>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: logmon | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/logmon/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ログファイル監視スクリプトlogmonをsupervisordで管理]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/12/02/logmon-with-supervisord/"/>
+    <updated>2011-12-02T18:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/12/02/logmon-with-supervisord</id>
+    <content type="html"><![CDATA[<p>ログファイル監視スクリプト<a href="http://www-06.ibm.com/jp/domino01/mkt/cnpages7.nsf/page/default-00057580">logmon</a>の重要度がかなり増してきたので、supervisordで起動、停止を管理するように変更。</p>
+
+<p>supervisordの導入は<a href="http://glidenote.github.com/blog/2011/11/25/install-supervisor/">過去のエントリー</a>を参考にしてください</p>
+
+<p>logmonの起動スクリプトは下記なので、起動方法を確認。</p>
+
+<p><div><script src='https://gist.github.com/1413062.js?file=gistfile1.sh'></script>
+<noscript><pre><code>#!/bin/sh
+
+# chkconfig: 345 13 13
+# description: Log Monitor
+# processname: logmon
+
+LOGMON_CONF=/etc/logmon/logmon.conf
+LOGMON_BIN=/etc/logmon/logmon.pl
+
+logmon_opts=&quot;-f $LOGMON_CONF&quot;
+
+check_start() {
+    $0 status &gt; /dev/null 2&gt;&amp;1
+    if [ $? -eq 0 ]; then
+        echo &quot;Success.&quot;
+        exit 0
+    fi
+    echo &quot;Failed.&quot;
+    exit 1
+}
+
+case &quot;$1&quot; in
+    start)
+        $0 status &gt; /dev/null 2&gt;&amp;1
+        if [ $? -eq 0 ]; then
+            echo &quot;logmon is alredy running.&quot;
+            exit 1
+        fi
+        echo -n $&quot;Starting logmon: &quot;
+        $LOGMON_BIN $logmon_opts &gt;/dev/null 2&gt;&amp;1 &amp;
+        sleep 1
+        check_start
+        ;;
+    stop)
+        echo -n &quot;Stopping logmon: &quot;
+        pkill -TERM -of $LOGMON_BIN
+        echo Done.
+        ;;
+    restart)
+        $0 stop
+        sleep 1
+        $0 start
+        ;;
+    switch)
+        pkill -HUP -of $LOGMON_BIN
+        ;;
+    check)
+        $LOGMON_BIN -c $logmon_opts
+        ;;
+    status)
+        pid=`pgrep -of $LOGMON_BIN`
+        if [ -n &quot;$pid&quot; ]; then
+            echo &quot;logmon (pid $pid) is running...&quot;
+            exit 0
+        fi
+        echo &quot;logmon is stopped&quot;
+        exit 3
+        ;;
+    *)
+        echo &quot;Usage: $0 {start|stop|restart|switch|status|check}&quot;
+        exit 1
+esac</code></pre></noscript></div>
+</p>
+
+<p>下記のようなで形で、logmonを起動しているので</p>
+
+<pre><code>/etc/logmon/logmon.pl -f /etc/logmon/logmon.conf &gt;/dev/null 2&gt;&amp;1 &amp;
+</code></pre>
+
+<p>/etc/supervisord.d/logmon.ini を下記のような感じで用意</p>
+
+<p><div><script src='https://gist.github.com/1413062.js?file=logmon.ini'></script>
+<noscript><pre><code>[program:logmon]
+command=/etc/logmon/logmon.pl -f /etc/logmon/logmon.conf
+stdout_logfile_maxbytes=1MB
+stderr_logfile_maxbytes=1MB
+stdout_logfile=/var/log/%(program_name).log
+stderr_logfile=/var/log/%(program_name).log</code></pre></noscript></div>
+</p>
+
+<p>supervisordで管理するの、chkconfigをoffに</p>
+
+<pre><code>sudo /etc/rc.d/init.d/logmon stop
+sudo chkconfig logmon off
+</code></pre>
+
+<p>新しく監視デーモンとして、logmon.iniを追加したので、supervisordに設定を再読み込みさせる。</p>
+
+<pre><code>sudo supervisorctl reread
+</code></pre>
+
+<p>logmonをsupervisord管理に追加して起動させる</p>
+
+<pre><code>sudo supervisorctl add logmon
+</code></pre>
+
+<p>logmonが起動しているか確認</p>
+
+<pre><code>sudo supervisorctl status
+</code></pre>
+
+<p>logmonをkillしてsupervisordが再起動させるかを確認して問題なければOK牧場</p>
+]]></content>
+  </entry>
+  
+</feed>

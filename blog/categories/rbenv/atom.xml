@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rbenv | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/rbenv/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[rbenvの管理にpuppet-rbenvを使うようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/07/10/puppet-rbenv/"/>
+    <updated>2013-07-10T21:50:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/07/10/puppet-rbenv</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://github.com/alup/puppet-rbenv">alup/puppet-rbenv</a></li>
+</ul>
+
+<p>新規でRubyを使うサーバを構築中で、RPMを作らずrbenvで管理しようと思って、
+いろいろ方法を模索していたら、<a href="https://github.com/alup/puppet-rbenv">puppet-rbenv</a>というものを見つけて
+大変便利だったので、導入の作業ログをメモとして残しておく。</p>
+
+<p>他部署はビルドサーバで、rbenvを利用してインストールしたファイルを一式tar.gzで固めて、
+デプロイして、展開ってのをやってて、台数が多い場合はこれが高速で良いんですが、
+今回は2台だけで、ビルドサーバ用意して、<code>tar.gz</code>を一斉配布方式だと
+用意するmanifestとdistのファイルが多くてちょっと非効率だった。</p>
+
+<p>導入環境はpuppetは下記のバージョンを利用</p>
+
+<ul>
+  <li>puppet-server-2.6.18-3.el6.noarch</li>
+  <li>puppet-2.6.18-3.el6.noarch</li>
+</ul>
+
+<h2 id="puppet-rbenv">puppet-rbenvの導入</h2>
+
+<p><code>sh
+cd path/to/puppet-module
+puppet module install alup-rbenv
+</code></p>
+
+<p>使ってるpuppetのバージョンのせいか、構文エラーが出たので、下記の用に修正</p>
+
+<p><div><script src='https://gist.github.com/5963357.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<h2 id="rbenvmanifest">rbenv用のmanifestを用意</h2>
+
+<p>下記のようなmanifestを用意。サービス名だけ伏せて、実際に使ってるmanifestそのままなので、コピペしても動かないのでご注意ください</p>
+
+<p><div><script src='https://gist.github.com/5963371.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p><div><script src='https://gist.github.com/5963376.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<h2 id="puppet">puppetの実行</h2>
+
+<p>これでpuppetを実行すると</p>
+
+<p><code>
+/home/hogemoge-api/.rbenv
+</code></p>
+
+<p>配下に指定したrbenvやらgemがインストールされる。
+便利!!</p>
+
+<p>急ぎで構築しないといけなかったので、rbenvのmanifest作成に時間がかからずに済んで良かった。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://sho.tdiary.net/20130518.html">Puppet ModuleをPuppetで管理する - ただのにっき(2013-05-18)</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[VimからrbenvのRubyが呼び出せない問題が発生してハマった]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/06/26/vim-zshenv-rbenv/"/>
+    <updated>2012-06-26T23:40:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/06/26/vim-zshenv-rbenv</id>
+    <content type="html"><![CDATA[<p>Rubyスクリプトを書いていて、いつからかvimで<a href="https://github.com/thinca/vim-quickrun">quickrun</a>から
+スクリプトを実行出来なくなってハマったのでメモ。<br />
+Linuxでは発生しなかったのでMacだけ発生する問題かもしれない。</p>
+
+<h2 id="section">起こっていた現象</h2>
+
+<ul>
+  <li>quickrunを実行すると<code>require': no such file to load</code>とかで怒られる。</li>
+  <li><code>ruby hogemoge.rb</code>とかの場合は実行可能</li>
+</ul>
+
+<h2 id="section-1">開発環境</h2>
+
+<ul>
+  <li>Mac Lion 10.7.4</li>
+  <li>zsh 4.3.11</li>
+  <li>rbenv(<code>git clone git://github.com/sstephenson/rbenv.git .rbenv</code>で導入してます)</li>
+  <li>vim 7.3.515</li>
+  <li>quickrun 0.6.0</li>
+</ul>
+
+<h2 id="section-2">原因</h2>
+
+<ul>
+  <li>vimがシステム標準のRubyを呼んでいた(rbenvのRubyが呼ばれていなかった)</li>
+  <li><code>.zshenv</code>に記載すべき設定を<code>.zshrc</code>に書いていた</li>
+</ul>
+
+<p>下記のようにコマンドラインから呼ばれるRubyと、Vimから呼ばれるRubyが異なっていた。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/zshenv.png" alt="" /></p>
+
+<h2 id="section-3">解決方法</h2>
+
+<p>下記の設定を<code>.zshrc</code>から<code>.zshenv</code>に移行。</p>
+
+<p><div><script src='https://gist.github.com/2993633.js'></script>
+<noscript><pre><code>#=============================
+# rbenv
+#=============================
+if [ -d ${HOME}/.rbenv  ] ; then
+  PATH=${HOME}/.rbenv/bin:${PATH}
+  export PATH
+  eval &quot;$(rbenv init -)&quot;
+fi</code></pre></noscript></div>
+</p>
+
+<p><a href="https://github.com/sstephenson/rbenv">rbenvのドキュメント</a>にも<code>.zshenv</code>に書くように書いてありますね…<br />
+動くからといって、手抜きで全部<code>.zshrc</code>に書いていてハマりました。 <br />
+ググって見つけた情報を鵜呑みにせず、ちゃんと公式ドキュメントを読みましょうという話ですね。</p>
+
+<p><strong>追記</strong>  </p>
+
+<p>homebrew経由でrbenvを導入している場合は、<code>eval "$(rbenv init -)" </code>を<code>.zprofile</code>に書かないといけない模様</p>
+
+<ul>
+  <li><a href="https://github.com/sstephenson/rbenv/#section_2.2">Homebrew on Mac OS X</a></li>
+</ul>
+
+<h2 id="url">参考URL</h2>
+
+<p><a href="http://d.hatena.ne.jp/uasi/20110411/1302531017">RVM で入れた Ruby を Vim の QuickRun プラグインで使う - Yarukidenized:ヤルキデナイズド</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[install rbenv and ruby-build on SL 6.1]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/12/21/install-rbenv-and-ruby-build/"/>
+    <updated>2011-12-21T15:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/12/21/install-rbenv-and-ruby-build</id>
+    <content type="html"><![CDATA[<p>Octopressをいろいろ弄っていて、Ruby環境が必要なので<a href="https://github.com/sstephenson/rbenv">rbenv</a> + <a href="https://github.com/sstephenson/ruby-build">ruby-build</a>を導入。</p>
+
+<p>rbenv + ruby-buildの導入方法についてググるとMacは
+結構情報がまとまっているのですが、SL 6.1とかの情報は見当たらなかったのでメモ。</p>
+
+<p>導入環境はScientific Linux release 6.1 (Carbon)</p>
+
+<h2 id="rbenv">rbenvの導入</h2>
+
+<p><code>
+cd ~
+git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
+</code></p>
+
+<h2 id="ruby-build">ruby-buildの導入</h2>
+
+<p><code>
+cd ~
+git clone git://github.com/sstephenson/ruby-build.git
+cd ruby-build
+sudo ./install.sh
+</code></p>
+
+<h2 id="zshenv">.zshenvの編集</h2>
+
+<p>.zshenvに下記を追加</p>
+
+<p><div><script src='https://gist.github.com/1500497.js'></script>
+<noscript><pre><code>export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;
+eval &quot;$(rbenv init -)&quot;
+source ~/.rbenv/completions/rbenv.zsh</code></pre></noscript></div>
+</p>
+
+<p>.zshenvに追記した設定を反映</p>
+
+<p><code>
+exec $SHELL
+</code></p>
+
+<h2 id="ruby">Rubyのインストール</h2>
+<p>Octopressをいじるのに必要なRuby 1.9.2-p290を導入。ついでに、1.9.3-rc1も入れておく。</p>
+
+<p><code>
+rbenv install 1.9.2-p290
+rbenv install 1.9.3-rc1
+rbenv rehash
+rbenv versions
+</code></p>
+
+<p>通常利用するのは1.9.2-p290なので、デフォルトに設定</p>
+
+<p>```
+rbenv global 1.9.2-p290
+rbenv version</p>
+
+<p>```</p>
+
+<h2 id="ruby-1">rubyが切り替わっているか確認</h2>
+
+<p>```
+exec $SHELL
+ruby -v</p>
+
+<p>ruby 1.9.2p290 (2011-07-09 revision 32553) [x86_64-linux]
+```</p>
+
+<h2 id="rbenv-1">rbenvの用法</h2>
+
+<p>```
+rbenage: rbenv <command /> [<args>]</args></p>
+
+<p>Some useful rbenv commands are:
+   commands      List all rbenv commands
+   rehash        Rehash rbenv shims (run this after installing binaries)
+   global        Set or show the global Ruby version
+   local         Set or show the local directory-specific Ruby version
+   shell         Set or show the shell-specific Ruby version
+   version       Show the current Ruby version
+   versions      List all Ruby versions known by rbenv
+   which         Show the full path for the given Ruby command
+   whence        List all Ruby versions with the given command</p>
+
+<p>See ‘rbenv help <command />’ for information on a specific command.
+For full documentation, see: https://github.com/sstephenson/rbenv#readme
+```</p>
+
+<p>Rubyは普段ほとんど触らないので、これから覚えていきたいと思いますよ。</p>
+
+<h2 id="section">参考サイト</h2>
+
+<ul>
+  <li><a href="http://www.223soft.net/50">rbenv + ruby-buildのインストール方法 - 223 Software</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

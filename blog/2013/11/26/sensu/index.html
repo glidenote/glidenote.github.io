@@ -1,0 +1,651 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた - Glide Note</title>
+  <meta property="og:title" content="監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="新規サービス用の監視をNagiosからsensuに切り替えて2ヶ月経ったので、
+導入時の調査で社内で公開してたissueと、投入して2ヶ月間運用した記録を公開しておこうと思う。 というか以前Sensuの事を書くと公言していたのに、すっかりサボっていて
+昨日@ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2013/11/26/sensu/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2013/11/26/sensu">
+<meta name="twitter:title" content="監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた">
+<meta name="twitter:description" content="新規サービス用の監視をNagiosからsensuに切り替えて2ヶ月経ったので、
+導入時の調査で社内で公開してたissueと、投入して2ヶ月間運用した記録を公開しておこうと思う。 というか以前Sensuの事を書くと公言していたのに、すっかりサボっていて
+昨日@ma0eさんのブログを見て下記のやり取りを思い出して急いで書いた… @ma0e We started using it. @ &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-26T19:37:00+09:00" pubdate data-updated="true">2013年11月26日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="https://raw.github.com/sensu/sensu/master/sensu-logo.png" alt="" /></p>
+
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>新規サービス用の監視をNagiosから<a href="http://sensuapp.org/">sensu</a>に切り替えて2ヶ月経ったので、
+導入時の調査で社内で公開してたissueと、投入して2ヶ月間運用した記録を公開しておこうと思う。</p>
+
+<p>というか<a href="https://blog.glidenote.com/blog/2013/10/30/serf-haproxy/">以前Sensuの事を書くと公言していた</a>のに、すっかりサボっていて
+昨日<a href="http://maoe.hatenadiary.jp/entry/2013/11/25/181037">@ma0eさんのブログ</a>を見て下記のやり取りを思い出して急いで書いた…</p>
+
+<blockquote class="twitter-tweet" lang="ja"><p><a href="https://twitter.com/ma0e">@ma0e</a> We started using it. <a href="https://twitter.com/glidenote">@glidenote</a> will report the detail soon, I think.</p>&mdash; kentaro (@kentaro) <a href="https://twitter.com/kentaro/statuses/395693993603772417">2013, 10月 30</a></blockquote>
+
+<blockquote class="twitter-tweet" lang="ja"><p><a href="https://twitter.com/kentaro">@kentaro</a> <a href="https://twitter.com/glidenote">@glidenote</a> that would be nice</p>&mdash; Mitsutoshi Aoe/maoe (@ma0e) <a href="https://twitter.com/ma0e/statuses/395694852538499072">2013, 10月 30</a></blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>導入環境はCentOS 6.4で、利用しているsensuのバージョンは<code>0.12.1-1</code>になり、基本的にはNagiosとの比較になります。
+またPuppetを使っているので、導入には<a href="https://github.com/sensu/sensu-puppet">sensu-puppet</a>を使ってます。</p>
+
+<p>箇条書きで読みにくいですが、sensu導入の際は参考にしてください。</p>
+
+<h2 id="sensu">Sensuの特徴</h2>
+
+<ul>
+  <li>Nagiosの問題点から生まれた監視フレームワーク</li>
+  <li>Rubyで書かれている</li>
+  <li>監視対象(クライアント)が自動登録される</li>
+  <li>設定ファイルが簡潔、分かりやすい</li>
+  <li>新規サーバにChef/Puppetを流した直後から監視が自動で開始される</li>
+  <li>既存Nagios Checkの再利用が出来る(Nagios資産が活かせる)</li>
+  <li>EC2のようなサーバ構成が頻繁に変化する環境において非常に有用</li>
+  <li>Chef/Puppetとの相性が非常に良い</li>
+  <li>必要な機能はプラグインで拡張。アラートの通知方法を追加したり、<a href="https://metrics.librato.com/">librato-metrics</a>と連携して、メトリクス作成とかも出来る。</li>
+  <li>WEB UIの動作が軽快</li>
+  <li>スケールアウトが容易</li>
+</ul>
+
+<p>より詳しい情報は公式スライド <a href="http://slides.sensuapp.org">http://slides.sensuapp.org</a> を参照</p>
+
+<p>sensuと連携出来るサービスとしてスライドには下記の画像が載っている</p>
+
+<p><img src="http://slides.sensuapp.org/image/img/endpoints.png" alt="" /></p>
+
+<h2 id="section">導入前の検証、調査時のまとめ</h2>
+
+<ul>
+  <li>sensu repoを追加すれば、yum一発で導入出来る</li>
+  <li>sensuにはサーバとクライアントがある</li>
+  <li><code>erlang</code>、<code>RabbitMQ</code>、<code>redis</code>とgemの<code>sensu-plugin</code>が必要。クライアント側はredis必要無い</li>
+  <li>sensuは<code>sensu-server</code>、<code>sensu-api</code>、<code>sensu-dashboard</code>、<code>sensu-client</code>の4つから構成されている</li>
+  <li>Nagiosのようにサーバからクライアントに状態を聞きに行くのではなく、クライアント自身が自分を監視している</li>
+  <li>クライアント側で監視がこけたらサーバ側に<code>RabbitMQ</code>を使って、サーバ側に自身の異常を通知する</li>
+  <li>クライアントに設定ファイル、監視プラグインを渡して<code>sunsu-client</code>起動すれば監視が勝手に始まる。(極端な話<code>/etc/sensu</code>まるごとクライアントに渡せば良い)</li>
+  <li>サーバはクライアントを<code>RabbitMQ</code>で定期的に通信していて、通信断やホストダウンはサーバ側が検知する</li>
+  <li>クライアントが増えた場合は、<code>RabbitMQ</code>経由でサーバに通知してきて勝手に監視対象に追加される</li>
+  <li>クライアントを削除する場合は、api経由で監視対象から外す。(管理画面があるのでそれで監視対象を管理出来る)</li>
+  <li>設定ファイルはjson。手編集ではなく、chefやpuppetでの自動生成が推奨されている</li>
+  <li>sensu自体が、chef/puppetでの管理が推奨されている</li>
+  <li>Nagiosと比較して設定ファイルが分かりやすい(Chef/Puppetが生成してくれるので自分で書くことはないと思いますが)</li>
+  <li>apiがあるので、自前でツールを用意したりするのが楽そう。(後述する<code>sensu-admin</code>もapiを叩いているツール)</li>
+  <li>nrpe-pluginがそのまま使えるのでnagios時代の資産が使える。<code>/usr/lib/nagios/plugins/check_load -w 20,500,500 -c 35,500,500</code>とかをチェックコマンドとして設定すれば良い。</li>
+  <li>監視プラグインの書き方はnagiosと一緒。sensu-pluginも公開されてる <a href="https://github.com/sensu/sensu-plugin">https://github.com/sensu/sensu-plugin</a></li>
+  <li>通知プラグイン、アラートのトレンドをグラフ化してくれるプラグインなどもある。</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2013/11/sensu-diagram.png" alt="" /></p>
+
+<h2 id="section-1">導入、2ヶ月運用したまとめ</h2>
+
+<ul>
+  <li><a href="https://github.com/sensu/sensu-puppet">sensu-puppet</a>を動かすまでかなり苦労した(どうやらChefだと導入が簡単らしい)</li>
+  <li>日本語の情報がほとんどない。特に<code>sensu-puppet</code>は、英語のドキュメント自体ないのでmanifest読まないといけなくてかなりつらい</li>
+  <li><code>sensu-puppet</code>が動くようになると、設定ファイルを作ってくれるので一気に全台に導入出来るようになる。監視項目追加なども非常に楽になる</li>
+  <li>逆に言うとsensu-puppet(sensu-chef)を利用しない場合は、sensu採用する意味が薄い(と思う)</li>
+  <li><code>RabbitMQ</code>の管理には<a href="https://github.com/puppetlabs/puppetlabs-rabbitmq">puppetlabs-rabbitmq</a>を利用した</li>
+  <li>デフォルト管理画面の<code>sensu-dashboard</code>が簡素すぎる(設定項目が少ないので分かりやすいとも言えますが)</li>
+  <li>標準管理画面(<code>sensu-dashboard</code>)に機能追加した<a href="https://github.com/sensu/sensu-admin">sensu-admin</a>というのがあり、これを導入するとダウンタイムなどを設定出来るようになる。</li>
+  <li><code>sensu-admin</code>はRailsアプリなので、<code>nginx</code>+<code>unicorn</code>+<code>upstart</code>で上げてます。</li>
+  <li>sensuのプラグインだと足りないので、nrpe-pluginを結構使ってる。</li>
+  <li>ログもjsonで吐かれるので、<a href="http://stedolan.github.io/jq/">jq</a>を一緒に導入しておくのが良い</li>
+  <li><code>sensu-server</code>を再起動したタイミングで、<code>sensu-api</code>が死ぬことがある。なので<code>sensu-api</code>の監視必須</li>
+  <li><code>sensu-server</code>を再起動する必要がある場合は、<code>sensu-server</code>,<code>sensu-api</code>両方再起動しておくのが吉</li>
+  <li>IRCの通知プラグインが簡素過ぎたので、色が付くようにPR出してmergeしてもらった <a href="https://github.com/sensu/sensu-community-plugins/pull/329">colorize irc notification. by glidenote · Pull Request #329 · sensu/sensu-community-plugins</a></li>
+  <li>各種プラグインがRubyで書かれていて、それぞれのファイルが短いので理解しやすい。改変や自作も楽に出来る。(Ruby情弱の私でも出来た)</li>
+  <li>今Sensuで監視しているサーバは10台弱で、各サーバ8〜10個くらいの監視項目という小規模で利用していて、2ヶ月間トラブルもなく安定している</li>
+  <li>数百台と監視したときNagiosと同等の安定した動作がするかは調査中。</li>
+  <li>私がRabbitMQの扱いになれてないので、そこがトラブると調査が大変そうな予感…</li>
+</ul>
+
+<p>実際に稼働しているsensu-serverの<code>/etc/sensu</code>配下のファイル一覧。<code>.json</code>が設定ファイルで、<code>.rb</code>がプラグイン。sensu-puppetが設定ファイルを生成してくれるので、管理が非常に楽。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">/etc/sensu
+</span><span class="line">├── conf.d
+</span><span class="line">│   ├── api.json
+</span><span class="line">│   ├── checks
+</span><span class="line">│   │   ├── check_crond_process.json
+</span><span class="line">│   │   ├── check_disk.json
+</span><span class="line">│   │   ├── check_lb_health.json
+</span><span class="line">│   │   ├── check_load.json
+</span><span class="line">│   │   ├── check_mem.json
+</span><span class="line">│   │   ├── check_ntp_time.json
+</span><span class="line">│   │   ├── check_ReadOnly_FileSystem.json
+</span><span class="line">│   │   ├── check_sensu_api.json
+</span><span class="line">│   │   ├── check_serf_process.json
+</span><span class="line">│   │   ├── check_ssh_port_22.json
+</span><span class="line">│   │   └── check_ssl_expire.json
+</span><span class="line">│   ├── client.json
+</span><span class="line">│   ├── dashboard.json
+</span><span class="line">│   ├── handlers
+</span><span class="line">│   │   ├── default.json
+</span><span class="line">│   │   ├── irc.json
+</span><span class="line">│   │   ├── irc-server-op.json
+</span><span class="line">│   │   └── mailer.json
+</span><span class="line">│   ├── rabbitmq.json
+</span><span class="line">│   └── redis.json
+</span><span class="line">├── extensions
+</span><span class="line">├── handlers
+</span><span class="line">│   ├── irc.rb
+</span><span class="line">│   ├── irc-server-op.rb
+</span><span class="line">│   └── mailer.rb
+</span><span class="line">├── mutators
+</span><span class="line">├── plugins
+</span><span class="line">│   ├── check-fs-writable.rb
+</span><span class="line">│   ├── check-http.rb
+</span><span class="line">│   ├── check-load.rb
+</span><span class="line">│   ├── check_mem
+</span><span class="line">│   ├── check-memcached-stats.rb
+</span><span class="line">│   ├── check-procs.rb
+</span><span class="line">│   └── check-redis-memory.rb
+</span><span class="line">└── ssl
+</span><span class="line">    ├── client_cert.pem
+</span><span class="line">    └── client_key.pem
+</span><span class="line">
+</span><span class="line">8 directories, 32 files
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>実際に使っている管理画面。<code>sensu-dashboard</code>から<code>sensu-admin</code>に切り替えてサービスに投入してます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/11/sensu0.png" alt="" /></p>
+
+<p>アラートが出ると下記のような感じ。アラートが出たものだけ表示される。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/11/sensu1.png" alt="" /></p>
+
+<p>IRCには下記のような感じ(<a href="https://github.com/sensu/sensu-community-plugins/pull/329">私のPRがmerge</a>されて色が付くようになってます!)</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/10/after_weechat.png" alt="" /></p>
+
+<p>メールでは</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">ALERT - web001.glidenote.jp/check_php-fpm:
+</span><span class="line">
+</span><span class="line">PROCS CRITICAL: 0 processes with <span class="nb">command </span>name <span class="s1">&#39;php-fpm&#39;</span>
+</span><span class="line">
+</span><span class="line">            Host: web001.glidenote.jp
+</span><span class="line">            Timestamp: Wed Nov 20 11:35:51 +0900 2013
+</span><span class="line">            Address:  192.168.xxx.xxx
+</span><span class="line">            Check Name:  check_php-fpm
+</span><span class="line">            Command:  /usr/lib/nagios/plugins/check_procs -c 1: -C <span class="s2">&quot;php-fpm&quot;</span>
+</span><span class="line">            Status:  2
+</span><span class="line">            Occurrences:  2
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>みたいな感じで通知される。</p>
+
+<p>私が導入したときはVersion 0.9だったのが今はVersion 0.12になっており、ドキュメントの更新も結構活発なので、
+導入に関しては<a href="http://sensuapp.org/docs">公式ドキュメント</a>を読むのが良いと思います。</p>
+
+<h2 id="puppet">Puppetでの構築</h2>
+
+<p>実際に構築時に流しているコマンド、下記を流せば、Sensuでの監視が勝手に始まる。
+Serf-muninも使っているので、下記を流し終われば即サービスに投入も出来る。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">cat <span class="s">&lt;&lt; &#39;EOF&#39; &gt;/etc/yum.repos.d/epel.repo</span>
+</span><span class="line"><span class="s">[epel]</span>
+</span><span class="line"><span class="s">name=epel repo</span>
+</span><span class="line"><span class="s">#baseurl=http://download.fedoraproject.org/pub/epel/6/$basearch</span>
+</span><span class="line"><span class="s">mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=epel-6&amp;arch=$basearch</span>
+</span><span class="line"><span class="s">failovermethod=priority</span>
+</span><span class="line"><span class="s">enabled=1</span>
+</span><span class="line"><span class="s">gpgcheck=0</span>
+</span><span class="line"><span class="s">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6</span>
+</span><span class="line"><span class="s">EOF</span>
+</span><span class="line">
+</span><span class="line">yum -y install puppet
+</span><span class="line">
+</span><span class="line">cat <span class="s">&lt;&lt; &#39;EOF&#39; &gt; /etc/puppet/puppet.conf</span>
+</span><span class="line"><span class="s">[main]</span>
+</span><span class="line"><span class="s">ssldir = $vardir/ssl</span>
+</span><span class="line"><span class="s">rundir = /var/run/puppet</span>
+</span><span class="line"><span class="s">logdir = /var/log/puppet</span>
+</span><span class="line">
+</span><span class="line"><span class="s">[master]</span>
+</span><span class="line"><span class="s">environment = development</span>
+</span><span class="line"><span class="s">certname    = manage001.pb.glidenote.lan</span>
+</span><span class="line"><span class="s">manifestdir = $vardir/data/manifests</span>
+</span><span class="line"><span class="s">templatedir = $vardir/data/templates</span>
+</span><span class="line"><span class="s">modulepath  = $vardir/data/modules</span>
+</span><span class="line">
+</span><span class="line"><span class="s">[agent]</span>
+</span><span class="line"><span class="s">pluginsync = true</span>
+</span><span class="line"><span class="s">EOF</span>
+</span><span class="line">
+</span><span class="line"><span class="nb">echo</span> <span class="s2">&quot;172.18.xxx.xxx    manage001.pb.glidenote.lan&quot;</span> &gt;&gt; /etc/hosts
+</span><span class="line">
+</span><span class="line">yum -y install rubygems
+</span><span class="line">rpm -Uvh http://mirrors.kernel.org/fedora-epel/6/x86_64/rubygem-json-1.4.6-1.el6.x86_64.rpm
+</span><span class="line">
+</span><span class="line">puppet agent --test --server manage001.pb.glidenote.lan --noop
+</span><span class="line">puppet agent --test --server manage001.pb.glidenote.lan
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>SensuとともにSerf-muninを導入したこともあって、インスタンス起動して、
+Puppet流したら即サービス投入可能という、手間のかからない環境が出来上がった。</p>
+
+<p>数百台、数千台の監視になるとどうなるか分からないけど、今の規模では非常に安定しているし、
+Sensuの管理の簡単さを知るともうNagiosには戻りたくない。</p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://sensuapp.org/docs">Sensu | An open source monitoring framework</a></li>
+  <li><a href="http://jedipunkz.github.io/blog/2013/06/20/sensu-chef-controll/">sensu 監視システムを Chef で制御 - jedipunkz’ blog</a></li>
+  <li><a href="http://maoe.hatenadiary.jp/entry/2013/11/25/181037">sensuについて - maoeのブログ</a></li>
+  <li><a href="http://codezine.jp/article/detail/7442">【DevOpsDays Tokyo 2013】クラウド時代のモニタリングツール、UNIXの思想が息づくsensuチュートリアル　――Heavy Water Operations, LLC （1/3）：CodeZine</a></li>
+</ul>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-26T19:37:00+09:00" pubdate data-updated="true">2013年11月26日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/sensu/'>sensu</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2013/11/26/sensu/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2014/12/03/monitoring-system-version-dec-2014/">監視アーキテクチャ(Sensu,Pingdom,Mackerel,StatusPage.io,PagerDuty)についてまとめてみる(2014年12月版)</a></li>
+
+  <li><a href="/blog/2014/05/22/sensu-casual-freenode/">ゆるふわなかんじで Sensu の話題をするためのIRCチャンネルをつくってみた</a></li>
+
+  <li><a href="/blog/2014/05/19/sensu-puppet-sample/">sensu-puppetがよく理解出来るかもしれないsensu-puppet-sampleを作った</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/11/13/commands-for-trouble/" title="Previous Post: Webサーバのメンテナンス、トラブル調査に役に立つコマンド3選">&laquo; Webサーバのメンテナンス、トラブル調査に役に立つコマンド3選</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/12/03/recommend-kindle-books/" title="next Post: Kindleで読めるオススメの事件･犯罪系ノンフィクションまとめ 2013">Kindleで読めるオススメの事件･犯罪系ノンフィクションまとめ 2013 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2013/11/26/sensu/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2013/11/26/sensu/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

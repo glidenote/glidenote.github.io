@@ -1,0 +1,446 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Trac WikiをVim上で編集する - Glide Note</title>
+  <meta property="og:title" content="Trac WikiをVim上で編集する - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="社内で利用しているTracをVim上から編集出来たら楽だなーと思ってプラグインを探していたら、
+VimTracという、そこそこ良いものがありました。 利用環境はTrac 0.12.2.ja1、Vim7.3です。 Trac側のXML-RPCプラグインを利用するので、
+もし未導入ならtrac xml- &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2011/11/22/edit-trac-wiki-with-vim/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2011/11/22/edit-trac-wiki-with-vim">
+<meta name="twitter:title" content="Trac WikiをVim上で編集する">
+<meta name="twitter:description" content="社内で利用しているTracをVim上から編集出来たら楽だなーと思ってプラグインを探していたら、
+VimTracという、そこそこ良いものがありました。 利用環境はTrac 0.12.2.ja1、Vim7.3です。 Trac側のXML-RPCプラグインを利用するので、
+もし未導入ならtrac xml-rpc - Google 検索などを
+参考にして導入してください。 VimTracの導入 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Trac WikiをVim上で編集する</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-22T11:30:00+09:00" pubdate data-updated="true">2011年11月22日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>社内で利用しているTracをVim上から編集出来たら楽だなーと思ってプラグインを探していたら、
+<a href="http://www.vim.org/scripts/script.php?script_id=2147">VimTrac</a>という、そこそこ良いものがありました。</p>
+
+<p>利用環境はTrac 0.12.2.ja1、Vim7.3です。</p>
+
+<p>Trac側のXML-RPCプラグインを利用するので、
+もし未導入なら<a href="http://www.google.co.jp/search?hl=ja&amp;safe=off&amp;biw=1680&amp;bih=931&amp;q=trac+xml-rpc&amp;btnG=%E6%A4%9C%E7%B4%A2">trac xml-rpc - Google 検索</a>などを
+参考にして導入してください。</p>
+
+<h2 id="vimtrac">VimTracの導入</h2>
+<p><a href="http://www.vim.org/scripts/script.php?script_id=2147">VimTrac - A vim client for the Trac wiki and ticketing system : vim online</a></p>
+
+<p>プラグインの管理にはVundleを利用しているので、.vimrcか.vimrc.localに下記のような設定を書いてBundleInstall。
+Trac-wikiマークアップ用プラグインも一緒に導入。</p>
+
+<pre><code>Bundle 'Trac-Wikimarkup'
+Bundle 'VimTrac'
+let g:tracServerList = {}
+let g:tracServerList['strac'] = 'http://maeda:***********@192.168.25.37/trac/server/login/xmlrpc'
+let g:tracServerList['ectrac'] = 'http://maeda:***********@192.168.25.37/trac/ec/login/xmlrpc'
+let g:tracServerList['hostrac'] = 'http://maeda:***********@192.168.25.37/trac/hosting/login/xmlrpc'
+let g:tracServerList['sharetrac'] = 'http://maeda:***********@192.168.25.37/trac/share/login/xmlrpc'
+</code></pre>
+
+<p>みたいな感じで設定。<strong>**</strong>*****は自分のtracログイン時のアカウントです。設定の書式は</p>
+
+<pre><code>let g:tracServerList['(Server Name)'] = 'http://(user):(password)@(trac serverpath)/login/xmlrpc'
+</code></pre>
+
+<p>といった形式。社内Tracは部署ごとに分かれているので、</p>
+
+<ul>
+  <li>strac</li>
+  <li>ectrac</li>
+  <li>sharetrac</li>
+</ul>
+
+<p>などと私はtracServerListを設定してます。接続するときに利用します。</p>
+
+<h2 id="tracvim">trac.vimの修正</h2>
+<p>Vundle経由で導入すると、trac.pyのpathを見つけられないので、~/.vim/bundle/VimTrac/plugin/trac.pyを下記のように修正</p>
+
+<div><script src="https://gist.github.com/1375500.js"></script>
+<noscript><pre><code>@@ -132,10 +132,10 @@
+     finish
+ endif
+
+-if filereadable($VIMRUNTIME.&quot;/bundle/VimTrac/plugin/trac.py&quot;)
+-  pyfile $VIMRUNTIME/bundle/VimTrac/plugin/trac.py
+-elseif filereadable($HOME.&quot;/.vim/bundle/VimTrac/plugin/trac.py&quot;)
+-  pyfile $HOME/.vim/bundle/VimTrac/plugin/trac.py
++if filereadable($VIMRUNTIME.&quot;/plugin/trac.py&quot;)
++  pyfile $VIMRUNTIME/plugin/trac.py
++elseif filereadable($HOME.&quot;/.vim/plugin/trac.py&quot;)
++  pyfile $HOME/.vim/plugin/trac.py
+ else
+   call confirm(&#39;trac.vim: Unable to find trac.py. Place it in either your home vim directory or in the Vim runtime directory.&#39;, &#39;OK&#39;)
+   finish</code></pre></noscript></div>
+
+<h2 id="tracvim-1">trac.vimの利用方法</h2>
+
+<h3 id="trac">Tracサーバに接続</h3>
+<p>tracServerListで設定した名前で接続</p>
+
+<pre><code>:TWServer strac
+:TWServer ectrac
+</code></pre>
+
+<h3 id="wiki">新規wikiページの作成</h3>
+
+<pre><code>:TWCreate Common/Server/Memo/maeda
+</code></pre>
+
+<h3 id="wiki-1">wikiページの保存</h3>
+
+<pre><code>:TWSave "Comment"
+</code></pre>
+
+<h3 id="wiki-2">既存wikiページを開く</h3>
+
+<pre><code>:TWOpen Common/Server/Memo/maeda
+</code></pre>
+
+<p>Wikiページの一覧リストからも選択可能です。</p>
+
+<h3 id="ticket">ticket一覧を表示</h3>
+<p>tracServerListで設定した名前で接続</p>
+
+<pre><code>:TTServer strac
+:TTServer ectrac
+</code></pre>
+
+<p>ticket一覧取得は、最初利用出来なかったのですが、XML-RPCのプラグインを<a href="http://trac-hacks.org/wiki/XmlRpcPlugin">XmlRpcPlugin - Trac Hacks</a>の最新のものにして利用できるようになりました。</p>
+
+<p>社内tracなので当たり障りのないページを開いた感じ
+<img src="http://www.glidenote.com/wp-content/uploads/2011/11/07ca022d5ea4a7b215ae665636fc1bfd.png" alt="" /></p>
+
+<p>社内SNSで<a href="http://twitter.com/#!/gosukenator">mizzyさん</a>から</p>
+
+<blockquote>
+  <p>VimTracって、編集中に別な人がページ更新した場合に、マージできるのかな？</p>
+</blockquote>
+
+<p>と聞かれたので、検証をしてみたところ何の警告もなく、上書きをしてしまいました!!<br />
+<a href="https://github.com/mjbrownie/Trac.vim/blob/master/doc/trac.txt">doc/trac.txt at master from mjbrownie/Trac.vim - GitHub</a>を見ても特にconflictとかmergeとかは
+書いてないので、機能的に無いぽいです。<strong>複数人で同時に編集するようなページで利用するでは要注意です。</strong>
+公式ページ<a href="http://www.ascetinteractive.com.au/vimtrac">http://www.ascetinteractive.com.au/vimtrac</a>も現在はリンク切れなので、情報はかなり少なめです。</p>
+
+<p>今までブラウザからのWiki編集に慣れてしまっていたので、まだ違和感がありますが、Vimで完結出来るので使い勝手良いです。</p>
+
+<p>BundleInstallすると</p>
+
+<pre><code>E122: Function LoadWikiCommands already exists, add ! to replace it
+</code></pre>
+
+<p>とかのエラーが出るけど、ちゃんとプラグインのインストールは出来てて、実害は無さそうなのでとりあえず放置で。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-22T11:30:00+09:00" pubdate data-updated="true">2011年11月22日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/trac/'>trac</a>, <a class='category' href='/blog/categories/wiki/'>wiki</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2011/11/22/edit-trac-wiki-with-vim/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="Trac WikiをVim上で編集する - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Trac WikiをVim上で編集する "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/11/18/disable-camera-shutter-sound-on-s51se/" title="Previous Post: disable camera shutter sound on S51SE">&laquo; disable camera shutter sound on S51SE</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/11/25/install-supervisor/" title="next Post: スーパーサーバーSupervisorの導入手順メモ">スーパーサーバーSupervisorの導入手順メモ &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2011/11/22/edit-trac-wiki-with-vim/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2011/11/22/edit-trac-wiki-with-vim/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

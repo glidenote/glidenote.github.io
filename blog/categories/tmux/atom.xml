@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tmux | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/tmux/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[tmux 1.9aの挙動が怪しかったので1.8に戻した]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/03/14/tmux-1.9a-is-not-good/"/>
+    <updated>2014-03-14T14:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/03/14/tmux-1.9a-is-not-good</id>
+    <content type="html"><![CDATA[<p>一昨日対応したのでメモとして残しておく。</p>
+
+<p>tmuxが落ちまくって、開いてるウィンドウが一斉に無くなってストレスフルな状態に。
+作業しているMacのtmuxのバージョンを確認したら<code>1.9a</code>というやつにいつのまにか上がっていた。
+(<code>brew upgrade</code>とかやってたのが原因だけど)</p>
+
+<p>homebrew使っているので、homebrewを使って古いバージョンに戻す。</p>
+
+<p><code>brew versions tmux</code>でtmuxのバージョンを確認</p>
+
+<p>```
+brew versions tmux</p>
+
+<p>Warning: brew-versions is unsupported and may be removed soon.
+Please use the homebrew-versions tap instead:
+  https://github.com/Homebrew/homebrew-versions
+  1.9a     git checkout 7bec702 Library/Formula/tmux.rb
+  1.9      git checkout fcb3161 Library/Formula/tmux.rb
+  1.8      git checkout c356bf7 Library/Formula/tmux.rb
+  1.7      git checkout 2de0838 Library/Formula/tmux.rb
+  1.6      git checkout f4a0f44 Library/Formula/tmux.rb
+  1.5      git checkout 1ffde14 Library/Formula/tmux.rb
+  1.4      git checkout 2e82661 Library/Formula/tmux.rb
+  1.3      git checkout 0a56d33 Library/Formula/tmux.rb
+  1.2      git checkout 585ee08 Library/Formula/tmux.rb
+  1.1      git checkout af6d133 Library/Formula/tmux.rb
+  1.0      git checkout a82e823 Library/Formula/tmux.rb
+```</p>
+
+<p><code>1.9a</code>の前に何を使っていたのか全く覚えていないけど、長く使っていた覚えのある<code>1.8</code>に戻してみる。</p>
+
+<p><code>sh
+brew remove tmux
+cd /usr/local/
+git checkout c356bf7 Library/Formula/tmux.rb
+brew install tmux
+</code></p>
+
+<p>解決した。</p>
+
+<p>1.9aの挙動かなり怪しい感じなので要注意。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/semind/items/f8f647e757842f08b9ec">Mac - homebrewでバージョンを指定してインストールする - Qiita</a></li>
+  <li><a href="http://demmys.hatenablog.com/entry/2014/03/04/tmux%E3%81%AE%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E3%82%A2%E3%83%83%E3%83%97%E3%81%AB%E3%81%AF%E8%A6%81%E6%B3%A8%E6%84%8F">tmuxのバージョンアップには要注意 - プログラミング芸術論</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[新卒OJTにwemux(multi-user terminal multiplexing)を使って画面共有することにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/08/26/ojt-with-wemux/"/>
+    <updated>2013-08-26T20:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/08/26/ojt-with-wemux</id>
+    <content type="html"><![CDATA[<p><img src="http://i.imgur.com/iOjcz.png" alt="" /></p>
+
+<ul>
+  <li><a href="https://github.com/zolrath/wemux">zolrath/wemux</a></li>
+</ul>
+
+<p>新卒氏がインフラに配属になって、横に座ってOJTをやっているんですが、
+説明で自分の画面と、新卒氏の画面を行ったり来たりしてアレやコレや言って作業をしているのが
+かなり効率が悪かったので、1ヶ月くらい前からwemuxを使って画面を共有するようにした。</p>
+
+<p>screenでも画面共有出来ますが、最近私がscreen使って無いのと、
+<a href="https://blog.glidenote.com/blog/2013/07/17/learngin-tmux/">新卒研修でtmuxを使え</a>と
+強制しておいたので、wemuxを使ってます。</p>
+
+<h2 id="wemux">wemuxの特徴</h2>
+
+<ol>
+  <li>tmux1.6以上が必要</li>
+  <li>単一の端末を複数人で共有出来る。</li>
+  <li>読み取り専用のmirror mode</li>
+  <li>複数人で操作ができるpair mode</li>
+</ol>
+
+<p>などの特徴があります。</p>
+
+<h2 id="wemux-1">wemuxの導入</h2>
+
+<p>導入環境はCentOS5系で、tmux1.6が既に導入済みです。</p>
+
+<p>wemux自体はtmuxのwrapperなので、tmux1.6以上が必要です。
+weemuxは管理サーバ(sshの踏み台サーバ)で動かしてて、教える人と教わる人が
+ログインして画面共有をしています。</p>
+
+<p><code>sh
+sudo git clone git://github.com/zolrath/wemux.git /usr/local/share/wemux
+sudo ln -s /usr/local/share/wemux/wemux /usr/local/bin/wemux
+sudo cp /usr/local/share/wemux/wemux.conf.example /usr/local/etc/wemux.conf
+</code></p>
+
+<p><code>/usr/local/etc/wemux.conf</code>の<code>host_list</code>にwemuxで画面を共有するユーザを
+下記のように記載</p>
+
+<p><code>
+host_list=(glidenote tnmt lamanotrama)
+</code></p>
+
+<h2 id="wemux-2">wemuxの使い方</h2>
+
+<p>先にwemuxを起動した人がhost側になります。OJTでは教える側が先にwemuxを起動して
+hostになっています。(pair modeで動かしているので、両方が操作できますが、
+一応形式的に教える人がhostになってます)</p>
+
+<p>まず最初に教える側(私)が下記のような感じでwemuxを起動、</p>
+
+<p><code>sh
+wemux
+chmod 1777 /tmp/wemux-wemux
+</code></p>
+
+<p>続いて教わる側(新卒氏)が</p>
+
+<p><code>sh
+wemux
+</code></p>
+
+<p>でclient側になります。引数でmodeを指定しない場合は、<code>/usr/local/etc/wemux.conf</code>で
+設定されているmodeで起動します。</p>
+
+<p>wemuxを終了するときは、host側(私)がdetachして</p>
+
+<p><code>sh
+wemux stop
+</code></p>
+
+<p>すれば<code>/tmp/wemux-wemux</code>が削除されます。<code>/tmp/wemux-wemux</code>が残っていると
+他の人がwemuxを起動してhostになれないので注意。</p>
+
+<p>1ヶ月使ってみて感じたメリット、デメリット</p>
+
+<h2 id="section">メリット</h2>
+
+<ul>
+  <li>tmuxで画面共有が出来る。</li>
+  <li>自分の使い慣れたキーバインドで、説明が出来る。</li>
+  <li>相手の操作を見るときも、わざわざディスプレイを見に行かなくても良い。</li>
+  <li>コピーモードの矩形選択を利用することで、指摘したい部分を選択出来る。</li>
+</ul>
+
+<h2 id="section-1">デメリット</h2>
+
+<ul>
+  <li>tmux限定</li>
+  <li>wemux host側の<code>.tmux.conf</code>が利用されるので、変態的なキーバインドだと教わる側や二人同時に操作できる<code>pair mode</code>できつい</li>
+  <li>wemux hostとclient側でディスプレイサイズが異なるとと、表示が残念な感じになる。</li>
+</ul>
+
+<p>ホスト側とクライアント側で微妙にサブコマンドが違って、zshで補完されないと使い勝手が悪かったので、wemuxの補完関数を作って
+<a href="https://github.com/zsh-users/zsh-completions/pull/162">zsh-completionsにpull req</a>を出しておいたのが
+mergeされてるのでzsh-completions利用すればweemuxのコマンドが補完されるようになってます。</p>
+
+<p>confはほぼデフォルトのままで使ってるんですが、1ヶ月くらい使ってみて特に不都合も無く良い感じに稼働してます。
+同じ画面を見て作業出来るので、確認が楽に出来て、メンテとか重要作業でも使えるかなーと思案中。</p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/thso83/items/892db2affe92a984e586">Mac - リモートから作業中のセッションに接続し、共同作業してもらう方法 - Qiita [キータ]</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[新卒研修でtmuxの話をした]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/07/17/learngin-tmux/"/>
+    <updated>2013-07-17T16:12:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/07/17/learngin-tmux</id>
+    <content type="html"><![CDATA[<p>新卒研修をした。 
+インフラ関連の話は、他のインフラメンバーが散々していたと思うので、
+趣向を変えて私はターミナルマルチプレクサの話(といいつつtmuxだけ)の話を。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/learning-tmux">glidenote/learning-tmux</a></li>
+</ul>
+
+<p>いつも通りというか、ほとんど実演なので、死霊だけだとあんまり参考にならないかもしれない。
+次回のtmux勉強会は新卒の中から誰かやってくれると思う。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[tmuxのpipe-paneを利用してリモートサーバでの作業ログをローカルに記録する]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/02/04/tmux-pipe-pane-logging/"/>
+    <updated>2013-02-04T23:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/02/04/tmux-pipe-pane-logging</id>
+    <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2012/04/11/mosh-with-tmux/"><code>ssh</code>や<code>mosh</code>でリモートサーバに接続する際に、<code>tmux</code>のwindowを自動で生成して</a>おり、
+<code>リモートサーバに接続</code>と<code>tmux</code>がセットになっているので、tmuxを使ってリモートサーバでの作業ログをローカルに保存出来ないかと思って調べていたら
+<code>pipe-pane</code>を利用すると可能ぽいのでやってみた。</p>
+
+<p>利用環境はtmux 1.7です。(OSはMountain Lion、SL6.1、CentOS6.3全てで動作しました。)</p>
+
+<h2 id="section">ログ用ディレクトリを用意</h2>
+
+<p>pipe-paneを利用する前にログ用ディレクトリを作っておく。</p>
+
+<p><code>sh
+mkdir ~/.tmux/
+</code></p>
+
+<h2 id="tmuxconf">.tmux.confの設定</h2>
+
+<p>下記のように設定</p>
+
+<p><div><script src='https://gist.github.com/4690109.js'></script>
+<noscript><pre><code># log output
+bind-key H pipe-pane &#39;cat &gt;&gt; $HOME/.tmux/tmux-#W.log&#39; \; display-message &#39;Started logging to $HOME/.tmux/tmux-#W.log&#39;
+bind-key h pipe-pane \; display-message &#39;Ended logging to $HOME/.tmux/tmux-#W.log&#39;
+
+</code></pre></noscript></div>
+</p>
+
+<ul>
+  <li><code>prefix key</code> + <code>H</code>でロギング開始</li>
+  <li><code>prefix key</code> + <code>h</code>でロギング終了</li>
+</ul>
+
+<p>という感じです。</p>
+
+<p>そうすると<code>~/.tmux/tmux-hogemoge.log</code>みたいなログが出来上がる。
+hogemogeの部分はtmuxのwindow名が入ります。tmuxのバージョンが古いと
+<code>tmux-#W.log</code>という残念な感じにファイルが出来上がります…</p>
+
+<p>私はリモートサーバごとでtmuxのwindowが自動で生成して分けているので、</p>
+
+<ul>
+  <li><code>~/.tmux/tmux-web010.log</code></li>
+  <li><code>~/.tmux/tmux-db001.log</code></li>
+  <li><code>~/.tmux/tmux-db002.log</code></li>
+</ul>
+
+<p>といった感じでログファイルが出来上がる。</p>
+
+<p><code>script</code>コマンドと同じで、プロンプトとかに色を付けたりしていると、
+ログに制御文字が入ってかなり見にくいので、<code>cat</code>か<code>less -R</code>で見ると
+良い感じで表示出来ます。</p>
+
+<p>便利。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[社内でターミナル勉強会を開催した]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/30/terminal-study-vol-2/"/>
+    <updated>2012-04-30T03:14:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/30/terminal-study-vol-2</id>
+    <content type="html"><![CDATA[<p>月一回のペースで社内勉強会を主催しているんですが、
+資料をspeckerdeckに置くようにしたので、
+先日社内で開催したターミナル勉強会の資料を公開。  </p>
+
+<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="presentation_frame_4f9a6a2b78ef2a0021034baa" src="https://blog.glidenote.com//speakerdeck.com/embed/4f9a6a2b78ef2a0021034baa" width="700" height="601"></iframe>
+
+<p>去年にも同じテーマで勉強会をやっていて、
+今回は実際のターミナル操作8割、説明2割みたいな感じでやったので
+資料だけみても正直あんまり役に立たないかと思いますが。  </p>
+
+]]></content>
+  </entry>
+  
+</feed>

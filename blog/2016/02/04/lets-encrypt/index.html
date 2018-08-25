@@ -1,0 +1,582 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Let’s Encryptで証明書を作ってみた - Glide Note</title>
+  <meta property="og:title" content="Let’s Encryptで証明書を作ってみた - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="社内向けのリバースプロキシを構築中に、まだ証明書を用意していないドメインで、Let’s Encryptを試す機会があったのでメモ。 去年アメリカに行ったタイミングから完全にブログ書く習慣がなくなってしまったので、リハビリも兼ねて。 Let’s Encrypt - Free SSL/TLS &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2016/02/04/lets-encrypt/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2016/02/04/lets-encrypt">
+<meta name="twitter:title" content="Let’s Encryptで証明書を作ってみた">
+<meta name="twitter:description" content="社内向けのリバースプロキシを構築中に、まだ証明書を用意していないドメインで、Let’s Encryptを試す機会があったのでメモ。 去年アメリカに行ったタイミングから完全にブログ書く習慣がなくなってしまったので、リハビリも兼ねて。 Let’s Encrypt - Free SSL/TLS Certificates 前提 Port 80が空いている。外部からアクセスできる。 DNSが引けて、 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Let’s Encryptで証明書を作ってみた</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-02-04T18:18:00+09:00" pubdate data-updated="true">2016年02月04日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>社内向けのリバースプロキシを構築中に、まだ証明書を用意していないドメインで、Let’s Encryptを試す機会があったのでメモ。</p>
+
+<p>去年アメリカに行ったタイミングから完全にブログ書く習慣がなくなってしまったので、リハビリも兼ねて。</p>
+
+<ul>
+  <li><a href="https://letsencrypt.org/">Let’s Encrypt - Free SSL/TLS Certificates</a></li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/letsencrypt0.png" alt="" /></p>
+
+<h2 id="section">前提</h2>
+
+<ul>
+  <li>Port 80が空いている。外部からアクセスできる。</li>
+  <li>DNSが引けて、名前解決ができるようになっている</li>
+</ul>
+
+<h2 id="section-1">作業環境</h2>
+
+<ul>
+  <li>CentOS 7.0, Amazon Linux</li>
+  <li>Nginx 1.9.10</li>
+</ul>
+
+<h2 id="lets-encrypt">Let’s Encryptのインストール</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">git clone https://github.com/letsencrypt/letsencrypt
+</span><span class="line"><span class="nb">cd </span>letsencrypt/
+</span><span class="line">./letsencrypt-auto --help --debug
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>./letsencrypt-auto --help --debug</code> のタイミングで依存パッケージがインストールされる。
+無事インストールが完了するとヘルプが表示される。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">Updating letsencrypt and virtual environment dependencies......
+</span><span class="line">Requesting root privileges to run with virtualenv: /root/.local/share/letsencrypt/bin/letsencrypt --help
+</span><span class="line">
+</span><span class="line">  letsencrypt-auto <span class="o">[</span>SUBCOMMAND<span class="o">]</span> <span class="o">[</span>options<span class="o">]</span> <span class="o">[</span>-d domain<span class="o">]</span> <span class="o">[</span>-d domain<span class="o">]</span> ...
+</span><span class="line">
+</span><span class="line">The Let<span class="s1">&#39;s Encrypt agent can obtain and install HTTPS/TLS/SSL certificates.  By</span>
+</span><span class="line"><span class="s1">default, it will attempt to use a webserver both for obtaining and installing</span>
+</span><span class="line"><span class="s1">the cert. Major SUBCOMMANDS are:</span>
+</span><span class="line">
+</span><span class="line"><span class="s1">  (default) run        Obtain &amp; install a cert in your current webserver</span>
+</span><span class="line"><span class="s1">  certonly             Obtain cert, but do not install it (aka &quot;auth&quot;)</span>
+</span><span class="line"><span class="s1">  install              Install a previously obtained cert in a server</span>
+</span><span class="line"><span class="s1">  revoke               Revoke a previously obtained certificate</span>
+</span><span class="line"><span class="s1">  rollback             Rollback server configuration changes made during install</span>
+</span><span class="line"><span class="s1">  config_changes       Show changes made to server config during installation</span>
+</span><span class="line"><span class="s1">  plugins              Display information about installed plugins</span>
+</span><span class="line">
+</span><span class="line"><span class="s1">Choice of server plugins for obtaining and installing cert:</span>
+</span><span class="line">
+</span><span class="line"><span class="s1">  --apache          Use the Apache plugin for authentication &amp; installation</span>
+</span><span class="line"><span class="s1">  --standalone      Run a standalone webserver for authentication</span>
+</span><span class="line"><span class="s1">  (nginx support is experimental, buggy, and not installed by default)</span>
+</span><span class="line"><span class="s1">  --webroot         Place files in a server&#39;</span>s webroot folder <span class="k">for </span>authentication
+</span><span class="line">
+</span><span class="line">OR use different plugins to obtain <span class="o">(</span>authenticate<span class="o">)</span> the cert and <span class="k">then </span>install it:
+</span><span class="line">
+</span><span class="line">  --authenticator standalone --installer apache
+</span><span class="line">
+</span><span class="line">More detailed <span class="nb">help</span>:
+</span><span class="line">
+</span><span class="line">  -h, --help <span class="o">[</span>topic<span class="o">]</span>    print this message, or detailed <span class="nb">help </span>on a topic;
+</span><span class="line">                        the available topics are:
+</span><span class="line">
+</span><span class="line">   all, automation, paths, security, testing, or any of the subcommands or
+</span><span class="line">   plugins <span class="o">(</span>certonly, install, nginx, apache, standalone, webroot, etc<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>証明書を作る際に、letsencryptが80番を利用するので、nginxを一時的に落とす</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo service nginx stop
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下記コマンドを実行して証明書を作成する。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">./letsencrypt-auto certonly --standalone -d webapp.glidenote.com
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>キー紛失時の復元用のメールアドレスを入力</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/letsencrypt1.png" alt="" /></p>
+
+<p>規約の同意画面</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/letsencrypt2.png" alt="" /></p>
+
+<p>完了すると下記のようにメッセージが表示される。証明書の期限は90日。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">IMPORTANT NOTES:
+</span><span class="line"> - If you lose your account credentials, you can recover through
+</span><span class="line">   e-mails sent to xxxxxx@xxxxxxxxxxxxxxxx.
+</span><span class="line"> - Congratulations! Your certificate and chain have been saved at
+</span><span class="line">   /etc/letsencrypt/live/webapp.glidenote.com/fullchain.pem. Your cert
+</span><span class="line">   will expire on 2016-05-02. To obtain a new version of the
+</span><span class="line">   certificate in the future, simply run Let<span class="s1">&#39;s Encrypt again.</span>
+</span><span class="line"><span class="s1"> - Your account credentials have been saved in your Let&#39;</span>s Encrypt
+</span><span class="line">   configuration directory at /etc/letsencrypt. You should make a
+</span><span class="line">   secure backup of this folder now. This configuration directory will
+</span><span class="line">   also contain certificates and private keys obtained by Let<span class="s1">&#39;s</span>
+</span><span class="line"><span class="s1">   Encrypt so making regular backups of this folder is ideal.</span>
+</span><span class="line"><span class="s1"> - If you like Let&#39;</span>s Encrypt, please consider supporting our work by:
+</span><span class="line">
+</span><span class="line">   Donating to ISRG / Let<span class="err">&#39;</span>s Encrypt:   https://letsencrypt.org/donate
+</span><span class="line">   Donating to EFF:                    https://eff.org/donate-le
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>下記のような感じでファイルが出来上がる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">/etc/letsencrypt/live/webapp.glidenote.com/fullchain.pem
+</span><span class="line">/etc/letsencrypt/live/webapp.glidenote.com/cert.pem
+</span><span class="line">/etc/letsencrypt/live/webapp.glidenote.com/chain.pem
+</span><span class="line">/etc/letsencrypt/live/webapp.glidenote.com/privkey.pem
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>nginxで利用するのは <code>fullchain.pem</code> と <code>privkey.pem</code> なので、nginxのconfを修正。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">server <span class="o">{</span>
+</span><span class="line">  listen 443 ssl http2;
+</span><span class="line">
+</span><span class="line">  server_name         webapp.glidenote.com;
+</span><span class="line">
+</span><span class="line">  ssl_certificate     /etc/letsencrypt/live/webapp.glidenote.com/fullchain.pem;
+</span><span class="line">  ssl_certificate_key /etc/letsencrypt/live/webapp.glidenote.com/privkey.pem;
+</span><span class="line">
+</span><span class="line">  ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:ECDHE-RSA-DES-CBC3-SHA:ECDHE-ECDSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA;
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">~ snip ~~
+</span><span class="line">
+</span><span class="line"><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>nginxを起動させてみる。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo nginx -t
+</span><span class="line">sudo service nginx start
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ちゃんとエラーが出ない証明書が出来上がっている。</p>
+
+<p><img src="https://blog.glidenote.com/images/2016/02/letsencrypt3.png" alt="" /></p>
+
+<p>更新については<a href="https://letsencrypt.org/howitworks/">公式ドキュメント</a>にあるように、下記のようのあスクリプトを用意してcronで回しておけばOKの模様。(検証用途でしか利用していないので、更新作業はまだやってないです)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="c">#!/bin/sh</span>
+</span><span class="line">service nginx stop  <span class="c"># or whatever your webserver is</span>
+</span><span class="line"><span class="k">if</span> ! /path/to/letsencrypt-auto certonly -tvv --standalone --keep -d webapp.glidenote.com &gt; /var/log/letsencrypt/renew.log 2&gt;&amp;1 ; <span class="k">then</span>
+</span><span class="line"><span class="k">    </span><span class="nb">echo </span>Automated renewal failed:
+</span><span class="line">    cat /var/log/letsencrypt/renew.log
+</span><span class="line">    <span class="nb">exit </span>1
+</span><span class="line"><span class="k">fi</span>
+</span><span class="line">service nginx start <span class="c"># or whatever your webserver is</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="https://letsencrypt.jp/usage/">Let’s Encrypt の使い方 - Let’s Encrypt 総合ポータル</a></li>
+  <li><a href="http://inside.pixiv.net/entry/2015/12/10/153114">Let’s EncryptとnginxでHTTP/2サーバを立てる - pixiv inside</a></li>
+</ul>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-02-04T18:18:00+09:00" pubdate data-updated="true">2016年02月04日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2016/02/04/lets-encrypt/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="Let’s Encryptで証明書を作ってみた - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Let’s Encryptで証明書を作ってみた "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2016/12/16/goreplay/">GoReplayを導入して、Production環境へのリクエストを複製し、Staging環境に転送する仕組みを作った</a></li>
+
+  <li><a href="/blog/2014/12/02/using-netcat-for-file-transfers-with-pv/">ncコマンドでファイル転送するときにpvコマンドで進捗を表示する</a></li>
+
+  <li><a href="/blog/2014/02/22/remote-pbcopy/">ssh接続したリモートサーバの出力を手元Macのクリップボードに送る</a></li>
+
+  <li><a href="/blog/2014/01/29/post-to-irc-important-mail-subject/">重要なメールが届いたらIRCにメールの件名を通知するようにした</a></li>
+
+  <li><a href="/blog/2013/11/13/commands-for-trouble/">Webサーバのメンテナンス、トラブル調査に役に立つコマンド3選</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/01/nightmare-screenshots/" title="Previous Post: ChatOps + NightmareでメトリクスグラフとBIレポートをSlackに投げるようにした">&laquo; ChatOps + NightmareでメトリクスグラフとBIレポートをSlackに投げるようにした</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/05/roost/" title="next Post: Roost Laptop Standで肩こりが解消した">Roost Laptop Standで肩こりが解消した &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2016/02/04/lets-encrypt/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2016/02/04/lets-encrypt/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

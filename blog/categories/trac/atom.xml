@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: trac | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/trac/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Trac WikiをVim上で編集する]]></title>
+    <link href="https://blog.glidenote.com/blog/2011/11/22/edit-trac-wiki-with-vim/"/>
+    <updated>2011-11-22T11:30:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2011/11/22/edit-trac-wiki-with-vim</id>
+    <content type="html"><![CDATA[<p>社内で利用しているTracをVim上から編集出来たら楽だなーと思ってプラグインを探していたら、
+<a href="http://www.vim.org/scripts/script.php?script_id=2147">VimTrac</a>という、そこそこ良いものがありました。</p>
+
+<p>利用環境はTrac 0.12.2.ja1、Vim7.3です。</p>
+
+<p>Trac側のXML-RPCプラグインを利用するので、
+もし未導入なら<a href="http://www.google.co.jp/search?hl=ja&amp;safe=off&amp;biw=1680&amp;bih=931&amp;q=trac+xml-rpc&amp;btnG=%E6%A4%9C%E7%B4%A2">trac xml-rpc - Google 検索</a>などを
+参考にして導入してください。</p>
+
+<h2 id="vimtrac">VimTracの導入</h2>
+<p><a href="http://www.vim.org/scripts/script.php?script_id=2147">VimTrac - A vim client for the Trac wiki and ticketing system : vim online</a></p>
+
+<p>プラグインの管理にはVundleを利用しているので、.vimrcか.vimrc.localに下記のような設定を書いてBundleInstall。
+Trac-wikiマークアップ用プラグインも一緒に導入。</p>
+
+<pre><code>Bundle 'Trac-Wikimarkup'
+Bundle 'VimTrac'
+let g:tracServerList = {}
+let g:tracServerList['strac'] = 'http://maeda:***********@192.168.25.37/trac/server/login/xmlrpc'
+let g:tracServerList['ectrac'] = 'http://maeda:***********@192.168.25.37/trac/ec/login/xmlrpc'
+let g:tracServerList['hostrac'] = 'http://maeda:***********@192.168.25.37/trac/hosting/login/xmlrpc'
+let g:tracServerList['sharetrac'] = 'http://maeda:***********@192.168.25.37/trac/share/login/xmlrpc'
+</code></pre>
+
+<p>みたいな感じで設定。<strong>**</strong>*****は自分のtracログイン時のアカウントです。設定の書式は</p>
+
+<pre><code>let g:tracServerList['(Server Name)'] = 'http://(user):(password)@(trac serverpath)/login/xmlrpc'
+</code></pre>
+
+<p>といった形式。社内Tracは部署ごとに分かれているので、</p>
+
+<ul>
+  <li>strac</li>
+  <li>ectrac</li>
+  <li>sharetrac</li>
+</ul>
+
+<p>などと私はtracServerListを設定してます。接続するときに利用します。</p>
+
+<h2 id="tracvim">trac.vimの修正</h2>
+<p>Vundle経由で導入すると、trac.pyのpathを見つけられないので、~/.vim/bundle/VimTrac/plugin/trac.pyを下記のように修正</p>
+
+<p><div><script src='https://gist.github.com/1375500.js'></script>
+<noscript><pre><code>@@ -132,10 +132,10 @@
+     finish
+ endif
+
+-if filereadable($VIMRUNTIME.&quot;/bundle/VimTrac/plugin/trac.py&quot;)
+-  pyfile $VIMRUNTIME/bundle/VimTrac/plugin/trac.py
+-elseif filereadable($HOME.&quot;/.vim/bundle/VimTrac/plugin/trac.py&quot;)
+-  pyfile $HOME/.vim/bundle/VimTrac/plugin/trac.py
++if filereadable($VIMRUNTIME.&quot;/plugin/trac.py&quot;)
++  pyfile $VIMRUNTIME/plugin/trac.py
++elseif filereadable($HOME.&quot;/.vim/plugin/trac.py&quot;)
++  pyfile $HOME/.vim/plugin/trac.py
+ else
+   call confirm(&#39;trac.vim: Unable to find trac.py. Place it in either your home vim directory or in the Vim runtime directory.&#39;, &#39;OK&#39;)
+   finish</code></pre></noscript></div>
+</p>
+
+<h2 id="tracvim-1">trac.vimの利用方法</h2>
+
+<h3 id="trac">Tracサーバに接続</h3>
+<p>tracServerListで設定した名前で接続</p>
+
+<pre><code>:TWServer strac
+:TWServer ectrac
+</code></pre>
+
+<h3 id="wiki">新規wikiページの作成</h3>
+
+<pre><code>:TWCreate Common/Server/Memo/maeda
+</code></pre>
+
+<h3 id="wiki-1">wikiページの保存</h3>
+
+<pre><code>:TWSave "Comment"
+</code></pre>
+
+<h3 id="wiki-2">既存wikiページを開く</h3>
+
+<pre><code>:TWOpen Common/Server/Memo/maeda
+</code></pre>
+
+<p>Wikiページの一覧リストからも選択可能です。</p>
+
+<h3 id="ticket">ticket一覧を表示</h3>
+<p>tracServerListで設定した名前で接続</p>
+
+<pre><code>:TTServer strac
+:TTServer ectrac
+</code></pre>
+
+<p>ticket一覧取得は、最初利用出来なかったのですが、XML-RPCのプラグインを<a href="http://trac-hacks.org/wiki/XmlRpcPlugin">XmlRpcPlugin - Trac Hacks</a>の最新のものにして利用できるようになりました。</p>
+
+<p>社内tracなので当たり障りのないページを開いた感じ
+<img src="http://www.glidenote.com/wp-content/uploads/2011/11/07ca022d5ea4a7b215ae665636fc1bfd.png" alt="" /></p>
+
+<p>社内SNSで<a href="http://twitter.com/#!/gosukenator">mizzyさん</a>から</p>
+
+<blockquote>
+  <p>VimTracって、編集中に別な人がページ更新した場合に、マージできるのかな？</p>
+</blockquote>
+
+<p>と聞かれたので、検証をしてみたところ何の警告もなく、上書きをしてしまいました!!<br />
+<a href="https://github.com/mjbrownie/Trac.vim/blob/master/doc/trac.txt">doc/trac.txt at master from mjbrownie/Trac.vim - GitHub</a>を見ても特にconflictとかmergeとかは
+書いてないので、機能的に無いぽいです。<strong>複数人で同時に編集するようなページで利用するでは要注意です。</strong>
+公式ページ<a href="http://www.ascetinteractive.com.au/vimtrac">http://www.ascetinteractive.com.au/vimtrac</a>も現在はリンク切れなので、情報はかなり少なめです。</p>
+
+<p>今までブラウザからのWiki編集に慣れてしまっていたので、まだ違和感がありますが、Vimで完結出来るので使い勝手良いです。</p>
+
+<p>BundleInstallすると</p>
+
+<pre><code>E122: Function LoadWikiCommands already exists, add ! to replace it
+</code></pre>
+
+<p>とかのエラーが出るけど、ちゃんとプラグインのインストールは出来てて、実害は無さそうなのでとりあえず放置で。</p>
+]]></content>
+  </entry>
+  
+</feed>

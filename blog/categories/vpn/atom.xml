@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: vpn | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/vpn/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[UT-VPNを導入(クライアント側設定編)]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/04/05/install-ut-vpn-client/"/>
+    <updated>2012-04-05T22:48:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/04/05/install-ut-vpn-client</id>
+    <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6/">前回のサーバ編</a>に続いて、今回はクライアント側の設定</p>
+
+<h2 id="ut-vpn">クライアント側にもUT-VPNを導入</h2>
+
+<p>クライアント全台で同じ作業が必要です。
+<a href="https://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6/">サーバ側と同じ手順</a>なので省略。
+導入が終わったらサービスを起動。</p>
+
+<p><code>
+utvpnclient start
+</code></p>
+
+<h2 id="ut-vpn-1">UT-VPNクライアントの設定</h2>
+
+<p>VPN Clientの設定なので<code>2</code>を選んで、<code>接続先のホスト名または IP アドレス</code>の部分は空のままEnter</p>
+
+<p>```
+utvpncmd</p>
+
+<p>utvpncmd コマンド - SoftEther UT-VPN コマンドライン管理ユーティリティ
+SoftEther UT-VPN コマンドライン管理ユーティリティ (utvpncmd コマンド)
+Version 1.01 Build 7101   (Japanese)
+Compiled 2010/06/27 18:40:28 by yagi at pc25
+Copyright (C) 2004-2010 SoftEther Corporation.
+Copyright (C) 2004-2010 University of Tsukuba, Japan.
+Copyright (C) 2003-2010 Daiyuu Nobori.
+All Rights Reserved.</p>
+
+<p>utvpncmd プログラムを使って以下のことができます。</p>
+
+<ol>
+  <li>VPN Server または VPN Bridge の管理</li>
+  <li>VPN Client の管理</li>
+  <li>VPN Tools コマンドの使用 (証明書作成や通信速度測定)</li>
+</ol>
+
+<p>1 - 3 を選択: 2</p>
+
+<p>接続先の VPN Client が動作しているコンピュータの IP アドレスまたはホスト名を指定してください。
+何も入力せずに Enter を押すと、localhost (このコンピュータ) に接続します。
+なお、このコマンドでは SoftEther UT-VPN Client を管理できますが、PacketiX VPN Client は管理できませんのでご注意ください。
+接続先のホスト名または IP アドレス:</p>
+
+<p>VPN Client “localhost” に接続しました。
+```</p>
+
+<h3 id="up-vpn">UP-VPNサーバへの接続設定</h3>
+
+<p>接続設定は下記のようにします。接続ユーザはServer側で作成したユーザです。</p>
+
+<ul>
+  <li>接続UT-VPNサーバ: <code>vpn001.hogemoge.com</code></li>
+  <li>利用ポート: <code>5555</code></li>
+  <li>接続仮想HUB: <code>DEFAULT</code></li>
+  <li>接続ユーザ: <code>glidenote</code></li>
+  <li>仮想NIC名: <code>utvpn_vpn</code></li>
+  <li>接続設定名: <code>vpn001</code></li>
+</ul>
+
+<p><code>AccountCreate</code>で接続設定を作成。</p>
+
+<p><code>
+VPN Client&gt;AccountCreate vpn001 /SERVER:vpn001.hogemoge.com:5555 /HUB:DEFAULT /USERNAME:glidenote /NICNAME:utvpn_vpn
+AccountCreate コマンド - 新しい接続設定の作成
+コマンドは正常に終了しました。
+</code></p>
+
+<p><code>AccountPasswordSet</code>でパスワードの設定。このバスワードはServer側でユーザ作成した際に設定したものです。</p>
+
+<p>```
+VPN Client&gt;AccountPasswordSet vpn001
+AccountPasswordSet コマンド - 接続設定のユーザー認証の種類をパスワード認証に設定
+パスワードを入力してください。キャンセルするには Ctrl+D キーを押してください。</p>
+
+<p>パスワード: <strong>**</strong>**
+確認入力  : <strong>**</strong>**</p>
+
+<p>standard または radius の指定: standard</p>
+
+<p>コマンドは正常に終了しました。
+```</p>
+
+<p><code>AccountConnect</code>でUT-VPNサーバへの接続</p>
+
+<p><code>
+VPN Client&gt;AccountConnect vpn001
+AccountConnect コマンド - 接続設定を使用して VPN Server へ接続を開始
+コマンドは正常に終了しました。
+</code></p>
+
+<p><code>AccountStartupSet</code>でUT-VPN Client起動時に自動で接続するように設定</p>
+
+<p><code>
+VPN Client&gt;AccountStartupSet vpn001
+AccountStartupSet コマンド - 接続設定をスタートアップ接続に設定
+コマンドは正常に終了しました。
+</code></p>
+
+<p>接続状態の確認</p>
+
+<p><code>
+VPN Client&gt;AccountList
+AccountList コマンド - 接続設定一覧の取得
+項目               |値
+-------------------+-------------------------------------------
+接続設定名         |vpn001
+状態               |オフライン
+接続先 VPN サーバー|vpn001.hogemoge.com:5555 (直接 TCP/IP 接続)
+仮想 HUB 名        |DEFAULT
+仮想 LAN カード名  |VPN
+コマンドは正常に終了しました。
+</code></p>
+
+<p><code>Ctrl+D</code>で設定画面を抜けます。</p>
+
+<h2 id="nicip">仮想NICに固定IPを割り当て</h2>
+
+<p>UT-VPNの設定が終わったら、仮想NICが出来ているので、IPを割り当てます。
+仮想NICのIPはクライアントサーバごとに設定します。</p>
+
+<p>サーバA(192.168.100.60)の設定</p>
+
+<p><code>
+ifconfig utvpn_vpn 192.168.100.60 netmask 255.255.255.0
+</code></p>
+
+<p>サーバB(192.168.100.70)の設定</p>
+
+<p><code>
+ifconfig utvpn_vpn 192.168.100.70 netmask 255.255.255.0
+</code></p>
+
+<p>設定が終わったらサーバAからサーバBにpingが通るか疎通確認。</p>
+
+<h2 id="section">起動スクリプトの用意</h2>
+
+<p>私は下記のようなスクリプト<code>/etc/rc.d/init.d/utvpnclient</code>を用意しています。</p>
+
+<p><div><script src='https://gist.github.com/2307698.js?file=utvpnclient.sh'></script>
+<noscript><pre><code>#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:                     vpnclient
+# Required-Start:               $local_fs $remote_fs $network
+# X-UnitedLinux-Should-Start:   $named $time
+# Required-Stop:                $local_fs $remote_fs $network
+# X-UnitedLinux-Should-Stop:
+# Default-Start:                2 3 4 5
+# Default-Stop:                 0 1 6
+# Short-Description:            UT-VPN Client
+# Description:                  Start the utvpnclient daemon UT-VPN Client
+# chkconfig: 2345 99 30
+### END INIT INFO
+
+DAEMON=/usr/bin/utvpnclient
+LOCK=/var/lock/subsys/utvpnclient
+
+test -x $DAEMON || exit 0
+case &quot;$1&quot; in
+    start)
+        $DAEMON start
+        touch $LOCK
+        sleep 3
+        /root/bin/add_route.sh
+        ;;
+    stop)
+        $DAEMON stop
+        rm $LOCK
+        ;;
+    restart)
+        $0 stop
+        sleep 3         # Adjust according to your env
+        $0 start
+        ;;
+    *)
+        echo &quot;Usage: $0 {start|stop|restart}&quot;
+        exit 1
+esac
+exit 0</code></pre></noscript></div>
+</p>
+
+<p>上記スクリプトに<code>/root/bin/add_route.sh</code>というのを実行させて、固定IPを設定(192.168.100.60サーバの例)</p>
+
+<p><div><script src='https://gist.github.com/2307698.js?file=add_route.sh'></script>
+<noscript><pre><code>#!/bin/sh
+
+/sbin/ifconfig utvpn_vpn 192.168.100.60 netmask 255.255.255.0</code></pre></noscript></div>
+</p>
+
+<p>これで、UT-VPNクライアント同士が通信できるようになりました。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[さくらVPS 2G(CentOS6)にUT-VPNを導入(サーバ側設定編)]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6/"/>
+    <updated>2012-03-29T17:43:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/03/29/install-ut-vpn-server-on-centos6</id>
+    <content type="html"><![CDATA[<p>さくらVPSを2Gにプラン移行して、<a href="http://utvpn.tsukuba.ac.jp/ja/">UT-VPN</a>も
+移行したんですが、再セットアップが結構面倒だったのでメモ。</p>
+
+<h2 id="ut-vpn">UT-VPNの導入</h2>
+
+<h3 id="section">必要パッケージの導入</h3>
+
+<p><code>
+yum -y install readline-devel ncurses-devel openssl-devel
+</code></p>
+
+<h3 id="centos6">CentOS6で利用出来るようにする</h3>
+
+<p>OpenSSLのバージョンの問題でCentOS6もFedora15と同様にすんなり入らなかったので、
+<a href="http://www.glidenote.com/archives/1305">昔書いた自分のブログの記事</a>を参考に作業</p>
+
+<p><code>
+mkdir ~/src
+cd ~/src
+wget "http://utvpn.tsukuba.ac.jp/files/utvpn/v1.01-7101-public-2010.06.27/Source%20Code%20(Win32%20and%20Unix)/utvpn-src-unix-v101-7101-public-2010.06.27.tar.gz"
+tar zxvf utvpn-src-unix-v101-7101-public-2010.06.27.tar.gz
+cd utvpn-unix-v101-7101-public
+cp /usr/include/openssl/* ~/src/utvpn-unix-v101-7101-public/src/Mayaqua/openssl/
+</code></p>
+
+<h3 id="configure">configure</h3>
+
+<p><code>1: Linux</code>、<code>2: 64-bit</code>を選択</p>
+
+<p>```
+./configure
+————————————————————-
+SoftEther UT-VPN for Unix</p>
+
+<p>Copyright (C) 2004-2010 SoftEther Corporation.
+Copyright (C) 2004-2010 University of Tsukuba, Japan.
+Copyright (C) 2003-2010 Daiyuu Nobori. All Rights Reserved.</p>
+
+<p>This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+version 2 as published by the Free Software Foundation.
+————————————————————-</p>
+
+<p>Please select your Operating System below:
+ 1: Linux
+ 2: FreeBSD
+ 3: Solaris
+ 4: Mac OS X</p>
+
+<p>Which is your operating system (1-4):
+1</p>
+
+<p>Please select your CPU Bits below:
+ 1: 32-bit
+ 2: 64-bit</p>
+
+<p>Which is the bits of your CPU (1-2):
+2</p>
+
+<p>Makefile is generated. Please execute ‘make’ to build UT-VPN.
+```</p>
+
+<h3 id="make--make-install">make &amp;&amp; make install</h3>
+
+<p>```
+make
+make install</p>
+
+<hr />
+<p>Installation completed successfully.</p>
+
+<p>Please execute ‘utvpnserver start’ to run UT-VPN Server Background Service.
+Or please execute ‘utvpnclient start’ to run UT-VPN Client Background Service.
+And please execute ‘utvpncmd’ to run UT-VPN Command-Line Utility to configure UT-Server or UT-VPN Client.
+——————————————————————–
+```</p>
+
+<h3 id="etcrcdinitdutvpnserver-">起動スクリプトの用意 (/etc/rc.d/init.d/utvpnserver) と起動</h3>
+
+<p><div><script src='https://gist.github.com/2235174.js'></script>
+<noscript><pre><code>#!/bin/sh
+# chkconfig: 2345 99 01
+# description: UT-VPN Server
+DAEMON=/usr/bin/utvpnserver
+LOCK=/var/lock/subsys/utvpnserver
+
+test -x $DAEMON || exit 0
+
+case &quot;$1&quot; in
+start)
+    $DAEMON start
+    touch $LOCK
+    ;;
+stop)
+    $DAEMON stop
+    rm $LOCK
+    ;;
+restart)
+    $DAEMON stop
+    sleep 3
+    $DAEMON start
+    ;;
+*)
+    echo &quot;Usage: $0 {start|stop|restart}&quot;
+    exit 1
+esac
+exit 0</code></pre></noscript></div>
+</p>
+
+<p><code>
+chmod +x /etc/rc.d/init.d/utvpnserver
+chkconfig --add utvpnserver
+chkconfig utvpnserver on
+service utpvnserver start
+</code></p>
+
+<p>落ちると困るのでsupervisordで管理した方が良いですが、ちゃんと移行出来てから対応します。</p>
+
+<h2 id="ut-vpn-1">UT-VPNサーバ側の初期設定</h2>
+
+<p>私は全部CUIで設定をしていますが、windows環境であれば、下記のサイトを参考にGUIを使った方が簡単かもしれません。<br />
+<a href="http://oku2006.blog43.fc2.com/blog-entry-1598.html">VPN の素人が UT-VPN を使ってみた K.O.K.Blog</a></p>
+
+<h3 id="section-1">管理ユーティリティに接続</h3>
+
+<p>```
+utvpncmd</p>
+
+<p>utvpncmd コマンド - SoftEther UT-VPN コマンドライン管理ユーティリティ
+SoftEther UT-VPN コマンドライン管理ユーティリティ (utvpncmd コマンド)
+Version 1.01 Build 7101   (Japanese)
+Compiled 2010/06/27 18:40:28 by yagi at pc25
+Copyright (C) 2004-2010 SoftEther Corporation.
+Copyright (C) 2004-2010 University of Tsukuba, Japan.
+Copyright (C) 2003-2010 Daiyuu Nobori.
+All Rights Reserved.</p>
+
+<p>utvpncmd プログラムを使って以下のことができます。</p>
+
+<ol>
+  <li>VPN Server または VPN Bridge の管理</li>
+  <li>VPN Client の管理</li>
+  <li>VPN Tools コマンドの使用 (証明書作成や通信速度測定)</li>
+</ol>
+
+<p>1 - 3 を選択: 1</p>
+
+<p>接続先の VPN Server または VPN Bridge が動作しているコンピュータの IP アドレスまたはホスト名を指定してください。
+‘ホスト名:ポート番号’ の形式で指定すると、ポート番号も指定できます。
+(ポート番号を指定しない場合は 443 が使用されます。)
+何も入力せずに Enter を押すと、localhost (このコンピュータ) のポート 443 に接続します。
+接続先のホスト名または IP アドレス:localhost:5555</p>
+
+<p>サーバーに仮想 HUB 管理モードで接続する場合は、仮想 HUB 名を入力してください。
+サーバー管理モードで接続する場合は、何も入力せずに Enter を押してください。
+接続先の仮想 HUB 名を入力:
+VPN Server “localhost” (ポート 5555) に接続しました。</p>
+
+<p>VPN Server 全体の管理権限があります。</p>
+
+<p>VPN Server&gt;
+```</p>
+
+<h3 id="section-2">管理パスワードの設定</h3>
+
+<p>UT-VPN Serverの管理者用のパスワードを設定します。これをしないとサーバにアクセス出来る人が誰でも設定変更出来てしまいます。</p>
+
+<p>```
+VPN Server&gt;ServerPasswordSet
+ServerPasswordSet コマンド - VPN Server の管理者パスワードの設定
+パスワードを入力してください。キャンセルするには Ctrl+D キーを押してください。</p>
+
+<p>パスワード: <strong>**</strong><strong>**</strong><strong>**</strong>**
+確認入力  : <strong>**</strong><strong>**</strong><strong>**</strong>**</p>
+
+<p>コマンドは正常に終了しました。
+```</p>
+
+<h3 id="section-3">不要ポートを閉じる</h3>
+
+<p>UT-VPN serverを起動すると管理用443,992,5555のポートが開きます。どのポートでも利用できますが、今回5555以外の不要ポートは閉じます。</p>
+
+<p>```
+VPN Server&gt;ListenerList
+ListenerList コマンド - TCP リスナー一覧の取得
+ポート番号|状態
+———-+——
+TCP 443   |動作中
+TCP 992   |動作中
+TCP 5555  |動作中
+コマンドは正常に終了しました。</p>
+
+<p>VPN Server&gt;ListenerDelete
+ListenerDelete コマンド - TCP リスナーの削除
+削除する TCP/IP リスナーのポート番号: 443</p>
+
+<p>コマンドは正常に終了しました。</p>
+
+<p>VPN Server&gt;ListenerDelete
+ListenerDelete コマンド - TCP リスナーの削除
+削除する TCP/IP リスナーのポート番号: 992</p>
+
+<p>コマンドは正常に終了しました。</p>
+
+<p>VPN Server&gt;ListenerList
+ListenerList コマンド - TCP リスナー一覧の取得
+ポート番号|状態
+———-+——
+TCP 5555  |動作中
+コマンドは正常に終了しました。
+```</p>
+
+<h3 id="hub">仮想HUBの設定と接続ユーザの作成</h3>
+
+<p>導入直後からDEFAULTという仮想HUBがあるので、それを利用します。サービスで本格運用する場合は新しい仮想HUBを作成しましょう</p>
+
+<p>```
+VPN Server&gt;Hub DEFAULT</p>
+
+<p>VPN Server/DEFAULT&gt;UserCreate
+UserCreate コマンド - ユーザーの作成
+ユーザー名: glidenote</p>
+
+<p>参加するグループ名:</p>
+
+<p>ユーザーの本名: </p>
+
+<p>ユーザーの説明: </p>
+
+<p>コマンドは正常に終了しました。
+```</p>
+
+<h3 id="section-4">接続ユーザのパスワード設定</h3>
+
+<p>```
+VPN Server/DEFAULT&gt;UserPasswordSet
+UserPasswordSet コマンド - ユーザーの認証方法をパスワード認証に設定しパスワードを設定
+ユーザー名: glidenote</p>
+
+<p>パスワードを入力してください。キャンセルするには Ctrl+D キーを押してください。</p>
+
+<p>パスワード: <strong>**</strong><strong>**</strong><strong>**
+確認入力  : **</strong><strong>**</strong><strong>**</strong>
+```</p>
+
+<p>ここで設定したパスワードは、UT-VPN Clientの接続設定時に利用します。</p>
+
+<h3 id="section-5">作成した接続ユーザの確認</h3>
+
+<p><code>
+VPN Server/DEFAULT&gt;UserList
+UserList コマンド - ユーザー一覧の取得
+項目            |値
+----------------+--------------
+ユーザー名      |glidenote
+本名            |
+所属グループ    |
+説明            |
+認証方法        |パスワード認証
+ログイン回数    |0
+最終ログイン日時|(なし)
+コマンドは正常に終了しました。
+</code></p>
+
+<p>これで、サーバ側の設定は完了。クライアント側の設定は別エントリーで書きます。</p>
+]]></content>
+  </entry>
+  
+</feed>

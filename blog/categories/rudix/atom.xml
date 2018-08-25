@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rudix | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/rudix/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rudixのzsh補完関数を作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/02/23/rudix-zsh-completion/"/>
+    <updated>2012-02-23T02:25:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/02/23/rudix-zsh-completion</id>
+    <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2011/12/29/rudix-on-mac/">以前紹介したMacのパッケージ管理ソフト Rudix</a>のzsh補完関数を作ってみました。<br />
+zsh補完関数は初めて書いたんですが、ウェブに情報が少なくて、
+<a href="https://github.com/mizzy/maglica/blob/master/misc/zsh/functions/_maglica">mizzyさんの書いた補完関数</a>
+と<code>$fpath</code>の下にあるzshの補完関数などを参考に。</p>
+
+<p><strong>2012年2月27日 githubに公開しました</strong></p>
+
+<p><a href="https://github.com/glidenote/rudix-zsh-completion">glidenote/rudix-zsh-completion</a></p>
+
+<p><code>/usr/local/share/zsh/site-functions</code> に置けば、下記のような感じで動作します。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/zsh-rudix1.png" alt="" /></p>
+
+<p>書いてて一番難しかったインストール済みパッケージ情報も補完されるようにしてます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/02/zsh-rudix2.png" alt="" /></p>
+
+<p>Command Line Tools for Xcodeがリリースされて、今後もRudixを使い続けるか微妙ですが、
+zsh補完関数の書き方が多少理解できたので良しとしよう。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="https://github.com/mizzy/maglica/blob/master/misc/zsh/functions/_maglica">misc/zsh/functions/_maglica at master from mizzy/maglica - GitHub</a></li>
+  <li><a href="http://www.ayu.ics.keio.ac.jp/~mukai/translate/write_zsh_functions.html">zsh補完関数の書き方(訳)</a> </li>
+  <li><a href="http://hakobe932.hatenablog.com/entry/2012/02/13/214934">zsh補完関数を自作すると便利 - はこべブログ♨</a></li>
+  <li><a href="http://www.hexacosa.net/blog/detail/122/">少し前にsupervisord/supervisorctlのZsh補完関数書いた | hexacosa.net</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

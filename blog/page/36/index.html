@@ -1,0 +1,621 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="Octopress + GitHub Pagesにカスタムドメインを充てたときのメモ 公式ドキュメント GitHub Pages Deploying to Github Pages - Octopress に書いてあるように設定 CNAMEを設定
+私の場合はサブドメインなので、glidenote. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/36/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/36">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="Octopress + GitHub Pagesにカスタムドメインを充てたときのメモ 公式ドキュメント GitHub Pages Deploying to Github Pages - Octopress に書いてあるように設定 CNAMEを設定
+私の場合はサブドメインなので、glidenote.github.comに下記のようなCNAMEをあてます。 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/12/20/how-to-use-custom-domain-on-github-pages/">GitHub PagesでCustom Domainを利用する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-20T23:00:00+09:00" pubdate data-updated="true">2011年12月20日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Octopress + GitHub Pagesにカスタムドメインを充てたときのメモ</p>
+
+<p>公式ドキュメント</p>
+
+<ul>
+  <li><a href="http://pages.github.com/">GitHub Pages</a></li>
+  <li><a href="http://octopress.org/docs/deploying/github/">Deploying to Github Pages - Octopress</a></li>
+</ul>
+
+<p>に書いてあるように設定</p>
+
+<h2 id="cname">CNAMEを設定</h2>
+<p>私の場合はサブドメインなので、glidenote.github.comに下記のようなCNAMEをあてます。
+トップレベルドメインの場合はこの方法ではありませんので<a href="http://pages.github.com/">GitHub Pages</a>を確認してください</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">dig +noall +answer blog.glidenote.com CNAME
+</span><span class="line">
+</span><span class="line">blog.glidenote.com.     3600    IN      CNAME   glidenote.github.com.</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>私の利用している、さくらインターネットのゾーン編集は下記のような感じ。最後のドット(.)をお忘れ無く
+<img src="https://blog.glidenote.com/images/2011/12/cname.png" alt="" /></p>
+
+<h2 id="sourcecname-">source/CNAME を用意</h2>
+
+<p>source/CNAMEというファイルを用意して下記のように設定して、deploy</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">blog.glidenote.com</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>私の場合設定をしても、利用出来るようになるまで30分くらいかかったので気長に待ちましょう。</p>
+
+<p><a href="https://blog.glidenote.com">https://blog.glidenote.com</a>でページが表示されるようになりました。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/12/19/wordpress-to-octopress/">ブログをWordpressからOctopressに完全に切り替えた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-19T23:00:00+09:00" pubdate data-updated="true">2011年12月19日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://octopress.org/"><img src="http://www.glidenote.com/wp-content/uploads/2011/11/octopress.png" /></a>
+<br clear="all" /></p>
+
+<p>ブログをWordpressから<a href="http://octopress.org/">Octopress</a>に完全に切り替えました。<br />
+以前<a href="https://blog.glidenote.com/blog/2011/11/07/install-octopress-on-github/">「GithubとOctopressでモダンな技術系ブログを作ってみる - Glide Note」</a>で導入してから
+Wordpressと併用していたんですが、技術系のブログを運用するのにOctopressの方が遙かに使いやすいので切り替え。</p>
+
+<p><a href="http://www.glidenote.com/">旧ブログ</a>の記事をOctopressに持ってこようと思ったんですが、
+記事のレイアウト崩れが酷かったので、 旧記事の移行はせず、サブドメインを変更して完全に切り替えという形にしました。</p>
+
+<p>WoredpressとOctopressを2ヶ月程度同時に運用していて、Octopressの良い点、悪い点をまとめたいと思います。</p>
+
+<h2 id="section">良い点</h2>
+
+<ul>
+  <li>記事の更新などの作業がコマンドラインで完結する。(vimで編集、rakeコマンドでサーバにアップロード)</li>
+  <li>書式がMarkdown形式なので、htmlよりも書きやすい</li>
+  <li>[A blogging framework for hackers.] と謳ってるだけあって、コードを載せるのが簡単。</li>
+  <li>静的ファイルなのでめちゃくちゃ軽い</li>
+  <li><a href="http://pages.github.com/">GitHub Pages</a>で運用できる(当ブログもGitHub Pagesにカスタムドメインを充てて運用してます)</li>
+  <li>デフォでスマホ対応</li>
+</ul>
+
+<h2 id="section-1">悪い点</h2>
+
+<ul>
+  <li>導入と運用の敷居が高い。高いと言ってもエンジニアには楽勝のレベルです</li>
+  <li>
+    <s>画像ファイルの管理が面倒。(外部サーバに置いて、URLを持ってくるのが一番楽)</s>
+    <p>私の画像ファイルの管理方法の問題でした</p>
+  </li>
+  <li>日本語の情報が少ない</li>
+  <li>テーマが1種類。カスタムしないとみんな同じ見た目</li>
+  <li>プラグインが少ない。(必要なら自分で書けばいいと思います!!)</li>
+</ul>
+
+<p>feedは旧ブログからリダイレクトをかけているので、RSS Readerの登録し直しをしなくても良いようになってます。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/12/17/caca-utils/">caca-utilsで勉強会のデモにネタを仕込む</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-17T12:52:00+09:00" pubdate data-updated="true">2011年12月17日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>勉強会とかでターミナル作業のデモをやるときに仕込むと効果的です。</p>
+
+<h2 id="section">導入方法</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo yum -y install caca-utils</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">使い方</h2>
+<p>使い方としては、cacaviewかimg2txtコマンドを使って</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">img2txt -W `tput cols` path/to/image.jpg
+</span><span class="line">cacaview path/to/image.jpg
+</span><span class="line">img2txt -W 100 path/to/image.png</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>てな感じ。一番上はtput colsで画面サイズを引数に渡してる感じです</p>
+
+<p>~/.ssh/rc　に</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">img2txt -W 60cols path/to/image.jpg</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>とか書いておくと、sshアタッチしたときに画像が出ます。ちょっとした小ネタにどうぞ。</p>
+
+<p><img src="http://www.glidenote.com/wp-content/uploads/2011/12/610dba84850c872d7093a9c4cbe36c14.png" alt="" /></p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/12/16/custom-tmux-visual/">tmuxの外観をカスタムして、運用と開発を加速させる</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-16T11:00:00+09:00" pubdate data-updated="true">2011年12月16日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://atnd.org/events/22320">ターミナルマルチプレクサ Advent Calendar 2011</a>の16日目です。<br />
+15日目はdodaさんの<a href="http://doda.b.sourceforge.jp/2011/12/15/tmux-set-clipboard/">リモートの tmux でコピーした内容のローカルのクリップボードへの反映</a>でした。</p>
+
+<p>tmuxを利用し、</p>
+
+<ul>
+  <li>sshでリモートサーバに接続するたびに、ホスト別にwindowを生成</li>
+  <li>エディタ用、コマンド操作用、負荷監視用など用途別にwindowを生成し、paneを増やし画面分割</li>
+</ul>
+
+<p>などをしていると、今は「どのwindow」の「どのpane」で作業をしているのか分からなくなることがあります。</p>
+
+<p>これは意図せず他のサーバで作業をしてしまい、事故を引き起こしてしてしまう可能性があるため、
+私はtmuxの外観をカスタムすることで、「どのwindow」の「どのpane」にいるか瞬時に判断出来るようにしています。</p>
+
+<h2 id="tmux">デフォルトのtmux</h2>
+<p>.tmux.confをいじらずに利用している場合
+<img src="http://www.glidenote.com/wp-content/uploads/2011/12/nomal_conf.png" alt="http://www.glidenote.com/wp-content/uploads/2011/12/nomal_conf.png" /></p>
+
+<h2 id="tmux-1">俺のtmux</h2>
+<p><img src="http://www.glidenote.com/wp-content/uploads/2011/12/custom_conf.png" alt="http://www.glidenote.com/wp-content/uploads/2011/12/custom_conf.png" /></p>
+
+<h2 id="section">俺のステータスバー</h2>
+<p><img src="http://www.glidenote.com/wp-content/uploads/2011/12/status.png" alt="http://www.glidenote.com/wp-content/uploads/2011/12/status.png" /></p>
+
+<h2 id="section-1">俺のこだわり</h2>
+
+<ul>
+  <li>ステータスの色を変更 (status-fg,status-bg)</li>
+  <li>画面左下にtmuxを起動しているマシンのホスト名を表示　(status-left)</li>
+  <li>画面右下に時計を表示(statu-right)</li>
+  <li>今作業をしているアクティブなwindowだけ色をつける (window-status-current-fg,window-status-current-bg,window-status-current-attr)</li>
+  <li>今作業をしているアクティブなpaneの外枠に色をつける (pane-active-border-fg,pane-active-border-bg)</li>
+  <li>長時間利用するので目に優しい配色</li>
+</ul>
+
+<p>.tmux.confをまとめて書くと下記のような感じです</p>
+
+<div><script src="https://gist.github.com/1478689.js?file=.tmux.conf"></script>
+<noscript><pre><code># status
+set -g status-fg cyan
+set -g status-bg black
+ 
+set -g status-left-length 30
+set -g status-left &#39;#[fg=white,bg=black]#H#[fg=white]:#[fg=white][#S#[fg=white]][#[default]&#39;
+set -g status-right &#39;#[fg=black,bg=cyan,bold] [%Y-%m-%d(%a) %H:%M]#[default]&#39;
+ 
+# window-status-current
+setw -g window-status-current-fg black
+setw -g window-status-current-bg cyan
+setw -g window-status-current-attr bold#,underscore
+ 
+# pane-active-border
+set -g pane-active-border-fg black
+set -g pane-active-border-bg cyan</code></pre></noscript></div>
+
+<p>余談ですが、.tmux.confに記載する際に利用するset-option(セッションの設定)とset-window-option(ウィンドウの設定)は</p>
+
+<div><script src="https://gist.github.com/1478689.js?file=alias.tmux.conf"></script>
+<noscript><pre><code>set-option        =&gt; set
+set-window-option =&gt; setw</code></pre></noscript></div>
+
+<p>と略して書くことが出来ます。見やすい設定のために書式を統一しておきましょう。</p>
+
+<h2 id="section-2">サンプルから記載方法を学ぶ</h2>
+
+<p>.tmux.confのサンプルは私の利用するRHEL系OSの場合</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/usr/share/doc/tmux-1.4/examples
+</span><span class="line">/usr/share/doc/tmux-1.5/examples</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>などの配下にあるので、それを参考にすると良いかと思います。</p>
+
+<h2 id="section-3">外観を修正する際にしておくと便利な設定</h2>
+
+<p>外観をカスタムする際に、.tmux.confの再読みをキーバインドで割り当てておくと便利です。
+設定を修正し、再読み込みをさせるですぐに結果が分かります。
+私は下記のようにキーバインドを割り当てています</p>
+
+<div><script src="https://gist.github.com/1478689.js?file=reload.tmux.conf"></script>
+<noscript><pre><code># prefix + r で設定ファイルを再読み込み
+unbind r
+bind   r source-file ~/.tmux.conf</code></pre></noscript></div>
+
+<h2 id="tmux-2">より良いターミナル、tmux環境へ</h2>
+<p>最近、社内で<a href="http://d.hatena.ne.jp/bannyan/">@banyan</a>さんと一緒に「ターミナルマルチプレクサ勉強会」を
+開催した際に、@banyanさんのプレゼンの言葉に共感したのでそれを書いて締めたいと思います。</p>
+
+<blockquote><p>tmux では、空気を吸うように<br />画面分割をする。<br />動作を意識せず、直感で行う。</p></blockquote>
+
+<p>良いターミナル、tmux環境は、運用と開発を加速させるので、みんなでより良いものを目指していきましょう！<br />
+それでは！</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/12/12/upgrade-fedora-15-to-16/">自宅サーバをFedora 15からFedora 16 アップグレード</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-12T12:36:00+09:00" pubdate data-updated="true">2011年12月12日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="http://www.glidenote.com/wp-content/uploads/2011/12/f16release.png" align="right" />
+自宅のサーバをFedora15から16にアップグレードしたので、作業メモ。<br />
+手順は公式ページに載ってるそのまま<br />
+<a href="http://fedoraproject.org/wiki/Upgrading_Fedora_using_yum#Fedora_15_-.3E_Fedora_16">Upgrading Fedora using yum - FedoraProject</a>
+<br clear="all" /></p>
+
+<pre><code>cat /etc/redhat-release
+Fedora release 15 (Lovelock) 
+
+sudo rpm --import https://fedoraproject.org/static/A82BA4B7.txt
+sudo yum update yum
+sudo yum clean all
+sudo yum --releasever=16 --disableplugin=presto distro-sync
+</code></pre>
+
+<p>上位ネットワークにFWを入れているので、iptablesは無効にしておく。会社のPCではこれを忘れて再起動してしまい、iptablesが有効になって他からssh接続出来ない状態に。</p>
+
+<pre><code>sudo systemctl stop iptables.service
+sudo systemctl stop ip6tables.service
+
+sudo systemctl disable iptables.service
+sudo systemctl disable ip6tables.service
+</code></pre>
+
+<p>これで無事16にアップグレード完了</p>
+
+<pre><code>cat /etc/redhat-release
+Fedora release 16 (Verne)
+</code></pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/37/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/35/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

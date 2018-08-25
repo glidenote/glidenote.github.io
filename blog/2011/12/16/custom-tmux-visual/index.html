@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>tmuxの外観をカスタムして、運用と開発を加速させる - Glide Note</title>
+  <meta property="og:title" content="tmuxの外観をカスタムして、運用と開発を加速させる - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="ターミナルマルチプレクサ Advent Calendar 2011の16日目です。
+15日目はdodaさんのリモートの tmux でコピーした内容のローカルのクリップボードへの反映でした。 tmuxを利用し、 sshでリモートサーバに接続するたびに、ホスト別にwindowを生成 エディタ用、 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2011/12/16/custom-tmux-visual/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2011/12/16/custom-tmux-visual">
+<meta name="twitter:title" content="tmuxの外観をカスタムして、運用と開発を加速させる">
+<meta name="twitter:description" content="ターミナルマルチプレクサ Advent Calendar 2011の16日目です。
+15日目はdodaさんのリモートの tmux でコピーした内容のローカルのクリップボードへの反映でした。 tmuxを利用し、 sshでリモートサーバに接続するたびに、ホスト別にwindowを生成 エディタ用、コマンド操作用、負荷監視用など用途別にwindowを生成し、paneを増やし画面分割 などをしていると、 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">tmuxの外観をカスタムして、運用と開発を加速させる</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-16T11:00:00+09:00" pubdate data-updated="true">2011年12月16日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://atnd.org/events/22320">ターミナルマルチプレクサ Advent Calendar 2011</a>の16日目です。<br />
+15日目はdodaさんの<a href="http://doda.b.sourceforge.jp/2011/12/15/tmux-set-clipboard/">リモートの tmux でコピーした内容のローカルのクリップボードへの反映</a>でした。</p>
+
+<p>tmuxを利用し、</p>
+
+<ul>
+  <li>sshでリモートサーバに接続するたびに、ホスト別にwindowを生成</li>
+  <li>エディタ用、コマンド操作用、負荷監視用など用途別にwindowを生成し、paneを増やし画面分割</li>
+</ul>
+
+<p>などをしていると、今は「どのwindow」の「どのpane」で作業をしているのか分からなくなることがあります。</p>
+
+<p>これは意図せず他のサーバで作業をしてしまい、事故を引き起こしてしてしまう可能性があるため、
+私はtmuxの外観をカスタムすることで、「どのwindow」の「どのpane」にいるか瞬時に判断出来るようにしています。</p>
+
+<h2 id="tmux">デフォルトのtmux</h2>
+<p>.tmux.confをいじらずに利用している場合
+<img src="http://www.glidenote.com/wp-content/uploads/2011/12/nomal_conf.png" alt="http://www.glidenote.com/wp-content/uploads/2011/12/nomal_conf.png" /></p>
+
+<h2 id="tmux-1">俺のtmux</h2>
+<p><img src="http://www.glidenote.com/wp-content/uploads/2011/12/custom_conf.png" alt="http://www.glidenote.com/wp-content/uploads/2011/12/custom_conf.png" /></p>
+
+<h2 id="section">俺のステータスバー</h2>
+<p><img src="http://www.glidenote.com/wp-content/uploads/2011/12/status.png" alt="http://www.glidenote.com/wp-content/uploads/2011/12/status.png" /></p>
+
+<h2 id="section-1">俺のこだわり</h2>
+
+<ul>
+  <li>ステータスの色を変更 (status-fg,status-bg)</li>
+  <li>画面左下にtmuxを起動しているマシンのホスト名を表示　(status-left)</li>
+  <li>画面右下に時計を表示(statu-right)</li>
+  <li>今作業をしているアクティブなwindowだけ色をつける (window-status-current-fg,window-status-current-bg,window-status-current-attr)</li>
+  <li>今作業をしているアクティブなpaneの外枠に色をつける (pane-active-border-fg,pane-active-border-bg)</li>
+  <li>長時間利用するので目に優しい配色</li>
+</ul>
+
+<p>.tmux.confをまとめて書くと下記のような感じです</p>
+
+<div><script src="https://gist.github.com/1478689.js?file=.tmux.conf"></script>
+<noscript><pre><code># status
+set -g status-fg cyan
+set -g status-bg black
+ 
+set -g status-left-length 30
+set -g status-left &#39;#[fg=white,bg=black]#H#[fg=white]:#[fg=white][#S#[fg=white]][#[default]&#39;
+set -g status-right &#39;#[fg=black,bg=cyan,bold] [%Y-%m-%d(%a) %H:%M]#[default]&#39;
+ 
+# window-status-current
+setw -g window-status-current-fg black
+setw -g window-status-current-bg cyan
+setw -g window-status-current-attr bold#,underscore
+ 
+# pane-active-border
+set -g pane-active-border-fg black
+set -g pane-active-border-bg cyan</code></pre></noscript></div>
+
+<p>余談ですが、.tmux.confに記載する際に利用するset-option(セッションの設定)とset-window-option(ウィンドウの設定)は</p>
+
+<div><script src="https://gist.github.com/1478689.js?file=alias.tmux.conf"></script>
+<noscript><pre><code>set-option        =&gt; set
+set-window-option =&gt; setw</code></pre></noscript></div>
+
+<p>と略して書くことが出来ます。見やすい設定のために書式を統一しておきましょう。</p>
+
+<h2 id="section-2">サンプルから記載方法を学ぶ</h2>
+
+<p>.tmux.confのサンプルは私の利用するRHEL系OSの場合</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/usr/share/doc/tmux-1.4/examples
+</span><span class="line">/usr/share/doc/tmux-1.5/examples</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>などの配下にあるので、それを参考にすると良いかと思います。</p>
+
+<h2 id="section-3">外観を修正する際にしておくと便利な設定</h2>
+
+<p>外観をカスタムする際に、.tmux.confの再読みをキーバインドで割り当てておくと便利です。
+設定を修正し、再読み込みをさせるですぐに結果が分かります。
+私は下記のようにキーバインドを割り当てています</p>
+
+<div><script src="https://gist.github.com/1478689.js?file=reload.tmux.conf"></script>
+<noscript><pre><code># prefix + r で設定ファイルを再読み込み
+unbind r
+bind   r source-file ~/.tmux.conf</code></pre></noscript></div>
+
+<h2 id="tmux-2">より良いターミナル、tmux環境へ</h2>
+<p>最近、社内で<a href="http://d.hatena.ne.jp/bannyan/">@banyan</a>さんと一緒に「ターミナルマルチプレクサ勉強会」を
+開催した際に、@banyanさんのプレゼンの言葉に共感したのでそれを書いて締めたいと思います。</p>
+
+<blockquote><p>tmux では、空気を吸うように<br />画面分割をする。<br />動作を意識せず、直感で行う。</p></blockquote>
+
+<p>良いターミナル、tmux環境は、運用と開発を加速させるので、みんなでより良いものを目指していきましょう！<br />
+それでは！</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-16T11:00:00+09:00" pubdate data-updated="true">2011年12月16日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tmux/'>tmux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2011/12/16/custom-tmux-visual/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="tmuxの外観をカスタムして、運用と開発を加速させる - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=tmuxの外観をカスタムして、運用と開発を加速させる "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2014/03/14/tmux-1.9a-is-not-good/">tmux 1.9aの挙動が怪しかったので1.8に戻した</a></li>
+
+  <li><a href="/blog/2013/08/26/ojt-with-wemux/">新卒OJTにwemux(multi-user terminal multiplexing)を使って画面共有することにした</a></li>
+
+  <li><a href="/blog/2013/07/17/learngin-tmux/">新卒研修でtmuxの話をした</a></li>
+
+  <li><a href="/blog/2013/02/04/tmux-pipe-pane-logging/">tmuxのpipe-paneを利用してリモートサーバでの作業ログをローカルに記録する</a></li>
+
+  <li><a href="/blog/2012/04/30/terminal-study-vol-2/">社内でターミナル勉強会を開催した</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/12/12/upgrade-fedora-15-to-16/" title="Previous Post: 自宅サーバをFedora 15からFedora 16 アップグレード">&laquo; 自宅サーバをFedora 15からFedora 16 アップグレード</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/12/17/caca-utils/" title="next Post: caca-utilsで勉強会のデモにネタを仕込む">caca-utilsで勉強会のデモにネタを仕込む &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2011/12/16/custom-tmux-visual/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2011/12/16/custom-tmux-visual/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

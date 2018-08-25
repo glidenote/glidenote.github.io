@@ -1,0 +1,608 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="前回の記事で
+Moshを導入してあまりに快適なので、zsh+tmux+moshの環境を整え中。 tmuxを利用中に、moshでリモートホストに接続したら、新規ウィンドウを生成するように
+.zshrcに下記のように記載。 if [ $TERM = screen ]; then
+function &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/26/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/26">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="前回の記事で
+Moshを導入してあまりに快適なので、zsh+tmux+moshの環境を整え中。 tmuxを利用中に、moshでリモートホストに接続したら、新規ウィンドウを生成するように
+.zshrcに下記のように記載。 if [ $TERM = screen ]; then
+function mosh_tmux() { eval server=\${$#} tmux new-window -n &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/11/mosh-with-tmux/">tmux上でmosh接続したときに新しいウィンドウを生成する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-11T23:12:00+09:00" pubdate data-updated="true">2012年04月11日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://blog.glidenote.com/blog/2012/04/11/mosh-on-sakura-vps/">前回の記事</a>で
+<a href="http://mosh.mit.edu/">Mosh</a>を導入してあまりに快適なので、zsh+tmux+moshの環境を整え中。</p>
+
+<p>tmuxを利用中に、moshでリモートホストに接続したら、新規ウィンドウを生成するように
+<code>.zshrc</code>に下記のように記載。</p>
+
+<div><script src="https://gist.github.com/2359525.js"></script>
+<noscript><pre><code>if [ $TERM = screen ]; then
+function mosh_tmux() {
+    eval server=\${$#}
+    tmux new-window -n $@ &quot;exec ssh $@&quot;
+}
+alias mosh=mosh_tmux
+fi</code></pre></noscript></div>
+
+<p>下記のように、新規にmoshでリモートホストに接続すると
+hostnameの入ったウィンドウが生成されるようになりました。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/mosh-tmux.png" alt="" /></p>
+
+<p>スリープから復帰してもリモートホストに接続しているターミナルが
+生きているので、tmux+moshで新境地が開拓出来そうな予感。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/11/mosh-on-sakura-vps/">さくらVPSにSSH代替品のMoshを入れてみた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-11T11:42:00+09:00" pubdate data-updated="true">2012年04月11日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+  <li><a href="http://mosh.mit.edu/">Mosh: the mobile shell</a></li>
+</ul>
+
+<p>話題の<a href="http://mosh.mit.edu/">Mosh</a>をMacBook Airと自宅サーバのFedora16に入れて、
+あまりのレスポンスの良さに感動して、早速さくらVPS(CentOS6)にも入れてみました。<br />
+moshの解説は<a href="http://d.hatena.ne.jp/karasuyamatengu/20120411/1334092521">karasuyamatenguさんのサイト</a>に非常によくまとまっています。</p>
+
+<p>ssh鍵の登録などのsshの設定は完了しているものとして作業します。(認証部分はsshに依存しているので)</p>
+
+<h2 id="vpsmosh">さくらVPSにMoshを導入</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo yum -y install boost-devel zlib-devel ncurses-devel protobuf-devel paco
+</span><span class="line">exec $SHELL</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>yumで導入出来なかったので、githubからソースを持ってきて導入。
+ソースから導入する場合は、<a href="http://paco.sourceforge.net/">paco</a>で
+管理した方が楽なので、<code>paco</code>を利用します。<br />
+<code>IO::Pty</code>も必要のようなことが書いてありますが検証した<code>Lion</code>、<code>Fedora16</code>、<code>SL6.2</code>、<code>CentOS6.2</code>では導入しなくても大丈夫でした。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir ~/tmp
+</span><span class="line">cd ~/tmp
+</span><span class="line">git clone git://github.com/keithw/mosh.git
+</span><span class="line">cd mosh
+</span><span class="line">./autogen.sh
+</span><span class="line">./configure
+</span><span class="line">make
+</span><span class="line">sudo paco -D make install
+</span><span class="line">sudo paco -ua
+</span><span class="line">exec $SHELL</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>さくらVPS側では、UDPの60000-61000番ポートを開放する必要があります。<br />
+私は<code>/etc/sysconfig/iptables</code>に下記を設定しました。適時変更してください。<br />
+検証時は接続元を絞った方がいいかと思います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># mosh
+</span><span class="line">-A RH-Firewall-1-INPUT -m state --state NEW -m udp -p udp --dport 60000:61000 -j ACCEPT</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="macmosh">MacにMoshを導入</h2>
+
+<p>Homebrewを利用して導入</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">brew install mobile-shell</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="macvpsmosh">MacからさくらVPSにMosh接続</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mosh hostname</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>という感じで接続出来ます。sshdのように常時デーモンが起動しているわけでなく、
+mosh接続した際に、リモートホストでmosh-serverが起動される感じです。</p>
+
+<p>sshに慣れきっていたので、Moshのレスポンスの良さは驚きです。
+とりあえずローカル環境に関してはsshじゃなくmoshでいいような。</p>
+
+<p>自分の開発環境には全台導入しました。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/09/keepalived-syntax.vim/">keepalived.conf編集用にkeepalived-syntax.vimを作った</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-09T01:09:00+09:00" pubdate data-updated="true">2012年04月09日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://github.com/vim-scripts/nginx.vim">nginx.vim</a>のソースを眺めてて、
+syntax系Vim pluginが作ってみたくなったのと、<a href="http://www.keepalived.org/">keepalived</a>
+のconfを書くときにsyntax highlightが効かなくて困っていたのを思い出したので書いてみた。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/keepalived-syntax.vim">glidenote/keepalived-syntax.vim</a></li>
+</ul>
+
+<p>keepalived自体にconfのsyntax checkをしてくれる機能が無くて、confを修正するときは
+<a href="https://github.com/frsyuki/keepalived-check">keepalived-check</a>を必ず回しているんですが
+そもそもconfの作成の時点で、間違いに気づければいいなと昔から思っていたので、
+それが解決しそうです。</p>
+
+<h2 id="section">導入方法</h2>
+
+<p>導入には<a href="https://github.com/gmarik/vundle">vundle</a>か、<a href="https://github.com/Shougo/neobundle.vim">NeoBundle</a>を利用してください。</p>
+
+<p>私はvundleを利用しているので、<code>.vimrc</code>に下記のように記載しています。</p>
+
+<p><strong>2012年4月9日 2:00追記 setからsetlocalに修正しました</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Bundle 'glidenote/keepalived-syntax.vim'
+</span><span class="line">au BufRead,BufNewFile keepalived.conf setlocal ft=keepalived</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>@heavenshellさんに教えてもらいました</p>
+
+<blockquote class="twitter-tweet" lang="ja"><p>@<a href="https://twitter.com/glidenote">glidenote</a> &#8220;au BufRead,BufNewFile keepalived.conf set ft=keepalived&#8221; は setlocal の方が良いようです。<a href="http://t.co/IDF8bqkX" title="http://bit.ly/Itypeg">bit.ly/Itypeg</a> <a href="http://t.co/6F0BIw4a" title="http://bit.ly/Itypeh">bit.ly/Itypeh</a></p>&mdash; heavenshellさん (@heavenshell) <a href="https://twitter.com/heavenshell/status/189033982409703425" data-datetime="2012-04-08T16:56:28+00:00">4月 8, 2012</a></blockquote>
+<script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>before</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/keepalived0.png" alt="" /></p>
+
+<p>after</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/keepalived1.png" alt="" /></p>
+
+<p>最近keepalivedのconfを一から書く事はほとんどないですが、
+confを修正するときに重宝しそうです。</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/08/nginx.vim/">nginx.vimを入れてみた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-08T04:33:00+09:00" pubdate data-updated="true">2012年04月08日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>nginxのconfを書いていて、syntax highlightがきかないので導入してみた。</p>
+
+<ul>
+  <li><a href="https://github.com/vim-scripts/nginx.vim">vim-scripts/nginx.vim</a></li>
+</ul>
+
+<p><code>.vimrc</code>に下記のように記載</p>
+
+<div><script src="https://gist.github.com/2331541.js"></script>
+<noscript><pre><code>Bundle &#39;nginx.vim&#39;
+au BufRead,BufNewFile /etc/nginx/* set ft=nginx</code></pre></noscript></div>
+
+<p>before</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/nginxvim0.png" alt="" /></p>
+
+<p>after</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/04/nginxvim1.png" alt="" /></p>
+
+<p>ソースがわかりやすいので、syntax系vim pluginはすぐ自作出来そう。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/07/auto-fu.zsh/">auto-fu.zshの自動補完が便利すぎる</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-07T00:16:00+09:00" pubdate data-updated="true">2012年04月07日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>auto-fu.zsh</code>の自動補完が便利すぎてやばいです。
+2年前くらいに話題になっていたようですが、全く知りませんでした。</p>
+
+<ul>
+  <li><a href="https://github.com/hchbaw/auto-fu.zsh">hchbaw/auto-fu.zsh</a></li>
+</ul>
+
+<p><img src="https://github.com/hchbaw/auto-fu.zsh/raw/readme/auto-fu.gif" alt="" /></p>
+
+<p>普通に試すだけなら下記を実行すればOK</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">git clone git://github.com/hchbaw/auto-fu.zsh.git
+</span><span class="line">source auto-fu.zsh/auto-fu.zsh; zle-line-init () { auto-fu-init; }; zle -N zle-line-init</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>私は下記のような感じで設置しました。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir ~/work/ ~/.zsh/
+</span><span class="line">cd ~/work/
+</span><span class="line">git clone git://github.com/hchbaw/auto-fu.zsh.git
+</span><span class="line">cp ~/work/auto-fu.zsh/auto-fu.zsh ~/.zsh/auto-fu.zsh</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>.zshrc</code>に下記を追加して、<code>exec $SHELL</code></p>
+
+<div><script src="https://gist.github.com/2320385.js"></script>
+<noscript><pre><code>#=============================
+# source auto-fu.zsh
+#=============================
+if [ -f ~/.zsh/auto-fu.zsh ]; then
+    source ~/.zsh/auto-fu.zsh
+    function zle-line-init () {
+        auto-fu-init
+    }
+    zle -N zle-line-init
+fi
+
+</code></pre></noscript></div>
+
+<p>これは凄い</p>
+
+<h2 id="url">参考URL</h2>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/hchbaw/20100526/1274886125">zshで自動補完したい - hchbaw記</a></li>
+  <li><a href="http://www.clear-code.com/blog/2011/9/5.html">おすすめzsh設定 - ククログ(2011-09-05)</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/27/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/25/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

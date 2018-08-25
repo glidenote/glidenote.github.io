@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: issue | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/issue/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[git-issueのzsh補完関数を作った(作っていた)]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/06/18/git-issue-zsh-completion/"/>
+    <updated>2012-06-18T12:11:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/06/18/git-issue-zsh-completion</id>
+    <content type="html"><![CDATA[<p>ようやく仕事でもGitHubが利用出来るようになりつつあり、結構前に作っていた
+拙作の<a href="https://github.com/yuroyoro/git-issue">git-issue</a>用のzsh補完関数が役に立つ日がきたのでご紹介。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/git-issue-zsh-completion">glidenote/git-issue-zsh-completion</a></li>
+  <li><a href="http://yuroyoro.hatenablog.com/entry/20120301/1330580453">git-issue : CLIでRedmine/Github-issuesのticketをbrows/editできるgitサブコマンド - ゆるよろ・オブ・ザ・( ;ﾟ皿ﾟ)ﾉｼΣ ﾌｨﾝｷﾞｨｨｰｰｯ!!! 日記</a></li>
+</ul>
+
+<h2 id="section">導入方法</h2>
+
+<p>当然ですが、<a href="https://github.com/yuroyoro/git-issue">git-issue</a>が導入してある必要があります。</p>
+
+<p><code>git clone</code>して<code>$fpath</code>配下に補完関数を配置。</p>
+
+<p><code>
+mkdir ~/repos/
+cd ~/repos/
+git clone git://github.com/glidenote/git-issue-zsh-completion.git
+sudo cp git-issue-zsh-completion/_git-issue /usr/share/zsh/site-functions/
+exec zsh
+</code></p>
+
+<p>使ってみた感じ。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/git-issue0.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/git-issue1.png" alt="" /></p>
+
+<p>私がGitHubしか利用しないため、GitHub用オプションしか補完しないので、
+Redmine用オプションも補完したい場合は是非pull reqを。</p>
+]]></content>
+  </entry>
+  
+</feed>

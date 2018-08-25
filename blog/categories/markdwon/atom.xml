@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: markdwon | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/markdwon/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[markdown2impressを導入してみた]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/03/19/markdown2impress/"/>
+    <updated>2012-03-19T16:31:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/03/19/markdown2impress</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="http://blog.clouder.jp/archives/001146.html">プレゼンをmarkdownで書いたらええやん - Clouder::Blogger</a></li>
+</ul>
+
+<p>恐ろしく便利なツールがあったので、導入。</p>
+
+<p><code>
+mkdir ~/tmp
+cd ~/tmp
+git clone git://github.com/yoshiki/markdown2impress.git
+mkdir ~/bin
+cp markdown2impress/bin/markdown2impress.pl ~/bin
+</code></p>
+
+<p>必要なモジュールを<a href="http://search.cpan.org/dist/App-cpanminus/">cpanm</a>で導入</p>
+
+<p><code>
+cpanm Data/Section/Simple.pm
+cpanm Text/Markdown.pm
+cpanm Text/Xslate.pm
+</code></p>
+
+<p>付属の<code>README.md</code>を早速変換</p>
+
+<p><code>
+markdown2impress.pl README.md
+</code></p>
+
+<p>同じディレクトリに下記のようなwebrickを利用したスクリプトを用意して、</p>
+
+<p><div><script src='https://gist.github.com/2101731.js'></script>
+<noscript><pre><code>#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+
+require &#39;webrick&#39;
+include WEBrick
+
+server = HTTPServer.new(
+    :DocumentRoot  =&gt; File.join(Dir.pwd),
+    :Port  =&gt; 10080
+)
+
+trap(&quot;INT&quot;) { server.shutdown }
+server.start</code></pre></noscript></div>
+</p>
+
+<p><code>
+ruby server.rb
+</code></p>
+
+<p>でスクリプトを実行して、<code>localhost:10080</code>とかで簡単に動作確認も出来ます。
+勉強会の資料作りはGoogle Docsやめて、これで良さそうな感じが。</p>
+
+<p>どんなのができあがるかは<a href="https://twitter.com/#!/yappo">@yappo</a>さんの
+<a href="http://blog.yappo.jp/yappo/archives/000771.html">YappoLogs: Kyoto.PM #1 で発表してきました</a>
+を見て頂くのが早いかと。</p>
+
+<p><a href="https://github.com/yoshiki/markdown2impress">markdown2impress</a>活用させて頂きます。</p>
+]]></content>
+  </entry>
+  
+</feed>

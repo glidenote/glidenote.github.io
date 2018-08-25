@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: octopress | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Octopressをアップデートした]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/02/14/octopress-update/"/>
+    <updated>2014-02-14T23:40:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/02/14/octopress-update</id>
+    <content type="html"><![CDATA[<p>2011年から使っているOctopressですが、導入時から全然アップデートしてなくて、<a href="https://github.com/jekyll/jekyll">jekyll</a>が古いままだったので、</p>
+
+<ul>
+  <li><a href="http://blog.n-z.jp/blog/2013-10-09-update-octopress-and-conflict-ruby-version.html">octopress をアップデートした (.ruby-version が conflict した) 話 - @znz blog</a></li>
+</ul>
+
+<p>を参考にアップデートしてみたので作業メモ。</p>
+
+<h2 id="section">作業前にバックアップ</h2>
+
+<p>git管理しているので、作業前にcommitしておく。</p>
+
+<p><code>sh
+git add .
+git commit -m "commit before update"
+</code></p>
+
+<h2 id="remote">remoteの確認</h2>
+
+<p><code>octopress</code>というのがoctopress自体のソースだと確認出来る。</p>
+
+<p><code>sh
+git remote -v
+bitbucket       git@bitbucket.org:glidenote/octopress.git (fetch)
+bitbucket       git@bitbucket.org:glidenote/octopress.git (push)
+octopress       git://github.com/imathis/octopress.git (fetch)
+octopress       git://github.com/imathis/octopress.git (push)
+origin  git@github.com:glidenote/glidenote.github.com.git (fetch)
+origin  git@github.com:glidenote/glidenote.github.com.git (push)
+</code></p>
+
+<h2 id="octopressmasterfetch">Octopressのmasterをfetch</h2>
+
+<p><code>sh
+git fetch octopress
+</code></p>
+
+<h2 id="merge">mergeする前に差分を確認</h2>
+
+<p><code>sh
+git diff source...octopress/master
+</code></p>
+
+<h2 id="merge-1">mergeする</h2>
+
+<p><code>sh
+git merge octopress/master
+</code></p>
+
+<p>カスタムしているせいか、結構conflictしていたので、手動で1個ずつ修正。</p>
+
+<h2 id="gem">gemの更新</h2>
+
+<p><code>
+bundle install
+</code></p>
+
+<p>で各種gemの更新。</p>
+
+<h2 id="amazon-plugin">amazon pluginの変更</h2>
+
+<p>今まで、<a href="http://zanshin.net/2011/08/24/amazon-plugin-for-octopress/">Amazon Plugin for Octopress - Zanshin.net</a>のamazon pluginを使っていたんですが、
+中で使用する<code>{</code>と<code>}</code>が2個続く構文が原因で、Liquidがエラーを吐いて、<code>rake generate</code>が走らなくなっていたので、下記プラグインを利用するように変更。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/octopress-amazon-plugin">glidenote/octopress-amazon-plugin</a></li>
+</ul>
+
+<h2 id="octoeditorvimbundle-exec">octoeditor.vimを<code>bundle exec</code>に対応してバージョンアップ</h2>
+
+<p>rakeが新しくなり、<code>bundle exec</code>が必須になっていて、拙作の<a href="https://github.com/glidenote/octoeditor.vim">glidenote/octoeditor.vim</a>で
+記事の<code>:OctopressGenerate</code>と<code>:OctopressDeploy</code>が走らなくなっていたので、<code>budle exec</code>を利用する</p>
+
+<p><code>
+let g:octopress_bundle_exec = 1
+</code></p>
+
+<p>というオプションを作って対応。</p>
+
+<p>Octoprssのアップデート後から記事の生成(<code>bundle exec rake generate</code>)が体感的に
+2/3くらいの時間になってちょっと感動した。(早くなると思ってなかったからベンチを取ってなかった…)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopressのgist tag pluginが修正されていた]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/12/19/octopress-gist-tag-plugin-fixed/"/>
+    <updated>2012-12-19T23:03:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/12/19/octopress-gist-tag-plugin-fixed</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/blog/1276-welcome-to-a-new-gist">先日のgistリニューアル</a>以降、
+Octopressに貼ったgist表示の不具合の修正が出ていた。</p>
+
+<ul>
+  <li><a href="https://github.com/imathis/octopress/commit/72b4e8d5621dbb3c110fe2c273bcc3ac408ffc32">gist tag plugin now works with the latest changes GitHub gists and does … · 72b4e8d · imathis/octopress</a></li>
+</ul>
+
+<p>私は<a href="http://twitter.com/chiastolite">@chiastolite</a>さんに指摘されるまで
+不具合に全く気づいておりませんでした!!</p>
+
+<blockquote class="twitter-tweet"><p>@<a href="https://twitter.com/glidenote">glidenote</a> <a href="http://t.co/MNZHleGn" title="http://bit.ly/Xk3Y2a">bit.ly/Xk3Y2a</a> 前にお世話になったエントリ見ようとしたらGistの部分が消えちゃってますね。Gistの仕様変更にOctpressが追い付いてないんでしょうか…</p>&mdash; Hiroyuki Morita (@chiastolite) <a href="https://twitter.com/chiastolite/status/279465595106390016" data-datetime="2012-12-14T05:59:24+00:00">December 14, 2012</a></blockquote>
+<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Octopressを利用している人は要修正ですね。</p>
+
+<p>当ブログも上記修正をしたんですが、CSSが全く反映されず、原因を追っていたら
+CDNとして利用している<a href="http://jp.cloudflare.com/">CloudFlare</a>のキャッシュが原因だったので、
+CloudFlareのコンパネからキャッシュをpurgeして不具合も直った。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[OctopressのRake Previewにthinを利用してプレビューを高速化する]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/10/31/thin-octopress/"/>
+    <updated>2012-10-31T22:41:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/10/31/thin-octopress</id>
+    <content type="html"><![CDATA[<p><img src="http://www.oreilly.co.jp/books/images/picture_large978-4-87311-559-7.jpeg" height="172" width="200" align="right" /></p>
+
+<p>社内で<a href="http://www.oreilly.co.jp/books/9784873115597/">入門Sinatra</a>の読書会が開催されていて
+WEBrickは残念だから<a href="https://rubygems.org/gems/thin">thin</a>使うと良いという事を学習。<br />
+WEBrickを起動して、記事のプレビューを行うOctoressでもthinが使えないかなーと思ったら普通に使えた。
+<br clear="all" /></p>
+
+<h2 id="gemfilethinthin">Gemfileにthinを追記してthinを導入</h2>
+
+<p>下記のように修正</p>
+
+<p><div><script src='https://gist.github.com/3979622.js'></script>
+<noscript><pre><code>diff --git a/Gemfile b/Gemfile
+index 13a2050..be86346 100644
+--- a/Gemfile
++++ b/Gemfile
+@@ -15,6 +15,7 @@ group :development do
+   gem &#39;liquid&#39;, &#39;2.2.2&#39;
+   gem &#39;ruby-aaws&#39;
+   gem &#39;rubypython&#39;
++  gem &#39;thin&#39;
+ end
+ 
+ gem &#39;sinatra&#39;, &#39;1.2.6&#39;</code></pre></noscript></div>
+</p>
+
+<p><code>thin</code>を導入して、<code>exec $SHELL</code>をかけて<code>path</code>を通す。</p>
+
+<p><code>
+bundle install
+exec $SHELL
+</code></p>
+
+<h2 id="rakefile">Rakefileの修正</h2>
+
+<p><code>rake preview</code>で<code>thin</code>が起動するように修正</p>
+
+<p><div><script src='https://gist.github.com/3984899.js'></script>
+<noscript><pre><code>diff --git a/Rakefile b/Rakefile
+index 183ee17..1fd0d2e 100644
+--- a/Rakefile
++++ b/Rakefile
+@@ -77,7 +77,7 @@ task :preview do
+   system &quot;compass compile --css-dir #{source_dir}/stylesheets&quot; unless File.exist?(&quot;#{source_dir}/stylesheets/screen.css&quot;)
+   jekyllPid = Process.spawn(&quot;jekyll --auto&quot;)
+   compassPid = Process.spawn(&quot;compass watch&quot;)
+-  rackupPid = Process.spawn(&quot;rackup --port #{server_port}&quot;)
++  rackupPid = Process.spawn(&quot;thin start --port #{server_port}&quot;)
+ 
+   trap(&quot;INT&quot;) {
+     [jekyllPid, compassPid, rackupPid].each { |pid| Process.kill(9, pid) rescue Errno::ESRCH }</code></pre></noscript></div>
+</p>
+
+<p>これで今まで通り、</p>
+
+<p><code>
+rake preview
+</code></p>
+
+<p>を実行して、<code>WEBrick</code>ではなく、<code>thin</code>を用いて高速にプレビューが見れるようになった。</p>
+
+<p>ついでに本家にpull reqも出した。</p>
+
+<ul>
+  <li><a href="https://github.com/imathis/octopress/pull/803">replace Rack to Thin. by glidenote · Pull Request #803 · imathis/octopress</a></li>
+</ul>
+
+<p>採用されると良いな−。</p>
+
+<p>thinを導入すると、<code>rackup</code>したときにWebrickではなくthinが起動するのでもしかして<code>Gemfile</code>の修正だけで良いのかもしれない。</p>
+
+<p>あとpull req後にtypoに気づいて、修正してpushしたらpull reqについてた外人のコメントが消えてしまった…</p>
+
+<h2 id="url">参考URL</h2>
+
+<p><a href="http://qiita.com/items/3cd2e2c84e7dcecbc22a">Octopressのプレビューにthinを使う #Octopress #Github - Qiita</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[社内LTとvimrc読書会]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/10/30/lt-and-reading-vimrc/"/>
+    <updated>2012-10-30T22:22:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/10/30/lt-and-reading-vimrc</id>
+    <content type="html"><![CDATA[<p>先週はビックリするくらい忙しかったせいか金曜の朝からずっと
+体調を崩して、ベッドから出られず週末のイベントがいろいろと参加出来なかった。</p>
+
+<h2 id="lt">社内LT</h2>
+
+<p><a href="http://blog.kentarok.org/entry/2012/10/26/231628">あんちぽさんの働きかけ</a>と
+優秀な新卒<a href="https://twitter.com/kurotaky">@kurotaky</a>の主催で社内LTが開かれた。</p>
+
+<p>LTのために出勤していたんですが、忙しさのあまり体調を崩していて
+参加出来なかったので社内LTは資料だけ公開。せっかくなので外部にも公開
+(いろいろとおかしいところがあるかもしれない）</p>
+
+<iframe style="border:0; padding:0; margin:0; background:transparent;" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="0" allowtransparency="true" id="talk_frame_508a076aa820520002010206" src="https://blog.glidenote.com//speakerdeck.com/embed/508a076aa820520002010206" width="700" height="588"></iframe>
+
+<p>Octopressの不便な点は一切記載せず、良いところだけを見せて布教をしたかったんですが、願い叶わず。</p>
+
+<h2 id="vimrc">vimrc読書会</h2>
+
+<p>光栄にもvimrc読書会で<a href="https://github.com/glidenote/dotfiles/blob/master/.vimrc">私のvimrc</a>を題材に選んで頂いたんですが、こちらも体調不良で参加出来ず。</p>
+
+<ul>
+  <li><a href="http://vim-jp.org/reading-vimrc/">vimrc読書会</a></li>
+  <li><a href="http://lingr.com/room/vim/archives/2012/10/27#message-12673537">ログアーカイブ</a></li>
+</ul>
+
+<p>チラッとアーカイブを見ると参加者が著名なvimmerばかりで、disられてるんじゃないかと恐ろしくて、全部は読めてないですが。<br />
+体調が戻ってから全部目を通そうと思います。<br />
+とりあげて頂いてありがとうございます。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopressは_postsの下にディレクトリ切っても記事が生成される]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/06/10/octopress-post-directory/"/>
+    <updated>2012-06-10T03:26:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/06/10/octopress-post-directory</id>
+    <content type="html"><![CDATA[<p>Octopressでブログの記事を書いていると、<code>octopress/source/_posts</code>の下に
+私のブログだと下記のような感じで</p>
+
+<p><code>
+├── 2012-04-01-new-gist.vim.markdown
+├── 2012-04-02-octoeditor.vim.markdown
+├── 2012-04-03-subsonic-nginx.markdown
+├── 2012-04-04-presentation-2012.markdown
+├── 2012-04-05-install-ut-vpn-client.markdown
+├── 2012-04-07-auto-fu.zsh.markdown
+├── 2012-04-08-nginx.vim.markdown
+├── 2012-04-09-keepalived-syntax.vim.markdown
+├── 2012-04-11-mosh-on-sakura-vps.markdown
+├── 2012-04-11-mosh-with-tmux.markdown
+├── 2012-04-12-octopress-canonical-problem.markdown
+├── 2012-04-14-mosh-hostname-completion.markdown
+├── 2012-04-16-sheet.markdown
+├── 2012-04-20-mysql-casucal-vol3.markdown
+├── 2012-04-21-speaker-deck.markdown
+├── 2012-04-23-etckeeper-bitbucket.markdown
+├── 2012-04-24-bash-it.markdown
+├── 2012-04-30-terminal-study-vol-2.markdown
+├── 2012-05-03-zsh-completion.markdown
+├── 2012-05-10-gitspective.markdown
+├── 2012-05-11-ss-zsh-completion.markdown
+├── 2012-05-12-eneloop-mobile-booster.markdown
+├── 2012-05-13-kindle4.markdown
+├── 2012-05-15-mosh-rpm.markdown
+├── 2012-05-16-vim-ruby-homebrew.markdown
+├── 2012-05-21-fluentd-nginx-mongodb.markdown
+├── 2012-05-22-twitter-icon-sticker.markdown
+├── 2012-05-25-bijogoyomi-2012-05-25.markdown
+├── 2012-05-28-gollum-memolist.vim.markdown
+└── 2012-05-30-manage-chrome-search-engine.markdown
+</code></p>
+
+<p>markdownファイルが増えてきて、ファイルの管理が面倒だなと
+思っていたんですが、<code>~/octopress/source/_posts/2012/06/</code>とか
+下記のような感じで</p>
+
+<p><code>
+├── 2012
+│   └── 06
+│       ├── 2012-06-05-pori.markdown
+│       ├── 2012-06-07-pinboard-fu.markdown
+│       └── 2012-06-10-octopress-post-directory.markdown
+</code></p>
+
+<p>ディレクトリを切って、その下にmarkdownを作ってもページが生成されることに気づいた。</p>
+
+<p>本当に大丈夫なのかOctopressのRakefileを見ると記事を生成するときは下記のような感じの処理をしていて</p>
+
+<p><div><script src='https://gist.github.com/2902280.js'></script>
+<noscript><pre><code>desc &quot;Generate jekyll site&quot;
+task :generate do
+  raise &quot;### You haven&#39;t set anything up yet. First run `rake install` to set up an Octopress theme.&quot; unless File.directory?(source_dir)
+  puts &quot;## Generating Site with Jekyll&quot;
+  system &quot;compass compile --css-dir #{source_dir}/stylesheets&quot;
+  system &quot;jekyll&quot;
+end</code></pre></noscript></div>
+</p>
+
+<p><code>system "jekyll"</code>を実行してページを生成している。<br />
+jekyllのソースをおってみたら
+<a href="https://github.com/mojombo/jekyll/blob/master/lib/jekyll/site.rb">jekyll/lib/jekyll/site.rb</a>
+の部分で再帰的にディレクトリの探していることが分かる。</p>
+
+<p>ブログの記事が多くなってきたら<code>_posts/2012/06</code>とかでディレクトリを切って
+管理すると良い感じになる。</p>
+]]></content>
+  </entry>
+  
+</feed>

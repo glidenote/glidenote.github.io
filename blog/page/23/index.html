@@ -1,0 +1,726 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="LionというかMacに入っているVimはrubyオプションが無効になっているので、
+homebrewを利用してrubyオプションが有効なvimを導入。毎回ググっているので自分用メモ。 デフォルトのvimのrubyオプションの状態を確認 1
+2
+3
+4
+[akira@MacBookAir] $ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/23/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/23">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="LionというかMacに入っているVimはrubyオプションが無効になっているので、
+homebrewを利用してrubyオプションが有効なvimを導入。毎回ググっているので自分用メモ。 デフォルトのvimのrubyオプションの状態を確認 1
+2
+3
+4
+[akira@MacBookAir] $ uname -a
+Darwin MacBookAir.local 11.4.0 Darwin &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/16/vim-ruby-homebrew/">homebrewを利用してrubyオプションが有効なvimを導入</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-16T23:12:00+09:00" pubdate data-updated="true">2012年05月16日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>LionというかMacに入っているVimはrubyオプションが無効になっているので、
+homebrewを利用してrubyオプションが有効なvimを導入。毎回ググっているので自分用メモ。</p>
+
+<p>デフォルトのvimのrubyオプションの状態を確認</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[akira@MacBookAir] $ uname -a
+</span><span class="line">Darwin MacBookAir.local 11.4.0 Darwin Kernel Version 11.4.0: Mon Apr  9 19:32:15 PDT 2012; root:xnu-1699.26.8~1/RELEASE_X86_64 x86_64
+</span><span class="line">[akira@MacBookAir] $ vim --version | grep ruby
+</span><span class="line">-python3 +quickfix +reltime -rightleft -ruby +scrollbind +signs +smartindent </span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>-ruby</code>となっていてrubyオプションが無効になっている。</p>
+
+<h2 id="homebrew">homebrewを利用して導入</h2>
+
+<p><a href="https://gist.github.com/721952">非常に便利なformula</a>があったのでそれを利用</p>
+
+<div><script src="https://gist.github.com/2710710.js"></script>
+<noscript><pre><code>brew install \
+https://raw.github.com/gist/721952/e99293dc36c9b5c27aec0a4024b848ce50b9b126/vim.rb \
+--enable-interp=ruby --force</code></pre></noscript></div>
+
+<p>homebrew経由で導入したvimのrubyオプションの状態を確認</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[akira@MacBookAir] $ /usr/local/bin/vim --version | grep ruby
+</span><span class="line">+reltime -rightleft +ruby +scrollbind +signs +smartindent -sniff +startuptime 
+</span><span class="line">Linking: /usr/bin/llvm-gcc   -L. -L/Users/akira/.rbenv/versions/1.9.2-p290/lib  -L/usr/local/lib  -L/usr/local/lib -o vim       -lm  -lncurses -liconv -framework Cocoa        -lruby-static -lobjc -L/Users/akira/.rbenv/versions/1.9.2-p290/lib   </span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>/usr/local/bin/vim</code>に<code>+ruby</code>でrubyオプションが有効になったvimが入りました。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://codenote.net/ruby/194.html">Homebrew で Vim をインストールする方法 | CodeNote.net</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/15/mosh-rpm/">Moshのrpm作成を簡略化した</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-15T09:36:00+09:00" pubdate data-updated="true">2012年05月15日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://mosh.mit.edu/">Mosh</a>が便利で、かなり活用しているんですが、
+開発速度が速く、バージョンアップのたびにRPM作成をしていくのが結構だるいので
+多少楽になるように対応。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/mosh-1.2-rpm">glidenote/mosh-1.2-rpm</a></li>
+</ul>
+
+<p>単にGitHub上にspecとbuild用のスクリプトを配置しているだけですが。  </p>
+
+<p>CentOS6とSL6決めうちなのは、私がそれしか使っていないからです。
+もしCentOS5用のを作る場合は<a href="http://www.sssg.org/blogs/naoya/archives/2267">@n0tsさんのサイト</a>が
+参考になります。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.kyanny.me/entry/2012/04/11/233514">mosh-1.1.3-1.el6.x86_64.rpm - 刺身☆ブーメランのブログ</a></li>
+  <li><a href="http://www.sssg.org/blogs/naoya/archives/2267">mosh バージョン 1.2 | Carpe Diem</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/13/kindle4/">kindle4を買って4ヶ月経ったので感想を書いてみる</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-13T22:21:00+09:00" pubdate data-updated="true">2012年05月13日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="http://distilleryimage9.s3.amazonaws.com/f4f9e03c74a111e180c9123138016265_7.jpg" height="300" width="300" align="right" /></p>
+
+<p>kindle4を買ったときに使用感などを書こうと思っていたんですが、
+買ってからいつの間にか4ヶ月も経ってしまっていたので、今さらながら感想を書いてみる。</p>
+
+<p>私は初代iPad所有で初Kindleという感じです。</p>
+
+<h2 id="kindle4">kindle4の感想を箇条書き</h2>
+
+<ul>
+  <li>注文して中4日で届いた。</li>
+  <li>軽く、小さいので持ち歩きが苦じゃない。初代iPadを利用していたので、その差は歴然。</li>
+  <li><a href="http://www.oreilly.co.jp/ebook/">日本のオライリーPDF</a>はサイズ的に読むのが厳しい。iPadの方が良いと思う。</li>
+  <li>E-inkが読みやすい。</li>
+  <li>記憶容量が少ない。約1.2GB程度。</li>
+  <li>Amazon.comで購入したら、すぐに自分のKindle内にデータが送られてくるのが便利過ぎる。</li>
+  <li>データサイズが数百MBの自炊PDFを読むことは容量的に基本無理。</li>
+  <li>日本語の電子書籍が少ないので、必然的に洋書を読むようになる。</li>
+  <li>搭載されているブラウザは残念な感じ。</li>
+  <li>物理キーボードが付いていないので、文字入力も残念な感じ。</li>
+  <li><a href="http://www.east-village.jp/KINDLE/">英辞郎 MOBI/Kindle3/Kindle4</a>を使えば、分からない英単語をすぐに調べられる。</li>
+  <li><a href="http://pragprog.com/">The Pragmatic Bookshelf</a>とKindle連携が素晴らしい。購入済み書籍が改訂されると自動的にKindleに送られてくる。</li>
+  <li><a href="http://www.instapaper.com/">Instapaper</a>、<a href="http://www.readability.com/">Readability</a>など海外ウェブサービスは連携出来るものが多い。</li>
+  <li>バックライトが無いので当然ながら暗所での利用不可。<a href="http://www.amazon.com/gp/product/B004SD20DU/">LED付きカバー</a>が<strong>必須</strong>。</li>
+  <li>LED付きカバーを利用するとちょっと重い。LED付きカバー 141g + kindle4 166g</li>
+  <li>mobi形式最高</li>
+</ul>
+
+<p>kindle4の購入直後は、iPad時代に購入したオライリーのPDFと、ブックスキャンで自炊してもらったPDFを読むのに
+適しておらず若干後悔をしていたんですが、英語の書籍、技術書読む用と割り切った瞬間から
+非常に優れたデバイスであることに気づいて、今では本はKindleで読んでいる時間が一番長いです。</p>
+
+<p>また英語縛りみたいなのを自分に課したことで、日常的に英語の技術書をを読む習慣がついたのと
+英語への抵抗が少なくなった事が一番良かった点かなと思っています。
+(まだ読み終わった冊数も少なく、読む速度はめちゃくちゃ遅いですが…)</p>
+
+<p>周りに購入を迷っていた人が結構いたので何かの参考になれば幸いです。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/12/eneloop-mobile-booster/">モバイルバッテリーを大容量から小容量に切り替えたら生活が快適になった話</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-12T22:00:00+09:00" pubdate data-updated="true">2012年05月12日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>
+<a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L54D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V5400mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMNSE?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMNSE"><img src="https://images-fe.ssl-images-amazon.com/images/I/4183wp7N5bL._SL160_.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L27D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V2700mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMOMY?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMOMY"><img src="https://images-fe.ssl-images-amazon.com/images/I/41oqWuqmL5L._SL160_.jpg" align="right" /></a>
+</p>
+
+<ul>
+<li><a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L27D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V2700mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMOMY?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMOMY">SANYO USB出力付きリチウムイオンバッテリー (高容量リチウムイオン3.7V2700mAh電池使用) KBC-L27D</a></li>
+<li><a href="https://www.amazon.co.jp/%E4%B8%89%E6%B4%8B%E9%9B%BB%E6%A9%9F-KBC-L54D-SANYO-USB%E5%87%BA%E5%8A%9B%E4%BB%98%E3%81%8D%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-%E9%AB%98%E5%AE%B9%E9%87%8F%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B33-7V5400mAh%E9%9B%BB%E6%B1%A0%E4%BD%BF%E7%94%A8/dp/B005DUMNSE?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B005DUMNSE">SANYO USB出力付きリチウムイオンバッテリー (高容量リチウムイオン3.7V5400mAh電池使用) KBC-L54D</a></li>
+</ul>
+
+<p>最近iPhoneとSony Ericsson mini用に使っているモバイルバッテリーを電池容量の小さいものに
+変えたら生活が快適になったので、ちょっと書こうかと思います。</p>
+
+<p>KBC-L54DとKBC-L27Dは同じ日に発売された同世代のモバイルバッテリーなので、
+本体サイズ、電池容量、給電ポート数以外の性能は同じです。<br />
+ランプで残容量が分かったり、 マイクロUSBで充電が出来るタイプのものです。</p>
+
+<h2 id="kbc-l54d">大容量KBC-L54Dを利用していて不便に感じていた点</h2>
+
+<ul>
+  <li>サイズが大きい 62(幅)×70(高さ)×22(奥行)mm</li>
+  <li>重い 142g</li>
+  <li>片手でiPhoneと一緒に持つと操作しにくい。疲れる</li>
+  <li>充電しながらズボンのポケットに入れて持ち歩くことが難しいサイズ感</li>
+  <li>上記理由から充電するときはカバンに入れざるを得ない</li>
+  <li>給電ポート2個を同時に利用することがほとんど無い</li>
+  <li>電池容量(5400mAh)が大きいので充電時間が長い</li>
+</ul>
+
+<p><img src="http://farm6.staticflickr.com/5337/7180207570_8f60285ee1_c.jpg" alt="" /></p>
+
+<h2 id="kbc-l27d">小容量KBC-L27Dに切り替えて良かった点</h2>
+
+<ul>
+  <li>サイズが小さい 寸法:70(幅)×39(高さ)×22(奥行)mm</li>
+  <li>軽い 78g</li>
+  <li>iPhoneを充電しながらポケットに入れて持ち歩けるサイズ感</li>
+  <li>片手でiPhoneと一緒に持っても操作問題なし</li>
+  <li>電池容量(2700mAh)が小さいので充電が早い</li>
+  <li>iPhone4へのフル充電が1回半出来るので、1日過ごすには十分</li>
+</ul>
+
+<p><img src="http://farm8.staticflickr.com/7103/7180206696_ce96fc41d6_c.jpg" alt="" /></p>
+
+<p>KBC-L54DとKBC-L27Dはいずれも2011年9月に発売され、コストパフォーマンスが良かったので
+何も考えず大容量のKBC-L54Dを購入して利用していたのですが、5400mAhという容量は使い切ることがなく
+1回給電したら充電という利用方法で、大容量のメリットを生かし切れておらず
+上に挙げたような不便さだけが際立ってきていたので、小容量のKBC-L27Dに切り替えて快適になりました。</p>
+
+<p>KBC-L27Dは値段が安定していないので、同等性能のPanasonic製品の方が安いケースがありますので、 
+購入前に両方の値段をチェックすることをお勧めします。</p>
+
+<p>
+<a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-400mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL201-K/dp/B0051R4EYU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EYU"><img src="https://images-fe.ssl-images-amazon.com/images/I/21otpm0VfNL._SL160_.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-700mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL101/dp/B0051R4EJU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EJU"><img src="https://images-fe.ssl-images-amazon.com/images/I/31P4Z3LsIaL._SL160_.jpg" align="right" /></a>
+</p>
+
+<ul>
+<li><a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-700mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL101/dp/B0051R4EJU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EJU">パナソニック モバイルバッテリー 2,700mAh 無接点充電(Qi) 対応 USBモバイル電源 QE-PL101</a></li>
+<li><a href="https://www.amazon.co.jp/%E3%83%91%E3%83%8A%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF-%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC-400mAh-USB%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E9%9B%BB%E6%BA%90-QE-PL201-K/dp/B0051R4EYU?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=B0051R4EYU">パナソニック モバイルバッテリー 5,400mAh 無接点充電(Qi) 対応 USBモバイル電源 ブラック QE-PL201-K</a></li>
+</ul>
+
+<p><br clear="all" /></p>
+
+<p>iPhone4のバッテリもへたってきたのか、最近バッテリ持ちが悪くなってきたので買い換え時かな…</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/11/ss-zsh-completion/">netstatの代替品ssコマンドのzsh補完関数を作った</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-11T23:20:00+09:00" pubdate data-updated="true">2012年05月11日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://blog.glidenote.com/blog/2012/05/03/zsh-completion/">前回はサブコマンドとファイル名を手抜き補完</a>に続いて
+今回は<code>ss</code>コマンドの補完関数を作成しました。</p>
+
+<p>作成したものはgithubにも公開してます。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/ss-zsh-completion">glidenote/ss-zsh-completion</a></li>
+</ul>
+
+<h2 id="section">事の発端</h2>
+
+<p>twitterを見ていて、下記のようなtweetを発見。</p>
+
+<blockquote class="twitter-tweet" lang="ja"><p>fedoraのnetstatのmanを見てて気付いたけど、netstatは時代遅れだからssを使いなって書いてあるね。</p>&mdash; Masami Ichikawaさん (@masami256) <a href="https://twitter.com/masami256/status/198438975545942018" data-datetime="2012-05-04T15:48:33+00:00">5月 4, 2012</a></blockquote>
+<script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<ul>
+  <li>確かに自宅サーバのFedora16で<code>man netstat</code>を見てみるとそんなような事が書いてある<code>This program is obsolete.  Replacement for netstat is ss.  Replacement for netstat -r is ip route.  Replacement for netstat -i is ip  -s  link.   Replacement for netstat -g is ip maddr.</code></li>
+  <li>ssを使ってみる。なかなか良い感じ</li>
+  <li>zshでオプション補完されないし、使い方もよく分からん</li>
+  <li>補完関数を作ろう</li>
+</ul>
+
+<p>という感じで、<code>ss</code>コマンドの補完関数作成に着手。</p>
+
+<h2 id="ss">ssコマンドのオプションを確認</h2>
+
+<p>補完関数を作成する前に、まず<code>ss -h</code>などでどんなオプションがあるのかを確認。
+サブコマンドはなく、非常にシンプルな利用方法です。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Usage: ss [ OPTIONS ]
+</span><span class="line">       ss [ OPTIONS ] [ FILTER ]
+</span><span class="line">   -h, --help           this message
+</span><span class="line">   -V, --version        output version information
+</span><span class="line">   -n, --numeric        don't resolve service names
+</span><span class="line">   -r, --resolve       resolve host names
+</span><span class="line">   -a, --all            display all sockets
+</span><span class="line">   -l, --listening      display listening sockets
+</span><span class="line">   -o, --options       show timer information
+</span><span class="line">   -e, --extended      show detailed socket information
+</span><span class="line">   -m, --memory        show socket memory usage
+</span><span class="line">   -p, --processes      show process using socket
+</span><span class="line">   -i, --info           show internal TCP information
+</span><span class="line">   -s, --summary        show socket usage summary
+</span><span class="line">
+</span><span class="line">   -4, --ipv4          display only IP version 4 sockets
+</span><span class="line">   -6, --ipv6          display only IP version 6 sockets
+</span><span class="line">   -0, --packet display PACKET sockets
+</span><span class="line">   -t, --tcp            display only TCP sockets
+</span><span class="line">   -u, --udp            display only UDP sockets
+</span><span class="line">   -d, --dccp           display only DCCP sockets
+</span><span class="line">   -w, --raw            display only RAW sockets
+</span><span class="line">   -x, --unix           display only Unix domain sockets
+</span><span class="line">   -f, --family=FAMILY display sockets of type FAMILY
+</span><span class="line">
+</span><span class="line">   -A, --query=QUERY, --socket=QUERY
+</span><span class="line">       QUERY := {all|inet|tcp|udp|raw|unix|packet|netlink}[,QUERY]
+</span><span class="line">
+</span><span class="line">   -D, --diag=FILE      Dump raw information about TCP sockets to FILE
+</span><span class="line">   -F, --filter=FILE   read filter information from FILE
+</span><span class="line">       FILTER := [ state TCP-STATE ] [ EXPRESSION ]</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-1">完成形</h2>
+
+<div><script src="https://gist.github.com/2639605.js"></script>
+<noscript><pre><code>#compdef ss
+# ------------------------------------------------------------------------------
+# Description
+# -----------
+#
+#  Completion script for ss
+#
+#  Source: https://github.com/glidenote/ss-zsh-completion
+#
+# ------------------------------------------------------------------------------
+# Authors
+# -------
+#
+#  * Akira Maeda
+#
+# ------------------------------------------------------------------------------
+
+_arguments -s -S \
+  &#39;(-h --help)&#39;{-h,--help}&#39;[Print this summary and exit]&#39; \
+  &#39;(-V --version)&#39;{-V,--version}&#39;[output version information]&#39; \
+  &#39;(-n --numeric)&#39;{-n,--numeric}&quot;[don&#39;t resolve service names]&quot; \
+  &#39;(-r --resolve)&#39;{-r,--resolve}&#39;[resolve host names]&#39; \
+  &#39;(-a --all)&#39;{-a,--all}&#39;[display all sockets]&#39; \
+  &#39;(-l --listening)&#39;{-l,--listening}&#39;[display listening sockets]&#39; \
+  &#39;(-o --options)&#39;{-o,--options}&#39;[show timer information]&#39; \
+  &#39;(-e --extended)&#39;{-e,--extended}&#39;[show detailed socket information]&#39; \
+  &#39;(-m --memory)&#39;{-m,--memory}&#39;[show socket memory usage]&#39; \
+  &#39;(-p --processes)&#39;{-p,--processes}&#39;[show process using socket]&#39; \
+  &#39;(-i --info)&#39;{-i,--info}&#39;[show internal TCP information]&#39; \
+  &#39;(-s --summary)&#39;{-s,--summary}&#39;[show socket usage summary]&#39; \
+  &#39;(-4 --ipv4)&#39;{-4,--ipv4}&#39;[display only IP version 4 sockets]&#39; \
+  &#39;(-6 --ipv6)&#39;{-6,--ipv6}&#39;[display only IP version 6 sockets]&#39; \
+  &#39;(-0 --packet)&#39;{-0,--packet}&#39;[display PACKET sockets]&#39; \
+  &#39;(-t --tcp)&#39;{-t,--tcp}&#39;[display only TCP sockets]&#39; \
+  &#39;(-u --udp)&#39;{-u,--udpi}&#39;[display only UDP sockets]&#39; \
+  &#39;(-d --dccp)&#39;{-d,--dccp}&#39;[display only DCCP sockets]&#39; \
+  &#39;(-w --raw)&#39;{-w,--raw}&#39;[display only RAW sockets]&#39; \
+  &#39;(-x --unix)&#39;{-x,--unix}&#39;[display only Unix domain sockets]&#39; \
+  &#39;(-f --family)&#39;{-f,--family=}&#39;[display sockets of type FAMILY]&#39; \
+  &#39;(-A --query --socket)&#39;{-A,--query=,--socket=}&#39;[QUERY := {all|inet|tcp|udp|raw|unix|packet|netlink}]:query:(all inet tcp udp raw unix packet netlink)&#39; \
+  &#39;(-D --diag)&#39;{-D,--diag=}&#39;[Dump raw information about TCP sockets to FILE]:_files&#39; \
+  &#39;(-F --filter)&#39;{-F,--filter=}&#39;[read filter information from FILE. FILTER := \[ state TCP-STATE \] \[ EXPRESSION \]]:_files&#39; \
+  &#39;(-):command: _command_names -e&#39; \
+  &#39;*::args: _normal&#39;</code></pre></noscript></div>
+
+<p><code>ss</code>のようにオプションだけしかない場合は、定型フォーマットで書いていくだけです。<br />
+出来上がった<code>_ss</code>を<code>$fpath</code>において<code>exec $SHELL</code>で利用出来るようになります。<br />
+またzsh補完関数には<a href="https://github.com/zsh-users/zsh/blob/master/Etc/completion-style-guide">completion-style-guide</a>という
+書式スタイルのガイドがあるので、それに従った形で書いています。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/ss-completion0.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/05/ss-completion1.png" alt="" /></p>
+
+<h2 id="url">参考URL</h2>
+
+<ul>
+  <li><a href="http://news.mynavi.jp/column/zsh/017/index.html">【コラム】漢のzsh (17) コマンド補完設定 - daemonコマンド編(1) </a></li>
+  <li><a href="http://news.mynavi.jp/column/zsh/018/index.html">【コラム】漢のzsh (18) コマンド補完設定 - daemonコマンド編(2) </a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/24/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/22/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

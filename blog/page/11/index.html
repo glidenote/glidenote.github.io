@@ -1,0 +1,1421 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="新規サービス用の監視をNagiosからsensuに切り替えて2ヶ月経ったので、
+導入時の調査で社内で公開してたissueと、投入して2ヶ月間運用した記録を公開しておこうと思う。 というか以前Sensuの事を書くと公言していたのに、すっかりサボっていて
+昨日@ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/11/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/11">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="新規サービス用の監視をNagiosからsensuに切り替えて2ヶ月経ったので、
+導入時の調査で社内で公開してたissueと、投入して2ヶ月間運用した記録を公開しておこうと思う。 というか以前Sensuの事を書くと公言していたのに、すっかりサボっていて
+昨日@ma0eさんのブログを見て下記のやり取りを思い出して急いで書いた… @ma0e We started using it. @ &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/26/sensu/">監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-26T19:37:00+09:00" pubdate data-updated="true">2013年11月26日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="https://raw.github.com/sensu/sensu/master/sensu-logo.png" alt="" /></p>
+
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>新規サービス用の監視をNagiosから<a href="http://sensuapp.org/">sensu</a>に切り替えて2ヶ月経ったので、
+導入時の調査で社内で公開してたissueと、投入して2ヶ月間運用した記録を公開しておこうと思う。</p>
+
+<p>というか<a href="https://blog.glidenote.com/blog/2013/10/30/serf-haproxy/">以前Sensuの事を書くと公言していた</a>のに、すっかりサボっていて
+昨日<a href="http://maoe.hatenadiary.jp/entry/2013/11/25/181037">@ma0eさんのブログ</a>を見て下記のやり取りを思い出して急いで書いた…</p>
+
+<blockquote class="twitter-tweet" lang="ja"><p><a href="https://twitter.com/ma0e">@ma0e</a> We started using it. <a href="https://twitter.com/glidenote">@glidenote</a> will report the detail soon, I think.</p>&mdash; kentaro (@kentaro) <a href="https://twitter.com/kentaro/statuses/395693993603772417">2013, 10月 30</a></blockquote>
+
+<blockquote class="twitter-tweet" lang="ja"><p><a href="https://twitter.com/kentaro">@kentaro</a> <a href="https://twitter.com/glidenote">@glidenote</a> that would be nice</p>&mdash; Mitsutoshi Aoe/maoe (@ma0e) <a href="https://twitter.com/ma0e/statuses/395694852538499072">2013, 10月 30</a></blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>導入環境はCentOS 6.4で、利用しているsensuのバージョンは<code>0.12.1-1</code>になり、基本的にはNagiosとの比較になります。
+またPuppetを使っているので、導入には<a href="https://github.com/sensu/sensu-puppet">sensu-puppet</a>を使ってます。</p>
+
+<p>箇条書きで読みにくいですが、sensu導入の際は参考にしてください。</p>
+
+<h2 id="sensu">Sensuの特徴</h2>
+
+<ul>
+  <li>Nagiosの問題点から生まれた監視フレームワーク</li>
+  <li>Rubyで書かれている</li>
+  <li>監視対象(クライアント)が自動登録される</li>
+  <li>設定ファイルが簡潔、分かりやすい</li>
+  <li>新規サーバにChef/Puppetを流した直後から監視が自動で開始される</li>
+  <li>既存Nagios Checkの再利用が出来る(Nagios資産が活かせる)</li>
+  <li>EC2のようなサーバ構成が頻繁に変化する環境において非常に有用</li>
+  <li>Chef/Puppetとの相性が非常に良い</li>
+  <li>必要な機能はプラグインで拡張。アラートの通知方法を追加したり、<a href="https://metrics.librato.com/">librato-metrics</a>と連携して、メトリクス作成とかも出来る。</li>
+  <li>WEB UIの動作が軽快</li>
+  <li>スケールアウトが容易</li>
+</ul>
+
+<p>より詳しい情報は公式スライド <a href="http://slides.sensuapp.org">http://slides.sensuapp.org</a> を参照</p>
+
+<p>sensuと連携出来るサービスとしてスライドには下記の画像が載っている</p>
+
+<p><img src="http://slides.sensuapp.org/image/img/endpoints.png" alt="" /></p>
+
+<h2 id="section">導入前の検証、調査時のまとめ</h2>
+
+<ul>
+  <li>sensu repoを追加すれば、yum一発で導入出来る</li>
+  <li>sensuにはサーバとクライアントがある</li>
+  <li><code>erlang</code>、<code>RabbitMQ</code>、<code>redis</code>とgemの<code>sensu-plugin</code>が必要。クライアント側はredis必要無い</li>
+  <li>sensuは<code>sensu-server</code>、<code>sensu-api</code>、<code>sensu-dashboard</code>、<code>sensu-client</code>の4つから構成されている</li>
+  <li>Nagiosのようにサーバからクライアントに状態を聞きに行くのではなく、クライアント自身が自分を監視している</li>
+  <li>クライアント側で監視がこけたらサーバ側に<code>RabbitMQ</code>を使って、サーバ側に自身の異常を通知する</li>
+  <li>クライアントに設定ファイル、監視プラグインを渡して<code>sunsu-client</code>起動すれば監視が勝手に始まる。(極端な話<code>/etc/sensu</code>まるごとクライアントに渡せば良い)</li>
+  <li>サーバはクライアントを<code>RabbitMQ</code>で定期的に通信していて、通信断やホストダウンはサーバ側が検知する</li>
+  <li>クライアントが増えた場合は、<code>RabbitMQ</code>経由でサーバに通知してきて勝手に監視対象に追加される</li>
+  <li>クライアントを削除する場合は、api経由で監視対象から外す。(管理画面があるのでそれで監視対象を管理出来る)</li>
+  <li>設定ファイルはjson。手編集ではなく、chefやpuppetでの自動生成が推奨されている</li>
+  <li>sensu自体が、chef/puppetでの管理が推奨されている</li>
+  <li>Nagiosと比較して設定ファイルが分かりやすい(Chef/Puppetが生成してくれるので自分で書くことはないと思いますが)</li>
+  <li>apiがあるので、自前でツールを用意したりするのが楽そう。(後述する<code>sensu-admin</code>もapiを叩いているツール)</li>
+  <li>nrpe-pluginがそのまま使えるのでnagios時代の資産が使える。<code>/usr/lib/nagios/plugins/check_load -w 20,500,500 -c 35,500,500</code>とかをチェックコマンドとして設定すれば良い。</li>
+  <li>監視プラグインの書き方はnagiosと一緒。sensu-pluginも公開されてる <a href="https://github.com/sensu/sensu-plugin">https://github.com/sensu/sensu-plugin</a></li>
+  <li>通知プラグイン、アラートのトレンドをグラフ化してくれるプラグインなどもある。</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2013/11/sensu-diagram.png" alt="" /></p>
+
+<h2 id="section-1">導入、2ヶ月運用したまとめ</h2>
+
+<ul>
+  <li><a href="https://github.com/sensu/sensu-puppet">sensu-puppet</a>を動かすまでかなり苦労した(どうやらChefだと導入が簡単らしい)</li>
+  <li>日本語の情報がほとんどない。特に<code>sensu-puppet</code>は、英語のドキュメント自体ないのでmanifest読まないといけなくてかなりつらい</li>
+  <li><code>sensu-puppet</code>が動くようになると、設定ファイルを作ってくれるので一気に全台に導入出来るようになる。監視項目追加なども非常に楽になる</li>
+  <li>逆に言うとsensu-puppet(sensu-chef)を利用しない場合は、sensu採用する意味が薄い(と思う)</li>
+  <li><code>RabbitMQ</code>の管理には<a href="https://github.com/puppetlabs/puppetlabs-rabbitmq">puppetlabs-rabbitmq</a>を利用した</li>
+  <li>デフォルト管理画面の<code>sensu-dashboard</code>が簡素すぎる(設定項目が少ないので分かりやすいとも言えますが)</li>
+  <li>標準管理画面(<code>sensu-dashboard</code>)に機能追加した<a href="https://github.com/sensu/sensu-admin">sensu-admin</a>というのがあり、これを導入するとダウンタイムなどを設定出来るようになる。</li>
+  <li><code>sensu-admin</code>はRailsアプリなので、<code>nginx</code>+<code>unicorn</code>+<code>upstart</code>で上げてます。</li>
+  <li>sensuのプラグインだと足りないので、nrpe-pluginを結構使ってる。</li>
+  <li>ログもjsonで吐かれるので、<a href="http://stedolan.github.io/jq/">jq</a>を一緒に導入しておくのが良い</li>
+  <li><code>sensu-server</code>を再起動したタイミングで、<code>sensu-api</code>が死ぬことがある。なので<code>sensu-api</code>の監視必須</li>
+  <li><code>sensu-server</code>を再起動する必要がある場合は、<code>sensu-server</code>,<code>sensu-api</code>両方再起動しておくのが吉</li>
+  <li>IRCの通知プラグインが簡素過ぎたので、色が付くようにPR出してmergeしてもらった <a href="https://github.com/sensu/sensu-community-plugins/pull/329">colorize irc notification. by glidenote · Pull Request #329 · sensu/sensu-community-plugins</a></li>
+  <li>各種プラグインがRubyで書かれていて、それぞれのファイルが短いので理解しやすい。改変や自作も楽に出来る。(Ruby情弱の私でも出来た)</li>
+  <li>今Sensuで監視しているサーバは10台弱で、各サーバ8〜10個くらいの監視項目という小規模で利用していて、2ヶ月間トラブルもなく安定している</li>
+  <li>数百台と監視したときNagiosと同等の安定した動作がするかは調査中。</li>
+  <li>私がRabbitMQの扱いになれてないので、そこがトラブると調査が大変そうな予感…</li>
+</ul>
+
+<p>実際に稼働しているsensu-serverの<code>/etc/sensu</code>配下のファイル一覧。<code>.json</code>が設定ファイルで、<code>.rb</code>がプラグイン。sensu-puppetが設定ファイルを生成してくれるので、管理が非常に楽。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">/etc/sensu
+</span><span class="line">├── conf.d
+</span><span class="line">│   ├── api.json
+</span><span class="line">│   ├── checks
+</span><span class="line">│   │   ├── check_crond_process.json
+</span><span class="line">│   │   ├── check_disk.json
+</span><span class="line">│   │   ├── check_lb_health.json
+</span><span class="line">│   │   ├── check_load.json
+</span><span class="line">│   │   ├── check_mem.json
+</span><span class="line">│   │   ├── check_ntp_time.json
+</span><span class="line">│   │   ├── check_ReadOnly_FileSystem.json
+</span><span class="line">│   │   ├── check_sensu_api.json
+</span><span class="line">│   │   ├── check_serf_process.json
+</span><span class="line">│   │   ├── check_ssh_port_22.json
+</span><span class="line">│   │   └── check_ssl_expire.json
+</span><span class="line">│   ├── client.json
+</span><span class="line">│   ├── dashboard.json
+</span><span class="line">│   ├── handlers
+</span><span class="line">│   │   ├── default.json
+</span><span class="line">│   │   ├── irc.json
+</span><span class="line">│   │   ├── irc-server-op.json
+</span><span class="line">│   │   └── mailer.json
+</span><span class="line">│   ├── rabbitmq.json
+</span><span class="line">│   └── redis.json
+</span><span class="line">├── extensions
+</span><span class="line">├── handlers
+</span><span class="line">│   ├── irc.rb
+</span><span class="line">│   ├── irc-server-op.rb
+</span><span class="line">│   └── mailer.rb
+</span><span class="line">├── mutators
+</span><span class="line">├── plugins
+</span><span class="line">│   ├── check-fs-writable.rb
+</span><span class="line">│   ├── check-http.rb
+</span><span class="line">│   ├── check-load.rb
+</span><span class="line">│   ├── check_mem
+</span><span class="line">│   ├── check-memcached-stats.rb
+</span><span class="line">│   ├── check-procs.rb
+</span><span class="line">│   └── check-redis-memory.rb
+</span><span class="line">└── ssl
+</span><span class="line">    ├── client_cert.pem
+</span><span class="line">    └── client_key.pem
+</span><span class="line">
+</span><span class="line">8 directories, 32 files
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>実際に使っている管理画面。<code>sensu-dashboard</code>から<code>sensu-admin</code>に切り替えてサービスに投入してます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/11/sensu0.png" alt="" /></p>
+
+<p>アラートが出ると下記のような感じ。アラートが出たものだけ表示される。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/11/sensu1.png" alt="" /></p>
+
+<p>IRCには下記のような感じ(<a href="https://github.com/sensu/sensu-community-plugins/pull/329">私のPRがmerge</a>されて色が付くようになってます!)</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/10/after_weechat.png" alt="" /></p>
+
+<p>メールでは</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">ALERT - web001.glidenote.jp/check_php-fpm:
+</span><span class="line">
+</span><span class="line">PROCS CRITICAL: 0 processes with <span class="nb">command </span>name <span class="s1">&#39;php-fpm&#39;</span>
+</span><span class="line">
+</span><span class="line">            Host: web001.glidenote.jp
+</span><span class="line">            Timestamp: Wed Nov 20 11:35:51 +0900 2013
+</span><span class="line">            Address:  192.168.xxx.xxx
+</span><span class="line">            Check Name:  check_php-fpm
+</span><span class="line">            Command:  /usr/lib/nagios/plugins/check_procs -c 1: -C <span class="s2">&quot;php-fpm&quot;</span>
+</span><span class="line">            Status:  2
+</span><span class="line">            Occurrences:  2
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>みたいな感じで通知される。</p>
+
+<p>私が導入したときはVersion 0.9だったのが今はVersion 0.12になっており、ドキュメントの更新も結構活発なので、
+導入に関しては<a href="http://sensuapp.org/docs">公式ドキュメント</a>を読むのが良いと思います。</p>
+
+<h2 id="puppet">Puppetでの構築</h2>
+
+<p>実際に構築時に流しているコマンド、下記を流せば、Sensuでの監視が勝手に始まる。
+Serf-muninも使っているので、下記を流し終われば即サービスに投入も出来る。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">cat <span class="s">&lt;&lt; &#39;EOF&#39; &gt;/etc/yum.repos.d/epel.repo</span>
+</span><span class="line"><span class="s">[epel]</span>
+</span><span class="line"><span class="s">name=epel repo</span>
+</span><span class="line"><span class="s">#baseurl=http://download.fedoraproject.org/pub/epel/6/$basearch</span>
+</span><span class="line"><span class="s">mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=epel-6&amp;arch=$basearch</span>
+</span><span class="line"><span class="s">failovermethod=priority</span>
+</span><span class="line"><span class="s">enabled=1</span>
+</span><span class="line"><span class="s">gpgcheck=0</span>
+</span><span class="line"><span class="s">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6</span>
+</span><span class="line"><span class="s">EOF</span>
+</span><span class="line">
+</span><span class="line">yum -y install puppet
+</span><span class="line">
+</span><span class="line">cat <span class="s">&lt;&lt; &#39;EOF&#39; &gt; /etc/puppet/puppet.conf</span>
+</span><span class="line"><span class="s">[main]</span>
+</span><span class="line"><span class="s">ssldir = $vardir/ssl</span>
+</span><span class="line"><span class="s">rundir = /var/run/puppet</span>
+</span><span class="line"><span class="s">logdir = /var/log/puppet</span>
+</span><span class="line">
+</span><span class="line"><span class="s">[master]</span>
+</span><span class="line"><span class="s">environment = development</span>
+</span><span class="line"><span class="s">certname    = manage001.pb.glidenote.lan</span>
+</span><span class="line"><span class="s">manifestdir = $vardir/data/manifests</span>
+</span><span class="line"><span class="s">templatedir = $vardir/data/templates</span>
+</span><span class="line"><span class="s">modulepath  = $vardir/data/modules</span>
+</span><span class="line">
+</span><span class="line"><span class="s">[agent]</span>
+</span><span class="line"><span class="s">pluginsync = true</span>
+</span><span class="line"><span class="s">EOF</span>
+</span><span class="line">
+</span><span class="line"><span class="nb">echo</span> <span class="s2">&quot;172.18.xxx.xxx    manage001.pb.glidenote.lan&quot;</span> &gt;&gt; /etc/hosts
+</span><span class="line">
+</span><span class="line">yum -y install rubygems
+</span><span class="line">rpm -Uvh http://mirrors.kernel.org/fedora-epel/6/x86_64/rubygem-json-1.4.6-1.el6.x86_64.rpm
+</span><span class="line">
+</span><span class="line">puppet agent --test --server manage001.pb.glidenote.lan --noop
+</span><span class="line">puppet agent --test --server manage001.pb.glidenote.lan
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>SensuとともにSerf-muninを導入したこともあって、インスタンス起動して、
+Puppet流したら即サービス投入可能という、手間のかからない環境が出来上がった。</p>
+
+<p>数百台、数千台の監視になるとどうなるか分からないけど、今の規模では非常に安定しているし、
+Sensuの管理の簡単さを知るともうNagiosには戻りたくない。</p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://sensuapp.org/docs">Sensu | An open source monitoring framework</a></li>
+  <li><a href="http://jedipunkz.github.io/blog/2013/06/20/sensu-chef-controll/">sensu 監視システムを Chef で制御 - jedipunkz’ blog</a></li>
+  <li><a href="http://maoe.hatenadiary.jp/entry/2013/11/25/181037">sensuについて - maoeのブログ</a></li>
+  <li><a href="http://codezine.jp/article/detail/7442">【DevOpsDays Tokyo 2013】クラウド時代のモニタリングツール、UNIXの思想が息づくsensuチュートリアル　――Heavy Water Operations, LLC （1/3）：CodeZine</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/13/commands-for-trouble/">Webサーバのメンテナンス、トラブル調査に役に立つコマンド3選</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-13T09:01:00+09:00" pubdate data-updated="true">2013年11月13日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>メンテナンス、サーバのミドルウェア設定、障害対応のときに私がよく使っているコマンド。
+先週Webサーバを16台ほどリプレイスした際にも、使って挙動、確認作業をしてました。</p>
+
+<p>コレ系のコマンドは各人の秘伝のタレみたいになってて、他の人が教えてくれることが少ない気がして、
+新卒氏のインフラOJT用に専用の資料作ろうかと思ったけど、新卒氏以外でも知ってれば
+「よく分からんけど、動かないからインフラ担当者に聞く」みたいなことが
+減って自分で解決出来るのではないかと思うので書いておく。</p>
+
+<p>手元のmac、linuxから該当サーバに対して実行するコマンドで
+ちゃんと該当サーバが外部に向けてサービスが提供出来ているのか、
+要は外から確認するためのコマンドです。</p>
+
+<p>調査系のコマンドは</p>
+
+<ul>
+  <li><em>オプション、使い方が覚えやすい</em></li>
+  <li><em>手軽に使える</em></li>
+  <li><em>結果が見やすい、理解しやすい</em></li>
+</ul>
+
+<p>というのが重要だと思う。</p>
+
+<p>サーバの中で調査するなら</p>
+
+<ul>
+  <li><a href="http://blog.father.gedow.net/2012/10/23/linux-command-for-trouble/">原因調査用Linuxコマンド | 外道父の匠</a></li>
+</ul>
+
+<p>のコマンドを見た方が良いです。</p>
+
+<h3 id="ncnetcat">nc(netcat)</h3>
+
+<p>ポートが開いているか、デーモンが起動してリクエスト応答しているか確認。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">nc -vz github.com 80
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">nc -vz github.com 443
+</span><span class="line">Connection to github.com 443 port <span class="o">[</span>tcp/https<span class="o">]</span> succeeded!
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>今よく触ってるSerfは7946ポートを使うので、他のサーバから下記で接続確認。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">nc -vz manage001.hogemoge.lan 7946
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>アラートが来たら、とりあえずnc叩けば
+接続過多で駄目なのか、そもそもミドルウェアが落ちてるのかとか
+サーバ入る前にだいたい検討付くので初動を間違えずに済む。</p>
+
+<p>普段やること無いですが、一応下記みたいな感じでポートスキャンも出来る。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">nc -vz hogemoge.com 1-1023
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>最近はtelnetをサーバに入れてないことが多いけど、ncが入ってれば
+telnetと同様な感じでも利用出来るので、ヘッダをリクエストしたり</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">nc www.google.com 80 <span class="s">&lt;&lt; EOF</span>
+</span><span class="line"><span class="s">HEAD / HTTP/1.0</span>
+</span><span class="line">
+</span><span class="line"><span class="s">EOF</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>たとえばmunin-nodeが動作しているか確認する場合は、下記みたいに出来る。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="o">[</span>root@manage001 ~<span class="o">]</span><span class="c"># nc manage001.hogemoge.jp 4949</span>
+</span><span class="line"><span class="c"># munin node at manage001.hogemoge.jp</span>
+</span><span class="line">list
+</span><span class="line">cpu df df_abs df_inode entropy forks fw_conntrack fw_forwarded_local fw_packets if_err_eth0 if_err_eth1 if_eth0 if_eth1 interrupts irqstats load memory munin_stats netstat ntp_kernel_err ntp_kernel_pll_freq ntp_kernel_pll_off ntp_offset ntp_states open_files open_inodes postfix_mailqueue postfix_mailvolume proc_pri processes swap threads uptime users vmstat
+</span><span class="line">fetch memory
+</span><span class="line">slab.value 189231104
+</span><span class="line">swap_cache.value 0
+</span><span class="line">page_tables.value 6995968
+</span><span class="line">vmalloc_used.value 119119872
+</span><span class="line">apps.value 936333312
+</span><span class="line">free.value 676610048
+</span><span class="line">buffers.value 247578624
+</span><span class="line">cached.value 1336840192
+</span><span class="line">swap.value 0
+</span><span class="line">committed.value 885620736
+</span><span class="line">mapped.value 31141888
+</span><span class="line">active.value 1401610240
+</span><span class="line">inactive.value 658358272
+</span><span class="line">.
+</span><span class="line">quit
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>通常は接続元IPを制限してると思うので、許可されているIPと許可されていないIPの二つから確認して、
+設定がちゃんと出来てるとかの確認もしてます。</p>
+
+<h2 id="host">host</h2>
+
+<p>サーバの<code>/etc/resolv.conf</code>で設定して参照しているDNSサーバ、Google Public DNSとかとの結果を比較をして、
+おかしなDNS情報を持ってないか確認したりするのに使ってます。</p>
+
+<p>DNSサーバを指定しない場合は、<code>/etc/resolv.conf</code>に設定してあるDNSサーバを利用。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">host -a github.com
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Google Public DNSを参照</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">host -a github.com 8.8.8.8
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>dnsmasqとか使ってると古い情報をキャッシュしてたりするので、<code>host</code>コマンドを使うとすぐ分かる。</p>
+
+<p><a href="https://www.amazon.co.jp/%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AE%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86%E8%A1%93-Thomas-Limoncelli/dp/4873113075?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4873113075">エンジニアのための時間管理術</a> から引用で</p>
+
+<blockquote>
+  <ul>
+    <li>奇妙な問題は DNS の設定ミスが原因していることが多い</li>
+  </ul>
+
+  <p>DNS は多くのサブシステムにとって致命的な影響を与え、しばしば、問題を 別の問題であるかのように見せかけ、その問題を覆い隠してしまう傾向がある。 これに該当するのは、DNS サーバーにアクセスできないクライアント、無効 な DNS データが設定されたホスト、または無効な DNS データが設定された ホストにアクセスしようとするクライアントである。</p>
+</blockquote>
+
+<p>私の経験上でも、意味不明なトラブルはDNS周りが起因していることが多いので、早めに<code>host</code>と<code>dig</code>でDNS周りの調査をします。</p>
+
+<h2 id="http-httpie">http (httpie)</h2>
+
+<p>最近はnginxのプロキシ、リプロシキ、ngx_luaの設定ばっか触ってるので、httpieで挙動確認、設定確認をしてます。</p>
+
+<p>CentOS6では下記のように導入。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">yum -y install python-pip
+</span><span class="line">pip install httpie
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Macの場合はhomebrew利用して<a href="https://gist.github.com/BlakeGardner/5586954">ここ</a>を参考に下記みたいな感じで導入。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">brew install python
+</span><span class="line"><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>/usr/local/share/python:<span class="nv">$PATH</span>
+</span><span class="line">pip install httpie
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>curl</code>でも同じ事が出来るんですが、<code>curl</code>は人間に優しくないというか
+私がオプションを全く覚えることが出来ないので、こちらを多用してます。
+httpieだけでは足りないので、もちろん<code>curl</code>も重宝してます。</p>
+
+<p>下記の例はヘッダを見てるだけだけど、色が付くだけで見やすくなる。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/11/httpie0.jpg" alt="" /></p>
+
+<p>ヘッダの確認</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">http -h httpbin.org
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>basic認証の確認</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">http -a hoge https://httpbin.org/basic-auth
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>リダイレクトの確認</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">http --follow google.co.jp
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>GETのテスト。defaultがGETなので、GETの場合はmethod指定しなくても良い。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">http GET httpbin.org/get
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>PUTのテスト</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">http PUT httpbin.org/put <span class="nv">name</span><span class="o">=</span>hoge <span class="nv">key</span><span class="o">=</span>value
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>と例を挙げたらキリがないんですが、ApacheやNginxの動作、設定確認なので、
+普段はだいたい上記みたいな感じで使ってます。</p>
+
+<p>ちなみに<a href="http://httpbin.org/">http://httpbin.org/</a>を利用するとhttpieの使い方が覚えるのに便利で、
+<a href="https://httpbin.org">https://httpbin.org/</a>もあるので、ssl系のテストも出来る。</p>
+
+<p>httpieのzsh補完関数は先日pull req出して、zsh-completionsにmergeされているので、httpieご利用の方はご活用ください。</p>
+
+<p><a href="https://github.com/zsh-users/zsh-completions/pull/184">add httpie completion by glidenote · Pull Request #184 · zsh-users/zsh-completions</a></p>
+
+<p>他にも調査用のコマンドはありますが、<code>nc</code>,<code>host</code>,<code>httpie</code>を使いこなせれば、
+サーバ入る前にある程度の事が判断ついて、いろいろと捗ると思う。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/06/serf-munin/">serf-muninを導入してmunin-nodeの監視追加、削除を自動化した</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-06T20:12:00+09:00" pubdate data-updated="true">2013年11月06日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://blog.glidenote.com/blog/2013/10/30/serf-haproxy/">前回の続き</a>で<a href="http://www.serfdom.io/">Serf</a>を触ってる。前回のエントリを見て、<a href="https://twitter.com/zembutsu">@zembutsuさん</a>が作ってくれた<a href="https://github.com/zembutsu/serf-munin">serf-munin</a>が素晴らしかったので、弊社仕様に若干修正して導入した。</p>
+
+<ul>
+  <li><a href="http://pocketstudio.jp/log3/2013/11/01/serf-munin-eventhander-auto-monitorin/">serf-muninでmunin-nodeの監視自動追加/削除 | Pocketstudio.jp log3</a></li>
+</ul>
+
+<p>Serf-muninが自動生成、削除するファイルは<code>/etc/munin/conf.d/</code>配下で、
+既存のmunin環境(<code>/etc/munin/munin.conf</code>とか)を壊すことがないと思うので、すぐに試すことが出来ると思う。</p>
+
+<p>導入環境は</p>
+
+<ul>
+  <li>CentOS 6.4</li>
+  <li>Serf 0.2.0</li>
+  <li>munin-2.0.17</li>
+</ul>
+
+<p>で、Serfの起動コマンドや生成されるmuninのconfの関係上、Serf 0.2.0とmunin 2.0以上は必須条件になります。</p>
+
+<h2 id="serf-munin">serf-muninの仕組みの説明</h2>
+
+<h3 id="web-server1muninserf-join">1. web server1がmuninサーバと同じクラスタにserf joinしてくる</h3>
+
+<p><img src="https://blog.glidenote.com/images/2013/11/serfmunin0.png" alt="" /></p>
+
+<h3 id="web-server1joinmember-join">2. Web server1がクラスタにjoinしてきたので、member-joinイベントが発生</h3>
+<p><img src="https://blog.glidenote.com/images/2013/11/serfmunin1.png" alt="" /></p>
+
+<ol>
+  <li>muninサーバで<code>member-join</code>イベントで指定しているスクリプトが実行される</li>
+  <li>muninサーバの<code>/etc/munin/conf.d/web001.foobar.conf</code>という設定ファイルが追加され、ポーリング対象のサーバが追加される。</li>
+  <li>Web Serve1がmuninのグラフに追加される</li>
+</ol>
+
+<h3 id="db-server1joinmember-join">3. DB server1がクラスタにjoinしてきたので、member-joinイベントが発生</h3>
+<p><img src="https://blog.glidenote.com/images/2013/11/serfmunin2.png" alt="" /></p>
+
+<ol>
+  <li>muninサーバで<code>member-join</code>イベントで指定しているスクリプトが実行される</li>
+  <li>muninサーバの<code>/etc/munin/conf.d/db001.foobar.conf</code>という設定ファイルが追加され、ポーリング対象のサーバが追加される。</li>
+  <li>DB Serve1がmuninのグラフに追加される</li>
+</ol>
+
+<h3 id="web-server1member-leave">4. Web server1が突然の死。member-leaveイベントが発生</h3>
+<p><img src="https://blog.glidenote.com/images/2013/11/serfmunin3.png" alt="" /></p>
+
+<ol>
+  <li>muninサーバで<code>member-leave</code>イベントで指定しているスクリプトが実行される</li>
+  <li>muninサーバの<code>/etc/munin/conf.d/web001.foobar.conf</code>という設定ファイルが削除され、ポーリング対象のサーバから削除される。</li>
+  <li>Web Server1がmuninのグラフから削除される</li>
+</ol>
+
+<p>もしWeb Server1が復活したら、勝手にクラスタに参加してくるので、再度ポーリング先に自動追加される。</p>
+
+<h2 id="section">実際の設定</h2>
+
+<h3 id="munin">muninサーバ側の設定</h3>
+
+<p><code>SERF_ROLE</code>はmuninのconf内でgroupに利用するために設定してます。
+muninサーバには<code>manage</code>というroleを設定してます。</p>
+
+<p>作業の流れは</p>
+
+<ol>
+  <li>Serfをダウンロードして、<code>/usr/local/bin/serf</code>に設置</li>
+  <li>自動生成されるconf用ディレクトリ<code>/etc/munin/conf.d</code>を作成</li>
+  <li>serf join/leaveイベント発生時に実行されるスクリプト<code>serf-munin.sh</code>を作成し、設置</li>
+  <li>Serfの起動スクリプトを作成</li>
+  <li>Serfの起動</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">export </span><span class="nv">SERF_ROLE</span><span class="o">=</span>manage
+</span><span class="line">sudo yum install -y unzip
+</span><span class="line">
+</span><span class="line"><span class="nb">cd</span> /tmp/
+</span><span class="line"><span class="k">until </span>wget -O serf.zip https://dl.bintray.com/mitchellh/serf/0.2.0_linux_amd64.zip; <span class="k">do</span>
+</span><span class="line"><span class="k">  </span>sleep 1
+</span><span class="line"><span class="k">done</span>
+</span><span class="line">unzip serf.zip
+</span><span class="line">sudo mv serf /usr/local/bin/serf
+</span><span class="line">rm serf.zip
+</span><span class="line">
+</span><span class="line">sudo mkdir -p /etc/munin/conf.d/
+</span><span class="line">
+</span><span class="line"><span class="c"># create serf-munin.sh</span>
+</span><span class="line">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt;/tmp/serf-munin.sh</span>
+</span><span class="line"><span class="s">#!/bin/sh</span>
+</span><span class="line">
+</span><span class="line"><span class="s">while read line</span>
+</span><span class="line"><span class="s">do</span>
+</span><span class="line"><span class="s">  echo ${line}</span>
+</span><span class="line"><span class="s">    HOSTNAME=`echo ${line} | cut -d &#39; &#39; -f 1`</span>
+</span><span class="line"><span class="s">    ADDRESS=`echo ${line} | cut -d &#39; &#39; -f 2`</span>
+</span><span class="line"><span class="s">    GROUP=`echo ${line} | cut -d &#39; &#39; -f 3`</span>
+</span><span class="line">
+</span><span class="line"><span class="s">    case ${SERF_EVENT} in</span>
+</span><span class="line"><span class="s">    &quot;member-join&quot;)</span>
+</span><span class="line"><span class="s">      cat &lt;&lt; __EOF</span>__ &gt; <span class="s2">&quot;/etc/munin/conf.d/${HOSTNAME}.conf&quot;</span>
+</span><span class="line"><span class="o">[</span><span class="k">${</span><span class="nv">GROUP</span><span class="k">}</span>;<span class="k">${</span><span class="nv">HOSTNAME</span><span class="k">}</span><span class="o">]</span>
+</span><span class="line">    address <span class="k">${</span><span class="nv">ADDRESS</span><span class="k">}</span>
+</span><span class="line">    use_node_name yes
+</span><span class="line">__EOF__
+</span><span class="line">;;
+</span><span class="line">    <span class="s2">&quot;member-leave&quot;</span> | <span class="s2">&quot;member-failed&quot;</span><span class="o">)</span>
+</span><span class="line">      rm -f /etc/munin/conf.d/<span class="k">${</span><span class="nv">HOSTNAME</span><span class="k">}</span>.conf;;
+</span><span class="line">    <span class="se">\?</span><span class="o">)</span>
+</span><span class="line">      <span class="nb">echo</span> <span class="s2">&quot;other&quot;</span>;;
+</span><span class="line">    <span class="k">esac</span>
+</span><span class="line"><span class="k">    </span><span class="nb">break</span>
+</span><span class="line"><span class="k">done </span>
+</span><span class="line">
+</span><span class="line"><span class="nb">exit </span>0
+</span><span class="line">EOF
+</span><span class="line">
+</span><span class="line">sudo mv /tmp/serf-munin.sh /usr/local/bin/serf-munin.sh
+</span><span class="line">sudo chmod 755 /usr/local/bin/serf-munin.sh
+</span><span class="line">
+</span><span class="line"><span class="c"># Configure the agent</span>
+</span><span class="line">cat <span class="s">&lt;&lt;EOF &gt;/tmp/agent.conf</span>
+</span><span class="line"><span class="s">description &quot;Serf agent&quot;</span>
+</span><span class="line">
+</span><span class="line"><span class="s">start on runlevel [2345]</span>
+</span><span class="line"><span class="s">stop on runlevel [!2345]</span>
+</span><span class="line">
+</span><span class="line"><span class="s">exec /usr/local/bin/serf agent \\</span>
+</span><span class="line"><span class="s">  -event-handler=&quot;/usr/local/bin/serf-munin.sh&quot; \\</span>
+</span><span class="line"><span class="s">  -role=${SERF_ROLE} &gt;&gt;/var/log/serf.log 2&gt;&amp;1</span>
+</span><span class="line"><span class="s">EOF</span>
+</span><span class="line">sudo mv /tmp/agent.conf /etc/init/serf.conf
+</span><span class="line">
+</span><span class="line"><span class="c"># Start the agent!</span>
+</span><span class="line">sudo start serf
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>この状態で既に<code>/etc/munin/conf.d/${HOSTNAME}.conf</code>というファイルが出来上がって、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="o">[</span>manage;manage001.foobar.com<span class="o">]</span>
+</span><span class="line">    address 127.0.0.1
+</span><span class="line">    use_node_name yes
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>というような内容になっている。</p>
+
+<h3 id="munin-node">munin-node側の設定</h3>
+
+<p><code>MUNIN_SERVER</code>にmuninサーバのIPもしくはfqdnを設定。<code>MUNIN_SERVER</code>で指定したサーバに
+<code>serf join</code>しに行きます。
+<code>SERF_ROLE</code>はmuninのconf内でgroupに利用するために設定してます。
+例では<code>web</code>というroleを設定しており、実環境でも<code>web</code>、<code>db</code>、<code>backup</code>などとroleを設定してます。</p>
+
+<p>作業の流れは</p>
+
+<ol>
+  <li>Serfをダウンロードして、<code>/usr/local/bin/serf</code>に設置</li>
+  <li>Serfの起動スクリプトを作成</li>
+  <li>Serfの起動</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">export </span><span class="nv">MUNIN_SERVER</span><span class="o">=</span>192.168.100.100
+</span><span class="line"><span class="nb">export </span><span class="nv">SERF_ROLE</span><span class="o">=</span>web
+</span><span class="line">
+</span><span class="line">sudo yum install -y unzip
+</span><span class="line">
+</span><span class="line"><span class="c"># Download and install Serf</span>
+</span><span class="line"><span class="nb">cd</span> /tmp
+</span><span class="line"><span class="k">until </span>wget -O serf.zip https://dl.bintray.com/mitchellh/serf/0.2.0_linux_amd64.zip; <span class="k">do</span>
+</span><span class="line"><span class="k">  </span>sleep 1
+</span><span class="line"><span class="k">done</span>
+</span><span class="line">unzip serf.zip
+</span><span class="line">sudo mv serf /usr/local/bin/serf
+</span><span class="line">rm serf.zip
+</span><span class="line">
+</span><span class="line"><span class="c"># Configure the agent</span>
+</span><span class="line">cat <span class="s">&lt;&lt;EOF &gt;/tmp/agent.conf</span>
+</span><span class="line"><span class="s">description &quot;Serf agent&quot;</span>
+</span><span class="line">
+</span><span class="line"><span class="s">start on runlevel [2345]</span>
+</span><span class="line"><span class="s">stop on runlevel [!2345]</span>
+</span><span class="line">
+</span><span class="line"><span class="s">exec /usr/local/bin/serf agent \\</span>
+</span><span class="line"><span class="s">  -join=${MUNIN_SERVER} \\</span>
+</span><span class="line"><span class="s">  -role=${SERF_ROLE} &gt;&gt;/var/log/serf.log 2&gt;&amp;1</span>
+</span><span class="line"><span class="s">EOF</span>
+</span><span class="line">sudo mv /tmp/agent.conf /etc/init/serf.conf
+</span><span class="line">
+</span><span class="line"><span class="c"># Start the agent!</span>
+</span><span class="line">sudo start serf
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>この状態で既に<code>/etc/munin/conf.d/${HOSTNAME}.conf</code>というファイルが出来上がって、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="o">[</span>web;web001.foobar.com<span class="o">]</span>
+</span><span class="line">    address 172.18.100.109
+</span><span class="line">    use_node_name yes
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>というような内容になっていて、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo stop serf
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>でSerfと止めると、confが削除されるのが分かる。</p>
+
+<p>Serf 0.2.0になって、<code>serf agent join="IP"</code>みたいなことが出来るようになっていて起動スクリプトもシンプルになった。
+やってることは非常に単純でSerfの設置、スクリプト設置だけなのでpuppet化も非常に楽。</p>
+
+<p>Serf 0.2.0の変更点は@zembutsuさんのブログが非常に参考になります。素晴らしいエントリ!!</p>
+
+<ul>
+  <li><a href="http://pocketstudio.jp/log3/2013/11/02/serf-version-0-2-0/">【Serf】v0.2.0 へのバージョンアップと、変わった所を確認してみた | Pocketstudio.jp log3</a></li>
+</ul>
+
+<p>担当しているサービス用にインストール用のwrapperスクリプトを公開しているので、参考にどうぞ。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/serf-munin-setup">glidenote/serf-munin-setup</a></li>
+</ul>
+
+<p>Serf 0.2.0から暗号化も可能になったので、これでサーバ起動して、Puppet流せば、
+新規サーバのmuninグラフが勝手に出来上がる仕組みが出来上がった。</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://pocketstudio.jp/log3/2013/11/01/serf-munin-eventhander-auto-monitorin/">serf-muninでmunin-nodeの監視自動追加/削除 | Pocketstudio.jp log3</a></li>
+  <li><a href="http://pocketstudio.jp/log3/2013/11/02/serf-version-0-2-0/">【Serf】v0.2.0 へのバージョンアップと、変わった所を確認してみた | Pocketstudio.jp log3</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/30/serf-haproxy/">Serf+HAProxyで作るAutomatic Load Balancer</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-30T23:16:00+09:00" pubdate data-updated="true">2013年10月30日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+  <li><a href="https://github.com/hashicorp/serf">hashicorp/serf</a></li>
+  <li><a href="http://www.serfdom.io/">Serf</a></li>
+</ul>
+
+<p><a href="http://www.serfdom.io/">Serf</a>使ってますか！サーフ！</p>
+
+<p>諸事情というか大人の事情で急遽自前でロードバランサを用意しないといけなくて、それをissueに書いてたら、
+あんちぽさんが<a href="https://github.com/hashicorp/serf/tree/master/demo/web-load-balancer">Serf+HAProxy</a>使ったらいいのでは、
+とIRCで助言をくれて、同日の<a href="http://mizzy.org/blog/2013/10/29/1/">mizzyさんのブログ</a>でもSerfに言及していたので、
+ちょっとSerfの概要を知るためと、<code>Serf+HAProxy</code>が実際ロードバランサとしてどんな感じに使えるのか検証してみた。</p>
+
+<blockquote class="twitter-tweet"><p>I told <a href="https://twitter.com/glidenote">@glidenote</a> about a combination of Serf and HAProxy this morning, and he has already implemented the arch. and done investigation&#8230;</p>&mdash; kentaro (@kentaro) <a href="https://twitter.com/kentaro/statuses/395150350899884032">October 29, 2013</a></blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Serfは新しいプロダクトだし、公式でSerf+HAProxyをDemoと言って紹介してるけど、ドキュメントが少なくて、
+どうすれば動くのか、どういう仕組みなのか理解に苦労したので先に概要をちょっとまとめてみる。</p>
+
+<h2 id="serf--haproxy">Serf + HAProxyの概要</h2>
+
+<ul>
+  <li>Serfは全てのサーバで動かす必要がある。</li>
+  <li>クラスタという概念があって、各サーバ(ノード)で動いているSerfがクラスタにjoin/leaveすることが出来る。</li>
+  <li>クラスタに参加している、ノード同士が相互通信をしていて、クラスタへのjoin/leaveするノードを検知している</li>
+  <li>ノードがクラスタにjoin/leaveするとイベントが発生して、事前に設定したスクリプトを走らせることが出来る。
+ 今回の例だとロードバランサ側で<code>/etc/haproxy/haproxy.cfg</code>の修正スクリプトが走って、バランシング先のWEBサーバを自動で追加、除外してくれる。</li>
+</ul>
+
+<p><strong>2013年10月31日 19:00 修正</strong><br />
+HAProxyの再起動と書いてましたが、正しくは<code>/etc/init.d/haproxy reload</code>なので、設定再読込でした。</p>
+
+<h3 id="web-server1join">1.ロードバランサのクラスタにweb server1がjoin</h3>
+
+<p><img src="https://blog.glidenote.com/images/2013/10/serfhaproxy0.png" alt="" /></p>
+
+<h3 id="web-server1joinmember-join">2.Web server1がクラスタにjoinしてきたので、member-joinイベントが発生</h3>
+
+<p><img src="https://blog.glidenote.com/images/2013/10/serfhaproxy1.png" alt="" /></p>
+
+<ol>
+  <li>ロードバランサで<code>member-join</code>イベントで指定しているスクリプトが実行される</li>
+  <li>ロードバランサの<code>/etc/haproxy/haproxy.cfg</code>の書き換え、HAProxyの設定再読込がかかり、Web Server1がバランシング先に追加される。</li>
+  <li>Web Serve1にアクセスが流れるようになる</li>
+</ol>
+
+<h3 id="web-server2joinmember-join">3.Web server2がクラスタにjoinしてきたので、member-joinイベントが発生</h3>
+
+<p><img src="https://blog.glidenote.com/images/2013/10/serfhaproxy2.png" alt="" /></p>
+
+<ol>
+  <li>ロードバランサで<code>member-join</code>イベントで指定しているスクリプトが実行される</li>
+  <li>ロードバランサの<code>/etc/haproxy/haproxy.cfg</code>の書き換え、HAProxyの設定再読込がかかり、Web Server2がバランシング先に追加される。</li>
+  <li>Web Serve1とWeb Server2にアクセスが流れるようになる</li>
+</ol>
+
+<h3 id="web-server1member-leave">4.Web server1が突然の死。member-leaveイベントが発生</h3>
+
+<p><img src="https://blog.glidenote.com/images/2013/10/serfhaproxy3.png" alt="" /></p>
+
+<ol>
+  <li>ロードバランサで<code>member-leave</code>イベントで指定しているスクリプトが実行される</li>
+  <li>ロードバランサの<code>/etc/haproxy/haproxy.cfg</code>の書き換え、HAProxyの設定再読込がかかり、Web Server1がバランシング先から除外</li>
+  <li>Web Server2だけアクセスが流れるようになる</li>
+</ol>
+
+<p>もしWeb Server1が復活したら、勝手にクラスタに参加してくるので、再度バランシング先に自動追加される。</p>
+
+<h2 id="serfhaproxy">Serf+HAProxyのまとめ</h2>
+
+<ul>
+  <li>Webサーバの増減に伴って設定ファイル書き換え、commit、push、deployして、HAProxyのreloadとかする必要ない。</li>
+  <li>Webサーバの増減をロードバランサが自動で検知してバランシング先に追加、除外を自動でしてくれる。</li>
+  <li>Puppet(Chef)でSerf+HAProxyの設定をしておけば、インスタンス起動してPuppet(Chef)流せば勝手にサービスに投入される</li>
+</ul>
+
+<p>公式だと<code>apt-get</code>でCentOSで動かなかったり、apache勝手に入れてきたり、クラスタに参加出来なかったり
+動くようになるまでなかなかつらかったので、CentOSでとりあえず動くものをGitHubに公開しておきましたので参考にどうぞ。
+ローカルLAN用のeth1が無いと使えなかったり、私も触って1日なので、よく分かってない部分が多くて改良の余地が大いにありますが。
+<a href="http://rubygems.org/gems/facter">facter</a>を組み合わせれば、自分自身の情報を他のノードに伝える事が簡単にできると思う。</p>
+
+<p><code>http://LP_IP:9999/</code>にアクセスするとHAProxyの状態が確認出来て、自動でバランシング先が変化するのが確認出来る。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/10/serfhaproxy5.png" alt="" /></p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/serf-web-load-balancer">glidenote/serf-web-load-balancer</a></li>
+</ul>
+
+<p>あんちぽさんも<code>/etc/hosts</code>を自動で書き換えるものを作っていたので、勉強になります。</p>
+
+<ul>
+  <li><a href="https://github.com/kentaro/serf-hosts">kentaro/serf-hosts</a></li>
+</ul>
+
+<p>想定される使いどころとして、すぐ思い浮かぶのがnagiosとかmuninとかサーバ増えるたびに設定ファイル修正が必要なので、Serf使いどころだと思う。
+サーバの増減とかに伴って、ファイル修正が必要な部分はSerf使えば解決するはず。</p>
+
+<p>Serfはドキュメントも読み切れてないので引き続きいろいろと検証を続けてる。</p>
+
+<p>Nagiosから脱却すべく最近使い始めた<a href="http://sensuapp.org/">Sensu</a>も、サーバの増減を自動で検知して勝手に監視が始まるので、
+従来の<code>サーバ増やした（減らした)</code> =&gt; <code>設定ファイル修正commit、push、deploy</code> みたいな作業は今後無くなっていくんだろうな-。</p>
+
+<p>Nagiosに代わるであろう監視ソフト<a href="http://sensuapp.org/">Sensu</a>についても、頑張って検証しているので機会があればブログに書こうと思う。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.kentarok.org/entry/2013/10/30/020120">Automatic <code>/etc/hosts</code> management with Serf - delirious thoughts</a></li>
+  <li><a href="https://github.com/kentaro/serf-hosts">kentaro/serf-hosts</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/26/bg-and-disown/">うっかりnohup無しで長時間かかるコマンドを実行したときに後から終了しないようにする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-26T20:50:00+09:00" pubdate data-updated="true">2013年09月26日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>すぐ終わるかと思って、<code>nohup</code>も<code>tmux</code>も無しで
+実行したら全然終わらなくて帰れなくなって久々にググってやったのでメモ。</p>
+
+<p>定時前に数分で終わると思ったrpm作成で下記みたいなことを実行して、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">rpmbuild -ba hoge.spec
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>いつまで経っても終わらないから帰れない…
+途中で終了してしまうと困るので、ログアウトしても終了しないように。</p>
+
+<p>作業の流れ</p>
+
+<ol>
+  <li><code>Ctrl+Z</code>でコマンドの中断</li>
+  <li><code>bg</code>でバックグラウンドに回す</li>
+  <li><code>jobs</code>でジョブの確認</li>
+  <li><code>disown</code>でログアウトしても実行されるようにする</li>
+</ol>
+
+<p>実際のコマンドだと</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">rpmbuild -ba hoge.spec
+</span><span class="line"><span class="c"># Ctrl+Zで中断</span>
+</span><span class="line"><span class="nb">bg </span>1
+</span><span class="line"><span class="nb">jobs </span>1
+</span><span class="line"><span class="nb">disown</span> %1
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>で帰れる。</p>
+
+<p><code>nohup</code>と<code>disown</code>の違いは</p>
+
+<ul>
+  <li><code>nohup</code>:コマンドをハングアップシグナル無視で実行させる。</li>
+  <li><code>disown</code>:nohupをつけ忘れた時、途中からバックグラウンドでの実行へ切り替える</li>
+</ul>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/puriketu99/items/16e6a2799d0946cb59cf">Linux - バックグラウンド実行nohupとdisownの違い - Qiita [キータ]</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/12/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/10/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

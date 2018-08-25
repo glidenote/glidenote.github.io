@@ -1,0 +1,787 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Glide Note</title>
+  <meta property="og:title" content="Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="以前にSheetというスニペットツールを利用すると大変便利と書いた。 CUIなスニペットツールsheetが便利なのでzshでsheetファイルを補完 - Glide Note - グライドノート で、障害対応で使うコマンドとかよく忘れるコマンドを大量に登録してて、毎日使ってて重宝してるんですが、 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/page/6/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/page/6">
+<meta name="twitter:title" content="Glide Note">
+<meta name="twitter:description" content="以前にSheetというスニペットツールを利用すると大変便利と書いた。 CUIなスニペットツールsheetが便利なのでzshでsheetファイルを補完 - Glide Note - グライドノート で、障害対応で使うコマンドとかよく忘れるコマンドを大量に登録してて、毎日使ってて重宝してるんですが、スニペットが
+増えると管理が破綻する問題があって、 &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/26/snippets-peco-percol/">peco/percolでCUIなスニペットツールを作ってみる</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-26T13:00:00+09:00" pubdate data-updated="true">2014年06月26日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>以前に<a href="http://oscardelben.com/sheet/">Sheet</a>というスニペットツールを利用すると大変便利と書いた。</p>
+
+<ul>
+  <li><a href="https://blog.glidenote.com/blog/2012/04/16/sheet/">CUIなスニペットツールsheetが便利なのでzshでsheetファイルを補完 - Glide Note - グライドノート</a></li>
+</ul>
+
+<p>で、障害対応で使うコマンドとかよく忘れるコマンドを大量に登録してて、毎日使ってて重宝してるんですが、スニペットが
+増えると管理が破綻する問題があって、<a href="https://github.com/peco/peco">peco</a>や<a href="https://github.com/mooz/percol">percol</a>を使えば解決出来そうと思ってやってみた。</p>
+
+<h2 id="section">仕組み</h2>
+
+<ul>
+  <li>snippets用のファイル or <code>sheet</code>のスニペットファイルをpeco/percolで絞りこんで、クリップボードに送ったりして簡単に利用できるようにする</li>
+</ul>
+
+<h3 id="section-1">よく使うコマンドのスニペットファイルを用意</h3>
+
+<p>sheetの資産をそのまま利用も出来るんですが、今回は下記のような感じでファイルを<code>~/.snippets</code>で用意。私が使ってるやつから一部抜粋。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="c"># apache</span>
+</span><span class="line">tail -n 5000 /usr/local/apache2/logs/access_log | awk <span class="s1">&#39;{print $1}&#39;</span>  | sort | uniq -c | sort -gr | head -n 4
+</span><span class="line">tail -n 5000 /usr/local/apache2/logs/access_log | awk <span class="s1">&#39;{print $2}&#39;</span>  | sort | uniq -c | sort -gr | head -n 4
+</span><span class="line">tail -n 5000 /usr/local/apache2/logs/access_log | awk <span class="s1">&#39;{print $12}&#39;</span> | sort | uniq -c | sort -gr | head -n 4
+</span><span class="line">tail -n 5000 /usr/local/apache2/logs/access_log | awk <span class="s1">&#39;{print $13}&#39;</span> | sort | uniq -c | sort -gr | head -n 4
+</span><span class="line">
+</span><span class="line"><span class="c"># search</span>
+</span><span class="line">netstat -ltapn | grep ESTABLISHED | more
+</span><span class="line">netstat -ltan | grep <span class="s2">&quot;:80 &quot;</span> | awk <span class="s1">&#39;{print $5}&#39;</span> | awk -F : <span class="s1">&#39;{print $4}&#39;</span> | sort | uniq -c | sort -nr | head
+</span><span class="line">lsof -i:80
+</span><span class="line">
+</span><span class="line"><span class="c"># dstat</span>
+</span><span class="line">dstat -Tclmdrn
+</span><span class="line">dstat -Tclm
+</span><span class="line">dstat -Tclr
+</span><span class="line">dstat -Tclnd
+</span><span class="line">dstat -Tcldr
+</span><span class="line">dstat --top-cpu --top-cputime
+</span><span class="line">dstat --top-io --top-bio
+</span><span class="line">dstat --top-io-adv --top-bio-adv
+</span><span class="line">
+</span><span class="line"><span class="c"># openssl</span>
+</span><span class="line">openssl x509 -noout -modulus -in *.crt | openssl md5
+</span><span class="line">openssl rsa  -noout -modulus -in *.key | openssl md5
+</span><span class="line">openssl req  -noout -modulus -in *.csr | openssl md5
+</span><span class="line">
+</span><span class="line"><span class="c"># find</span>
+</span><span class="line">find ./ -daystart -ctime +2
+</span><span class="line">find ./ -daystart -ctime -2
+</span><span class="line">
+</span><span class="line"><span class="c"># date</span>
+</span><span class="line">date +%Y%m%d
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="pecopercol">peco/percol経由で利用出来るようにする</h2>
+
+<p>下記のようなのを、<code>.zshrc</code>に記載するか、<code>peco-snippets.zsh</code>とかでファイルを作成して<code>source</code>して読み込む</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="k">function </span>peco-snippets<span class="o">()</span> <span class="o">{</span>
+</span><span class="line">
+</span><span class="line">    <span class="nb">local </span><span class="nv">SNIPPETS</span><span class="o">=</span><span class="k">$(</span>grep -v <span class="s2">&quot;^#&quot;</span> ~/.snippets | peco --query <span class="s2">&quot;$LBUFFER&quot;</span> | pbcopy<span class="k">)</span>
+</span><span class="line">    zle clear-screen
+</span><span class="line"><span class="o">}</span>
+</span><span class="line">
+</span><span class="line">zle -N peco-snippets
+</span><span class="line">bindkey <span class="s1">&#39;^x^s&#39;</span> peco-snippets
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>snippetsファイルを用意せずに、sheetの資産を生かすなら、下記みたいな感じ。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="k">function </span>peco-snippets<span class="o">()</span> <span class="o">{</span>
+</span><span class="line">
+</span><span class="line">    <span class="nb">local </span><span class="nv">SNIPPETS</span><span class="o">=</span><span class="k">$(</span>cat ~/.sheets/* | peco --query <span class="s2">&quot;$LBUFFER&quot;</span> | pbcopy<span class="k">)</span>
+</span><span class="line">    zle clear-screen
+</span><span class="line"><span class="o">}</span>
+</span><span class="line">
+</span><span class="line">zle -N peco-snippets
+</span><span class="line">bindkey <span class="s1">&#39;^x^s&#39;</span> peco-snippets
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>で上の例だと<code>Ctrl+x</code>, <code>Ctrl+s</code>でスニペットの一覧が出てくるのでpecoやpercolで絞ると
+<code>pbcopy</code>に渡されて、クリップボードに格納される。</p>
+
+<p>Linux上とかでクリップボード使わずに、そのまま利用したい場合は下記みたいな感じ</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="k">function </span>peco-snippets<span class="o">()</span> <span class="o">{</span>
+</span><span class="line">
+</span><span class="line">    <span class="nv">BUFFER</span><span class="o">=</span><span class="k">$(</span>grep -v <span class="s2">&quot;^#&quot;</span> ~/.snippets | peco --query <span class="s2">&quot;$LBUFFER&quot;</span><span class="k">)</span>
+</span><span class="line">    zle clear-screen
+</span><span class="line"><span class="o">}</span>
+</span><span class="line">
+</span><span class="line">zle -N peco-snippets
+</span><span class="line">bindkey <span class="s1">&#39;^x^s&#39;</span> peco-snippets
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>実際に動かして見るとこんな感じ</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/06/peco-snippets.gif" alt="" /></p>
+
+<p>便利になった!</p>
+
+<p>私が<a href="http://www.amazon.co.jp/UNIX%E3%81%A8%E3%81%84%E3%81%86%E8%80%83%E3%81%88%E6%96%B9%E2%80%95%E3%81%9D%E3%81%AE%E8%A8%AD%E8%A8%88%E6%80%9D%E6%83%B3%E3%81%A8%E5%93%B2%E5%AD%A6-Mike-Gancarz/dp/4274064069%3FSubscriptionId%3DAKIAIMPULMFN3HDGOBYA%26tag%3Dglidenote-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4274064069">UNIXという考え方</a>にどっぶり浸かっているので、pecoやpercolのパイプで渡して処理させるってのは感覚的に分かりやすくて大変扱いやすい。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/19/quickrun-serverspec/">vim-quickrunでServerspecをカーソル行単位でテストして編集効率を10倍にする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-19T18:00:00+09:00" pubdate data-updated="true">2014年06月19日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://blog.glidenote.com/blog/2014/06/17/serverspec-snippets/">Serverspecが超高速で書けるserverspec-snippetsを作った</a>の続き。</p>
+
+<p>超高速で<a href="http://serverspec.org/">Serverspec</a>が書けるようになったので、
+今度は<a href="https://github.com/thinca/vim-quickrun">vim-quickrun</a>を使って、
+Serverspecを書きながらカーソル行だけテストを回せるようにした。</p>
+
+<p>どんな感じかまた動画を用意したので、見ていただくのが早いです。</p>
+
+<div class="embed-video-container"><iframe src="https://player.vimeo.com/video/98562985 "></iframe></div>
+
+<p>カーソル行だけテストが実行されるので、全体のテストを実行するより高速になってます。</p>
+
+<p>vim-quickrunでテストを実行すると、出力に色が付かないので下記のようなsyntaxプラグインを作成。
+使い方やvim-quickrunの設定例も下記にまとまっているので、参照ください。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/rspec-result-syntax">glidenote/rspec-result-syntax</a></li>
+</ul>
+
+<p><code>g:quickrun_config</code>において<code>cmdopt</code>、<code>args</code>、<code>exec</code>を調整すれば
+いろんな環境に対応が出来ると思います。</p>
+
+<p><img src="http://i.vimeocdn.com/video/479397234_640.jpg" alt="" /></p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/Qureana/items/b057c934733554e05427">Ruby - Rspec + QuickRun でカーソル行のテストする - Qiita</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/17/serverspec-snippets/">Serverspecが超高速で書けるserverspec-snippetsを作った</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-17T20:00:00+09:00" pubdate data-updated="true">2014年06月17日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://serverspec.org/">Serverspec</a>書いてますか！</p>
+
+<p>Serverspecが超高速で書けるようにsnippetsを作成しました。(本当は私がResource Typesを全く覚えられないので作成しただけなんですが)</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/serverspec-snippets">glidenote/serverspec-snippets</a></li>
+</ul>
+
+<p>どんな感じのものなのかは動画を見て頂くのが早いです。</p>
+
+<div class="embed-video-container"><iframe src="https://player.vimeo.com/video/98406679 "></iframe></div>
+
+<p>インストール方法や使い方は<a href="https://github.com/glidenote/serverspec-snippets">glidenote/serverspec-snippets</a>
+を参照ください。</p>
+
+<p><a href="https://github.com/Keithbsmiley/rspec.vim/blob/master/ftdetect/rspec.vim">https://github.com/Keithbsmiley/rspec.vim/blob/master/ftdetect/rspec.vim</a> みたい感じで、
+filetypeを<code>ruby.serverspec</code>へと自動指定は出来るんですが、rspecと干渉するので、ちょっと良い案を思案中。</p>
+
+<p>大変便利になった</p>
+
+<p><strong>追記 2014/06/26</strong></p>
+
+<p><code>should</code> &lt;=&gt; <code>should_not</code>などの切り替えは下記のプラグインを使うと簡単にできるのでオススメです。</p>
+
+<ul>
+  <li><a href="https://github.com/AndrewRadev/switch.vim">AndrewRadev/switch.vim</a></li>
+</ul>
+
+<p><img src="http://i.vimeocdn.com/video/479112148_640.jpg" alt="" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/09/vagrant-build-nginx/">ソフトウェアの自前ビルド環境をVagrantで管理する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-09T22:00:00+09:00" pubdate data-updated="true">2014年06月09日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ここ1年くらい自分が担当しているサービスで使ってるNginxとか自前ビルドが必要なソフトは
+RPMを作らずビルドサーバでビルドしたバイナリをpuppetで管理して、
+プロダクション環境にはpuppetやらデプロイツールなりで、バイナリ差し替え配布している。
+(epelとかにrpmがあって、それがそのまま使えれば、基本的にそれを使ってるので、
+自前ビルドしているパッケージはごく少数です。)</p>
+
+<p>なんでRPMを作らないかは<a href="https://twitter.com/hirose31">@hirose31</a>さんのブログを読むと分かります!!</p>
+
+<ul>
+  <li><a href="http://d.hatena.ne.jp/hirose31/20091217/1260981836">ソースから自前ビルドしたソフトウエアの効率的な管理方法 - (ひ)メモ</a></li>
+</ul>
+
+<p>バージョンアップ、脆弱性対応、モジュールを追加などのたびにビルドし直さないといけなくて、
+普通にやってると結構面倒くさい作業なので、Vagrantを使ってビルドしてる。</p>
+
+<p>具体的にNginxを例に説明すると、下記のような感じのファイルを用意して、<code>vagrant up</code>だけでバイナリが作成される。</p>
+
+<div><script src="https://gist.github.com/335894e6e0ba84021824.js?file=Vagrantfile"></script>
+<noscript><pre><code># -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(&quot;2&quot;) do |config|
+
+  # sensu-server
+  config.vm.define :build001 do |server|
+    server.vm.box      = &quot;CentOS6.5-x86_64&quot;
+    server.vm.box_url  = &quot;https://github.com/2creatives/vagrant-centos/releases/download/v6.5.3/centos65-x86_64-20140116.box&quot;
+    server.vm.provision &quot;shell&quot;, path: &quot;provision.sh&quot;
+  end
+
+end
+</code></pre></noscript></div>
+
+<div><script src="https://gist.github.com/335894e6e0ba84021824.js?file=provision.sh"></script>
+<noscript><pre><code>#!/bin/sh
+
+export LANG=C
+export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+NGINX_VER=&quot;1.7.1&quot;
+
+yum -y groupinstall &#39;Development Tools&#39;
+rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+yum -y install wget yum-utils
+yum -y install pcre-devel lua-devel openssl-devel gd-devel geoip-devel
+
+if [ -d /tmp/build ]; then
+  rm -rf /tmp/build
+fi
+
+mkdir -p /tmp/build/
+cd /tmp/build/
+wget http://nginx.org/download/nginx-${NGINX_VER}.tar.gz
+tar zxvf nginx-${NGINX_VER}.tar.gz
+cd nginx-${NGINX_VER}
+
+# git clone modules
+git clone https://github.com/openresty/lua-nginx-module /usr/local/src/lua-nginx-module
+
+# configure option
+./configure \
+--prefix=/etc/nginx  \
+--sbin-path=/usr/sbin/nginx  \
+--conf-path=/etc/nginx/nginx.conf  \
+--error-log-path=/var/log/nginx/error.log  \
+--http-log-path=/var/log/nginx/access.log  \
+--pid-path=/var/run/nginx.pid  \
+--lock-path=/var/run/nginx.lock  \
+--http-client-body-temp-path=/var/cache/nginx/client_temp  \
+--http-proxy-temp-path=/var/cache/nginx/proxy_temp  \
+--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp  \
+--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp  \
+--http-scgi-temp-path=/var/cache/nginx/scgi_temp  \
+--user=nginx  \
+--group=nginx  \
+--with-http_ssl_module  \
+--with-http_realip_module  \
+--with-http_addition_module  \
+--with-http_sub_module  \
+--with-http_dav_module  \
+--with-http_flv_module  \
+--with-http_mp4_module  \
+--with-http_gunzip_module  \
+--with-http_gzip_static_module  \
+--with-http_random_index_module  \
+--with-http_secure_link_module  \
+--with-http_stub_status_module  \
+--with-file-aio \
+--with-ipv6 \
+--with-pcre \
+--with-http_geoip_module \
+--with-http_image_filter_module \
+--with-http_stub_status_module \
+--add-module=/usr/local/src/lua-nginx-module/ \
+--with-cc-opt=&#39;-O2 -g -pipe -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic&#39;
+
+make
+
+/tmp/build/nginx-1.7.1/objs/nginx -V
+
+echo &quot;Done!!&quot;
+</code></pre></noscript></div>
+
+<p>上の例だと</p>
+
+<p><code>/tmp/build/nginx-1.7.1/objs/nginx</code>にバイナリが出来上がるので、
+それをpuppetのリポジトリに入れて、puppet各サーバで流して終わり。</p>
+
+<p>アップデートや、モジュールを追加する場合は、<code>provision.sh</code>を修正するだけで、
+ビルドが終わったら<code>vagrant destroy</code>でビルドサーバを削除。</p>
+
+<p><code>Vagrantfile</code>と<code>provision.sh</code>をgit管理しておけば、ビルド環境もバージョン管理が出来るし、
+たいていこういう作業は忘れた頃に発生して毎回過去のissueを探したり面倒くさいので
+Vagrant使うと大変便利という話。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.nomadscafe.jp/2013/12/vagrantprovisionermroongarpm---mysql-casual-advent-calendar-2013.html">Vagrantのprovisionerを使ってmroongaのrpmを作る方法 - MySQL Casual Advent Calendar 2013 - blog.nomadscafe.jp</a></li>
+  <li><a href="http://d.hatena.ne.jp/hirose31/20091217/1260981836">ソースから自前ビルドしたソフトウエアの効率的な管理方法 - (ひ)メモ</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/29/bundle-open-with-vimfiler/">bundle openでVimfilerやCtrlP.vimやFuzzyFinderを起動する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-29T13:30:00+09:00" pubdate data-updated="true">2014年05月29日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今朝社内IRCで<a href="https://twitter.com/hsbt">@hsbt</a>さんと<a href="https://twitter.com/udzura">@udzuraさん</a>が
+<a href="https://gist.github.com/kakutani/43b9f42197ab002fcdf8">IdobataのGemfile</a>の話をしていて、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">10:54:44      hsbt | この Gemfile を持って来て、bundle install &amp;&amp; bundle open が
+</span><span class="line">10:54:58      hsbt | 一番、これ何だを見るのが楽だった
+</span><span class="line">10:56:28    udzura | bundler benri</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>その中で上のようなbundlerの便利情報を話していて、そういえば<a href="http://rebuild.fm/41/">rebuild.fm vol.41</a>で
+同じようなこと言ってたなーと思い出して、vim使って便利に出来ないかなーと思ってやってみたら簡単にできたのでメモ。</p>
+
+<p>各種Vimプラグインのインストール方法は割愛。(<a href="https://github.com/Shougo/neobundle.vim">neobundle.vim</a>とかを使ってください)</p>
+
+<p>単に<code>BUNDLER_EDITOR</code>という環境変数を設定するだけのお手軽TIPS</p>
+
+<h2 id="vimfilerhttpsgithubcomshougovimfilervim"><a href="https://github.com/Shougo/vimfiler.vim">VimFiler</a>を利用する場合</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">export </span><span class="nv">BUNDLER_EDITOR</span><span class="o">=</span><span class="s2">&quot;vim +VimFiler&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="ctrlpvimhttpsgithubcomkienctrlpvim"><a href="https://github.com/kien/ctrlp.vim">ctrlp.vim</a>を利用する場合</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">export </span><span class="nv">BUNDLER_EDITOR</span><span class="o">=</span><span class="s2">&quot;vim +CtrlP&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="fuzzyfinderhttpsgithubcomvim-scriptsfuzzyfinder"><a href="https://github.com/vim-scripts/FuzzyFinder">FuzzyFinder</a>を利用する場合</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">export </span><span class="nv">BUNDLER_EDITOR</span><span class="o">=</span><span class="s2">&quot;vim +FufFile&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="bundle-opengem">bundle openでgemの中身を確認</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">bundle open gemname
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>私はVimfiler使うように設定。</p>
+
+<p>たとえば、<code>bundle open rubocop</code>とかやると下記のような感じでVimfilerで
+該当gemの中身を見れるようになった。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/05/bundler_open0.png" alt="" /></p>
+
+<p>便利〜</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://xoyip.hatenablog.com/entry/2014/04/24/200613">bundle openで使うBUNDLER_EDITORをカスタマイズする - PILOG</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/7/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/5/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

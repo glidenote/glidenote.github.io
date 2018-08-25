@@ -1,0 +1,554 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>サーバ/インフラ徹底攻略を読んでインフラエンジニアの高齢化問題について考える - Glide Note</title>
+  <meta property="og:title" content="サーバ/インフラ徹底攻略を読んでインフラエンジニアの高齢化問題について考える - Glide Note" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="https://blog.glidenote.com" />
+<meta property="og:author" content="Akira Maeda" />
+<meta property="og:site_name" content="Glide Note" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="article" />
+<meta property="fb:app_id" content="904966862954142" />
+
+  <meta property="article:author" content="Akira Maeda">
+
+  
+  <meta name="description" content="サーバ/インフラ徹底攻略 (WEB+DB PRESS plus) 本書の「テスト駆動インフラ&amp;CI最前線」を執筆されたmizzyさんからご恵贈頂きました。ありがとうございます。 事前に断っておくと私がここで記載している「インフラエンジニア」はITインフラエンジニアの話です。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://blog.glidenote.com/blog/2014/10/31/infrastructure-engineer-grows-old/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/data-table.css" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="https://feeds.feedburner.com/glidenote" rel="alternate" title="Glide Note" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-575205-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <!--Fonts from Google"s Web font directory at https://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="glidenote">
+<meta name="twitter:url" content="https://blog.glidenote.com/blog/2014/10/31/infrastructure-engineer-grows-old">
+<meta name="twitter:title" content="サーバ/インフラ徹底攻略を読んでインフラエンジニアの高齢化問題について考える">
+<meta name="twitter:description" content="サーバ/インフラ徹底攻略 (WEB+DB PRESS plus) 本書の「テスト駆動インフラ&amp;CI最前線」を執筆されたmizzyさんからご恵贈頂きました。ありがとうございます。 事前に断っておくと私がここで記載している「インフラエンジニア」はITインフラエンジニアの話です。 本書の詳細なレビューは他の方にお任せするとして、内容を読むと サーバプロビジョニング Vagrant &hellip;">
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Glide Note</a></h1>
+  
+    <h2>glidenote's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="https://feeds.feedburner.com/glidenote" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get" onsubmit="this['q'].value = this['q_raw'].value + ' site:blog.glidenote.com';">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="" />
+    <input class="search" type="text" name="q_raw" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i></a></li>
+  <li><a href="/blog/archives"><i class="fa fa-file-text-o"></i> Archives</a></li>
+  <li><a href="https://github.com/glidenote"><i class="fa fa-github"></i> GitHub</a></li>
+  <li><a href="https://twitter.com/glidenote"><i class="fa fa-twitter-square"></i> Twitter</a></li>
+  <li><a href="/about"><i class="fa fa-user"></i> About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">サーバ/インフラ徹底攻略を読んでインフラエンジニアの高齢化問題について考える</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-31T18:35:00+09:00" pubdate data-updated="true">2014年10月31日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="https://www.amazon.co.jp/%E3%82%B5%E3%83%BC%E3%83%90-%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-WEB-PRESS-plus/dp/4774167681?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774167681"><img src="https://images-fe.ssl-images-amazon.com/images/I/61FyzLfkvnL.jpg" align="right" /></a>
+<a href="https://www.amazon.co.jp/%E3%82%B5%E3%83%BC%E3%83%90-%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-WEB-PRESS-plus/dp/4774167681?SubscriptionId=AKIAJVWWFTEVIXZXZLWA&amp;tag=glidenote-22&amp;linkCode=xm2&amp;camp=2025&amp;creative=165953&amp;creativeASIN=4774167681">サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)</a></p>
+
+<p>本書の「テスト駆動インフラ&amp;CI最前線」を執筆された<a href="https://twitter.com/gosukenator">mizzyさん</a>からご恵贈頂きました。ありがとうございます。</p>
+
+<p>事前に断っておくと私がここで記載している「インフラエンジニア」はITインフラエンジニアの話です。</p>
+
+<p>本書の詳細なレビューは他の方にお任せするとして、内容を読むと</p>
+
+<ul>
+  <li>サーバプロビジョニング</li>
+  <li>Vagrant</li>
+  <li>Serverspec</li>
+  <li>インフラCI</li>
+  <li>AWS</li>
+  <li>GitHub</li>
+  <li>Docker</li>
+  <li>nginx</li>
+  <li>メンテナンス、運用の話</li>
+</ul>
+
+<p>が主なTopicsになる。</p>
+
+<p>これらは今のインフラエンジニアにとって必須の知識、スキルになってきていて、その他にも
+従来から必要だったOSレイヤー、ミドルウェアレイヤー、LAMP、ログ収集の定番Fluentdなど
+インフラエンジニアに要求されるスキルセットの範囲が広く、しかも深くなっていると個人的には思っている。
+もはや運用だけでやっていればいい時代は終わっていて、必要なものは自分で作るためにコードを書ける必要もある。</p>
+
+<p>守備範囲が広く、そして深いので覚えることが尽きず、インフラエンジニアは非常に面白い職種のはずなんですが、
+それがあまり伝わっていないのか、 若い人が非常に少ない職種。
+私自身、6年前にインフラエンジニア(当時はサーバエンジニアという名前だった)になるまで
+どんな職種だかよく理解していなかったので、イメージがしにくい職種なのは確かだと思う。</p>
+
+<p>WEB系企業各社インフラエンジニアの採用には非常に苦労しているようで、
+このままだと5年後、10年後にはさらに高齢化が進むのは必至なのと、今現役バリバリの優秀なエンジニアから
+知見を引き継ぐ若い優秀な人材が減っていってしまうので、今から若いインフラエンジニアを養成する必要があると思う。</p>
+
+<p>本書は2014年のインフラエンジニアに求められている知識やスキルが1冊に良くまとまっているし、
+インフラエンジニアの魅力も伝わると思うので、インフラエンジニアを理解したい人や
+インフラエンジニアを目指している人には非常に良書である。</p>
+
+<p>新卒エンジニアには研修などで是非読んで欲しい本。</p>
+
+<p>2014/10/31時点でAmazonでベストセラー1位になっているので、サーバ/インフラ徹底攻略を読んで、
+若いインフラエンジニアが増えてくれることを期待している。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/10/webdbpress.png" alt="" /></p>
+
+<p>今インフラは楽しいぞ！</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+<span class="line-number">74</span>
+<span class="line-number">75</span>
+<span class="line-number">76</span>
+<span class="line-number">77</span>
+<span class="line-number">78</span>
+<span class="line-number">79</span>
+<span class="line-number">80</span>
+<span class="line-number">81</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">目次
+</span><span class="line">
+</span><span class="line">巻頭企画
+</span><span class="line">[入門]コードによるインフラ構築
+</span><span class="line">サーバ構成管理の自動化を実現するる……伊藤 直也
+</span><span class="line">第1章 ChefとVagrantによるインフラのコード化
+</span><span class="line">設定の一元管理で作業を省力化する
+</span><span class="line">第2章 Serverspecによるテスト駆動インフラ構築
+</span><span class="line">設定変更の反映を確実なものにする
+</span><span class="line">
+</span><span class="line">特集1
+</span><span class="line">Amazon Web Services最新活用
+</span><span class="line">レイヤ別比較,構築の定石,構成管理の自動化る
+</span><span class="line">第1章 Amazon Web Servicesレイヤ別比較
+</span><span class="line">各サービスの特徴を理解し,うまく使い分ける……片山 暁雄,平山 毅
+</span><span class="line">第2章 EC2とVPCによるシステム構築
+</span><span class="line">セキュアで可用性を高めたインフラの作り方……舟崎 健治,吉荒 祐一
+</span><span class="line">第3章 RDSによるデータベースの活用
+</span><span class="line">作成,デプロイ,バックアップ……今井 雄太,八木橋 徹平
+</span><span class="line">第4章 CloudFormationによる構築の自動化
+</span><span class="line">テンプレートの作成からミドルウェア構築設定まで……安川 健太
+</span><span class="line">
+</span><span class="line">特集2
+</span><span class="line">テスト駆動インフラ&amp;CI最前線
+</span><span class="line">Infrastructure as Codeがもたらすワークフローの刷新る……宮下 剛輔
+</span><span class="line">第1章 インフラのテストとその重要性
+</span><span class="line">「インフラのコード化」による開発手法の応用
+</span><span class="line">第2章 テスト駆動インフラの実践
+</span><span class="line">VirtualBox,Vagrant,Puppet,Serverspecによるテスト自動化
+</span><span class="line">第3章 インフラCIの実践
+</span><span class="line">GitHub,Wercker,DigitalOceanによる継続的テスト
+</span><span class="line">第4章 インフラの継続的改善の実践
+</span><span class="line">GitHub Flowをベースとしたワークフロー変革
+</span><span class="line">
+</span><span class="line">特集3
+</span><span class="line">実践Immutable Infrastructure
+</span><span class="line">使い捨てサーバによる運用の変革る……田中 慎司
+</span><span class="line">第1章 Immutable Infrastructureとは何か
+</span><span class="line">不変なサーバ,Blue-green Deploymentとそれらの利点
+</span><span class="line">第2章 Immutable Infrastructureで利用するツール/サービス
+</span><span class="line">比較・整理と,システム全体での組み合わせ
+</span><span class="line">第3章 コンテナ型仮想化とクラウドによる実践
+</span><span class="line">Docker+HAProxy,Amazon EC2+ELB
+</span><span class="line">第4章 クラスタ管理ツールによる実践
+</span><span class="line">Apache Mesosでリソース管理の自動化
+</span><span class="line">
+</span><span class="line">特集4
+</span><span class="line">[詳解]nginx
+</span><span class="line">設定の柔軟性と優れたスケーラビリティ
+</span><span class="line">第1章 nginxの世界へようこそ
+</span><span class="line">アーキテクチャ,用途,メリット,デメリット……久保 達彦
+</span><span class="line">第2章 はじめてのnginx
+</span><span class="line">インストール,起動と終了,基本設定……道井 俊介
+</span><span class="line">第3章 一般的なWebサーバの構築
+</span><span class="line">バーチャルホスト,アクセス制御,SSL通信,基本認証……飯田 祐基
+</span><span class="line">第4章 実践的なWebアプリケーションサーバの構築
+</span><span class="line">Unicorn/RailsやPHP-FPMと連携させる……道井 俊介
+</span><span class="line">第5章 大規模コンテンツ配信システムの構築
+</span><span class="line">キャッシュ,ロードバランシングを活用する……飯田 祐基
+</span><span class="line">第6章 拡張モジュールのしくみと作り方
+</span><span class="line">nginxを自由にカスタマイズするための基礎知識……久保 達彦
+</span><span class="line">
+</span><span class="line">特集5
+</span><span class="line">メンテナンス本格入門
+</span><span class="line">緊急対応,計画停止,メンテフリー化
+</span><span class="line">第1章 メンテナンスとは
+</span><span class="line">種類と手法を整理する……桑野 章弘
+</span><span class="line">第2章 計画メンテナンスの流れ
+</span><span class="line">事前準備,作業のチェック,振り返り……松浦 隼人
+</span><span class="line">第3章 緊急メンテナンスの流れ
+</span><span class="line">普段から備えるべきこと,障害時の対応……松浦 隼人
+</span><span class="line">第4章 メンテフリーへのアプローチ【インフラ編】
+</span><span class="line">省力運用を実現するインフラ,データベース設計と障害検知……松浦 隼人,中村 俊之
+</span><span class="line">第5章 メンテフリーへのアプローチ【アプリケーション編】
+</span><span class="line">ダウンタイムを減らすリリース手法とアプリケーション設計……福永 亘,中村 俊之,松浦 隼人
+</span><span class="line">第6章 ガールフレンド(仮)とアメーバピグの事例
+</span><span class="line">現場でどう実践し,どう障害を切り抜けたか……福永 亘,杉山 仁則
+</span><span class="line">
+</span><span class="line">一般記事
+</span><span class="line">Dockerで軽量な仮想環境
+</span><span class="line">Linuxコンテナでインフラを瞬時に構築する……伊藤 直也</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.kenjiskywalker.org/blog/2014/10/26/server-infra-webdb-book/">「サーバ/インフラ徹底攻略」を読んだ - さよならインターネット</a></li>
+  <li><a href="http://d.hatena.ne.jp/rx7/20141030/p1">「サーバ/インフラ徹底攻略」を読んだ - 元RX-7乗りの適当な日々</a></li>
+</ul>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Akira Maeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-31T18:35:00+09:00" pubdate data-updated="true">2014年10月31日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/misc/'>misc</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/https://blog.glidenote.com/blog/2014/10/31/infrastructure-engineer-grows-old/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="サーバ/インフラ徹底攻略を読んでインフラエンジニアの高齢化問題について考える - Glide Note"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=サーバ/インフラ徹底攻略を読んでインフラエンジニアの高齢化問題について考える "> Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    
+      <script type="text/javascript"><!--
+google_ad_client = "ca-pub-9060831105280105";
+/* blog */
+google_ad_slot = "7908126530";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+      <div class="related_posts">
+<h1>Related Posts</h1>
+<ul>
+
+  <li><a href="/blog/2016/03/29/notification-apps/">最近導入した開発に役立つ便利なステータスバー通知系アプリ3選</a></li>
+
+  <li><a href="/blog/2016/02/05/roost/">Roost Laptop Standで肩こりが解消した</a></li>
+
+  <li><a href="/blog/2015/10/01/nightmare-screenshots/">ChatOps + NightmareでメトリクスグラフとBIレポートをSlackに投げるようにした</a></li>
+
+  <li><a href="/blog/2014/08/01/join-to-kaizen-platform-inc/">KAIZEN platform Inc.に入社した</a></li>
+
+  <li><a href="/blog/2012/12/31/2012-summary/">2012年振り返り</a></li>
+
+</ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/09/12/chatops-security-update/" title="Previous Post: ChatOpsでOSのセキュリティアップデートを自動化出来るようにした">&laquo; ChatOpsでOSのセキュリティアップデートを自動化出来るようにした</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/11/21/s3-event-notificasions/" title="next Post: S3 Event NotificasionsをAmazon SQSで受け取る">S3 Event NotificasionsをAmazon SQSで受け取る &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="https://blog.glidenote.com/images/profile.png" height="171" width="171" />
+  <br />
+  Akira Maeda
+  <br />
+  
+  <a href="https://twitter.com/glidenote">@glidenote</a>
+  
+  <br /><br />
+  このブログは個人的なものです。ここで述べられている内容は私の個人的な意見に基づくものであり、私の雇用者に一切の関係はありません</p>
+</section>
+<section>
+<h1>Recent Posts</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "hot";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+<section>
+<h1>人気エントリー</h1>
+<div id="hatena">
+<script language="javascript" type="text/javascript" src="/javascripts/hatebu.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+Hatena.BookmarkWidget.url   = "https://blog.glidenote.com";
+Hatena.BookmarkWidget.sort  = "count";
+Hatena.BookmarkWidget.width = 0;
+Hatena.BookmarkWidget.num   = 10;
+Hatena.BookmarkWidget.theme = "hatenadiary";
+Hatena.BookmarkWidget.load();
+</script>
+</div>
+</section>
+
+
+
+
+
+<section>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Akira Maeda -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'glidenote';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://blog.glidenote.com/blog/2014/10/31/infrastructure-engineer-grows-old/';
+        var disqus_url = 'https://blog.glidenote.com/blog/2014/10/31/infrastructure-engineer-grows-old/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'https://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#appId=904966862954142&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

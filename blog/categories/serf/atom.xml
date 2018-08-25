@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: serf | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/serf/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[serf-muninを導入してmunin-nodeの監視追加、削除を自動化した]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/11/06/serf-munin/"/>
+    <updated>2013-11-06T20:12:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/11/06/serf-munin</id>
+    <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2013/10/30/serf-haproxy/">前回の続き</a>で<a href="http://www.serfdom.io/">Serf</a>を触ってる。前回のエントリを見て、<a href="https://twitter.com/zembutsu">@zembutsuさん</a>が作ってくれた<a href="https://github.com/zembutsu/serf-munin">serf-munin</a>が素晴らしかったので、弊社仕様に若干修正して導入した。</p>
+
+<ul>
+  <li><a href="http://pocketstudio.jp/log3/2013/11/01/serf-munin-eventhander-auto-monitorin/">serf-muninでmunin-nodeの監視自動追加/削除 | Pocketstudio.jp log3</a></li>
+</ul>
+
+<p>Serf-muninが自動生成、削除するファイルは<code>/etc/munin/conf.d/</code>配下で、
+既存のmunin環境(<code>/etc/munin/munin.conf</code>とか)を壊すことがないと思うので、すぐに試すことが出来ると思う。</p>
+
+<p>導入環境は</p>
+
+<ul>
+  <li>CentOS 6.4</li>
+  <li>Serf 0.2.0</li>
+  <li>munin-2.0.17</li>
+</ul>
+
+<p>で、Serfの起動コマンドや生成されるmuninのconfの関係上、Serf 0.2.0とmunin 2.0以上は必須条件になります。</p>
+
+<h2 id="serf-munin">serf-muninの仕組みの説明</h2>
+
+<h3 id="web-server1muninserf-join">1. web server1がmuninサーバと同じクラスタにserf joinしてくる</h3>
+
+<p><img src="https://blog.glidenote.com/images/2013/11/serfmunin0.png" alt="" /></p>
+
+<h3 id="web-server1joinmember-join">2. Web server1がクラスタにjoinしてきたので、member-joinイベントが発生</h3>
+<p><img src="https://blog.glidenote.com/images/2013/11/serfmunin1.png" alt="" /></p>
+
+<ol>
+  <li>muninサーバで<code>member-join</code>イベントで指定しているスクリプトが実行される</li>
+  <li>muninサーバの<code>/etc/munin/conf.d/web001.foobar.conf</code>という設定ファイルが追加され、ポーリング対象のサーバが追加される。</li>
+  <li>Web Serve1がmuninのグラフに追加される</li>
+</ol>
+
+<h3 id="db-server1joinmember-join">3. DB server1がクラスタにjoinしてきたので、member-joinイベントが発生</h3>
+<p><img src="https://blog.glidenote.com/images/2013/11/serfmunin2.png" alt="" /></p>
+
+<ol>
+  <li>muninサーバで<code>member-join</code>イベントで指定しているスクリプトが実行される</li>
+  <li>muninサーバの<code>/etc/munin/conf.d/db001.foobar.conf</code>という設定ファイルが追加され、ポーリング対象のサーバが追加される。</li>
+  <li>DB Serve1がmuninのグラフに追加される</li>
+</ol>
+
+<h3 id="web-server1member-leave">4. Web server1が突然の死。member-leaveイベントが発生</h3>
+<p><img src="https://blog.glidenote.com/images/2013/11/serfmunin3.png" alt="" /></p>
+
+<ol>
+  <li>muninサーバで<code>member-leave</code>イベントで指定しているスクリプトが実行される</li>
+  <li>muninサーバの<code>/etc/munin/conf.d/web001.foobar.conf</code>という設定ファイルが削除され、ポーリング対象のサーバから削除される。</li>
+  <li>Web Server1がmuninのグラフから削除される</li>
+</ol>
+
+<p>もしWeb Server1が復活したら、勝手にクラスタに参加してくるので、再度ポーリング先に自動追加される。</p>
+
+<h2 id="section">実際の設定</h2>
+
+<h3 id="munin">muninサーバ側の設定</h3>
+
+<p><code>SERF_ROLE</code>はmuninのconf内でgroupに利用するために設定してます。
+muninサーバには<code>manage</code>というroleを設定してます。</p>
+
+<p>作業の流れは</p>
+
+<ol>
+  <li>Serfをダウンロードして、<code>/usr/local/bin/serf</code>に設置</li>
+  <li>自動生成されるconf用ディレクトリ<code>/etc/munin/conf.d</code>を作成</li>
+  <li>serf join/leaveイベント発生時に実行されるスクリプト<code>serf-munin.sh</code>を作成し、設置</li>
+  <li>Serfの起動スクリプトを作成</li>
+  <li>Serfの起動</li>
+</ol>
+
+<p>``` sh
+export SERF_ROLE=manage
+sudo yum install -y unzip</p>
+
+<p>cd /tmp/
+until wget -O serf.zip https://dl.bintray.com/mitchellh/serf/0.2.0_linux_amd64.zip; do
+  sleep 1
+done
+unzip serf.zip
+sudo mv serf /usr/local/bin/serf
+rm serf.zip</p>
+
+<p>sudo mkdir -p /etc/munin/conf.d/</p>
+
+<h1 id="create-serf-muninsh">create serf-munin.sh</h1>
+<p>cat «‘EOF’ &gt;/tmp/serf-munin.sh
+#!/bin/sh</p>
+
+<p>while read line
+do
+  echo ${line}
+    HOSTNAME=<code>echo ${line} | cut -d ' ' -f 1</code>
+    ADDRESS=<code>echo ${line} | cut -d ' ' -f 2</code>
+    GROUP=<code>echo ${line} | cut -d ' ' -f 3</code></p>
+
+<pre><code>case ${SERF_EVENT} in
+"member-join")
+  cat &lt;&lt; __EOF__ &gt; "/etc/munin/conf.d/${HOSTNAME}.conf" [${GROUP};${HOSTNAME}]
+address ${ADDRESS}
+use_node_name yes __EOF__ ;;
+"member-leave" | "member-failed")
+  rm -f /etc/munin/conf.d/${HOSTNAME}.conf;;
+\?)
+  echo "other";;
+esac
+break done 
+</code></pre>
+
+<p>exit 0
+EOF</p>
+
+<p>sudo mv /tmp/serf-munin.sh /usr/local/bin/serf-munin.sh
+sudo chmod 755 /usr/local/bin/serf-munin.sh</p>
+
+<h1 id="configure-the-agent">Configure the agent</h1>
+<p>cat «EOF &gt;/tmp/agent.conf
+description “Serf agent”</p>
+
+<p>start on runlevel [2345]
+stop on runlevel [!2345]</p>
+
+<p>exec /usr/local/bin/serf agent <br />
+  -event-handler=”/usr/local/bin/serf-munin.sh” <br />
+  -role=${SERF_ROLE} »/var/log/serf.log 2&gt;&amp;1
+EOF
+sudo mv /tmp/agent.conf /etc/init/serf.conf</p>
+
+<h1 id="start-the-agent">Start the agent!</h1>
+<p>sudo start serf
+```</p>
+
+<p>この状態で既に<code>/etc/munin/conf.d/${HOSTNAME}.conf</code>というファイルが出来上がって、</p>
+
+<p><code>
+[manage;manage001.foobar.com]
+    address 127.0.0.1
+    use_node_name yes
+</code></p>
+
+<p>というような内容になっている。</p>
+
+<h3 id="munin-node">munin-node側の設定</h3>
+
+<p><code>MUNIN_SERVER</code>にmuninサーバのIPもしくはfqdnを設定。<code>MUNIN_SERVER</code>で指定したサーバに
+<code>serf join</code>しに行きます。
+<code>SERF_ROLE</code>はmuninのconf内でgroupに利用するために設定してます。
+例では<code>web</code>というroleを設定しており、実環境でも<code>web</code>、<code>db</code>、<code>backup</code>などとroleを設定してます。</p>
+
+<p>作業の流れは</p>
+
+<ol>
+  <li>Serfをダウンロードして、<code>/usr/local/bin/serf</code>に設置</li>
+  <li>Serfの起動スクリプトを作成</li>
+  <li>Serfの起動</li>
+</ol>
+
+<p>``` sh
+export MUNIN_SERVER=192.168.100.100
+export SERF_ROLE=web</p>
+
+<p>sudo yum install -y unzip</p>
+
+<h1 id="download-and-install-serf">Download and install Serf</h1>
+<p>cd /tmp
+until wget -O serf.zip https://dl.bintray.com/mitchellh/serf/0.2.0_linux_amd64.zip; do
+  sleep 1
+done
+unzip serf.zip
+sudo mv serf /usr/local/bin/serf
+rm serf.zip</p>
+
+<h1 id="configure-the-agent-1">Configure the agent</h1>
+<p>cat «EOF &gt;/tmp/agent.conf
+description “Serf agent”</p>
+
+<p>start on runlevel [2345]
+stop on runlevel [!2345]</p>
+
+<p>exec /usr/local/bin/serf agent <br />
+  -join=${MUNIN_SERVER} <br />
+  -role=${SERF_ROLE} »/var/log/serf.log 2&gt;&amp;1
+EOF
+sudo mv /tmp/agent.conf /etc/init/serf.conf</p>
+
+<h1 id="start-the-agent-1">Start the agent!</h1>
+<p>sudo start serf
+```</p>
+
+<p>この状態で既に<code>/etc/munin/conf.d/${HOSTNAME}.conf</code>というファイルが出来上がって、</p>
+
+<p><code>
+[web;web001.foobar.com]
+    address 172.18.100.109
+    use_node_name yes
+</code></p>
+
+<p>というような内容になっていて、</p>
+
+<p><code>sh
+sudo stop serf
+</code></p>
+
+<p>でSerfと止めると、confが削除されるのが分かる。</p>
+
+<p>Serf 0.2.0になって、<code>serf agent join="IP"</code>みたいなことが出来るようになっていて起動スクリプトもシンプルになった。
+やってることは非常に単純でSerfの設置、スクリプト設置だけなのでpuppet化も非常に楽。</p>
+
+<p>Serf 0.2.0の変更点は@zembutsuさんのブログが非常に参考になります。素晴らしいエントリ!!</p>
+
+<ul>
+  <li><a href="http://pocketstudio.jp/log3/2013/11/02/serf-version-0-2-0/">【Serf】v0.2.0 へのバージョンアップと、変わった所を確認してみた | Pocketstudio.jp log3</a></li>
+</ul>
+
+<p>担当しているサービス用にインストール用のwrapperスクリプトを公開しているので、参考にどうぞ。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/serf-munin-setup">glidenote/serf-munin-setup</a></li>
+</ul>
+
+<p>Serf 0.2.0から暗号化も可能になったので、これでサーバ起動して、Puppet流せば、
+新規サーバのmuninグラフが勝手に出来上がる仕組みが出来上がった。</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://pocketstudio.jp/log3/2013/11/01/serf-munin-eventhander-auto-monitorin/">serf-muninでmunin-nodeの監視自動追加/削除 | Pocketstudio.jp log3</a></li>
+  <li><a href="http://pocketstudio.jp/log3/2013/11/02/serf-version-0-2-0/">【Serf】v0.2.0 へのバージョンアップと、変わった所を確認してみた | Pocketstudio.jp log3</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

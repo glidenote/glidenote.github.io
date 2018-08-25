@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: wemux | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/wemux/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[新卒OJTにwemux(multi-user terminal multiplexing)を使って画面共有することにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/08/26/ojt-with-wemux/"/>
+    <updated>2013-08-26T20:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/08/26/ojt-with-wemux</id>
+    <content type="html"><![CDATA[<p><img src="http://i.imgur.com/iOjcz.png" alt="" /></p>
+
+<ul>
+  <li><a href="https://github.com/zolrath/wemux">zolrath/wemux</a></li>
+</ul>
+
+<p>新卒氏がインフラに配属になって、横に座ってOJTをやっているんですが、
+説明で自分の画面と、新卒氏の画面を行ったり来たりしてアレやコレや言って作業をしているのが
+かなり効率が悪かったので、1ヶ月くらい前からwemuxを使って画面を共有するようにした。</p>
+
+<p>screenでも画面共有出来ますが、最近私がscreen使って無いのと、
+<a href="https://blog.glidenote.com/blog/2013/07/17/learngin-tmux/">新卒研修でtmuxを使え</a>と
+強制しておいたので、wemuxを使ってます。</p>
+
+<h2 id="wemux">wemuxの特徴</h2>
+
+<ol>
+  <li>tmux1.6以上が必要</li>
+  <li>単一の端末を複数人で共有出来る。</li>
+  <li>読み取り専用のmirror mode</li>
+  <li>複数人で操作ができるpair mode</li>
+</ol>
+
+<p>などの特徴があります。</p>
+
+<h2 id="wemux-1">wemuxの導入</h2>
+
+<p>導入環境はCentOS5系で、tmux1.6が既に導入済みです。</p>
+
+<p>wemux自体はtmuxのwrapperなので、tmux1.6以上が必要です。
+weemuxは管理サーバ(sshの踏み台サーバ)で動かしてて、教える人と教わる人が
+ログインして画面共有をしています。</p>
+
+<p><code>sh
+sudo git clone git://github.com/zolrath/wemux.git /usr/local/share/wemux
+sudo ln -s /usr/local/share/wemux/wemux /usr/local/bin/wemux
+sudo cp /usr/local/share/wemux/wemux.conf.example /usr/local/etc/wemux.conf
+</code></p>
+
+<p><code>/usr/local/etc/wemux.conf</code>の<code>host_list</code>にwemuxで画面を共有するユーザを
+下記のように記載</p>
+
+<p><code>
+host_list=(glidenote tnmt lamanotrama)
+</code></p>
+
+<h2 id="wemux-2">wemuxの使い方</h2>
+
+<p>先にwemuxを起動した人がhost側になります。OJTでは教える側が先にwemuxを起動して
+hostになっています。(pair modeで動かしているので、両方が操作できますが、
+一応形式的に教える人がhostになってます)</p>
+
+<p>まず最初に教える側(私)が下記のような感じでwemuxを起動、</p>
+
+<p><code>sh
+wemux
+chmod 1777 /tmp/wemux-wemux
+</code></p>
+
+<p>続いて教わる側(新卒氏)が</p>
+
+<p><code>sh
+wemux
+</code></p>
+
+<p>でclient側になります。引数でmodeを指定しない場合は、<code>/usr/local/etc/wemux.conf</code>で
+設定されているmodeで起動します。</p>
+
+<p>wemuxを終了するときは、host側(私)がdetachして</p>
+
+<p><code>sh
+wemux stop
+</code></p>
+
+<p>すれば<code>/tmp/wemux-wemux</code>が削除されます。<code>/tmp/wemux-wemux</code>が残っていると
+他の人がwemuxを起動してhostになれないので注意。</p>
+
+<p>1ヶ月使ってみて感じたメリット、デメリット</p>
+
+<h2 id="section">メリット</h2>
+
+<ul>
+  <li>tmuxで画面共有が出来る。</li>
+  <li>自分の使い慣れたキーバインドで、説明が出来る。</li>
+  <li>相手の操作を見るときも、わざわざディスプレイを見に行かなくても良い。</li>
+  <li>コピーモードの矩形選択を利用することで、指摘したい部分を選択出来る。</li>
+</ul>
+
+<h2 id="section-1">デメリット</h2>
+
+<ul>
+  <li>tmux限定</li>
+  <li>wemux host側の<code>.tmux.conf</code>が利用されるので、変態的なキーバインドだと教わる側や二人同時に操作できる<code>pair mode</code>できつい</li>
+  <li>wemux hostとclient側でディスプレイサイズが異なるとと、表示が残念な感じになる。</li>
+</ul>
+
+<p>ホスト側とクライアント側で微妙にサブコマンドが違って、zshで補完されないと使い勝手が悪かったので、wemuxの補完関数を作って
+<a href="https://github.com/zsh-users/zsh-completions/pull/162">zsh-completionsにpull req</a>を出しておいたのが
+mergeされてるのでzsh-completions利用すればweemuxのコマンドが補完されるようになってます。</p>
+
+<p>confはほぼデフォルトのままで使ってるんですが、1ヶ月くらい使ってみて特に不都合も無く良い感じに稼働してます。
+同じ画面を見て作業出来るので、確認が楽に出来て、メンテとか重要作業でも使えるかなーと思案中。</p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/thso83/items/892db2affe92a984e586">Mac - リモートから作業中のセッションに接続し、共同作業してもらう方法 - Qiita [キータ]</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

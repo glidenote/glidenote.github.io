@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: sensu | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/sensu/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[監視アーキテクチャ(Sensu,Pingdom,Mackerel,StatusPage.io,PagerDuty)についてまとめてみる(2014年12月版)]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014/"/>
+    <updated>2014-12-03T19:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/12/03/monitoring-system-version-dec-2014</id>
+    <content type="html"><![CDATA[<p><a href="http://qiita.com/advent-calendar/2014/sensu">Sensu Advent Calendar</a>に便乗して、<a href="https://kaizenplatform.com/">Kaizen Platform, Inc.</a>の2014年12月現在の監視アーキテクチャの話をちょっとしてみようと思う。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent00.png" alt="" /></p>
+
+<h2 id="section">モニタリング領域</h2>
+
+<p>サービスを監視している領域</p>
+
+<h3 id="pingdom">Pingdom</h3>
+
+<ul>
+  <li><a href="https://www.pingdom.com/">Pingdom - Website Monitoring</a></li>
+  <li>外部ネットワークからのサービスの死活監視。アメリカ、ヨーロッパ、アジアなどの拠点からサービスの死活監視が出来るため、特定の地域からアクセス出来ない場合なのが検知出来る。</li>
+  <li>後述するstatuspage.ioとの連携で、障害を検知すると、サービスのステータス状況が自動で変わるようになっている</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent01.png" alt="" /></p>
+
+<h3 id="sensu">Sensu</h3>
+
+<ul>
+  <li><a href="http://sensuapp.org/">Sensu | The open source monitoring framework.</a></li>
+  <li>監視フレームワーク</li>
+  <li>サーバを内部ネットワークから監視するために利用</li>
+  <li>サーバのプロセス監視、サーバ間の疎通監視、エラー監視など一般的な監視はSensuが担当</li>
+  <li>自作の監視プラグインなども利用して監視</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent02.png" alt="" /></p>
+
+<h3 id="mackerel">Mackerel</h3>
+
+<ul>
+  <li><a href="https://mackerel.io/">Mackerel: A Revolutionary New Kind of Application Performance Management</a></li>
+  <li>メトリクス監視。</li>
+  <li>CPU、メモリ、LA監視などグラフと一緒に確認したいものはMackerelが担当</li>
+  <li>CPUアラートが来たら、Mackerelの画面を見て、いつから現象が発生しているかなどすぐに確認が出来る。</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent03.png" alt="" /></p>
+
+<h2 id="incident-management">Incident Management領域</h2>
+
+<p>アラート通知先や障害情報の自動更新を管理している領域</p>
+
+<h3 id="statuspageio">StatusPage.io</h3>
+
+<ul>
+  <li><a href="https://www.statuspage.io/">StatusPage.io - Hosted Status Pages for Your Company</a></li>
+  <li>サービスのステータスを外部に公開、障害情報の公開に利用。 <a href="http://status.kaizenplatform.net/">Kaizen Platform Inc Status</a></li>
+  <li>Pingdomと連携しているので、サービスに障害があった場合は自動でお知らせが出る。</li>
+  <li>Twitter連携しているので障害情報を公開すると、Twitterアカウントにもお知らせが出せる。</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent04.png" alt="" /></p>
+
+<h3 id="pagerduty">PagerDuty</h3>
+
+<ul>
+  <li><a href="http://www.pagerduty.com/">Incident Management System for IT Monitoring Tools | PagerDuty</a></li>
+  <li>アラートのハンドリングに利用</li>
+  <li>各監視サービスのアラートは全てPagerDutyに集約</li>
+  <li>アラートの通知先をSMS、電話、スマホアプリ、チャットなどに設定出来る。</li>
+  <li>通知スケジュールも細かく設定出来るので、日替わりでエスカレーション先のエンジニアを切り替えている</li>
+  <li>スマホアプリの出来が良い。</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent05.png" alt="" /></p>
+
+<h2 id="infomation--escalation">Infomation / Escalation領域</h2>
+
+<p>お知らせ、エスカレーション領域</p>
+
+<h3 id="twitter">Twitter</h3>
+
+<ul>
+  <li>前述のstatuspage.ioと連携。</li>
+  <li>statuspage.io上で障害情報を掲載するとTwitterにも投稿されるので、障害情報の更新において二度手間が無い。</li>
+</ul>
+
+<h3 id="slack">Slack</h3>
+
+<ul>
+  <li><a href="https://slack.com/">Slack: Be less busy</a></li>
+  <li>各種アラートがPagerDuty経由でSlackに通知される</li>
+  <li>Slackに逐一通知されるんので、アラートの履歴や対応状況などが一目で分かるようになっている</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent06.png" alt="" /></p>
+
+<h3 id="smspush">電話、SMS、メール、アプリへのPush通知など</h3>
+
+<ul>
+  <li>PagerDutyが通知をハンドリングしてくれるので、「最初はSMSにアラートを送って、反応が無ければ○○分後電話する」など通知設定をして運用している。</li>
+  <li>監視担当の人がその日都合が悪かったりした場合など、通知先の変更が簡単にできる。</li>
+</ul>
+
+<h2 id="section-1">その他</h2>
+
+<ul>
+  <li>Mackerelの部分には、<a href="https://www.datadoghq.com/">Datadog</a>も検証。非常に素晴らしいサービスだった。</li>
+  <li>現時点ではDatadogの方が高機能なんですが、MackerelがDatadogの超えてくれるのを期待してMackerelを採用</li>
+</ul>
+
+<p>なぜ複数のサービスを組み合わせて監視しているかは技術顧問の伊藤直也さんのスライドを見ると分かるかと思います。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/12/sensu_advent07.png" alt="" /></p>
+
+<script async="" class="speakerdeck-embed" data-id="617b55a011990132168932d3f2247bb6" data-ratio="1.33333333333333" src="https://blog.glidenote.com//speakerdeck.com/assets/embed.js"></script>
+
+<p>来年にはガラッと変わっているかもしれないけど、各コンポーネントがAPIで疎結合化されているのでアーキテクチャの変更も容易。</p>
+
+<p>些細な障害、兆候も検知して見逃さないように、いろいろと試行錯誤を繰り返している。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ゆるふわなかんじで Sensu の話題をするためのIRCチャンネルをつくってみた]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/05/22/sensu-casual-freenode/"/>
+    <updated>2014-05-22T10:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/05/22/sensu-casual-freenode</id>
+    <content type="html"><![CDATA[<p><a href="http://sensuapp.org/">Sensu</a>について、ゆるふわなトークが出来るIRCチャンネルを作ってみた。</p>
+
+<p><code>#sensu-casual@freenode</code></p>
+
+<p>まだ誰もいないので<code>ChanServ</code>だけ話をしてる。</p>
+
+<p>たまにカレー情報</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/05/sensu-curry.png" alt="" /></p>
+
+<p>たまに寿司情報</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/05/sensu-sushi.png" alt="" /></p>
+
+<p>がこんな感じで流れるのでSensu使ってないけど、
+カレー情報や寿司情報を入手したい人も入ってくるといいと思います。</p>
+
+<p><a href="https://botbot.me/">BotBot.me</a>に依頼して、<a href="http://wiki.znc.in/ZNC">znc</a>とか使って常駐してなくてもログが追えるよう</p>
+
+<ul>
+  <li><a href="https://botbot.me/freenode/sensu-casual/">https://botbot.me/freenode/sensu-casual/</a></li>
+</ul>
+
+<p>に記録されるようになっているので、便利な感じになってます。</p>
+
+<p><strong>14:18 追記</strong>
+BotBot.meのBotさんが即死して帰ってこないので、ログが追えなくなってます… 。そのうち生き返ると思います。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://blog.64p.org/entry/2013/03/13/195515">ゆるふわなかんじで perl の話題をするためのチャットルームをつくってみた - blog.64p.org</a></li>
+  <li><a href="http://studio3104.hatenablog.com/entry/2013/03/22/164827">ゆるふわなかんじで Chef の話題をするためのIRCチャンネルをつくってみた</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[sensu-puppetがよく理解出来るかもしれないsensu-puppet-sampleを作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/05/19/sensu-puppet-sample/"/>
+    <updated>2014-05-19T22:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/05/19/sensu-puppet-sample</id>
+    <content type="html"><![CDATA[<p><img src="https://raw.github.com/sensu/sensu/master/sensu-logo.png" alt="" /></p>
+
+<p>前に<a href="https://blog.glidenote.com/blog/2013/11/26/sensu/">監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた - Glide Note - グライドノート</a> を書いて、
+さらに半年近く経過し、<strong>約8ヶ月間Sensuを本番環境で運用しているけど、非常に安定していて監視もちゃんと機能していて1回もsensu自体は止まったことはない。</strong></p>
+
+<p>某誌からSensuについて執筆の依頼が来てたんですが、企画が流れてしまったので、
+企画段階で書いたり、作ったりしたものをせっかくなので公開しようと思う。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/sensu-puppet-sample">glidenote/sensu-puppet-sample</a></li>
+</ul>
+
+<p>sensu-puppet-sampleを利用すると下記のような構成が出来上がります。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/05/sensu-puppet-sample0.png" alt="" /></p>
+
+<p>sensu-puppet-sampleではsensu用のマニフェストは1つのファイルで完結してて、
+<code>puppet apply</code>だけで適用出来るようになっているので、</p>
+
+<ul>
+  <li>puppetを使ってない環境への組み込みが簡単</li>
+  <li>すでにpuppet使っている場合は既存puppet環境との共存が簡単</li>
+</ul>
+
+<p>というふうに作ってあります。</p>
+
+<p>社内の開発サーバの死活監視が必要になったときもこれを使ってサクッと構築。</p>
+
+<h2 id="section">はじめに</h2>
+
+<ul>
+  <li>簡単に<a href="http://sensuapp.org/">Sensu</a>を試してみたい人を対象としている</li>
+  <li>Sensu導入にはChef/Puppetの利用が推奨されているため、今回はSensu公式の<a href="https://github.com/sensu/sensu-puppet">sensu-puppet</a>を利用してSensuを導入するが、Puppetにおける前提知識を必要としない</li>
+  <li>sensu-chefと比較して、sensu-puppetは情報が少なく利用の敷居が高いため、利用方法やマニフェストの記載例として用意</li>
+  <li>Puppetの<code>puppet apply</code>コマンドだけを利用する(agent/master構成を取らない) ( refs <a href="http://tatsu-zine.com/books/puppet">入門Puppet - Automate Your Infrastructure - 達人出版会</a>)</li>
+  <li>Puppetモジュールを積極的に活用してPuppetマニフェストが簡潔にする</li>
+  <li>CentOS 6.xでの作業を想定してます</li>
+</ul>
+
+<h2 id="sensu-puppet-sample">sensu-puppet-sampleの利用方法</h2>
+
+<ul>
+  <li><a href="https://github.com/glidenote/sensu-puppet-sample">https://github.com/glidenote/sensu-puppet-sample</a>を参照ください。</li>
+</ul>
+
+<h2 id="sensu-puppet">sensu-puppetに関してのまとめ</h2>
+
+<p><a href="https://github.com/sensu/sensu-puppet">sensu/sensu-puppet</a>もsensuを本番投入前から触っていて、
+9ヶ月くらい運用しているので、ちょっとまとめてみる。</p>
+
+<h3 id="sensu-puppet-1">sensu-puppetを利用するメリット</h3>
+
+<ul>
+  <li>サーバ構築時にpuppetを実行するだけで、構築作業と監視設定が完了して監視もその時点から始まる。</li>
+  <li>sensuの各種設定を、puppetマニフェストを通じて生成、管理出来る。</li>
+  <li>sensu-puppetが、マニフェストからSensuのjson形式の設定ファイル(json形式)を生成してくれるので、Sensuの設定ファイルの記載方法を覚えなくても良い</li>
+  <li>監視設定を追加、変更する場合はpuppetマニフェストを用意して、<code>puppet apply</code>すれば反映される</li>
+</ul>
+
+<h3 id="sensu-puppet-2">sensu-puppetを利用するデメリット</h3>
+
+<ul>
+  <li>sensu-puppet用のマニフェストの書き方をしないといけない</li>
+  <li>ドキュメントがほぼ無いので、変わったことをやろうとするとソースを読まないといけない</li>
+</ul>
+
+<p>sensu-puppetを使ってる人があんまりいないので、参考になれば幸いです。
+Sensuが普及してきたら、特集してくれるようになので、流行ってくれるといいな-</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://inokara.hateblo.jp/entry/2014/01/16/064456">docker + puppet + sensu で構築するセンス香る監視環境（1） - ようへいの日々精進 XP</a></li>
+  <li><a href="http://inokara.hateblo.jp/entry/2014/01/18/170644">docker + puppet + sensu で構築するセンス香る監視環境（2） - ようへいの日々精進 XP</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/11/26/sensu/"/>
+    <updated>2013-11-26T19:37:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/11/26/sensu</id>
+    <content type="html"><![CDATA[<p><img src="https://raw.github.com/sensu/sensu/master/sensu-logo.png" alt="" /></p>
+
+<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>新規サービス用の監視をNagiosから<a href="http://sensuapp.org/">sensu</a>に切り替えて2ヶ月経ったので、
+導入時の調査で社内で公開してたissueと、投入して2ヶ月間運用した記録を公開しておこうと思う。</p>
+
+<p>というか<a href="https://blog.glidenote.com/blog/2013/10/30/serf-haproxy/">以前Sensuの事を書くと公言していた</a>のに、すっかりサボっていて
+昨日<a href="http://maoe.hatenadiary.jp/entry/2013/11/25/181037">@ma0eさんのブログ</a>を見て下記のやり取りを思い出して急いで書いた…</p>
+
+<blockquote class="twitter-tweet" lang="ja"><p><a href="https://twitter.com/ma0e">@ma0e</a> We started using it. <a href="https://twitter.com/glidenote">@glidenote</a> will report the detail soon, I think.</p>&mdash; kentaro (@kentaro) <a href="https://twitter.com/kentaro/statuses/395693993603772417">2013, 10月 30</a></blockquote>
+
+<blockquote class="twitter-tweet" lang="ja"><p><a href="https://twitter.com/kentaro">@kentaro</a> <a href="https://twitter.com/glidenote">@glidenote</a> that would be nice</p>&mdash; Mitsutoshi Aoe/maoe (@ma0e) <a href="https://twitter.com/ma0e/statuses/395694852538499072">2013, 10月 30</a></blockquote>
+<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>導入環境はCentOS 6.4で、利用しているsensuのバージョンは<code>0.12.1-1</code>になり、基本的にはNagiosとの比較になります。
+またPuppetを使っているので、導入には<a href="https://github.com/sensu/sensu-puppet">sensu-puppet</a>を使ってます。</p>
+
+<p>箇条書きで読みにくいですが、sensu導入の際は参考にしてください。</p>
+
+<h2 id="sensu">Sensuの特徴</h2>
+
+<ul>
+  <li>Nagiosの問題点から生まれた監視フレームワーク</li>
+  <li>Rubyで書かれている</li>
+  <li>監視対象(クライアント)が自動登録される</li>
+  <li>設定ファイルが簡潔、分かりやすい</li>
+  <li>新規サーバにChef/Puppetを流した直後から監視が自動で開始される</li>
+  <li>既存Nagios Checkの再利用が出来る(Nagios資産が活かせる)</li>
+  <li>EC2のようなサーバ構成が頻繁に変化する環境において非常に有用</li>
+  <li>Chef/Puppetとの相性が非常に良い</li>
+  <li>必要な機能はプラグインで拡張。アラートの通知方法を追加したり、<a href="https://metrics.librato.com/">librato-metrics</a>と連携して、メトリクス作成とかも出来る。</li>
+  <li>WEB UIの動作が軽快</li>
+  <li>スケールアウトが容易</li>
+</ul>
+
+<p>より詳しい情報は公式スライド <a href="http://slides.sensuapp.org">http://slides.sensuapp.org</a> を参照</p>
+
+<p>sensuと連携出来るサービスとしてスライドには下記の画像が載っている</p>
+
+<p><img src="http://slides.sensuapp.org/image/img/endpoints.png" alt="" /></p>
+
+<h2 id="section">導入前の検証、調査時のまとめ</h2>
+
+<ul>
+  <li>sensu repoを追加すれば、yum一発で導入出来る</li>
+  <li>sensuにはサーバとクライアントがある</li>
+  <li><code>erlang</code>、<code>RabbitMQ</code>、<code>redis</code>とgemの<code>sensu-plugin</code>が必要。クライアント側はredis必要無い</li>
+  <li>sensuは<code>sensu-server</code>、<code>sensu-api</code>、<code>sensu-dashboard</code>、<code>sensu-client</code>の4つから構成されている</li>
+  <li>Nagiosのようにサーバからクライアントに状態を聞きに行くのではなく、クライアント自身が自分を監視している</li>
+  <li>クライアント側で監視がこけたらサーバ側に<code>RabbitMQ</code>を使って、サーバ側に自身の異常を通知する</li>
+  <li>クライアントに設定ファイル、監視プラグインを渡して<code>sunsu-client</code>起動すれば監視が勝手に始まる。(極端な話<code>/etc/sensu</code>まるごとクライアントに渡せば良い)</li>
+  <li>サーバはクライアントを<code>RabbitMQ</code>で定期的に通信していて、通信断やホストダウンはサーバ側が検知する</li>
+  <li>クライアントが増えた場合は、<code>RabbitMQ</code>経由でサーバに通知してきて勝手に監視対象に追加される</li>
+  <li>クライアントを削除する場合は、api経由で監視対象から外す。(管理画面があるのでそれで監視対象を管理出来る)</li>
+  <li>設定ファイルはjson。手編集ではなく、chefやpuppetでの自動生成が推奨されている</li>
+  <li>sensu自体が、chef/puppetでの管理が推奨されている</li>
+  <li>Nagiosと比較して設定ファイルが分かりやすい(Chef/Puppetが生成してくれるので自分で書くことはないと思いますが)</li>
+  <li>apiがあるので、自前でツールを用意したりするのが楽そう。(後述する<code>sensu-admin</code>もapiを叩いているツール)</li>
+  <li>nrpe-pluginがそのまま使えるのでnagios時代の資産が使える。<code>/usr/lib/nagios/plugins/check_load -w 20,500,500 -c 35,500,500</code>とかをチェックコマンドとして設定すれば良い。</li>
+  <li>監視プラグインの書き方はnagiosと一緒。sensu-pluginも公開されてる <a href="https://github.com/sensu/sensu-plugin">https://github.com/sensu/sensu-plugin</a></li>
+  <li>通知プラグイン、アラートのトレンドをグラフ化してくれるプラグインなどもある。</li>
+</ul>
+
+<p><img src="https://blog.glidenote.com/images/2013/11/sensu-diagram.png" alt="" /></p>
+
+<h2 id="section-1">導入、2ヶ月運用したまとめ</h2>
+
+<ul>
+  <li><a href="https://github.com/sensu/sensu-puppet">sensu-puppet</a>を動かすまでかなり苦労した(どうやらChefだと導入が簡単らしい)</li>
+  <li>日本語の情報がほとんどない。特に<code>sensu-puppet</code>は、英語のドキュメント自体ないのでmanifest読まないといけなくてかなりつらい</li>
+  <li><code>sensu-puppet</code>が動くようになると、設定ファイルを作ってくれるので一気に全台に導入出来るようになる。監視項目追加なども非常に楽になる</li>
+  <li>逆に言うとsensu-puppet(sensu-chef)を利用しない場合は、sensu採用する意味が薄い(と思う)</li>
+  <li><code>RabbitMQ</code>の管理には<a href="https://github.com/puppetlabs/puppetlabs-rabbitmq">puppetlabs-rabbitmq</a>を利用した</li>
+  <li>デフォルト管理画面の<code>sensu-dashboard</code>が簡素すぎる(設定項目が少ないので分かりやすいとも言えますが)</li>
+  <li>標準管理画面(<code>sensu-dashboard</code>)に機能追加した<a href="https://github.com/sensu/sensu-admin">sensu-admin</a>というのがあり、これを導入するとダウンタイムなどを設定出来るようになる。</li>
+  <li><code>sensu-admin</code>はRailsアプリなので、<code>nginx</code>+<code>unicorn</code>+<code>upstart</code>で上げてます。</li>
+  <li>sensuのプラグインだと足りないので、nrpe-pluginを結構使ってる。</li>
+  <li>ログもjsonで吐かれるので、<a href="http://stedolan.github.io/jq/">jq</a>を一緒に導入しておくのが良い</li>
+  <li><code>sensu-server</code>を再起動したタイミングで、<code>sensu-api</code>が死ぬことがある。なので<code>sensu-api</code>の監視必須</li>
+  <li><code>sensu-server</code>を再起動する必要がある場合は、<code>sensu-server</code>,<code>sensu-api</code>両方再起動しておくのが吉</li>
+  <li>IRCの通知プラグインが簡素過ぎたので、色が付くようにPR出してmergeしてもらった <a href="https://github.com/sensu/sensu-community-plugins/pull/329">colorize irc notification. by glidenote · Pull Request #329 · sensu/sensu-community-plugins</a></li>
+  <li>各種プラグインがRubyで書かれていて、それぞれのファイルが短いので理解しやすい。改変や自作も楽に出来る。(Ruby情弱の私でも出来た)</li>
+  <li>今Sensuで監視しているサーバは10台弱で、各サーバ8〜10個くらいの監視項目という小規模で利用していて、2ヶ月間トラブルもなく安定している</li>
+  <li>数百台と監視したときNagiosと同等の安定した動作がするかは調査中。</li>
+  <li>私がRabbitMQの扱いになれてないので、そこがトラブると調査が大変そうな予感…</li>
+</ul>
+
+<p>実際に稼働しているsensu-serverの<code>/etc/sensu</code>配下のファイル一覧。<code>.json</code>が設定ファイルで、<code>.rb</code>がプラグイン。sensu-puppetが設定ファイルを生成してくれるので、管理が非常に楽。</p>
+
+<p>``` sh
+/etc/sensu
+├── conf.d
+│   ├── api.json
+│   ├── checks
+│   │   ├── check_crond_process.json
+│   │   ├── check_disk.json
+│   │   ├── check_lb_health.json
+│   │   ├── check_load.json
+│   │   ├── check_mem.json
+│   │   ├── check_ntp_time.json
+│   │   ├── check_ReadOnly_FileSystem.json
+│   │   ├── check_sensu_api.json
+│   │   ├── check_serf_process.json
+│   │   ├── check_ssh_port_22.json
+│   │   └── check_ssl_expire.json
+│   ├── client.json
+│   ├── dashboard.json
+│   ├── handlers
+│   │   ├── default.json
+│   │   ├── irc.json
+│   │   ├── irc-server-op.json
+│   │   └── mailer.json
+│   ├── rabbitmq.json
+│   └── redis.json
+├── extensions
+├── handlers
+│   ├── irc.rb
+│   ├── irc-server-op.rb
+│   └── mailer.rb
+├── mutators
+├── plugins
+│   ├── check-fs-writable.rb
+│   ├── check-http.rb
+│   ├── check-load.rb
+│   ├── check_mem
+│   ├── check-memcached-stats.rb
+│   ├── check-procs.rb
+│   └── check-redis-memory.rb
+└── ssl
+    ├── client_cert.pem
+    └── client_key.pem</p>
+
+<p>8 directories, 32 files
+```</p>
+
+<p>実際に使っている管理画面。<code>sensu-dashboard</code>から<code>sensu-admin</code>に切り替えてサービスに投入してます。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/11/sensu0.png" alt="" /></p>
+
+<p>アラートが出ると下記のような感じ。アラートが出たものだけ表示される。</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/11/sensu1.png" alt="" /></p>
+
+<p>IRCには下記のような感じ(<a href="https://github.com/sensu/sensu-community-plugins/pull/329">私のPRがmerge</a>されて色が付くようになってます!)</p>
+
+<p><img src="https://blog.glidenote.com/images/2013/10/after_weechat.png" alt="" /></p>
+
+<p>メールでは</p>
+
+<p>```
+ALERT - web001.glidenote.jp/check_php-fpm:</p>
+
+<p>PROCS CRITICAL: 0 processes with command name ‘php-fpm’</p>
+
+<pre><code>        Host: web001.glidenote.jp
+        Timestamp: Wed Nov 20 11:35:51 +0900 2013
+        Address:  192.168.xxx.xxx
+        Check Name:  check_php-fpm
+        Command:  /usr/lib/nagios/plugins/check_procs -c 1: -C "php-fpm"
+        Status:  2
+        Occurrences:  2 ```
+</code></pre>
+
+<p>みたいな感じで通知される。</p>
+
+<p>私が導入したときはVersion 0.9だったのが今はVersion 0.12になっており、ドキュメントの更新も結構活発なので、
+導入に関しては<a href="http://sensuapp.org/docs">公式ドキュメント</a>を読むのが良いと思います。</p>
+
+<h2 id="puppet">Puppetでの構築</h2>
+
+<p>実際に構築時に流しているコマンド、下記を流せば、Sensuでの監視が勝手に始まる。
+Serf-muninも使っているので、下記を流し終われば即サービスに投入も出来る。</p>
+
+<p>``` sh
+cat « ‘EOF’ &gt;/etc/yum.repos.d/epel.repo
+[epel]
+name=epel repo
+#baseurl=http://download.fedoraproject.org/pub/epel/6/$basearch
+mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=epel-6&amp;arch=$basearch
+failovermethod=priority
+enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
+EOF</p>
+
+<p>yum -y install puppet</p>
+
+<p>cat « ‘EOF’ &gt; /etc/puppet/puppet.conf
+[main]
+ssldir = $vardir/ssl
+rundir = /var/run/puppet
+logdir = /var/log/puppet</p>
+
+<p>[master]
+environment = development
+certname    = manage001.pb.glidenote.lan
+manifestdir = $vardir/data/manifests
+templatedir = $vardir/data/templates
+modulepath  = $vardir/data/modules</p>
+
+<p>[agent]
+pluginsync = true
+EOF</p>
+
+<p>echo “172.18.xxx.xxx    manage001.pb.glidenote.lan” » /etc/hosts</p>
+
+<p>yum -y install rubygems
+rpm -Uvh http://mirrors.kernel.org/fedora-epel/6/x86<em>64/rubygem-json-1.4.6-1.el6.x86</em>64.rpm </p>
+
+<p>puppet agent –test –server manage001.pb.glidenote.lan –noop
+puppet agent –test –server manage001.pb.glidenote.lan
+```</p>
+
+<p>SensuとともにSerf-muninを導入したこともあって、インスタンス起動して、
+Puppet流したら即サービス投入可能という、手間のかからない環境が出来上がった。</p>
+
+<p>数百台、数千台の監視になるとどうなるか分からないけど、今の規模では非常に安定しているし、
+Sensuの管理の簡単さを知るともうNagiosには戻りたくない。</p>
+
+<h2 id="section-2">参考</h2>
+
+<ul>
+  <li><a href="http://sensuapp.org/docs">Sensu | An open source monitoring framework</a></li>
+  <li><a href="http://jedipunkz.github.io/blog/2013/06/20/sensu-chef-controll/">sensu 監視システムを Chef で制御 - jedipunkz’ blog</a></li>
+  <li><a href="http://maoe.hatenadiary.jp/entry/2013/11/25/181037">sensuについて - maoeのブログ</a></li>
+  <li><a href="http://codezine.jp/article/detail/7442">【DevOpsDays Tokyo 2013】クラウド時代のモニタリングツール、UNIXの思想が息づくsensuチュートリアル　――Heavy Water Operations, LLC （1/3）：CodeZine</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

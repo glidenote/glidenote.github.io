@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: travis-ci | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/travis-ci/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ターミナルからPinboardのお気に入りを検索できるpblというツールを作った]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/10/04/pbl/"/>
+    <updated>2012-10-04T23:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/10/04/pbl</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://rubygems.org/gems/pbl">pbl</a></li>
+</ul>
+
+<p>お気に入りの登録先として<a href="http://pinboard.in/">Pinboard</a>を絶賛フル活用しているんですが、
+ターミナル上で作業していて、自分のブックマークを探すときに</p>
+
+<ol>
+  <li>ブラウザで<a href="http://pinboard.in/">Pinboard</a>を開く</li>
+  <li>検索窓の検索キーワードを入れる</li>
+  <li>目的のページを探してクリックして開く</li>
+</ol>
+
+<p>という流れが、地味に集中力を削ぐのでターミナル上からPinboardのブックマークが検索出来る
+<a href="https://rubygems.org/gems/pbl">pbl</a>というツールを作った。</p>
+
+<h2 id="section">導入方法</h2>
+
+<p>gem一発で入ります。</p>
+
+<p><code>
+gem install pbl
+</code></p>
+
+<h2 id="section-1">使い方</h2>
+
+<p>たとえば<code>fluentd</code>とタグ付けされた自分ブックマークを探すときは下記のような感じ。
+<a href="https://rubygems.org/gems/pit">pit</a>を利用しているので、
+初回起動時はPinboardのアカウント情報を登録のためエディタが起動するかと思います。</p>
+
+<p><code>
+pbl fluentd
+</code></p>
+
+<p>こんな感じで表示される。</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/10/pbl.png" alt="" /></p>
+
+<p>ターミナルの設定で、URLをクリックしてブラウザが開くようにしておけば、
+わざわざブラウザでPinboard開いて検索する作業の手間が省ける。  </p>
+
+<p><a href="https://chrome.google.com/webstore/detail/pinboard-fu/ggaonngfgojmeifboajphnhkkhgfefpb">pinboard-fu</a>の作者の
+<a href="https://twitter.com/banyan">@banyan</a>さんがテストを書いてくれたおかげで、Githubにpushするたびに
+<a href="https://travis-ci.org/#!/glidenote/pbl">Travis-ci</a>でビルドが走ってくれていろいろと捗る。</p>
+
+<p>@banyan++</p>
+]]></content>
+  </entry>
+  
+</feed>

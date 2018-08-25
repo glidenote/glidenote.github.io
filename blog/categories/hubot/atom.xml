@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: hubot | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/hubot/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Githubで利用されているボットシステムHUBOTを動かしてみた]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/01/24/install-hubot/"/>
+    <updated>2012-01-24T23:58:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/01/24/install-hubot</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2012/01/hubot.png" alt="" /></p>
+
+<ul>
+  <li><a href="http://hubot.github.com/">HUBOT</a></li>
+</ul>
+
+<p>Githubで利用されているらしいボットシステム<a href="http://hubot.github.com/">HUBOT</a>を触ってみました。
+HUBOTを動かすのに、node.jsとnpmが必要なので先に導入。導入環境はScientific Linux6.1です</p>
+
+<h2 id="nodejs">node.jsの導入</h2>
+
+<p><a href="http://nodejs.org/">node.js</a>から最新版0.6.8(2012年1月23日現在)を導入。</p>
+
+<p><code>
+mkdir ~/src
+cd ~/src
+wget http://nodejs.org/dist/v0.6.8/node-v0.6.8.tar.gz
+tar zxvf node-v0.6.8.tar.gz
+cd node-v0.6.8
+./configure
+make
+sudo make install
+</code></p>
+
+<h2 id="npm">npmの導入</h2>
+
+<p><code>
+sudo -s
+curl http://npmjs.org/install.sh | sh
+exit
+</code></p>
+
+<h2 id="section">依存ライブラリの導入</h2>
+
+<p><code>
+cd ~
+git clone git://github.com/github/hubot.git
+cd hubot
+npm install
+</code></p>
+
+<h2 id="hubot">HUBOTの起動</h2>
+
+<p>このままだとcoffee-scriptのpathが見つけられないので、exportで一時的にpathを通す。</p>
+
+<p><code>
+export PATH="node_modules/.bin:$PATH"
+</code></p>
+
+<p>HUBOTを起動</p>
+
+<p><code>
+bin/hubot
+</code></p>
+
+<p><code>hubot help</code> を打ってみると下記のような感じ</p>
+
+<p>```
+$ bin/hubot
+[Tue, 24 Jan 2012 09:47:47 GMT] INFO Loading scripts from /home/akira/src/node-v0.6.8/hubot/scripts
+[Tue, 24 Jan 2012 09:47:47 GMT] INFO Loading scripts from /home/akira/src/node-v0.6.8/hubot/src/scripts
+Hubot&gt; hubot help
+Hubot&gt; <user> is a badass guitarist - assign a role to a user</user></p>
+<user> is not a badass guitarist - remove a role from a user
+animate me <query>  - The same thing as `image me`, except adds a few
+convert me <expression> to <units> - Convert expression to given units.
+help - Displays all of the help commands that Hubot knows about.
+help <query> - Displays all help commands that match <query>.
+image me <query>    - The Original. Queries Google Images for <query> and
+map me <query> - Returns a map view of the area returned by `query`.
+math me <expression> - Calculate the given expression.
+mustache me <query> - Searches Google Images for the specified query and
+mustache me <url>   - Adds a mustache to the specified URL.
+pug bomb N - get N pugs
+pug me - Receive a pug
+show storage - Display the contents that are persisted in redis
+show users - Display all users that hubot knows about
+translate me <phrase> - Searches for a translation for the <phrase> and then
+translate me from <source /> into <target> <phrase> - Translates <phrase> from <source /> into <target>. Both <source /> and <target> are optional
+who is <user> - see what roles a user has
+youtube me <query> - Searches YouTube for the query and returns the video
+```
+
+渋谷の地図を聞いてみると
+
+```
+Hubot&gt; hubot map me shibuya
+Hubot&gt; http://maps.google.com/maps/api/staticmap?markers=shibuya&amp;size=400x400&amp;maptype=roadmap&amp;sensor=false&amp;format=png
+Hubot&gt; http://maps.google.com/maps?q=shibuya&amp;hl=en&amp;sll=37.0625,-95.677068&amp;sspn=73.579623,100.371094&amp;vpsrc=0&amp;hnear=shibuya&amp;t=m&amp;z=11
+```
+
+とりあえず動かすのは簡単にできた。  
+CoffeeScriptで機能拡張するようなので勉強しよう
+</query></user></target></target></phrase></phrase></target></phrase></phrase></url></query></expression></query></query></query></query></query></units></expression></query></user>
+]]></content>
+  </entry>
+  
+</feed>

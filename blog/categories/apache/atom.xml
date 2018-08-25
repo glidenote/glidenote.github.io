@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: apache | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/apache/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Node.jsで書かれてwebベースのlog streamer「Supergrep」を試してみた]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/07/02/supergrep/"/>
+    <updated>2012-07-02T10:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/07/02/supergrep</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="http://codeascraft.etsy.com/2012/06/28/is-it-a-bird-is-it-a-plane-no-its-supergrep/">Is It A Bird? Is It A Plane? No, It’s Supergrep! « Code as Craft</a></li>
+  <li><a href="https://github.com/etsy/supergrep">etsy/supergrep</a></li>
+</ul>
+
+<p><a href="http://www.etsy.com/">Etsy</a>からNode.jsで書かれた、ブラウザから利用するlogs streamerのSupergrepが
+リリースされたので早速試してみました。</p>
+
+<p>ツールとしては任意のログが、任意の不要なログを除いた形式で出力され、
+そこからさらにブラウザ上で自分でフィルタをかけるようなツールです。</p>
+
+<p>公式の説明としても、</p>
+
+<p><code>
+tail -f {log filename} | grep -v {stuff you'd expect to see in log lines}
+</code></p>
+
+<p>という感じの説明をしていて、解析に必要無いログは排除する設定が任意で出来て、表示されています。</p>
+
+<p>導入環境はSL6.2です。</p>
+
+<h2 id="nodejs">Node.jsの導入</h2>
+
+<p>SupergrepはNode.jsで書かれているので、Node.jsとnpmを導入。
+2012年6月29日現在の最新版v0.8.0を導入</p>
+
+<p><code>
+mkdir ~/src
+cd ~/src
+wget http://nodejs.org/dist/v0.8.0/node-v0.8.0.tar.gz
+tar zxvf node-v0.8.0.tar.gz
+cd node-v0.8.0
+./configure
+make
+sudo make install
+</code></p>
+
+<h2 id="npm">npmの導入</h2>
+
+<p><code>
+sudo -s
+curl http://npmjs.org/install.sh | sh
+exit
+</code></p>
+
+<h2 id="supergrep">Supergrepの導入と起動</h2>
+
+<p>とりあえずデフォルトのまま起動。</p>
+
+<p><code>
+mkdir ~/repos
+cd ~/repos
+git clone git://github.com/etsy/supergrep.git
+cd supergrep
+npm install
+./runlocal
+</code></p>
+
+<p><code>http://hostname:3000</code>にアクセスしてみると下記のような感じのガイドが表示される</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/supergrep0.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/supergrep1.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/supergrep2.png" alt="" /></p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/supergrep3.png" alt="" /></p>
+
+<p>と説明が続く。</p>
+
+<h2 id="supergrep-1">Supergrepの設定</h2>
+
+<p>Supergrepの設定は同梱されている<code>localConfig.js</code>に記載。
+私は下記のように修正。当然ですが、apache以外のlogにも使えます。</p>
+
+<p><div><script src='https://gist.github.com/3015393.js'></script>
+<noscript><pre><code>--- localConfig.js.dist 2012-06-29 10:08:51.293463302 +0900
++++ localConfig.js      2012-06-29 10:43:45.759470687 +0900
+@@ -15,7 +15,7 @@
+     files: [
+         {
+             name: &#39;web&#39;,
+-            path: [&#39;/var/log/httpd/info.log&#39;, &#39;/var/log/httpd/php.log&#39;]
++            path: [&#39;/var/log/httpd/info.log&#39;, &#39;/var/log/httpd/php.log&#39;, &#39;/var/log/httpd/access_log&#39;]
+             // you can also do this
+             //            filter: function (line, config) {
+             //                if (! line.match(config.noisyErrors)) {</code></pre></noscript></div>
+</p>
+
+<p>Supergrepがlogを読み取れないといけないので、権限を修正</p>
+
+<p><code>
+sudo chmod 755 /var/log/httpd/
+</code></p>
+
+<h2 id="supergrep-2">Supergrepを動作</h2>
+
+<p>設定が済んだら、再度Supergrepを起動してみる。</p>
+
+<p><code>
+./runlocal
+</code></p>
+
+<p><code>apache_log</code>を<code>403</code>でハイライトした感じ</p>
+
+<p><img src="https://blog.glidenote.com/images/2012/06/supergrep4.png" alt="" /></p>
+
+<p>ログサイズがでかい場合は、どのくらいの負荷になるのかなど検証しないといけないですが、</p>
+
+<ul>
+  <li>サポートの人とかサーバに入らずブラウザからログを閲覧</li>
+  <li>デプロイ直後のログ確認</li>
+</ul>
+
+<p>とかに向いてるかなという印象。
+不要なログが排除されててログの見通しがよく、ターミナル上で見るより見やすい。</p>
+
+<p>でも今だとfluentd+mongodbとかで、そういう環境を整えるのが良いかなーと思ったりも。</p>
+
+<p><a href="http://www.etsy.com/">Etsy</a>はサイトの見た目とは対照的に、<a href="http://codeascraft.etsy.com/2012/01/23/solr-bittorrent-index-replication/">SolrのIndexレプリケーションにBitTorrentを使っていたり</a>、
+技術的に尖ったことをやっていて面白い会社ですね。</p>
+]]></content>
+  </entry>
+  
+</feed>

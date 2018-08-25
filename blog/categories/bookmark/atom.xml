@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: bookmark | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/bookmark/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ソーシャルブックマークのデータをPinboardに集約して一元管理]]></title>
+    <link href="https://blog.glidenote.com/blog/2012/01/29/pinboard/"/>
+    <updated>2012-01-29T02:07:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2012/01/29/pinboard</id>
+    <content type="html"><![CDATA[<p><img src="https://blog.glidenote.com/images/2012/01/pinboard.png" width="200" height="150" align="right" /></p>
+
+<ul>
+  <li><a href="http://pinboard.in/">Pinboard: social bookmarking for introverts</a></li>
+</ul>
+
+<p>気になった情報をMac、iPhone、iPad、Androidと各種端末、
+各種アプリのTwitter連携、ソーシャルブックマーク連携を使ってPostしていたら、
+どこに何の情報があるか分からなくなってカオス化してきたので、
+すべての情報が最終的に一つになるようにPinboardを利用し始めました。  </p>
+
+<p>そもそもMac、iPhoneとAndroidのRSSリーダ、Twitterクライアントなどはアプリごとで、連携出来るソーシャルサービスが違うので、
+Deliciousに突っ込んだり、Twitterに投稿したり、じっくりKindleで読むようにInstapaperに送ったり適当に利用してたのが原因。</p>
+
+<p>Pinboardの何が良いかまとめると</p>
+
+<h2 id="pinboard">Pinboardの良い点</h2>
+
+<ul>
+  <li>動作がとにかく速い</li>
+  <li>見た目がシンプル</li>
+  <li><a href="http://delicious.com/">Delicious</a>、<a href="http://www.instapaper.com/">Instapaper</a>、<a href="http://www.readability.com/">Readability</a>から新規に追加したデータを
+自動インポートしてくれるので、各種端末、各種アプリのソーシャル連携機能はそのままの利用方法でOK。ブックマークレットとかも使い回し可。</li>
+  <li>Twitter連携機能。URL付きの自分のtweet、favoritesをブックマークに追加してくれる</li>
+</ul>
+
+<p>Pinboardの自動インポート機能のおかげで、これまでと同じように、Deliciousに投げたり、Twitterに送ったりと、
+使い方を特に意識しなくても最終的に全部Pinboardに同期集約されるのが素晴らしい。</p>
+
+<p>利用するのに登録料$9.63がかかりますが、情報が一元管理出来てスッキリです。
+<a href="http://ifttt.com/">ifttt</a>を活用すれば他にも情報をPinboardに集約できそうです。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://shigeya.org/blog/archives/2011/03/deliciouspinboard.html">Deliciousの代替にはPinboardがオススメ - LocalScope::</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

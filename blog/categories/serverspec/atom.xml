@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Serverspec | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/serverspec/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[vim-quickrunでServerspecをカーソル行単位でテストして編集効率を10倍にする]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/06/19/quickrun-serverspec/"/>
+    <updated>2014-06-19T18:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/06/19/quickrun-serverspec</id>
+    <content type="html"><![CDATA[<p><a href="https://blog.glidenote.com/blog/2014/06/17/serverspec-snippets/">Serverspecが超高速で書けるserverspec-snippetsを作った</a>の続き。</p>
+
+<p>超高速で<a href="http://serverspec.org/">Serverspec</a>が書けるようになったので、
+今度は<a href="https://github.com/thinca/vim-quickrun">vim-quickrun</a>を使って、
+Serverspecを書きながらカーソル行だけテストを回せるようにした。</p>
+
+<p>どんな感じかまた動画を用意したので、見ていただくのが早いです。</p>
+
+<p><div class="embed-video-container"><iframe src="https://player.vimeo.com/video/98562985 "></iframe></div></p>
+
+<p>カーソル行だけテストが実行されるので、全体のテストを実行するより高速になってます。</p>
+
+<p>vim-quickrunでテストを実行すると、出力に色が付かないので下記のようなsyntaxプラグインを作成。
+使い方やvim-quickrunの設定例も下記にまとまっているので、参照ください。</p>
+
+<ul>
+  <li><a href="https://github.com/glidenote/rspec-result-syntax">glidenote/rspec-result-syntax</a></li>
+</ul>
+
+<p><code>g:quickrun_config</code>において<code>cmdopt</code>、<code>args</code>、<code>exec</code>を調整すれば
+いろんな環境に対応が出来ると思います。</p>
+
+<p><img src="http://i.vimeocdn.com/video/479397234_640.jpg" alt="" /></p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/Qureana/items/b057c934733554e05427">Ruby - Rspec + QuickRun でカーソル行のテストする - Qiita</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby | Glide Note]]></title>
+  <link href="https://blog.glidenote.com/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="https://blog.glidenote.com/"/>
+  <updated>2018-08-25T15:30:49+09:00</updated>
+  <id>https://blog.glidenote.com/</id>
+  <author>
+    <name><![CDATA[Akira Maeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[bundle openでVimfilerやCtrlP.vimやFuzzyFinderを起動する]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/05/29/bundle-open-with-vimfiler/"/>
+    <updated>2014-05-29T13:30:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/05/29/bundle-open-with-vimfiler</id>
+    <content type="html"><![CDATA[<p>今朝社内IRCで<a href="https://twitter.com/hsbt">@hsbt</a>さんと<a href="https://twitter.com/udzura">@udzuraさん</a>が
+<a href="https://gist.github.com/kakutani/43b9f42197ab002fcdf8">IdobataのGemfile</a>の話をしていて、</p>
+
+<p><code>
+10:54:44      hsbt | この Gemfile を持って来て、bundle install &amp;&amp; bundle open が
+10:54:58      hsbt | 一番、これ何だを見るのが楽だった
+10:56:28    udzura | bundler benri
+</code></p>
+
+<p>その中で上のようなbundlerの便利情報を話していて、そういえば<a href="http://rebuild.fm/41/">rebuild.fm vol.41</a>で
+同じようなこと言ってたなーと思い出して、vim使って便利に出来ないかなーと思ってやってみたら簡単にできたのでメモ。</p>
+
+<p>各種Vimプラグインのインストール方法は割愛。(<a href="https://github.com/Shougo/neobundle.vim">neobundle.vim</a>とかを使ってください)</p>
+
+<p>単に<code>BUNDLER_EDITOR</code>という環境変数を設定するだけのお手軽TIPS</p>
+
+<h2 id="vimfilerhttpsgithubcomshougovimfilervim"><a href="https://github.com/Shougo/vimfiler.vim">VimFiler</a>を利用する場合</h2>
+
+<p><code>sh
+export BUNDLER_EDITOR="vim +VimFiler"
+</code></p>
+
+<h2 id="ctrlpvimhttpsgithubcomkienctrlpvim"><a href="https://github.com/kien/ctrlp.vim">ctrlp.vim</a>を利用する場合</h2>
+
+<p><code>sh
+export BUNDLER_EDITOR="vim +CtrlP"
+</code></p>
+
+<h2 id="fuzzyfinderhttpsgithubcomvim-scriptsfuzzyfinder"><a href="https://github.com/vim-scripts/FuzzyFinder">FuzzyFinder</a>を利用する場合</h2>
+
+<p><code>sh
+export BUNDLER_EDITOR="vim +FufFile"
+</code></p>
+
+<h2 id="bundle-opengem">bundle openでgemの中身を確認</h2>
+
+<p><code>
+bundle open gemname
+</code></p>
+
+<p>私はVimfiler使うように設定。</p>
+
+<p>たとえば、<code>bundle open rubocop</code>とかやると下記のような感じでVimfilerで
+該当gemの中身を見れるようになった。</p>
+
+<p><img src="https://blog.glidenote.com/images/2014/05/bundler_open0.png" alt="" /></p>
+
+<p>便利〜</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://xoyip.hatenablog.com/entry/2014/04/24/200613">bundle openで使うBUNDLER_EDITORをカスタマイズする - PILOG</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[rubocop+syntasticでRubyのコーディングルールへの準拠チェックを自動化する]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/05/28/vim-rubocop/"/>
+    <updated>2014-05-28T10:00:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/05/28/vim-rubocop</id>
+    <content type="html"><![CDATA[<p>sensuのプラグイン書いてて、<a href="https://github.com/sensu/sensu-community-plugins#rubocop-linting">sensu/sensu-community-plugins</a>を見ていたら
+<a href="https://github.com/bbatsov/rubocop">rubocop</a>でlintかけろ的な事が書いて、導入して使ってみたら便利だったのでメモ。</p>
+
+<h2 id="rubocop">rubocopとは</h2>
+
+<ul>
+  <li><a href="https://github.com/bbatsov/rubocop">bbatsov/rubocop</a></li>
+</ul>
+
+<p>rubocopとは、Rubyのコードが<a href="https://github.com/fortissimo1997/ruby-style-guide/blob/japanese/README.ja.md">ruby-style-guide(日本語訳)</a>に
+沿って書かれているか解析してくれるツール</p>
+
+<h2 id="rubocop-1">rubocopのインストールと使い方</h2>
+
+<p><code>sh
+gem install rubocop
+</code></p>
+
+<p>でコマンドラインから利用する場合は下記みたいな感じ。</p>
+
+<p>単一ファイルに対して実行する場合</p>
+
+<p><code>sh
+rubocop hoge.rb
+</code></p>
+
+<p>配下のファイルに一斉に実行する場合</p>
+
+<p><code>sh
+cd /path/to/ruby-project/
+rubocop
+</code></p>
+
+<p><a href="https://github.com/bbatsov/ruby-style-guide">bbatsov/ruby-style-guide</a>に準拠してない、
+記載方法がある場合は指摘される。
+自分で<code>.rubocop.yml</code>とかを用意することで、自分たち用のコーディングルールに変更も出来る。</p>
+
+<h2 id="section">既存プロジェクトへの適用</h2>
+
+<p>新規に使い始めるときは楽なんですが、既存のプロジェクトやコードに<code>rubocop</code>を走らせると恐らく大量に違反が検出されて
+それを直していくのは結構ツラい。
+なのでとりあえずは下記みたいな感じで現段階での違反をとりあえず無視する。</p>
+
+<p><code>sh
+cd /path/to/ruby-project/
+rubocop --auto-gen-config
+echo 'inherit_from: rubocop-todo.yml' &gt;&gt; .rubocop.yml
+rubocop
+</code></p>
+
+<p>それで、チェックしたいルールを1個ずつ下記のように<code>.rubocop.yml</code>に追加</p>
+
+<p><code>
+LineLength:
+  Max: 80
+</code></p>
+
+<p>再度<code>rubocop</code>を実行すると、追加したルールに違反しているものだけ表示されるので、
+少しずつ直していける。</p>
+
+<p>また一部ルールは<code>-a</code>もしくは<code>--auto-correct</code>を利用することで自動的に変換も出来る。</p>
+
+<p><code>
+rubocop -a
+</code></p>
+
+<h2 id="vim">Vimからの利用</h2>
+
+<p>Vimから使えると便利そうと思っていたら、<a href="https://github.com/scrooloose/syntastic">syntastic</a>が
+rubocopをサポートしているので下記のように設定するだけで、簡単に利用出来た。</p>
+
+<p>私は<a href="https://github.com/Shougo/neobundle.vim">neobundle.vim</a>を使っているので下記のような感じで記載して<code>:NeoBundleInstall</code></p>
+
+<p><code>
+NeoBundle 'scrooloose/syntastic'
+let g:syntastic_ruby_checkers = ['rubocop']
+</code></p>
+
+<p>ファイルを保存したタイミングでsyntastic経由で<code>rubocop</code>が実行され、自動でチェックが走ってくれる。
+指摘内容は<code>:Errors</code>とか実行すると確認が出来る。</p>
+
+<p>vimだけじゃなくzshからも利用出来ると便利そうなので、zsh-completionsにPRを出しておいた。</p>
+
+<ul>
+  <li><a href="https://github.com/zsh-users/zsh-completions/pull/232">add rubocop completion by glidenote · Pull Request #232 · zsh-users/zsh-completions</a></li>
+</ul>
+
+<p>今まで、<a href="https://github.com/fortissimo1997/ruby-style-guide/blob/japanese/README.ja.md">ruby-style-guide(日本語訳)</a>に沿った書き方を
+してなかったので、使ってるとイライラさせられる部分もあるけど、矯正されていく感があってなかなか良い。</p>
+
+<h2 id="section-1">参考</h2>
+
+<ul>
+  <li><a href="http://qiita.com/yaotti/items/4f69a145a22f9c8f8333">Ruby - Rubocopを使ってコーディングルールへの準拠チェックを自動化 - Qiita</a></li>
+  <li><a href="http://qiita.com/yuku_t/items/0ac33cea18e10f14e185">Rubocopをsyntasticを使ってVimから自動実行する - Qiita</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[dotenvを利用して環境ごとでVagrantfileの設定値を変更してみる]]></title>
+    <link href="https://blog.glidenote.com/blog/2014/02/26/vagrant-dotenv/"/>
+    <updated>2014-02-26T14:40:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2014/02/26/vagrant-dotenv</id>
+    <content type="html"><![CDATA[<p><a href="https://twitter.com/deeeet">tcnksm</a>さんのブログを見てて</p>
+
+<ul>
+  <li><a href="http://deeeet.com/writing/2014/02/24/vagrant-secret/">他人に共有したくない設定をVagrantfileに書くためのpluginつくった | SOTA</a></li>
+</ul>
+
+<p>おー、便利そうと眺めていたら<a href="http://rubygems.org/gems/dotenv">dotenv</a>で実現出来るとのやりとりを目撃。</p>
+
+<blockquote class="twitter-tweet" lang="ja"><p><a href="https://twitter.com/gongoZ">@gongoZ</a> 初めまして！作ったやつです！Dotenv知りませんでした，Dotenvで事足りますね！恥ずかしい感じです！ありがとうござます！</p>&mdash; tcnksm (@deeeet) <a href="https://twitter.com/deeeet/statuses/438463133875576832">2014, 2月 25</a></blockquote>
+<script async="" src="https://blog.glidenote.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>私も<a href="http://rubygems.org/gems/dotenv">dotenv</a>を知らなかったので、Vagrant+dotenvがどんな感じで使えるのかやってみた。</p>
+
+<h2 id="vagrantdotenv">Vagrantからdotenvが使えるようにインストール</h2>
+
+<p>何故か<code>vagrant plugin install</code>には<code>vagrant-*</code>みたいなのしかインストール出来ないと勝手に勘違いしてたんですが、
+普通に<code>gem install</code>しているだけなので、下記でdotenvが導入出来る。
+(<code>sahara</code>が普通にそうだったし、<code>~/.vagrant.d/gems/gems/</code>の中を見れば普通にプラグインに依存してるgemが入ってるのも分かる)</p>
+
+<p><code>sh
+vagrant plugin install dotenv
+</code></p>
+
+<h2 id="env"><code>.env</code>を用意</h2>
+
+<p>dotenvはディレクトリ内にある<code>.env</code>というファイル中身を参照するので、
+環境ごとで変更する値を<code>.env</code>に下記のように記載。</p>
+
+<p><code>
+VM_HOSTNAME     = 'dev001.foovar.com'
+DO_CLIENT_ID    = 'my_client_id'
+DO_API_KEY      = 'my_api_key'
+DO_SSH_KEY_NAME = 'my_ssh_key_name'
+</code></p>
+
+<h2 id="vagrantfileenv"><code>Vagrantfile</code>から<code>.env</code>の内容を呼び出す</h2>
+
+<p><code>.env</code>の内容を呼び出すには<code>Dotenv.load</code>を<code>Vagrantfile</code>に記載して、<code>${ENV['HOGE']}</code>みたいな感じで呼び出す。
+私が普段使ってるDigitalOcean用のVagrantfileで使ってみると下記のような感じ。</p>
+
+<p>``` ruby
+Dotenv.load</p>
+
+<p>Vagrant.configure(‘2’) do |config|
+  config.vm.hostname              = “#{ENV[‘VM_HOSTNAME’]}”
+  config.vm.provision “shell”, inline: “test -e /etc/yum.repos.d/epel.repo || rpm -Uvh http://ftp-srv2.kddilabs.jp/Linux/distributions/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm”
+  config.vm.provision “shell”, inline: “test -e /etc/puppet || yum -y install puppet”</p>
+
+<p>config.vm.provider :digital_ocean do |provider, override|
+    provider.client_id            = “#{ENV[‘DO_CLIENT_ID’]}”
+    provider.api_key              = “#{ENV[‘DO_API_KEY’]}”
+    provider.ssh_key_name         = “#{ENV[‘DO_SSH_KEY_NAME’]}”</p>
+
+<pre><code>override.ssh.private_key_path = '~/.ssh/id_rsa'
+override.vm.box               = 'digital_ocean'
+override.vm.box_url           = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+
+provider.image                = 'CentOS 6.4 x64'
+provider.region               = 'Singapore 1'
+provider.size                 = '512MB'
+provider.ca_path              = '/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt'   end end ```
+</code></pre>
+
+<p><code>vagrant up</code>してみる。</p>
+
+<p><code>sh
+vagrant up --provider=digital_ocean
+</code></p>
+
+<p>ちゃんと動いた。</p>
+
+<p>Vagrantfileを共通化して、環境毎で個別に設定を変更したい場合や特定の値は公開したくない場合などはdotenv使えば良さそう。</p>
+
+<p>(<a href="https://github.com/mitchellh/vagrant/issues/2332">Vagrant+dotenvについては以前Vagrantのissueに提案されてました</a>が<a href="http://www.packer.io/docs/templates/user-variables.html">Packerのuser variables</a>を使えと一蹴されてた。)</p>
+
+<p>GitHubとかに公開する場合は誤って<code>.env</code>を公開しないよう<code>.gitignore</code>に追加をお忘れ無く。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://nekova.hatenablog.com/entry/2013/02/11/171215">dotenvを使ってみました - nekovaの日記</a></li>
+  <li><a href="https://github.com/mitchellh/vagrant/issues/2332">Proposal: Support for loading .env files · Issue #2332 · mitchellh/vagrant</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[`gem install`で入れた`hub`が遅い話]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/07/29/gem-install-hub-is-slow/"/>
+    <updated>2013-07-29T20:41:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/07/29/gem-install-hub-is-slow</id>
+    <content type="html"><![CDATA[<p>ちゃんとマニュアル読んでれば「何を今さら」という感じなんですが、
+hubコマンドについて、ちょっと調べ物をして、<a href="https://github.com/github/hub#rubygems">README</a>読んでたら</p>
+
+<p><code>
+Though not recommended, hub can also be installed as a RubyGem:
+</code></p>
+
+<p>というのが目に入った。</p>
+
+<p>理由の<a href="https://gist.github.com/defunkt/284823">Why to not use hub with RubyGems</a>をみると
+RubyGems経由でインストールしたhubは遅いから使うべきじゃ無いとベンチマーク結果とともに書いてある。</p>
+
+<p>実際に手元のMacで比較</p>
+
+<p>``` sh
+# No RubyGems
+time (for i in {1..10}
+do
+  /usr/local/bin/hub –version &gt; /dev/null
+done)</p>
+
+<p>( for i in {1..10}; do; /usr/local/bin/hub –version &gt; /dev/null; done; )  0.55s user 0.22s system 83% cpu 0.925 total
+```</p>
+
+<p>``` sh
+# With RubyGems
+time (for i in {1..10}
+do
+  ~/.rbenv/versions/1.9.3-p194/bin/hub –version &gt; /dev/null
+done)</p>
+
+<p>( for i in {1..10}; do; ~/.rbenv/versions/1.9.3-p194/bin/hub –version &gt; ; ; )  4.02s user 0.60s system 87% cpu 5.282 total
+```</p>
+
+<p>え、こんなに遅いの…</p>
+
+<h2 id="section">改善方法(というかちゃんとしたインストール方法)</h2>
+
+<p><a href="https://github.com/github/hub#installation">公式に書いてあるよう</a>にmacならhomebrewで</p>
+
+<p><code>
+brew install hub
+</code></p>
+
+<p>Linuxなら</p>
+
+<p><code>sh
+curl http://hub.github.com/standalone -sLo ~/bin/hub &amp;&amp; chmod +x ~/bin/hub
+</code></p>
+
+<p>で入れる。</p>
+
+<p><a href="https://github.com/github/hub#standalone-via-rubygems">RubyGems経由で導入した場合も、下記のようにstandalone形式で入れると早い</a>とのこと。</p>
+
+<p><code>sh
+gem install hub
+hub hub standalone &gt; ~/bin/hub &amp;&amp; chmod +x ~/bin/hub
+</code></p>
+
+<p>実際に測定してみた。</p>
+
+<p>``` sh
+# Standalone via RubyGems
+time (for i in {1..10}
+do
+ ~/bin/hub –version &gt; /dev/null
+done)</p>
+
+<p>( for i in {1..10}; do; ~/bin/hub –version &gt; /dev/null; done; )  0.56s user 0.22s system 84% cpu 0.928 total
+```</p>
+
+<p>確かに早い。</p>
+
+<p>でも<code>which hub</code>とかすると、自分の環境ではgemで入れたhubが呼ばれてたので、
+Macなら<code>homebrew</code>、Linuxは<code>curl</code>で入れるとかが統一しておいて、<code>gem install hub</code>しないほうが良さそう。</p>
+
+<p>2年近くhub使ってて初めて知った…</p>
+
+<p>余談ですがzshのプロンプトにgitのブランチ名とか出してる場合、毎回hubが呼び出されている可能性があるので下記を忘れずに。</p>
+
+<ul>
+  <li><a href="http://qiita.com/yaotti/items/0af5d50f4f52d22a46fe">hubコマンドを利用&amp;&amp;プロンプトにgitのブランチ等を表示している人向けのzsh高速化 - Qiita [キータ]</a></li>
+</ul>
+
+<p>gitとhubを比べてみると結構速度に差があるな-</p>
+
+<p>``` sh
+time /usr/local/bin/hub –version &gt; /dev/null
+/usr/local/bin/hub –version &gt; /dev/null  0.06s user 0.02s system 83% cpu 0.093 total</p>
+
+<p>time /usr/bin/git –version &gt; /dev/null
+/usr/bin/git –version &gt; /dev/null  0.00s user 0.00s system 71% cpu 0.003 total
+```</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[rbenvの管理にpuppet-rbenvを使うようにした]]></title>
+    <link href="https://blog.glidenote.com/blog/2013/07/10/puppet-rbenv/"/>
+    <updated>2013-07-10T21:50:00+09:00</updated>
+    <id>https://blog.glidenote.com/blog/2013/07/10/puppet-rbenv</id>
+    <content type="html"><![CDATA[<ul>
+  <li><a href="https://github.com/alup/puppet-rbenv">alup/puppet-rbenv</a></li>
+</ul>
+
+<p>新規でRubyを使うサーバを構築中で、RPMを作らずrbenvで管理しようと思って、
+いろいろ方法を模索していたら、<a href="https://github.com/alup/puppet-rbenv">puppet-rbenv</a>というものを見つけて
+大変便利だったので、導入の作業ログをメモとして残しておく。</p>
+
+<p>他部署はビルドサーバで、rbenvを利用してインストールしたファイルを一式tar.gzで固めて、
+デプロイして、展開ってのをやってて、台数が多い場合はこれが高速で良いんですが、
+今回は2台だけで、ビルドサーバ用意して、<code>tar.gz</code>を一斉配布方式だと
+用意するmanifestとdistのファイルが多くてちょっと非効率だった。</p>
+
+<p>導入環境はpuppetは下記のバージョンを利用</p>
+
+<ul>
+  <li>puppet-server-2.6.18-3.el6.noarch</li>
+  <li>puppet-2.6.18-3.el6.noarch</li>
+</ul>
+
+<h2 id="puppet-rbenv">puppet-rbenvの導入</h2>
+
+<p><code>sh
+cd path/to/puppet-module
+puppet module install alup-rbenv
+</code></p>
+
+<p>使ってるpuppetのバージョンのせいか、構文エラーが出たので、下記の用に修正</p>
+
+<p><div><script src='https://gist.github.com/5963357.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<h2 id="rbenvmanifest">rbenv用のmanifestを用意</h2>
+
+<p>下記のようなmanifestを用意。サービス名だけ伏せて、実際に使ってるmanifestそのままなので、コピペしても動かないのでご注意ください</p>
+
+<p><div><script src='https://gist.github.com/5963371.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p><div><script src='https://gist.github.com/5963376.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<h2 id="puppet">puppetの実行</h2>
+
+<p>これでpuppetを実行すると</p>
+
+<p><code>
+/home/hogemoge-api/.rbenv
+</code></p>
+
+<p>配下に指定したrbenvやらgemがインストールされる。
+便利!!</p>
+
+<p>急ぎで構築しないといけなかったので、rbenvのmanifest作成に時間がかからずに済んで良かった。</p>
+
+<h2 id="section">参考</h2>
+
+<ul>
+  <li><a href="http://sho.tdiary.net/20130518.html">Puppet ModuleをPuppetで管理する - ただのにっき(2013-05-18)</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>
